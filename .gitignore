@@ -1,0 +1,23 @@
+# Local build, preview and publication state
+/outputs/
+node_modules/
+dist/
+.next/
+.vinext/
+.wrangler/
+.sites-runtime/
+*.tsbuildinfo
+
+# Local credentials and machine-specific settings
+.env*
+!.env.example
+.dev.vars*
+*.pem
+*.key
+/.aws/
+/.codex/
+
+# Logs and OS metadata
+*.log
+.DS_Store
+Thumbs.db
