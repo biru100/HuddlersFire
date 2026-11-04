@@ -23,7 +23,8 @@ export function applyMusicAction(music, action, member, isHost, now) {
     if (music.queue.length >= 30) return '신청곡은 최대 30곡까지 기다릴 수 있어요.';
     if (music.queue.filter(t => t.by === member.id).length >= 3) return '내 대기곡이 3곡이에요. 재생된 뒤 신청해 주세요.';
     if ([music.current, ...music.queue].some(t => t?.videoId === videoId)) return '이미 신청된 영상이에요.';
-    music.queue.push({ id: action.id, videoId, by: member.id, name: member.name });
+    const title = typeof action.title === 'string' ? action.title.replace(/[\p{C}]/gu, '').trim().slice(0, 160) : '';
+    music.queue.push({ id: action.id, videoId, title: title || videoId, by: member.id, name: member.name });
   } else {
     if (!isHost) return '전체 재생은 방장만 조작할 수 있어요.';
     if (action.op === 'remove') {

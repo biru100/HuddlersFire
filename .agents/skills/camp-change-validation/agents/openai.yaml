@@ -1,0 +1,3 @@
+interface:
+  display_name: "불멍 놀이터 변경 검증"
+  short_description: "변경 범위에 맞게 게임 계약과 회귀 및 배포 근거를 확인합니다"

@@ -6,12 +6,19 @@ export const sessions = sqliteTable("camp_sessions", {
 });
 export const rooms = sqliteTable("camp_rooms", {
   code: text("code").primaryKey(), host: text("host").notNull(), created: integer("created").notNull(),
+  title: text("title").notNull().default("우리의 모닥불"), visibility: text("visibility").notNull().default("unlisted"),
+  epoch: integer("epoch").notNull().default(1), leaseUntil: integer("lease_until").notNull().default(0),
+  recoveryEpoch: integer("recovery_epoch").notNull().default(0), recoverySeq: integer("recovery_seq").notNull().default(-1),
+  recoveryTime: integer("recovery_time").notNull().default(0), cleanupAfter: integer("cleanup_after").notNull().default(0), handoffs: integer("handoffs").notNull().default(0),
 });
 export const members = sqliteTable("camp_members", {
   id: text("id").primaryKey(), room: text("room").notNull().references(() => rooms.code, { onDelete: "cascade" }),
   session: text("session").notNull().references(() => sessions.id, { onDelete: "cascade" }),
   name: text("name").notNull(), color: text("color").notNull(), avatar: text("avatar"),
   seen: integer("seen").notNull(), joined: integer("joined").notNull(),
+  ready: integer("ready").notNull().default(0),
+  snapshotEpoch: integer("snapshot_epoch").notNull().default(0), snapshotSeq: integer("snapshot_seq").notNull().default(-1),
+  snapshotTime: integer("snapshot_time").notNull().default(0), signalAfter: integer("signal_after").notNull().default(0),
 }, t => [index("camp_members_room_idx").on(t.room)]);
 export const signals = sqliteTable("camp_signals", {
   id: integer("id").primaryKey({ autoIncrement: true }),

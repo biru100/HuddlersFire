@@ -1,6 +1,15 @@
-import { movePlayer, sanitizeInput, spawnPlayer, validPlayerState, simulateWorld, applyPlayerAction, releaseCarry } from './camp-world.mjs';
+import { PeerTransport } from './camp-peer-transport.mjs';
+import { movePlayer, sanitizeInput, spawnPlayer, simulateWorld, applyPlayerAction, releaseCarry } from './camp-world.mjs';
 import { PROTOCOL_VERSION, MAX_FRAME_BYTES, validAction, chatText, CommandLedger } from './camp-protocol.mjs';
 import { emptyMusic, applyMusicAction } from './camp-media.mjs';
+import { emptyWeapons, readWeapons } from './camp-weapons.mjs';
+import { encodePlayer, decodeSnapshot, captureRecovery, restoreRecovery } from './camp-snapshot.mjs';
+import { HostCoordinator } from './camp-host.mjs';
+import { HOST_LEASE, RTC_STALE } from './camp-config.mjs';
+import { deltaWire, WireReceiver } from './camp-wire.mjs';
+import { callError, validChatEntry } from './camp-presence.mjs';
+import { emptyBall } from './camp-ball.mjs';
+import { startCampTicker } from './camp-scheduler.mjs';
 
 export async function api(path, data, extra = {}) {
   const response = await fetch('/api/camp/' + path, {
@@ -16,6 +25,8 @@ export async function api(path, data, extra = {}) {
 export class CampNetwork {
   constructor(info, profile, callbacks = {}, runtime = {}) {
     this.code = info.code; this.player = info.player; this.host = info.host;
+    this.epoch = info.epoch || 1; this.migrating = false; this.frozenTime = null; this.handoffUntil = 0; this.lastSnapshot = null; this.lastCheckpoint = 0;
+    this.lastRecovery = null; this.health = new HostCoordinator(); this.health.role(this.epoch, info.player === info.host, performance.now());
     this.iceServers = info.iceServers; this.turnConfigured = info.turnConfigured;
     this.iceRefreshAt = Date.now() + 50 * 60_000;
     this.isHost = info.player === info.host;
@@ -25,7 +36,8 @@ export class CampNetwork {
     this.PeerConnection = runtime.PeerConnection || globalThis.RTCPeerConnection;
     this.lifecycle = runtime.lifecycle || globalThis.window;
     this.beacon = runtime.beacon || (payload => globalThis.navigator?.sendBeacon?.('/api/camp/room', new Blob([payload], { type: 'application/json' })));
-    this.players = new Map([[this.player, { ...profile, id: this.player, ...spawnPlayer(), connected: this.isHost }]]);
+    this.allowCarry = runtime.allowCarry !== false;
+    this.players = new Map([[this.player, { ...profile, id: this.player, ...spawnPlayer(), allowCarry: this.allowCarry, connected: this.isHost }]]);
     this.members = [];
     this.peers = new Map();
     this.pendingIce = new Map();
@@ -34,16 +46,20 @@ export class CampNetwork {
     this.after = 0; this.closed = false; this.failures = 0; this.attempts = 0;
     this.lastState = performance.now(); this.lastBroadcast = 0; this.lastTick = performance.now();
     this.lastSequence = -1; this.sequence = 0;
-    this.chat = []; this.music = emptyMusic(); this.ledger = new CommandLedger(); this.pending = new Map();
+    this.chat = []; this.music = emptyMusic(); this.weapons = emptyWeapons(); this.ball = emptyBall(); this.ledger = new CommandLedger(); this.pending = new Map();
     this.clockOffset = 0; this.lastClock = 0; this.poseSent = null;
     this.status = this.isHost ? '모닥불을 피웠어요' : '친구들과 연결하는 중';
-    this.onPageHide = () => this.destroy(true);
+    this.onPageHide = () => this.destroy(true,true);
     this.lifecycle?.addEventListener('pagehide', this.onPageHide);
-    this.timer = setInterval(() => this.tick(), 33);
+    this.stopTick = startCampTicker(() => this.tick());
     this.poll();
   }
   notify(status) { if (this.status !== status) { this.status = status; this.callbacks.status?.(status); } }
+  getTransport() { return this.transport ||= new PeerTransport(this); }
+  coordinator() { return this.health ||= new HostCoordinator(); }
+  async setCarryPreference(allow) { await this.command('allow-carry', { allow }); this.allowCarry = allow; }
   setInput(input) {
+    if (this.isHost && Number.isFinite(this.lastTick) && performance.now()-this.lastTick>100) this.tick();
     this.input = sanitizeInput(input) || { dx: 0, dy: 0, sitting: false };
     const posture = input?.crouching ? 'crouching' : this.input.sitting ? 'sitting' : 'standing';
     if (posture !== this.poseSent && (this.isHost || this.peers.get(this.host)?.ready)) {
@@ -51,10 +67,16 @@ export class CampNetwork {
       this.command('posture', { posture }).catch(() => {});
     }
   }
-  hostNow() { return performance.now() + this.clockOffset; }
+  hostNow() { return this.migrating && Number.isFinite(this.frozenTime) ? this.frozenTime : performance.now() + (this.clockOffset || 0); }
+  resumeSimulation() {
+    if (this.migrating && Number.isFinite(this.frozenTime)) this.clockOffset = this.frozenTime - performance.now();
+    this.migrating = false; this.frozenTime = null; this.lastTick = performance.now();
+    this.coordinator().role(this.epoch || 1, this.isHost, this.lastTick);
+  }
   command(kind, data = {}) {
     const action = { ...data, kind, id: crypto.randomUUID() };
     if (this.closed) return Promise.reject(new Error('방 연결이 종료됐어요.'));
+    if (this.migrating) return Promise.reject(new Error('새 방장에게 연결 중이에요. 잠깐 기다려 주세요.'));
     if (!validAction(action)) return Promise.reject(new Error('요청 내용을 확인해 주세요.'));
     if (this.isHost) {
       const result = this.handleCommand(this.player, action);
@@ -74,9 +96,10 @@ export class CampNetwork {
     this.pending.clear(); this.poseSent = null;
   }
   handleCommand(sender, action) {
+    if (this.isHost && Number.isFinite(this.lastTick)) this.tick();
     if (!validAction(action)) return { ok: false, error: '올바르지 않은 요청이에요.' };
     const cached = this.ledger.cached(sender, action.id); if (cached) return cached;
-    const now = performance.now(), member = this.players.get(sender);
+    const now = this.hostNow(), member = this.players.get(sender);
     let error = !member || member.connected === false ? '참가자 연결을 확인해 주세요.' : null;
     if (!error && !this.ledger.permit(sender, action.kind, now)) error = '잠깐 기다렸다가 다시 해주세요.';
     if (!error) {
@@ -84,66 +107,116 @@ export class CampNetwork {
         const text = chatText(action.text);
         if (!text) error = '메시지를 입력해 주세요.';
         else {
-          const entry = { id: action.id, by: sender, name: member.name, color: member.color, text, at: now };
+          const entry = { id: action.id, by: sender, name: member.name, color: member.color, text, at: now, createdAt: Date.now(), kind: 'chat' };
           this.chat = [...this.chat, entry].slice(-100);
           member.bubble = text; member.bubbleUntil = now + 5000;
           this.broadcastControl({ t: 'chat', entry }); this.callbacks.chat?.(this.chat);
         }
+      } else if (action.kind === 'call') {
+        error = callError(this.players, this.chat, sender, action.target, now);
+        if (!error) {
+          member.lastCallAt = now; this.players.get(action.target).lastCalledAt = now;
+          const entry = { id: action.id, by: sender, name: member.name, color: member.color, text: `${this.players.get(action.target).name}님을 불렀어요.`,
+            at: now, createdAt: Date.now(), kind: 'call', to: action.target };
+          this.chat = [...this.chat, entry].slice(-100);
+          this.broadcastControl({ t: 'chat', entry }); this.callbacks.chat?.(this.chat); this.callbacks.call?.(entry);
+        }
       } else if (action.kind.startsWith('music-')) {
         error = applyMusicAction(this.music, action, member, sender === this.host, now);
         if (!error) { this.broadcastControl({ t: 'music', music: this.music }); this.callbacks.music?.(this.music); }
-      } else error = applyPlayerAction(this.players, sender, action, now);
+      } else error = applyPlayerAction(this.players, sender, action, now, this.weapons);
     }
     const result = { ok: !error, ...(error ? { error } : {}) };
     this.ledger.record(sender, action.id, result);
-    if (!error && !action.kind.startsWith('music-')) this.publishWorld(true);
+    if (!error && !action.kind.startsWith('music-')) this.stateDirty = true;
     return result;
   }
-  reliable(peer, value) {
-    if (peer.control?.readyState !== 'open') return false;
-    const frame = JSON.stringify({ ...value, v: PROTOCOL_VERSION });
-    const bytes = new TextEncoder().encode(frame).byteLength;
-    if (bytes > MAX_FRAME_BYTES || peer.queueBytes + bytes > 512_000) {
-      this.notify('연결이 혼잡해서 다시 연결해야 해요.'); this.closePeer(peer); return false;
-    }
-    peer.queue.push({ frame, bytes }); peer.queueBytes += bytes; this.flush(peer); return true;
-  }
-  flush(peer) {
-    while (peer.control?.readyState === 'open' && peer.control.bufferedAmount < 64_000 && peer.queue.length) {
-      const item = peer.queue[0];
-      try { peer.control.send(item.frame); peer.queue.shift(); peer.queueBytes -= item.bytes; }
-      catch { break; }
-    }
-  }
-  broadcastControl(value) { for (const peer of this.peers.values()) if (peer.ready) this.reliable(peer, value); }
+  reliable(...args) { return this.getTransport().reliable(...args); }
+  flush(...args) { return this.getTransport().flush(...args); }
+  broadcastControl(...args) { return this.getTransport().broadcastControl(...args); }
   syncRoom(peer) {
     this.reliable(peer, { t: 'music', music: this.music });
     // Bounded chunks also fit the lowest common browser SCTP message limit with 200-character CJK text.
     for (let i = 0; i < Math.max(1, this.chat.length); i += 20) {
       this.reliable(peer, { t: 'history', reset: i === 0, entries: this.chat.slice(i, i + 20) });
     }
-    this.reliable(peer, this.worldMessage());
+    this.reliable(peer, this.checkpointMessage());
   }
   worldMessage() {
-    return { t: 'state', v: PROTOCOL_VERSION, seq: this.sequence++, players: [...this.players.values()].map(p => ({
-      id: p.id, x: p.x, y: p.y, z: p.z, vz: p.vz, motion: p.motion, facing: p.facing, sitting: p.sitting,
-      crouching: p.crouching, carrying: p.carrying, carriedBy: p.carriedBy, allowCarry: p.allowCarry,
-      emote: p.emote, emoteUntil: p.emoteUntil, bubble: p.bubble, bubbleUntil: p.bubbleUntil,
-      moving: p.moving, respawns: p.respawns, connected: p.connected,
-    })) };
+    return { t: 'state', v: PROTOCOL_VERSION, epoch: this.epoch || 1, now: this.hostNow(), seq: this.sequence++, weapons: this.weapons || emptyWeapons(), ball: this.ball || emptyBall(), players: [...this.players.values()].map(encodePlayer) };
+  }
+  checkpointMessage() {
+    const world = { ...this.worldMessage(), checkpoint: { chatId: this.chat?.at(-1)?.id || null, musicRevision: this.music?.revision || 0 } };
+    this.coordinator().checkpoint(world.seq, performance.now());
+    const recovery = captureRecovery(world, this.chat || [], this.music || emptyMusic());
+    if (recovery) {
+      this.pendingRecoveries ||= new Map(); this.pendingRecoveries.set(world.seq, recovery);
+      if (this.pendingRecoveries.size > 128) this.pendingRecoveries.delete(this.pendingRecoveries.keys().next().value);
+      if (!this.members?.some(m => m.id !== this.player && m.active !== 0)) this.lastRecovery = recovery;
+    }
+    return world;
   }
   publishWorld(reliable = false) {
-    const value = this.worldMessage();
+    const value = reliable ? this.checkpointMessage() : this.worldMessage();
     if (reliable) this.broadcastControl(value);
-    else { const frame = JSON.stringify(value); for (const peer of this.peers.values()) if (peer.ready) this.send(peer, frame); }
+    else {
+      const signature = JSON.stringify({ players: value.players, ball: value.ball, projectiles: value.weapons.projectiles, effects: value.weapons.effects });
+      if (signature === this.lastWorldSignature) return;
+      this.lastWorldSignature = signature;
+      const cache = new Map();
+      for (const peer of this.peers.values()) if (peer.ready) this.send(peer, this.frameForPeer(value, peer, cache));
+    }
+  }
+  frameForPeer(world, peer, cache = new Map()) {
+    const base = performance.now() - (peer.wireBaseAt ?? -Infinity) < RTC_STALE ? this.pendingRecoveries?.get(peer.wireBaseSeq)?.world : null;
+    const key = world.checkpoint ? 'full' : base?.seq ?? 'full';
+    if (!cache.has(key)) {
+      const start = performance.now();
+      cache.set(key, JSON.stringify(deltaWire(world, base || null)));
+      this.encoding ||= { frames:0, milliseconds:0 }; this.encoding.frames++; this.encoding.milliseconds += performance.now()-start;
+    }
+    return cache.get(key);
+  }
+  flushStateUpdate() {
+    if (!this.stateDirty) return;
+    this.stateDirty = false;
+    // Discrete outcomes stay reliable, but are not full recovery checkpoints.
+    this.broadcastControl(this.worldMessage());
   }
   receiveWorld(message) {
-    if (!Array.isArray(message.players) || message.players.length > 16 || !Number.isSafeInteger(message.seq) || message.seq <= this.lastSequence) return;
+    // Canonical objects are used by local callers/tests; RTC receives the v9 wire form.
+    let decoded;
+    if (Array.isArray(message?.players)) decoded = decodeSnapshot(message, this.epoch || 1);
+    else {
+      this.wireReceiver ||= new WireReceiver();
+      const result = this.wireReceiver.read(message, this.epoch || 1, performance.now());
+      decoded = result.world;
+      if (result.missing && performance.now()-(this.lastResyncAt??-Infinity)>=1000) {
+        this.lastResyncAt=performance.now(); const peer=this.peers.get(this.host);
+        if(peer?.ready)this.reliable(peer,{t:'resync'});
+      }
+    }
+    if (!decoded) return;
+    if (decoded.checkpoint) {
+      const recovery = captureRecovery(decoded, this.chat || [], this.music || emptyMusic());
+      if (recovery && decoded.seq > (this.lastRecovery?.world.epoch === decoded.epoch ? this.lastRecovery.world.seq : -1)) {
+        this.lastRecovery = recovery;
+        const peer = this.peers.get(this.host); if (peer?.ready) this.reliable(peer, { t: 'receipt', seq: decoded.seq });
+      }
+    }
+    if (decoded.seq <= this.lastSequence) return;
+    message = decoded; const weapons = decoded.weapons;
+    this.lastSnapshot = decoded;
+    if (this.migrating) this.clockOffset = message.now - performance.now();
+    this.migrating = false; this.frozenTime = null;
+    this.coordinator().role(this.epoch || 1, false, performance.now());
+    this.weapons = weapons;
+    this.ball = decoded.ball;
     this.lastSequence = message.seq; this.lastState = performance.now();
     const present = new Set();
     for (const state of message.players) {
       const member = this.members.find(m => m.id === state.id);
-      if (!member || !validPlayerState(state)) continue;
+      if (!member) continue;
       present.add(state.id);
       const old = this.players.get(state.id), next = { ...member, ...state };
       if (old) {
@@ -159,17 +232,20 @@ export class CampNetwork {
     if (peer.control) peer.control.close();
     peer.control = channel; channel.bufferedAmountLowThreshold = 32_000;
     channel.onbufferedamountlow = () => this.flush(peer);
-    channel.onopen = () => this.reliable(peer, { t: 'hello' });
+    channel.onopen = () => this.reliable(peer, { t: 'hello', allowCarry: this.allowCarry });
     channel.onclose = () => {
+      if (this.closed || this.peers.get(peer.id) !== peer || peer.control !== channel) return;
       peer.ready = false;
-      const p = this.players.get(peer.id); if (p) { p.connected = false; if (this.isHost) releaseCarry(this.players, p, true); }
+      this.markDisconnected(peer.id);
       if (!this.isHost) this.failPending('연결이 끊어졌어요. 다시 연결한 뒤 시도해 주세요.');
     };
     channel.onmessage = e => {
-      if (this.closed || this.peers.get(peer.id) !== peer || typeof e.data !== 'string' || e.data.length > MAX_FRAME_BYTES) return;
+      if (this.closed || this.peers.get(peer.id) !== peer || peer.control !== channel || typeof e.data !== 'string' || e.data.length > MAX_FRAME_BYTES) return;
+      if(new TextEncoder().encode(e.data).byteLength>MAX_FRAME_BYTES)return;
       try {
         const message = JSON.parse(e.data);
         if (message.v !== PROTOCOL_VERSION) { this.notify('게임 버전이 달라요. 모두 새로고침해 주세요.'); return; }
+        if (message.epoch !== this.epoch) return;
         if (message.t === 'hello') {
           if (!peer.ready) {
             peer.ready = true;
@@ -177,15 +253,30 @@ export class CampNetwork {
               const member = this.members.find(m => m.id === peer.id);
               if (!member) return;
               if (!this.players.has(peer.id)) this.players.set(peer.id, { ...member, ...spawnPlayer(this.members.findIndex(m => m.id === peer.id)) });
-              this.players.get(peer.id).connected = true; this.syncRoom(peer);
+              this.players.get(peer.id).connected = true;
+              applyPlayerAction(this.players, peer.id, { kind: 'allow-carry', allow: message.allowCarry !== false }, this.hostNow());
+              this.syncRoom(peer);
             } else { this.poseSent = null; this.reliable(peer, { t: 'clock', sent: performance.now() }); }
           }
         } else if (!peer.ready) return;
         else if (this.isHost) {
-          if (message.t === 'command') {
+          if (message.t === 'receipt') {
+            if (this.coordinator().receipt(peer.id, message.epoch, message.seq, performance.now())) {
+              const recovery = this.pendingRecoveries?.get(message.seq);
+              if(recovery) { peer.wireBaseSeq=message.seq; peer.wireBaseAt=this.coordinator().sent.get(message.seq); }
+              if (recovery && (this.lastRecovery?.world.epoch !== this.epoch || message.seq > this.lastRecovery.world.seq)) this.lastRecovery = recovery;
+              if (this.migrating) this.resumeSimulation();
+            }
+          } else if (message.t === 'resync') {
+            if(performance.now()-(peer.resyncAt??-Infinity)>=1000) {
+              peer.resyncAt=performance.now();peer.wireBaseSeq=undefined;
+              this.syncRoom(peer);
+            }
+          } else if (message.t === 'command') {
+            if (this.migrating) { this.reliable(peer, { t: 'ack', id: message.action?.id, ok: false, error: '새 방장을 준비하고 있어요.' }); return; }
             const result = this.handleCommand(peer.id, message.action);
             this.reliable(peer, { t: 'ack', id: message.action?.id, ...result });
-          } else if (message.t === 'clock' && Number.isFinite(message.sent)) this.reliable(peer, { t: 'clock', sent: message.sent, now: performance.now() });
+          } else if (message.t === 'clock' && Number.isFinite(message.sent)) this.reliable(peer, { t: 'clock', sent: message.sent, now: this.hostNow() });
         } else if (peer.id === this.host) {
           if (message.t === 'ack') {
             const pending = this.pending.get(message.id);
@@ -195,11 +286,14 @@ export class CampNetwork {
             }
           } else if (message.t === 'clock' && Number.isFinite(message.sent) && Number.isFinite(message.now)) this.clockOffset = message.now - (message.sent + performance.now()) / 2;
           else if (message.t === 'state') this.receiveWorld(message);
-          else if (message.t === 'music' && message.music && Number.isSafeInteger(message.music.revision) && message.music.revision >= this.music.revision) { this.music = message.music; this.callbacks.music?.(this.music); }
-          else if (message.t === 'history' && Array.isArray(message.entries) && message.entries.length <= 20) {
+          else if (message.t === 'music' && message.music && Number.isSafeInteger(message.music.revision) && (this.musicEpoch !== this.epoch || message.music.revision >= this.music.revision)) { this.musicEpoch = this.epoch; this.music = message.music; this.callbacks.music?.(this.music); }
+          else if (message.t === 'history' && Array.isArray(message.entries) && message.entries.length <= 20 && message.entries.every(validChatEntry)) {
             this.chat = (message.reset ? [] : this.chat).concat(message.entries).slice(-100); this.callbacks.chat?.(this.chat);
-          } else if (message.t === 'chat' && message.entry?.id) {
-            if (!this.chat.some(m => m.id === message.entry.id)) this.chat = [...this.chat, message.entry].slice(-100);
+          } else if (message.t === 'chat' && validChatEntry(message.entry)) {
+            if (!this.chat.some(m => m.id === message.entry.id)) {
+              this.chat = [...this.chat, message.entry].slice(-100);
+              if (message.entry.kind === 'call') this.callbacks.call?.(message.entry);
+            }
             this.callbacks.chat?.(this.chat);
           }
         }
@@ -208,15 +302,21 @@ export class CampNetwork {
   }
   async signal(to, signal) {
     if (this.closed) return;
-    await this.request('room', { op: 'signal', code: this.code, player: this.player, to, signal });
+    await this.request('room', { op: 'signal', code: this.code, player: this.player, epoch: this.epoch, to, signal: { ...signal, epoch: this.epoch } });
   }
   async poll() {
-    if (this.closed) return;
+    if (this.closed || this.leaving) return;
     let delay = 1200;
     try {
-      const data = await this.request('room?' + new URLSearchParams({ code: this.code, player: this.player, after: String(this.after) }));
-      if (this.closed) return;
+      const recovery = this.lastRecovery?.world;
+      const data = await this.request('room?' + new URLSearchParams({ code: this.code, player: this.player, after: String(this.after), epoch: String(this.epoch),
+        ready: recovery && !(this.schedulerLagUntil > performance.now()) ? '1' : '0', recoveryEpoch: String(recovery?.epoch || 0), recoverySeq: String(recovery?.seq ?? -1), recoveryTime: String(Math.floor(recovery?.now || 0)),
+        renew: this.coordinator().canRenew(this, performance.now()) ? '1' : '0' }));
+      if (this.closed || this.leaving) return;
       this.failures = 0; this.members = data.members;
+      if (data.recoveryWaiting) this.notify('복구할 수 있는 친구의 연결을 기다리는 중');
+      if (data.epoch > this.epoch || data.host !== this.host) this.changeHost(data.host, data.epoch);
+      if (this.isHost && this.migrating && this.members.every(m => m.active === 0 || m.id === this.player || m.id === this.previousHost)) this.resumeSimulation();
       const ids = new Set(data.members.map(m => m.id));
       for (const [id, peer] of this.peers) if (!ids.has(id)) { this.closePeer(peer); this.peers.delete(id); }
       for (const id of this.players.keys()) if (!ids.has(id)) { releaseCarry(this.players, this.players.get(id), true); this.players.delete(id); this.inputs.delete(id); this.ledger.forget(id); }
@@ -253,168 +353,118 @@ export class CampNetwork {
     }
     if (!this.closed) this.pollTimer = setTimeout(() => this.poll(), delay);
   }
-  closePeer(peer) {
-    clearTimeout(peer.timeout);
-    peer.pc.onconnectionstatechange = null; peer.pc.onicecandidate = null;
-    if (peer.channel) { peer.channel.onclose = null; peer.channel.close(); }
-    if (peer.control) { peer.control.onclose = null; peer.control.close(); }
-    peer.ready = false; peer.queue = []; peer.queueBytes = 0;
-    if (!this.isHost) this.failPending('연결을 다시 만드는 중이에요.');
-    const player = this.players.get(peer.id);
-    if (player) { player.connected = false; if (this.isHost) releaseCarry(this.players, player, true); }
-    peer.pc.close();
-  }
-  makePeer(id, generation) {
-    const old = this.peers.get(id); if (old) this.closePeer(old);
-    const pc = new this.PeerConnection({ iceServers: this.iceServers });
-    const peer = { pc, generation, id, channel: null, control: null, queue: [], queueBytes: 0, ready: false, lastInput: 0 };
-    this.peers.set(id, peer);
-    pc.onicecandidate = e => {
-      if (e.candidate) this.signal(id, { type: 'ice', candidate: e.candidate.toJSON(), generation }).catch(() => this.notify('연결 정보를 다시 보내는 중이에요'));
-    };
-    pc.ondatachannel = e => this.attachChannel(peer, e.channel);
-    pc.onconnectionstatechange = () => {
-      if (this.closed || this.peers.get(id) !== peer) return;
-      if (pc.connectionState === 'connected') { clearTimeout(peer.timeout); this.notify('함께 불멍하는 중'); }
-      if (pc.connectionState === 'failed' || pc.connectionState === 'disconnected') {
-        const p = this.players.get(id); if (p) p.connected = false;
-        this.notify('친구와의 연결을 확인하는 중');
-        if (!this.isHost) {
-          clearTimeout(peer.timeout);
-          peer.timeout = setTimeout(() => this.retry(false), 4000);
+  changeHost(host, epoch) {
+    if (!Number.isSafeInteger(epoch) || epoch <= this.epoch) return;
+    const recovery = this.lastRecovery;
+    const snapshot = recovery?.world || null;
+    this.frozenTime = snapshot?.now ?? this.hostNow();
+    this.isHost = false; this.migrating = true;
+    this.failPending('방장이 변경됐어요. 연결 후 다시 시도해 주세요.');
+    for (const peer of this.peers.values()) this.closePeer(peer);
+    this.peers.clear(); this.pendingIce.clear(); this.inputs.clear();
+    this.previousHost = this.host; this.host = host; this.epoch = epoch; this.isHost = host === this.player;
+    this.lastSequence = -1; this.sequence = 0; this.attempts = 0; this.lastBroadcast = 0; this.lastClock = 0; this.after = 0;
+    this.input = { dx: 0, dy: 0, sitting: false }; this.ledger = new CommandLedger();
+    this.lastWorldSignature = null; this.musicEpoch = 0; this.pendingRecoveries = new Map(); this.handoffUntil = performance.now() + HOST_LEASE;
+    this.wireReceiver = new WireReceiver(); this.lastResyncAt = -Infinity; this.stateDirty = false; this.lastCheckpoint = 0;
+    this.coordinator().role(epoch, this.isHost, performance.now(), true);
+    if (this.isHost) {
+      if (!snapshot) { this.players = new Map(); this.weapons = emptyWeapons(); this.ball = emptyBall(); this.chat = []; this.music = emptyMusic(); }
+      // Keep the camp's logical time at its last snapshot: suspended flight/fuses resume, never fast-forward.
+      if (snapshot) {
+        this.clockOffset = snapshot.now - performance.now();
+        if (recovery) {
+          const restored = restoreRecovery(recovery, this.members);
+          this.players = restored.players; this.weapons = restored.weapons; this.ball = restored.ball; this.chat = restored.chat; this.music = restored.music;
+          this.callbacks.chat?.(this.chat); this.callbacks.music?.(this.music);
         }
+        else { this.weapons = readWeapons(snapshot.weapons) || emptyWeapons(); this.players = new Map(snapshot.players.filter(p => this.members.some(m => m.id === p.id)).map(p => [p.id, { ...p, connected: true }])); }
       }
-    };
-    peer.timeout = setTimeout(() => {
-      if (pc.connectionState !== 'connected' && !this.closed) {
-        if (!this.isHost) this.retry(false);
+      for (const member of this.members) {
+        if (!this.players.has(member.id)) this.players.set(member.id, { ...member, ...spawnPlayer(this.members.indexOf(member)), connected: true });
+        else Object.assign(this.players.get(member.id), { name: member.name, color: member.color, avatar: member.avatar, connected: member.active !== 0 || member.id === this.player });
       }
-    }, 18_000);
-    return peer;
-  }
-  attachChannel(peer, channel) {
-    if (channel.label === 'camp-control-v2') { this.attachControl(peer, channel); return; }
-    if (channel.label !== 'camp') { channel.close(); return; }
-    if (peer.channel) peer.channel.close();
-    peer.channel = channel;
-    channel.onopen = () => {
-      if (this.closed || this.peers.get(peer.id) !== peer) return;
-      const member = this.members.find(m => m.id === peer.id);
-      if (this.isHost && member && !this.players.has(peer.id)) {
-        this.players.set(peer.id, { ...member, ...spawnPlayer(this.members.findIndex(m => m.id === peer.id)), connected: true });
-      }
-      const p = this.players.get(peer.id); if (p) p.connected = true;
-      const self = this.players.get(this.player); if (self) self.connected = true;
-      this.notify('함께 불멍하는 중');
-    };
-    channel.onmessage = e => {
-      if (this.closed || this.peers.get(peer.id) !== peer) return;
-      if (typeof e.data !== 'string' || e.data.length > 24_000) return;
-      try {
-        const message = JSON.parse(e.data);
-        if (message.v !== PROTOCOL_VERSION) { this.notify('게임 버전이 달라요. 모두 새로고침해 주세요.'); return; }
-        if (!peer.ready) return;
-        if (this.isHost) {
-          const input = message.t === 'input' ? sanitizeInput(message) : null;
-          if (input) this.inputs.set(peer.id, { ...input, at: performance.now() });
-        } else if (peer.id === this.host && message.t === 'state') this.receiveWorld(message);
-      } catch { /* Ignore malformed peer data. */ }
-    };
-    channel.onclose = () => { const p = this.players.get(peer.id); if (p) p.connected = false; };
-  }
-  async connect() {
-    if (this.closed || this.isHost) return;
-    await this.refreshIce();
-    if (this.closed) return;
-    this.attempts++; this.lastSequence = -1;
-    const generation = crypto.randomUUID(), peer = this.makePeer(this.host, generation);
-    this.attachChannel(peer, peer.pc.createDataChannel('camp', { ordered: false, maxRetransmits: 0 }));
-    this.attachChannel(peer, peer.pc.createDataChannel('camp-control-v2', { ordered: true }));
-    const offer = await peer.pc.createOffer();
-    await peer.pc.setLocalDescription(offer);
-    await this.signal(this.host, { type: 'offer', sdp: offer.sdp, generation });
-  }
-  async receiveSignal(id, data) {
-    if (!this.members.some(m => m.id === id)) return;
-    if (!this.isHost && id !== this.host) return;
-    let peer = this.peers.get(id);
-    if (data.type === 'offer' && this.isHost) {
-      await this.refreshIce();
-      if (this.closed) return;
-      peer = this.makePeer(id, data.generation);
-      await peer.pc.setRemoteDescription({ type: 'offer', sdp: data.sdp });
-      const answer = await peer.pc.createAnswer();
-      await peer.pc.setLocalDescription(answer);
-      await this.signal(id, { type: 'answer', sdp: answer.sdp, generation: data.generation });
-    } else if (data.type === 'answer' && peer?.generation === data.generation && !this.isHost) {
-      await peer.pc.setRemoteDescription({ type: 'answer', sdp: data.sdp });
-    } else if (data.type === 'ice') {
-      if (peer?.generation === data.generation && peer.pc.remoteDescription) await peer.pc.addIceCandidate(data.candidate);
-      else {
-        const key = id + ':' + data.generation;
-        const pending = this.pendingIce.get(key) || [];
-        if (pending.length < 40 && this.pendingIce.size < 64) { pending.push(data.candidate); this.pendingIce.set(key, pending); }
-      }
+      const former = this.players.get(this.previousHost); if (former) former.connected = false;
+      if (this.members.every(m => m.active === 0 || m.id === this.player || m.id === this.previousHost)) this.resumeSimulation();
     }
-    if (peer?.pc.remoteDescription) {
-      const key = id + ':' + peer.generation;
-      for (const candidate of this.pendingIce.get(key) || []) await peer.pc.addIceCandidate(candidate).catch(() => {});
-      this.pendingIce.delete(key);
-    }
+    this.lastTick = performance.now(); this.lastState = performance.now();
+    this.callbacks.host?.({ host, epoch }); this.notify(this.migrating ? '새 방장에게 연결 중' : '함께 불멍하는 중');
   }
-  retry(manual = true) {
-    if (this.closed || this.isHost) return;
-    if (manual) this.attempts = 0;
-    const peer = this.peers.get(this.host); if (peer) this.closePeer(peer);
-    this.peers.delete(this.host);
-    if (this.attempts < 3) {
-      this.notify('다시 연결하는 중');
-      this.connect().catch(() => this.notify('연결하지 못했어요. 다시 연결을 눌러 주세요'));
-    } else this.notify('직접 연결이 어려워요. 다시 연결하거나 다른 네트워크를 사용해 주세요');
+  markDisconnected(id) {
+    if (this.isHost && performance.now() < this.handoffUntil && this.members.some(m => m.id === id)) return;
+    const p = this.players.get(id); if (p) { p.connected = false; if (this.isHost) releaseCarry(this.players, p, true); }
   }
-  async refreshIce() {
-    if (Date.now() < this.iceRefreshAt) return;
-    if (!this.refreshingIce) this.refreshingIce = this.request('session').then(config => {
-      if (config.iceServers) this.iceServers = config.iceServers;
-      this.turnConfigured = config.turnConfigured;
-      this.iceRefreshAt = Date.now() + 50 * 60_000;
-    }).finally(() => { this.refreshingIce = null; });
-    await this.refreshingIce;
-  }
-  send(peer, message) {
-    if (peer.channel?.readyState === 'open' && peer.channel.bufferedAmount < 64_000) {
-      try { peer.channel.send(message); } catch { /* Backpressure or a just-closed connection. */ }
-    }
-  }
+  closePeer(...args) { return this.getTransport().closePeer(...args); }
+  makePeer(...args) { return this.getTransport().makePeer(...args); }
+  attachChannel(...args) { return this.getTransport().attachChannel(...args); }
+  connect(...args) { return this.getTransport().connect(...args); }
+  receiveSignal(...args) { return this.getTransport().receiveSignal(...args); }
+  retry(...args) { return this.getTransport().retry(...args); }
+  refreshIce(...args) { return this.getTransport().refreshIce(...args); }
+  send(...args) { return this.getTransport().send(...args); }
   tick() {
     if (this.closed) return;
-    const now = performance.now(), dt = Math.min(.1, (now - this.lastTick) / 1000); this.lastTick = now;
+    const now = performance.now(), elapsed = now - this.lastTick;
+    if (elapsed < 16) return;
+    const dt = Math.min(1, elapsed / 1000); this.lastTick = now;
+    if (elapsed > 250) this.schedulerLagUntil = now + 5000;
     for (const peer of this.peers.values()) this.flush(peer);
+    if (this.migrating) return;
     if (this.isHost) {
+      // Long OS suspension freezes the unprocessed part of camp time; never replay minutes of stale input.
+      if (elapsed > 1000) this.clockOffset = (this.clockOffset || 0) - (elapsed - 1000);
+      if (this.handoffUntil && now >= this.handoffUntil) {
+        this.handoffUntil = 0;
+        for (const id of this.players.keys()) if (id !== this.player && !this.peers.get(id)?.ready) this.markDisconnected(id);
+      }
       const activeInputs = new Map();
       for (const [id, player] of this.players) {
         const input = id === this.player ? this.input : this.inputs.get(id);
         if (input && (id === this.player || now - input.at < 700) && player.connected) activeInputs.set(id, input);
         else if (player.crouching) player.crouching = false;
       }
-      simulateWorld(this.players, activeInputs, dt, now);
+      this.ball ||= emptyBall();
+      simulateWorld(this.players, activeInputs, dt, this.hostNow(), this.weapons, this.ball);
       if (now - this.lastBroadcast >= 66) {
         this.lastBroadcast = now;
-        this.publishWorld();
-      }
+        const checkpoint = now - this.lastCheckpoint >= 1000; if (checkpoint) this.lastCheckpoint = now;
+        if(checkpoint){this.stateDirty=false;this.publishWorld(true);}
+        else if(this.stateDirty)this.flushStateUpdate();
+        else this.publishWorld();
+      } else this.flushStateUpdate();
     } else {
       const self = this.players.get(this.player), peer = this.peers.get(this.host);
       if (self && peer?.ready && peer.channel?.readyState === 'open' && now - this.lastState < 3000) movePlayer(self, this.input, dt, true);
-      for (const [id, p] of this.players) if (id !== this.player && Number.isFinite(p.targetX)) { p.x += (p.targetX - p.x) * .3; p.y += (p.targetY - p.y) * .3; }
+      for (const [id, p] of this.players) if ((id !== this.player || p.thrown) && Number.isFinite(p.targetX)) { p.x += (p.targetX - p.x) * .3; p.y += (p.targetY - p.y) * .3; }
       for (const p of this.players.values()) if (Number.isFinite(p.targetZ)) p.z += (p.targetZ - p.z) * .3;
-      if (peer?.ready && now - this.lastBroadcast >= 50) { this.lastBroadcast = now; this.send(peer, JSON.stringify({ t: 'input', v: PROTOCOL_VERSION, ...this.input })); }
+      if (peer?.ready && now - this.lastBroadcast >= 50) { this.lastBroadcast = now; this.send(peer, JSON.stringify({ t: 'input', v: PROTOCOL_VERSION, epoch: this.epoch, ...this.input })); }
       if (peer?.ready && now - this.lastClock >= 5000) { this.lastClock = now; this.reliable(peer, { t: 'clock', sent: now }); }
       if (peer?.channel?.readyState === 'open' && now - this.lastState > 5000) this.notify('방장의 게임 응답을 기다리는 중');
     }
   }
-  destroy(leave = true) {
+  destroy(leave = true, immediate = false) {
     if (this.closed) return;
-    this.closed = true; clearInterval(this.timer); clearTimeout(this.pollTimer);
+    if (leave && !immediate && this.isHost && !this.leaving && [...this.peers.values()].some(p=>p.ready)) {
+      // A normal departure drains the final coherent checkpoint before closing
+      // RTC. Page termination/crashes remain best effort and use the last receipt.
+      this.leaving=true;this.stopTick?.();clearInterval(this.timer);clearTimeout(this.pollTimer);
+      this.frozenTime=this.hostNow();this.migrating=true;
+      const final=this.checkpointMessage(),started=performance.now();this.broadcastControl(final);
+      const drain=()=>{
+        const confirmed=[...this.peers.values()].every(p=>!p.ready||(this.coordinator().receipts.get(p.id)?.seq??-1)>=final.seq);
+        if(confirmed||performance.now()-started>=1200)this.finishDestroy(true);
+        else this.leaveTimer=setTimeout(drain,20);
+      };
+      drain();return;
+    }
+    if(leave&&immediate&&this.isHost)this.publishWorld(true);
+    this.finishDestroy(leave);
+  }
+  finishDestroy(leave) {
+    if(this.closed)return;
+    clearTimeout(this.leaveTimer);
+    this.closed = true; this.stopTick?.(); clearInterval(this.timer); clearTimeout(this.pollTimer);
+    this.coordinator().phase = 'closed';
     this.failPending('방 연결이 종료됐어요.');
     this.lifecycle?.removeEventListener('pagehide', this.onPageHide);
     for (const peer of this.peers.values()) this.closePeer(peer);
