@@ -88,6 +88,8 @@ test('player selection uses painter order, nameplates and nearest touch padding'
   assert.equal(pickPlayer([a], 100, 100, true), null); assert.equal(pickPlayer([a], NaN, 50), null);
   const nearby = { id: 'near', head: { x: 83, y: 50, radius: 3 } };
   assert.equal(pickPlayer([a, nearby], 69, 50, true), 'near');
+  const frontBody={id:'body',head:{x:200,y:200,radius:10},body:{x:30,y:80,width:40,height:20}};
+  assert.equal(pickPlayer([a,frontBody],50,90),'back','A visible nameplate is above a foreground body');
 });
 
 test('rendered player selection follows CSS scale, page offsets, posture, altitude and resize at DPR 2', () => {

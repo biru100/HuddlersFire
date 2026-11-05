@@ -2,12 +2,20 @@
 import { EMOTES } from './camp-world.mjs';
 import { WEAPONS } from './camp-weapons.mjs';
 /** @typedef {{dx:number,dy:number} | null} Aim */
+/** @param {number} zoom @param {number} deltaY @param {number} [deltaMode] */
+export function zoomFromWheel(zoom,deltaY,deltaMode=0) {
+  if(!Number.isFinite(deltaY))return zoom;
+  const pixels=deltaY*(deltaMode===1?16:deltaMode===2?100:1);
+  return Math.max(.75,Math.min(3,zoom*Math.exp(-pixels*Math.log(1.25)/100)));
+}
 /**
  * @param {{node: HTMLCanvasElement, win: Window, doc: Document, keys: Set<string>, locked:()=>boolean, active:()=>boolean,
  * emotes:()=>boolean, setEmotes:(open:boolean)=>void, reset:()=>void, update:()=>unknown, startMove:()=>void,
  * crouch:(down:boolean)=>void, emote:(id:string)=>void, equip:(id:string)=>void, fire:(aim?:Aim)=>void,
  * jump:()=>void, lift:()=>void, radio:()=>void, sit:()=>void, player:(id:string,x:number,y:number)=>void,
  * self:()=>({weapon:string}|null), aim:(x:number,y:number)=>Aim, setAim:(aim:Aim)=>void,
+ * seat?:(id:string)=>void,pickSeat?:(x:number,y:number)=>string|null,
+ * zoom?:(deltaY:number,deltaMode:number)=>void,
  * pick:(x:number,y:number,touch:boolean)=>string|null, editable?:(target:EventTarget|null)=>boolean}} o
  */
 export function bindCampInput(o) {
@@ -46,19 +54,25 @@ export function bindCampInput(o) {
   const pointerUp = e => {
     const start = pointer; pointer = null;
     if (!start || start.id !== e.pointerId || Math.hypot(e.clientX-start.x,e.clientY-start.y)>8 || o.locked() || !o.active()) return;
-    const id = o.pick(e.clientX,e.clientY,e.pointerType==='touch'); if (id) o.player(id,e.clientX,e.clientY);
+    const id = o.pick(e.clientX,e.clientY,e.pointerType==='touch'); if (id) o.player(id,e.clientX,e.clientY);else {const seat=o.pickSeat?.(e.clientX,e.clientY);if(seat)o.seat?.(seat);}
   };
   /** @param {PointerEvent} e */
   const pointerMove = e => { if (e.pointerType==='mouse' && !o.locked()) o.setAim(o.aim(e.clientX,e.clientY)); };
   /** @param {MouseEvent} e */
   const context = e => { if (!o.locked() && o.self()?.weapon && o.self()?.weapon !== 'none') e.preventDefault(); };
+  /** @param {WheelEvent} e */
+  const wheel = e => {
+    if(!o.zoom || o.locked() || !o.active() || e.ctrlKey || !Number.isFinite(e.deltaY) || e.deltaY===0)return;
+    e.preventDefault();o.zoom(e.deltaY,e.deltaMode);
+  };
   /** @type {(()=>void)[]} */ const cleanup = [];
-  /** @template {Event} T @param {EventTarget} target @param {string} type @param {(event:T)=>void} handler */
-  const listen = (target,type,handler) => { const listener = /** @type {EventListener} */ (handler); target.addEventListener(type,listener); cleanup.push(()=>target.removeEventListener(type,listener)); };
+  /** @template {Event} T @param {EventTarget} target @param {string} type @param {(event:T)=>void} handler @param {AddEventListenerOptions} [options] */
+  const listen = (target,type,handler,options) => { const listener = /** @type {EventListener} */ (handler); target.addEventListener(type,listener,options); cleanup.push(()=>target.removeEventListener(type,listener,options)); };
   listen(o.win,'keydown',down); listen(o.win,'keyup',up); listen(o.win,'blur',o.reset);
   listen(o.doc,'visibilitychange',()=>{if(o.doc.hidden)o.reset();});
   listen(o.doc,'focusin',e=>{if(e.target && e.target!==o.node)o.reset();});
   listen(o.node,'pointerdown',pointerDown); listen(o.node,'pointerup',pointerUp); listen(o.node,'pointermove',pointerMove);
   listen(o.node,'pointercancel',()=>{pointer=null;}); listen(o.node,'contextmenu',context);
+  listen(o.node,'wheel',wheel,{passive:false});
   return () => { cleanup.forEach(fn=>fn()); pointer=null; o.reset(); };
 }

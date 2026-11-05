@@ -29,6 +29,29 @@ test('zoom and following preserve hit testing and inverse aiming across sizes an
   } finally {renderer?.destroy();for(const [key,value] of Object.entries(saved)){if(value===undefined)delete globalThis[key];else globalThis[key]=value;}}
 });
 
+test('foreground map art cannot cover nameplates and picking follows their visible overlay at every zoom',()=>{
+  const keys=['window','ResizeObserver','requestAnimationFrame','cancelAnimationFrame'],saved=Object.fromEntries(keys.map(k=>[k,globalThis[k]]));
+  globalThis.window={devicePixelRatio:1,matchMedia:()=>({matches:true})};globalThis.ResizeObserver=class{observe(){}disconnect(){}};globalThis.requestAnimationFrame=()=>1;globalThis.cancelAnimationFrame=()=>{};
+  try{
+    for(const dpr of [1,2])for(const mapId of ['camp','playground'])for(const zoom of [.75,1,3])for(const posture of [{},{sitting:true},{carriedBy:'carrier',z:1.3}]){
+      globalThis.window.devicePixelRatio=dpr;
+      const p={...spawnPlayer(0,mapId),...posture,id:'self',name:'지형 뒤 친구',x:0,y:0};
+      const canvas=createCanvas(1050,824);canvas.getBoundingClientRect=()=>({left:20,top:30,width:1050,height:824});
+      const renderer=new CampRenderer(canvas,()=>({players:[p],self:p.id,now:1000,zoom}));
+      try{
+        // Opaque foreground art covers every body and the original world-space label position.
+        const cover=function(){this.ctx.fillStyle='#ff00ff';this.ctx.fillRect(-10000,-10000,20000,20000);};
+        renderer.tree=cover;renderer.tent=cover;renderer.fence=cover;renderer.shade=cover;
+        renderer.draw(1000);const box=renderer.hitAreas[0].label;
+        const [r,g,b]=canvas.getContext('2d').getImageData(Math.floor((box.x+box.width/2)*dpr),Math.floor((box.y+3*renderer.camera.scale)*dpr),1,1).data;
+        assert.ok(g>80&&r>b,'The visible nameplate must be above foreground map art');
+        assert.equal(renderer.pickPlayer(20+box.x+box.width/2,30+box.y+box.height/2),p.id);
+        p.motion='respawning';renderer.draw(1000);assert.equal(renderer.nameplates.length,0,'Hidden respawn bodies must not leave floating names');
+      }finally{renderer.destroy();}
+    }
+  }finally{for(const k of keys){if(saved[k]===undefined)delete globalThis[k];else globalThis[k]=saved[k];}}
+});
+
 test('compact presence badges avoid profiles, nameplates and speech at crowded desktop/mobile/PIP scales',()=>{
   const saved={window:globalThis.window,ResizeObserver:globalThis.ResizeObserver,requestAnimationFrame:globalThis.requestAnimationFrame,cancelAnimationFrame:globalThis.cancelAnimationFrame};
   globalThis.window={devicePixelRatio:1,matchMedia:()=>({matches:true})};

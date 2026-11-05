@@ -11,7 +11,7 @@ const subscribeCompact = (notify: () => void) => {
 export const useCompactCamp = () => useSyncExternalStore(subscribeCompact, () => window.matchMedia(compactQuery).matches, () => false);
 
 export const CAMP_PANELS = [
-  ['chat', '대화'], ['people', '사람'], ['status', '내 상태'], ['play', '놀이'],
+  ['chat', '대화'], ['people', '사람'], ['status', '내 상태'], ['play', '놀이'], ['radio','라디오'],
 ] as const;
 export type CampPanelTab = typeof CAMP_PANELS[number][0];
 
@@ -26,7 +26,7 @@ type Props = {
   people: ReactNode;
   peopleCount: number;
   chat: ReactNode;
-  play: ReactNode;
+  play: ReactNode; radio:ReactNode;
   footer: ReactNode;
 };
 
@@ -44,7 +44,7 @@ export default function CampPanel(p: Props) {
       if (!keys.includes(e.key)) return;
       e.preventDefault();
       const index = CAMP_PANELS.findIndex(([id]) => id === p.tab);
-      const next = e.key === 'Home' ? 0 : e.key === 'End' ? 3 : (index + (e.key === 'ArrowLeft' ? 3 : 1)) % 4;
+      const next = e.key === 'Home' ? 0 : e.key === 'End' ? CAMP_PANELS.length-1 : (index + (e.key === 'ArrowLeft' ? CAMP_PANELS.length-1 : 1)) % CAMP_PANELS.length;
       p.onTab(CAMP_PANELS[next][0]);
       e.currentTarget.querySelectorAll<HTMLButtonElement>('[role=tab]')[next]?.focus();
     }}>
@@ -56,6 +56,7 @@ export default function CampPanel(p: Props) {
     <div className="camp-panel-page" role="tabpanel" id="camp-page-chat" aria-labelledby="camp-tab-chat" hidden={p.tab !== 'chat'}>{p.chat}</div>
     <div className="camp-panel-page" role="tabpanel" id="camp-page-people" aria-labelledby="camp-tab-people" hidden={p.tab !== 'people'}>{p.people}</div>
     <div className="camp-panel-page" role="tabpanel" id="camp-page-play" aria-labelledby="camp-tab-play" hidden={p.tab !== 'play'}>{p.play}</div>
+    <div className="camp-panel-page" role="tabpanel" id="camp-page-radio" aria-labelledby="camp-tab-radio" hidden={p.tab!=='radio'}>{p.radio}</div>
     <footer className="camp-panel-footer">
       {p.invite && <details className="invite-card"><summary>친구 초대하기</summary>{p.invite}</details>}
       {p.footer}

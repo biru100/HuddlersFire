@@ -8,11 +8,22 @@ export class MusicPlayback {
     this.suppressUntil = 0; this.lastReport = 0; this.stopped = false;
   }
   suppress() { this.suppressUntil = this.now() + 1800; }
+  syncAudio() {
+    if (!this.ready || this.stopped) return;
+    const { volume, muted } = this.getState();
+    if (this.volume !== volume) { this.player.setVolume(volume); this.volume = volume; }
+    if (this.muted !== muted) {
+      if (muted) this.player.mute(); else this.player.unMute();
+      this.muted = muted;
+    }
+  }
   sync(visible = this.visible) {
+    const becameVisible = visible && !this.visible;
     this.visible = visible;
     if (!this.ready || this.stopped) return;
+    this.syncAudio();
     const p = this.player, s = this.getState(), m = s.music;
-    if (!visible || s.suspended?.()) {
+    if (s.suspended?.()) {
       if ([1, 3].includes(p.getPlayerState())) { this.suppress(); p.pauseVideo(); }
       this.transport = -1; return;
     }
@@ -25,7 +36,7 @@ export class MusicPlayback {
       this.suppress(); this.track = m.current.id; this.transport = m.transport;
       const options = { videoId: m.current.videoId, startSeconds: position };
       if (m.playing) p.loadVideoById(options); else p.cueVideoById(options);
-    } else if (this.transport !== m.transport) {
+    } else if (this.transport !== m.transport || becameVisible) {
       this.suppress(); this.transport = m.transport; p.seekTo(position, true);
       if (m.playing) p.playVideo(); else p.pauseVideo();
     } else if (!s.isHost && m.playing && p.getPlayerState() === 1 && Math.abs(p.getCurrentTime() - position) > 1.5) {
@@ -37,7 +48,7 @@ export class MusicPlayback {
     }
   }
   onStateChange(state) {
-    if (this.stopped || !this.ready || !this.visible) return;
+    if (this.stopped || !this.ready) return;
     const { music: m, isHost, command } = this.getState(), p = this.player;
     if (this.getState().suspended?.() || !isHost || !m.current || this.track !== m.current.id || parseYouTubeUrl(p.getVideoUrl()) !== m.current.videoId) return;
     if (state === 0) {
@@ -45,7 +56,8 @@ export class MusicPlayback {
       if (this.endedTrack === m.current.id) return;
       this.endedTrack = m.current.id;
       void command('music-control', { op: 'skip', currentId: m.current.id }).catch(() => { this.endedTrack = null; });
-    } else if (this.now() > this.suppressUntil && ((state === 2 && m.playing) || (state === 1 && !m.playing))) {
+    // A browser may pause a hidden iframe. That is not a host request to pause everyone.
+    } else if (this.visible && this.now() > this.suppressUntil && ((state === 2 && m.playing) || (state === 1 && !m.playing))) {
       const id = m.current.id;
       void command('music-control', { op: 'sync', currentId: id, position: p.getCurrentTime() })
         .then(() => { if (this.getState().music.current?.id === id) return command('music-control', { op: state === 2 ? 'pause' : 'play' }); })

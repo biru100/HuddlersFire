@@ -18,7 +18,7 @@ export default function RoomList({busy,join}:{busy:boolean;join:(code:string)=>v
   },[offset,refresh]);
   return <section className="public-rooms" aria-label="공개 모닥불">
     <div className="panel-title"><strong>열려 있는 모닥불</strong><button type="button" onClick={()=>{setLoading(true);setRefresh(v=>v+1);}} disabled={loading}>새로고침</button></div>
-    <p className="micro-copy">방을 골라 바로 함께해요. 누구나 참여할 수 있어요.</p>
+    <p className="micro-copy">방을 골라 바로 함께해요. Discord 계정을 연결하면 참여할 수 있어요.</p>
     {error?<p role="alert">{error}</p>:loading?<p role="status">모닥불을 찾고 있어요…</p>:!rooms.length?<p>아직 열린 방이 없어요. 첫 모닥불을 피워 보세요.</p>:rooms.map(r=><button className="public-room" key={r.code} disabled={busy||r.state!=='open'} onClick={()=>join(r.code)}>
       <strong>{r.title}</strong><span>{r.count}/{r.capacity}명 · {r.state==='open'?'참여하기':r.state==='full'?'가득 참':'연결 복구 중'}</span>
     </button>)}

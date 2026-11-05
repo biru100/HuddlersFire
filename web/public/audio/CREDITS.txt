@@ -1,0 +1,8 @@
+Campfire sound ambience
+Author: Glaneur de sons
+Source: https://commons.wikimedia.org/wiki/File:Campfire_sound_ambience.ogg
+Original: https://freesound.org/people/Glaneur%20de%20sons/sounds/29727/
+License: Creative Commons Attribution 3.0 Unported
+https://creativecommons.org/licenses/by/3.0/
+
+The Ogg recording is distributed unchanged. Playback blends 180ms at the loop boundary, adjusts volume with the fire state, and layers a short portion of the recording when a seated participant adds firewood.

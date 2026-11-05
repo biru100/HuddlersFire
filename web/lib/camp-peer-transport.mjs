@@ -100,7 +100,9 @@ export class PeerTransport {
         if (!peer.ready) return;
         if (this.session.isHost) {
           const input = message.t === 'input' ? sanitizeInput(message) : null;
-          if (input) { this.session.tick(); this.session.inputs.set(peer.id, { ...input, at: performance.now() }); }
+          if (input && message.mapRevision === this.session.players.get(peer.id)?.mapRevision) {
+            this.session.tick(); this.session.inputs.set(peer.id, { ...input, at: performance.now() });
+          }
         } else if (peer.id === this.session.host && message.t === 'state') this.session.receiveWorld(message);
       } catch { /* Ignore malformed peer data. */ }
     };

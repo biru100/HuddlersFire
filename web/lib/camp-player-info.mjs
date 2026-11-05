@@ -6,9 +6,11 @@ const inRect = (rect, x, y) => rect && x >= rect.x && x <= rect.x + rect.width &
 // Areas are recorded in painter order and use CSS pixels, independent of device pixel ratio.
 export function pickPlayer(areas, x, y, touch = false) {
   if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+  // Nameplates and status are painted over every body, so they also win hit testing.
+  for (let i = areas.length - 1; i >= 0; i--) if (inRect(areas[i].label,x,y) || inRect(areas[i].badge,x,y)) return areas[i].id;
   for (let i = areas.length - 1; i >= 0; i--) {
     const a = areas[i];
-    if (Math.hypot(x - a.head.x, y - a.head.y) <= a.head.radius || inRect(a.body, x, y) || inRect(a.label, x, y) || inRect(a.badge, x, y)) return a.id;
+    if (Math.hypot(x - a.head.x, y - a.head.y) <= a.head.radius || inRect(a.body, x, y)) return a.id;
   }
   if (!touch) return null;
   let closest = null, distance = Infinity;

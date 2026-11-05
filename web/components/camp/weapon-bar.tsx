@@ -1,8 +1,9 @@
 'use client';
 import { WEAPONS } from '@/lib/camp-weapons.mjs';
 
-type Props = { weapon: string; canFire: boolean; ready: boolean; equip: (weapon: string) => void; fire: () => void };
+type Props = { playing: boolean; weapon: string; canFire: boolean; ready: boolean; equip: (weapon: string) => void; fire: () => void };
 export default function WeaponBar(p: Props) {
+  if (!p.playing) return <p className="micro-copy">총·눈뭉치·폭탄과 친구 들기·던지기는 놀이터에서 즐겨요.</p>;
   return <fieldset className="weapon-bar"><legend>장난감 고르기</legend>
     <div className="weapon-slots" role="group" aria-label="장난감 선택">
       {[{ id: 'none', label: '맨손', key: '0' }, ...WEAPONS].map(w => <button key={w.id} aria-pressed={p.weapon === w.id} onPointerDown={e => e.preventDefault()} onClick={() => p.equip(w.id)}><kbd>{w.key}</kbd>{w.label}</button>)}

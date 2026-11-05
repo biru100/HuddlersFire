@@ -1,3 +1,4 @@
+import { canPlay } from './camp-maps.mjs';
 
 export const BALL_RADIUS = .22;
 export const emptyBall = () => ({ x: 3.7, y: .6, vx: 0, vy: 0, rotation: 0 });
@@ -8,7 +9,7 @@ export function readBall(value) {
 }
 export function stepBall(ball, players, dt, obstacles) {
   for (const p of players.values()) {
-    if (p.connected === false || p.motion !== 'grounded' || p.sitting || !p.moving) continue;
+    if (!canPlay(p) || p.connected === false || p.motion !== 'grounded' || p.sitting || !p.moving) continue;
     const dx = ball.x - p.x, dy = ball.y - p.y, distance = Math.hypot(dx, dy);
     if (distance > BALL_RADIUS + .3) continue;
     const nx = distance > .001 ? dx / distance : p.aimX, ny = distance > .001 ? dy / distance : p.aimY;

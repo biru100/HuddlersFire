@@ -134,12 +134,15 @@ export async function handleCampRequest(req, env, options = {}) {
       } catch { return discordResult('discord-failed'); }
     }
     if (route === 'discord/unlink' && req.method === 'POST') {
+      const active=await db.prepare('SELECT id FROM camp_members WHERE session = ?').bind(s.id).first();
+      if(active)fail('방을 떠난 뒤 Discord 연결을 해제해 주세요.',409);
       await db.batch([
         db.prepare('UPDATE camp_sessions SET discord_id = NULL, avatar = NULL WHERE id = ?').bind(s.id),
         db.prepare('UPDATE camp_members SET avatar = NULL WHERE session = ?').bind(s.id),
       ]);
       return json({ ok: true });
     }
+    if((route==='rooms'&&req.method==='POST'||route==='room')&&!s.discord_id)fail('Discord 계정을 연결한 뒤 입장해 주세요.',403);
     if (route === 'rooms' && req.method === 'POST') {
       await rate(db, 'rooms:' + s.id, now, 20);
       const b = await body(req), id = random(12);

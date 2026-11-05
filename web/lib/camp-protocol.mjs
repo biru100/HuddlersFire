@@ -1,8 +1,10 @@
 // @ts-check
+import { isMap, MAP_TRAVEL_COOLDOWN } from './camp-maps.mjs';
 import { EMOTES } from './camp-world.mjs';
 import { isWeapon } from './camp-weapons.mjs';
 import { validPresence } from './camp-presence.mjs';
-export const PROTOCOL_VERSION = 12;
+import { fireStyle } from './camp-fire.mjs';
+export const PROTOCOL_VERSION = 15;
 export const MAX_FRAME_BYTES = 48_000;
 /** @typedef {import('./camp-types').CampAction} CampAction */
 /** @typedef {{ok:boolean,error?:string}} CommandResult */
@@ -11,6 +13,10 @@ export function validAction(value) {
   const a = /** @type {CampAction} */ (value);
   if (!a || typeof a.id !== 'string' || a.id.length > 64 || !a.id.length) return false;
   switch (a.kind) {
+    case 'seat': return typeof a.seatId==='string'&&/^log-[0-7]-[01]$/.test(a.seatId);
+    case 'add-firewood': return true;
+    case 'fire-style': return !!fireStyle(a.style);
+    case 'change-map': return isMap(a.mapId);
     case 'presence': return validPresence(a);
     case 'call': return typeof a.target === 'string' && a.target.length > 0 && a.target.length <= 64;
     case 'posture': return ['standing', 'sitting', 'crouching'].includes(a.posture);
@@ -53,7 +59,8 @@ export class CommandLedger {
     this.buckets.set(sender, b);
     if (b.tokens < 1) return false;
     b.tokens--;
-    /** @type {Record<string,number>} */ const intervals = { presence: 500, call: 30000, chat: 1000, emote: 1000, lift: 250, jump: 250, equip: 100, fire: 100, 'music-add': 1000 };
+    // Attempts are throttled briefly; only successful wood contributions start the ten-minute world cooldown.
+    /** @type {Record<string,number>} */ const intervals = { seat:250, 'add-firewood':250, 'fire-style':500, 'change-map': MAP_TRAVEL_COOLDOWN, presence: 500, call: 30000, chat: 1000, emote: 1000, lift: 250, jump: 250, equip: 100, fire: 100, 'music-add': 1000 };
     const interval = intervals[kind] || 0;
     const key = sender + ':' + kind;
     if (now - (this.last.get(key) ?? -Infinity) < interval) return false;

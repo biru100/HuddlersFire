@@ -1,8 +1,12 @@
-import { SCENERY, TRAMPOLINES, RADIO, EMOTES, spawnPlayer, canUseRadio } from './camp-world.mjs';
+import { emptyFire, fireStrength, flareAt, fireStyle, FIRE_STYLES } from './camp-fire.mjs';
+import { isSeated, CAMP_SEATS } from './camp-seats.mjs';
+import { visiblePlayers, fireConversation } from './camp-focus.mjs';
+import { RADIO, EMOTES, spawnPlayer, canUseRadio } from './camp-world.mjs';
 import { layoutBubbles } from './camp-bubbles.mjs';
 import { AvatarImages, drawCharacter, characterPose } from './camp-character.mjs';
 import { pickPlayer } from './camp-player-info.mjs';
 import { WEAPONS } from './camp-weapons.mjs';
+import { CAMP_MAP, PLAY_MAP, getMap } from './camp-maps.mjs';
 
 const presenceBadges = { available: ['대화', '#a4c5b3'], working: ['작업', '#e0c28f'], away: ['비움', '#c5b6db'] };
 
@@ -96,9 +100,31 @@ export class CampRenderer {
     this.polygon([[-32, -53], [26, -53], [34, -42], [26, -31], [-32, -31]], '#a08758');
     c.fillStyle = '#31352b'; c.font = 'bold 8px sans-serif'; c.textAlign = 'center'; c.fillText('HUDDLERS', -1, -39);
   }
+  bench(item) {
+    const [tx,ty]=this.project(-Math.sin(item.angle),Math.cos(item.angle));
+    this.ctx.rotate(Math.atan2(ty,tx));this.ctx.scale(1.15,.65);this.log();
+  }
+  fence() {
+    const c=this.ctx;c.strokeStyle='#e8ddbd';c.lineWidth=4;c.beginPath();c.moveTo(-35,-25);c.lineTo(35,10);c.moveTo(-35,-37);c.lineTo(35,-2);c.stroke();
+    for(const x of [-35,0,35]){const y=x*.5;c.fillStyle='#f5e9c9';c.fillRect(x-3,y-45,6,45);}
+  }
+  shade() {
+    const c=this.ctx;this.ellipse(0,5,48,22,'#243c2444');c.fillStyle='#c5ad7b';c.fillRect(-37,-65,4,65);c.fillRect(33,-30,4,42);
+    this.polygon([[-50,-70],[-3,-94],[49,-45],[0,-21]],'#82c2ce');this.polygon([[-50,-70],[0,-21],[0,-11],[-50,-60]],'#438fa3');
+  }
+  crate() {
+    const c=this.ctx;this.polygon([[-18,-19],[4,-30],[24,-15],[1,-4]],'#e2b16b');this.polygon([[-18,-19],[1,-4],[1,14],[-18,0]],'#bc864c');this.polygon([[1,-4],[24,-15],[24,4],[1,14]],'#cf9b57');
+    c.strokeStyle='#866c4b';c.lineWidth=2;c.beginPath();c.moveTo(-15,-15);c.lineTo(-3,8);c.stroke();
+  }
+  pickSeat(clientX,clientY) {
+    const rect=this.canvas.getBoundingClientRect(),x=(clientX-rect.left)*this.width/rect.width,y=(clientY-rect.top)*this.height/rect.height;
+    return (this.seatAreas||[]).filter(s=>Math.hypot(x-s.x,y-s.y)<s.radius).sort((a,b)=>Math.hypot(x-a.x,y-a.y)-Math.hypot(x-b.x,y-b.y))[0]?.id||null;
+  }
   fire(time) {
     const c = this.ctx, t = this.reduced ? 1 : time;
-    this.glow(0, -15, 150 + Math.sin(t * 5) * 5, '#ed912740');
+    const style=fireStyle(this.fireAppearance)||FIRE_STYLES[0];
+    const strength=this.fireLevel??.6,flare=this.fireFlare||0;c.save();
+    this.glow(0, -15, 95+strength*90+flare*35 + Math.sin(t * 5) * 5, style.glow);
     this.ellipse(0, 2, 42, 23, '#403d2b'); this.ellipse(0, 0, 31, 17, '#252a20');
     for (let i = 0; i < 12; i++) {
       const a = i / 12 * Math.PI * 2, x = Math.cos(a) * 37, y = Math.sin(a) * 20;
@@ -107,19 +133,22 @@ export class CampRenderer {
     }
     this.polygon([[-23, -6], [20, 10], [24, 4], [-17, -13]], '#765135');
     this.polygon([[20, -11], [-21, 8], [-17, 13], [24, -5]], '#977049');
+    c.save();c.scale((.5+strength*.5+flare*.25)*style.width,(.25+strength*.75+flare*.55)*style.height);
     for (let i = 0; i < 5; i++) {
       const wobble = Math.sin(t * 5 + i * 2) * 7, x = (i - 2) * 7, h = 34 + seed(i) * 25;
       c.beginPath(); c.moveTo(x - 13, -6); c.bezierCurveTo(x - 25, -20, x + 15 + wobble, -h + 8, x + wobble, -h - 8);
       c.bezierCurveTo(x + 30, -25, x + 16, -5, x + 9, -4); c.closePath();
-      c.fillStyle = ['#e36c35', '#f4933b', '#ffc15b', '#f89e42', '#f5b94e'][i]; c.fill();
+      c.fillStyle = style.colors[i]; c.fill();
     }
-    this.ellipse(0, -13, 12, 16, '#ffe3a0');
+    this.ellipse(0, -13, 12, 16, style.core);
     if (!this.reduced) for (let i = 0; i < 12; i++) {
       const life = (t * .23 + seed(i + 62)) % 1;
-      c.globalAlpha = (1 - life) * .7; c.fillStyle = '#ffd18a';
-      c.fillRect(Math.sin(life * 9 + i) * (8 + life * 22), -30 - life * 100, 2, 3);
+      c.globalAlpha = (1 - life) * .7; c.fillStyle = style.spark;
+      const x=Math.sin(life * 9 + i) * (8 + life * 22),y=-30-life*100;
+      c.fillRect(x,y,2,style.id==='violet'?6:3);
+      if(style.id==='violet')c.fillRect(x-2,y+2,6,2);
     }
-    c.globalAlpha = 1;
+    c.globalAlpha = 1;c.restore();c.restore();
   }
   trampoline() {
     const c = this.ctx;
@@ -194,8 +223,7 @@ export class CampRenderer {
     c.font = '500 11px "Malgun Gothic", sans-serif'; c.textAlign = 'center';
     const label = (p.name || '허들러') + (self ? ' · 나' : ''), w = c.measureText(label).width + 18;
     const matrix = c.getTransform(), labelX = p.carriedBy ? (matrix.e / this.dpr + (28 + w) * matrix.a / this.dpr > this.width - 12 ? -28 - w : 28) : -w / 2, labelY = p.carriedBy ? -49 : 16;
-    c.fillStyle = self ? '#d9b779e8' : '#18251fe6'; c.beginPath(); c.roundRect(labelX, labelY, w, 22, 6); c.fill();
-    c.fillStyle = self ? '#263027' : '#ced6c5'; c.fillText(label, labelX + w / 2, labelY + 15);
+    this.nameplates.push({label,x:labelX,y:labelY,width:w,self,matrix,alpha:c.globalAlpha});
     const pose = characterPose(p, time, this.reduced, emote?.id, this.sceneTime);
     const point = (x, y) => ({ x: (matrix.a * x + matrix.c * y + matrix.e) / this.dpr, y: (matrix.b * x + matrix.d * y + matrix.f) / this.dpr });
     const head = point(pose.lean * .65, pose.headY + pose.headBob + pose.bob);
@@ -204,6 +232,16 @@ export class CampRenderer {
       body: rect(-19, pose.headY + pose.radius + pose.bob, 38, -pose.headY - pose.radius + 6), label: rect(labelX, labelY, w, 22) });
     if (emote) {
       c.font = 'bold 15px "Malgun Gothic", sans-serif'; c.fillStyle = '#f1d5a1'; c.fillText(emote.symbol, 0, -64);
+    }
+  }
+  drawNameplates() {
+    const c=this.ctx;
+    for(const plate of this.nameplates){
+      const {matrix:m,x,y,width,self,label}=plate;
+      c.save();c.setTransform(m.a,m.b,m.c,m.d,m.e,m.f);c.globalAlpha=plate.alpha;
+      c.font='500 11px "Malgun Gothic", sans-serif';c.textAlign='center';
+      c.fillStyle=self?'#d9b779e8':'#18251fe6';c.beginPath();c.roundRect(x,y,width,22,6);c.fill();
+      c.fillStyle=self?'#263027':'#ced6c5';c.fillText(label,x+width/2,y+15);c.restore();
     }
   }
   bubbles(players, scale, music) {
@@ -249,15 +287,18 @@ export class CampRenderer {
     if (this.stopped) return;
     const c = this.ctx, w = this.width, h = this.height, t = ms / 1000;
     c.setTransform(this.dpr, 0, 0, this.dpr, 0, 0); c.clearRect(0, 0, w, h);
-    const bg = c.createLinearGradient(0, 0, 0, h); bg.addColorStop(0, '#14231f'); bg.addColorStop(.7, '#1c2a23'); bg.addColorStop(1, '#15201b');
-    c.fillStyle = bg; c.fillRect(0, 0, w, h);
-    for (let i = 0; i < 65; i++) {
-      c.globalAlpha = .08 + seed(i + 90) * .25; c.fillStyle = '#e2deba';
-      c.fillRect(seed(i + 3) * w, seed(i + 11) * h * .58, i % 5 === 0 ? 2 : 1, i % 5 === 0 ? 2 : 1);
+    const scene=this.getScene(),all=scene.players||[],self=all.find(p=>p.id===scene.self);
+    const mapId=scene.mapId||self?.mapId||CAMP_MAP,map=getMap(mapId),playing=mapId===PLAY_MAP,focused=isSeated(self);
+    const players=all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),sitting:true}];
+    const bg=c.createLinearGradient(0,0,0,h);bg.addColorStop(0,playing?'#a4dbe9':'#14231f');bg.addColorStop(.7,playing?'#dbedcd':'#1c2a23');bg.addColorStop(1,playing?'#7eaa75':'#15201b');
+    c.fillStyle=bg;c.fillRect(0,0,w,h);
+    if(playing){
+      this.ellipse(w*.82,h*.17,53,53,'#fff3b722');this.ellipse(w*.82,h*.17,38,38,'#fff3b733');this.ellipse(w*.82,h*.17,27,27,'#fff3b9');
+      for(let i=0;i<4;i++){const x=w*(.13+i*.23),y=h*(.1+(i%2)*.08);this.ellipse(x,y,45,12,'#ffffff77');this.ellipse(x-14,y-8,23,16,'#ffffff88');}
+    }else{
+      for(let i=0;i<65;i++){c.globalAlpha=.08+seed(i+90)*.25;c.fillStyle='#e2deba';c.fillRect(seed(i+3)*w,seed(i+11)*h*.58,i%5===0?2:1,i%5===0?2:1);}
+      c.globalAlpha=1;this.glow(w*.83,h*.15,100,'#b2b5980c');this.ellipse(w*.83,h*.15,20,20,'#b9bd9677');this.ellipse(w*.83+9,h*.15-6,19,19,'#14231f');
     }
-    c.globalAlpha = 1; this.glow(w * .83, h * .15, 100, '#b2b5980c');
-    this.ellipse(w * .83, h * .15, 20, 20, '#b9bd9677'); this.ellipse(w * .83 + 9, h * .15 - 6, 19, 19, '#14231f');
-    const scene = this.getScene(), players = scene.players?.length ? scene.players : [{ id: 'preview', name: scene.name || '허들러', color: scene.color, ...spawnPlayer(), sitting: true }];
     let scale = Math.min(w / 1110, h / 790) * 1.02, originY = h * .60;
     const top = Math.min(0, ...players.filter(p => p.motion !== 'respawning').map(p => (p.x + p.y) * 20 - Math.max(0, p.z || 0) * 40 - 68));
     if (originY + top * scale < h * .28) {
@@ -267,14 +308,21 @@ export class CampRenderer {
     let originX = w * .51;
     const followed = scene.followSelf && players.find(p => p.id === scene.self);
     if (followed) { const [fx,fy] = this.project(followed.x,followed.y); originX=w*.5-fx*scale;originY=h*.58-(fy-(followed.z||0)*40)*scale; }
+    this.focusMix=this.reduced?Number(focused):(this.focusMix||0)+(Number(focused)-(this.focusMix||0))*.12;
+    const mobileMusic=w<600&&(scene.occlusions||[]).find(r=>r.kind==='music'&&r.x>w*.25&&r.x<w&&r.y<h);
+    scale*=1+this.focusMix*(mobileMusic ? .45 : 1.1);
+    const focusX=mobileMusic?Math.max(75,mobileMusic.x-50):w*.5,focusY=h*(mobileMusic ? .7 : .66);
+    originX+=(focusX-originX)*this.focusMix;originY+=(focusY-originY)*this.focusMix;
     this.camera = { scale, x: originX, y: originY };
+    this.sceneTime=scene.now??performance.now();this.fireLevel=fireStrength(scene.fire||emptyFire(),this.sceneTime);this.fireFlare=flareAt(scene.fire||emptyFire(),this.sceneTime);this.fireAppearance=scene.fire?.style||'amber';
+    this.seatAreas=playing?[]:CAMP_SEATS.map(s=>{const [x,y]=this.project(s.x,s.y);return{id:s.id,x:originX+x*scale,y:originY+(y-8)*scale,radius:18*scale};});
     c.save(); c.translate(originX, originY); c.scale(scale, scale);
     this.ellipse(0, 110, 370, 150, '#0c15144d');
     this.polygon([[-480, 0], [0, 240], [0, 264], [-480, 24]], '#2b3023');
     this.polygon([[0, 240], [480, 0], [480, 24], [0, 264]], '#232c22');
     for (let x = -6; x < 6; x++) for (let y = -6; y < 6; y++) {
       const [px, py] = this.project(x, y), n = seed(x * 21 + y + 370), center = Math.hypot(x + .5, y + .5) < 2.8;
-      const color = center ? ['#5d6243', '#626546', '#596044'][Math.floor(n * 3)] : ['#384b36', '#3c5038', '#405239', '#3b4e37'][Math.floor(n * 4)];
+      const color = center ? (playing ? ['#d6c494', '#dccc9e', '#ceb989'] : ['#5d6243', '#626546', '#596044'])[Math.floor(n * 3)] : (playing?['#7da968','#86ae70','#8bb575','#77a563']:['#384b36', '#3c5038', '#405239', '#3b4e37'])[Math.floor(n * 4)];
       this.polygon([[px, py], [px + 40, py + 20], [px, py + 40], [px - 40, py + 20]], color);
       if (!center && n > .4) {
         c.strokeStyle = '#73805a66'; c.lineWidth = 1;
@@ -288,20 +336,24 @@ export class CampRenderer {
       if (Math.hypot(x, y) < 3) continue;
       const [px, py] = this.project(x, y); this.ellipse(px, py, i % 3 ? 2 : 4, 2, i % 4 ? '#8c92624d' : '#ddc47788');
     }
-    this.hitAreas = [];
+    this.hitAreas = [];this.nameplates=[];
     this.sceneTime = scene.now ?? performance.now();
-    const objects = [...SCENERY.map(o => ({ ...o })), ...TRAMPOLINES, ...(scene.ball ? [{ ...scene.ball, type: 'football' }] : []), { ...RADIO, available: canUseRadio(players.find(p => p.id === scene.self)) }, { type: 'fire', x: 0, y: 0 }, ...players.map(p => ({ ...p, type: 'player', targeted: p.id === scene.targetId, selected: p.id === scene.selectedId })),
-      ...(scene.weapons?.projectiles || []).filter(p => p.expiresAt > this.sceneTime).map(p => {
+    const objects = [...map.scenery.map(o => ({ ...o })), ...map.trampolines, ...(playing && scene.ball ? [{ ...scene.ball, type: 'football' }] : []),
+      ...(map.radio ? [{ ...map.radio, available: canUseRadio(players.find(p => p.id === scene.self)) }] : []), ...(map.fire ? [{ type: 'fire', x: 0, y: 0 }] : []),
+      ...players.map(p => ({ ...p, type: 'player', targeted: p.id === scene.targetId, selected: p.id === scene.selectedId })),
+      ...(playing ? scene.weapons?.projectiles || [] : []).filter(p => p.expiresAt > this.sceneTime).map(p => {
         const age = this.reduced ? 0 : Math.max(0, Math.min(.1, (this.sceneTime - (scene.weapons.at ?? this.sceneTime)) / 1000));
         return { ...p, x: p.x + p.vx * age, y: p.y + p.vy * age, z: Math.max(0, p.z + p.vz * age - (p.weapon === 'gun' ? 0 : 4 * age * age)), type: 'projectile' };
-      }), ...(scene.weapons?.effects || []).map(e => ({ ...e, type: 'weaponEffect' }))]
+      }), ...(playing ? scene.weapons?.effects || [] : []).map(e => ({ ...e, type: 'weaponEffect' }))]
       .sort((a, b) => (a.x + a.y) - (b.x + b.y) || (a.z || 0) - (b.z || 0));
+    if(!playing){
     // A loose strand of warm bulbs connects the two sides of the camp.
     c.strokeStyle = '#b1aa7833'; c.lineWidth = 1;
     c.beginPath(); c.moveTo(-250, -154); c.quadraticCurveTo(0, -36, 242, -140); c.stroke();
     for (let i = 0; i < 11; i++) {
       const f = i / 10, x = -250 + f * 492, y = (1 - f) ** 2 * -154 + 2 * (1 - f) * f * -36 + f ** 2 * -140;
       this.glow(x, y + 3, 16, '#ffca6330'); this.ellipse(x, y + 3, 2.3, 3, '#e2bc75');
+    }
     }
     for (const item of objects) {
       const [px, py] = this.project(item.x, item.y); c.save(); c.translate(px, py);
@@ -311,16 +363,43 @@ export class CampRenderer {
       else this[item.type]?.(item, t);
       c.restore();
     }
-    if (!this.reduced) for (let i = 0; i < 18; i++) {
+    if (!playing && !this.reduced) for (let i = 0; i < 18; i++) {
       const x = Math.sin(t * .1 + i * 3.2) * 330, y = Math.cos(i * 7.1 + t * .15) * 130 - 30;
       c.globalAlpha = Math.max(0, Math.sin(t + i * 2)) * .45; this.glow(x, y, 5, '#e1db7d66'); this.ellipse(x, y, 1, 1, '#e6da8f');
     }
     c.globalAlpha = 1; c.restore();
     const vignette = c.createRadialGradient(w / 2, h * .55, w * .24, w / 2, h * .55, w * .8);
-    vignette.addColorStop(0, 'transparent'); vignette.addColorStop(1, '#0c191777'); c.fillStyle = vignette; c.fillRect(0, 0, w, h);
-    this.bubbles(players, scale, scene.music);
+    vignette.addColorStop(0, 'transparent'); vignette.addColorStop(1, playing?'#496b2915':'#0c191777'); c.fillStyle = vignette; c.fillRect(0, 0, w, h);
+    this.drawNameplates();
+    if(focused){this.bubbleAreas=[];this.fireChats(fireConversation(scene.chat||[],this.sceneTime,scene.hiddenIds||[]),scale,scene.occlusions||[]);}
+    else this.bubbles(players, scale, map.radio ? scene.music : null);
     this.presenceLabels(players, scene);
     this.frame = this.raf(next => this.draw(next));
+  }
+  fireChats(entries,scale,occlusions=[]) {
+    const c=this.ctx,mobile=this.width<600,occupied=[...occlusions],recent=mobile?entries.slice(-1):entries;
+    const overlaps=(a,b)=>a.x<b.x+b.width+2&&a.x+a.width+2>b.x&&a.y<b.y+b.height+2&&a.y+a.height+2>b.y;
+    c.font='12px "Malgun Gothic",sans-serif';c.textAlign='left';
+    for(const e of [...recent].reverse()){
+      let chosen;
+      for(const width of (mobile?[220,196,160,130]:[300]).filter(w=>w<=this.width-28)){
+        const lines=[];let line='';const limit=mobile?1:2;
+        for(const ch of e.name+' · '+e.text){
+          if(c.measureText(line+ch).width>width-26){lines.push(line);line='';if(lines.length===limit){lines[limit-1]=lines[limit-1].slice(0,-1)+'…';break;}}
+          line+=ch;
+        }
+        if(line&&lines.length<limit)lines.push(line);
+        const height=lines.length*17+22,px=Math.max(14,Math.min(this.width-width-14,this.camera.x-width/2)),py=Math.max(90,this.camera.y-105*scale-height);
+        const xs=[px,14,this.width-width-14,...occupied.flatMap(r=>[r.x-width-6,r.x+r.width+6])];
+        const ys=[py,...Array.from({length:Math.max(1,Math.floor((this.height-180)/8))},(_,i)=>90+i*8)];
+        const choices=xs.flatMap(x=>ys.map(y=>({x,y,width,height}))).filter(r=>r.x>=14&&r.x+r.width<=this.width-14&&r.y>=90&&r.y+r.height<=Math.min(this.height-90,this.camera.y-65*scale)&&occupied.every(o=>!overlaps(r,o)));
+        choices.sort((a,b)=>Math.hypot(a.x-px,a.y-py)-Math.hypot(b.x-px,b.y-py));
+        if(choices.length){chosen={...choices[0],lines};break;}
+      }
+      if(!chosen)continue;
+      const {x,y,width,height,lines}=chosen;c.fillStyle='#172b24ed';c.beginPath();c.roundRect(x,y,width,height,9);c.fill();c.fillStyle='#f0dfbd';
+      lines.forEach((line,i)=>c.fillText(line,x+12,y+23+i*17));this.bubbleAreas.push({x,y,width,height});occupied.push(chosen);
+    }
   }
   presenceLabels(players, scene) {
     const c = this.ctx;
@@ -336,8 +415,8 @@ export class CampRenderer {
       const badge = presenceBadges[p.presence], area = this.hitAreas.find(a => a.id === p.id);
       if (!badge || !area || ['falling','respawning'].includes(p.motion)) continue;
       const [text,color] = badge, width = c.measureText(text).width+12, height = 18;
-      const y = area.label.y+(area.label.height-height)/2;
-      const box = [area.label.x+area.label.width+4,area.label.x-width-4].map(x => ({x,y,width,height})).find(b =>
+      const y=area.head.y-area.head.radius-height-5;
+      const box=[0,-width*.55,width*.55].map(offset=>({x:area.head.x-width/2+offset,y,width,height})).find(b=>
         b.x>=8 && b.x+b.width<=this.width-8 && b.y>=40 && b.y+b.height<=this.height-56 && occupied.every(other => !overlaps(b,other)));
       // Extra status yields to bodies, names and speech. Full notes remain in player details.
       if (!box) continue;

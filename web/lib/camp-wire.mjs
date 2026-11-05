@@ -2,6 +2,7 @@
 import { PLAYER_FIELDS, decodeSnapshot } from './camp-snapshot.mjs';
 import { MAX_PLAYERS, WIRE_BASE_TTL, WIRE_BASE_LIMIT, WIRE_CACHE_BYTES } from './camp-config.mjs';
 import { PROTOCOL_VERSION } from './camp-protocol.mjs';
+import { emptyFire } from './camp-fire.mjs';
 import { emptyBall } from './camp-ball.mjs';
 /** @typedef {import('./camp-types').WorldSnapshot} WorldSnapshot */
 /** @typedef {import('./camp-types').WireState} WireState */
@@ -11,7 +12,7 @@ const sequence = (/** @type {unknown} */ x) => Number.isSafeInteger(x) && Number
 /** @param {WorldSnapshot} world @returns {WireState} */
 export function fullWire(world) {
   return { t:'state', v:world.v, epoch:world.epoch, seq:world.seq, now:world.now,
-    f:world.players.map(p=>PLAYER_FIELDS.map(key=>p[key])), w:world.weapons, u:world.ball || emptyBall(),
+    f:world.players.map(p=>PLAYER_FIELDS.map(key=>p[key])), h:world.fire || emptyFire(), w:world.weapons, u:world.ball || emptyBall(),
     ...(world.checkpoint ? { c:world.checkpoint } : {}) };
 }
 /** No volatile frame depends on a previous volatile frame. @param {WorldSnapshot} world @param {WorldSnapshot|null} base @returns {WireState} */
@@ -29,6 +30,7 @@ export function deltaWire(world, base) {
     previous.delete(p.id);
   }
   const delta = { t:/** @type {const} */('state'),v:world.v,epoch:world.epoch,seq:world.seq,now:world.now,b:base.seq,d:changes,r:[...previous.keys()],
+    ...(!same(world.fire,base.fire)?{h:world.fire||emptyFire()}:{}),
     ...(!same(world.weapons,base.weapons) ? { w:world.weapons } : {}),
     ...(!same(world.ball,base.ball) ? { u:world.ball || emptyBall() } : {}) };
   return JSON.stringify(delta).length < JSON.stringify(full).length ? delta : full;
@@ -54,9 +56,9 @@ export class WireReceiver {
     const m=/** @type {WireState} */(value), fail={world:null,missing:false};
     if (!m || m.t!=='state' || m.v!==PROTOCOL_VERSION || m.epoch!==epoch || !sequence(m.seq) || !Number.isFinite(m.now) || m.now<0 || (m.c!==undefined&&(!m.c||typeof m.c!=='object'||Array.isArray(m.c)))) return fail;
     /** @type {unknown[]} */ let players;
-    let weapons=m.w, ball=m.u;
+    let weapons=m.w, ball=m.u, fire=m.h;
     if (Array.isArray(m.f)) {
-      if (!m.w || !m.u || m.f.length>MAX_PLAYERS || m.b!==undefined || m.d!==undefined || m.r!==undefined) return fail;
+      if (!m.h || !m.w || !m.u || m.f.length>MAX_PLAYERS || m.b!==undefined || m.d!==undefined || m.r!==undefined) return fail;
       players=[];
       for(const row of m.f) {
         if(!Array.isArray(row)||row.length!==PLAYER_FIELDS.length)return fail;
@@ -80,10 +82,10 @@ export class WireReceiver {
         for(let i=0;i<fields.length;i+=2) Object.assign(p,{[PLAYER_FIELDS[Number(fields[i])]]:fields[i+1]});
         map.set(key,p);
       }
-      players=[...map.values()];weapons=weapons??base.world.weapons;ball=ball===undefined?base.world.ball:ball;
+      fire=fire===undefined?base.world.fire:fire;players=[...map.values()];weapons=weapons??base.world.weapons;ball=ball===undefined?base.world.ball:ball;
     }
     if (!ball) return fail;
-    const world=decodeSnapshot({t:'state',v:m.v,epoch,seq:m.seq,now:m.now,players,weapons,ball,...(m.c?{checkpoint:m.c}:{})},epoch);
+    const world=decodeSnapshot({t:'state',v:m.v,epoch,seq:m.seq,now:m.now,players,weapons,ball,fire,...(m.c?{checkpoint:m.c}:{})},epoch);
     if(!world)return fail;
     if(world.checkpoint&&!this.bases.has(world.seq)) {
       const bytes=new TextEncoder().encode(JSON.stringify(world)).byteLength;

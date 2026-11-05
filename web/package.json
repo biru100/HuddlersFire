@@ -6,7 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "test": "node --test tests/camp.test.mjs tests/features.test.mjs tests/playback.test.mjs tests/character.test.mjs tests/weapons.test.mjs tests/carry-handoff.test.mjs tests/architecture.test.mjs tests/input.test.mjs tests/wire.test.mjs tests/community.test.mjs tests/view.test.mjs tests/playground.test.mjs",
+    "test": "node --test tests/camp.test.mjs tests/features.test.mjs tests/playback.test.mjs tests/character.test.mjs tests/weapons.test.mjs tests/carry-handoff.test.mjs tests/architecture.test.mjs tests/input.test.mjs tests/wire.test.mjs tests/community.test.mjs tests/view.test.mjs tests/playground.test.mjs tests/maps.test.mjs tests/immersion.test.mjs",
     "test:network": "node tests/network.integration.mjs",
     "test:render": "node tests/render-scene.mjs",
     "test:metrics": "node tests/measure-camp.mjs",
@@ -18,7 +18,8 @@
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
-    "test:browser:community": "node tests/browser.community.mjs"
+    "test:browser:community": "node tests/browser.community.mjs",
+    "test:qa-server": "node tests/local-immersion-server.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

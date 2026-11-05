@@ -1,4 +1,5 @@
 // @ts-check
+import { emptyFire, readFire } from './camp-fire.mjs';
 import { validPlayerState } from './camp-world.mjs';
 import { readWeapons, emptyWeapons } from './camp-weapons.mjs';
 import { MAX_PLAYERS } from './camp-config.mjs';
@@ -8,7 +9,7 @@ import { emptyBall, readBall } from './camp-ball.mjs';
 /** @typedef {import('./camp-types').WorldSnapshot} WorldSnapshot */
 /** @typedef {import('./camp-types').RecoveryState} RecoveryState */
 /** @type {(keyof PlayerState)[]} */
-export const PLAYER_FIELDS = ['id','x','y','z','vx','vy','vz','motion','facing','aimX','aimY','sitting','crouching','moving','running','thrown','carrying','carriedBy','allowCarry','connected','emote','emoteUntil','bubble','bubbleUntil','jumpAt','landedAt','respawns','respawnAt','weapon','nextShotAt','shotAt','shotAimX','shotAimY','hitAt','presence','statusText','workText','allowCall','lastCallAt','lastCalledAt'];
+export const PLAYER_FIELDS = ['id','seatId','lastStokeAt','mapId','mapRevision','x','y','z','vx','vy','vz','motion','facing','aimX','aimY','sitting','crouching','moving','running','thrown','carrying','carriedBy','allowCarry','connected','emote','emoteUntil','bubble','bubbleUntil','jumpAt','landedAt','respawns','respawnAt','weapon','nextShotAt','shotAt','shotAimX','shotAimY','hitAt','presence','statusText','workText','allowCall','lastCallAt','lastCalledAt'];
 const id = (/** @type {unknown} */ x) => typeof x === 'string' && x.length > 0 && x.length <= 64;
 const time = (/** @type {unknown} */ x) => typeof x === 'number' && Number.isFinite(x) && x >= 0;
 /** Wire precision never changes authoritative physics. @param {PlayerState} p @returns {PlayerState} */
@@ -23,7 +24,7 @@ function validLinks(players) {
   const map = new Map(players.map(p => [p.id, p]));
   if (map.size !== players.length) return false;
   for (const p of players) {
-    if (p.carrying && map.get(p.carrying)?.carriedBy !== p.id) return false;
+    if (p.carrying && (map.get(p.carrying)?.carriedBy !== p.id || map.get(p.carrying)?.mapId !== p.mapId)) return false;
     if (p.carriedBy && map.get(p.carriedBy)?.carrying !== p.id) return false;
     const seen = new Set(); let next = /** @type {PlayerState | undefined} */ (p);
     while (next) { if (seen.has(next.id)) return false; seen.add(next.id); next = map.get(next.carrying || ''); }
@@ -36,7 +37,10 @@ export function decodeSnapshot(value, epoch) {
   if (!m || m.t !== 'state' || m.epoch !== epoch || !Number.isSafeInteger(m.seq) || m.seq < 0 || !time(m.now) || !Array.isArray(m.players) || m.players.length > MAX_PLAYERS) return null;
   const weapons = readWeapons(m.weapons); if (!weapons) return null;
   const ball = readBall(m.ball === undefined ? emptyBall() : m.ball); if (!ball) return null;
+  const fire=readFire(m.fire===undefined?emptyFire():m.fire);if(!fire||fire.updatedAt>m.now+.001)return null;
+  const seats=new Set();
   for (const p of m.players) {
+    if(p.seatId){if(seats.has(p.seatId))return null;seats.add(p.seatId);}
     if (!validPresence(p) || ![p.lastCallAt,p.lastCalledAt].every(t=>Number.isFinite(t)&&t>=-1)) return null;
     if (!id(p?.id) || !validPlayerState(p, .001) || !['sitting','crouching','running','thrown','allowCarry'].every(k => typeof p[/** @type {keyof PlayerState} */ (k)] === 'boolean') ||
       (p.carrying !== null && !id(p.carrying)) || (p.carriedBy !== null && !id(p.carriedBy)) ||
@@ -45,7 +49,7 @@ export function decodeSnapshot(value, epoch) {
   }
   if (!validLinks(m.players)) return null;
   if (m.checkpoint && ((!id(m.checkpoint.chatId) && m.checkpoint.chatId !== null) || !Number.isSafeInteger(m.checkpoint.musicRevision) || m.checkpoint.musicRevision < 0)) return null;
-  return { t: 'state', v: m.v, epoch, seq: m.seq, now: m.now, weapons, ball, players: m.players.map(encodePlayer), ...(m.checkpoint ? { checkpoint: { ...m.checkpoint } } : {}) };
+  return { t: 'state', v: m.v, epoch, seq: m.seq, now: m.now, weapons, ball, fire, players: m.players.map(encodePlayer), ...(m.checkpoint ? { checkpoint: { ...m.checkpoint } } : {}) };
 }
 /** @param {WorldSnapshot} world @param {import('./camp-types').ChatEntry[]} chat @param {import('./camp-types').MusicState} music @returns {RecoveryState | null} */
 export function captureRecovery(world, chat, music) {
@@ -58,5 +62,5 @@ export function captureRecovery(world, chat, music) {
 export function restoreRecovery(recovery, members) {
   const byId = new Map(members.map(m => [m.id, m]));
   return { players: new Map(recovery.world.players.filter(p => byId.has(p.id)).map(p => { const member = byId.get(p.id); return [p.id, { ...p, name: member?.name, color: member?.color, avatar: member?.avatar, connected: true }]; })),
-    weapons: readWeapons(recovery.world.weapons) || emptyWeapons(), ball: readBall(recovery.world.ball) || emptyBall(), chat: structuredClone(recovery.chat), music: structuredClone(recovery.music), now: recovery.world.now };
+    fire:readFire(recovery.world.fire)||emptyFire(), weapons: readWeapons(recovery.world.weapons) || emptyWeapons(), ball: readBall(recovery.world.ball) || emptyBall(), chat: structuredClone(recovery.chat), music: structuredClone(recovery.music), now: recovery.world.now };
 }

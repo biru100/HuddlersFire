@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -28,15 +29,17 @@ export function fixture(extra = {}) {
   const env = { DB, ...extra };
   const client = () => {
     let cookie = '';
-    return async (path, data, overrides = {}) => {
+    const request=async (path, data, overrides = {}) => {
       const request = new Request('https://camp.test/api/camp/' + path, { method: data === undefined ? 'GET' : 'POST', headers: { Origin: 'https://camp.test', Cookie: cookie, 'Content-Type': 'application/json', ...overrides.headers }, ...(data === undefined ? {} : { body: JSON.stringify(data) }) });
       const response = await handleCampRequest(request, env, { now, ...overrides.options });
       if (response.headers.get('set-cookie')) cookie = response.headers.get('set-cookie').split(';')[0];
       const value = response.headers.get('content-type')?.includes('json') ? await response.json() : null;
       return { response, value, status: response.status };
     };
+    request.linkDiscord=()=>{const id=createHash('sha256').update(cookie.split('=')[1]).digest('hex');sqlite.prepare('UPDATE camp_sessions SET discord_id = ? WHERE id = ?').run('123456789',id);};
+    return request;
   };
-  const enrolled = async name => { const c = client(); assert.equal((await c('session', { name })).status, 200); return c; };
+  const enrolled = async (name,linked=true) => { const c = client(); assert.equal((await c('session', { name })).status, 200);if(linked)c.linkDiscord(); return c; };
   return { queries: () => prepares, resetQueries: () => { prepares = 0; }, DB, sqlite, client, enrolled, advance: ms => { now += ms; } };
 }
 export const roomQuery = info => 'room?' + new URLSearchParams({ code: info.code, player: info.player });

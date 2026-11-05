@@ -7,7 +7,7 @@ import { emptyWeapons, readWeapons } from '../lib/camp-weapons.mjs';
 import { emptyMusic, musicPosition } from '../lib/camp-media.mjs';
 import { captureRecovery } from '../lib/camp-snapshot.mjs';
 
-const world = (count = 4) => new Map(Array.from({ length: count }, (_, i) => [String(i), { ...spawnPlayer(i), id: String(i), name: String(i), x: 0, y: 2, connected: true }]));
+const world = (count = 4) => new Map(Array.from({ length: count }, (_, i) => [String(i), { ...spawnPlayer(i, 'playground'), id: String(i), name: String(i), x: 0, y: 2, connected: true }]));
 const act = (players, id, kind, data = {}) => applyPlayerAction(players, id, { kind, ...data }, 100);
 const step = (players, seconds) => { for (let i = 1; i <= seconds * 60; i++) simulateWorld(players, new Map(), 1 / 60, i * 1000 / 60); };
 function stack(count = 4) {
@@ -37,7 +37,7 @@ test('middle escape keeps its upper chain; middle F throws only its own upper ch
 });
 
 test('midair catching accepts flight and trampoline motion, clears target velocity and preserves its chain', () => {
-  const players = stack(2), catcher = { ...spawnPlayer(), id: 'catcher', connected: true, x: .5, y: 2, z: 1, motion: 'airborne' };
+  const players = stack(2), catcher = { ...spawnPlayer(0, 'playground'), id: 'catcher', connected: true, x: .5, y: 2, z: 1, motion: 'airborne' };
   Object.assign(players.get('0'), { motion: 'airborne', z: 1.2, thrown: true, vx: 3.6, vy: 0, vz: 2.8 }); syncCarry(players);
   players.set(catcher.id, catcher); assert.equal(carryTarget(players, catcher.id).id, '0');
   assert.equal(act(players, catcher.id, 'lift', { target: '0' }), null);

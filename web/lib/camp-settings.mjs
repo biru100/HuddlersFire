@@ -1,9 +1,10 @@
-export const DEFAULT_SETTINGS = { forestVolume: 0, musicVolume: 40, listening: false, allowCarry: true };
+export const DEFAULT_SETTINGS = { effectsVolume: 0, musicVolume: 40, musicMuted: false, allowCarry: true };
 const volume = (value, fallback, max) => typeof value === 'number' && Number.isFinite(value) ? Math.min(max, Math.max(0, value)) : fallback;
 export function normalizeSettings(value) {
   const v = value && typeof value === 'object' ? value : {};
-  return { forestVolume: volume(v.forestVolume, 0, 1), musicVolume: volume(v.musicVolume, 40, 100),
-    listening: typeof v.listening === 'boolean' ? v.listening : false,
+  return { effectsVolume: volume(v.effectsVolume, volume(v.forestVolume, 0, 1), 1), musicVolume: volume(v.musicVolume, 40, 100),
+    // Legacy listening=false was the default, not an explicit mute preference.
+    musicMuted: typeof v.musicMuted === 'boolean' ? v.musicMuted : false,
     allowCarry: typeof v.allowCarry === 'boolean' ? v.allowCarry : true };
 }
 export function readSettings(storage) {

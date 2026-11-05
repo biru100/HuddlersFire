@@ -1,3 +1,4 @@
+import { emptyFire } from '../lib/camp-fire.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { fullWire, deltaWire, WireReceiver } from '../lib/camp-wire.mjs';
@@ -12,7 +13,7 @@ import { CommandLedger, PROTOCOL_VERSION } from '../lib/camp-protocol.mjs';
 import { WIRE_BASE_TTL, WIRE_BASE_LIMIT } from '../lib/camp-config.mjs';
 const json=value=>JSON.parse(JSON.stringify(value));
 function world(seq=1,checkpoint=true,count=16) {
-  return json({t:'state',v:PROTOCOL_VERSION,epoch:1,seq,now:1000+seq,players:Array.from({length:count},(_,i)=>encodePlayer({id:String(i),...spawnPlayer(i),connected:true})),weapons:emptyWeapons(),ball:emptyBall(),...(checkpoint?{checkpoint:{chatId:null,musicRevision:0}}:{})});
+  return json({t:'state',v:PROTOCOL_VERSION,epoch:1,seq,now:1000+seq,players:Array.from({length:count},(_,i)=>encodePlayer({id:String(i),...spawnPlayer(i,'playground'),connected:true})),fire:emptyFire(),weapons:emptyWeapons(),ball:emptyBall(),...(checkpoint?{checkpoint:{chatId:null,musicRevision:0}}:{})});
 }
 function guest() {
   return Object.assign(Object.create(CampNetwork.prototype),{epoch:1,player:'0',host:'host',isHost:false,players:new Map(),members:Array.from({length:16},(_,i)=>({id:String(i),name:'P'+i,color:'#fff'})),peers:new Map(),lastSequence:-1,lastRecovery:null,music:emptyMusic(),chat:[],callbacks:{}});

@@ -25,6 +25,11 @@ export function applyMusicAction(music, action, member, isHost, now) {
     if ([music.current, ...music.queue].some(t => t?.videoId === videoId)) return '이미 신청된 영상이에요.';
     const title = typeof action.title === 'string' ? action.title.replace(/[\p{C}]/gu, '').trim().slice(0, 160) : '';
     music.queue.push({ id: action.id, videoId, title: title || videoId, by: member.id, name: member.name });
+    // An idle radio starts from any participant's request. A paused current track stays paused.
+    if (!music.current) {
+      music.current = music.queue.shift(); music.position = 0; music.anchor = now;
+      music.playing = true; music.transport++;
+    }
   } else {
     if (!isHost) return '전체 재생은 방장만 조작할 수 있어요.';
     if (action.op === 'remove') {

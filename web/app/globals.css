@@ -95,7 +95,8 @@
 .music-dock{position:fixed;right:16px;bottom:16px;width:242px;padding:8px;background:#1c2b21;border:1px solid #bbbd8b44;border-radius:12px;z-index:60;box-shadow:0 12px 40px #0005}
 .music-dock-heading{display:flex;align-items:center;gap:8px;min-height:28px;font-size:10px;color:#d7d8be}
 .music-dock-heading span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.music-dock-heading button{border:0;background:transparent;color:#c6cdb5;font-size:22px;min-width:28px;min-height:28px}
+.music-dock-heading button{display:grid;place-items:center;border:0;background:transparent;color:#c6cdb5;min-width:36px;min-height:36px}
+.music-dock-heading button[aria-pressed=true]{color:#e3bf8e;background:#304532;border-radius:6px}
 .music-dock .youtube-viewport{height:200px;margin:4px 0 0;border-radius:6px}
 .music-dock iframe{height:200px}
 .player-retry,.player-message button{min-height:36px;border:1px solid #b9c69230;border-radius:6px;background:#304532;color:#e3bf8e;font-size:11px;padding:6px 10px;margin-top:8px}
@@ -164,7 +165,6 @@ body:has(.has-player) .radio-popup{left:calc((100% - 274px)/2);max-width:calc(10
 @media(max-width:760px){
   .header-actions{gap:10px}.settings-button{padding:8px}.settings-button span{display:none}
   .music-dock{right:10px;bottom:10px;width:222px}
-  .has-player{padding-bottom:260px}
   body:has(.has-player) .radio-popup{left:50%;top:16px;transform:translateX(-50%);max-width:calc(100vw - 32px);max-height:calc(100dvh - 286px)}
 }
 @media(max-width:760px){
@@ -255,3 +255,48 @@ select:focus-visible,summary:focus-visible{outline:2px solid #e6be7b;outline-off
   .in-camp .call-notice { bottom:72px; }
   .in-camp .toast { bottom:80px; }
 }
+
+.map-travel { position:absolute; right:24px; top:96px; display:flex; flex-direction:column; align-items:flex-end; gap:8px; font-size:11px; color:#c3ceb8; }
+.map-travel button { min-height:40px; padding:9px 14px; border:1px solid #c5bc8b55; border-radius:10px; background:#21372eee; color:#e7dcc2; }
+.map-travel button:hover:not(:disabled) { background:#345342; }
+.person-row .person-location { color:#d1bb8e; }
+@media(max-width:760px) {
+  .map-travel { top:76px; right:12px; gap:5px; }
+  .map-travel button { padding:8px 10px; font-size:11px; }
+}
+/* Automatic radio stays clear of the conversation and compact navigation. */
+@media(min-width:761px) {
+  .in-camp:not(.field-only) .music-dock:not([inert]) { right:376px; }
+  .in-camp.field-only .music-dock { bottom:76px; }
+  .in-camp.field-only.compact-panel-open .music-dock:not([inert]) { right:386px; }
+}
+@media(max-width:760px) {
+  .in-camp .music-dock { bottom:240px;width:214px;padding:6px; }
+  .in-camp .music-dock-heading { gap:4px; }
+  .in-camp .music-dock .music-window-note,.in-camp .music-dock .pip-unavailable { display:none; }
+  .in-camp .touch-actions { flex-direction:row; }
+  .in-camp .radio-interact,.in-camp .radio-interact:active { left:16px; bottom:150px; transform:none; }
+  .in-camp .toast { pointer-events:none; }
+  .in-camp.compact-panel-open .music-dock { z-index:19; }
+}
+
+/* Campfire seating and the radio panel stay available in field view and PIP. */
+.camp-panel-tabs,.camp-panel-dock{grid-template-columns:repeat(5,minmax(0,1fr));}
+.fire-seat-tools{position:absolute;left:20px;top:188px;width:142px;display:flex;flex-direction:column;gap:8px;padding:10px;border:1px solid #d3b78244;border-radius:10px;background:#172a22ed;color:#e5d6b2;font-size:11px;}
+.fire-seat-tools button{padding:8px 5px;min-height:38px;border:1px solid #b6ae7555;background:#304939;border-radius:7px;}
+.fire-seat-tools small{font-size:10px;color:#b2c1a6;line-height:1.6;}
+.fire-progress{display:flex;flex-direction:column;gap:5px;min-width:0;font-size:11px;}
+.fire-progress strong{color:#efd39f;font-size:12px;}.fire-xp-label{font-size:10px;color:#c5cdb4;}
+.fire-progress progress{appearance:none;width:100%;height:5px;border:0;border-radius:4px;overflow:hidden;background:#0d2018;accent-color:#ddb36e;}
+.fire-progress progress::-webkit-progress-bar{background:#0d2018;}.fire-progress progress::-webkit-progress-value{background:#ddb36e;}.fire-progress progress::-moz-progress-bar{background:#ddb36e;}
+.fire-progress label{margin-top:3px;color:#c5cdb4;font-size:10px;}.fire-progress select{width:100%;min-height:34px;padding:5px;border:1px solid #b6ae7555;border-radius:6px;background:#253d30;color:#f0e4c7;font:inherit;}
+.fire-progress option:disabled{color:#8b958b;}.fire-seat-tools button:disabled{opacity:.6;cursor:default;}
+.radio-sound-settings{display:flex;flex-direction:column;gap:10px;padding:12px;border:1px solid #b7c09233;border-radius:9px;margin:14px 0;}
+.radio-sound-settings .setting-range{display:flex;flex-wrap:wrap;gap:6px;font-size:11px;}
+.radio-sound-settings input{min-width:100px;max-width:100%;flex:1;accent-color:#d9b276;}
+.radio-sound-settings small{font-size:10px;line-height:1.6;color:#9faf98;}.radio-sound-settings a{text-decoration:underline;}
+.discord-entry{padding:12px;border:1px solid #9ca9d255;border-radius:10px;background:#8d9cc00a;margin:12px 0;}.discord-entry p{font-size:11px;line-height:1.7;color:#c2c8d7;}
+@media(max-width:760px){.fire-seat-tools{top:218px;left:12px;width:132px;padding:8px;}.camp-panel-tabs button{font-size:11px;padding:9px 4px;}}
+.camp-pip .fire-seat-tools{top:70px;left:16px;}
+
+@media(max-width:760px){.fire-seat-tools{top:204px;gap:6px;padding:6px;}.fire-seat-tools small{display:none;}.fire-seat-tools button{min-height:34px;padding:5px 3px;font-size:10px;}.camp-pip .fire-seat-tools{top:70px;}}

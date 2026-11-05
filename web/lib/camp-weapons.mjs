@@ -1,3 +1,4 @@
+import { canPlay } from './camp-maps.mjs';
 // Gameplay-only toy weapons. Positions, trajectories and hits are owned by the room host.
 /** @typedef {import('./camp-types').Projectile} Projectile */
 /** @typedef {import('./camp-types').WeaponEffect} WeaponEffect */
@@ -17,6 +18,7 @@ export const emptyWeapons = () => ({ projectiles: [], effects: [], sequence: 0, 
 export function applyWeaponAction(state, players, id, action, now) {
   const p = players.get(id);
   if (!p || p.connected === false) return '연결을 확인해 주세요.';
+  if (!canPlay(p) && !(action.kind === 'equip' && action.weapon === 'none')) return '장난감은 놀이터에서 사용할 수 있어요.';
   if (!['grounded', 'airborne'].includes(p.motion) || p.carriedBy || p.thrown) return '발을 디딘 뒤 사용해 주세요.';
   if (action.kind === 'equip') {
     if (!isWeapon(action.weapon)) return '장난감을 확인해 주세요.';
@@ -55,7 +57,7 @@ function effect(state, shot, kind, now, radius = 0) {
     at: now, expiresAt: now + (kind === 'explosion' ? 650 : 420), radius });
   if (state.effects.length > MAX_EFFECTS) state.effects.splice(0, state.effects.length - MAX_EFFECTS);
 }
-const hittable = p => p.connected !== false && ['grounded', 'airborne', 'carried'].includes(p.motion);
+const hittable = p => canPlay(p) && p.connected !== false && ['grounded', 'airborne', 'carried'].includes(p.motion);
 
 export function stepWeapons(state, players, dt, now, obstacles, onHit) {
   state.at = now;
@@ -63,7 +65,7 @@ export function stepWeapons(state, players, dt, now, obstacles, onHit) {
   const keep = [];
   for (const shot of state.projectiles) {
     const weapon = WEAPONS.find(w => w.id === shot.weapon);
-    if (!weapon || !players.has(shot.owner) || players.get(shot.owner).connected === false) continue;
+    if (!weapon || !canPlay(players.get(shot.owner)) || players.get(shot.owner).connected === false) continue;
     if (now >= shot.expiresAt) {
       if (weapon.id === 'bomb') {
         effect(state, shot, 'explosion', now, weapon.blast);

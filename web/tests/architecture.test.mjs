@@ -21,7 +21,7 @@ test('authority requires fresh validated RTC receipts after grace, while one iso
 });
 
 test('world contract roundtrip preserves all fields within wire tolerance without changing physics', () => {
-  const p = { ...spawnPlayer(), id: 'p', connected: true, x: .12345678, y: 2.23456789 }, original = structuredClone(p);
+  const p = { ...spawnPlayer(), id: 'p', connected: true, x: .12345678, y: 1.23456789 }, original = structuredClone(p);
   const encoded = encodePlayer(p); assert.deepEqual(p, original); assert.ok(Math.abs(encoded.x - p.x) <= .00005);
   const world = { t: 'state', v: 8, epoch: 1, seq: 1, now: 1000, players: [encoded], weapons: emptyWeapons(), checkpoint: { chatId: null, musicRevision: 0 } };
   const decoded = decodeSnapshot(world, 1); assert.ok(decoded); assert.ok(PLAYER_FIELDS.every(k => k in decoded.players[0]));

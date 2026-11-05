@@ -3,14 +3,14 @@ export const PRESENCE_LABELS = { available: '대화 가능', working: '작업 �
 export const presenceDefaults = () => ({ presence: 'available', statusText: '', workText: '', allowCall: true });
 /** @returns {import('./camp-types').Presence} */
 export const presenceOf = p => ({ presence:p.presence ?? 'available', statusText:p.statusText ?? '', workText:p.workText ?? '', allowCall:p.allowCall ?? true });
-export const persistentSocialState = p => ({ ...presenceOf(p), lastCallAt:p.lastCallAt ?? -1, lastCalledAt:p.lastCalledAt ?? -1 });
+export const persistentSocialState = p => ({ ...presenceOf(p), lastStokeAt:p.lastStokeAt??-1, lastCallAt:p.lastCallAt ?? -1, lastCalledAt:p.lastCalledAt ?? -1 });
 export const cleanPresenceText = text => text.replace(/[\p{C}]/gu, '').trim();
 export function validPresence(p) {
   return !!p && Object.hasOwn(PRESENCE_LABELS, p.presence) && typeof p.statusText === 'string' && p.statusText.length <= 40 &&
     typeof p.workText === 'string' && p.workText.length <= 80 && typeof p.allowCall === 'boolean';
 }
 export function validChatEntry(e) {
-  return !!e && typeof e.id === 'string' && e.id.length > 0 && e.id.length <= 64 &&
+  return !!e && (e.mapId===undefined||['camp','playground'].includes(e.mapId)) && typeof e.id === 'string' && e.id.length > 0 && e.id.length <= 64 &&
     typeof e.by === 'string' && e.by.length > 0 && e.by.length <= 64 && typeof e.name === 'string' && e.name.length <= 16 &&
     typeof e.color === 'string' && typeof e.text === 'string' && e.text.length <= 200 && Number.isFinite(e.at) && e.at >= 0 &&
     Number.isSafeInteger(e.createdAt) && e.createdAt > 0 && e.createdAt <= 8640000000000000 &&

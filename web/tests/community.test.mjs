@@ -56,7 +56,7 @@ test('public pagination is bounded and full rooms reject a late join atomically'
   } finally {f.sqlite.close();}
 });
 
-const world=()=>new Map(['a','b','c'].map((id,i)=>[id,{...spawnPlayer(i),id,name:id,color:'#fff',x:i*.3,y:2,connected:true}]));
+const world=()=>new Map(['a','b','c'].map((id,i)=>[id,{...spawnPlayer(i,'playground'),id,name:id,color:'#fff',x:i*.3,y:2,connected:true}]));
 const presence=(extra={})=>({kind:'presence',...presenceDefaults(),...extra});
 test('sitting blocks both ends of lifting and sitting carriers safely release a whole chain',()=>{
   const w=world(),a=w.get('a'),b=w.get('b');

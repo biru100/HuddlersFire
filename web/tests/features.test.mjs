@@ -7,7 +7,7 @@ import { validAction, chatText, CommandLedger, MAX_FRAME_BYTES } from '../lib/ca
 import { CampNetwork } from '../lib/camp-network.mjs';
 
 function world() {
-  return new Map(['a', 'b', 'c'].map((id, i) => [id, { id, name: id, color: '#e5a76d', connected: true, ...spawnPlayer(i), x: i * .5, y: 2 }]));
+  return new Map(['a', 'b', 'c'].map((id, i) => [id, { id, name: id, color: '#e5a76d', connected: true, ...spawnPlayer(i, 'playground'), x: i * .5, y: 2 }]));
 }
 function advance(players, seconds, inputs = new Map(), start = 0) {
   for (let i = 1; i <= Math.round(seconds * 60); i++) simulateWorld(players, inputs, 1 / 60, start + i * 1000 / 60);
@@ -32,7 +32,7 @@ test('running is bounded, normalized, stops on release and yields to crouching',
   const crouch = world(); crouch.get('a').crouching = true;
   advance(crouch, .2, new Map([['a', { dx: 1, dy: 0, running: true }]]));
   assert.equal(crouch.get('a').running, false); assert.ok(Math.abs(crouch.get('a').x - SPEED * .4 * .2) < .00001);
-  const blocked = world();
+  const blocked = world(); blocked.get('a').mapId='camp';
   advance(blocked, 2, new Map([['a', { dx: 0, dy: -1, running: true }]]));
   assert.ok(validPosition(blocked.get('a').x, blocked.get('a').y)); assert.ok(blocked.get('a').y > .87);
 });
@@ -87,7 +87,7 @@ test('crossing the visible ground edge falls and respawns instead of being rejec
   advance(w, .1, new Map([['a', { dx: 0, dy: 1 }]]));
   assert.equal(p.motion, 'falling'); assert.ok(p.y > 6); assert.ok(validPlayerState(p));
   advance(w, 2.2, new Map(), 100);
-  assert.equal(p.motion, 'grounded'); assert.equal(p.respawns, 1); assert.ok(validPosition(p.x, p.y));
+  assert.equal(p.motion, 'grounded'); assert.equal(p.respawns, 1); assert.ok(validPosition(p.x, p.y,p.mapId));
 });
 test('trampoline launches once per landing and continues to bounce under gravity', () => {
   const w = world(), p = w.get('a'); Object.assign(p, { x: TRAMPOLINES[0].x, y: TRAMPOLINES[0].y });
@@ -128,7 +128,7 @@ test('disconnecting or missing carriers cannot leave a passenger suspended', () 
     applyPlayerAction(w, 'a', { kind: 'lift', target: 'b' }, 0); advance(w, .1);
     if (missing) w.delete('a'); else p.connected = false;
     advance(w, .1, new Map(), 100);
-    assert.equal(q.carriedBy, null); assert.equal(q.motion, 'grounded'); assert.ok(validPosition(q.x, q.y));
+    assert.equal(q.carriedBy, null); assert.equal(q.motion, 'grounded'); assert.ok(validPosition(q.x, q.y,q.mapId));
   }
 });
 test('state validation admits bounded falling positions and rejects nonfinite or impossible values', () => {
@@ -156,11 +156,9 @@ test('F throws in the last movement direction, ignores air steering and clears v
   }
 });
 
-test('throws stop at fire, scenery and radio; edge throws fall and respawn', () => {
+test('throws stop at playground scenery; edge throws fall and respawn', () => {
   for (const start of [
-    { x: 0, y: 1.2, aimX: 0, aimY: -1 },
-    { x: 1.8, y: 2.2, aimX: 1, aimY: 0 },
-    { x: RADIO.x + 1, y: RADIO.y, aimX: -1, aimY: 0 },
+    { x: 4, y: -1.8, aimX: 0, aimY: -1 },
   ]) {
     const w = world(), p = w.get('a'), q = w.get('b'); w.delete('c');
     Object.assign(p, start); Object.assign(q, { x: start.x, y: start.y });
@@ -168,7 +166,7 @@ test('throws stop at fire, scenery and radio; edge throws fall and respawn', () 
     applyPlayerAction(w, 'a', { kind: 'lift', target: null }, 1);
     for (let i = 0; i < 90; i++) {
       simulateWorld(w, new Map(), 1 / 60, i * 1000 / 60);
-      assert.ok(validPosition(q.x, q.y)); assert.ok(validPlayerState(q));
+      assert.ok(validPosition(q.x, q.y, q.mapId)); assert.ok(validPlayerState(q));
     }
     assert.equal(q.motion, 'grounded');
     assert.ok(Math.hypot(q.x - start.x, q.y - start.y) < 1);
@@ -186,7 +184,7 @@ test('a thrown passenger bounces on a trampoline without retaining throw momentu
   const w = world(), p = w.get('a'), q = w.get('b'); w.delete('c');
   Object.assign(p, { x: 3.9, y: TRAMPOLINES[0].y - .5, aimX: -1, aimY: 0 });
   Object.assign(q, { x: p.x, y: p.y });
-  assert.ok(validPosition(p.x, p.y));
+  assert.ok(validPosition(p.x, p.y,p.mapId));
   applyPlayerAction(w, 'a', { kind: 'lift', target: 'b' }, 0);
   applyPlayerAction(w, 'a', { kind: 'lift', target: null }, 1);
   advance(w, 1.15);
@@ -204,7 +202,7 @@ test('opting out and escaping release vertically instead of throwing', () => {
 
 test('radio interaction requires proximity and being on the ground', () => {
   const p = { ...spawnPlayer(), x: RADIO.x + 1, y: RADIO.y };
-  assert.ok(canUseRadio(p)); assert.ok(validPosition(p.x, p.y));
+  assert.ok(canUseRadio(p)); assert.ok(validPosition(p.x, p.y,p.mapId));
   assert.equal(validPosition(RADIO.x, RADIO.y), false);
   for (const other of [null, { ...p, x: RADIO.x + 1.36 }, { ...p, motion: 'airborne' }, { ...p, carriedBy: 'a' }]) assert.equal(canUseRadio(other), false);
 });
@@ -227,17 +225,18 @@ test('only supported HTTPS YouTube URLs become video IDs', () => {
 });
 test('music permission, queue limits and duplicate requests are enforced', () => {
   const m = emptyMusic(), a = { id: 'a', name: 'A' };
-  for (let i = 0; i < 3; i++) assert.equal(applyMusicAction(m, act('music-add', { url: 'https://youtu.be/abcdefghij' + i }), a, false, 0), null);
+  for (let i = 0; i < 4; i++) assert.equal(applyMusicAction(m, act('music-add', { url: 'https://youtu.be/abcdefghij' + i }), a, false, 0), null);
   assert.ok(applyMusicAction(m, act('music-add', { url: 'https://youtu.be/abcdefghij4' }), a, false, 0));
   assert.ok(applyMusicAction(m, act('music-control', { op: 'play' }), a, false, 0));
   assert.ok(applyMusicAction(m, act('music-add', { url: 'https://youtu.be/abcdefghij0' }), { id: 'b', name: 'B' }, false, 0));
-  for (let i = 3; i < 30; i++) assert.equal(applyMusicAction(m, act('music-add', { url: 'https://youtu.be/' + String(i).padStart(11, '0') }), { id: 'user' + i, name: 'U' }, false, 0), null);
+  for (let i = 4; i < 31; i++) assert.equal(applyMusicAction(m, act('music-add', { url: 'https://youtu.be/' + String(i).padStart(11, '0') }), { id: 'user' + i, name: 'U' }, false, 0), null);
+  assert.equal(m.queue.length,30);assert.equal(m.queue.filter(t=>t.by===a.id).length,3);
   assert.ok(applyMusicAction(m, act('music-add', { url: 'https://youtu.be/zzzzzzzzzzz' }), { id: 'z' }, false, 0));
 });
 test('music clock handles play, pause, seek reports and stale end events', () => {
   const m = emptyMusic(), a = { id: 'a', name: 'A' };
-  for (let i = 0; i < 2; i++) applyMusicAction(m, act('music-add', { url: 'https://youtu.be/abcdefghij' + i }), a, true, 0);
-  applyMusicAction(m, act('music-control', { op: 'play' }), a, true, 1000); assert.equal(musicPosition(m, 6000), 5);
+  for (let i = 0; i < 2; i++) applyMusicAction(m, act('music-add', { url: 'https://youtu.be/abcdefghij' + i }), a, true, 1000);
+  assert.equal(musicPosition(m, 6000), 5);
   applyMusicAction(m, act('music-control', { op: 'pause' }), a, true, 6000); assert.equal(musicPosition(m, 10000), 5);
   applyMusicAction(m, act('music-control', { op: 'play' }), a, true, 10000); assert.equal(musicPosition(m, 12000), 7);
   const old = m.current.id;
@@ -245,6 +244,27 @@ test('music clock handles play, pause, seek reports and stale end events', () =>
   assert.ok(applyMusicAction(m, act('music-control', { op: 'sync', currentId: old, position: NaN }), a, true, 13000));
   applyMusicAction(m, act('music-control', { op: 'skip', currentId: old }), a, true, 13000); const next = m.current.id;
   assert.ok(applyMusicAction(m, act('music-control', { op: 'skip', currentId: old }), a, true, 14000)); assert.equal(m.current.id, next);
+});
+test('a participant request starts an idle radio, preserves an active or paused track and restarts after the queue ends',()=>{
+  const m=emptyMusic(),a={id:'a',name:'A'},b={id:'b',name:'B'};
+  const request=(id,url,member,now)=>applyMusicAction(m,{id,kind:'music-add',url:'https://youtu.be/'+url},member,false,now);
+  assert.equal(request('first','abcdefghijk',b,5000),null);
+  assert.equal(m.current.id,'first');assert.equal(m.current.by,'b');assert.equal(m.playing,true);assert.equal(m.position,0);assert.equal(m.anchor,5000);assert.equal(m.transport,1);assert.equal(m.revision,1);assert.equal(m.queue.length,0);
+  assert.equal(request('second','bcdefghijkl',a,7000),null);assert.equal(m.current.id,'first');assert.equal(musicPosition(m,7000),2);assert.equal(m.transport,1);
+  assert.equal(applyMusicAction(m,act('music-control',{op:'pause'}),a,true,8000),null);
+  const paused=structuredClone(m);
+  assert.equal(request('third','cdefghijklm',b,9000),null);assert.equal(m.current.id,'first');assert.equal(m.playing,false);assert.equal(musicPosition(m,12000),3);assert.equal(m.transport,paused.transport);assert.equal(m.anchor,paused.anchor);
+  for(const id of ['first','second','third'])assert.equal(applyMusicAction(m,act('music-control',{op:'skip',currentId:id}),a,true,15000),null);
+  assert.equal(m.current,null);assert.equal(m.playing,false);assert.equal(m.queue.length,0);
+  assert.equal(request('restart','defghijklmn',a,20000),null);assert.equal(m.current.id,'restart');assert.equal(m.playing,true);assert.equal(m.position,0);assert.equal(m.anchor,20000);
+  const before=structuredClone(m);assert.ok(applyMusicAction(m,act('music-control',{op:'skip',currentId:'third'}),a,true,20001));assert.deepEqual(m,before);
+});
+
+test('automatic radio start is deduplicated and retained in the coherent handoff checkpoint',()=>{
+  const n=host();n.hostNow=()=>5000;n.callbacks={};
+  const action=act('music-add',{url:'https://youtu.be/abcdefghijk'});
+  assert.ok(n.handleCommand('b',action).ok);assert.ok(n.handleCommand('b',action).ok);assert.equal(n.music.revision,1);assert.equal(n.music.transport,1);assert.equal(n.music.current.by,'b');assert.equal(n.music.queue.length,0);
+  const checkpoint=n.checkpointMessage();assert.equal(checkpoint.checkpoint.musicRevision,1);assert.deepEqual(n.lastRecovery.music,n.music);assert.equal(n.lastRecovery.music.playing,true);
 });
 test('command validation, text limits and rate limits reject malformed or excessive actions', () => {
   assert.equal(validAction(act('chat', { text: 'a'.repeat(201) })), false);

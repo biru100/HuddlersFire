@@ -1,3 +1,4 @@
+import { canPlay } from './camp-maps.mjs';
 import { MAX_PLAYERS, CARRY_GAP, MAX_HEIGHT } from './camp-config.mjs';
 import { persistentSocialState } from './camp-presence.mjs';
 
@@ -11,7 +12,7 @@ function carryChain(players, root) {
   return chain;
 }
 function canLift(players, self, target) {
-  if (!self || !target || self.id === target.id || self.connected === false || target.connected === false ||
+  if (!self || !target || !canPlay(self) || !canPlay(target) || self.id === target.id || self.connected === false || target.connected === false ||
       self.sitting || target.sitting ||
       self.carrying || self.carriedBy || target.carriedBy || !target.allowCarry ||
       !['grounded', 'airborne'].includes(self.motion) || !['grounded', 'airborne'].includes(target.motion)) return false;
@@ -30,7 +31,7 @@ function syncCarry(players) {
     const chain = carryChain(players, root); visited.add(root.id);
     for (let i = 1; i < chain.length; i++) {
       const p = chain[i], carrier = chain[i - 1];
-      if (p.carriedBy !== carrier.id) { carrier.carrying = null; break; }
+      if (p.carriedBy !== carrier.id || p.mapId !== carrier.mapId) { carrier.carrying = null; break; }
       Object.assign(p, { x: root.x, y: root.y, z: root.z + CARRY_GAP * i, vz: root.vz, vx: 0, vy: 0, motion: 'carried', thrown: false, facing: root.facing, running: false });
       visited.add(p.id);
     }
@@ -51,7 +52,7 @@ function releaseCarry(players, player, safe = false) {
   if (safe) {
     for (const p of carryChain(players, passenger)) {
       const allowCarry = p.allowCarry, respawns = p.respawns;
-      Object.assign(p, spawnPlayer([...players.keys()].indexOf(p.id)), persistentSocialState(p), { allowCarry, respawns });
+      Object.assign(p, spawnPlayer([...players.keys()].indexOf(p.id), p.mapId), persistentSocialState(p), { allowCarry, respawns, mapRevision: p.mapRevision });
     }
   }
 }

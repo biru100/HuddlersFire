@@ -1,3 +1,5 @@
+import { leaveSeat } from './camp-seats.mjs';
+import { emptyFire } from './camp-fire.mjs';
 import { PeerTransport } from './camp-peer-transport.mjs';
 import { movePlayer, sanitizeInput, spawnPlayer, simulateWorld, applyPlayerAction, releaseCarry } from './camp-world.mjs';
 import { PROTOCOL_VERSION, MAX_FRAME_BYTES, validAction, chatText, CommandLedger } from './camp-protocol.mjs';
@@ -46,7 +48,7 @@ export class CampNetwork {
     this.after = 0; this.closed = false; this.failures = 0; this.attempts = 0;
     this.lastState = performance.now(); this.lastBroadcast = 0; this.lastTick = performance.now();
     this.lastSequence = -1; this.sequence = 0;
-    this.chat = []; this.music = emptyMusic(); this.weapons = emptyWeapons(); this.ball = emptyBall(); this.ledger = new CommandLedger(); this.pending = new Map();
+    this.chat = []; this.music = emptyMusic(); this.weapons = emptyWeapons(); this.ball = emptyBall(); this.fire = emptyFire(this.hostNow()); this.ledger = new CommandLedger(); this.pending = new Map();
     this.clockOffset = 0; this.lastClock = 0; this.poseSent = null;
     this.status = this.isHost ? '모닥불을 피웠어요' : '친구들과 연결하는 중';
     this.onPageHide = () => this.destroy(true,true);
@@ -107,7 +109,7 @@ export class CampNetwork {
         const text = chatText(action.text);
         if (!text) error = '메시지를 입력해 주세요.';
         else {
-          const entry = { id: action.id, by: sender, name: member.name, color: member.color, text, at: now, createdAt: Date.now(), kind: 'chat' };
+          const entry = { id: action.id, by: sender, name: member.name, color: member.color, text, at: now, createdAt: Date.now(), mapId:member.mapId, kind: 'chat' };
           this.chat = [...this.chat, entry].slice(-100);
           member.bubble = text; member.bubbleUntil = now + 5000;
           this.broadcastControl({ t: 'chat', entry }); this.callbacks.chat?.(this.chat);
@@ -124,8 +126,13 @@ export class CampNetwork {
       } else if (action.kind.startsWith('music-')) {
         error = applyMusicAction(this.music, action, member, sender === this.host, now);
         if (!error) { this.broadcastControl({ t: 'music', music: this.music }); this.callbacks.music?.(this.music); }
-      } else error = applyPlayerAction(this.players, sender, action, now, this.weapons);
+      } else error = applyPlayerAction(this.players, sender, action, now, this.weapons, this.fire ||= emptyFire(now));
+      if (!error && ['change-map','seat'].includes(action.kind)) {
+        this.inputs.delete(sender);
+        if (sender === this.player) this.input = { dx: 0, dy: 0, sitting: false };
+      }
     }
+    if(!error&&action.kind==='seat'&&sender===this.player)this.poseSent='sitting';
     const result = { ok: !error, ...(error ? { error } : {}) };
     this.ledger.record(sender, action.id, result);
     if (!error && !action.kind.startsWith('music-')) this.stateDirty = true;
@@ -143,7 +150,7 @@ export class CampNetwork {
     this.reliable(peer, this.checkpointMessage());
   }
   worldMessage() {
-    return { t: 'state', v: PROTOCOL_VERSION, epoch: this.epoch || 1, now: this.hostNow(), seq: this.sequence++, weapons: this.weapons || emptyWeapons(), ball: this.ball || emptyBall(), players: [...this.players.values()].map(encodePlayer) };
+    return { t: 'state', v: PROTOCOL_VERSION, epoch: this.epoch || 1, now: this.hostNow(), seq: this.sequence++, weapons: this.weapons || emptyWeapons(), ball: this.ball || emptyBall(), fire:this.fire || emptyFire(), players: [...this.players.values()].map(encodePlayer) };
   }
   checkpointMessage() {
     const world = { ...this.worldMessage(), checkpoint: { chatId: this.chat?.at(-1)?.id || null, musicRevision: this.music?.revision || 0 } };
@@ -160,7 +167,7 @@ export class CampNetwork {
     const value = reliable ? this.checkpointMessage() : this.worldMessage();
     if (reliable) this.broadcastControl(value);
     else {
-      const signature = JSON.stringify({ players: value.players, ball: value.ball, projectiles: value.weapons.projectiles, effects: value.weapons.effects });
+      const signature = JSON.stringify({ players: value.players, ball: value.ball, fire:value.fire, projectiles: value.weapons.projectiles, effects: value.weapons.effects });
       if (signature === this.lastWorldSignature) return;
       this.lastWorldSignature = signature;
       const cache = new Map();
@@ -211,7 +218,7 @@ export class CampNetwork {
     this.migrating = false; this.frozenTime = null;
     this.coordinator().role(this.epoch || 1, false, performance.now());
     this.weapons = weapons;
-    this.ball = decoded.ball;
+    this.ball = decoded.ball; this.fire = decoded.fire;
     this.lastSequence = message.seq; this.lastState = performance.now();
     const present = new Set();
     for (const state of message.players) {
@@ -220,7 +227,10 @@ export class CampNetwork {
       present.add(state.id);
       const old = this.players.get(state.id), next = { ...member, ...state };
       if (old) {
-        const reset = old.respawns !== state.respawns || old.motion !== state.motion || old.carriedBy !== state.carriedBy || Math.hypot(old.x - state.x, old.y - state.y) > 1;
+        const changedMap = old.mapRevision !== state.mapRevision || old.mapId !== state.mapId;
+        const reset = changedMap || old.respawns !== state.respawns || old.seatId !== state.seatId || old.motion !== state.motion || old.carriedBy !== state.carriedBy || Math.hypot(old.x - state.x, old.y - state.y) > 1;
+        if (changedMap && state.id === this.player) { this.input = { dx: 0, dy: 0, sitting: false }; this.poseSent = null; }
+        if(state.id===this.player&&old.seatId!==state.seatId&&state.seatId){this.input={dx:0,dy:0,sitting:true};this.poseSent='sitting';}
         const x = old.x, y = old.y, z = old.z;
         Object.assign(old, next, { targetX: state.x, targetY: state.y, targetZ: state.z });
         if (!reset) { old.x = x + (state.x - x) * .3; old.y = y + (state.y - y) * .3; old.z = z + (state.z - z) * .3; }
@@ -369,13 +379,13 @@ export class CampNetwork {
     this.wireReceiver = new WireReceiver(); this.lastResyncAt = -Infinity; this.stateDirty = false; this.lastCheckpoint = 0;
     this.coordinator().role(epoch, this.isHost, performance.now(), true);
     if (this.isHost) {
-      if (!snapshot) { this.players = new Map(); this.weapons = emptyWeapons(); this.ball = emptyBall(); this.chat = []; this.music = emptyMusic(); }
+      if (!snapshot) { this.players = new Map(); this.weapons = emptyWeapons(); this.ball = emptyBall(); this.fire=emptyFire(this.hostNow()); this.chat = []; this.music = emptyMusic(); }
       // Keep the camp's logical time at its last snapshot: suspended flight/fuses resume, never fast-forward.
       if (snapshot) {
         this.clockOffset = snapshot.now - performance.now();
         if (recovery) {
           const restored = restoreRecovery(recovery, this.members);
-          this.players = restored.players; this.weapons = restored.weapons; this.ball = restored.ball; this.chat = restored.chat; this.music = restored.music;
+          this.players = restored.players; this.weapons = restored.weapons; this.ball = restored.ball; this.fire=restored.fire; this.chat = restored.chat; this.music = restored.music;
           this.callbacks.chat?.(this.chat); this.callbacks.music?.(this.music);
         }
         else { this.weapons = readWeapons(snapshot.weapons) || emptyWeapons(); this.players = new Map(snapshot.players.filter(p => this.members.some(m => m.id === p.id)).map(p => [p.id, { ...p, connected: true }])); }
@@ -384,7 +394,7 @@ export class CampNetwork {
         if (!this.players.has(member.id)) this.players.set(member.id, { ...member, ...spawnPlayer(this.members.indexOf(member)), connected: true });
         else Object.assign(this.players.get(member.id), { name: member.name, color: member.color, avatar: member.avatar, connected: member.active !== 0 || member.id === this.player });
       }
-      const former = this.players.get(this.previousHost); if (former) former.connected = false;
+      const former = this.players.get(this.previousHost); if (former) {former.connected = false;if(former.seatId){leaveSeat(former);former.sitting=false;}}
       if (this.members.every(m => m.active === 0 || m.id === this.player || m.id === this.previousHost)) this.resumeSimulation();
     }
     this.lastTick = performance.now(); this.lastState = performance.now();
@@ -392,7 +402,7 @@ export class CampNetwork {
   }
   markDisconnected(id) {
     if (this.isHost && performance.now() < this.handoffUntil && this.members.some(m => m.id === id)) return;
-    const p = this.players.get(id); if (p) { p.connected = false; if (this.isHost) releaseCarry(this.players, p, true); }
+    const p = this.players.get(id); if (p) { p.connected = false;if(p.seatId){leaveSeat(p);p.sitting=false;} if (this.isHost) releaseCarry(this.players, p, true); }
   }
   closePeer(...args) { return this.getTransport().closePeer(...args); }
   makePeer(...args) { return this.getTransport().makePeer(...args); }
@@ -437,7 +447,7 @@ export class CampNetwork {
       if (self && peer?.ready && peer.channel?.readyState === 'open' && now - this.lastState < 3000) movePlayer(self, this.input, dt, true);
       for (const [id, p] of this.players) if ((id !== this.player || p.thrown) && Number.isFinite(p.targetX)) { p.x += (p.targetX - p.x) * .3; p.y += (p.targetY - p.y) * .3; }
       for (const p of this.players.values()) if (Number.isFinite(p.targetZ)) p.z += (p.targetZ - p.z) * .3;
-      if (peer?.ready && now - this.lastBroadcast >= 50) { this.lastBroadcast = now; this.send(peer, JSON.stringify({ t: 'input', v: PROTOCOL_VERSION, epoch: this.epoch, ...this.input })); }
+      if (peer?.ready && self && now - this.lastBroadcast >= 50) { this.lastBroadcast = now; this.send(peer, JSON.stringify({ t: 'input', v: PROTOCOL_VERSION, epoch: this.epoch, mapRevision: self.mapRevision, ...this.input })); }
       if (peer?.ready && now - this.lastClock >= 5000) { this.lastClock = now; this.reliable(peer, { t: 'clock', sent: now }); }
       if (peer?.channel?.readyState === 'open' && now - this.lastState > 5000) this.notify('방장의 게임 응답을 기다리는 중');
     }

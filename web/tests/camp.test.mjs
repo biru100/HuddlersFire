@@ -127,8 +127,10 @@ test('Discord authorization state is one-use, session-bound, and profile-only', 
   const beforeUnlink = await c(roomQuery(room));
   assert.equal(beforeUnlink.status, 200); assert.equal(beforeUnlink.value.host, room.host);
   assert.equal(beforeUnlink.value.members[0].avatar, p.avatar);
-  await c('discord/unlink', {}); assert.equal((await c('session')).value.profile.linked, false);
-  assert.equal((await c(roomQuery(room))).value.members[0].avatar, null);
+  assert.equal((await c('discord/unlink', {})).status,409);
+  assert.equal((await c('session')).value.profile.linked,true);
+  await c('room',{op:'leave',code:room.code,player:room.player});
+  assert.equal((await c('discord/unlink', {})).status,200);assert.equal((await c('session')).value.profile.linked,false);
   f.sqlite.close();
 });
 
@@ -145,7 +147,7 @@ test('Discord cancellation is handled and expired states are rejected', async ()
 
 test('Discord errors return to the completion page without linking or exposing credentials', async () => {
   for (const fetcher of [async () => { throw new Error('network private-token'); }, async () => Response.json({}, { status: 401 }), async () => Response.json({})]) {
-    const f = fixture({ DISCORD_CLIENT_ID: 'client', DISCORD_CLIENT_SECRET: 'test-secret' }), c = await f.enrolled('H');
+    const f = fixture({ DISCORD_CLIENT_ID: 'client', DISCORD_CLIENT_SECRET: 'test-secret' }), c = await f.enrolled('H',false);
     const start = await c('discord/start'), state = new URL(start.response.headers.get('location')).searchParams.get('state');
     const result = await c('discord/callback?state=' + state + '&code=approved', undefined, { options: { fetch: fetcher } });
     assert.equal(result.status, 302); assert.match(result.response.headers.get('location'), /discord-failed$/);

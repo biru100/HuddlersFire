@@ -1,3 +1,5 @@
+import { CAMP_SEATS } from '../lib/camp-seats.mjs';
+import { fuelAt, MAX_FIRE_FUEL } from '../lib/camp-fire.mjs';
 // Real ICE/DTLS/SCTP traffic on loopback, through the running application's HTTP API.
 // This validates the game protocol, not browser interoperability or real-world NAT traversal.
 import assert from 'node:assert/strict';
@@ -5,7 +7,7 @@ import { RTCPeerConnection } from 'werift';
 import { CampNetwork } from '../lib/camp-network.mjs';
 import { spawnPlayer, TRAMPOLINES } from '../lib/camp-world.mjs';
 import { musicPosition } from '../lib/camp-media.mjs';
-const origin = process.env.CAMP_TEST_URL || 'http://127.0.0.1:5173';
+const origin = process.env.CAMP_TEST_URL || 'http://127.0.0.1:5192';
 const instances = [], connections = [];
 let requests = 0;
 class LocalPeer extends RTCPeerConnection {
@@ -24,6 +26,7 @@ function client() {
     });
     const sessionCookie = response.headers.get('set-cookie'); if (sessionCookie) cookie = sessionCookie.split(';')[0];
     const value = await response.json();
+    if(path==='session'&&data){const linked=await fetch(origin+'/__test/discord-connect',{method:'POST',headers:{Cookie:cookie,Origin:origin}});assert.equal(linked.status,200,'Local mock OAuth link');}
     if (!response.ok) throw Object.assign(new Error(value.error), { status: response.status });
     return value;
   };
@@ -91,7 +94,14 @@ try {
   for(const timer of faultTimers)clearTimeout(timer);
   assert.equal(host.epoch,1);assert.ok(host.coordinator().canRenew(host,performance.now()));
   console.log('PASS: 20% volatile drop, reordering, delayed checkpoints and missing-base resync recovered over real RTC without rotating the healthy host.');
+  assert.ok(instances.every(n=>[...n.players.values()].every(p=>p.mapId==='camp')));
+  await assert.rejects(()=>instances[1].command('equip',{weapon:'gun'}),/놀이터/);
+  await assert.rejects(()=>instances[1].command('lift',{target:instances[2].player}),/놀이터/);
+  for(const [index,n] of instances.entries()) if(index!==14) await n.command('change-map',{mapId:'playground'});
+  await until(()=>instances.every(n=>n.players.get(instances[1].player)?.mapId==='playground'&&n.players.get(instances[14].player)?.mapId==='camp'),'Map travel did not replicate',5000);
+  console.log('PASS: all entries start at camp; toys/lifting are rejected there, and map travel replicates while one camper stays.');
   const guest = instances[1], observer = instances[2], before = { ...host.players.get(guest.player) };
+  await until(()=>host.hostNow()-(host.ledger.last.get(guest.player+':equip')??-Infinity)>=100,'Initial rejected equipment cooldown did not clear',5000);
   const latencies=[];
   for(let sample=0;sample<30;sample++) {
     const weapon=sample%2?'none':'gun',start=performance.now();
@@ -121,8 +131,10 @@ try {
   await guest.command('equip', { weapon: 'gun' });
   await until(() => observer.players.get(guest.player).weapon === 'gun', 'Weapon selection did not replicate', 5000);
   // Arrange known clear positions inside this local test room to inspect authoritative impacts.
-  Object.assign(host.players.get(guest.player), spawnPlayer(1), { x: -1, y: 2.4, weapon: 'gun', allowCarry: false, connected: true });
-  Object.assign(host.players.get(observer.player), spawnPlayer(2), { x: -.1, y: 2.4, connected: true });
+  Object.assign(host.players.get(guest.player), spawnPlayer(1,'playground'), { x: -1, y: 2.4, weapon: 'gun', allowCarry: false, connected: true });
+  Object.assign(host.players.get(observer.player), spawnPlayer(2,'playground'), { x: -.1, y: 2.4, connected: true });
+  // The playground has no central fire obstacle; keep uninvolved spawns outside this firing lane.
+  for (const [id,p] of host.players) if (![guest.player,observer.player].includes(id)) Object.assign(p,{x:-2,y:-4});
   host.publishWorld(true);
   await until(() => Math.abs(guest.players.get(guest.player).x + 1) < .1, 'Test firing position did not arrive', 5000);
   await guest.command('fire', { dx: 1, dy: 0 });
@@ -153,15 +165,14 @@ try {
   await assert.rejects(() => guest.command('chat', { text: 'too fast' }), /기다렸다가/);
   await guest.command('music-add', { url: 'https://youtu.be/abcdefghijk', title: '별이 빛나는 밤 · 함께 듣는 노래' });
   await assert.rejects(() => guest.command('music-control', { op: 'play' }), /방장/);
-  await host.command('music-control', { op: 'play' });
-  await until(() => instances.every(n => n.music.current?.videoId === 'abcdefghijk' && n.music.playing), 'Music state did not replicate', 5000);
+  await until(() => instances.every(n => n.music.current?.videoId === 'abcdefghijk' && n.music.playing), 'A guest request did not automatically start radio for every peer', 5000);
   assert.ok(instances.every(n => n.music.current.title === '별이 빛나는 밤 · 함께 듣는 노래'));
   await host.command('music-control', { op: 'sync', currentId: host.music.current.id, position: 42 });
   await until(() => observer.music.position === 42, 'Playback checkpoint did not replicate', 5000);
   assert.ok(musicPosition(observer.music, observer.hostNow()) >= 42);
   console.log('PASS: reliable crouch/release, emotes, CJK chat, request limits and host-only music controls reached 16 peers.');
   const carrier = host.players.get(guest.player), passenger = host.players.get(observer.player);
-  Object.assign(carrier, spawnPlayer(1), { x: 0, y: 2 }); Object.assign(passenger, spawnPlayer(2), { x: .5, y: 2 });
+  Object.assign(carrier, spawnPlayer(1,'playground'), { x: 0, y: 2 }); Object.assign(passenger, spawnPlayer(2,'playground'), { x: .5, y: 2 });
   // Isolate this pair from nearby spawn locations so the advertised nearest target is deterministic.
   for (const [id, p] of host.players) if (![guest.player, observer.player].includes(id)) Object.assign(p, { x: -2, y: -4 });
   host.publishWorld(true);
@@ -169,8 +180,8 @@ try {
   await until(() => observer.players.get(observer.player).carriedBy === guest.player, 'Carrying did not replicate', 5000);
   await observer.command('escape');
   await until(() => !host.players.get(guest.player).carrying && observer.players.get(observer.player).motion === 'grounded', 'Passenger could not escape', 5000);
-  Object.assign(carrier, spawnPlayer(1), { x: 0, y: 2, aimX: -1, aimY: 0 });
-  Object.assign(passenger, spawnPlayer(2), { x: .5, y: 2 }); host.publishWorld(true);
+  Object.assign(carrier, spawnPlayer(1,'playground'), { x: 0, y: 2, aimX: -1, aimY: 0 });
+  Object.assign(passenger, spawnPlayer(2,'playground'), { x: .5, y: 2 }); host.publishWorld(true);
   const liftedAt = performance.now();
   await guest.command('lift', { target: observer.player });
   await until(() => observer.players.get(observer.player).carriedBy === guest.player && performance.now() - liftedAt > 300, 'Lift before throw did not replicate', 5000);
@@ -205,7 +216,7 @@ try {
   console.log('PASS: reconnect refreshed ICE settings, opened a new channel and resumed replication.');
   await until(() => guest.peers.get(guest.host)?.ready && guest.chat.some(m => m.text === text) && guest.music.current?.videoId === 'abcdefghijk', 'Reconnect did not restore chat/music');
   assert.equal(guest.music.current.title, '별이 빛나는 밤 · 함께 듣는 노래');
-  Object.assign(carrier, spawnPlayer(1), { x: 0, y: 2 }); Object.assign(passenger, spawnPlayer(2), { x: .5, y: 2 });
+  Object.assign(carrier, spawnPlayer(1,'playground'), { x: 0, y: 2 }); Object.assign(passenger, spawnPlayer(2,'playground'), { x: .5, y: 2 });
   await guest.command('lift', { target: observer.player });
   await until(() => observer.players.get(observer.player).carriedBy === guest.player, 'Second lift did not replicate', 5000);
   guest.retry();
@@ -213,7 +224,7 @@ try {
   assert.equal(guest.chat.filter(m => m.text === text).length, 1);
   console.log('PASS: reconnect restored bounded chat history and music and safely released a carried passenger.');
   const third = instances[3];
-  for (const [id, p] of host.players) Object.assign(p, spawnPlayer(), { x: [guest.player, observer.player, third.player].includes(id) ? 0 : -2, y: [guest.player, observer.player, third.player].includes(id) ? 2 : -4, connected: true });
+  for (const [id, p] of host.players) Object.assign(p, spawnPlayer(0,p.mapId), { x: [guest.player, observer.player, third.player].includes(id) ? 0 : -2, y: [guest.player, observer.player, third.player].includes(id) ? 2 : -4, connected: true });
   host.publishWorld(true);
   await guest.command('lift', { target: observer.player });
   await third.command('lift', { target: guest.player });
@@ -222,8 +233,8 @@ try {
   await until(() => observer.players.get(guest.player)?.motion === 'grounded', 'Chain escape did not settle', 5000);
   await guest.command('lift', { target: null });
   await until(() => host.players.get(observer.player).motion === 'grounded', 'Chain test throw did not settle', 5000);
-  Object.assign(host.players.get(third.player), spawnPlayer(), { x: 0, y: 2, z: .7, vz: 0, motion: 'airborne' });
-  Object.assign(host.players.get(observer.player), spawnPlayer(), { x: .4, y: 2, z: .9, vx: -1, vy: 0, vz: 0, motion: 'airborne', thrown: true });
+  Object.assign(host.players.get(third.player), spawnPlayer(0,'playground'), { x: 0, y: 2, z: .7, vz: 0, motion: 'airborne' });
+  Object.assign(host.players.get(observer.player), spawnPlayer(0,'playground'), { x: .4, y: 2, z: .9, vx: -1, vy: 0, vz: 0, motion: 'airborne', thrown: true });
   host.publishWorld(true);
   await third.command('lift', { target: observer.player });
   await until(() => instances.every(n => n.players.get(observer.player)?.carriedBy === third.player && !n.players.get(observer.player)?.thrown), 'Midair catch did not replicate', 5000);
@@ -241,7 +252,7 @@ try {
   await until(()=>instances.every(n=>n.players.get(presenceOwner.player)?.motion==='grounded'&&n.players.get(presenceOwner.player)?.jumpAt<0),'Away jump did not settle',5000);
   await until(()=>instances.every(n=>n.lastRecovery?.chat.some(e=>e.id===callEntry.id)),'Call recovery was not confirmed',5000);
   console.log('PASS: away status keeps interaction enabled; jump, notes, calls and wall-clock timestamps replicated to 16 peers.');
-  Object.assign(host.players.get(host.player),spawnPlayer(),{x:3.25,y:.6,connected:true});
+  Object.assign(host.players.get(host.player),spawnPlayer(0,'playground'),{x:3.25,y:.6,connected:true});
   host.ball={x:3.7,y:.6,vx:0,vy:0,rotation:0};host.setInput({dx:1,dy:0,sitting:false});
   await until(()=>instances.every(n=>n.ball.x>4),'Walking kick did not replicate the ball to all 16 peers',5000);
   host.setInput({dx:0,dy:0,sitting:false});
@@ -257,6 +268,25 @@ try {
       guest[method]=(...args)=>{const before=describe(),result=original(...args),after=describe();if(guest.epoch>=2&&(method==='changeHost'||JSON.stringify(before)!==JSON.stringify(after)))console.log('TRACE',method,JSON.stringify({args:method==='tick'?[]:args,before,after}));return result;};
     }
   }
+  const restSeat=CAMP_SEATS[0],restClient=instances[14],restPlayer=host.players.get(restClient.player);
+  Object.assign(restPlayer,{x:restSeat.exitX,y:restSeat.exitY});host.publishWorld(true);
+  await until(()=>Math.abs(restClient.players.get(restClient.player).x-restSeat.exitX)<.01,'Seat approach did not replicate',5000);
+  await restClient.command('seat',{seatId:restSeat.id});await restClient.command('add-firewood');
+  for(const [i,contributor]of [instances[12],instances[13]].entries()){
+    await contributor.command('change-map',{mapId:'camp'});
+    const extraSeat=CAMP_SEATS[4+i*2],p=host.players.get(contributor.player);
+    Object.assign(p,{x:extraSeat.exitX,y:extraSeat.exitY});host.publishWorld(true);
+    await until(()=>Math.abs(contributor.players.get(contributor.player).x-extraSeat.exitX)<.01,'Contributor approach did not replicate',5000);
+    await contributor.command('seat',{seatId:extraSeat.id});
+    await until(()=>fuelAt(host.fire,host.hostNow())<MAX_FIRE_FUEL-1,'Fire remained full',5000);
+    await contributor.command('add-firewood');
+  }
+  await until(()=>host.hostNow()-restPlayer.lastStokeAt>=250,'Contribution request throttle did not elapse',2000);
+  await assert.rejects(()=>restClient.command('add-firewood'),/다음 장작/);
+  await restClient.command('fire-style',{style:'gold'});
+  await until(()=>instances.every(n=>n.lastRecovery?.world.players.find(p=>p.id===restClient.player)?.seatId===restSeat.id&&n.lastRecovery?.world.fire?.revision===host.fire.revision&&n.fire?.xp===3&&n.fire?.style==='gold'),'Growth/appearance coherent checkpoint not confirmed',5000);
+  const savedFire=structuredClone(host.fire);
+  console.log('PASS: three independent wood contributions reached level two, shared the gold appearance and retained personal cooldowns in coherent checkpoints.');
   host.destroy(true);
   const survivors = instances.slice(1);
   await until(() => survivors.every(n => !n.closed && n.host === guest.player && n.epoch === 2), 'Normal host departure did not elect first guest', 20_000);
@@ -266,6 +296,9 @@ try {
   assert.ok(survivors.every(n=>n.players.get(presenceOwner.player)?.workText===presence.workText&&n.players.get(presenceOwner.player)?.presence==='away'&&!('afkProtected' in n.players.get(presenceOwner.player))));
   assert.ok(survivors.every(n=>n.chat.some(e=>e.id===callEntry.id&&e.createdAt===callEntry.createdAt)));
   assert.ok(survivors.every(n=>Math.abs(n.ball.x-savedBall.x)<.001&&Math.abs(n.ball.rotation-savedBall.rotation)<.001));
+  assert.ok(survivors.every(n=>n.players.get(instances[14].player)?.mapId==='camp'&&n.players.get(observer.player)?.mapId==='playground'));
+  assert.ok(survivors.every(n=>n.players.get(restClient.player)?.seatId===restSeat.id&&n.fire?.revision===savedFire.revision&&n.fire?.fuel===savedFire.fuel&&n.fire?.xp===3&&n.fire?.style==='gold'));
+  await assert.rejects(()=>restClient.command('add-firewood'),/다음 장작/);
   assert.equal(callEvents.length,1,'Recovery must not ring historical calls again');
   assert.ok((await presenceOwner.request('rooms')).rooms.some(r=>r.code===info.code&&r.title==='공개방 통합 검증'));
   await guest.command('music-control', { op: 'pause' });

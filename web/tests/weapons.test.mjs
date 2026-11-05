@@ -5,7 +5,7 @@ import { spawnPlayer, applyPlayerAction, simulateWorld, validPlayerState } from 
 import { CampNetwork } from '../lib/camp-network.mjs';
 import { CommandLedger, validAction, MAX_FRAME_BYTES } from '../lib/camp-protocol.mjs';
 
-const player = (id, x = 0, y = 2) => ({ ...spawnPlayer(), id, name: id, color: '#e5a76d', x, y, connected: true });
+const player = (id, x = 0, y = 2) => ({ ...spawnPlayer(0, 'playground'), id, name: id, color: '#e5a76d', x, y, connected: true });
 function setup() { return { players: new Map([['a', player('a')], ['b', player('b', .9)]]), weapons: emptyWeapons() }; }
 function advance(players, weapons, duration, start = 0) { for (let i = 1; i <= Math.round(duration * 60); i++) simulateWorld(players, new Map(), 1 / 60, start + i * 1000 / 60, weapons); }
 const equip = (s, weapon, now = 0) => applyPlayerAction(s.players, 'a', { id: 'equip', kind: 'equip', weapon }, now, s.weapons);
@@ -34,10 +34,10 @@ test('fast bullets sweep through targets and produce bounded knockback without h
   assert.ok(segmentCircle(0, 0, 5, 0, 2.5, 0, .1) > 0);
 });
 
-test('jump height avoids low shots and camp scenery blocks bullets before players', () => {
+test('jump height avoids low shots and playground scenery blocks bullets before players', () => {
   const s = setup(), target = s.players.get('b'); target.motion = 'airborne'; target.z = 1.8;
   equip(s, 'gun'); fire(s); advance(s.players, s.weapons, .2); assert.equal(target.hitAt, -1);
-  const blocked = setup(); Object.assign(blocked.players.get('b'), { x: 0, y: -2 });
+  const blocked = setup(); Object.assign(blocked.players.get('a'), { x: 4, y: -1.5 }); Object.assign(blocked.players.get('b'), { x: 4, y: -4 });
   equip(blocked, 'gun'); fire(blocked, 0, 0, -1); advance(blocked.players, blocked.weapons, .5);
   assert.equal(blocked.players.get('b').hitAt, -1); assert.equal(blocked.weapons.projectiles.length, 0);
   assert.equal(blocked.weapons.effects[0].kind, 'spark');
