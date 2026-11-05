@@ -15,3 +15,16 @@
 /web/app/camp-layout.css -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /web/app/field-v2.css -text
 /art/sprites/field-v2/release/prompts/*.txt -text
+/web/lib/camp-lighting.mjs -text
+/web/lib/camp-shadows.mjs -text
+/web/lib/camp-scene-frame.mjs -text
+/web/lib/camp-draw-context.mjs -text
+/web/lib/camp-materials.mjs -text
+/web/lib/camp-canvas-renderer.mjs -text
+/web/lib/camp-webgl-renderer.mjs -text
+/web/lib/camp-lighting-shader.mjs -text
+/web/lib/camp-avatar-proxy.mjs -text
+/web/lib/camp-api.mjs -text
+/web/package-lock.json -text
+/tools/lib/material-assets.mjs -text
+/art/sprites/field-lighting-v1/release/base-manifest.json -text

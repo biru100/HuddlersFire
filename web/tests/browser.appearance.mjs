@@ -90,11 +90,11 @@ try{
     await delay(300);await shot('settings');
     assert.ok(await evaluate(`(()=>{const e=document.querySelector('.settings-popup'),r=e.getBoundingClientRect(),close=e.querySelector('[aria-label="설정 닫기"]'),b=close.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight&&e.contains(document.activeElement)&&close.contains(document.elementFromPoint(b.x+b.width/2,b.y+b.height/2));})()`),'Settings must trap focus and paint above the mobile panel and field tools');
     assert.equal(await evaluate(`document.documentElement.dataset.campTheme`),'color');
-    await evaluate(`window.__themeCanvas=document.querySelector('.world canvas');window.__themePreferences=JSON.parse(localStorage.getItem('huddlers-fire-settings'));`);
+    await evaluate(`window.__themeCanvas=document.querySelector('[data-camp-input]');window.__themePreferences=JSON.parse(localStorage.getItem('huddlers-fire-settings'));`);
     for(const theme of ['dark','color','dark']){
       await evaluate(`document.querySelector('.theme-options input[value="${theme}"]').click()`);
       await until(()=>evaluate(`document.documentElement.dataset.campTheme==='${theme}'`),'Theme did not apply');
-      assert.ok(await evaluate(`document.querySelector('.world canvas')===window.__themeCanvas&&document.querySelector('input[aria-label="채팅 메시지"]').value==='이어 쓰는 초안'`),'Theme switch must preserve Canvas and drafts');
+      assert.ok(await evaluate(`document.querySelector('[data-camp-input]')===window.__themeCanvas&&document.querySelector('input[aria-label="채팅 메시지"]').value==='이어 쓰는 초안'`),'Theme switch must preserve Canvas and drafts');
       assert.equal(await evaluate(`JSON.parse(localStorage.getItem('huddlers-fire-settings')).theme`),theme);
       const rgb=await evaluate(`getComputedStyle(document.querySelector('.settings-popup')).backgroundColor.match(/\\d+/g).map(Number)`);
       assert.ok(theme==='dark'?rgb[0]<60&&rgb[0]===rgb[1]&&rgb[1]===rgb[2]:rgb[0]>230,'Readable themed surface');
@@ -103,7 +103,7 @@ try{
     }
     assert.ok(await evaluate(`(()=>{const s=JSON.parse(localStorage.getItem('huddlers-fire-settings')),old=window.__themePreferences;return ['musicVolume','effectsVolume','musicMuted','allowCarry'].every(k=>s[k]===old[k]);})()`),'Theme should preserve audio and consent settings');
     await evaluate(`document.querySelector('[aria-label="설정 닫기"]').click()`);
-    await until(()=>evaluate(`!document.querySelector('.settings-popup')&&document.activeElement===document.querySelector('canvas')`),'Settings did not restore Canvas focus');
+    await until(()=>evaluate(`!document.querySelector('.settings-popup')&&document.activeElement===document.querySelector('[data-camp-input]')`),'Settings did not restore Canvas focus');
     await shot('field-dark');
     await send('Page.reload',{},sessionId);
     await until(()=>evaluate(`!!document.querySelector('#nickname')`),'Reloaded lobby missing');

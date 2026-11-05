@@ -156,6 +156,41 @@
       "height": 192,
       "bytes": 16273,
       "sha256": "c02e87ad1cbd606f538ef4e332d48b875e5c3f2e0ebc3025215acf2fc94dc61a"
+    },
+    "normal-character": {
+      "url": "/sprites/normal-character.61733f96a699.png",
+      "width": 768,
+      "height": 864,
+      "bytes": 201537,
+      "sha256": "61733f96a69935e36163253035ec7862256fe692c73d60089871283196844700"
+    },
+    "normal-environment": {
+      "url": "/sprites/normal-environment.b7166ef01f59.png",
+      "width": 768,
+      "height": 960,
+      "bytes": 202586,
+      "sha256": "b7166ef01f5949b3cc1849adbeddfdb8b5b19371dfacc99c503426ba57e4f9a2"
+    },
+    "normal-grass": {
+      "url": "/sprites/normal-grass.c867780d1f47.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 11494,
+      "sha256": "c867780d1f472c6defb72e9fb4db998848296a849f675f80ba869afa59583b1f"
+    },
+    "normal-sand": {
+      "url": "/sprites/normal-sand.c867780d1f47.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 11494,
+      "sha256": "c867780d1f472c6defb72e9fb4db998848296a849f675f80ba869afa59583b1f"
+    },
+    "normal-stone": {
+      "url": "/sprites/normal-stone.c867780d1f47.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 11494,
+      "sha256": "c867780d1f472c6defb72e9fb4db998848296a849f675f80ba869afa59583b1f"
     }
   },
   "sprites": {
@@ -4845,5 +4880,223 @@
     "log-5": "front-right",
     "log-6": "front-left",
     "log-7": "front-left"
+  },
+  "materials": {
+    "version": 1,
+    "id": "field-lighting-v1",
+    "normalConvention": "view-x-right-y-up-z-viewer",
+    "specHash": "746ea643ecbd283341c2ba7059352b597f9982632fa5ca9df9c8403bd70402ec",
+    "baseManifestHash": "272cb028bfff1a720775091b8026e24f3301653eed94e73048846013b5a83b54",
+    "sheets": {
+      "camper-0": "normal-character",
+      "camper-1": "normal-character",
+      "camper-2": "normal-character",
+      "camper-3": "normal-character",
+      "camper-4": "normal-character",
+      "camper-5": "normal-character",
+      "camper-dark-0": "normal-character",
+      "camper-dark-1": "normal-character",
+      "camper-dark-2": "normal-character",
+      "camper-dark-3": "normal-character",
+      "camper-dark-4": "normal-character",
+      "camper-dark-5": "normal-character",
+      "environment": "normal-environment",
+      "environment-dark": "normal-environment",
+      "grass": "normal-grass",
+      "grass-dark": "normal-grass",
+      "sand": "normal-sand",
+      "sand-dark": "normal-sand",
+      "stone": "normal-stone",
+      "stone-dark": "normal-stone"
+    },
+    "surfaces": {
+      "tree": {
+        "form": "tree",
+        "strength": 0.38,
+        "bevel": 12,
+        "height": 2.8,
+        "footprint": [
+          11,
+          5
+        ]
+      },
+      "tent": {
+        "form": "tent",
+        "strength": 0.38,
+        "bevel": 8,
+        "height": 1.55,
+        "footprint": [
+          53,
+          19
+        ]
+      },
+      "lantern": {
+        "form": "round",
+        "strength": 0.35,
+        "bevel": 4,
+        "height": 0.7,
+        "footprint": [
+          8,
+          3
+        ]
+      },
+      "radio": {
+        "form": "box",
+        "strength": 0.42,
+        "bevel": 4,
+        "height": 0.65,
+        "footprint": [
+          22,
+          8
+        ]
+      },
+      "sign": {
+        "form": "flat",
+        "strength": 0.22,
+        "bevel": 3,
+        "height": 1,
+        "footprint": [
+          10,
+          4
+        ]
+      },
+      "fence": {
+        "form": "flat",
+        "strength": 0.28,
+        "bevel": 3,
+        "height": 0.7,
+        "footprint": [
+          35,
+          4
+        ]
+      },
+      "shade": {
+        "form": "tent",
+        "strength": 0.32,
+        "bevel": 7,
+        "height": 1.8,
+        "footprint": [
+          40,
+          14
+        ]
+      },
+      "crate": {
+        "form": "box",
+        "strength": 0.48,
+        "bevel": 4,
+        "height": 0.6,
+        "footprint": [
+          21,
+          8
+        ]
+      },
+      "trampoline": {
+        "form": "flat",
+        "strength": 0.24,
+        "bevel": 5,
+        "height": 0.35,
+        "footprint": [
+          36,
+          13
+        ]
+      },
+      "portal": {
+        "form": "round",
+        "strength": 0.3,
+        "bevel": 5,
+        "height": 2,
+        "footprint": [
+          24,
+          7
+        ]
+      },
+      "game-booth": {
+        "form": "box",
+        "strength": 0.32,
+        "bevel": 5,
+        "height": 1.8,
+        "footprint": [
+          57,
+          13
+        ]
+      },
+      "firewood": {
+        "form": "round",
+        "strength": 0.33,
+        "bevel": 5,
+        "height": 0.3,
+        "footprint": [
+          28,
+          10
+        ]
+      },
+      "flowers": {
+        "form": "round",
+        "strength": 0.12,
+        "bevel": 5,
+        "height": 0.15,
+        "footprint": [
+          10,
+          3
+        ]
+      },
+      "rock": {
+        "form": "round",
+        "strength": 0.4,
+        "bevel": 7,
+        "height": 0.32,
+        "footprint": [
+          11,
+          4
+        ]
+      },
+      "bench-ne": {
+        "form": "bench-ne",
+        "strength": 0.52,
+        "bevel": 5,
+        "height": 0.48,
+        "footprint": [
+          45,
+          5
+        ],
+        "axis": -0.463648
+      },
+      "bench-nw": {
+        "form": "bench-nw",
+        "strength": 0.52,
+        "bevel": 5,
+        "height": 0.48,
+        "footprint": [
+          45,
+          5
+        ],
+        "axis": 0.463648
+      }
+    },
+    "character": {
+      "strength": 0.42,
+      "bevel": 9,
+      "relief": 0.65
+    },
+    "terrain": {
+      "grass": 0.06,
+      "sand": 0.04,
+      "stone": 0.1
+    },
+    "unlit": [
+      "amber",
+      "jade",
+      "violet",
+      "gold",
+      "blue",
+      "spark",
+      "dust",
+      "heart",
+      "impact",
+      "gun",
+      "snowball",
+      "bomb",
+      "football"
+    ]
   }
 }

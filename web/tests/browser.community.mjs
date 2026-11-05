@@ -97,7 +97,7 @@ try {
   console.log('PASS: effects slider stays responsive during delayed audio loading, latest value wins and mute reaches the shared effects master');
   await click('필드로');
   await until(()=>evaluate(`[...document.querySelectorAll('.fire-seat-tools button')].some(b=>b.textContent.includes('통나무에 앉기'))`),'No nearby log seat');
-  await evaluate(`document.querySelector('.world canvas').focus()`);
+  await evaluate(`document.querySelector('[data-camp-input]').focus()`);
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'e',code:'KeyE'},sessionId);
   await send('Input.dispatchKeyEvent',{type:'keyUp',key:'e',code:'KeyE'},sessionId);
   await until(()=>evaluate(`[...document.querySelectorAll('.fire-seat-tools button')].some(b=>b.textContent==='장작 넣기')`),'Log seating failed');
@@ -136,7 +136,7 @@ try {
   assert.ok(await evaluate(`window.__ytPlayers.length===1`),'Map travel recreated radio player');
   await panelTab('chat');
   console.log('PASS: camp/playground travel updates scenery, tools and people locations without recreating shared radio');
-  await evaluate(`document.querySelector('.world canvas').focus()`);
+  await evaluate(`document.querySelector('[data-camp-input]').focus()`);
   await send('Input.dispatchKeyEvent',{type:'keyDown',code:'KeyR',key:'r'},sessionId);await send('Input.dispatchKeyEvent',{type:'keyUp',code:'KeyR',key:'r'},sessionId);
   await until(()=>evaluate(`!!document.querySelector('[aria-label="라디오 닫기"]')`),'Remote radio did not open');
   for(const video of ['abcdefghijk','bcdefghijkl']){
@@ -290,12 +290,12 @@ try {
   await until(()=>evaluate(`document.querySelector('.camp-app').classList.contains('compact-panel-open')`),'Field panel did not open');await click('참가자·상태·채팅');
   await until(()=>evaluate(`document.querySelector('.camp-panel').getClientRects().length===0`),'Field panel remained visible after closing');
   assert.ok(await evaluate(`!document.querySelector('button[aria-label="확대"],button[aria-label="축소"]')`));
-  const fieldPoint=await evaluate(`(()=>{const r=document.querySelector('.world canvas').getBoundingClientRect();return {x:r.left+r.width*.5,y:r.top+r.height*.55};})()`);
+  const fieldPoint=await evaluate(`(()=>{const r=document.querySelector('[data-camp-input]').getBoundingClientRect();return {x:r.left+r.width*.5,y:r.top+r.height*.55};})()`);
   await send('Input.dispatchMouseEvent',{type:'mouseWheel',...fieldPoint,deltaX:0,deltaY:-100},sessionId);
-  await until(()=>evaluate(`document.querySelector('.world canvas').getAttribute('aria-label').includes('배율 125%')`),'Native wheel did not enlarge the field');
+  await until(()=>evaluate(`document.querySelector('[data-camp-input]').getAttribute('aria-label').includes('배율 125%')`),'Native wheel did not enlarge the field');
   await click('내 캐릭터 따라가기');
   await evaluate(`document.querySelector('.chat-log').dispatchEvent(new WheelEvent('wheel',{deltaY:-100,bubbles:true,cancelable:true}))`);
-  assert.ok(await evaluate(`document.querySelector('.world canvas').getAttribute('aria-label').includes('배율 125%')`),'Chat scrolling changed field zoom');
+  assert.ok(await evaluate(`document.querySelector('[data-camp-input]').getAttribute('aria-label').includes('배율 125%')`),'Chat scrolling changed field zoom');
   await click('전체 보기');
   const shot=await send('Page.captureScreenshot',{format:'png'},sessionId);writeFileSync('outputs/community-field-browser.png',Buffer.from(shot.data,'base64'));
   const pipSupported=await evaluate(`'documentPictureInPicture' in window`);
@@ -305,32 +305,32 @@ try {
     await click('필드로');
     await delay(200);
     await click('작은 창 · PIP');
-    await until(()=>evaluate(`!!window.documentPictureInPicture.window?.document.querySelector('canvas')`),'PIP field not mounted');
-    assert.equal(await evaluate(`document.querySelectorAll('.world canvas').length`),0);
+    await until(()=>evaluate(`!!window.documentPictureInPicture.window?.document.querySelector('[data-camp-input]')`),'PIP field not mounted');
+    assert.equal(await evaluate(`document.querySelectorAll('[data-camp-input]').length`),0);
     assert.equal(await evaluate(`window.documentPictureInPicture.window.document.documentElement.dataset.campTheme`),'color');
     await evaluate(`document.querySelector('[aria-label="설정 열기"]').click()`);
     await until(()=>evaluate(`!!document.querySelector('.theme-options')`),'Theme settings unavailable in PIP');
-    await evaluate(`window.__retainedPip=window.documentPictureInPicture.window;window.__retainedPipCanvas=window.__retainedPip.document.querySelector('canvas');window.__retainedMusic=window.__ytPlayers.at(-1);document.querySelector('.theme-options input[value="dark"]').click()`);
+    await evaluate(`window.__retainedPip=window.documentPictureInPicture.window;window.__retainedPipCanvas=window.__retainedPip.document.querySelector('[data-camp-input]');window.__retainedMusic=window.__ytPlayers.at(-1);document.querySelector('.theme-options input[value="dark"]').click()`);
     await until(()=>evaluate(`window.documentPictureInPicture.window.document.documentElement.dataset.campTheme==='dark'`),'Open PIP theme did not follow');
-    assert.ok(await evaluate(`window.documentPictureInPicture.window===window.__retainedPip&&window.__retainedPip.document.querySelector('canvas')===window.__retainedPipCanvas&&window.__ytPlayers.at(-1)===window.__retainedMusic`),'Theme should preserve PIP Canvas and radio player');
+    assert.ok(await evaluate(`window.documentPictureInPicture.window===window.__retainedPip&&window.__retainedPip.document.querySelector('[data-camp-input]')===window.__retainedPipCanvas&&window.__ytPlayers.at(-1)===window.__retainedMusic`),'Theme should preserve PIP Canvas and radio player');
     assert.equal(await evaluate(`document.querySelector('.room-code strong').textContent`),code);
     await evaluate(`document.querySelector('.theme-options input[value="color"]').click()`);
     await until(()=>evaluate(`window.documentPictureInPicture.window.document.documentElement.dataset.campTheme==='color'`),'PIP color did not return');
     await evaluate(`document.querySelector('[aria-label="설정 닫기"]').click()`);
     await until(()=>evaluate(`!document.querySelector('.settings-popup')`),'Settings exit animation pending');
 
-    await evaluate(`(()=>{const w=window.documentPictureInPicture.window;w.document.querySelector('canvas').focus();w.dispatchEvent(new w.KeyboardEvent('keydown',{code:'KeyE',bubbles:true}));w.dispatchEvent(new w.KeyboardEvent('keyup',{code:'KeyE',bubbles:true}));})()`);
+    await evaluate(`(()=>{const w=window.documentPictureInPicture.window;w.document.querySelector('[data-camp-input]').focus();w.dispatchEvent(new w.KeyboardEvent('keydown',{code:'KeyE',bubbles:true}));w.dispatchEvent(new w.KeyboardEvent('keyup',{code:'KeyE',bubbles:true}));})()`);
     await until(()=>evaluate(`document.querySelector('.sit-button').textContent.includes('다시 천천히')`),'PIP keyboard did not reach authoritative posture');
     await until(()=>evaluate(`!!window.documentPictureInPicture.window.document.querySelector('.fire-seat-tools.is-seated')`),'PIP bench seat acknowledgement did not reach the HUD');
-    await evaluate(`(()=>{const w=window.documentPictureInPicture.window;w.document.querySelector('canvas').dispatchEvent(new w.WheelEvent('wheel',{deltaY:-100,deltaMode:0,bubbles:true,cancelable:true}));})()`);
-    await until(()=>evaluate(`window.documentPictureInPicture.window.document.querySelector('canvas').getAttribute('aria-label').includes('배율 125%')`),'PIP wheel did not update field zoom');
+    await evaluate(`(()=>{const w=window.documentPictureInPicture.window;w.document.querySelector('[data-camp-input]').dispatchEvent(new w.WheelEvent('wheel',{deltaY:-100,deltaMode:0,bubbles:true,cancelable:true}));})()`);
+    await until(()=>evaluate(`window.documentPictureInPicture.window.document.querySelector('[data-camp-input]').getAttribute('aria-label').includes('배율 125%')`),'PIP wheel did not update field zoom');
     await evaluate(`(()=>{const d=window.documentPictureInPicture.window.document;d.querySelector('.pip-people').open=true;d.querySelector('.pip-people button').click();})()`);
     await until(()=>evaluate(`window.documentPictureInPicture.window.document.querySelector('.player-info-panel')?.textContent.includes('보스 패턴 구현 중')`),'PIP participant detail content not ready in its own window');
     const pipDetail=await evaluate(`window.documentPictureInPicture.window.document.querySelector('.player-info-panel').textContent`);
     assert.ok(pipDetail.includes('보스 패턴 구현 중'),pipDetail);
     await evaluate(`window.documentPictureInPicture.window.document.querySelector('.player-info-close').click()`);
     await evaluate(`window.documentPictureInPicture.window.close()`);
-    await until(()=>evaluate(`!!document.querySelector('.world canvas')`),'PIP field did not return');
+    await until(()=>evaluate(`!!document.querySelector('[data-camp-input]')`),'PIP field did not return');
     assert.equal(await evaluate(`document.querySelector('.room-code strong').textContent`),code);
     console.log('PASS: native Document PIP mount/close preserved the room in headless Chromium');
     // The external API fixture is installed before entry: the player now mounts automatically.
@@ -401,7 +401,7 @@ try {
   await evaluate(`document.querySelector('input[aria-label="채팅 메시지"]').focus()`);
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape'},sessionId);
   await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape'},sessionId);
-  await until(()=>evaluate(`document.querySelector('.camp-panel').getClientRects().length===0&&document.activeElement===document.querySelector('.world canvas')`),'Escape did not close the panel and restore field focus');
+  await until(()=>evaluate(`document.querySelector('.camp-panel').getClientRects().length===0&&document.activeElement===document.querySelector('[data-camp-input]')`),'Escape did not close the panel and restore field focus');
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter'},sessionId);
   await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter'},sessionId);
   await until(()=>evaluate(`document.activeElement===document.querySelector('input[aria-label="채팅 메시지"]')`),'Enter did not reopen and focus chat');

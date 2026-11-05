@@ -1,6 +1,7 @@
 import { toneIndex, TONE_MARKS } from './camp-appearance.mjs';
 import { characterAnimation } from './camp-sprite-animation.mjs';
 import { defaultSpriteAssets } from './camp-sprite-assets.mjs';
+import {avatarTextureUrl} from './camp-avatar-proxy.mjs';
 const avatarUrl = value => typeof value === 'string' && /^https:\/\/cdn\.discordapp\.com\/avatars\/\d{1,24}\/(?:a_)?[a-f0-9]+\.png(?:\?size=\d+)?$/.test(value);
 
 export class AvatarImages {
@@ -18,7 +19,7 @@ export class AvatarImages {
       }
       image.onload = () => this.onChange();
       image.onerror = () => { entry.failed = true; this.onChange(); };
-      try { image.src = url; } catch { entry.failed = true; }
+      try { image.crossOrigin='anonymous';image.src = avatarTextureUrl(url)||url; } catch { entry.failed = true; }
     }
     const image = entry.image;
     return !entry.failed && image.complete && image.naturalWidth > 0 && image.naturalHeight > 0 ? image : null;

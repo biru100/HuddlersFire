@@ -46,6 +46,11 @@ export default defineConfig(async ({ command }) => {
   const previewPlugins = previewJob
     ? [(await import(/* @vite-ignore */ previewModule)).spritePreviewPlugin(previewJob)]
     : [];
+  const materialPreview = command === "serve" && process.env.CAMP_MATERIAL_PREVIEW;
+  if (materialPreview) {
+    const materialModule = new URL("./tests/lighting-preview-plugin.mjs", import.meta.url).href;
+    previewPlugins.push((await import(/* @vite-ignore */ materialModule)).materialPreviewPlugin(materialPreview));
+  }
 
   // Wrangler snapshots its log path while the Cloudflare plugin is imported.
   const { cloudflare } = await import("@cloudflare/vite-plugin");

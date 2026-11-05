@@ -10,6 +10,11 @@ import { layoutBubbles } from './camp-bubbles.mjs';
 import { AvatarImages, drawCharacter, characterPose } from './camp-character.mjs';
 import { pickPlayer } from './camp-player-info.mjs';
 import { CAMP_MAP, PLAY_MAP, getMap, nearbyInteraction } from './camp-maps.mjs';
+import {GroundShadows} from './camp-shadows.mjs';
+import {sceneLights} from './camp-lighting.mjs';
+import {projectWorld,sortSceneObjects} from './camp-scene-frame.mjs';
+import {createDrawContext} from './camp-draw-context.mjs';
+import {GroundLightSprites} from './camp-canvas-renderer.mjs';
 
 const presenceBadges = { available: ['대화', '#bdbdbd'], working: ['작업', '#c5c5c5'], away: ['비움', '#bcbcbc'] };
 
@@ -18,6 +23,7 @@ export class CampRenderer extends CampArtwork {
     super();
     this.assets=assets;
     this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.getScene = getScene; this.avatars = new AvatarImages(); this.hitAreas = [];this.exhibitImages=new Map();
+    this.groundShadows=new GroundShadows(this.ctx);this.groundLights=new GroundLightSprites(this.ctx);if(canvas.dataset){canvas.dataset.campInput='';canvas.dataset.campRenderer='canvas';}
     this.win = canvas.ownerDocument?.defaultView || window;
     this.raf = this.win.requestAnimationFrame?.bind(this.win) || requestAnimationFrame;
     this.cancelFrame = this.win.cancelAnimationFrame?.bind(this.win) || cancelAnimationFrame;
@@ -27,6 +33,12 @@ export class CampRenderer extends CampArtwork {
     this.unsubscribeSprites=this.assets.subscribeSprites(()=>this.reportAssets());
     this.ensureSprites(this.getScene());
     this.frame = this.raf(t => this.draw(t));
+    this.backendReady=this.initBackend();
+  }
+  async initBackend(){
+    if(!this.canvas.ownerDocument||!this.canvas.parentNode||!this.assets.manifest.materials)return;
+    try{const {CampWebGLRenderer}=await import('./camp-webgl-renderer.mjs');if(this.stopped)return;this.webgl=new CampWebGLRenderer(this.canvas,{onStatus:(mode,reason='')=>{this.canvas.dataset.campRenderer=mode;this.canvas.dataset.campRenderReason=reason;}});await this.webgl.init();if(this.stopped)return;this.ctx=createDrawContext(this.ctx,{dpr:()=>this.dpr});this.groundShadows.ctx=this.ctx;}
+    catch(error){this.webgl?.fail(error);if(this.canvas.dataset)this.canvas.dataset.campRenderReason=String(error.message);}
   }
   reportAssets(){if(this.stopped)return;const status=this.assets.spriteStatus(this.assetIds),key=JSON.stringify(status);if(key!==this.assetStatusKey){this.assetStatusKey=key;this.getScene().onAssets?.(status);}}
   ensureSprites(scene){const map=scene.mapId||scene.players?.find(p=>p.id===scene.self)?.mapId||'camp';const key=(scene.theme||'color')+':'+map;if(key===this.spriteKey)return;this.spriteKey=key;this.assetIds=this.assets.sceneSpriteIds(scene.theme,map);this.ready=this.assets.preloadSprites(this.assetIds).then(()=>this.reportAssets());this.reportAssets();}
@@ -42,7 +54,7 @@ export class CampRenderer extends CampArtwork {
     c.fillStyle = fill; c.fill(); if (stroke) { c.strokeStyle = stroke; c.lineWidth = .6; c.stroke(); }
   }
   ellipse(x, y, rx, ry, color) { const c = this.ctx; c.beginPath(); c.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2); c.fillStyle = color; c.fill(); }
-  project(x, y) { return [(x - y) * 40, (x + y) * 20]; }
+  project(x, y) { return projectWorld(x,y); }
   pickPlayer(clientX, clientY, touch = false) {
     const rect = this.canvas.getBoundingClientRect();
     if (!rect.width || !rect.height) return null;
@@ -83,7 +95,7 @@ export class CampRenderer extends CampArtwork {
     if (p.motion === 'respawning') return;
     const c = this.ctx;
     const emote = p.emoteUntil > this.sceneTime ? EMOTES.find(e => e.id === p.emote) : null;
-    if (p.motion !== 'falling' && !p.carriedBy && !p.seatId) this.ellipse(0, 3, Math.max(5, 14 - p.z * 2), Math.max(3, 7 - p.z), '#13131366');
+    this.groundShadows.player(p,this.lights||[]);
     if (p.targeted) { c.strokeStyle = this.ink('#cfcfcf','#b55429'); c.lineWidth = 2; c.beginPath(); c.ellipse(0, 3, 20, 11, 0, 0, Math.PI * 2); c.stroke(); }
     if (self) { c.strokeStyle = this.ink('#cfcfcf55','#b5542980'); c.lineWidth = 1; c.beginPath(); c.ellipse(0, 3, 19, 10, 0, 0, Math.PI * 2); c.stroke(); }
     if (p.selected) { c.strokeStyle = this.ink('#c8c8c8','#386f98'); c.lineWidth = 1.5; c.beginPath(); c.ellipse(0, 3, 23, 12, 0, 0, Math.PI * 2); c.stroke(); }
@@ -159,6 +171,7 @@ export class CampRenderer extends CampArtwork {
   }
   draw(ms) {
     if (this.stopped) return;
+    const interval=this.lastFrameMs===undefined?0:ms-this.lastFrameMs;this.lastFrameMs=ms;
     const c = this.ctx, w = this.width, h = this.height, t = ms / 1000;
     c.setTransform(this.dpr, 0, 0, this.dpr, 0, 0); c.clearRect(0, 0, w, h);
     const scene=this.getScene(),all=scene.players||[],self=all.find(p=>p.id===scene.self);
@@ -166,6 +179,7 @@ export class CampRenderer extends CampArtwork {
     this.theme=scene.theme==='dark'?'dark':'color';
     const mapId=scene.mapId||self?.mapId||CAMP_MAP,map=getMap(mapId),playing=mapId===PLAY_MAP,focused=isSeated(self);
     const players=all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),sitting:true}];
+    const recording=this.webgl?.status==='ready'&&this.ctx.recording;if(recording)this.ctx.recording.begin();
     this.background(w,h);
     let scale = Math.min(w / (w<600?760:1050), h / 740) * 1.04, originY = h * .56;
     const top = Math.min(0, ...players.filter(p => p.motion !== 'respawning').map(p => (scene.followSelf?0:(p.x + p.y) * 20) - Math.max(0, p.z || 0) * 40 - 90));
@@ -184,26 +198,27 @@ export class CampRenderer extends CampArtwork {
     originX+=(focusX-originX)*this.focusMix;originY+=(focusY-originY)*this.focusMix;
     this.camera = { scale, x: originX, y: originY };
     this.sceneTime=scene.now??performance.now();this.fireLevel=fireStrength(scene.fire||emptyFire(),this.sceneTime);this.fireFlare=flareAt(scene.fire||emptyFire(),this.sceneTime);this.fireAppearance=scene.fire?.style||'amber';
+    this.lights=sceneLights({...scene,now:this.sceneTime,selfPosition:self,viewport:{width:w,height:h}},map,this.camera,this.reduced);
     this.seatAreas=map.fire?CAMP_SEATS.map(s=>{const [x,y]=this.project(s.x,s.y);return{id:s.id,x:originX+x*scale,y:originY+(y-8)*scale,radius:18*scale};}):[];
     c.save(); c.translate(originX, originY); c.scale(scale, scale);
     this.ground(map.bounds.edge,mapId);
     this.hitAreas = [];this.nameplates=[];
     this.sceneTime = scene.now ?? performance.now();
     const near=nearbyInteraction(self);
-    const depth=item=>{if(item.type==='player'&&item.seatId){const b=CAMP_BENCHES.find(b=>b.id===seatById(item.seatId)?.bench);if(b)return b.x+b.y+.01;}return item.type==='bench'?(benchBinding(this.assets,item)?.depth==='background'?-1000:benchBinding(this.assets,item)?.depth==='foreground'?1000:item.x+item.y):item.x+item.y;};
-    const objects = [...sceneDecorations(mapId),...map.scenery.map(o => ({ ...o })), ...map.portals.map(o=>({...o,available:near?.id===o.id})),...map.booths.map(o=>({...o,available:near?.id===o.id})),...map.trampolines, ...(playing && scene.ball ? [{ ...scene.ball, type: 'football' }] : []),
+    const objects = sortSceneObjects([...sceneDecorations(mapId),...map.scenery.map(o => ({ ...o })), ...map.portals.map(o=>({...o,available:near?.id===o.id})),...map.booths.map(o=>({...o,available:near?.id===o.id})),...map.trampolines, ...(playing && scene.ball ? [{ ...scene.ball, type: 'football' }] : []),
       ...(map.radio ? [{ ...map.radio, available: canUseRadio(players.find(p => p.id === scene.self)) }] : []), ...(map.fire ? [{ type: 'fire', x: 0, y: 0 }] : []),
       ...players.map(p => ({ ...p, type: 'player', targeted: p.id === scene.targetId, selected: p.id === scene.selectedId })),
       ...(playing ? scene.weapons?.projectiles || [] : []).filter(p => p.expiresAt > this.sceneTime).map(p => {
         const age = this.reduced ? 0 : Math.max(0, Math.min(.1, (this.sceneTime - (scene.weapons.at ?? this.sceneTime)) / 1000));
         return { ...p, x: p.x + p.vx * age, y: p.y + p.vy * age, z: Math.max(0, p.z + p.vz * age - (p.weapon === 'gun' ? 0 : 4 * age * age)), type: 'projectile' };
       }), ...(playing ? scene.weapons?.effects || [] : []).map(e => ({ ...e, type: 'weaponEffect' }))]
-      .sort((a, b) => depth(a)-depth(b) || (a.z || 0) - (b.z || 0));
+      ,this.assets);
+    this.groundShadows.static(objects.filter(o=>!['player','football','projectile','weaponEffect'].includes(o.type)),this.lights,mapId,this.theme);
     for (const item of objects) {
       const [px, py] = this.project(item.x, item.y);
       const screenX=originX+px*scale,screenY=originY+(py-(item.z||0)*40)*scale;
       if(screenX< -220*scale||screenX>w+220*scale||screenY< -80*scale||screenY>h+240*scale)continue;
-      c.save(); c.translate(px, py);
+      c.save(); c.translate(px, py);c.setObject?.(item);
       if (['tree','tent'].includes(item.type) && players.some(p => { const [x,y]=this.project(p.x,p.y); return Math.abs(x-px)<65 && y<py && y>py-125; })) c.globalAlpha=.4;
       if (item.type === 'player') this.player(item, item.id === scene.self, t);
       else if (item.type === 'fire') this.fire(t);
@@ -211,6 +226,7 @@ export class CampRenderer extends CampArtwork {
       c.restore();
     }
     c.globalAlpha = 1; c.restore();
+    if(recording){const commands=c.recording.end();try{this.webgl.render(commands,{width:w,height:h,dpr:this.dpr,lights:this.lights,now:this.sceneTime,frameMs:interval>0&&interval<200?interval:0,casters:objects});const count=String(this.webgl.metrics.normalDraws);if(this.canvas.dataset.campNormalDraws!==count)this.canvas.dataset.campNormalDraws=count;}catch(error){this.webgl.fail(error);this.draw(ms);return;}}
     this.drawNameplates();
     if(focused){this.bubbleAreas=[];this.fireChats(fireConversation(scene.chat||[],this.sceneTime,scene.hiddenIds||[]),scale,scene.occlusions||[]);}
     else this.bubbles(players, scale, map.radio ? scene.music : null);
@@ -267,7 +283,7 @@ export class CampRenderer extends CampArtwork {
       c.fillStyle = color;c.fillText(text,box.x+6,box.y+12);
     }
   }
-  destroy() { this.stopped = true; this.unsubscribeSprites?.();this.groundCache=null;this.cancelFrame(this.frame);if(this.resizeFrame)this.cancelFrame(this.resizeFrame);this.observer.disconnect(); this.avatars.dispose();for(const {image}of this.exhibitImages.values())image.onload=image.onerror=null;this.exhibitImages.clear(); }
+  destroy() { this.stopped = true; this.unsubscribeSprites?.();this.groundCache=null;this.groundShadows.destroy();this.groundLights.destroy();this.webgl?.destroy();this.cancelFrame(this.frame);if(this.resizeFrame)this.cancelFrame(this.resizeFrame);this.observer.disconnect(); this.avatars.dispose();for(const {image}of this.exhibitImages.values())image.onload=image.onerror=null;this.exhibitImages.clear(); }
 }
 
 export { CampAudio } from './camp-audio.mjs';

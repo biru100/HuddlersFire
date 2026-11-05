@@ -1,0 +1,179 @@
+{
+  "kind": "Disposable headless Chrome; CPU submission, rAF intervals and WebGL-only GPU timers. Mobile viewport emulation is not a physical phone.",
+  "rows": [
+    {
+      "name": "desktop",
+      "width": 1050,
+      "height": 824,
+      "dpr": 1,
+      "mode": "webgl-unlit",
+      "cpu": {
+        "count": 360,
+        "median": 1.4000000357627869,
+        "p95": 2.199999988079071,
+        "max": 8
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 4.2999999999999545,
+        "max": 4.300000000000182
+      },
+      "webglGpu": {
+        "count": 360,
+        "median": 0.520448,
+        "p95": 1.2416,
+        "max": 2.63888
+      },
+      "driver": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 (0x00002F04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "normalDraws": 0,
+      "textureBytes": 36225472,
+      "draws": 251
+    },
+    {
+      "name": "desktop",
+      "width": 1050,
+      "height": 824,
+      "dpr": 1,
+      "mode": "webgl-full",
+      "cpu": {
+        "count": 360,
+        "median": 2.299999952316284,
+        "p95": 3.199999988079071,
+        "max": 4.899999976158142
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 4.299999999999727,
+        "max": 4.400000000000091
+      },
+      "webglGpu": {
+        "count": 360,
+        "median": 0.6632,
+        "p95": 1.72816,
+        "max": 2.604
+      },
+      "driver": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 (0x00002F04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "normalDraws": 86,
+      "textureBytes": 41694592,
+      "draws": 251
+    },
+    {
+      "name": "desktop",
+      "width": 1050,
+      "height": 824,
+      "dpr": 1,
+      "mode": "canvas-v2",
+      "cpu": {
+        "count": 360,
+        "median": 0.7999999523162842,
+        "p95": 1.100000023841858,
+        "max": 1.5999999642372131
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 4.299999999999272,
+        "max": 4.300000000000182
+      },
+      "webglGpu": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      },
+      "driver": null,
+      "normalDraws": 86,
+      "textureBytes": 41694592,
+      "draws": 251
+    },
+    {
+      "name": "mobile-emulation",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "mode": "webgl-unlit",
+      "cpu": {
+        "count": 360,
+        "median": 1.5999999642372131,
+        "p95": 2.100000023841858,
+        "max": 3
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.2000000000000455,
+        "p95": 4.299999999999727,
+        "max": 4.400000000000091
+      },
+      "webglGpu": {
+        "count": 360,
+        "median": 0.13808,
+        "p95": 0.215296,
+        "max": 0.522048
+      },
+      "driver": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 (0x00002F04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "normalDraws": 0,
+      "textureBytes": 36225472,
+      "draws": 251
+    },
+    {
+      "name": "mobile-emulation",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "mode": "webgl-full",
+      "cpu": {
+        "count": 360,
+        "median": 2.299999952316284,
+        "p95": 3.199999988079071,
+        "max": 4.5
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 4.299999999999727,
+        "max": 8.300000000000182
+      },
+      "webglGpu": {
+        "count": 360,
+        "median": 0.465024,
+        "p95": 1.595104,
+        "max": 2.128448
+      },
+      "driver": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 (0x00002F04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "normalDraws": 86,
+      "textureBytes": 41694592,
+      "draws": 251
+    },
+    {
+      "name": "mobile-emulation",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "mode": "canvas-v2",
+      "cpu": {
+        "count": 360,
+        "median": 0.8999999761581421,
+        "p95": 1.199999988079071,
+        "max": 1.899999976158142
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 4.299999999999272,
+        "max": 4.399999999999636
+      },
+      "webglGpu": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      },
+      "driver": null,
+      "normalDraws": 86,
+      "textureBytes": 41694592,
+      "draws": 251
+    }
+  ]
+}

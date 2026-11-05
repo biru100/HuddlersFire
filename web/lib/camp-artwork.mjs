@@ -3,7 +3,7 @@ import { portalMark } from './camp-appearance.mjs';
 import { gameById, exhibitCover } from './camp-games.mjs';
 import { defaultSpriteAssets, createSpriteSurface } from './camp-sprite-assets.mjs';
 import { benchBinding } from './camp-scene-contract.mjs';
-import { getMap } from './camp-maps.mjs';
+import {paintGroundSurface} from './camp-canvas-renderer.mjs';
 export const FIELD_INK=Object.freeze({background:'#111111',floor:'#343434',edge:'#222222',line:'#555555',muted:'#aaaaaa',paper:'#eeeeee',white:'#ffffff'});
 const COLOR_FIELD_INK=Object.freeze({background:'#f1ead9',floor:'#a9b67a',edge:'#7d8651',line:'#87975c',muted:'#655e48',paper:'#fff8e6',white:'#fffdf4'});
 export class CampArtwork {
@@ -18,27 +18,21 @@ export class CampArtwork {
   ground(edge,mapId){
     const suffix=this.theme==='dark'?'-dark':'',base=this.sprites.getSprite((mapId==='showroom'?'stone':'grass')+suffix),sand=mapId==='showroom'?null:this.sprites.getSprite('sand'+suffix);
     if(!base||(mapId!=='showroom'&&!sand))return;
-    const key=mapId+suffix+edge;
+    const materials=this.webgl?.status==='ready'?this.sprites.manifest.materials:null,normalBase=this.sprites.getSprite(materials?.sheets[(mapId==='showroom'?'stone':'grass')+suffix]),normalSand=mapId==='showroom'?null:this.sprites.getSprite(materials?.sheets['sand'+suffix]);
+    const key=mapId+suffix+edge+Boolean(normalBase)+Boolean(normalSand);
     if(this.groundCache?.key!==key){
-      const surface=createSpriteSurface(this.ctx,2100,1200),c=surface.getContext('2d'),map=getMap(mapId);c.translate(1050,580);
-      c.save();c.transform(1,.5,-1,.5,0,0);c.beginPath();c.roundRect(-edge*40,-edge*40,edge*80,edge*80,80);c.clip();
-      c.fillStyle=c.createPattern(base,'repeat');c.fillRect(-edge*40,-edge*40,edge*80,edge*80);
-      const area=map.clearing;
-      if(area&&sand){c.fillStyle=c.createPattern(sand,'repeat');c.beginPath();c.ellipse(area.x*40,area.y*40,area.rx*40,area.ry*40,0,0,Math.PI*2);c.fill();}
-      for(const route of map.routes||[]){
-        c.beginPath();route.points.forEach(([x,y],i)=>i?c.lineTo(x*40,y*40):c.moveTo(x*40,y*40));
-        c.lineCap='round';c.lineJoin='round';c.lineWidth=route.width;c.strokeStyle=mapId==='showroom'?this.ink('#575757','#ece7d3'):c.createPattern(sand,'repeat');c.stroke();
-        if(mapId==='showroom'){c.lineWidth=2;c.strokeStyle=this.ink('#919191','#b3ad94');c.stroke();}
-      }
-      c.restore();this.groundCache={key,surface};
+      const surface=createSpriteSurface(this.ctx,2100,1200);paintGroundSurface(surface,{base,sand,mapId,edge,dark:this.theme==='dark'});let normal=null;
+      if(normalBase&&(mapId==='showroom'||normalSand)){normal=createSpriteSurface(this.ctx,1050,600);paintGroundSurface(normal,{base:normalBase,sand:normalSand,mapId,edge,normal:true});}
+      this.groundCache={key,surface,normal};
     }
-    this.ctx.drawImage(this.groundCache.surface,-1050,-580);
-    if(mapId==='camp'){
+    this.ctx.save();this.ctx.setMaterial?.(this.groundCache.normal?{normalImage:this.groundCache.normal,normalizedSurface:true,strength:materials.terrain[mapId==='showroom'?'stone':'grass']}:null);this.ctx.drawImage(this.groundCache.surface,-1050,-580);this.ctx.restore();
+    if(this.groundLights)this.groundLights.draw(this.ctx,this.lights||[]);
+    else if(mapId==='camp'){
       const c=this.ctx,level=this.fireLevel??.6;c.save();c.scale(1,.5);const g=c.createRadialGradient(0,0,10,0,0,210+level*80);
       g.addColorStop(0,this.ink('#dddddd18','#ffc75b24'));g.addColorStop(1,this.ink('#dddddd00','#ffc75b00'));c.fillStyle=g;c.beginPath();c.arc(0,0,210+level*80,0,Math.PI*2);c.fill();c.restore();
     }
   }
-  shadow(rx,ry,y=4){this.ellipse(0,y,rx,ry,this.ink('#00000055','#4e422530'));}
+  shadow(rx,ry,y=4){if(!this.groundShadows)this.ellipse(0,y,rx,ry,this.ink('#00000055','#4e422530'));}
   tree(item){this.shadow(30,12);this.sprite('tree',{width:100*(item.scale||1)});}
   tent(){this.shadow(55,21);this.sprite('tent',{width:150,y:5});}
   log(){this.shadow(37,11);this.sprite('bench',{width:90,y:6});}
@@ -58,7 +52,7 @@ export class CampArtwork {
   }
   trampoline(){this.shadow(40,15);this.sprite('trampoline',{width:110,y:8});this.caption('트램펄린',32);}
   radio(item){this.shadow(26,9);this.sprite('radio',{width:58,y:3});if(item.available)this.line([[-30,9],[30,9]],this.ink('#eeeeee','#c77e37'),2);this.caption('라디오',27);}
-  portal(item,time){
+  portal(item){
     this.shadow(35,10);this.sprite('portal',{width:100,y:5});
     this.caption(portalMark(item.destination)+' '+item.label,-113,11);if(item.available)this.caption('E · 이동',24);
   }

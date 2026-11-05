@@ -13,7 +13,7 @@ export const observeField = `(()=>{
 })();`;
 export function fieldWalker(evaluate) {
   const delay=ms=>new Promise(r=>setTimeout(r,ms));
-  const keys=async codes=>evaluate(`(()=>{document.querySelector('canvas').focus();for(const code of ['KeyW','KeyA','KeyS','KeyD'])window.dispatchEvent(new KeyboardEvent('keyup',{code,bubbles:true}));for(const code of ${JSON.stringify(codes)})window.dispatchEvent(new KeyboardEvent('keydown',{code,bubbles:true}));})()`);
+  const keys=async codes=>evaluate(`(()=>{document.querySelector('[data-camp-input]').focus();for(const code of ['KeyW','KeyA','KeyS','KeyD'])window.dispatchEvent(new KeyboardEvent('keyup',{code,bubbles:true}));for(const code of ${JSON.stringify(codes)})window.dispatchEvent(new KeyboardEvent('keydown',{code,bubbles:true}));})()`);
   return async(mapId,target)=>{
     await evaluate(`(()=>{const stand=[...document.querySelectorAll('.fire-seat-tools button')].find(b=>b.textContent.includes('일어나기'));if(stand)stand.click();else{const sit=document.querySelector('.sit-button');if(sit?.classList.contains('is-sitting'))sit.click();}})()`);
     await delay(800);

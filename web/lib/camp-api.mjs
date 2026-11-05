@@ -1,6 +1,8 @@
 import { COLORS, MAX_PLAYERS, MEMBER_TTL, HOST_LEASE } from './camp-config.mjs';
 import { lookupYouTubeTitle } from './camp-metadata.mjs';
 import { maintainRoom, updatePresence } from './camp-room-store.mjs';
+import {createAvatarProxy} from './camp-avatar-proxy.mjs';
+const avatarProxy=createAvatarProxy();
 
 export { MEMBER_TTL, HOST_LEASE } from './camp-config.mjs';
 const SESSION_TTL = 7 * 86400_000;
@@ -48,9 +50,10 @@ async function iceConfig(env, playerId, now) {
 
 export async function handleCampRequest(req, env, options = {}) {
   const now = options.now ?? Date.now(), outboundFetch = options.fetch ?? fetch;
+  const url = new URL(req.url), route = url.pathname.replace(/^\/api\/camp\/?/, '');
+  if(route.startsWith('avatar/'))return options.fetch?createAvatarProxy({fetch:outboundFetch})(route,req):avatarProxy(route,req);
   const db = env.DB;
   if (!db) return json({ error: '로비 저장소가 준비되지 않았습니다.' }, 503);
-  const url = new URL(req.url), route = url.pathname.replace(/^\/api\/camp\/?/, '');
   try {
     if (req.method !== 'GET') {
       if (req.headers.get('origin') !== url.origin || req.headers.get('sec-fetch-site') === 'cross-site') fail('요청 출처를 확인할 수 없습니다.', 403);

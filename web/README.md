@@ -1,6 +1,8 @@
 # Huddlers Fire web application
 
-Current source: INT-18 field-v2, deployed as public version 29 / protocol v19 on 2026-11-06. All participants must reload before rejoining. The project [validation record](../docs/validation.md) owns the deployment evidence. Runtime PNGs live in public/sprites; source recipes, reviewed snapshots and replay tools live at the repository root. Ordinary app builds require no Python or generation service. From the project root, node tools/rebuild-sprites.mjs replays the reviewed field-v2 package; --legacy explicitly selects the older INT-17 recipe. See [authoring](../docs/sprite-authoring.md).
+Current source: INT-19 lighting/materials on field-v2, protocol v19. The project [validation record](../docs/validation.md) owns the implementation and publication evidence. Runtime PNGs live in public/sprites; source recipes, reviewed snapshots and replay tools live at the repository root. Ordinary app builds require no Python or generation service. From the project root, node tools/rebuild-sprites.mjs replays the reviewed field and material package; --legacy explicitly selects the older INT-17 recipe. See [authoring](../docs/sprite-authoring.md) and [lighting](../docs/lighting.md).
+
+The field uses PixiJS 8.14.3/WebGL2 with bounded fire/lantern lights, normal maps, cached soft shadows and adaptive quality. Input and HUD stay on the original Canvas; unsupported or lost WebGL falls back to Canvas with improved shadows/glows. Profile photos and official booth media keep their original colors. The five new material PNGs add 438,605 bytes; all 22 color PNGs are preserved. `npm.cmd run test:browser:lighting` captures the isolated material preview, followed by `test:browser:lighting:ui` for actual desktop/mobile/PIP. `test:browser:lighting:metrics` measures CPU submission, WebGL GPU time and frame intervals separately. See the authoring guide for the preview server and review/install commands; a mobile viewport is not a physical phone benchmark.
 
 `npm.cmd test` and `test:render` preload actual assets using the Node Canvas fixture. The field has 16 action states, four seated body views, 67 total frames, two bench axes, 29 environment/effect assets and three terrain materials, with six color and six dark character variants. Shared state fields and DB schemas are unchanged; protocol v19 separates the new layout from v18. The dev-only sprite preview dependency is loaded only when CAMP_PREVIEW_JOB is set.
 
@@ -10,7 +12,7 @@ The current source adds a browser-local Color/Dark preference in Settings (INT-1
 
 After starting the built Worker on 5191 and loopback QA API on 5192, `npm.cmd run test:browser:appearance` checks desktop/mobile tabs, popup stacking, close/focus behavior and screenshots (`outputs/seed-*.png`). `npm.cmd test` includes grayscale Canvas and legacy-profile compatibility checks. Browser tests use disposable headless profiles, never personal browser sessions.
 
-React/Vinext UI, Canvas 2D world, WebRTC host topology, Cloudflare Worker HTTP API and D1 lobby storage. See the repository root README for startup and tests.
+React/Vinext UI, WebGL2 world with Canvas fallback/HUD, WebRTC host topology, Cloudflare Worker HTTP API and D1 lobby storage. See the repository root README for startup and tests.
 
 ## Local development
 

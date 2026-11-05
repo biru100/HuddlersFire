@@ -23,6 +23,8 @@ PowerShell에서는 `web/`에서 `npm.cmd`를 사용한다. 표의 명령·검�
 
 ## 시각 변경의 장면 확인
 
+조명·노멀 변경은 [조명 계약](../../../docs/lighting.md)의 WebGL 캡처와 `test:browser:lighting`, `test:browser:lighting:ui`를 순서대로 사용한다. 노멀 draw 수·backend·캡처 크기와 재질 fingerprint를 확인한다. `test:render`와 `test:render:metrics`는 Canvas 폴백 검사이며 WebGL 성능/품질 증거를 대신하지 않는다. 브라우저 CPU·WebGL GPU 타이머·rAF 간격과 실물 모바일 여부를 구분한다. 재질·셰이더 변경 후 이전 검토의 설치 거절은 `test:sprites:pipeline`에서 검사한다.
+
 신규 자산 작업은 [제작 경로](../../../docs/sprite-authoring.md)의 부분 빌드·Canvas·격리 UI·review 검증을 사용한다. 신규 파이프라인/합성 코드 변경에는 `npm.cmd run test:sprites:pipeline`을 실행한다. 선택 원본 누락·방향/접촉 불일치·기존 자산 비변경·오래된 검토의 거절을 확인한다. 범위가 좁은 데이터/문구 변경에는 이 도구 전체를 강제하지 않는다.
 
 [장면 구성 기준](../../../docs/scene-composition.md)에 따라 영향받는 합성 화면을 실제로 열어 확인한다. UI 배치 변경은 관련 패널·오버레이가 표시된 화면도 대상으로 한다. 기술 검사 통과·화면 검토 결과·미해결/미확인을 구분하고 이미지 경로와 관찰을 기록한다. PASS 로그나 이미지 생성만으로 시각 품질 통과를 선언하지 않는다. 범위 안의 결함은 수정 후 같은 관계를 다시 확인하며, 범위 밖·확인 불가 항목은 완료된 부분과 구분한다. 이 절차는 문서 수정에 게임 검사를 추가하거나 개인 UI 조작·상시 사용자 승인을 요구하지 않는다.

@@ -1,5 +1,64 @@
 # 구현 검증 기록
 
+## INT-19 후속 공개 배포 · 버전 31 / 규약 v19 (2026-11-06)
+
+사용자 **“배포 커밋 푸시해줘”** 요청으로 검증한 조명·그림자·노멀맵을 기존 사이트에 공개했다. 아래 초기 로컬 검증의 배포 제외 경계는 이 후속 요청으로 대체한다.
+
+- **공개 결과:** https://huddlers-fire-camp.gywkd77.chatgpt.site · 버전 **31**, 배포 `appgdep_6aecdff497008191b24d4cb17a06161a`, 최종 **succeeded**. 기존 public 접근·접근 리비전 **2**·DB 바인딩·런타임 환경 리비전 **1**과 규약 **v19**를 유지했다. 새 SQL·환경 변경은 없다. 새 조명을 보려면 기존 페이지를 새로고침해야 한다.
+- **검증 재사용과 빌드:** 앞선 동일 런타임의 215/215 회귀·17/17 파이프라인·35개 Canvas 장면·28개 실제 화면·PC/모바일/PIP·16인 RTC 통과를 재사용했다. 이번 요청에서 재질 review 28개와 runtime/빌드 PNG를 재검증하고 공식 `build-site.mjs`로 다시 빌드했다. 런타임 입력 **192개**가 빌드보다 새롭지 않고 게시 소스 **256개**와 빌드 파일 **155개**의 SHA-256이 일치함을 확인했다.
+- **게시 소스:** 공식 도우미의 최종 커밋·푸시는 `8ef28c1a49abe80db849412a77d32ce1516d4ffc`다. 저장 버전은 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_f8d9e452352c81919d0fe2ffe70bae78`이다. source 256개 모두 Git blob과 빌드 입력의 바이트가 일치한다. archive는 `web/outputs/huddlers-fire-lighting-deploy.tar.gz` **9,136,640 bytes**, gzip SHA-256 `164779a90579decb31efc5faaad29ad40525516edd2f910763dcff5c128ce6cc`, Sites 저장 tar 해시는 `5c70cad22aee6719146c4f7f573b9208588be49274a66eca337d27b6b26a7d6d`다. 비밀값·Git·의존성·로컬 상태·제작 도구를 제외했다.
+- **준비 중 정합성 수정:** 게시 저장소의 Windows 소유권 차이는 해당 helper 실행에만 `safe.directory`를 적용했다. 전역 Git 설정을 바꾸지 않았다. 최초 저장 버전 **30**은 기존 8개 파일의 줄바꿈 캐시 차이를 확인해 **배포하지 않았다**. 공개 전에 해당 게시 index를 다시 정규화했고, 전체 Git blob 바이트 대조가 통과한 새 저장 버전 31만 배포했다. 앱 동작과 빌드 파일은 같으며 게시 소스의 재현성을 보정한 것이다.
+- **공개 확인:** HTML·JS/CSS·음원·Worker·게임/스프라이트 등 **84개 파일**을 배포 빌드와 해시 대조했다. 정식 PNG **27개**와 노멀 manifest, 방 목록 HTTP **200**, `discordAvailable:true`, 미인증 방 생성 **401**, 잘못된 avatar 경로 **400**, avatar 쓰기 메서드 **405**를 확인했다. 사용자 방·로그인 세션은 만들지 않았다. 결과는 `web/outputs/lighting/{deploy-inputs,deploy-package-check,deployment-check}.json`, 빌드 로그는 `deploy-build.log`다.
+- **원본 저장소:** `origin/main`과 시작 HEAD가 일치함을 확인했다. 기존 조명·자산·하네스 변경과 이번 배포 기록을 함께 원본 main에 보존한다. 게시 전용 저장소와 원본 저장소의 커밋은 별개다.
+
+공개 확인은 파일/API 검증이며 로컬 화면·성능 검증의 실물 휴대전화·실제 인터넷/NAT·YouTube 음향 한계를 확장하지 않는다.
+
+## INT-19 · 그림자·2D 조명·노멀맵 (2026-11-06, 로컬)
+
+사용자의 전체 구현 계획 승인에 따라 기존 필드 v2에 재질 채널·접촉/투영 그림자·광원·WebGL2/Canvas 경로와 검증 하네스를 구현했다. 공유 좌표·물리·규약 v19·DB 스키마는 유지했다. 배포·커밋·푸시는 수행하지 않았으며 아래 공개 버전 29는 INT-18의 결과다.
+
+### 구현과 검토 묶음
+
+- PixiJS **8.14.3**을 고정했다. 동일한 투영·정렬·상하체 혼합/클립을 사용하고 원래 Canvas가 입력·HUD를 맡는다. WebGL 미지원·초기화 실패·컨텍스트 손실 시 Canvas, 복구 시 WebGL로 전환한다. 사진은 고정 Discord CDN 전용 읽기 경로를 사용한다.
+- 모닥불/가까운 랜턴 **최대 3개**, 화면 밖 광원 제외, 유한 높이 차폐, 정적 절반 해상도 그림자/바닥 노멀, 빛 번짐 캐시, 공통 uniform과 비조명 Sprite 배치, 텍스처 수명 관리·80MB 추정 한도, 프레임 지연에 따른 보조광 축소를 적용했다. 모션 감소는 깜빡임을 멈추고 연료 변화를 유지한다.
+- 기존 색 PNG **22개는 바이트 그대로 보존**했다. 형태 기반 노멀 **5개 / 438,605 bytes**를 추가해 총 **27개 / 7,294,519 bytes**다. 가장 큰 장면 로딩 집합은 캠프/놀이터 컬러 **4,255,916 bytes**로 전체 10MB·장면당 6MB 한도 안이다. 색 원화의 명암을 높이로 복원하거나 신규 AI 색 원화를 생성하지 않았다.
+- [정식 재질 묶음](../art/sprites/field-lighting-v1/release/review.json)은 **28개** 실제 PNG의 관찰을 포함한다. 세 맵×컬러/다크, 16명 착석/혼합 행동/업기, 67프레임 4판, 좌/우 진단광·노멀 끄기·근접, Canvas 강제/손실/복구, PC/모바일 필드·패널·영상·실제 Document PIP, 두 수치 아틀라스를 열람했다. 실제 UI 7개는 **정식 설치 후 빌드한 앱에서 재캡처**했다. [evidence](../art/sprites/field-lighting-v1/release/evidence.json)의 fingerprint는 `9e0d27c573ab120d571f1d9319e4d50e06838744170a25e5b6eaa3781439c78b`다.
+- 설치 gate는 원화·노멀·명세·생성기·런타임·캡처 소스 해시, PNG 해시/크기, backend·노멀 draw, 장면별 pass 관찰과 미해결 유무를 검사한다. 대표 5개 검토는 전체 설치를 대신하지 못한다. 기본 `sprites:build`로 검토본을 재생성·재검증·설치했고 같은 27개 manifest를 얻었다.
+
+### 실행 결과
+
+| 검사 | 결과 |
+| --- | --- |
+| `npm.cmd test` | **215/215 PASS**. 기존 201개와 조명·변환·차폐·노멀/사진·검토 gate 14개 |
+| `npm.cmd run test:sprites:pipeline` | **17/17 PASS**. 채널/크기/해시·대표/전체 범위·오래된 검토·Canvas를 WebGL 증거로 제출한 경우 거절 포함 |
+| `npm.cmd run test:render` | **35 시나리오 PASS**, Canvas 폴백 장면·클릭/가림 회귀. WebGL 검증과 구분 |
+| `test:browser:lighting` / `test:browser:lighting:ui` | 최종 fingerprint의 전체 28개 캡처·실제 WebGL 노멀 draw·컨텍스트 손실/복구와 실제 PC/모바일/PIP PASS |
+| `test:browser:community` | 빌드 앱의 좌석·이동·입장·초안·라디오·PIP·종료/복구 PASS. 브라우저 예외 없음 |
+| `test:browser:exhibition` | 빌드 앱 PC/모바일 포탈 실제 이동·두 게임 공식 이미지/트레일러/링크·모달 입력/초점 PASS. 브라우저 예외 없음 |
+| `test:browser:appearance` | 빌드 앱 PC/모바일 컬러·다크 전환·설정 저장/새로고침·채팅 초안·탭·팝업 초점 PASS |
+| `test:network` | **실제 loopback 16인/15 DataChannel**, 놀이·음악·재연결·정상/강제 승계·상태 전송 손실·스케줄 지연 회복 PASS, 최종 epoch 5, HTTP 1,481회 |
+| `typecheck` / `build` / `lint` | PASS / PASS / 오류 0. 기존 `camp-world.mjs`의 미사용 `COLORS` 경고 1개 유지 |
+| 빌드 산출물 | 정식 PNG 27개, client JS 29개에 미리보기 서버/작업 경로·캡처 코드 노출 0 |
+
+정식 재질 묶음의 전체 review 재검증, 27개 runtime/빌드 PNG 해시·22개 색 원본 불변, 수정 문서·스킬의 로컬 참조 경로와 `git diff --check`를 확인했다. 전역 설정과 다른 세션의 파일을 변경하지 않았다.
+
+실행 로그는 `web/outputs/lighting/final-*.log`, 실제 성능 원자료는 [browser-metrics.json](../art/sprites/field-lighting-v1/release/browser-metrics.json)에 둔다. 개인 브라우저·데스크톱 앱을 조작하지 않았다. 임시 headless Chrome과 loopback QA API/SQLite를 사용했다. 제한 환경에서는 Worker 시작 시 상위 디렉터리 접근 오류, Chrome CDP 시간초과가 발생해 해당 로컬 검증 프로세스만 제한 해제하여 실행했다. 애플리케이션 코드나 오류 이벤트를 숨겨 통과시키지 않았다. 개발 중 PIP/resize에서 기존 ResizeObserver 알림을 관찰했으며 빌드 앱 최종 검사에는 런타임 예외가 없었다.
+
+### 성능과 확인 한계
+
+동일한 16명 행동 장면·120프레임 준비 후 360프레임을 측정했다. 비교 원본은 작업 전 HEAD `1fb28c7`의 렌더러를 별도 출력 폴더에 복원했고 Git checkout은 변경하지 않았다. **RTX 5070 / ANGLE D3D11** 환경이다. CPU는 제출 시간, GPU는 WebGL timer query이며 전체 입력/물리나 드라이버 메모리 수치가 아니다.
+
+| 화면 / 경로 | CPU 중앙값 / p95 (ms) | GPU 중앙값 / p95 (ms) |
+| --- | --- | --- |
+| PC 1050×824 DPR1 · 기존 Canvas | 0.8 / 1.1 | 측정 불가 |
+| PC · WebGL, 표면 조명 끔 | 1.4 / 2.2 | 0.52 / 1.24 |
+| PC · WebGL, 전체 조명 | **2.3 / 3.2** | **0.66 / 1.73** |
+| 모바일 화면 모의 390×844 DPR2 · 기존 Canvas | 0.9 / 1.2 | 측정 불가 |
+| 모바일 화면 모의 · WebGL, 표면 조명 끔 | 1.6 / 2.1 | 0.14 / 0.22 |
+| 모바일 화면 모의 · WebGL, 전체 조명 | **2.3 / 3.2** | **0.47 / 1.60** |
+
+같은 WebGL에서 조명·노멀 추가분의 CPU p95는 **+1.0/+1.1ms**다. 기존 Canvas 대비 전체 전환의 CPU p95는 **+2.1/+2.0ms**로, PC는 초기 추가 2ms 목표보다 약 0.1ms 높다. 측정 편차를 이유로 목표 충족으로 바꾸지 않는다. 전체 조명 텍스처 추정치는 **41,694,592 bytes**, rAF p95는 약 4.3ms였으나 240Hz PC 환경의 결과다. 실물 휴대전화의 FPS·GPU·발열·메모리, 실제 인터넷/NAT·Discord 동의·YouTube 디코딩/음향과 커뮤니티 선호는 미확인이다. 그림자·노멀은 형태 근사이며 정확한 3D 복원으로 보고하지 않는다.
+
 ## INT-18 후속 공개 배포 · 버전 29 / 규약 v19 (2026-11-06)
 
 사용자 **“배포 커밋 푸시 다 진행해줘”** 요청으로 검증한 새 필드를 기존 사이트에 공개했다. 아래 초기 로컬 검증의 배포 제외 경계는 이 후속 요청으로 대체한다.

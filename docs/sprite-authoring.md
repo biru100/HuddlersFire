@@ -1,5 +1,27 @@
 # 장면 명세에서 파일럿 검토까지
 
+## 기존 그림의 재질 채널 추가
+
+INT-19의 조명 계약은 [lighting.md](lighting.md)를 따른다. 기존 색 원화의 재생성·재패킹과 구분해 `material-spec.json`의 형태 명세에서 노멀 채널을 만든다. 원화·기존 manifest를 동결하고 `tools/build-material-maps.mjs`로 작업 폴더에 출력한다. 기본 원본은 현재 검토 묶음의 `base-manifest.json`이며 새 색 원본을 쓰려면 해당 manifest를 명시한다.
+
+```powershell
+node tools/build-material-maps.mjs --out art/sprites/runs/lighting-prototype
+# web/에서 개발 서버에만 검토 manifest 주입
+$env:CAMP_MATERIAL_PREVIEW='C:/path/to/HuddlersFire/art/sprites/runs/lighting-prototype/manifest.json'
+npm.cmd run dev -- --host 127.0.0.1 --port 5193
+```
+
+격리 headless `test:browser:lighting`은 대표 장면을 캡처한다. 실제 PNG를 열고 `prototype-review.json`에 관찰·미해결과 현재 fingerprint를 기록한다. `tools/review-materials.mjs <작업 폴더> <prototype-review.json> --scope prototype`으로 정합성을 확인한 뒤 `CAMP_LIGHTING_SCOPE=full`로 전체 동작·맵·복구를 캡처한다. 실제 UI 검사는 `test:browser:lighting:ui`를 **그 뒤 순서대로** 실행해 패널·영상·PIP 증거를 추가한다. 렌더 성공이나 gate 테스트의 합성 fixture로 관찰을 대신하지 않는다.
+
+전체 검토의 `review.json`을 작성한 뒤 아래 명령으로 로컬 설치한다. 화면 캡처 크기·backend·노멀 draw 수, 원본·재질·런타임 해시가 맞아야 한다. 스크린샷만으로 실물 모바일·실제 YouTube 음향까지 확인했다고 보고하지 않는다.
+
+```powershell
+node tools/review-materials.mjs art/sprites/runs/lighting-prototype art/sprites/runs/lighting-prototype/review.json
+node tools/install-materials.mjs art/sprites/runs/lighting-prototype art/sprites/runs/lighting-prototype/review.json
+```
+
+설치는 기존 검토본을 덮어쓰지 않고 버전별 묶음과 `art/sprites/material-release.json`을 남긴다. 승인한 새 묶음을 재현하는 기본 `sprites:build`는 이전 Canvas 전용 필드로 되돌아가지 않는다. 조명 경로가 바뀐 뒤 이전 필드 v2의 화면 검토는 현재 시각 검증을 대신하지 않는다.
+
 ## 현재 필드 v2 제작
 
 INT-18의 기본 `scene-spec.json`은 **52개 자산**의 전체 명세다. 동일 사본은 `art/sprites/field-v2/spec.json`, 예전 5개 파일럿은 `examples/composition-pilot-v1.json`에 보존한다. 새 원화는 `field-v2/bootstrap.json`에서 이전 그림을 참조하지 않고 생성했다. 생성 지시·출처·탈락 이유는 `field-v2/*receipts.json`, `corrections.json`, `carry-correction.json`에 남긴다. 그룹 시트의 style/action을 셀 순서에 맞춰 펼친 실제 지시도 보존한다.

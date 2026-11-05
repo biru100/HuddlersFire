@@ -26,7 +26,7 @@ try{
   const {targetId}=await send('Target.createTarget',{url:'about:blank'}),{sessionId}=await send('Target.attachToTarget',{targetId,flatten:true});
   const evaluate=async expression=>{const r=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true,userGesture:true},sessionId);if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;};
   const walk=fieldWalker(evaluate);
-  const key=async code=>{await evaluate(`document.activeElement?.blur();document.querySelector('canvas').focus()`);for(const type of ['keyDown','keyUp'])await send('Input.dispatchKeyEvent',{type,code,key:code==='Escape'?'Escape':code.slice(-1).toLowerCase()},sessionId);};
+  const key=async code=>{await evaluate(`document.activeElement?.blur();document.querySelector('[data-camp-input]').focus()`);for(const type of ['keyDown','keyUp'])await send('Input.dispatchKeyEvent',{type,code,key:code==='Escape'?'Escape':code.slice(-1).toLowerCase()},sessionId);};
   const nearbyClick=async()=>{
     assert.ok(await evaluate(`(()=>{const e=document.querySelector('.world-interact'),r=e?.getBoundingClientRect();return !!e&&!e.disabled&&e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));})()`),'Interaction button covered');
     await evaluate(`document.querySelector('.world-interact').click()`);
@@ -92,7 +92,7 @@ try{
     assert.ok(await evaluate(`(()=>{const b=document.querySelector('.game-info-popup .radio-close'),r=b.getBoundingClientRect();return b.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));})()`),'Close button is covered after scrolling');
     const linksShot=await send('Page.captureScreenshot',{format:'png'},sessionId);writeFileSync('outputs/game-intro-links-'+suffix+'.png',Buffer.from(linksShot.data,'base64'));
     if(mobile)await evaluate(`document.querySelector('.game-info-popup button[aria-label="게임 소개 닫기"]').click()`);else for(const type of ['keyDown','keyUp'])await send('Input.dispatchKeyEvent',{type,code:'Escape',key:'Escape'},sessionId);
-    await until(()=>evaluate(`!document.querySelector('.game-info-popup')&&document.activeElement===document.querySelector('canvas')`),'Close did not return field focus');
+    await until(()=>evaluate(`!document.querySelector('.game-info-popup')&&document.activeElement===document.querySelector('[data-camp-input]')`),'Close did not return field focus');
     assert.ok(await evaluate(`!window.__trailerFrame.isConnected`),'Closing the introduction must remove the trailer player');
     assert.deepEqual(await radioState(),radioBefore,'Closing an exhibit changed shared playback or personal mute');
     console.log('PASS: '+suffix+' own cover/logo/trailer/links, exact SNS registration, input lock and close');
