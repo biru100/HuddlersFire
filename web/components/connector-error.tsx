@@ -1,5 +1,5 @@
 import { LinkIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ActionButton as Button } from "@/seed-design/ui/action-button";
 import { connectorErrorRecovery } from "@/lib/connector-errors.mjs";
 
 /** Render in the affected feature, leaving the rest of the Site usable. */
@@ -22,7 +22,7 @@ export function ConnectorError({
       {recovery.action && (
         <Button
           asChild
-          variant="outline"
+          variant="neutralOutline"
           className="h-auto min-h-9 max-w-full whitespace-normal text-left"
         >
           <a href={recovery.action.href} target="_top">

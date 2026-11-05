@@ -1,0 +1,83 @@
+/**
+ * @file ui:tabs
+ * @requires @seed-design/react@^2.0.0 || ^3.0.0
+ **/
+
+"use client";
+
+import {
+  Box,
+  NotificationBadge,
+  NotificationBadgePositioner,
+  Tabs as SeedTabs,
+} from "@seed-design/react";
+import { forwardRef } from "react";
+
+export type TabsRootProps = SeedTabs.RootProps;
+
+export const TabsRoot = forwardRef<HTMLDivElement, TabsRootProps>((props, ref) => {
+  const { children, ...otherProps } = props;
+  return (
+    <SeedTabs.Root ref={ref} {...otherProps}>
+      {children}
+    </SeedTabs.Root>
+  );
+});
+TabsRoot.displayName = "TabsRoot";
+
+export type TabsListProps = Omit<SeedTabs.ListProps, "asChild">;
+
+export const TabsList = forwardRef<HTMLDivElement, TabsListProps>((props, ref) => {
+  const { children, ...otherProps } = props;
+  return (
+    <SeedTabs.List ref={ref} {...otherProps}>
+      {children}
+      <SeedTabs.Indicator />
+    </SeedTabs.List>
+  );
+});
+TabsList.displayName = "TabsList";
+
+export interface TabsTriggerProps extends Omit<SeedTabs.TriggerProps, "asChild"> {
+  notification?: boolean;
+}
+
+export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>((props, ref) => {
+  const { children, notification, ...otherProps } = props;
+  return (
+    <SeedTabs.Trigger ref={ref} {...otherProps}>
+      {notification ? (
+        <Box as="span" position="relative">
+          {children}
+          <NotificationBadgePositioner size="small" attach="text">
+            <NotificationBadge />
+          </NotificationBadgePositioner>
+        </Box>
+      ) : (
+        children
+      )}
+    </SeedTabs.Trigger>
+  );
+});
+TabsTrigger.displayName = "TabsTrigger";
+
+export type TabsCarouselProps = Omit<SeedTabs.CarouselProps, "asChild">;
+
+export const TabsCarousel = (props: TabsCarouselProps) => {
+  const { children, ...otherProps } = props;
+  return (
+    <SeedTabs.Carousel {...otherProps}>
+      <SeedTabs.CarouselCamera>{children}</SeedTabs.CarouselCamera>
+    </SeedTabs.Carousel>
+  );
+};
+TabsCarousel.displayName = "TabsCarousel";
+
+export type TabsContentProps = SeedTabs.ContentProps;
+
+export const TabsContent = SeedTabs.Content;
+
+/**
+ * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
+ * You can extend this snippet however you want.
+ */

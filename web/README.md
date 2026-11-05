@@ -1,5 +1,15 @@
 # Huddlers Fire web application
 
+Current source: INT-18 field-v2, deployed as public version 29 / protocol v19 on 2026-11-06. All participants must reload before rejoining. The project [validation record](../docs/validation.md) owns the deployment evidence. Runtime PNGs live in public/sprites; source recipes, reviewed snapshots and replay tools live at the repository root. Ordinary app builds require no Python or generation service. From the project root, node tools/rebuild-sprites.mjs replays the reviewed field-v2 package; --legacy explicitly selects the older INT-17 recipe. See [authoring](../docs/sprite-authoring.md).
+
+`npm.cmd test` and `test:render` preload actual assets using the Node Canvas fixture. The field has 16 action states, four seated body views, 67 total frames, two bench axes, 29 environment/effect assets and three terrain materials, with six color and six dark character variants. Shared state fields and DB schemas are unchanged; protocol v19 separates the new layout from v18. The dev-only sprite preview dependency is loaded only when CAMP_PREVIEW_JOB is set.
+
+The INT-15 rebuild is deployed as public version 26 (protocol v17); version 25 was the earlier partial migration. All existing participants must reload before rejoining. Official SEED CLI snippets in seed-design/ui/ provide the actual controls, lists, tabs, selections, status messages and dialog foundations. components/camp/camp-panel.tsx composes SEED Tabs and BottomSheet while preserving drafts. app/camp-layout.css replaces the previous layout, and lib/camp-artwork.mjs owns the newly drawn field objects; SEED is a UI library, not a Canvas game renderer. The old shadcn UI directory and class-inferred control wrapper have been removed.
+
+The current source adds a browser-local Color/Dark preference in Settings (INT-16, deployed as public version 27; protocol v17 unchanged). Color is the default, including legacy settings without a theme. `app/camp-theme.css` defines the two SEED palettes; `lib/camp-theme.mjs` restores the saved preference before first paint and the live setting also follows field/music PIP. Shared controls and SEED dialog integration live in `seed-design/ui/`; RSC/TSX configuration is in `seed-design.json`. The Canvas switches between natural/warm colors and the previous grayscale dark artwork without changing room state; external profile/booth images and videos retain their original colors. Portals use △/□/○ labels and distinct line patterns, character tones carry Ⅰ–Ⅵ marks, and fire unlocks use distinct shapes without changing their wire IDs.
+
+After starting the built Worker on 5191 and loopback QA API on 5192, `npm.cmd run test:browser:appearance` checks desktop/mobile tabs, popup stacking, close/focus behavior and screenshots (`outputs/seed-*.png`). `npm.cmd test` includes grayscale Canvas and legacy-profile compatibility checks. Browser tests use disposable headless profiles, never personal browser sessions.
+
 React/Vinext UI, Canvas 2D world, WebRTC host topology, Cloudflare Worker HTTP API and D1 lobby storage. See the repository root README for startup and tests.
 
 ## Local development
@@ -59,6 +69,7 @@ This is a server application. Uploading `dist/client` alone to static hosting wi
 
 ## Validation
 
+- `npm.cmd run test:browser:exhibition`: with the built Worker at 127.0.0.1:5191 and loopback `tests/local-immersion-server.mjs` at 5192, checks physical keyboard walking through portals, return travel, proximity-triggered game introduction, official local artwork, links, modal focus/input locking, and mobile radio/dialog separation. Uses a disposable headless profile and a YouTube stub; it does not operate a personal browser or verify real media/NAT/devices. See `../docs/architecture.md` for the current v17 map and portal contract.
 - `npm test`: API and feature checks using SQLite and deterministic world simulation, covering lobby/auth plus crouch/emotes, gravity/falls/respawn, carrying/escape/disconnect, chat limits/idempotency, YouTube URLs and queue permissions/playback clocks.
 - `npm run typecheck`: TypeScript check.
 - `npm run test:render`: calls the real game Canvas renderer via Skia, producing desktop/mobile/action/reduced-motion and crowded-chat/radio PNGs in `outputs/`. No desktop/browser UI is operated.

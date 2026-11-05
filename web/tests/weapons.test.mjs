@@ -1,3 +1,4 @@
+import { getMap } from '../lib/camp-maps.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { emptyWeapons, stepWeapons, readWeapons, segmentCircle, MAX_PROJECTILES, MAX_EFFECTS } from '../lib/camp-weapons.mjs';
@@ -37,7 +38,8 @@ test('fast bullets sweep through targets and produce bounded knockback without h
 test('jump height avoids low shots and playground scenery blocks bullets before players', () => {
   const s = setup(), target = s.players.get('b'); target.motion = 'airborne'; target.z = 1.8;
   equip(s, 'gun'); fire(s); advance(s.players, s.weapons, .2); assert.equal(target.hitAt, -1);
-  const blocked = setup(); Object.assign(blocked.players.get('a'), { x: 4, y: -1.5 }); Object.assign(blocked.players.get('b'), { x: 4, y: -4 });
+  const obstacle=getMap('playground').scenery.find(o=>o.type==='crate');
+  const blocked = setup(); Object.assign(blocked.players.get('a'), {x:obstacle.x,y:obstacle.y+1.5}); Object.assign(blocked.players.get('b'), {x:obstacle.x,y:obstacle.y-1.5});
   equip(blocked, 'gun'); fire(blocked, 0, 0, -1); advance(blocked.players, blocked.weapons, .5);
   assert.equal(blocked.players.get('b').hitAt, -1); assert.equal(blocked.weapons.projectiles.length, 0);
   assert.equal(blocked.weapons.effects[0].kind, 'spark');
@@ -72,7 +74,7 @@ test('impact releases a carried friend and knockback can fall off the map and re
   applyPlayerAction(s.players, 'b', { kind: 'lift', target: 'c' }, 0, s.weapons);
   equip(s, 'gun'); fire(s, 0, 1, 0); advance(s.players, s.weapons, .12);
   assert.equal(s.players.get('c').carriedBy, null); assert.equal(s.players.get('b').carrying, null);
-  const edge = setup(); Object.assign(edge.players.get('a'), { x: 5.1, y: 1 }); Object.assign(edge.players.get('b'), { x: 5.75, y: 1 });
+  const edge = setup(); Object.assign(edge.players.get('a'), { x: 11.1, y: 1 }); Object.assign(edge.players.get('b'), { x: 11.75, y: 1 });
   equip(edge, 'snowball'); fire(edge); advance(edge.players, edge.weapons, 4);
   assert.ok(edge.players.get('b').respawns >= 1); assert.equal(edge.players.get('b').motion, 'grounded');
 });

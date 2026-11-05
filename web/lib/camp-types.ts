@@ -1,4 +1,4 @@
-export type MapId = 'camp' | 'playground';
+export type MapId = 'camp' | 'playground' | 'showroom';
 export type Motion = 'grounded' | 'airborne' | 'carried' | 'falling' | 'respawning';
 export type FireState = { fuel:number; updatedAt:number; stokedAt:number; revision:number; xp:number; style:string };
 export type BallState = { x: number; y: number; vx: number; vy: number; rotation: number };
@@ -32,7 +32,7 @@ export type CampAction = { id: string } & (
   | { kind:'seat'; seatId:string }
   | { kind:'add-firewood' }
   | { kind:'fire-style'; style:string }
-  | { kind: 'change-map'; mapId: MapId }
+  | { kind: 'change-map'; mapId: MapId; portalId:string; mapRevision:number }
   | ({ kind: 'presence' } & Presence)
   | { kind: 'call'; target: string }
   | { kind: 'jump' | 'escape' }

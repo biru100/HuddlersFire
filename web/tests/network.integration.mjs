@@ -7,6 +7,7 @@ import { RTCPeerConnection } from 'werift';
 import { CampNetwork } from '../lib/camp-network.mjs';
 import { spawnPlayer, TRAMPOLINES } from '../lib/camp-world.mjs';
 import { musicPosition } from '../lib/camp-media.mjs';
+import { getMap } from '../lib/camp-maps.mjs';
 const origin = process.env.CAMP_TEST_URL || 'http://127.0.0.1:5192';
 const instances = [], connections = [];
 let requests = 0;
@@ -97,7 +98,25 @@ try {
   assert.ok(instances.every(n=>[...n.players.values()].every(p=>p.mapId==='camp')));
   await assert.rejects(()=>instances[1].command('equip',{weapon:'gun'}),/놀이터/);
   await assert.rejects(()=>instances[1].command('lift',{target:instances[2].player}),/놀이터/);
-  for(const [index,n] of instances.entries()) if(index!==14) await n.command('change-map',{mapId:'playground'});
+  const travel=async(n,mapId)=>{
+    const p=host.players.get(n.player),portal=getMap(p.mapId).portals.find(o=>o.destination===mapId);
+    n.setInput({dx:0,dy:0,sitting:false});host.inputs.delete(n.player);
+    Object.assign(p,{x:portal.x-1,y:portal.y});host.publishWorld(true);
+    await until(()=>Math.abs(n.players.get(n.player).x-p.x)<.01,'Portal approach did not replicate',5000);
+    await n.command('change-map',{mapId,portalId:portal.id,mapRevision:p.mapRevision});
+    await until(()=>n.players.get(n.player).mapId===mapId,'Portal travel did not replicate',5000);
+  };
+  await assert.rejects(()=>instances[1].command('change-map',{mapId:'showroom',portalId:'camp-show',mapRevision:0}),/포탈/);
+  await travel(instances[11],'showroom');
+  await instances[11].command('chat',{text:'전시장에서 만나요'});
+  await until(()=>instances.every(n=>n.players.get(instances[11].player)?.mapId==='showroom'&&n.chat.some(e=>e.text==='전시장에서 만나요'&&e.mapId==='showroom')),'Showroom and chat did not replicate',5000);
+  await until(()=>host.hostNow()-(host.ledger.last.get(instances[11].player+':change-map')??-Infinity)>=500,'Travel cooldown did not clear',5000);
+  await travel(instances[11],'camp');
+  await until(()=>host.hostNow()-(host.ledger.last.get(instances[11].player+':change-map')??-Infinity)>=500,'Travel cooldown did not clear',5000);
+  for(const [index,n] of instances.entries()) if(index!==14) await travel(n,'playground');
+  // Move away from the arrival portal before the movement/sitting probes below.
+  const arrivalGuest=host.players.get(instances[1].player);Object.assign(arrivalGuest,{x:0,y:2});host.publishWorld(true);
+  await until(()=>Math.abs(instances[1].players.get(instances[1].player).x)<.01,'Clear playground position did not replicate',5000);
   await until(()=>instances.every(n=>n.players.get(instances[1].player)?.mapId==='playground'&&n.players.get(instances[14].player)?.mapId==='camp'),'Map travel did not replicate',5000);
   console.log('PASS: all entries start at camp; toys/lifting are rejected there, and map travel replicates while one camper stays.');
   const guest = instances[1], observer = instances[2], before = { ...host.players.get(guest.player) };
@@ -134,7 +153,7 @@ try {
   Object.assign(host.players.get(guest.player), spawnPlayer(1,'playground'), { x: -1, y: 2.4, weapon: 'gun', allowCarry: false, connected: true });
   Object.assign(host.players.get(observer.player), spawnPlayer(2,'playground'), { x: -.1, y: 2.4, connected: true });
   // The playground has no central fire obstacle; keep uninvolved spawns outside this firing lane.
-  for (const [id,p] of host.players) if (![guest.player,observer.player].includes(id)) Object.assign(p,{x:-2,y:-4});
+  for (const [id,p] of host.players) if (![guest.player,observer.player].includes(id)) {const spawn=spawnPlayer([...host.players.keys()].indexOf(id),p.mapId);Object.assign(p,{x:spawn.x,y:spawn.y});}
   host.publishWorld(true);
   await until(() => Math.abs(guest.players.get(guest.player).x + 1) < .1, 'Test firing position did not arrive', 5000);
   await guest.command('fire', { dx: 1, dy: 0 });
@@ -174,7 +193,7 @@ try {
   const carrier = host.players.get(guest.player), passenger = host.players.get(observer.player);
   Object.assign(carrier, spawnPlayer(1,'playground'), { x: 0, y: 2 }); Object.assign(passenger, spawnPlayer(2,'playground'), { x: .5, y: 2 });
   // Isolate this pair from nearby spawn locations so the advertised nearest target is deterministic.
-  for (const [id, p] of host.players) if (![guest.player, observer.player].includes(id)) Object.assign(p, { x: -2, y: -4 });
+  for (const [id, p] of host.players) if (![guest.player, observer.player].includes(id)) {const spawn=spawnPlayer([...host.players.keys()].indexOf(id),p.mapId);Object.assign(p,{x:spawn.x,y:spawn.y});}
   host.publishWorld(true);
   await guest.command('lift', { target: observer.player });
   await until(() => observer.players.get(observer.player).carriedBy === guest.player, 'Carrying did not replicate', 5000);
@@ -197,7 +216,7 @@ try {
   console.log('PASS: throw arc and landing reached carrier, passenger and host over real WebRTC.');
   Object.assign(carrier, { x: TRAMPOLINES[0].x, y: TRAMPOLINES[0].y });
   await until(() => observer.players.get(guest.player).motion === 'airborne' && observer.players.get(guest.player).z > .2, 'Trampoline did not replicate', 5000);
-  Object.assign(carrier, { x: 0, y: 5.99, z: 0, vz: 0, motion: 'grounded' });
+  Object.assign(carrier, { x: 0, y: getMap('playground').bounds.edge-.01, z: 0, vz: 0, motion: 'grounded' });
   const respawns = carrier.respawns;
   guest.setInput({ dx: 0, dy: 1, sitting: false });
   await until(() => observer.players.get(guest.player).motion === 'falling', 'Fall was rejected by remote snapshot validation', 5000);
@@ -224,7 +243,7 @@ try {
   assert.equal(guest.chat.filter(m => m.text === text).length, 1);
   console.log('PASS: reconnect restored bounded chat history and music and safely released a carried passenger.');
   const third = instances[3];
-  for (const [id, p] of host.players) Object.assign(p, spawnPlayer(0,p.mapId), { x: [guest.player, observer.player, third.player].includes(id) ? 0 : -2, y: [guest.player, observer.player, third.player].includes(id) ? 2 : -4, connected: true });
+  for (const [id, p] of host.players) {const spawn=spawnPlayer([...host.players.keys()].indexOf(id),p.mapId);Object.assign(p,spawn,{...([guest.player,observer.player,third.player].includes(id)?{x:0,y:2}:{}),connected:true});}
   host.publishWorld(true);
   await guest.command('lift', { target: observer.player });
   await third.command('lift', { target: guest.player });
@@ -273,7 +292,7 @@ try {
   await until(()=>Math.abs(restClient.players.get(restClient.player).x-restSeat.exitX)<.01,'Seat approach did not replicate',5000);
   await restClient.command('seat',{seatId:restSeat.id});await restClient.command('add-firewood');
   for(const [i,contributor]of [instances[12],instances[13]].entries()){
-    await contributor.command('change-map',{mapId:'camp'});
+    await travel(contributor,'camp');
     const extraSeat=CAMP_SEATS[4+i*2],p=host.players.get(contributor.player);
     Object.assign(p,{x:extraSeat.exitX,y:extraSeat.exitY});host.publishWorld(true);
     await until(()=>Math.abs(contributor.players.get(contributor.player).x-extraSeat.exitX)<.01,'Contributor approach did not replicate',5000);

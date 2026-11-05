@@ -1,3 +1,4 @@
+import { isMap } from './camp-maps.mjs';
 // User-authored presence is independent of physical posture and game input.
 export const PRESENCE_LABELS = { available: '대화 가능', working: '작업 중', away: '자리 비움' };
 export const presenceDefaults = () => ({ presence: 'available', statusText: '', workText: '', allowCall: true });
@@ -10,7 +11,7 @@ export function validPresence(p) {
     typeof p.workText === 'string' && p.workText.length <= 80 && typeof p.allowCall === 'boolean';
 }
 export function validChatEntry(e) {
-  return !!e && (e.mapId===undefined||['camp','playground'].includes(e.mapId)) && typeof e.id === 'string' && e.id.length > 0 && e.id.length <= 64 &&
+  return !!e && (e.mapId===undefined||isMap(e.mapId)) && typeof e.id === 'string' && e.id.length > 0 && e.id.length <= 64 &&
     typeof e.by === 'string' && e.by.length > 0 && e.by.length <= 64 && typeof e.name === 'string' && e.name.length <= 16 &&
     typeof e.color === 'string' && typeof e.text === 'string' && e.text.length <= 200 && Number.isFinite(e.at) && e.at >= 0 &&
     Number.isSafeInteger(e.createdAt) && e.createdAt > 0 && e.createdAt <= 8640000000000000 &&

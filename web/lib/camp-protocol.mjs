@@ -4,7 +4,8 @@ import { EMOTES } from './camp-world.mjs';
 import { isWeapon } from './camp-weapons.mjs';
 import { validPresence } from './camp-presence.mjs';
 import { fireStyle } from './camp-fire.mjs';
-export const PROTOCOL_VERSION = 15;
+// v18: illustrated scene layout and taller sprite carry spacing share one physics contract.
+export const PROTOCOL_VERSION = 19;
 export const MAX_FRAME_BYTES = 48_000;
 /** @typedef {import('./camp-types').CampAction} CampAction */
 /** @typedef {{ok:boolean,error?:string}} CommandResult */
@@ -16,7 +17,7 @@ export function validAction(value) {
     case 'seat': return typeof a.seatId==='string'&&/^log-[0-7]-[01]$/.test(a.seatId);
     case 'add-firewood': return true;
     case 'fire-style': return !!fireStyle(a.style);
-    case 'change-map': return isMap(a.mapId);
+    case 'change-map': return isMap(a.mapId) && typeof a.portalId==='string' && a.portalId.length>0 && a.portalId.length<=64 && Number.isSafeInteger(a.mapRevision) && a.mapRevision>=0;
     case 'presence': return validPresence(a);
     case 'call': return typeof a.target === 'string' && a.target.length > 0 && a.target.length <= 64;
     case 'posture': return ['standing', 'sitting', 'crouching'].includes(a.posture);

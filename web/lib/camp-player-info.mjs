@@ -8,10 +8,9 @@ export function pickPlayer(areas, x, y, touch = false) {
   if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
   // Nameplates and status are painted over every body, so they also win hit testing.
   for (let i = areas.length - 1; i >= 0; i--) if (inRect(areas[i].label,x,y) || inRect(areas[i].badge,x,y)) return areas[i].id;
-  for (let i = areas.length - 1; i >= 0; i--) {
-    const a = areas[i];
-    if (Math.hypot(x - a.head.x, y - a.head.y) <= a.head.radius || inRect(a.body, x, y)) return a.id;
-  }
+  // A carried neighbour's broad body box can cross a visible portrait.
+  for (let i = areas.length - 1; i >= 0; i--) {const a=areas[i];if(Math.hypot(x-a.head.x,y-a.head.y)<=a.head.radius)return a.id;}
+  for (let i = areas.length - 1; i >= 0; i--) if(inRect(areas[i].body,x,y))return areas[i].id;
   if (!touch) return null;
   let closest = null, distance = Infinity;
   for (let i = areas.length - 1; i >= 0; i--) {
@@ -29,7 +28,7 @@ export function playerActivity(p, now) {
   if (p.jumpAt >= 0) return '점프 준비 중';
   if (p.motion === 'airborne') return p.vz > 0 ? '뛰어오르는 중' : '내려오는 중';
   if (p.landedAt >= 0 && now - p.landedAt >= 0 && now - p.landedAt < 180) return '착지하는 중';
-  if (p.sitting) return '앉아서 불멍 중';
+  if (p.sitting) return p.mapId==='camp'?'앉아서 불멍 중':'앉아서 쉬는 중';
   if (p.crouching) return '웅크리는 중';
   if (p.running && p.moving) return '달리는 중';
   if (p.moving) return '걷는 중';

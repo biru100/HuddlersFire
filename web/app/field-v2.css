@@ -1,0 +1,26 @@
+/* Field controls leave the scene visible; expanded tools appear on demand. */
+.in-camp .world-heading { top:18px; left:20px; max-width:70%; }
+.in-camp .world-heading h2,.in-camp .world-heading p { display:none; }
+.in-camp .session-chip { top:20px; left:112px; }
+.in-camp .field-tools { top:54px; left:20px; }
+.in-camp .map-travel { top:auto; bottom:22px; left:20px; max-width:42%; }
+.in-camp .world-bottom { display:none; }
+.fire-seat-tools { bottom:22px; right:20px; width:204px; padding:10px 12px; gap:6px; box-shadow:0 4px 20px #302a1710; }
+.fire-seat-more summary { cursor:pointer; color:var(--camp-muted); padding:5px 0; }
+.fire-seat-more .fire-progress { margin-top:8px; }
+.fire-seat-tools>small { display:none; }
+.music-dock.is-empty { width:210px; padding:7px 9px; }
+.music-dock.is-empty .music-dock-heading { margin-bottom:0; }
+.music-dock.is-empty .youtube-viewport { height:0; min-height:0; overflow:hidden; }
+.music-dock.is-empty .music-window-tools { display:none; }
+@media(max-width:760px) {
+ .in-camp .world-heading { top:14px; left:12px; max-width:55%; }
+ .in-camp .session-chip { top:17px; left:100px; }
+ .in-camp .field-tools { top:48px; left:12px; max-width:calc(100% - 24px); }
+ .in-camp .map-travel { display:none; }
+ .fire-seat-tools { bottom:140px; left:auto; right:12px; width:142px; padding:8px; font-size:11px; }
+ .fire-seat-tools:not(.is-seated) { bottom:140px; }
+ .fire-seat-more { display:none; }
+ .music-dock.is-empty { bottom:74px; right:8px; width:176px; }
+ body:has(.music-dock:not(.is-empty)) .fire-seat-tools { left:12px; right:auto; bottom:238px; width:142px; }
+}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { themeBootstrap } from '@/lib/camp-theme.mjs';
 
 export const metadata: Metadata = {
   title: "허들러즈 불멍 · Huddlers Fire",
@@ -16,7 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" data-camp-theme="color" data-seed-color-mode="light-only" data-seed-user-color-scheme="light" suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }}/></head>
       <body className="antialiased">{children}</body>
     </html>
   );

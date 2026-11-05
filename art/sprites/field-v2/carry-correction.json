@@ -1,0 +1,8 @@
+{
+  "generator": "native image_gen",
+  "reference": "master.png",
+  "prompt": "Production animation strip: EXACTLY FOUR EQUAL HORIZONTAL CELLS, each containing the same NEW reference character. All four frames show ALREADY HOLDING A HEAVY INVISIBLE FRIEND HIGH OVERHEAD. BOTH ARMS FULLY EXTENDED VERTICALLY UPWARD. Both cream mitten palms face UP and are AT LEAST ONE HEAD RADIUS ABOVE THE TOP EDGE OF THE ROUND HEAD in EVERY frame. The hands must be higher than the entire head, never beside the face. Small weight shift between four frames, no preparation pose, never lower the arms. Leave plenty of vertical transparent space ABOVE the head for raised arms and palms. Standing boots at same baseline. Blank ivory circular portrait head, teal jacket, ochre short overalls, cocoa boots, exact identity of NEW reference. Clean storybook gouache, thin warm charcoal outline, genuine transparent alpha. No actual second character, no object, floor, shadow, haze, face, labels or grid. Arms and entire full body fully inside each equal cell.",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a1abc3-dfa7-7501-83c5-a209f507a529\\exec-6dd1cd33-3438-4c84-8aa7-c17a2a9a14cc.png",
+  "rejected": "camper-carry-rejected.png",
+  "reason": "Hands beside the head, not holding an overhead friend; third frame merged hands with head detector."
+}

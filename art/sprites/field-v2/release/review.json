@@ -1,0 +1,120 @@
+{
+  "reviewer": "Codex inspection of actual production Canvas, every source frame, mixed poses and isolated headless Chromium screenshots",
+  "fingerprint": "5704bc1eba5aecdcf877749dafa7b3305a3b310e69415a541be03bb144d17a6e",
+  "manifestHash": "25bf6d9d55589b95eb48cc81a948d49de27f88ea7c7e91fb9e59583726c7f93c",
+  "observations": [
+    "Four sides of paired benches enclose the shared fire; paths meet both timber gateways and the radio remains outside the seating ring.",
+    "Open ball clearing, isolated trampoline landing area, connected corner fence and separated entrance communicate play and return paths.",
+    "Two official game covers fit new gallery displays on one viewing line; branching entrance path stops at the accessible fronts.",
+    "All sixteen seat contacts align with bench tops, four jacket directions face inward; profiles remain round and upright, legs visible, names avoid nearby heads.",
+    "All 16 states and four seated body views are new. Removed white wave panels and replaced standing crouch frame. Source/mixed sheets show stable portrait scale, overhead carry hands and intact lower poses.",
+    "All sixteen linked players fit vertically in the actual renderer; overhead arms support the next body and portraits/name hit regions remain distinct.",
+    "Actual desktop/mobile open conversation, focus, tabs and draft preservation verified with the full new manifest.",
+    "Mobile portrait scale and empty radio are compact; fire controls stay clear of movement controls.",
+    "Desktop and mobile retain visible 200x200 video. Mobile fire tools move to the opposite side, stand button fits and mute/navigation targets remain reachable."
+  ],
+  "unresolved": [],
+  "notes": [
+    "Final full UI run recorded two settled native ResizeObserver notifications during PIP/viewport transitions. Dev-only overlays were dismissed after notifications stopped; error events were not suppressed.",
+    "Dark environment/effect edges were graded on fresh transparent surfaces; default bench includes a usable frame as well as both strict direction bindings."
+  ],
+  "cases": [
+    {
+      "id": "camp-color",
+      "result": "pass",
+      "observation": "Four sides of paired benches enclose the shared fire; paths meet both timber gateways and the radio remains outside the seating ring."
+    },
+    {
+      "id": "camp-dark",
+      "result": "pass",
+      "observation": "Four sides of paired benches enclose the shared fire; paths meet both timber gateways and the radio remains outside the seating ring."
+    },
+    {
+      "id": "playground-color",
+      "result": "pass",
+      "observation": "Open ball clearing, isolated trampoline landing area, connected corner fence and separated entrance communicate play and return paths."
+    },
+    {
+      "id": "playground-dark",
+      "result": "pass",
+      "observation": "Open ball clearing, isolated trampoline landing area, connected corner fence and separated entrance communicate play and return paths."
+    },
+    {
+      "id": "showroom-color",
+      "result": "pass",
+      "observation": "Two official game covers fit new gallery displays on one viewing line; branching entrance path stops at the accessible fronts."
+    },
+    {
+      "id": "showroom-dark",
+      "result": "pass",
+      "observation": "Two official game covers fit new gallery displays on one viewing line; branching entrance path stops at the accessible fronts."
+    },
+    {
+      "id": "camp-seats",
+      "result": "pass",
+      "observation": "All sixteen seat contacts align with bench tops, four jacket directions face inward; profiles remain round and upright, legs visible, names avoid nearby heads."
+    },
+    {
+      "id": "camp-actions",
+      "result": "pass",
+      "observation": "All 16 states and four seated body views are new. Removed white wave panels and replaced standing crouch frame. Source/mixed sheets show stable portrait scale, overhead carry hands and intact lower poses."
+    },
+    {
+      "id": "camp-stack",
+      "result": "pass",
+      "observation": "All sixteen linked players fit vertically in the actual renderer; overhead arms support the next body and portraits/name hit regions remain distinct."
+    },
+    {
+      "id": "ui-desktop",
+      "result": "pass",
+      "observation": "Actual desktop/mobile open conversation, focus, tabs and draft preservation verified with the full new manifest."
+    },
+    {
+      "id": "ui-desktop-field",
+      "result": "pass",
+      "observation": "Mobile portrait scale and empty radio are compact; fire controls stay clear of movement controls."
+    },
+    {
+      "id": "ui-mobile",
+      "result": "pass",
+      "observation": "Actual desktop/mobile open conversation, focus, tabs and draft preservation verified with the full new manifest."
+    },
+    {
+      "id": "ui-mobile-field",
+      "result": "pass",
+      "observation": "Mobile portrait scale and empty radio are compact; fire controls stay clear of movement controls."
+    },
+    {
+      "id": "ui-desktop-radio",
+      "result": "pass",
+      "observation": "Desktop and mobile retain visible 200x200 video. Mobile fire tools move to the opposite side, stand button fits and mute/navigation targets remain reachable."
+    },
+    {
+      "id": "ui-mobile-radio",
+      "result": "pass",
+      "observation": "Desktop and mobile retain visible 200x200 video. Mobile fire tools move to the opposite side, stand button fits and mute/navigation targets remain reachable."
+    }
+  ],
+  "supplemental": [
+    {
+      "file": "screens/frames-0.png",
+      "sha256": "f1d4de4f6afad993e990baf1ec262d97d7ec7ea158b14a093a5d9fd27afa6097"
+    },
+    {
+      "file": "screens/frames-1.png",
+      "sha256": "d57b9234bd1fdaaf324d2ffd6288ac66a17f09d91626809b69441545689980c5"
+    },
+    {
+      "file": "screens/frames-2.png",
+      "sha256": "9aa8e47c56e06117c49a83bec71e4319aab8da85d2b1037ff20561081a3927f6"
+    },
+    {
+      "file": "screens/frames-3.png",
+      "sha256": "bc33e47313452dc196b061e64ef26d8ccb275dbc35a28feda8791b72d1cb171b"
+    },
+    {
+      "file": "screens/combined-poses.png",
+      "sha256": "695ec23e042ef2ef662111c1af271a55a310f965550de41790b6021617109187"
+    }
+  ]
+}

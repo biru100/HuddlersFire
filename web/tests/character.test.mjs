@@ -7,9 +7,9 @@ import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { spawnPlayer } from '../lib/camp-world.mjs';
 
 function render(p = {}, avatar = null, options = {}) {
-  const canvas = createCanvas(96, 96), c = canvas.getContext('2d');
-  c.translate(48, 75); drawCharacter(c, { color: '#e5a76d', ...p }, { avatar, ...options });
-  return { canvas, c };
+  const canvas = createCanvas(128, 128), c = canvas.getContext('2d');
+  c.translate(64, 104); const pose=drawCharacter(c, { color: '#e5a76d', ...p }, { avatar, ...options });
+  return { canvas, c,pose };
 }
 const pixel = (c, x, y) => [...c.getImageData(x, y, 1, 1).data];
 
@@ -18,9 +18,9 @@ test('profile images are center-cropped without stretching for both wide and tal
     const avatar = createCanvas(w, h), a = avatar.getContext('2d');
     a.fillStyle = '#ff0000'; a.fillRect(0, 0, w, h);
     a.fillStyle = '#00cc44'; a.fillRect((w - 100) / 2, (h - 100) / 2, 100, 100);
-    const { c } = render({}, avatar);
-    for (const x of [39, 48, 57]) assert.deepEqual(pixel(c, x, 35), [0, 204, 68, 255]);
-    assert.equal(pixel(c, 33, 20)[3], 0, 'photo must not fill corners outside its circular head');
+    const { c,pose } = render({}, avatar),x=64+pose.headX,y=104+pose.headY;
+    for (const dx of [-9,0,9]) assert.deepEqual(pixel(c, Math.round(x+dx),Math.round(y)), [0, 204, 68, 255]);
+    assert.equal(pixel(c, Math.round(x-17),Math.round(y-17))[3], 0, 'photo must stay inside the circular head');
   }
 });
 
@@ -30,20 +30,20 @@ test('postures keep the same circular photo size and facing never mirrors the or
   for (const p of [{}, { sitting: true }, { crouching: true }]) {
     const left = render({ ...p, facing: -1 }, avatar), right = render({ ...p, facing: 1 }, avatar);
     assert.deepEqual(left.canvas.toBuffer('image/png'), right.canvas.toBuffer('image/png'));
-    const { data, width, height } = left.c.getImageData(0, 0, 96, 96), points = [];
+    const { data, width, height } = left.c.getImageData(0, 0, 128, 128), points = [];
     for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
       const i = (y * width + x) * 4;
       if ((data[i] === 255 && data[i + 1] === 0 && data[i + 2] === 0) || (data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 255)) points.push([x, y]);
     }
     const spanX = Math.max(...points.map(v => v[0])) - Math.min(...points.map(v => v[0]));
     const spanY = Math.max(...points.map(v => v[1])) - Math.min(...points.map(v => v[1]));
-    assert.ok(Math.abs(spanX - spanY) <= 1, 'posture must not squash a circular profile');
+    assert.ok(Math.abs(spanX - spanY) <= 1, 'posture must not squash a square profile');
   }
 });
 
 test('transparent profile pixels use the neutral head backing without fallback eyes', () => {
   const transparent = createCanvas(64, 64), withAvatar = render({}, transparent), fallback = render();
-  assert.deepEqual(pixel(withAvatar.c, 44, 35), [245, 230, 201, 255]);
+  assert.deepEqual(pixel(withAvatar.c,Math.round(60+withAvatar.pose.headX),Math.round(104+withAvatar.pose.headY)), [255, 240, 207, 255]);
   assert.notDeepEqual(withAvatar.canvas.toBuffer('image/png'), fallback.canvas.toBuffer('image/png'));
 });
 
@@ -73,9 +73,9 @@ test('reduced motion freezes breathing, walking and every expressive gesture', (
 
 test('expressive animations change the silhouette while preserving caller canvas transforms', () => {
   for (const emote of ['wave', 'clap', 'heart', 'dance', 'laugh', 'surprise']) {
-    const a = render({}, null, { emote, time: .1, reduced: false }), b = render({}, null, { emote, time: .5, reduced: false });
+    const a = render({}, null, { emote, time: .1, reduced: false }), b = render({}, null, { emote, time: .23, reduced: false });
     assert.notDeepEqual(a.canvas.toBuffer('image/png'), b.canvas.toBuffer('image/png'), emote);
-    assert.equal(a.c.getTransform().a, 1); assert.equal(a.c.getTransform().e, 48); assert.equal(a.c.getTransform().f, 75);
+    assert.equal(a.c.getTransform().a, 1); assert.equal(a.c.getTransform().e, 64); assert.equal(a.c.getTransform().f, 104);
   }
 });
 
@@ -88,6 +88,8 @@ test('player selection uses painter order, nameplates and nearest touch padding'
   assert.equal(pickPlayer([a], 100, 100, true), null); assert.equal(pickPlayer([a], NaN, 50), null);
   const nearby = { id: 'near', head: { x: 83, y: 50, radius: 3 } };
   assert.equal(pickPlayer([a, nearby], 69, 50, true), 'near');
+  const upper={id:'upper',head:{x:50,y:10,radius:10},body:{x:40,y:20,width:20,height:40}};
+  assert.equal(pickPlayer([a,upper],50,50),'back','A visible portrait wins over a carried neighbour body box');
   const frontBody={id:'body',head:{x:200,y:200,radius:10},body:{x:30,y:80,width:40,height:20}};
   assert.equal(pickPlayer([a,frontBody],50,90),'back','A visible nameplate is above a foreground body');
 });
@@ -104,10 +106,10 @@ test('rendered player selection follows CSS scale, page offsets, posture, altitu
     renderer = new CampRenderer(canvas, () => ({ players, now: 500 }));
     for (const size of [[900, 700], [390, 520]]) {
       [width, height] = size; renderer.resize(); renderer.draw(500);
-      const scale = Math.min(width / 1110, height / 790) * 1.02;
+      const {scale,x:originX,y:originY}=renderer.camera;
       for (const p of players) {
-        const x = 150 + width * .51 + (p.x - p.y) * 40 * scale;
-        const y = 90 + height * .60 + ((p.x + p.y) * 20 - p.z * 40 + (p.sitting ? -32 : -40)) * scale;
+        const x = 150 + originX + (p.x - p.y) * 40 * scale;
+        const y = 90 + originY + ((p.x + p.y) * 20 - p.z * 40 + (p.sitting ? -32 : -40)) * scale;
         assert.equal(renderer.pickPlayer(x, y), p.id);
       }
     }

@@ -20,11 +20,18 @@ export function useCampSession(options: Options) {
     if(token!==generation.current){await api('room',{op:'leave',code:info.code,player:info.player}).catch(()=>{});throw new Error('입장이 취소됐어요. 다시 시도해 주세요.');}
     setRoom(info);setPeople([]);setStatus(info.player===info.host?'모닥불을 피웠어요':'친구들과 연결하는 중');
     networkRef.current = new CampNetwork(info,profile,{
-      status:setStatus,members:setPeople,
-      host:({host,epoch}:{host:string;epoch:number})=>{setRoom(previous=>previous?{...previous,host,epoch}:previous);latest.current.onHost();},
-      chat:(chat:ChatEntry[])=>latest.current.onChat([...chat]),music:(music:MusicState)=>latest.current.onMusic(structuredClone(music)),
-      call:(entry:ChatEntry)=>latest.current.onCall(entry),
-      ended:(message:string)=>{networkRef.current=null;setRoom(null);setPeople([]);setStatus('');latest.current.onEnded(message);},
+      // A departing connection can still finish async work after the next entry.
+      status:(status:string)=>{if(token===generation.current)setStatus(status);},
+      members:(members:Member[])=>{if(token===generation.current)setPeople(members);},
+      host:({host,epoch}:{host:string;epoch:number})=>{if(token!==generation.current)return;setRoom(previous=>previous?{...previous,host,epoch}:previous);latest.current.onHost();},
+      chat:(chat:ChatEntry[])=>{if(token===generation.current)latest.current.onChat([...chat]);},
+      music:(music:MusicState)=>{if(token===generation.current)latest.current.onMusic(structuredClone(music));},
+      call:(entry:ChatEntry)=>{if(token===generation.current)latest.current.onCall(entry);},
+      ended:(message:string)=>{
+        if(token!==generation.current)return;
+        generation.current++; // Accept termination only once, before notifying the UI.
+        networkRef.current=null;setRoom(null);setPeople([]);setStatus('');latest.current.onEnded(message);
+      },
     },{allowCarry});
     return info as Room;
   }

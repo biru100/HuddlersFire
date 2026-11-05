@@ -1,5 +1,7 @@
 import { emptyFire, FIRE_STYLES } from '../lib/camp-fire.mjs';
 import { CAMP_SEATS } from '../lib/camp-seats.mjs';
+import { getMap } from '../lib/camp-maps.mjs';
+import { EXHIBITED_GAMES,exhibitCover } from '../lib/camp-games.mjs';
 // Render our own Canvas drawing code to PNG without launching or controlling a browser.
 import { createCanvas, Image, loadImage } from '@napi-rs/canvas';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -13,6 +15,21 @@ globalThis.requestAnimationFrame = () => 1;
 globalThis.cancelAnimationFrame = () => {};
 globalThis.Image = Image;
 mkdirSync('outputs', { recursive: true });
+for(const [name,mapId,width,height,followSelf,x,y]of [
+  ['expanded-camp','camp',1050,824,false,0,2],['expanded-playground','playground',1050,824,false,0,2],
+  ['showroom-overview','showroom',1050,824,false,0,0],['showroom-booth','showroom',1050,824,true,0,-.5],
+  ['showroom-booth-mobile','showroom',390,620,true,0,-.5],['camp-portal','camp',1050,824,true,4,4],['camp-portal-mobile','camp',390,620,true,4,4],
+  ['showroom-torizon-telecom','showroom',1050,824,true,4,-.5],['showroom-torizon-telecom-mobile','showroom',390,620,true,4,-.5],
+]){
+  const canvas=createCanvas(width,height);canvas.getBoundingClientRect=()=>({width,height});
+  const p={...spawnPlayer(0,mapId),id:'self',name:'나',color:COLORS[0],connected:true,x,y};
+  const renderer=new CampRenderer(canvas,()=>({players:[p],self:p.id,followSelf,now:1000}));
+  for(const game of EXHIBITED_GAMES){const cover=exhibitCover(game);if(cover)renderer.exhibitImages.set(cover,{image:await loadImage('public'+cover),failed:false});}
+  renderer.draw(1000);
+  if(renderer.seatAreas.length && !getMap(mapId).fire)throw Error('Seats leaked into another map');
+  writeFileSync('outputs/'+name+'.png',canvas.toBuffer('image/png'));renderer.destroy();
+  console.log('PASS '+name+': expanded terrain, map-specific portals/booths and camera');
+}
 const profiles = await Promise.all(avatarFixtures().map(async fixture => ({ ...fixture, loaded: await loadImage(fixture.image.toBuffer('image/png')) })));
 function createRenderer(canvas, getScene) {
   const renderer = new CampRenderer(canvas, () => {
@@ -85,7 +102,7 @@ for (const [name, width, height, count] of [['camp-chain', 1050, 824, 6], ['camp
   renderer.draw(5000);
   for (const area of renderer.hitAreas) {
     if (area.head.y - area.head.radius < 0 || area.head.y + area.head.radius > height) throw new Error('Stack head clipped');
-    if (renderer.pickPlayer(area.head.x, area.head.y) !== area.id) throw new Error('Stack player is not selectable');
+    if (renderer.pickPlayer(area.head.x, area.head.y) !== area.id) throw new Error(`Stack player ${area.id} is not selectable: picked ${renderer.pickPlayer(area.head.x, area.head.y)}; ${JSON.stringify(renderer.hitAreas)}`);
     for (const other of renderer.hitAreas) if (other.id !== area.id) {
       const x = Math.max(area.label.x, Math.min(other.head.x, area.label.x + area.label.width));
       const y = Math.max(area.label.y, Math.min(other.head.y, area.label.y + area.label.height));
@@ -114,17 +131,17 @@ for (let row = 0; row < 5; row++) {
     sc.restore(); sc.fillStyle = '#aab79d'; sc.font = '11px "Malgun Gothic", sans-serif'; sc.textAlign = 'center'; sc.fillText(label, x, y + 23); sc.textAlign = 'left';
   });
 }
-sc.fillStyle = '#aab79d'; sc.font = '12px "Malgun Gothic", sans-serif'; sc.fillText('몸통 비교', 26, 657);
-for (const [i, shape] of ['pear', 'capsule'].entries()) {
-  sc.save(); sc.translate(180 + i * 125, 697); drawCharacter(sc, { color: COLORS[0] }, { shape, blankHead: true }); sc.restore();
-  sc.fillText(shape === 'pear' ? '배 모양 · 채택' : '캡슐형', 145 + i * 125, 721);
+sc.fillStyle = '#aab79d'; sc.font = '12px "Malgun Gothic", sans-serif'; sc.fillText('두 테마', 26, 657);
+for (const [i, theme] of ['color', 'dark'].entries()) {
+  sc.save(); sc.translate(180 + i * 125, 697); drawCharacter(sc, { color: COLORS[0] }, { theme, blankHead: true }); sc.restore();
+  sc.fillText(theme === 'color' ? '컬러' : '다크', 145 + i * 125, 721);
 }
 sc.fillText('실제 배율 · 데스크톱 / 모바일', 460, 657);
 for (const [i, scale] of [.965, .358].entries()) {
   sc.save(); sc.translate(745 + i * 120, 697); sc.scale(scale, scale); drawCharacter(sc, { color: COLORS[1] }, { avatar: profiles[0].loaded }); sc.restore();
 }
 writeFileSync('outputs/character-profiles.png', sheet.toBuffer('image/png'));
-console.log('PASS character-profiles: all postures, four profile fixtures, six colors, body candidates and native scales');
+console.log('PASS character-profiles: all postures, four profile fixtures, six colors, two themes and native scales');
 await import('./render-character-detail.mjs');
 
 for (const [name,width,height,zoom,followSelf] of [['camp-presence',1050,824,1,false],['camp-pip',560,480,1.5,true],['camp-zoom-mobile',390,520,2,true]]) {

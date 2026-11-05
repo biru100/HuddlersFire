@@ -1,0 +1,65 @@
+{
+  "reviewer": "Codex: manual inspection of actual Canvas PNGs and disposable headless UI captures",
+  "fingerprint": "f07935a27d30a3c2397f74c917f5f35b0e46e0cc7849b565c9d269689219a69e",
+  "manifestHash": "02c6aa6956bed011cf1518cfbc30087740dffd24b285c9f4f6687d434f1dfbf0",
+  "observations": [
+    "새 원본 5개를 고정 sprite-gen의 부분 slice/tile 경로로 처리하고 실제 renderer와 UI가 소비함을 확인했다.",
+    "정상 범위 안의 오접촉점(.35)으로 몸이 통나무에 내려앉는 실패를 확인하고 .73으로 바로잡아 재검토했다.",
+    "타일 출력의 작은 크기를 256 셀에 그대로 그려 발생한 투명 격자를 화면에서 발견했다. 셀 전체 크기에 맞춰 합성하도록 고치고 불투명도 회귀 검사를 추가했다.",
+    "좌면 접촉과 두 통나무 축은 개선됐으나 불을 향한 몸 방향, 전체 시설 방향, 동선·밀도·UI 비중은 미해결이다. 기술 경로 검증과 시각 품질 통과를 구분한다."
+  ],
+  "unresolved": [
+    "정면 sit만 제작해 불을 바라보는 몸 방향이 읽히지 않음",
+    "8개 통나무 중 2개 방향만 새 자산으로 연결, 나머지는 기존 그림",
+    "길과 포탈 연결 및 세 맵 활동 밀도 미해결",
+    "빈 라디오·성장 카드·모바일 대화 패널의 장면 점유 미해결",
+    "색 슬롯과 다크 변형 미제작; ungraded 파일럿"
+  ],
+  "cases": [
+    {
+      "id": "camp-overview",
+      "result": "fail",
+      "observation": "전체 보기에서 활동 요소가 중앙에 작게 몰리고 U자 길이 포탈 진입점과 연결되지 않는다. 새 잔디의 투명 격자 결함은 수정 후 사라졌다."
+    },
+    {
+      "id": "playground-overview",
+      "result": "fail",
+      "observation": "바닥 반복은 복구됐으나 울타리와 넓은 빈 공간이 놀이 동선을 설명하지 못한다. 시설은 기존 자산이다."
+    },
+    {
+      "id": "showroom-overview",
+      "result": "fail",
+      "observation": "부스·공식 이미지는 보이지만 중앙 밀집과 바닥 곡선의 안내 의미가 미해결이다. 새 캐릭터 외에는 기존 전시 자산이다."
+    },
+    {
+      "id": "seat-ne",
+      "result": "fail",
+      "checks": {
+        "contact": "pass",
+        "benchAxis": "pass",
+        "bodyDirection": "fail"
+      },
+      "observation": "보정 후 골반이 좌면에 놓이고 통나무 축이 논리 좌석 축과 맞는다. 몸은 여전히 정면을 향해 불을 바라보는 자세는 미해결이다."
+    },
+    {
+      "id": "seat-nw",
+      "result": "fail",
+      "checks": {
+        "contact": "pass",
+        "benchAxis": "pass",
+        "bodyDirection": "fail"
+      },
+      "observation": "반대 축의 통나무와 좌면 접촉을 실제 그림으로 확인했다. 모든 방향의 몸 자세를 검증한 것은 아니다."
+    },
+    {
+      "id": "ui-desktop",
+      "result": "fail",
+      "observation": "새 자산의 실제 요청과 PC 레이아웃 동작은 통과했다. 빈 라디오와 성장 카드가 계속 필드를 가려 장면 비중 기준은 미달이다."
+    },
+    {
+      "id": "ui-mobile",
+      "result": "fail",
+      "observation": "패널 조작·초안·테마·포커스는 통과했다. 기본 대화 패널이 필드 대부분을 점유해 장면과 UI를 함께 읽는 구성은 미해결이다."
+    }
+  ]
+}

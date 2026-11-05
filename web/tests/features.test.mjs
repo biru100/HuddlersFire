@@ -1,6 +1,7 @@
+import { getMap } from '../lib/camp-maps.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { spawnPlayer, simulateWorld, applyPlayerAction, carryTarget, validPlayerState, validPosition, TRAMPOLINES, RADIO, canUseRadio, sanitizeInput, RUN_MULTIPLIER, SPEED } from '../lib/camp-world.mjs';
+import { spawnPlayer, simulateWorld, applyPlayerAction, carryTarget, validPlayerState, validPosition, TRAMPOLINES, RADIO, canUseRadio, sanitizeInput, RUN_MULTIPLIER, SPEED, CARRY_GAP } from '../lib/camp-world.mjs';
 import { layoutBubbles } from '../lib/camp-bubbles.mjs';
 import { emptyMusic, parseYouTubeUrl, musicPosition, applyMusicAction } from '../lib/camp-media.mjs';
 import { validAction, chatText, CommandLedger, MAX_FRAME_BYTES } from '../lib/camp-protocol.mjs';
@@ -55,7 +56,7 @@ test('jump carries a friend through the same arc and airborne escape remains ava
   assert.equal(applyPlayerAction(w, 'a', { kind: 'jump' }, 100), null);
   advance(w, .35, new Map(), 100);
   assert.equal(carrier.motion, 'airborne'); assert.equal(passenger.motion, 'carried');
-  assert.ok(Math.abs(passenger.z - carrier.z - 1.3) < .00001);
+  assert.ok(Math.abs(passenger.z - carrier.z - CARRY_GAP) < .00001);
   assert.ok(applyPlayerAction(w, 'b', { kind: 'jump' }, 450));
   assert.equal(applyPlayerAction(w, 'b', { kind: 'escape' }, 450), null);
   assert.equal(passenger.carriedBy, null); advance(w, 1.5, new Map(), 450);
@@ -83,9 +84,9 @@ test('emotes expire and movement cancels them', () => {
   advance(w, .1, new Map([['a', { dx: 0, dy: 1 }]]), 4000); assert.equal(p.emote, null);
 });
 test('crossing the visible ground edge falls and respawns instead of being rejected', () => {
-  const w = world(), p = w.get('a'); p.x = 0; p.y = 5.99;
+  const w = world(), p = w.get('a'); p.x = 0; p.y = 11.99;
   advance(w, .1, new Map([['a', { dx: 0, dy: 1 }]]));
-  assert.equal(p.motion, 'falling'); assert.ok(p.y > 6); assert.ok(validPlayerState(p));
+  assert.equal(p.motion, 'falling'); assert.ok(p.y > 12); assert.ok(validPlayerState(p));
   advance(w, 2.2, new Map(), 100);
   assert.equal(p.motion, 'grounded'); assert.equal(p.respawns, 1); assert.ok(validPosition(p.x, p.y,p.mapId));
 });
@@ -116,8 +117,8 @@ test('carrier and passenger bounce together and both recover after a fall', () =
   const w = world(), p = w.get('a'), q = w.get('b');
   applyPlayerAction(w, 'a', { kind: 'lift', target: 'b' }, 0);
   Object.assign(p, { x: TRAMPOLINES[0].x, y: TRAMPOLINES[0].y }); advance(w, .4);
-  assert.equal(q.motion, 'carried'); assert.equal(q.z, p.z + 1.3);
-  Object.assign(p, { x: 0, y: 6.1, z: 0, vz: 0, motion: 'grounded' });
+  assert.equal(q.motion, 'carried'); assert.equal(q.z, p.z + CARRY_GAP);
+  Object.assign(p, { x: 0, y: 12.1, z: 0, vz: 0, motion: 'grounded' });
   advance(w, 4, new Map(), 500);
   assert.equal(p.carrying, null); assert.equal(q.carriedBy, null);
   assert.equal(p.motion, 'grounded'); assert.equal(q.motion, 'grounded');
@@ -133,8 +134,8 @@ test('disconnecting or missing carriers cannot leave a passenger suspended', () 
 });
 test('state validation admits bounded falling positions and rejects nonfinite or impossible values', () => {
   const p = world().get('a'); assert.ok(validPlayerState(p));
-  for (const fields of [{ x: NaN }, { z: Infinity }, { vz: 900 }, { vx: Infinity }, { vy: 50 }, { aimX: NaN }, { thrown: true }, { x: 8.1 }, { motion: 'flying' }, { y: 6.1 }]) assert.equal(validPlayerState({ ...p, ...fields }), false);
-  assert.ok(validPlayerState({ ...p, y: 6.1, z: -1, motion: 'falling' }));
+  for (const fields of [{ x: NaN }, { z: Infinity }, { vz: 900 }, { vx: Infinity }, { vy: 50 }, { aimX: NaN }, { thrown: true }, { x: 14.1 }, { motion: 'flying' }, { y: 12.1 }]) assert.equal(validPlayerState({ ...p, ...fields }), false);
+  assert.ok(validPlayerState({ ...p, y: 12.1, z: -1, motion: 'falling' }));
 });
 
 test('F throws in the last movement direction, ignores air steering and clears velocity on landing', () => {
@@ -157,9 +158,8 @@ test('F throws in the last movement direction, ignores air steering and clears v
 });
 
 test('throws stop at playground scenery; edge throws fall and respawn', () => {
-  for (const start of [
-    { x: 4, y: -1.8, aimX: 0, aimY: -1 },
-  ]) {
+  const obstacle=getMap('playground').scenery.find(o=>o.type==='crate');
+  for (const start of [{x:obstacle.x,y:obstacle.y+1.2,aimX:0,aimY:-1}]) {
     const w = world(), p = w.get('a'), q = w.get('b'); w.delete('c');
     Object.assign(p, start); Object.assign(q, { x: start.x, y: start.y });
     applyPlayerAction(w, 'a', { kind: 'lift', target: 'b' }, 0);
@@ -172,7 +172,7 @@ test('throws stop at playground scenery; edge throws fall and respawn', () => {
     assert.ok(Math.hypot(q.x - start.x, q.y - start.y) < 1);
   }
   const w = world(), p = w.get('a'), q = w.get('b'); w.delete('c');
-  Object.assign(p, { x: 0, y: 5.4, aimX: 0, aimY: 1 }); Object.assign(q, { x: 0, y: 5.4 });
+  Object.assign(p, { x: 0, y: 11.4, aimX: 0, aimY: 1 }); Object.assign(q, { x: 0, y: 11.4 });
   applyPlayerAction(w, 'a', { kind: 'lift', target: 'b' }, 0);
   applyPlayerAction(w, 'a', { kind: 'lift', target: null }, 1);
   advance(w, 1.2); assert.equal(q.motion, 'falling'); assert.ok(validPlayerState(q));
@@ -182,7 +182,7 @@ test('throws stop at playground scenery; edge throws fall and respawn', () => {
 
 test('a thrown passenger bounces on a trampoline without retaining throw momentum', () => {
   const w = world(), p = w.get('a'), q = w.get('b'); w.delete('c');
-  Object.assign(p, { x: 3.9, y: TRAMPOLINES[0].y - .5, aimX: -1, aimY: 0 });
+  Object.assign(p, { x: TRAMPOLINES[0].x+3.5, y: TRAMPOLINES[0].y - .5, aimX: -1, aimY: 0 });
   Object.assign(q, { x: p.x, y: p.y });
   assert.ok(validPosition(p.x, p.y,p.mapId));
   applyPlayerAction(w, 'a', { kind: 'lift', target: 'b' }, 0);
@@ -292,7 +292,7 @@ test('reconnect history chunks preserve 100 full-length CJK messages within brow
 });
 test('respawn snapshots reset interpolation and stale world snapshots cannot rewind players', () => {
   const n = host(); n.isHost = false; n.members = [...n.players.values()]; n.lastSequence = -1;
-  const p = n.players.get('b'); p.x = 0; p.y = 6.1; p.z = -4; p.motion = 'falling';
+  const p = n.players.get('b'); p.x = 0; p.y = 12.1; p.z = -4; p.motion = 'falling';
   const state = { ...p, ...spawnPlayer(1), respawns: 1 };
   n.receiveWorld({ t: 'state', epoch: 1, now: 500, seq: 10, players: [state] }); assert.ok(Math.abs(p.x - state.x) <= .0001); assert.ok(Math.abs(p.y - state.y) <= .0001);
   const before = p.x;

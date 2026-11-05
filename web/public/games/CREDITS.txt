@@ -1,0 +1,22 @@
+PARRUITS! artwork and game information
+Copyright © 2026 Cluko. All rights reserved.
+Source: https://clukostudio.com/ (retrieved 2026-11-05)
+parruits-logo.webp: /assets/img/parruits-logo.webp
+parruits-scene.webp: /assets/img/hero-beach-poster.webp
+parruits-trailer-thumbnail.jpg: official PARRUITS! announcement trailer YouTube thumbnail
+Video: https://www.youtube.com/watch?v=s0pMzMwvKgE
+Thumbnail: https://i.ytimg.com/vi/s0pMzMwvKgE/maxresdefault.jpg (1280x720, retrieved 2026-11-05)
+Used for the requested HuddlersFire game exhibition. Artwork is not covered by this project's code license.
+
+Torizon Telecom artwork and game information
+Rights holder: SkagoGames / Project Torizon. All rights reserved.
+Source: https://madeinskago.com/TorizonTelecom/ (retrieved 2026-11-05)
+torizon-telecom-logo.png: https://madeinskago.com/TorizonTelecom/srcs/1.%20Game%20Logos/TorizonTelecom_Logo_NEW.png (566x180, unmodified PNG)
+torizon-telecom-trailer-thumbnail.jpg: official Torizon Telecom Gameplay Trailer YouTube thumbnail
+Video: https://www.youtube.com/watch?v=eDon6CQezQY (SkagoGames, verified with YouTube oEmbed)
+Trailer source: developer announcement Torizon Telecom - 26.09.04 at https://steamcommunity.com/app/4599560?l=koreana
+Thumbnail: https://i.ytimg.com/vi/eDon6CQezQY/maxresdefault.jpg (1280x720, 97,428 bytes, retrieved 2026-11-05)
+Thumbnail SHA-256: e65fc3b8b88bf8bb59e0b55b4d6a4cb1e109720574cc39874ce8e80f294c471f
+SNS sources: https://madeinskago.com/ and official Steam announcements (X, Discord, Reddit); YouTube oEmbed author_url (YouTube).
+Release and demo: https://store.steampowered.com/app/4599560/Torizon_Telecom/?l=koreana and https://store.steampowered.com/app/4599570/Torizon_Telecom_Demo/
+Used for the requested HuddlersFire game exhibition. Artwork is not covered by this project's code license.

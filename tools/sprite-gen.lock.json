@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/aldegad/sprite-gen.git",
+  "commit": "4f5ccd55c7cf06685a41f954acc1e476b7772ece",
+  "version": "3.15.0",
+  "license": "Apache-2.0",
+  "python": "3.13",
+  "location": "tools/sprite-gen",
+  "generation": "built-in image_gen; no automatic paid API fallback"
+}

@@ -100,9 +100,9 @@ test('track changes, host pause and ended events apply once; guests cannot advan
 test('saved settings survive reload, malformed storage and unavailable storage', () => {
   let value = 'broken'; const storage = { getItem: () => value, setItem: (_, next) => { value = next; } };
   assert.deepEqual(readSettings(storage), DEFAULT_SETTINGS);
-  saveSettings(storage, { effectsVolume: .3, musicVolume: 25, musicMuted: true, allowCarry: false });
-  assert.deepEqual(readSettings(storage), { effectsVolume: .3, musicVolume: 25, musicMuted: true, allowCarry: false });
-  assert.deepEqual(normalizeSettings({ forestVolume: -1, musicVolume: 500, musicMuted: 'yes', allowCarry: null }), { effectsVolume: 0, musicVolume: 100, musicMuted: false, allowCarry: true });
+  saveSettings(storage, { theme: 'color', effectsVolume: .3, musicVolume: 25, musicMuted: true, allowCarry: false });
+  assert.deepEqual(readSettings(storage), { theme: 'color', effectsVolume: .3, musicVolume: 25, musicMuted: true, allowCarry: false });
+  assert.deepEqual(normalizeSettings({ forestVolume: -1, musicVolume: 500, musicMuted: 'yes', allowCarry: null }), { theme: 'color', effectsVolume: 0, musicVolume: 100, musicMuted: false, allowCarry: true });
   const unavailable = { getItem: () => { throw new Error(); }, setItem: () => { throw new Error(); } };
   assert.deepEqual(readSettings(unavailable), DEFAULT_SETTINGS); assert.doesNotThrow(() => saveSettings(unavailable, DEFAULT_SETTINGS));
 });
@@ -110,7 +110,7 @@ test('saved settings survive reload, malformed storage and unavailable storage',
 test('legacy listening does not opt users out of radio; explicit mute and volumes survive migration', () => {
   for (const listening of [false, true]) {
     const legacy = { listening, forestVolume: .3, musicVolume: 25, allowCarry: false };
-    assert.deepEqual(normalizeSettings(legacy), { effectsVolume: .3, musicVolume: 25, musicMuted: false, allowCarry: false });
+    assert.deepEqual(normalizeSettings(legacy), { theme: 'color', effectsVolume: .3, musicVolume: 25, musicMuted: false, allowCarry: false });
     assert.equal(normalizeSettings({ ...legacy, musicMuted: true }).musicMuted, true);
   }
 });

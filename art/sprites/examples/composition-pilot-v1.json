@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "id": "illustrated-camp-composition",
+  "intentIds": ["INT-03", "INT-04", "INT-07", "INT-09", "INT-12", "INT-16", "INT-17"],
+  "style": {
+    "medium": "Warm soft hand-painted gouache, smooth non-pixel illustration, restrained warm brown outlines",
+    "view": "2:1 isometric ground, elevated three-quarter props; avatar portrait remains circular and screen-facing",
+    "light": "Soft upper-left daylight; warm fire accent, no baked floor or cast shadows on isolated sprites",
+    "character": "Cream blank circular head, terracotta pear-shaped body, cream mittens and dark brown boots; no text or drawn face",
+    "reference": "art/sprites/source/camper-base.png"
+  },
+  "assets": {
+    "camper-idle": {"kind":"character","state":"idle","direction":"front","frames":1,"fps":4,"loop":true,"width":128,"action":"standing relaxed with both feet planted, facing the viewer","contacts":{"feet":[0.5,1]},"head":{"center":[0.5,0.28],"radius":0.255}},
+    "camper-sit": {"kind":"character","state":"sit","direction":"front","frames":1,"fps":2,"loop":true,"width":128,"action":"seated on an invisible horizontal log, thighs forward and boots below knees, arms resting beside belly; clear bottom contact under pelvis","contacts":{"feet":[0.5,1],"seat":[0.5,0.73]},"head":{"center":[0.5,0.28],"radius":0.255}},
+    "bench-ne": {"kind":"prop","target":"bench","direction":"ne","frames":1,"width":90,"action":"one low two-person log bench; long seating axis rises from lower left to upper right at 26.565 degrees; both top and front wood faces visible; no backrest","contacts":{"ground":[0.5,1],"seat":[0.5,0.44]},"depth":"background"},
+    "bench-nw": {"kind":"prop","target":"bench","direction":"nw","frames":1,"width":90,"action":"one low two-person log bench; long seating axis descends from upper left to lower right at 26.565 degrees; both top and front wood faces visible; no backrest","contacts":{"ground":[0.5,1],"seat":[0.5,0.44]},"depth":"background"},
+    "grass": {"kind":"terrain","target":"grass","direction":"none","frames":1,"width":256,"action":"flat seamless top-down soft green grass material, sparse fine blades, uniform scale and lighting; no objects, perspective, border or vignette","contacts":{}}
+  },
+  "bindings": {"log-0":{"asset":"bench-ne","direction":"ne"},"log-2":{"asset":"bench-nw","direction":"nw"}},
+  "cases": [
+    {"id":"camp-overview","map":"camp","view":"overview","width":1050,"height":824,"kind":"canvas","criteria":["density","wayfinding"]},
+    {"id":"playground-overview","map":"playground","view":"overview","width":1050,"height":824,"kind":"canvas","criteria":["density","wayfinding"]},
+    {"id":"showroom-overview","map":"showroom","view":"overview","width":1050,"height":824,"kind":"canvas","criteria":["density","wayfinding"]},
+    {"id":"seat-ne","map":"camp","view":"seat-ne","width":1050,"height":824,"kind":"canvas","criteria":["contact","direction","occlusion"]},
+    {"id":"seat-nw","map":"camp","view":"seat-nw","width":1050,"height":824,"kind":"canvas","criteria":["contact","direction","occlusion"]},
+    {"id":"ui-desktop","map":"camp","view":"ui","width":1280,"height":900,"kind":"ui","criteria":["ui-hierarchy","occlusion"]},
+    {"id":"ui-mobile","map":"camp","view":"ui","width":390,"height":844,"kind":"ui","criteria":["ui-hierarchy","occlusion"]}
+  ]
+}

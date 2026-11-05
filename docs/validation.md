@@ -1,5 +1,143 @@
 # 구현 검증 기록
 
+## INT-18 후속 공개 배포 · 버전 29 / 규약 v19 (2026-11-06)
+
+사용자 **“배포 커밋 푸시 다 진행해줘”** 요청으로 검증한 새 필드를 기존 사이트에 공개했다. 아래 초기 로컬 검증의 배포 제외 경계는 이 후속 요청으로 대체한다.
+
+- **공개 결과:** https://huddlers-fire-camp.gywkd77.chatgpt.site · 버전 **29**, 배포 `appgdep_6aecb23339b08191a4ec0c63c61e17b1`, 최종 **succeeded**. 기존 public 접근·접근 리비전 2·DB 바인딩·런타임 환경 리비전 1을 유지했다. 새 SQL이나 환경 변경은 없었다. 모든 참가자는 새로고침 후 다시 입장해야 한다.
+- **준비:** 공식 Sites 소스 도우미로 기존 게시 전용 체크아웃을 열었다. 배포 빌드가 프로젝트 바깥의 제작 도구를 읽지 않도록 미리보기 플러그인을 개발용 설정에서만 동적으로 로드했다. 이 변경 후 **201/201 회귀, typecheck, 공식 build-site.mjs 빌드 PASS**. 원본 실행 입력 178개가 빌드보다 새롭지 않고 게시 소스 232개와 빌드 파일 136개의 SHA-256이 일치함을 확인했다.
+- **게시 소스/저장:** 공식 도우미의 커밋·푸시 `60877a4c1744167f44f01c42c0497b0be062cc74`. 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_b4901592a80481918c153e0f3153cc24`. 로컬 archive는 `web/outputs/huddlers-fire-field-v2-deploy.tar.gz`이며 gzip 파일 SHA-256은 `4ceb1d12727394bda127697d21d6d545e4e90bf087eaee14d0c1460da1f9d45c`, Sites가 저장한 tar 해시는 `ca23c65a53af8b1282a3392dc31a37fc5c48c5d7f3f3c96d62eb94340cf885b1`이다. 제작 원본·도구·비밀값·Git·의존성·로컬 상태를 배포 archive에서 제외했다.
+- **공개 검증:** `node outputs/check-field-v2-deployment.mjs 29` PASS. HTML HTTP 200, 정적 파일 **72개**의 로컬 빌드 해시 일치, 새 PNG **22개**·field-v2 manifest·두 벤치 방향/8개 좌석군 연결, 방 목록 HTTP 200, `discordAvailable:true`, 미인증 방 생성 HTTP 401을 확인했다. 사용자 방이나 로그인 세션은 만들지 않았다. 검사 결과는 `web/outputs/field-v2-deployment-check.json`이다.
+- **원본 저장소:** 이번 요청에는 게시 전용 저장소와 별도로 원본 `origin/main` 커밋·푸시도 포함한다. 이미 공개됐지만 미커밋이던 연결된 UI/자산 전환과 새 필드·하네스·검토 근거를 함께 기록한다. 검토에 사용하는 소스 15개와 프롬프트 52개는 `.gitattributes`로 기존 바이트를 보존하며 Git index와 작업 파일의 SHA-256 일치를 확인했다. 전역 Git/Codex 설정과 다른 사용자 상태는 변경하지 않았다.
+
+공개 검증은 파일/API 확인이다. 앞서 통과한 PC/모바일 headless와 16인 loopback RTC·승계 근거를 이어 사용했으며 실제 기기/NAT·OAuth 동의·YouTube 음향을 새로 검증했다고 하지 않는다.
+
+## INT-18 · 새 필드 전체 제작/설치 (2026-11-06, 로컬)
+
+승인 범위의 세 맵 배치·동선·캐릭터/시설/지형/효과·카메라·필드 HUD를 재구성했다. 규약은 v19이며 DB·공유 상태 필드·공개 사이트는 변경하지 않았다. 배포·커밋·푸시는 실행하지 않았다. 시작 전 코드/자산 해시와 199개 통과 기준선을 `web/outputs/field-v2-baseline/`에 보존했다.
+
+### 제작과 실제 화면
+
+- 이전 그림을 긍정적 참조로 사용하지 않은 새 원화에서 **52개 자산, 16개 동작 상태, 네 착석 몸 방향, 67프레임**을 만들었다. 고정 sprite-gen `3.15.0 / 4f5ccd55c7cf06685a41f954acc1e476b7772ece`로 분리/타일링했고 앱 어댑터로 여섯 색·여섯 다크를 패킹했다.
+- 원형 검토 후 전체로 확대했다. 최종 증거는 **Canvas 9개 + 실제 UI 6개 = 15개**, 추가로 모든 소스 프레임 4장과 혼합 자세를 열어 확인했다. [검토 묶음](../art/sprites/field-v2/release/review.json), [증거 해시](../art/sprites/field-v2/release/evidence.json), [16석](../art/sprites/field-v2/release/screens/camp-seats.png), [모바일 필드](../art/sprites/field-v2/release/screens/ui-mobile-field.png), [모바일 영상](../art/sprites/field-v2/release/screens/ui-mobile-radio.png)을 보존한다.
+- 생성 과정에서 들기 손 높이·손 흔들기의 흰 패널·서 있는 웅크리기 프레임을 탈락시키고 재생성했다. 머리 옆 손이 머리 크기 측정을 오염시키지 않도록 원형 측정 후 프레임별 앵커를 고정했다. 벤치의 다리 가림·이웃 얼굴을 덮는 이름표·작은 카드 문구 넘침·영상과 조작의 겹침·다크 반투명 가장자리 잔색을 수정했다.
+- 높은 연쇄의 얼굴 선택이 다른 사람의 넓은 몸 영역에 가로채이지 않도록 얼굴을 먼저 판정한다. 6인/16인 연쇄가 화면에 들어오며 각각 선택되는 실제 렌더 검사를 통과했다.
+- 전체 빌드는 이전 manifest를 가져오지 않는다. 전체 선택 누락·불투명 캐릭터 패널·다른 원본의 고정 앵커·오래된 검토를 거절한다. 원형 범위에 전체 자산을 넣어 전체 검토를 우회할 수 없다. 재생 중 영상 증거도 전체 설치의 필수 조건이다.
+
+### 실행 결과
+
+| 검사 | 결과 |
+| --- | --- |
+| `npm.cmd test` | **201/201 PASS**. 상태/물리/좌석/무기/복구/입력/원형 사진/애니메이션/테마/자산/제작 gate 포함 |
+| `npm.cmd run test:sprites:pipeline` | 최종 annotation 접촉점 검사 추가 후 **13/13 PASS**. 실제 전체 앵커/원본으로 재빌드해 출력 hash 불변과 15개 검토 재검증도 확인 |
+| `npm.cmd run test:render` | 세 맵, PC/모바일, 프로필·혼합 자세, 6/16인 연쇄의 프레이밍/개별 선택, 다섯 불 외형, 이름표·채팅·상태 PASS |
+| `npm.cmd run typecheck` / `npm.cmd run build` | PASS. 기존 vinext의 동적 API 경로 분류 안내가 남으며 빌드는 완료됨 |
+| `browser.appearance.mjs` | 최종 전체 manifest로 PC 1280×900·모바일 390×844 필드/열린 패널, 테마·저장·모달 포커스·초안·조작 가림 PASS |
+| `browser.exhibition.mjs` | 실제 키보드 도보로 세 맵 포털 왕복, 두 게임의 소개/공식 이미지/트레일러/링크·모달 입력 차단·모바일 영상 공간 PASS |
+| `browser.community.mjs` | 착석/공동 불/개인 숨김·공동 라디오·초안/호출·PIP·모바일 이동/영상·창 크기·종료 복귀 PASS. YouTube 미디어 API는 격리 fixture이므로 실제 음향을 검증했다고 하지 않음 |
+| `network.integration.mjs` | 방장+15명 실제 loopback ICE/DTLS/SCTP 연결, 손실/역순/재동기화, 세 맵·행동·채팅/음악/불 성장, 17번째 거절, 재접속/연쇄·정상 퇴장/강제 종료/전송 손실/실행 지연 승계 PASS. 마지막 epoch 5 |
+| 기본 `npm.cmd run sprites:build` | 보존한 전체 검토 묶음에서 재추출/재패킹·검토 재검증·설치 PASS. **이전 자산을 복구하지 않음** |
+| 출력/번들 검사 | 설치 PNG 22개 해시 일치, production PNG 22개, production 번들 25개에서 미리보기 경로 누출 0, 이전 PNG 해시 겹침 0 |
+
+개인 브라우저나 데스크톱 UI는 조작하지 않았다. 브라우저 검사는 임시 프로필의 headless Chrome과 loopback fixture다. 최종 공동 기능 검사에서 PIP/뷰포트 전환 시 브라우저의 `ResizeObserver` 지연 알림 **2회**가 발생했다. Canvas resize는 다음 프레임에서 크기가 달라진 경우만 적용한다. 남은 알림이 멎은 것을 확인한 뒤 개발 서버 오버레이를 닫고 화면/입력 검사를 계속했다. 오류 이벤트를 억제하지 않았으며 알림이 없었다고 보고하지 않는다. 이 지연 알림과 실제 무한 반복의 차이는 [MDN의 관찰 오류 설명](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver#observation_errors)을 참고했다. JavaScript 예외는 없었다.
+
+### 용량과 로컬 성능
+
+PNG 합계는 **9,181,523 → 6,855,914 bytes**, 가장 큰 단일 맵/테마 로딩 집합은 **3,828,805 bytes**다. 이전 원본과 이전 public 출력은 이력으로 보존하고 활성 public 출력은 새 22개만 남겼다. 생성 원본·검토 스크린은 런타임 PNG 용량에 포함하지 않는다.
+
+변경 전 스냅샷을 별도 출력 폴더에서 복원해 같은 CLI 측정기로 비교했다. 1050×824, 16명, 워밍업 30회 후 180회 CPU Skia Canvas 측정이며 레이아웃/그림은 각 버전의 상태다. 브라우저 GPU·기기 FPS·실인터넷 성능을 뜻하지 않는다.
+
+| 장면 | 중앙값 전 → 후 (ms) | p95 전 → 후 (ms) |
+| --- | --- | --- |
+| 불멍 컬러 | 4.69 → 3.61 | 6.59 → 5.47 |
+| 불멍 다크 | 4.58 → 3.38 | 5.90 → 4.61 |
+| 놀이터 컬러 | 3.82 → 0.73 | 4.73 → 1.09 |
+| 놀이터 다크 | 3.62 → 0.84 | 4.53 → 1.22 |
+| 전시장 컬러 | 3.65 → 0.77 | 4.72 → 1.05 |
+| 전시장 다크 | 3.88 → 0.71 | 4.60 → 1.17 |
+
+아래 공개 배포/이전 파일럿 기록은 이 로컬 검증과 구분한다.
+
+## 2026-11-05 명세·부분 제작·합성 계약·파일럿 구현
+
+- 승인 범위: 하네스와 제작 도구, 표시 계약, 실패 검사, 소량 신규 원본 파일럿. 기존 미커밋 변경을 보존하고 이번 변경 전 22개 관련 파일과 정식 원본/런타임 파일 47개의 해시를 `web/outputs/authoring-baseline/`에 저장했다. 정식 원본·22개 PNG·정식 JS manifest 등 **47개 파일의 해시가 작업 전과 동일**하다. 공개 배포·원본 Git 커밋/푸시·전역 설정 변경은 하지 않았다. 공유 상태·좌석/충돌·규약 v18을 유지했다.
+- 신규 생성: 내장 image_gen, 기존 캐릭터를 그림체 참조로 사용한 원본 **5개**(서기·앉기·통나무 두 축·잔디). [원본/출처](../art/sprites/pilot-source/generation.json)에 프롬프트 전체·참조/원본 해시를 보존했다. 외부 사진·공식 게임 콘텐츠는 생성 입력으로 사용하지 않았다. 원본을 정식 자산으로 교체하지 않았다.
+- 실제 부분 경로: `node tools/prepare-sprite-job.mjs --out composition-pilot-v2`, `node tools/rebuild-sprites.mjs --job art/sprites/runs/composition-pilot-v2/job.json`, `node web/tests/render-scene-preview.mjs --job art/sprites/runs/composition-pilot-v2/job.json`. 초기 생성 작업에서 프롬프트를 만든 후 맵 ID 연결만 명세에 추가했으며 새 작업의 프롬프트 텍스트는 동일하다. 파생 `request.json`도 현재 compiler 형식으로 보존했다. 공식 slice-sheet와 x/y background-tile, 앱 메타데이터 처리를 실행했다.
+- 새 context는 기존 manifest/cache를 교체하지 않는다. 선택한 상태의 sheet·좌면/지면 접촉·방향·depth를 실제 renderer가 사용한다. 작업 manifest는 나머지 기존 자산과 미제작 색/다크(`ungraded`)를 구분한다. 개발 전용 manifest 주입은 `serve`에서만 활성화된다. production JS에서 `composition-pilot`, preview 파일 경로, authoring plugin 문자열이 없음을 확인했다.
+- **회귀:** 변경 전 188 PASS → 최종 **199/199 PASS**. 추가 11개는 선택 입력만 실제 고정 도구로 처리, 원본 누락/잘못된 명세·접촉·방향, context 분리, 표시 접촉점·깊이, 정식 자산 비변경, 실패/누락/다른 크기/오래된 캡처 거절, full 준비 제한, 지형 셀 불투명도를 검사한다. gate 테스트의 자동 pass 자료는 합성 fixture이며 실제 미감 검토와 구분한다. `npm.cmd run test:render` **35 시나리오 PASS**, typecheck/build PASS, lint 오류 0·기존 `camp-world.mjs` COLORS 경고 1개.
+- **실제 화면:** 작업의 `screens/`에서 세 맵 전체 보기·두 축 착석의 Canvas PNG 5개와 격리 headless Chrome PC 1280×900·모바일 390×844 UI PNG 2개를 열어 검토했다. `browser.appearance.mjs`는 실제 preview 이미지 요청·서버/manifest 일치, 패널/초안·테마 저장/복원·포커스 등을 통과했다. 로그는 `web/outputs/authoring-{unit,render,build,lint,browser}.log`. YouTube는 기존 stub이며 실물 기기/NAT·실제 음향을 검증한 것은 아니다. 이번 변경에 공유 연결 계약이 없어 RTC 검사를 재실행하지 않았다.
+- **실패 발견과 수정:** 정상 범위의 잘못된 좌면 .35를 주입해 몸이 통나무로 내려앉는 화면을 확인하고 .73으로 복구한 뒤 재검토했다(`web/outputs/composition-review/bad-seat-ne.png`). background-tile 결과의 작은 크기를 256 셀에 그대로 그려 투명 격자가 생긴 구현 오류를 화면에서 발견했다(`bad-terrain.png`). 셀 전체에 맞춰 합성하고 완전 불투명 회귀를 추가한 뒤 새 Canvas·전체 UI를 생성/확인했다. 최초 headless sandbox 실행은 Runtime.enable 시간초과였고 격리 Chrome 실행만 제한 해제해 검사했다. 리소스 기록 버퍼가 부족해 실제 이미지 요청 확인도 처음 실패했으며 버퍼를 늘려 검증을 유지했다.
+- **시각 판정:** 좌면 접촉과 두 통나무 축은 부분 통과지만 정면 몸 방향·나머지 방향·길/포탈·밀도·UI 비중은 미해결이다. [실제 검토](../art/sprites/pilot-source/pilot-review.json)는 해당 장면을 fail로 기록했고 `verifyReview`의 실제 거절을 확인했다(`web/outputs/composition-review/gate-result.json`). 기술 검사 통과를 전체 신규 생성/시각 품질 통과로 바꾸지 않았다.
+- **문서/스킬:** 3개 스킬의 frontmatter는 기존 Node js-yaml로 검사하고 로컬 링크·공백·`git diff --check`를 확인했다. Python 기본 검사기의 YAML 의존성은 설치하지 않았다. 하네스 행동 사례 수동 대조와 실제 제작 파일럿은 수행했으며 독립 세션 실행은 수행하지 않았다. 계획/오타 범위·사용자 결정 우선·개인 UI 제한·배포 경계를 유지했다.
+
+## 2026-11-05 장면 구성 재발 방지 하네스·스킬 보완
+
+- 사용자 배치·조화 진단과 후속 재발 방지 요청에 따라 AGENTS에서 [장면 구성 기준](scene-composition.md)을 연결하고 제작·제품 검토·변경 검증 스킬에 생성 전 관계 정의, 대표 장면 선확인, 실제 합성 화면 검토, 기술 통과·시각 검토·미해결의 분리를 반영했다. 기준은 한 문서에서 관리한다. 전역 설정·공통 스킬·게임 실행 코드·자산·공개 사이트는 변경하지 않았다.
+- **직전 진단의 실행 근거:** 현재 소스의 `npm.cmd run test:render` 35개 시나리오 PASS. `expanded-camp.png`, `expanded-playground.png`, `showroom-overview.png`, `campfire-focus.png` 등 Canvas 출력과 원본 환경/앉기 그림, 기존 `seed-room-desktop.png` 등 전체 UI 캡처를 읽고 코드와 대조했다. 그림 생성/기능 검사가 통과해도 좌석 방향·접촉·가림, 길·시설 연결, 카메라 밀도, UI 비중 문제가 남음을 관찰했다. 경로는 `web/outputs/`이며 이번에 전체 UI 캡처를 새로 만들지는 않았다. 차이는 [제품 검토](product-review.md)의 최신 절에 미해결로 기록했다.
+- **이번 문서 검사:** skill-creator의 `quick_validate.py`를 세 스킬에 실행했으나 기존 프로젝트 Python에 `yaml` 모듈이 없어 실행되지 않았다. 패키지를 설치하거나 전역 환경을 바꾸지 않고 기존 Node `js-yaml`로 frontmatter·이름·설명·미완성 placeholder를 검사했다. 변경 문서의 로컬 Markdown 링크·공백과 `git diff --check`도 확인했다. 구조 검사 결과는 `web/outputs/scene-harness-check.json`에 둔다. 공식 Python 검사 통과로 보고하지 않는다.
+- **사례 수동 대조:** [행동 사례](../.agents/skills/camp-product-review/references/intent-cases.md)에 전면 교체·착석 불일치/PASS 로그·라디오 배치·썸네일 단독 변경·전체 UI 확인 불가·하네스만 보완하는 상황을 추가하고 새 규칙의 적용·비적용·의도 보존과 대조했다. 독립 에이전트 실행이나 향후 행동·재발 방지의 보증은 아니다. 기존 계획 전용 무수정·오타 범위 한정·최신 사용자 결정 우선·배포 권한 구분도 유지했다.
+- 이번 변경은 하네스·문서뿐이므로 게임 단위 검사·typecheck/build·RTC·브라우저·배포 검사를 다시 실행하지 않았다. **하네스 보완 완료와 기존 화면 결함 수정은 별개**이며 공개 버전 28·규약 v18은 그대로다.
+
+## 2026-11-05 INT-17 일러스트 재구성 공개 배포 · 버전 28 / 규약 v18
+
+- 사용자 후속 “배포해줘” 승인으로 기존 Sites 프로젝트 `appgprj_6ae8e9ae42708191b253341387aa287f`에 공개했다. 배포 전후 get_site에서 기존 public 접근과 같은 URL을 확인했다. DB·런타임 설정은 변경하지 않았으며 환경 리비전 1을 유지했다.
+- 공식 `build-site.mjs` 빌드 PASS. 게시 전용 `web/outputs/site-source`에 소스 225개와 빌드 136개를 준비하고 런타임 입력 176개의 원본/게시 소스 일치 및 모든 빌드 파일 SHA-256을 확인했다. 자산 제작 도구·원본 이미지·로컬 상태·비밀값은 앱 배포에 넣지 않았다.
+- 공식 source helper가 게시 소스를 커밋·푸시하고 패키징했다. 게시 소스 커밋 `654a6fd15d02b5dceb31c8f8d098ecfd98d63420`, archive `web/outputs/huddlers-fire-sprite-deploy.tar.gz`, 서버가 확인한 SHA-256 `8a38210f9c616f82fc378c11a9f4d78c01c03de83018296fa1aba71aa7154256`. 원본 GitHub 저장소에는 커밋·푸시하지 않았다.
+- 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_7a1abb63314c8191b254fb8d6e4c08e6`, 사용자 버전 **28**. 배포 `appgdep_6aec7acc6f288191ae5689e2d9506717`, 최종 **succeeded**, URL https://huddlers-fire-camp.gywkd77.chatgpt.site .
+- `node outputs/check-sprite-deployment.mjs 28` PASS. 공개 HTML HTTP 200, 공개 파일 **72개**의 빌드 해시 일치(새 스프라이트 **22개**, 16상태 manifest, JS/CSS·타이머 Worker·기존 게임/음원 포함), 방 목록 HTTP 200, `discordAvailable:true`, 미인증 방 생성 HTTP 401을 확인했다. 결과는 `web/outputs/sprite-deployment-check.json`. 사용자 세션·방은 만들지 않았다.
+- 최초 source helper는 Windows 실행 계정과 게시 저장소 소유자의 차이로 Git 접근을 거절했다. 해당 게시 경로만 프로세스 한정 `safe.directory`로 허용해 재시도 성공했다. 인증값은 메모리와 숨겨진 stdin으로만 전달했고 전역 설정을 변경하지 않았다.
+- 이번 공개 확인은 파일/API 검사다. 기존 188개 회귀·격리 브라우저·16인 loopback RTC 결과를 재사용했으며 실물 기기/NAT·실제 OAuth 동의/YouTube 음향을 추가 검증했다고 주장하지 않는다. **v18 적용으로 모든 참가자는 새로고침 후 다시 입장해야 한다.**
+
+## 2026-11-05 INT-17 일러스트 전면 교체 · 로컬 규약 v18
+
+sprite-gen 기반 16상태/63프레임 캐릭터, 환경·효과 28종, 세 맵 지형과 로비/게임 UI를 연결했다. **188개 회귀·Canvas 렌더·typecheck·build, 격리 headless 데스크톱/모바일 3개 시나리오군, 16인 loopback RTC가 통과했다.** 최종 PNG는 22개/9,181,523 bytes이며 로컬 CPU Canvas 중앙값은 기존 1.1~1.5ms에서 3.8~4.2ms로 증가했다. 실기기 FPS 수치가 아니다. 원본 재생성과 전체 프레임/혼합 자세를 확인했고 배포·커밋·푸시는 하지 않았다. 실패/재시도·측정 조건·잔여 한계와 산출물은 [이번 상세 검증](sprite-validation.md), 제작·출처는 [자산 계약](sprite-assets.md)에 기록한다. 아래 공개 버전 기록은 이전 배포 이력이다.
+
+## 2026-11-05 SEED 전면 재구축 공개 배포 (버전 26·규약 v17)
+
+- 사용자 후속 “배포해줘” 요청에 따라 INT-15 검증본을 기존 사이트에 배포했다. 사전/사후 get_site에서 같은 프로젝트·URL·public 접근을 확인했다. DB 스키마와 런타임 설정은 변경하지 않았고 환경 리비전 1을 유지했다.
+- 공식 Sites build-site.mjs 빌드 통과. 런타임 입력 143개가 빌드보다 새롭지 않음을 확인했다. 게시 전용 outputs/site-source에 소스 187개를 복사·해시 대조하고 삭제된 옛 UI 파일을 제거했다. Worker/client 빌드 파일 110개도 해시 일치를 확인했다. 비밀값·로컬 상태는 제외했다.
+- 공식 source helper로 게시 저장소에 commit 95796062a2ab26b74b29cce45aa3586c5a4c2041을 반영하고 동일 빌드 아카이브를 저장했다. 원본 프로젝트 Git 저장소는 커밋·푸시하지 않았다. 저장 버전 26: appgprj_6ae8e9ae42708191b253341387aa287f~appgver_89c61cdcb5a481918a9f822da1664655. 배포 appgdep_6aec560c24288191a1998c7dc13f7d7f가 succeeded를 반환했다.
+- 공개 주소: https://huddlers-fire-camp.gywkd77.chatgpt.site . node outputs/check-seed-deployment.mjs 26 통과. HTML/공개 방 목록 HTTP 200, JS/CSS·이미지·음원/출처 등 공개 파일 36개와 타이머 Worker 1개의 빌드 해시 일치, 새로운 SEED 패널/입장창/빈 상태 코드, Discord 준비 상태와 미인증 방 생성 401을 확인했다. 공개 사용자 세션이나 방은 만들지 않았다. 결과는 web/outputs/seed-deployment-check.json이다.
+- 아래 로컬 구현 당시의 미배포 경계는 이 후속 요청으로 해당 변경에 한해 대체된다. 모든 기존 참가자는 새로고침 후 규약 v17로 다시 입장해야 한다. 실제 외부 OAuth/영상·실물 모바일·인터넷 NAT의 미검증 범위는 그대로다.
+
+## 2026-11-05 기존 시각 계층 제거·SEED 전면 재구축 (INT-15, 로컬 v17·미배포)
+
+- 사용자 지적과 재승인에 따라 기존 흑백 전환을 부분 구현 이력으로 정정하고 새 시각 계층을 구현했다. 기존 미커밋 작업을 유지했으며 전역 설정·공유 스킬·DB 스키마·공개 사이트는 변경하지 않았다. 현재 공개 버전 25/v16과 로컬 v17을 구분한다.
+- 공식 SEED CLI로 생성한 ActionButton/TextField/Tabs/Avatar/Badge/List/Select/SelectBox/Snackbar/Callout/ResultSection과 SEED BottomSheet/Dialog를 실제 화면에 연결했다. 로비·생성/코드 입장·패널·설정·사람·게임 소개를 재구성했다. 기존 UI 폴더 61개 파일, components.json, 클래스명으로 variant를 추론하던 controls.tsx 및 사용하지 않는 UI 의존성을 제거했다. 공식 출처 주석과 프로젝트 내부 설정을 유지했다.
+- 기존 시각 CSS와 장면 그림을 제거하고 새 camp-layout.css, 토큰 전용 camp-theme.css, camp-artwork.mjs 및 둥근 사각 캐릭터를 적용했다. 맵 외곽 장식/충돌 배치가 달라져 규약 v17로 변경했다. 외부 프로필·게임 이미지·영상의 원색과 기존 기능/상태 의미는 유지한다.
+- `npm.cmd test`: **179/179 통과**. 맵 재배치 후 예전 장애물 좌표를 하드코딩한 던지기·탄환 검사 2개가 실패한 것을 확인했다. 현재 맵의 실제 crate 앞뒤에서 같은 충돌 차단을 검사하도록 갱신한 뒤 전체 통과했다. 실패를 물리 규칙 완화로 해결하지 않았다.
+- `npm.cmd run typecheck`, `npm.cmd run build`: 통과. 변경한 앱/캠프 컴포넌트·공식 스니펫·그림/맵/규약·관련 브라우저/물리 테스트의 targeted ESLint와 `git diff --check` 통과. 빌드의 vinext 경로 자동 분류 안내는 유지된다.
+- `npm.cmd run test:render`: **35개 Canvas 렌더 시나리오 통과**. 세 맵·부스·16인·모바일·연쇄/자세·장난감/폭탄 범위·다섯 불 형태·reduced-motion·이름표를 확인했다. Canvas 직접 렌더 결과이며 실제 브라우저 검사는 다음 항목과 구분한다.
+- `npm.cmd run test:browser:appearance`: 데스크톱 1280×900, 모바일 390×844에서 로비·생성/코드 Dialog·다섯 SEED 탭·입력창/하단 메뉴 경계·패널 확대/닫기·초안 보존·설정 focus trap/Canvas 복귀와 중립 배경 검사 통과. 실제 화면을 outputs/seed-*.png로 저장했다.
+- `npm.cmd run test:browser:exhibition`: 두 게임의 데스크톱/모바일 포탈 도보 이동·복귀, 부스 E/버튼, 공식 이미지·트레일러 URL·SNS 상태·링크, 게임 입력 잠금·스크롤 후 닫기 버튼·포커스 복귀·모바일 영상 영역 분리 통과. 브라우저 실행 예외 없음.
+- `npm.cmd run test:browser:community`: 공개 생성/목록/초대 입장, 좌석/공동 성장/잠긴 선택, 개인 숨김, 상태·채팅 초안/읽던 위치, RTC 채팅, 개인 소리/공유 재생, SEED slider 키보드 입력, 필드/YouTube Document PIP, 모바일 조작 가림·작은 viewport·Escape/Enter, 방장 퇴장, 확정 방 종료 시 1회 새로고침·죽은 초대 제거까지 **전체 통과**. 브라우저 실행 예외 없음.
+- `npm.cmd run test:network`: **16인 실제 루프백 WebRTC 검사 통과**. 손실/재정렬/지연 복구, 맵/좌석/장난감/연쇄/공/불 성장, 정상 방장 퇴장·강제 종료·게임 데이터 단절·스케줄러 지연에서 승계를 확인했다. 최종 epoch 5, 검사 HTTP 요청 1602회. 실인터넷 성능 수치가 아니다.
+- 검증 과정에서 닫힌 BottomSheet의 가림, SEED 입력 높이 고정과 패널 확대 충돌, 긴 탭의 부모 높이 확장, 작은 viewport, 소개창 닫기 버튼 스크롤, 모바일 라디오와 필드 조작 겹침을 수정했다. 구 UI의 숨겨진 탭 직접 클릭·native select·정확한 이전 픽셀 폭에 의존한 검사도 현재 사용자 조작에 맞게 바꿨다.
+- 비교 자료: `web/outputs/seed-rebuild-review.html`에 이전/새 로비·방 화면과 모바일, 실제 SEED 적용 목록을 정리했다. 실행 로그는 `web/outputs/redesign-{unit,render,appearance,community,exhibition,network}.log`다. 산출물 폴더는 Git에서 제외된다.
+- 한계: 로컬 Worker/SQLite·모의 Discord/YouTube와 격리 headless Chromium, Node 루프백 RTC 결과다. 개인 브라우저/데스크톱 UI는 조작하지 않았다. 실제 OAuth 동의·YouTube 스트리밍·실물 모바일 키보드/터치·다른 브라우저·인터넷 NAT·커뮤니티 선호는 검증하지 않았다. 공개 배포·커밋·푸시는 하지 않았다.
+
+## 2026-11-05 SEED 흑백 UI·게임 필드 후속 공개 배포 (버전 25, 규약 v16 유지)
+
+- 사용자 후속 **“배포해줘”** 요청에 따라 앞서 검증한 INT-14 변경을 기존 Sites 프로젝트 `appgprj_6ae8e9ae42708191b253341387aa287f`에 공개했다. 사전/사후 `get_site`에서 기존 public 접근과 같은 URL을 확인했다. DB·런타임 설정·접근 정책을 변경하지 않았으며 환경 리비전 **1**을 유지했다.
+- 공식 Sites `build-site.mjs`로 최신 소스를 다시 빌드했다. `outputs/prepare-seed-deploy.mjs`로 SEED 소스를 포함한 런타임 입력 **183개**가 빌드보다 오래됐음을 확인하고, 원본 작업을 유지한 게시 전용 `outputs/site-source`에 소스 **228개**와 빌드 파일 **110개**를 복사·SHA-256 대조했다. 로컬 상태와 비밀값은 제외했다.
+- 공식 source helper로 게시 전용 소스를 동기화하고 패키징했다. 게시 소스 커밋은 `837fd7c0607ebea2158af9215f6de7ce0ec3b447`, 압축 파일은 `web/outputs/huddlers-fire-seed-deploy.tar.gz`, SHA-256은 `64dc99d2dc960d1dd8b6e5832a53b8b9885b4a9354d404e464f2bf4676979a57`이다. 원본 GitHub 저장소의 미커밋 상태를 유지했다. 인증값은 메모리와 숨겨진 stdin만 사용했고 전역 설정은 변경하지 않았다.
+- 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_588fae56dd3c8191881ffcd16afe4013`, 사용자 버전 **25**. 배포 `appgdep_6aec3895bce881919b2997f0184e4bc7`의 최종 상태 **succeeded**, URL: https://huddlers-fire-camp.gywkd77.chatgpt.site .
+- `node outputs/check-seed-deployment.mjs 25` 통과. 공개 HTML과 방 목록 HTTP 200, 서버 렌더의 SEED dark-only 속성, JS/CSS·아이콘·게임/소리 자산 **36개** 및 타이머 Worker **1개**의 빌드 해시 일치를 확인했다. 흑백 테마·포탈 표식·불 외형·SEED 컴포넌트·전시장 콘텐츠가 공개 번들에 있으며 Discord 준비 상태와 미인증 방 생성 HTTP 401도 유지된다. 결과는 `web/outputs/seed-deployment-check.json`이다. 공개 사용자 세션이나 방은 만들지 않았다.
+- 이번 공개 확인은 파일/API 검사이며 실제 Discord 동의·YouTube 스트리밍·실기기/NAT 검증을 추가로 주장하지 않는다. 기존 참가자는 새로고침 후 새 UI를 사용한다.
+
+## 2026-11-05 SEED Design 설치·전체 UI/게임 필드 흑백 재구성 (INT-14, 로컬)
+
+- 사용자 계획 승인과 적용 범위 답변 “UI와 게임 필드에 적용”에 따라 구현했다. 외부 사진·게임 이미지·영상은 원색으로 두고 앱 UI와 직접 그리는 Canvas 색을 무채색으로 변경했다. 기존 미커밋 작업 위에 변경했으며 전역 규칙·설정, 공유 물리·네트워크 코드·DB 구조·통신 규약 v16은 이번 변경으로 바꾸지 않았다. 공개 배포·커밋은 수행하지 않았다.
+- 공식 npm 패키지 설치 확인: `@seed-design/react@3.1.1`, `@seed-design/css@3.1.0`, `@seed-design/tailwind4-theme@3.1.0`, `@seed-design/vite-plugin@2.1.1`. 설치와 캐시는 프로젝트 내부에 한정했다. RSC/TSX 로컬 설정, 고정 dark-only 테마, SEED ActionButton/TextField/Slider/Switch/Dialog/Portal을 실제 화면에 연결했다.
+- `npm.cmd run typecheck`, `npm.cmd run build` 통과. Vinext/Vite 8 + Cloudflare Worker 빌드 완료. 새 공통 컨트롤·팝업·외형 모듈과 외형 검사 파일 대상 ESLint 통과, `git diff --check` 통과.
+- `npm.cmd test`: **179개 통과**. 기존 두 색상 고정 검사를 새 흑백 피부·전경 위 이름표 합성 기준으로 갱신했다. 새 검사는 세 맵×다섯 불 외형의 실제 Canvas 픽셀에서 무채색 여부, 다섯 외형의 차이, 이전 유색 프로필 변환의 alpha 보존, 원본 플레이어 불변성을 확인한다.
+- `npm.cmd run test:render` 통과. 데스크톱·모바일·PIP 크기의 맵·캐릭터·포탈·부스·겹친 이름표·불 외형을 Canvas에서 직접 렌더하고 PNG를 확인했다. 프로필/부스 이미지 원색은 유지한다. 전체 Canvas 필터는 사용하지 않는다.
+- 로컬 빌드 Worker `127.0.0.1:5191`과 실제 앱 API/SQLite·외부 Discord fixture `127.0.0.1:5192`로 격리 headless Chromium 검증을 수행했다. 개인 브라우저·데스크톱 UI는 사용하지 않았다. 제한된 실행의 Chromium CDP 응답 및 esbuild 디렉터리 접근 제한은 필요한 로컬 테스트 명령만 확장 실행해 해소했다.
+- `CAMP_TEST_URL=http://127.0.0.1:5192 npm.cmd run test:browser:community` 통과. SEED slider Home/End/방향키 조작, 지연 음원 로딩 중 개인 음량 저장·최신 값 적용·실제 loop 음소거, 설정/라디오 값 동기화, 좌석·공동 성장·포탈 이동, 다른 참가자와 채팅/라디오 유지, 초안·스크롤 복원, Document PIP 이동·복귀, 모바일 200×200 영상·음소거 버튼, 방 종료 후 1회 새로고침을 확인했다. 브라우저 실행 예외 없음.
+- 같은 로컬 주소에서 `npm.cmd run test:browser:exhibition` 통과. PARRUITS!/Torizon Telecom 양쪽 모두 데스크톱·모바일의 포탈 왕복·부스 E/터치·원본 이미지·트레일러·SNS·링크·본문 스크롤·게임 입력 차단·닫기·Canvas 포커스 복귀와 공용 재생/개인 음소거 불변을 확인했다. 모바일 소개창과 라디오 영상이 겹치지 않는다. 브라우저 실행 예외 없음.
+- `npm.cmd run test:browser:appearance`에 해당하는 `node tests/browser.appearance.mjs` 통과. 데스크톱/모바일의 읽을 수 있는 탭 폭, 화면 범위, 설정 팝업 쌓임·닫기 버튼 클릭 가능 여부, 중립 배경과 포커스 복귀를 검사했다. `outputs/seed-lobby-*.png`, `seed-room-*.png`, `seed-settings-*.png`, `game-intro-*.png`와 `game-intro-links-*.png`를 확인했다.
+- 검증 중 SEED 기본 flex/position 규칙과 기존 CSS 충돌로 생긴 탭 폭 축소·모바일 상호작용 버튼 가림·팝업 쌓임 및 소개창 영상 공간 문제를 실제 요소 경계·스크린샷으로 찾아 수정한 뒤 관련 검사를 재실행했다. 실제 Discord 사용자 동의·YouTube 스트리밍은 fixture로 대체했고 실인터넷 NAT·실기기 터치·커뮤니티 선호 검증을 주장하지 않는다.
+
 ## Discord 운영 활성화 (2026-11-03)
 
 - 사용자가 로컬 비밀 설정에 등록한 두 값을 출력하지 않고 확인하여, Sites의 `DISCORD_CLIENT_ID`와 `DISCORD_CLIENT_SECRET`에 비밀 값으로 등록했다. 환경 설정 리비전은 **1**이다.
@@ -549,3 +687,179 @@ INT-03·04·06, 제품 방향·구조·이용 안내를 새 동작에 맞춰 갱
 - **공개 확인:** `node outputs/check-interface-deployment.mjs 19` 통과. HTML·공개 방 목록 HTTP 200, JS/CSS·음원·출처 합계 20개와 타이머 Worker 1개가 게시 빌드와 일치했다. 신청곡 자동 시작 안내·별도 이름표 그리기·휠 안내·모바일 214px 축소 CSS·미지원 PIP 행 처리 코드, Discord 연결 준비 및 미인증 방 생성 401을 확인했다. 새 세션·방은 만들지 않았고 기존 방도 조작하지 않았다. 결과: `web/outputs/interface-deployment-check.json`.
 
 원본 main의 커밋은 이 배포 기록을 포함한 관련 변경을 대상으로 한다. 빌드·로컬 상태·비밀 설정은 제외한다. 배포·원격 조회·공개 HTTPS 확인에는 기존 샌드박스의 네트워크 제한에 맞춰 해당 명령만 추가 권한을 사용했고 개인 브라우저·데스크톱 UI는 조작하지 않았다. 전역 설정·공개 범위·DB 마이그레이션은 변경하지 않았다. 사용자는 새로고침하면 변경을 사용할 수 있다.
+
+## 2026-11-05 방 종료 시 1회 새로고침 (후속 버전 20 배포)
+
+사용자 “방터지면 바로 새로고침 한번…유령방에 재접속” 요청(INT-11)에 따라 확정 종료 시 URL의 room을 지우고 한 번 새로고침한다. 새 로비에서 종료 안내를 표시하고 notice를 제거하며 다른 쿼리·해시는 보존한다. 입장 세대로 모든 연결 콜백을 제한해 이전 연결의 늦은 응답과 중복 종료가 새 연결을 지우거나 다시 새로고침하지 않도록 했다.
+
+- **오인 종료 수정:** 최초 16명 검사에서 정상 방장 퇴장 후 참가자도 모두 종료되는 실패를 발견했다. 방 조회 성공 직후 이전 방장을 대상으로 한 signal의 403도 poll 전체의 종료 오류로 처리하던 경로다. 이 조건을 단위 회귀로 재현해 수정 전 실패를 확인한 뒤, 방 조회 요청 자체의 401·403·404·410만 확정 종료로 처리하도록 수정했다. 수동 퇴장의 체크포인트 배출 중 완료된 poll도 종료 알림을 발생시키지 않는다.
+- **회귀·타입·빌드:** 최종 `npm.cmd test` **167개 통과**, `npm.cmd run typecheck`, `npm.cmd run build` 통과. 종료 상태 4종의 1회 정리·종료 후 조회/재접속 금지, 오프라인/503 유지, signal 403과 정상 퇴장 배출 중 오류를 검사했다. 실행 중인 Wrangler가 산출물을 잡고 있어 한 차례 빌드가 EPERM으로 실패했고, 본인 서버를 종료한 뒤 재빌드에 성공했다. Vinext 기존 라우트 정적 분류 안내는 남는다.
+- **16명 P2P:** `CAMP_TEST_URL=http://127.0.0.1:5592`의 최종 `npm.cmd run test:network` 통과, **1,459 HTTP 요청**. 정상 방장 퇴장 후 14개 연결 재구성, 방장 강제 종료 후 13개 연결 복구, HTTP 생존 중 게임 응답 손실과 스케줄러 지연의 epoch 5까지 승계를 확인했다. 기존 방 코드·채팅·음악·맵·공·연쇄·장작 성장/대기시간을 보존했다. 로컬 Node WebRTC이며 실인터넷 NAT 검증과 구분한다.
+- **격리 브라우저:** 같은 QA 서버에서 최종 `npm.cmd run test:browser:community` 통과, 런타임 예외 없음. 실제 API로 본인이 만든 방의 참여 정보를 제거한 뒤 다음 실제 poll에서 새 문서가 로드되는지, room과 일회성 notice 제거·빈 코드 입력·다른 쿼리/해시 유지·5초 뒤에도 새로고침 횟수 1회·로비 잔류를 확인했다. 앞선 503 두 번에는 같은 문서·방 연결을 유지했다. 모바일·PIP·라디오·입력·소리와 일반 퇴장 회귀도 통과했다. 최종 빌드의 중간 재검사에서는 React 입장 준비 전 설정 버튼을 눌러 대기 실패가 있었고, 서버 프로필 반영 후 입장 가능 상태까지 기다리도록 테스트를 보완한 뒤 전체를 통과했다. 외부 Discord/YouTube는 대체 제공자이며 실제 서비스·실물 모바일 확인은 아니다.
+- **환경·정리:** 빌드 Worker 5591과 QA API 5592만 사용하고 검사 후 종료했다. 기존 샌드박스의 상위 경로 읽기·CDP 제약 때문에 로컬 Worker와 개인 브라우저와 분리된 임시 headless 검사 명령만 추가 권한으로 실행했다. 전역 설정·다른 세션·개인 브라우저/데스크톱 UI·공개 방은 조작하지 않았다. `git diff --check`도 통과했다.
+
+공유 상태·DB 스키마·통신 규약 v15는 유지한다. 확정 종료는 다음 방 조회 응답에서 확인한 시점에 처리하며, 단순 recoveryWaiting이나 일시적인 네트워크 실패는 새로고침 조건이 아니다. 위 구현·검증 완료 시점에는 공개 사이트 버전 19와 원격 Git을 변경하지 않았다.
+
+### 방 종료 수정 공개 결과 (버전 20, 규약 v15)
+
+후속 사용자 “배포해줘” 요청에 따라 검증한 수정본을 기존 Sites 프로젝트 `appgprj_6ae8e9ae42708191b253341387aa287f`에 배포했다. `get_site`로 기존 버전 19·public 접근을 확인하고 공식 source helper로 같은 게시 저장소를 열었다. 실행 입력 157개가 최종 빌드보다 새롭지 않고 소스 203개·빌드 93개가 원본과 일치함을 확인해 직전 167개 회귀·타입·빌드·16명 P2P·최종 격리 브라우저 검사를 반복하지 않았다.
+
+- 게시 소스: `a4b04e02380a5efdd4593c4c2c034ab451ce6ae2`. 공식 helper가 게시 전용 `web/outputs/site-source`에서 커밋·푸시했다. 원본 GitHub 저장소는 이번 요청으로 커밋·푸시하지 않았다.
+- 아카이브: `web/outputs/huddlers-fire-room-reload-deploy.tar.gz`, 빌드 93개, SHA-256 `153dcac7d7571864e927da00fe7d6b0ca45609fe0fedf95e0c27dcb0a8a3ecf7`. 환경 파일·Git·의존성·로컬 런타임 상태는 포함하지 않았다.
+- 저장 버전: `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_44939e9d45c08191a7eb398e80a21cc5`, 사용자 버전 **20**.
+- 배포: `appgdep_6aec0b94d7208191992c703b2b14d0d2`, **succeeded**, 환경 리비전 **1**. URL: https://huddlers-fire-camp.gywkd77.chatgpt.site . 기존 public 접근·DB·런타임 설정을 유지했다.
+- 공개 확인: `node outputs/check-interface-deployment.mjs 20` 통과. HTML·공개 방 목록 HTTP 200, JS/CSS·음원·출처 20개와 타이머 Worker 1개가 게시 빌드와 SHA-256으로 일치했다. 새 `room-ended` 안내와 `location.reload()` 코드를 확인하고 Discord 연결 준비·미인증 방 생성 401도 확인했다. 공개 방·새 세션은 만들지 않았다. 결과는 `web/outputs/interface-deployment-check.json`이다.
+
+기본 샌드박스의 Git HTTPS 차단 후 공식 helper·공개 HTTPS 확인 명령만 추가 권한으로 실행했다. 단기 인증값은 메모리와 숨겨진 stdin으로만 전달했으며 전역 설정·개인 브라우저·다른 세션은 조작하지 않았다. 공개 사이트에서 종료를 강제로 발생시키지는 않았고 실제 1회 새로고침 동작은 앞선 로컬 격리 브라우저로 검증했다. 기존 참가자는 한 번 새로고침해 새 코드를 적용할 수 있다.
+
+## 2026-11-05 맵 2배 확장·포탈·게임 전시장 검증 (규약 v16, 미배포)
+
+사용자가 각 맵의 가로·세로 “약 2배씩”을 선택하고 계획 구현·검증을 승인했다. 기존 방 종료 수정 등 작업 트리의 선행 변경은 보존하고 맵·포탈·전시장·게임 소개를 추가했다. 사용자 요청에 따라 프로젝트 로컬 `camp-plan-interview/SKILL.md`를 삭제하고 AGENTS와 현재 의도 문서의 참조를 공통 `plan-interview`로 정리했다. 공통 스킬·전역 설정은 수정하지 않았다.
+
+### 구현 및 계약
+
+- `camp-maps.mjs`에 세 맵의 경계·포탈·전시 부스를 정의했다. 바닥 한 변은 12→24타일, 지면 끝 6→12로 확장하고 걷기·상태 검증·낙사·공 복귀·투사체 경계와 렌더링을 함께 맞췄다. 기본 카메라는 캐릭터를 따라가고 전체 보기에서는 확장한 지형을 맞춘다.
+- `change-map`은 포탈 ID·목적지·현재 mapRevision을 필수로 받는다. 방장과 솔로의 같은 함수에서 출발 맵·거리·지상 상태를 검증하며 기존 원거리 버튼 이동은 제거했다. 도착 지점·연쇄 해제·이전 방문 입력 거절·중복 요청 방지를 유지한다. 새 맵 ID와 명령 의미 변경에 따라 규약 v16이며 DB 마이그레이션은 없다.
+- 전시장 PARRUITS! 부스에 다가가 E/화면 버튼으로 소개 팝업을 연다. 2026-11-05 clukostudio.com에서 확인한 소개·로고·장면과 Steam·공식 사이트·YouTube·프레스킷 링크를 사용했다. 두 공식 이미지 총 71,540바이트와 CREDITS.txt를 `public/games/`에 저장했다. 팝업의 포커스·입력 잠금·닫기·Escape·필드 복귀를 연결했다. 모바일에서는 라디오를 하단에 두고 실제 높이만큼 소개 영역을 확보한다. 본문만 스크롤해 닫기 버튼은 계속 접근할 수 있다.
+
+### 실행 결과
+
+| 검사 | 결과와 범위 |
+| --- | --- |
+| `npm.cmd test` | **172개 통과**, 실패·취소·건너뛰기 0. 포탈 원거리/위조/낡은 방문 거절, 세 맵의 실제 확장 지면·낙사·부스 근접, 전시장 놀이 차단, 전체/변경분·채팅·승계 복구를 포함한다. 예전 어디서든 이동·기존 가장자리 수치는 새 계약에 맞게 갱신했다. |
+| `npm.cmd run typecheck` | 통과. 최종 팝업·상태 타입 포함. |
+| `npm.cmd run lint` | 오류 0, 기존 경고 4개. camp.tsx·player-info-panel.tsx 이미지 경고와 camp-renderer.mjs·camp-world.mjs 미사용 변수 경고다. 새 검사/팝업에서 생긴 경고·오류는 정리했다. |
+| `npm.cmd run build` | 최종 빌드 통과. Vinext의 기존 동적 경로 분류 안내가 출력되며 빌드 오류는 없다. |
+| `npm.cmd run test:render` | 통과. 실제 Canvas 코드로 확장 불멍·놀이터·전시장·부스·모바일 포탈과 기존 장면을 생성했다. `expanded-camp.png`, `showroom-booth.png`, `camp-portal-mobile.png`를 직접 확인했다. |
+| `npm.cmd run test:network` | **16명 루프백 실제 WebRTC 통합 통과**, HTTP 요청 1,542회. 전시장 왕복과 맵을 기록한 채팅, 포탈 명령 거절, 전체/변경분·공·모닥불·연쇄, 정상 퇴장·강제 종료·RTC 손실·스케줄 지연의 epoch 5까지 승계를 확인했다. |
+| `npm.cmd run test:browser:exhibition` | 최종 빌드에서 통과. 격리된 headless Chrome의 **1280×900·390×844** 화면에서 실제 키보드 이동→포탈 왕복→부스 상호작용, 근접만으로 자동 열리지 않음, 정적 이미지 로드·새 탭 링크·포커스·입력 잠금·Escape/닫기, 모바일 팝업/라디오 비겹침·스크롤 후 링크와 닫기 버튼 접근을 확인했다. 런타임 예외 0. |
+| `npm.cmd run test:browser:community` | 통과. 기존 맵 버튼 검사를 실제 포탈 접근으로 갱신했고, 좌석·모닥불 성장·상태/채팅 초안·공용 라디오와 개인 소리·필드/음악 PIP·모바일·방 종료 1회 새로고침을 확인했다. 런타임 예외 0. 본문 스크롤 분리는 이후 전시장 전용 검사로 최종 확인했다. |
+| 문서·하네스 | `git diff --check` 통과. 삭제 스킬의 현재 링크가 없음을 확인했다. 의도 하네스 사례의 계획/구현/배포·최신 결정 우선 규칙을 수동 대조했다. 독립 에이전트 행동 검증으로 주장하지 않는다. |
+
+새 검사 이미지 `game-intro-desktop.png`, `game-intro-mobile.png`, `game-intro-links-desktop.png`, `game-intro-links-mobile.png`와 로그 `map-exhibition-*.log`는 `web/outputs/`에 있다. 최초 모바일 이미지에서 라디오 겹침을 발견해 수정 후 비겹침과 링크 접근 검사를 추가했고 최종 이미지를 다시 생성했다. 테스트 위치를 강제로 배치한 16명 검사에서는 1 미만 거리의 보간 수렴을 기다리다 실패해 fixture를 즉시 반영되는 배치로 바꿨다. headless 도보 경로의 장애물 여유·앉기 해제도 검사 코드에서 보정했다.
+
+로컬 API는 `tests/local-immersion-server.mjs`의 메모리 SQLite·모의 Discord OAuth를 사용했고 빌드 미리보기는 별도 `.wrangler/map-exhibition-preview`에 뒀다. 기본 DB·공개 방·개인 브라우저는 조작하지 않았다. 공식 자산 다운로드, 보호된 로컬 스킬 삭제, 로컬 Worker/격리 Chrome의 샌드박스 접근 제한은 해당 명령만 추가 권한으로 해결했다. 사용한 로컬 서버는 검증 후 종료했다.
+
+이 결과는 루프백 RTC·격리 Chromium·모의 YouTube API의 기술 검증이다. 실물 모바일, 다른 브라우저·실제 YouTube 청취/자동재생, 실인터넷 NAT와 커뮤니티의 공간 탐색 만족도는 별도 확인 범위다. **공개 배포·커밋·푸시는 하지 않았다. 공개 사이트 버전 20·규약 v15와 로컬 최신 v16을 구분한다.**
+
+### 맵 확장·전시장 후속 공개 결과 (버전 21, 규약 v16)
+
+후속 사용자 “배포해줘” 요청으로 기존 Sites 프로젝트 `appgprj_6ae8e9ae42708191b253341387aa287f`에 공개 배포했다. `get_site`로 기존 버전 20·public 접근을 확인했다. 공식 source helper로 게시 전용 `web/outputs/site-source`를 먼저 열고, 검증한 소스 211개와 빌드 96개의 일치를 확인했다. 실행 입력 159개가 최종 빌드 이후 바뀌지 않아 직전 172개 회귀·타입·빌드·16명 P2P·최종 격리 브라우저 검사를 반복하지 않았다. 결과는 `web/outputs/map-exhibition-deploy-inputs.json`이다.
+
+- 게시 소스: `dd0d8d43e10e7009421a1b83dec7a29499ffff81`. 공식 helper가 게시 전용 저장소에서 커밋·푸시했다. 원본 GitHub 저장소의 작업 트리·인덱스·원격은 커밋·푸시하지 않았다.
+- 아카이브: `web/outputs/huddlers-fire-map-exhibition-deploy.tar.gz`, 96개 파일. 로컬 gzip SHA-256 `36cddfb5f655bb044cdff8070c4c7e39a3b1f839ed308ebbb6e613ce3bf702c8`. 저장 서비스의 tar 내용 해시 `79a4ebf2fe43cadd8e00f93774809b3d77fe7fb660794699b7b8ddbd8c3d3422`. 환경 파일·Git·의존성·로컬 런타임 상태는 제외했다.
+- 저장 버전: `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_d7c2258efb348191bd5e9d8c64a22eb5`, 사용자 버전 **21**.
+- 배포: `appgdep_6aec184b17e88191a36bcf6447f7b23c`, **succeeded**, 환경 리비전 **1**. URL: https://huddlers-fire-camp.gywkd77.chatgpt.site . 기존 public 접근·DB·런타임 설정을 유지했다.
+- 공개 확인: `node outputs/check-map-exhibition-deployment.mjs 21` 통과. HTML·공개 방 목록 HTTP 200, JS/CSS·음원·게임 이미지/출처 23개와 타이머 Worker 1개가 게시 빌드와 SHA-256으로 일치했다. 전시장·포탈·소개 팝업과 모바일 라디오 비겹침 CSS를 확인하고 Discord 준비 상태·미인증 방 생성 401도 확인했다. 공개 방이나 새 세션은 만들지 않았다. 결과는 `web/outputs/map-exhibition-deployment-check.json`이다.
+
+게시 helper의 최초 Git 인식 실패는 추가 권한 프로세스와 기존 게시 저장소의 소유자가 달라 Git이 거절한 것이었다. 정확한 게시 경로만 그 프로세스의 `safe.directory` 환경 설정으로 전달해 해결했고 전역 Git 설정은 수정하지 않았다. 단기 인증값은 메모리와 helper의 숨겨진 stdin으로만 전달했다. 개인 브라우저·데스크톱 UI·다른 세션을 조작하지 않았다. 기존 참가자는 모두 한 번 새로고침해 규약 v16을 적용해야 한다.
+
+## 2026-11-05 부스 공통 템플릿·이미지·트레일러·SNS (규약 v16 유지, 미배포)
+
+사용자의 후속 요청에 따라 `createGameExhibit` 공통 형식과 필드 대표 이미지·트레일러 중심 소개·SNS 아이콘을 구현했다. 다른 게임의 작성/배치 예제는 `docs/game-exhibits.md`에 있다. 기존 게임 소개 기능과 새 템플릿을 구분하며 게임 등록 UI·DB·공유 상태·통신 버전은 변경하지 않았다.
+
+- **공식 자료 확인:** clukostudio.com의 표시 링크와 구조화 자료에서 YouTube·X·Instagram·Discord·Reddit 주소를 확인했다. 공식 @PARRUITS 채널의 영상 목록에서 `s0pMzMwvKgE`를 찾고 YouTube oEmbed HTTP 200으로 제목 `PARRUITS! - Official Announcement Trailer`와 게시자 `PARRUITS!`를 확인했다. 틱톡은 링크 미등록으로 둔다. 계정이 존재하지 않는다는 조사 결과로 취급하지 않는다.
+- **부스 이미지:** 로컬 대표 이미지를 같은 비율로 잘라 그리고 로딩을 캐시한다. 실패 시 게임 이름을 남기고 반복 요청을 막는다. 실제 Canvas의 픽셀 검사와 오류 재시도 방지 검사로 확인했다. 대표 이미지·영상·SNS가 빈 추가 게임도 같은 형식을 쓸 수 있다.
+- **트레일러:** 작은 로고/제목 다음의 가장 큰 영역에 YouTube iframe을 배치했다. 영상 ID를 검증하고 자동 재생 없이 원본 보기 링크도 제공한다. 팝업 닫기 때 iframe을 제거하며 공용 라디오·음소거 값을 변경하지 않는다. 모바일 최소 영상 크기는 200×200px이고 기존 라디오 공간 분리를 유지한다.
+- **SNS:** 6개 아이콘을 같은 순서로 표시한다. HTTPS·플랫폼 주소가 있는 5개만 새 탭 링크이고, TikTok은 href 없는 disabled/aria-disabled 버튼이다. 빈 문자열·공백·잘못된 주소·프로토콜·인증정보가 든 URL도 비활성 처리한다. Simple Icons v15.0.0의 로컬 SVG 6개와 CC0 출처를 `public/icons/social/`에 저장했다.
+
+| 검사 | 결과 |
+| --- | --- |
+| `npm.cmd test` | **175개 통과**, 실패·취소·건너뛰기 0. 새 템플릿의 빈 항목·독립 데이터, SNS 링크 검증·미등록, YouTube ID·자동 재생 미지정과 부스 이미지 픽셀·실패 캐시 검사를 포함한다. |
+| `npm.cmd run typecheck` | 통과. 공통 게임 데이터와 팝업·아이콘 렌더 포함. |
+| `npm.cmd run lint` | 오류 0, 기존 경고 4개. 새 경고 없음. |
+| `npm.cmd run build` | 최종 빌드 통과. 기존 Vinext 동적 라우트 분류 안내는 유지한다. |
+| `npm.cmd run test:render` | 통과. 부스 대표 이미지를 실제 캐시에 주입해 production Canvas 코드로 PC·모바일 장면을 생성하고 `showroom-booth.png`를 직접 확인했다. |
+| `npm.cmd run test:browser:exhibition` | **1280×900·390×844 통과**, 런타임 예외 0. 실제 키보드 포탈 왕복·부스 이미지 로드, 트레일러 영상 ID·200px 이상 영역·자동 재생 미지정·닫을 때 iframe 제거, 활성 SNS 5개/비활성 1개와 SNS·관련 링크·닫기 버튼의 실제 클릭 지점 접근, 입력 잠금·필드 포커스 복귀·모바일 라디오 비겹침을 확인했다. |
+
+`game-booth-desktop.png`, `game-intro-desktop.png`, `game-intro-links-mobile.png`를 직접 확인했다. 로그는 `web/outputs/exhibit-template-*.log`에 있다. Headless 검사는 개인 프로필과 분리된 Chrome을 사용하고 트레일러 iframe 응답·라디오 API만 대체하므로 실제 YouTube 스트리밍·광고·음성·실물 모바일 검증을 의미하지 않는다. 로컬 API는 기존 메모리 SQLite/모의 OAuth, Worker는 별도 `.wrangler/exhibit-template-preview`를 사용했다. 기본 DB·개인 브라우저·다른 세션·공개 방을 조작하지 않았다. 공유 물리·통신·복구가 바뀌지 않아 앞선 16명 RTC와 전체 community 브라우저 검사를 반복하지 않았다.
+
+공개 사이트는 버전 21·규약 v16을 유지한다. **이번 부스 템플릿은 아직 배포·커밋·푸시하지 않았다.**
+
+### 부스 템플릿 후속 공개 결과 (버전 22, 규약 v16)
+
+후속 사용자 “배포해줘” 요청으로 기존 Sites 프로젝트 `appgprj_6ae8e9ae42708191b253341387aa287f`에 배포했다. `get_site`에서 기존 버전 21·public 접근을 확인하고 공식 source helper로 같은 게시 전용 저장소를 먼저 열었다. 소스 218개·빌드 103개의 복사 일치와 실행 입력 159개가 최종 빌드 이후 바뀌지 않음을 확인했다. 직전의 175개 회귀·타입·빌드·Canvas·PC/모바일 headless 검사는 입력이 같아 반복하지 않았다. 준비 결과는 `web/outputs/exhibit-template-deploy-inputs.json`이다.
+
+- 게시 소스: `ea3d5c20899efb4ef8792f586860fbb3b25c4a39`. 공식 helper가 `web/outputs/site-source`에서 커밋·푸시했다. 원본 GitHub 저장소는 이번 요청으로 커밋·푸시하지 않았다.
+- 아카이브: `web/outputs/huddlers-fire-exhibit-template-deploy.tar.gz`, 103개 파일. 로컬 gzip SHA-256 `e37376ba26900b8f43f97daa962c3f9b45ed1c1a65ca0661445f1a6edbb21871`. 저장 서비스 tar 해시 `79bb2bb767e605198425c6c807ea6041d58c6556427817a4a896f916e107c010`. 환경 파일·Git·의존성·로컬 런타임 상태는 제외했다.
+- 저장 버전: `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_db4e7d66bb448191bca267de87ce2386`, 사용자 버전 **22**.
+- 배포: `appgdep_6aec1d0bd15481918322a85ad03a0df0`, **succeeded**, 환경 리비전 **1**. URL: https://huddlers-fire-camp.gywkd77.chatgpt.site . 기존 public 접근·DB·런타임 설정을 유지했다.
+- 공개 확인: `node outputs/check-exhibit-template-deployment.mjs 22` 통과. HTML·공개 방 목록 HTTP 200, JS/CSS·음원·게임 이미지·SNS SVG/출처 등 30개 파일과 타이머 Worker 1개가 게시 빌드와 SHA-256으로 일치했다. 부스 이미지 캐시·트레일러 영상 ID/임베드·SNS 표시 코드도 확인했다. Discord 연결 준비 상태·미인증 방 생성 401을 확인했으며 공개 방이나 새 세션은 만들지 않았다. 결과는 `web/outputs/exhibit-template-deployment-check.json`이다.
+
+단기 인증값은 메모리와 helper의 숨겨진 stdin으로만 전달했다. 게시 저장소 소유자 차이는 해당 프로세스의 정확한 경로 `safe.directory` 설정으로 처리했고 전역 설정·개인 브라우저·데스크톱 UI·다른 세션은 조작하지 않았다. 이번 공개 검사는 배포 파일과 API의 확인이며 실제 YouTube 스트리밍·실물 모바일 검증을 추가로 주장하지 않는다. 기존 참가자는 새로고침해 최신 부스 UI를 사용할 수 있다.
+
+## 2026-11-05 부스 대표 이미지 YouTube 썸네일 교체·배포 (버전 23, 규약 v16 유지)
+
+사용자 “부스 대표이미지는 유튜브 썸네일로 해줘 바로 배포까지해줘”에 따라 기존 게임 장면 대신 공식 트레일러 썸네일을 적용하고 즉시 배포했다. 실제 `https://i.ytimg.com/vi/s0pMzMwvKgE/maxresdefault.jpg`를 받아 1280×720·166,375바이트임을 확인했다. 원본을 `public/games/parruits-trailer-thumbnail.jpg`에 저장하고 공통 게임 정보의 cover와 출처를 갱신했다. 기존 로고·영상·SNS·공유 상태·DB·규약은 유지한다. 이미지 픽셀/실패 캐시와 브라우저 부스 로드 검사의 파일명은 게임 정보에서 읽게 맞췄다.
+
+- `npm.cmd test` **175개 통과**, 실패·취소·건너뛰기 0. `npm.cmd run typecheck`, `npm.cmd run build`, `npm.cmd run test:render` 통과. 원본 썸네일과 실제 Canvas `showroom-booth.png`를 직접 확인했다. 대표 이미지 데이터·정적 파일만 바뀌어 기존 팝업/모바일 headless·16명 RTC 검사는 반복하지 않았다. 로그는 `web/outputs/thumbnail-*.log`에 있다.
+- `get_site`에서 기존 버전 22·public 접근을 확인하고 공식 source helper로 같은 게시 저장소를 열었다. 소스 219개·빌드 104개의 일치와 실행 입력 159개가 최종 빌드 후 바뀌지 않음을 확인했다. 준비 결과는 `web/outputs/thumbnail-deploy-inputs.json`이다.
+- 게시 소스: `e0b420efc729e8fa0ff8b431ad64512720998f42`. 공식 helper가 게시 전용 `web/outputs/site-source`에서 커밋·푸시했다. 원본 GitHub 저장소는 커밋·푸시하지 않았다.
+- 아카이브: `web/outputs/huddlers-fire-thumbnail-deploy.tar.gz`, 104개 파일. 로컬 gzip SHA-256 `b3aa1745be6eb5fdded89c5131f8c5f70a4bf39d5bedc6c7c47c6791ddb6ec67`. 저장 서비스 tar 해시 `a4ad1f49698c4f11b5ab31ceeb817737388dc9d06a5eb28d23e0b9be775fca78`. 환경 파일·Git·의존성·로컬 상태는 제외했다.
+- 저장 버전: `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_86195ad4c0e081919e6540edccf9433d`, 사용자 버전 **23**.
+- 배포: `appgdep_6aec1f6ee9088191bc753bce32c565f3`, **succeeded**, 환경 리비전 **1**. URL: https://huddlers-fire-camp.gywkd77.chatgpt.site . 기존 public 접근·DB·런타임 설정을 유지했다.
+- 공개 확인: `node outputs/check-thumbnail-deployment.mjs 23` 통과. HTML·공개 방 목록 HTTP 200, 새 썸네일을 포함한 파일 31개와 타이머 Worker 1개가 검증 빌드와 SHA-256으로 일치했다. 부스가 새 썸네일 경로를 참조하는 코드와 Discord 준비 상태·미인증 방 생성 401도 확인했다. 공개 방·새 세션·개인 브라우저는 조작하지 않았다. 결과는 `web/outputs/thumbnail-deployment-check.json`이다.
+
+게시 저장소 접근은 해당 프로세스에만 정확한 경로의 safe.directory를 지정했고 전역 설정은 수정하지 않았다. 단기 인증값은 메모리와 숨겨진 stdin으로만 전달했다. 새 이미지 파일명과 새 번들로 배포해 이전 대표 이미지 캐시와 구분하며, 기존 참가자는 새로고침해 확인할 수 있다.
+
+## 2026-11-05 게임 전시 부스 추가 스킬
+
+사용자가 승인한 계획에 따라 프로젝트 로컬 `camp-add-game-booth` 스킬, UI 메타데이터, YouTube 썸네일 준비 도구와 오프라인 검사를 추가했다. `AGENTS.md`에서 선택 기준을 연결하고 `docs/game-exhibits.md`에 호출·도구 사용법을 추가했다. 기존 스키마 문서를 재사용하며 게임 화면·카탈로그·맵·공개 사이트는 변경하지 않았다.
+
+- `node --test .agents/skills/camp-add-game-booth/scripts/prepare-thumbnail.test.mjs`: **17개 통과**, 실패·취소·건너뛰기 0. YouTube URL·경로 입력, maxres/hq 대체, 작은 플레이스홀더·HTML·손상 JPEG·8 MiB 초과·네트워크 오류, 두 후보 실패 시 파일 미생성, 기존 파일 보존·명시적 교체, 프로젝트 밖/연결된 디렉터리 차단, 출처·해시 출력을 검사했다. 실제 네트워크 대신 모의 응답과 생성한 JPEG를 사용했다.
+- `node --check …/prepare-thumbnail.mjs` 통과. 실제 CLI의 `--help`와 `--dry-run`을 실행했다. dry-run의 다운로드·파일 생성 금지는 오프라인 검사에서도 확인했다.
+- `node web/outputs/validate-booth-skill.mjs` 통과. 기존 `js-yaml`로 YAML frontmatter의 허용 필드·이름·설명·미완성 표시, UI 설명 길이·호출 문구·기본 자동 선택을 검사하고 문서 세 곳의 로컬 참조 **15개**와 도구 경로를 확인했다. Python/py 실행기가 없어 공식 `quick_validate.py`는 실행하지 않았으며, 해당 검증 규칙을 읽고 Node에서 대응 검사를 수행했다. 전역 도구·설정은 설치하거나 수정하지 않았다.
+- 공식 자료가 충분한 신규 추가, SNS/트레일러 미확인, 기존 부스 갱신, 계획만 요청, 배포 미승인 사례를 규칙 검토로 확인했다. 새 ID·위치 검증을 요구하고 PARRUITS! 중심 기존 검사나 모의 iframe 결과를 새 게임/실제 YouTube 검증으로 확대하지 않도록 명시했다. 이는 독립 에이전트 실행 평가가 아니다.
+- `git diff --check` 통과. 작업 전후 `web/app`, `web/lib`, `web/public`, `web/tests`의 경로·내용 합성 SHA-256은 모두 `13dfbcafe4ca4e05f0a4cc052b149af51006b01172c21cb23672a67d956a7850`으로 같았다. 게임 실행 코드가 바뀌지 않아 게임 전체 검사·빌드·브라우저·RTC 검사는 반복하지 않았다. 실제 YouTube 다운로드·재생과 새 게임 부스 추가·공개 배포는 이번 검사 범위가 아니다.
+
+## 2026-11-05 Torizon Telecom 전시 부스 추가 (로컬, 규약 v16 유지)
+
+사용자의 “승인하고 구현”에 따라 기존 공통 템플릿으로 Torizon Telecom을 두 번째 부스로 추가했다. 게임 ID `torizon-telecom`, 부스 ID `torizon-telecom-booth`, 좌표 `(4, -2)`, 반경 `.85`다. 기존 PARRUITS!는 위치와 데이터를 유지했다. 소개 팝업·렌더러·라디오 구현을 복제하거나 변경하지 않았고 게임 데이터와 배치만 연결했다. 공유 필드·규약·DB 마이그레이션은 추가하지 않았다.
+
+공식 게임 페이지 `https://madeinskago.com/TorizonTelecom/`의 원본 로고 PNG(566×180, 2,412바이트)와 소개를 사용했다. 개발사 Steam 공지가 연결한 영상 `eDon6CQezQY`는 실제 YouTube oEmbed HTTP 200에서 제목 `Torizon Telecom Gameplay Trailer`, 제작자 `SkagoGames`, 채널 `https://www.youtube.com/@skagogames`, 임베드 응답을 확인했다. 스킬의 썸네일 도구로 maxres JPEG 1280×720·97,428바이트를 실제 다운로드·디코딩했으며 SHA-256은 `e65fc3b8b88bf8bb59e0b55b4d6a4cb1e109720574cc39874ce8e80f294c471f`다. 원본 출처와 권리는 `web/public/games/CREDITS.txt`에 기록했다. 조사 자료는 `web/outputs/torizon-source-*.txt`, 썸네일 결과는 `web/outputs/torizon-thumbnail.json`이다.
+
+- `npm.cmd test`: **177개 통과**, 실패·취소·건너뛰기 0. 기존 175개에 카탈로그/부스 고유 ID·연결, 접근 지점, 부스/포탈 범위 분리, 이미지 디코딩·크레딧과 Torizon의 영상·Steam 본편/데모·SNS 상태 검사를 추가했다. 로그: `web/outputs/torizon-tests.log`.
+- `npm.cmd run typecheck`, `npm.cmd run build` 통과. 로그: `torizon-typecheck.log`, `torizon-build.log`. 빌드의 vinext 정적 경로 분류 안내는 빌드 실패가 아니다.
+- `npm.cmd run test:render`: **35개 렌더 통과**. 새 부스의 데스크톱/모바일 Canvas 산출물 `showroom-torizon-telecom.png`, `showroom-torizon-telecom-mobile.png`와 원본 자산을 직접 확인했다. 로그: `web/outputs/torizon-render.log`.
+- `npm.cmd run test:browser:exhibition`: **두 게임 × PC·모바일 네 조합 통과**, 브라우저 실행 예외 0. 각 부스까지 실제 키 입력으로 걸어가 올바른 제목·로고·영상 ID/원본 링크·SNS별 정확한 활성/비활성·관련 링크를 확인했다. Torizon은 YouTube·X·Discord·Reddit 활성, Instagram·TikTok 비활성이다. 자동 열림/재생 금지, 팝업 중 입력 잠금·모바일 라디오와의 분리, 스크롤 뒤 아이콘·링크·닫기 버튼 접근, 닫을 때 iframe 제거·필드 포커스 복귀를 확인했다. 재생 중인 라디오의 곡·재생 상태·음량·플레이어 유지와 개인 음소거를 팝업 개폐 전후 비교했다. 기존 다른 맵 포탈 왕복도 통과했다. 로그: `web/outputs/torizon-browser.log`.
+- `game-intro-torizon-telecom-desktop.png`, `game-intro-links-torizon-telecom-desktop.png` 및 같은 이름의 `mobile` 산출물을 직접 확인했다. 검사는 일회용 headless 프로필, 루프백 QA API/SQLite·모의 Discord, 별도 `.wrangler/torizon-preview`를 사용했다. 외부 트레일러 iframe 응답과 라디오 API는 fixture로 대체했다. 개인 브라우저·기본 DB·공개 방은 조작하지 않았다. 검사 후 로컬 서버 두 개를 종료하고 Node HTTP 연결에서 5191/5192 모두 `ECONNREFUSED`임을 확인했다. QA 서버는 Ctrl+C 뒤 남아 있어 정확한 명령줄로 확인한 작업 프로세스 PID 19244를 종료했다.
+- 초기 제한 환경의 외부 fetch는 실패해 승인된 공식 자산 HTTPS 접근을 확장 권한으로 완료했다. 제한 환경의 Wrangler 상위 경로 읽기 오류와 headless CDP 초기화 시간 초과도 기록하며, 동일 로컬 검증을 확장 권한으로 완료했다. 자동 승인 심사 거절은 없었다. 전역 설정은 변경하지 않았다.
+
+`camp-product-review`로 승인한 INT-12·13 흐름을 대조해 제품 검토를 갱신했다. 문서·코드의 `git diff --check`도 통과했다. 실제 YouTube 스트리밍·음향 청취·실물 모바일 터치·게임 내부 플레이·외부 SNS 가입/계정 소유는 검사하지 않았다. 네트워크·복구 구현은 바뀌지 않아 전체 16명 RTC 검사를 반복하지 않았다. **공개 사이트는 버전 23을 유지하며 이번 Torizon Telecom 추가는 아직 배포·커밋·푸시하지 않았다.**
+
+### Torizon Telecom 후속 공개 결과 (버전 24, 규약 v16 유지)
+
+사용자 “배포해줘” 요청으로 위 검증본을 기존 Sites 프로젝트 `appgprj_6ae8e9ae42708191b253341387aa287f`에 배포했다. `get_site`로 버전 23·public 접근을 확인하고 공식 Sites source helper로 기존 게시 저장소를 열었다. `node web/outputs/prepare-torizon-deploy.mjs`에서 게시 소스 221개의 복사 일치, 빌드 파일 106개의 SHA-256 일치, 실행 입력 159개가 최종 검증 빌드 뒤 변경되지 않았음을 확인했다. 로컬 상태는 제외했고 새 로고·썸네일·크레딧도 원본 자산과 빌드가 일치했다. 앞선 177개 회귀·타입·빌드·Canvas 35개·두 게임 PC/모바일 검사는 동일 입력이므로 반복하지 않았다. 준비 기록: `web/outputs/torizon-deploy-inputs.json`.
+
+- 게시 소스: `f0d5fef4f9288ba71c8733b39d1d9805b62163ff`. 공식 helper가 게시 전용 `web/outputs/site-source`에서 커밋·푸시했다. 원본 GitHub 저장소는 커밋·푸시하지 않았다.
+- 아카이브: `web/outputs/huddlers-fire-torizon-deploy.tar.gz`, 파일 **106개**. 로컬 gzip SHA-256 `fc1559798ead15802ee24bfae7430ce7a98d384b86f536d9cf0ab7fc7f58bb90`, 서비스 tar 해시 `e67c4a9557b3d5762998263bbdfe3cfe0a72a95ab5d43971d8dbb441dd3771e1`. `.env`·Git·node_modules·Wrangler 로컬 상태가 포함되지 않았음을 확인했다.
+- 저장 버전: `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_02476340ad5881918691b1094917ed76`, 사용자 버전 **24**.
+- 배포: `appgdep_6aec29c283d48191a3e71d82fcb65fab`, **succeeded**, 서버 환경 리비전 **1**. URL: https://huddlers-fire-camp.gywkd77.chatgpt.site . 후속 `get_site`에서도 버전 24·public 접근과 같은 URL을 확인했다. DB·런타임 설정·접근 정책을 변경하지 않았다.
+- 공개 확인: `node outputs/check-torizon-deployment.mjs 24` 통과. HTML·공개 방 목록 HTTP 200, JS/CSS·게임 자산·SNS 아이콘·출처 파일 **33개**와 타이머 Worker **1개**가 게시 빌드와 SHA-256으로 일치했다. 번들에서 Torizon 게임/부스 ID, 트레일러 `eDon6CQezQY`, 두 이미지 경로, Steam 본편/데모 ID, YouTube 채널을 확인했다. Discord 준비 상태와 미인증 방 생성 HTTP 401도 확인했다. 공개 방이나 사용자 세션은 만들지 않았다. 결과: `web/outputs/torizon-deployment-check.json`.
+
+단기 소스 인증값은 메모리와 숨겨진 stdin으로 전달했고 전역 설정은 변경하지 않았다. 필요한 저장소 신뢰 설정은 해당 프로세스의 정확한 게시/원본 경로에만 적용했다. 공개 API·파일 검사는 실제 YouTube 스트리밍·실물 모바일 검증을 추가한 것이 아니다. 기존 참가자는 새로고침 후 전시장 포탈로 이동해 새 부스를 볼 수 있다.
+
+
+## 2026-11-05 컬러·다크 모드 개인 설정 (INT-16, 미배포)
+
+- 사용자 계획 승인에 따라 기본 컬러·선택형 흑백 다크 모드를 설정에 추가했다. UI·세 맵·캐릭터 미리보기·참가자 색 표시·필드/음악 PIP를 같은 개인 설정에 연결했다. 사진·게임 이미지·영상은 원색을 유지하고 공유 상태·DB·규약 v17·물리와 선택 좌표는 변경하지 않았다.
+- `npm.cmd test`: **183개 통과**. 테마의 누락/잘못된 값/저장소 제한/복원, 부트스트랩, 세 맵×다섯 불의 컬러→다크→컬러 전환과 프로필 불변성, 양쪽 테마의 이름표 가림/선택을 포함한다. 초기에는 기존 흑백 전용 이름표 검사가 새 컬러 값에 실패해 두 팔레트의 실제 이름표 색을 검사하도록 갱신했다.
+- `npm.cmd run typecheck`, `npm.cmd run build`: 최종 소스 통과. `npm.cmd run lint`: 오류 0, 기존 camp-world.mjs의 미사용 COLORS 경고 1개. `git diff --check` 통과. 빌드가 실행 중인 로컬 Worker의 파일 점유로 한 차례 실패해 해당 테스트 서버를 종료하고 다시 빌드했다.
+- `npm.cmd run test:render`: 기존 맵·불·캐릭터·동작·이름표 시나리오 통과. 이는 브라우저 화면이 아닌 Canvas 직접 렌더다. campfire-focus.png를 확인해 따뜻한 불·자연색 지형·번호가 있는 컬러 캐릭터와 외부 프로필 이미지 표현을 검토했다.
+- 격리 headless Chrome `test:browser:appearance`: 최종 빌드의 데스크톱 1280×900·모바일 390×844 모두 통과. 로비·입장·다섯 탭·설정창 경계/포커스, 테마 즉시 전환, 음량/동의 보존, Canvas와 채팅 초안 유지, 저장 후 새로고침 복원을 검사했다. 초기 테스트 설정에 음량 기본값이 빠진 문제와 hydration 완료 전 클릭하는 타이밍을 보완했다. `web/outputs/seed-settings-color-mobile.png`, `seed-settings-dark-mobile.png`, `seed-lobby-desktop.png` 등의 스크린샷을 직접 확인했다.
+- 격리 headless Chrome `test:browser:community`: **통과, 런타임 예외 0**. 열린 필드 PIP의 컬러↔다크 전환 중 같은 창·Canvas·라디오 객체와 방 코드를 유지하고, 음악 PIP에서도 같은 iframe을 유지했다. 포탈 이동·좌석·불 성장·공유 채팅/개인 초안·음소거·음량·방 종료 복귀 등 기존 회귀를 통과했다. 참가자 상세는 비동기 본문 표시까지 기다리도록 검사를 수정했으며 최소 재현에서도 테마 변경 전후 정상 표시를 확인했다. YouTube는 stub API이며 실제 오디오 재생 검증이 아니다.
+- 검증 환경은 127.0.0.1:5291의 built Worker와 5292의 격리 SQLite/Discord fixture다. Worker와 headless Chrome은 샌드박스 접근/CDP 제한으로 권한 확장 후 실행했다. 개인 브라우저·데스크톱 UI·외부 공개 서비스는 조작하지 않았다.
+- 검증 한계: 실제 Discord OAuth·YouTube 스트리밍·실기기 모바일/키보드·실인터넷 NAT와 커뮤니티 색상 선호는 이번 결과에 포함하지 않는다. 공개 배포·DB 마이그레이션·전역 설정 변경·커밋은 수행하지 않았다.
+
+
+### 컬러·다크 모드 후속 공개 결과 (2026-11-05, 버전 27·규약 v17)
+
+사용자 “배포해줘” 요청으로 INT-16 검증본을 기존 Sites 프로젝트 appgprj_6ae8e9ae42708191b253341387aa287f에 배포했다. get_site에서 기존 버전 26·public 접근을 확인했다. 공식 source helper로 게시 전용 web/outputs/site-source를 열고 prepare-theme-deploy.mjs에서 소스 189개, 실행 입력 144개가 검증 빌드 이후 변경되지 않았으며 빌드 110개의 SHA-256이 일치함을 확인했다. 기존 성공한 검사들의 입력이 같아 반복하지 않았다.
+
+- 게시 소스 커밋: 2a6eec90ae5d78433fdc47918d903080397c5a68. 공식 helper가 게시 전용 저장소만 커밋·푸시했으며 원본 GitHub 저장소의 미커밋 변경은 유지했다.
+- 아카이브: web/outputs/huddlers-fire-theme-deploy.tar.gz, 파일 110개, gzip SHA-256 2decf9b3ff01a4716ce4366e9a1050c3795963a80d2960a36815ececfd26cd2a. Git·의존성·환경 파일·Wrangler 로컬 상태가 포함되지 않음을 확인했다.
+- 저장 버전 27: appgprj_6ae8e9ae42708191b253341387aa287f~appgver_f0c4e8b6c544819186b863e5147bad2d.
+- 배포 appgdep_6aec5f5c698081918bc95f2549abeaf5: **succeeded**, 환경 리비전 **1**. URL: https://huddlers-fire-camp.gywkd77.chatgpt.site . public 접근·DB·통신 규약 v17·환경 설정을 유지했다.
+- node outputs/check-theme-deployment.mjs 27 통과: HTML/공개방 목록 HTTP 200, 기본 light-only 서버 렌더, 두 테마 선택 문구/코드, 공개 자산 36개와 타이머 Worker 1개의 빌드 SHA-256 일치. Discord 준비 상태와 미인증 방 생성 401 확인. 공개 사용자 세션이나 방은 만들지 않았다. 결과: web/outputs/theme-deployment-check.json.
+
+단기 소스 인증은 메모리와 숨겨진 stdin만 사용했고 저장소 신뢰 설정은 해당 명령 환경에만 적용했다. 전역 설정은 변경하지 않았다. 앞선 로컬 검증의 미배포 경계는 이 후속 요청으로 대체하며 실제 미디어 재생·실기기·커뮤니티 선호의 미검증 범위는 유지한다. 기존 사용자는 새로고침 후 설정 → 화면 테마에서 선택할 수 있다.

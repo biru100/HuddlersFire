@@ -1,0 +1,154 @@
+{
+  "date": "2026-11-06",
+  "scope": "Local only; no deployment, commit or push",
+  "unit": {
+    "passed": 201,
+    "failed": 0
+  },
+  "visualCases": 15,
+  "network": {
+    "clients": 16,
+    "finalEpoch": 5,
+    "scope": "Node WebRTC loopback"
+  },
+  "nativeResizeNotices": 2,
+  "assets": {
+    "oldBytes": 9181523,
+    "newBytes": 6855914,
+    "peakSceneBytes": 3828805,
+    "files": 22,
+    "characterStates": 16,
+    "frames": 67,
+    "legacyHashOverlap": 0
+  },
+  "cpuBefore": {
+    "kind": "CPU Skia Canvas; not browser GPU or device FPS",
+    "width": 1050,
+    "height": 824,
+    "players": 16,
+    "frames": 180,
+    "rows": [
+      {
+        "mapId": "camp",
+        "theme": "color",
+        "readyMs": 0.3555999999999955,
+        "medianMs": 4.6930999999999585,
+        "p95Ms": 6.585899999999981,
+        "maxMs": 13.016800000000046
+      },
+      {
+        "mapId": "camp",
+        "theme": "dark",
+        "readyMs": 0.1409000000001015,
+        "medianMs": 4.578800000000001,
+        "p95Ms": 5.9042000000001735,
+        "maxMs": 6.876099999999951
+      },
+      {
+        "mapId": "playground",
+        "theme": "color",
+        "readyMs": 0.09789999999975407,
+        "medianMs": 3.8213000000000648,
+        "p95Ms": 4.73050000000012,
+        "maxMs": 5.562199999999848
+      },
+      {
+        "mapId": "playground",
+        "theme": "dark",
+        "readyMs": 0.10210000000006403,
+        "medianMs": 3.6153999999996813,
+        "p95Ms": 4.531700000000001,
+        "maxMs": 6.503799999999956
+      },
+      {
+        "mapId": "showroom",
+        "theme": "color",
+        "readyMs": 0.09940000000005966,
+        "medianMs": 3.6481999999996333,
+        "p95Ms": 4.71559999999954,
+        "maxMs": 5.310599999999795
+      },
+      {
+        "mapId": "showroom",
+        "theme": "dark",
+        "readyMs": 0.09010000000034779,
+        "medianMs": 3.8778000000002066,
+        "p95Ms": 4.59940000000006,
+        "maxMs": 7.238299999999981
+      }
+    ]
+  },
+  "cpuAfter": {
+    "kind": "CPU Skia Canvas; not browser GPU or device FPS",
+    "width": 1050,
+    "height": 824,
+    "players": 16,
+    "frames": 180,
+    "rows": [
+      {
+        "mapId": "camp",
+        "theme": "color",
+        "readyMs": 0.43080000000000496,
+        "medianMs": 3.610500000000002,
+        "p95Ms": 5.468999999999994,
+        "maxMs": 11.773500000000013
+      },
+      {
+        "mapId": "camp",
+        "theme": "dark",
+        "readyMs": 0.06730000000004566,
+        "medianMs": 3.38350000000014,
+        "p95Ms": 4.613100000000031,
+        "maxMs": 5.070999999999913
+      },
+      {
+        "mapId": "playground",
+        "theme": "color",
+        "readyMs": 0.044800000000122964,
+        "medianMs": 0.7308000000000447,
+        "p95Ms": 1.085299999999961,
+        "maxMs": 1.9121999999999844
+      },
+      {
+        "mapId": "playground",
+        "theme": "dark",
+        "readyMs": 0.04739999999992506,
+        "medianMs": 0.8411000000000968,
+        "p95Ms": 1.220299999999952,
+        "maxMs": 3.323699999999917
+      },
+      {
+        "mapId": "showroom",
+        "theme": "color",
+        "readyMs": 0.057699999999840657,
+        "medianMs": 0.7721000000001368,
+        "p95Ms": 1.0482999999999265,
+        "maxMs": 1.6307999999999083
+      },
+      {
+        "mapId": "showroom",
+        "theme": "dark",
+        "readyMs": 0.04599999999982174,
+        "medianMs": 0.7145000000000437,
+        "p95Ms": 1.1692000000002736,
+        "maxMs": 1.4007000000001426
+      }
+    ]
+  },
+  "logHashes": {
+    "field-v2-final-unit.log": "f39e08102f1d305281b096af266f35e51f189770d236370649e0e5fffdf67870",
+    "field-v2-typecheck.log": "afb42c737de206677bd35edf0c1dee565d8b253bd31d3aa5d516233daeeeb04c",
+    "field-v2-build.log": "42fdf5fe31b1e38b7b5e0424f75b5bdc0b96a1f68cbc4ad0caf25eefd1bd52c7",
+    "field-v2-render.log": "65ff612b0d882014bf2f3f00db400350b1055cb14219e436c18f37c8a0c9ce49",
+    "field-v2-full-browser.log": "5cfab2e7badbca3074615083d6d33a2c861f9d44f2c76d72e94137fe3c7c5a56",
+    "field-v2-community.log": "612d83941cad1147e19db1e5a4ae864c47bd76b13af9008f618e4d7c9bd43fb5",
+    "field-v2-exhibition.log": "0b33540c9ec984f0c1762185f6921ac09d7ccf2056ef6be29fd19a3416dcf66b",
+    "field-v2-network.log": "c91a8ac5656edd571a3603cfe591e8f8510e00d48ba3e2bb7bb2bec1fbb99984",
+    "field-v2-replay.log": "76bfda692b557c185dda94b7348ca5557cb1ae06eed6a97bddfe29de3bcce32d",
+    "field-v2-pipeline.log": "4c26174a2b93c5d81b7f37cfefac6f0cd0fb3f9bba7c2c9625c99c2eb163bd9b"
+  },
+  "pipeline": {
+    "passed": 13,
+    "failed": 0
+  }
+}

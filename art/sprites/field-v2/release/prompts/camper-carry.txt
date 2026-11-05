@@ -1,0 +1,8 @@
+Use case: game sprite. Asset ID: camper-carry.
+Style: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.
+Style reference: art/sprites/field-v2/master.png (character identity and paint treatment only).
+Character: Blank circular ivory portrait disc, teal canvas jacket, ochre short overalls, cream mitten hands and cocoa ankle boots. Match NEW reference identity exactly.
+Subject: holding an invisible friend overhead with BOTH mitten hands high above head, slight weight shift, feet planted. Direction: front.
+Composition: exactly 4 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.
+Contact design, normalized within each tight alpha silhouette: {"feet":[0.5,1]}. Blank head target: {"center":[0.5,0.22],"radius":0.205}.
+Genuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.

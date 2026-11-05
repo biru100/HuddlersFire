@@ -1,10 +1,10 @@
-import { canPlay } from './camp-maps.mjs';
+import { canPlay, MAP_BOUNDS } from './camp-maps.mjs';
 
 export const BALL_RADIUS = .22;
 export const emptyBall = () => ({ x: 3.7, y: .6, vx: 0, vy: 0, rotation: 0 });
 export function readBall(value) {
   if (!value || !['x','y','vx','vy','rotation'].every(k => Number.isFinite(value[k]))) return null;
-  if (Math.abs(value.x) > 8 || Math.abs(value.y) > 8 || Math.hypot(value.vx, value.vy) > 6.001 || Math.abs(value.rotation) > Math.PI * 2 + .001) return null;
+  if (Math.abs(value.x) > MAP_BOUNDS.state || Math.abs(value.y) > MAP_BOUNDS.state || Math.hypot(value.vx, value.vy) > 6.001 || Math.abs(value.rotation) > Math.PI * 2 + .001) return null;
   return { x:value.x, y:value.y, vx:value.vx, vy:value.vy, rotation:value.rotation };
 }
 export function stepBall(ball, players, dt, obstacles) {
@@ -26,7 +26,7 @@ export function stepBall(ball, players, dt, obstacles) {
     const dot = ball.vx * nx + ball.vy * ny;
     if (dot < 0) { ball.vx -= 1.65 * dot * nx; ball.vy -= 1.65 * dot * ny; }
   }
-  if (Math.abs(ball.x) > 6.2 || Math.abs(ball.y) > 6.2) { Object.assign(ball, emptyBall()); return; }
+  if (Math.abs(ball.x) > MAP_BOUNDS.edge+.2 || Math.abs(ball.y) > MAP_BOUNDS.edge+.2) { Object.assign(ball, emptyBall()); return; }
   const speed = Math.hypot(ball.vx, ball.vy);
   ball.rotation = (ball.rotation + speed * dt / BALL_RADIUS) % (Math.PI * 2);
   const decay = Math.exp(-1.35 * dt);

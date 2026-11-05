@@ -1,0 +1,7 @@
+Use case: game sprite. Asset ID: blue.
+Style: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.
+Style reference: art/sprites/field-v2/master.png (character identity and paint treatment only).
+Subject: soft blue camp flame. Direction: front.
+Composition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.
+Contact design, normalized within each tight alpha silhouette: {"ground":[0.5,1]}.
+Genuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.

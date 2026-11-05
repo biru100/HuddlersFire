@@ -1,5 +1,80 @@
 # HuddlersFire 구조와 유지보수 기준
 
+## INT-18 필드 v2 · 공개 버전 29
+
+최신 공개 규약은 v19다. 사용자 후속 요청으로 2026-11-06 공개 버전 29에 반영했고 public 접근·DB·환경 리비전 1을 유지했다. 배치·스폰·좌석·포털·전시대와 `routes/clearing`은 `camp-maps.mjs`가 소유하고, renderer/artwork가 같은 좌표를 투영한다. 네 면의 벤치군은 두 그림 축과 네 착석 몸 방향에 연결된다. 물리 좌석은 공유 상태로 유지하며 좌면/지면 메타데이터의 보정은 표시에서만 적용한다.
+
+`camp-sprite-animation.mjs`는 방향별 sit과 프레임별 고정 원형 머리 앵커를 사용한다. 혼합 자세는 하체의 머리 높이에 상체를 맞추고, 좌석 감정은 불을 향한 재킷·골반을 유지하며 팔을 합성한다. 이름표는 머리·몸과의 겹침을 피하고 실제 선택 영역도 새 위치로 갱신한다. 높은 연쇄는 전체 높이를 적용한 뒤 카메라를 맞춘다.
+
+`tools/lib/field-assets.mjs`는 이전 manifest를 가져오지 않는 v2 빌드/설치 소유자다. 전체 목록·고정 앵커·실제 Canvas/UI 검토가 없으면 설치하지 않는다. 이전 v1 재패킹은 이력 재현 경로로 남는다. 기본 `scene-spec.json`은 전체 v2이며 작은 v1 명세는 `art/sprites/examples/`에 있다. 새 원본과 생성 출처는 `art/sprites/field-v2/`에 보존한다. 필드 HUD는 `web/app/field-v2.css`, 비어 있는 라디오는 접힌 상태·재생 중 영상은 기존 최소 200×200 규칙을 사용한다.
+
+2026-11-05 사용자 후속 배포 승인으로 아래 INT-17 구현을 **공개 버전 28·규약 v18**에 반영했다. public 접근·DB·환경 리비전 1을 유지했으며 공개 결과는 [검증 기록](validation.md)을 따른다. 아래 구현 당시의 미배포 표기는 이 후속 결과로 대체한다.
+
+## sprite-gen 일러스트 런타임 (2026-11-05, INT-17·로컬 v18)
+
+후속 authoring 구현은 [제작 경로](sprite-authoring.md)를 따른다. `createSpriteContext`는 manifest·이미지 로더·캐시를 인스턴스별로 소유하고 기본 export는 정식 자산의 호환 API다. `CampRenderer`의 선택적 assets 인자로 파일럿을 주입하며, character/animation/artwork도 같은 context를 사용한다. `camp-scene-contract.mjs`가 좌석 접선 방향과 그림 접촉점의 표시 보정을 계산하고 새 메타데이터의 background/foreground 깊이를 renderer가 사용한다. 사진 방향·공유 좌표·좌석/충돌/규약 v18은 변경하지 않는다. 새 동작 전체의 방향/색/다크 제작은 별도다.
+
+`scene-spec.json`의 작업 스냅샷에서 프롬프트/요청과 preview manifest를 만든다. `--job`은 선택 입력만 공식 slice/tile 도구로 처리하고 `art/sprites/runs/` 안에 출력한다. `CAMP_PREVIEW_JOB`의 Vite 플러그인은 serve 때만 메모리의 manifest와 loopback 파일 응답을 제공하며 production build에는 활성화되지 않는다. 전체 신규 생성 준비에는 같은 명세의 시각 검토가 필요하다. 기술 정합성 검사는 미감 자동 판정과 구분한다.
+
+이 절이 현재 소스 계약이다. 아래 공개 버전 27/26·v17의 그림과 팔레트 구현은 이전 이력이다. `camp-character.mjs`와 `camp-artwork.mjs`의 기하형 그리기를 sprite atlas 합성으로 교체했다. `camp-sprite-animation.mjs`가 16상태/63프레임의 선택·대표 자세·상하체 조합을 소유하고, `camp-sprite-assets.mjs`가 lazy load·실패 재시도·16개 decoded 캐시를 소유한다. `camp-sprite-manifest.mjs`는 빌드 산출물이다. 자세·앵커·출처·재생성은 [자산 계약](sprite-assets.md)에 기록한다.
+
+`CampRenderer`는 카메라·선택·이름표·말풍선·깊이 정렬을 계속 소유한다. ground는 맵/테마별 offscreen surface로 캐시하고 화면 밖 장식은 그리지 않는다. 사진은 원형 머리에 중앙 crop하며 반전하지 않는다. 그림 손을 사진 위로 합성한다. 다크 atlas는 미리 생성하고 외부 사진/부스/영상은 원색으로 유지한다. 여섯 톤 이외의 이전 색 값도 그림에서는 기존 toneIndex 슬롯으로 표시하며 프로필 원본 데이터는 보존한다.
+
+`camp-scene-layout.mjs`는 비충돌 장식, `camp-maps.mjs`는 실제 시설·충돌·상호작용 배치다. 주변 배치를 새로 구성하고 들기 간격을 `CARRY_GAP=1.65`로 조정해 16인 탑의 얼굴 선택 영역을 분리했다. 규약 v18로 다른 간격/충돌 배치를 시뮬레이션하는 v17 클라이언트를 거절한다. DB·wire 필드·포탈/좌석/부스 ID는 유지한다.
+
+UI는 SEED 동작 컴포넌트를 유지하고 큰 그림 미리보기/입장 카드 로비, 둥근 필드와 별도 패널, 그림 브랜딩으로 재구성했다. `sprite-art.tsx`가 게임과 같은 sheet를 UI에서 재사용한다. 로딩 상태와 수동 재시도는 `Camp`가 renderer callback으로 표시한다. 테마 전환/패널 접기에서 Canvas·연결·초안을 재생성하지 않는다. 신규 제작 스킬은 프로젝트 로컬 `camp-sprite-assets`이며 생성 도구·원본은 런타임 번들에 포함하지 않는다. 공개 배포는 하지 않았다.
+
+## 개인 화면 테마 (2026-11-05, INT-16·공개 버전 27·규약 v17 유지)
+
+현재 화면은 컬러(기본)·다크 두 모드다. 아래 INT-15의 흑백 고정 설명은 이전 배포 이력이다. `camp-settings.mjs`의 `theme: color | dark`는 개인 localStorage에만 저장하며 누락·잘못된 값은 color로 정규화한다. 음량·음소거·들기 동의 마이그레이션은 보존한다. 저장소 사용이 불가능하면 세션 메모리에서 선택을 유지한다.
+
+`camp-theme.mjs`의 자체 완결된 applyTheme를 layout의 첫 렌더 스크립트와 실행 중 화면에 함께 사용한다. getSettingsSnapshot으로 hydration 기본값이 저장된 다크 모드를 덮어쓰지 않게 한다. 문서 루트의 data-camp-theme와 SEED light-only/dark-only를 함께 바꾸고, useCampPip은 필드·음악 새 창과 이미 열린 창 모두 같은 선택을 따라간다. 로컬 저장소 이벤트는 같은 출처의 다른 탭에도 반영한다.
+
+CampRenderer는 매 프레임 scene.theme를 읽어 이미 생성된 Canvas에 팔레트만 바꾼다. CampArtwork는 지형·시설·포탈·불의 색, characterColor는 기존 여섯 무채색 프로필 슬롯의 로컬 색 표시를 맡는다. 기존 유색 프로필은 컬러에서 원색, 다크에서 명도로 표시한다. 로비 선택 견본·캐릭터 미리보기·참가자 상세도 같은 변환을 사용한다. 외부 사진·부스 이미지에는 필터를 적용하지 않는다. 포탈 도형/패턴·캐릭터 번호·불의 다섯 형상과 물리·좌표·전송 필드·DB·v17 규약은 유지한다.
+
+
+## SEED 기반 시각 계층 재구축 (2026-11-05, INT-15·공개 버전 26·규약 v17)
+
+공개 버전 25·v16은 이전 흑백/일부 컴포넌트 전환본이다. 당시 소스는 사용자가 다시 승인한 전체 재구축이며 후속 배포 요청으로 **공개 버전 26·규약 v17**에 반영했다. 기존 public 접근·DB·환경 리비전 1을 유지했다.
+
+공식 SEED CLI로 ActionButton, TextField, Tabs, Avatar, Badge, List, Select, SelectBox, Snackbar, Callout, ResultSection 등을 생성하고 실제 화면에 연결했다. 패키지는 React 3.1.1, CSS/Tailwind theme 3.1.0, Vite plugin 2.1.1이다. seed-design.json은 프로젝트 내부 RSC/TSX 경로와 telemetry:false를 선언한다. 스니펫의 출처 주석을 유지하며 빈 interface를 type alias로 바꾸고 displayName을 보완했다. ActionButton의 공통 기본값은 neutralWeak/medium이고 중요한 행동과 선택 상태는 각 호출부에서 명시한다. 기존 클래스명으로 variant를 추론하지 않는다.
+
+기존 components/ui/ 61개, components.json, seed-design/ui/controls.tsx와 사용하지 않는 UI 패키지를 제거했다. form-controls.tsx는 SEED TextField/Slider/Switch의 앱 어댑터다. choice-field.tsx는 공식 Select 스니펫을 사용한다. dialog.tsx는 SEED Dialog/Portal과 PIP 대상 문서를 연결하고 FocusScope의 실제 unmount 이벤트에서 Canvas 포커스를 복구한다.
+
+app/globals.css의 이전 시각 규칙은 제거했다. camp-theme.css는 무채색 토큰만, 새 camp-layout.css는 화면 배치·반응형·겹침 순서를 담당한다. 로비는 소개/미리보기와 프로필 준비/공개방 목록으로 나누고 생성·코드 입장은 별도 Dialog로 제공한다. 방 화면은 필드와 SEED Tabs 패널이다. 모바일/필드 모드는 SEED BottomSheet이며 닫을 때 positioner를 hidden 처리하고 내용은 유지해 초안·읽던 위치를 보존한다. 패널 크기 버튼을 제공하고 터치 환경의 키보드 보정은 SEED에 맡긴다. 데스크톱과 키보드 없는 미리보기에서는 입력 높이 고정을 해제해 크기 변경을 적용한다. Snackbar, Callout, ResultSection이 알림·오류·빈 상태를 제공한다.
+
+camp-artwork.mjs가 새 무광 기하형 바닥·나무·텐트·좌석·라디오·포탈·부스·불·장난감 효과를 그린다. CampRenderer는 이를 상속하고 카메라·선택·말풍선·이름표 배치를 담당한다. camp-character.mjs는 둥근 사각 얼굴과 간결한 몸통으로 다시 그리되 기존 자세/동작 계산을 사용한다. 외부 프로필·게임 이미지는 원색을 유지한다. 여섯 명도/번호, 포탈 표식/선 패턴, 다섯 불의 서로 다른 형상은 reduced-motion에서도 구분된다. 모바일은 라디오가 차지하는 영역 위로 카메라 중심을 옮긴다.
+
+맵 외곽으로 장식/충돌물을 재배치했으므로 구버전의 다른 충돌 배치와 함께 시뮬레이션하지 않도록 규약을 **v17**로 올렸다. wire 필드·DB 스키마·포탈/좌석/부스 상호작용 ID는 유지한다. 아래 v16 맵 도입 절의 범위와 이동 규칙은 유지하되 현재 배치와 버전은 이 절을 따른다.
+
+검증은 단위/Canvas, 격리 headless Chromium의 입장·다섯 탭·포커스·패널 크기·PIP·모바일 겹침, 16인 루프백 RTC를 구분한다. 실행 결과와 실기기/외부 서비스 미검증 범위는 검증 기록을 따른다.
+
+## 전시 부스 공통 템플릿 (2026-11-05, 규약 v16 유지·공개 버전 24)
+
+INT-13에 따라 `camp-games.mjs`의 `createGameExhibit`를 공통 데이터 형식으로 사용한다. 로고·필드 대표 이미지·YouTube 트레일러·SNS·소개/관련 링크를 게임 ID로 조회하고, 필드와 팝업이 같은 항목을 참조한다. 추가 게임·배치 예제는 [부스 템플릿](game-exhibits.md)에 있다. 아래 맵 계약의 기존 이미지/링크 소개 UI에 이 템플릿을 추가한 후속 변경이며 사용자 배포 요청으로 공개 버전 22에 반영했다.
+
+`CampRenderer`는 대표 이미지를 `/games/`의 로컬 자산에서 한 번 로드해 캐시하고 같은 비율로 잘라 부스에 그린다. 실패 시 게임 제목을 남기며 다시 요청하지 않는다. 종료 때 이미지 핸들러·캐시를 정리한다. `game-info-panel.tsx`는 작은 로고/제목 아래에 16:9·최소 높이 200px의 YouTube iframe을 주 콘텐츠로 두고 소개·SNS·출시/관련 링크를 이어 표시한다. `exhibitTrailer`는 기존 YouTube URL 검사로 영상 ID를 추출하고 `youtube-nocookie.com/embed`와 원본 링크를 생성한다. 자동 재생은 지정하지 않으며 팝업을 닫으면 iframe이 제거된다. 공용 라디오 상태·개인 음소거는 변경하지 않는다.
+
+버전 23에서는 사용자 요청에 따라 `cover`를 공식 트레일러의 YouTube 썸네일로 바꿨다. PARRUITS!는 `https://i.ytimg.com/vi/s0pMzMwvKgE/maxresdefault.jpg`의 1280×720 원본을 `/games/parruits-trailer-thumbnail.jpg`로 저장해 사용한다. 기존 로컬 자산 캐시·중앙 자르기·실패 시 제목 표시를 그대로 사용하며 필드 렌더 중 YouTube 이미지 서버에 요청하지 않는다.
+
+`exhibitSocials`가 YouTube·X·Instagram·Discord·Reddit·TikTok의 고정 아이콘 순서와 각 링크를 반환한다. 비어 있거나 공백/잘못된 프로토콜·플랫폼 주소면 `url:null`이며 UI는 href 없는 disabled 버튼·aria-disabled·미등록 안내로 표시한다. 유효한 항목만 새 탭 링크다. 아이콘은 `public/icons/social/`의 로컬 Simple Icons SVG와 CC0 출처 기록을 사용한다. 원격 계정 존재 여부를 매번 검사하거나 미등록 항목에 가짜 주소를 넣지 않는다.
+
+공유 상태·물리·네트워크·DB·통신 규약은 바꾸지 않는다. 기존 근접 상호작용·포커스 잠금·E/Escape·본문 스크롤·닫기 버튼·모바일 라디오 공간 분리를 유지한다. 실제 스트리밍과 분리한 headless 트레일러 fixture로 iframe 위치·URL·종료와 SNS/모바일 UI를 검사한다.
+
+## 맵 확장·포탈·전시장 계약 (v16 도입, 현재 v17)
+
+현재 통신 규약은 **v17**이며 다음은 v16에서 도입한 이동 계약이다. 아래 v15·v13 절은 이전 도입 기록이며 맵 범위·이동 방식은 이 절을 우선한다. `camp-maps.mjs`가 `camp | playground | showroom`의 경계·시설·포탈·부스를 정의한다. 지형 한 변은 12→24타일로 확장했다. 걷기 기준 11.7, 지면 끝 12, 플레이어/공의 상태 범위 14, 투사체 이동 범위 16을 같은 정의에서 참조한다. 낙사·공 복귀·스냅샷 검증·투사체 검증·지형 렌더를 함께 확장했으며 전시장에서도 놀이·들기·던져짐 상태를 거절한다.
+
+`change-map` 명령은 목적지 외에 `portalId`와 현재 `mapRevision`을 필수로 받는다. 방장/솔로의 같은 판정에서 연결·지상·들리지 않음·던져지지 않음·좌석 미점유, 출발 맵의 실제 포탈과 목적지, 1.7 이내 거리·현재 방문 번호를 확인한다. 들고 있는 연쇄는 원래 맵에 안전하게 내려놓고 본인만 옮긴다. 도착 포탈에서 1.9 떨어진 걸을 수 있는 위치에 배치해 도착 즉시 왕복하지 않게 한다. 기존 mapRevision 증가·입력 비우기·이전 방문 입력 거절·중복 명령 처리·500ms 요청 제한은 유지한다. 공중·낙사 중 어디서든 이동하던 예전 계약은 대체한다.
+
+입력 E는 가까운 포탈/게임 부스가 있으면 상호작용하고 그 외에는 기존 통나무/바닥 앉기를 따른다. 화면 상호작용 버튼도 현재 근접 대상을 다시 판정한다. 전체 화면·모바일·필드 PIP에서 같은 필드를 사용한다. 게임 소개를 PIP에서 열면 주 창으로 돌아온다. `game-info-panel.tsx`는 Radix Dialog의 포커스 잠금·Escape/닫기·필드 포커스 복귀를 사용하고, 팝업 동안 게임 입력을 비운다. 소개 팝업은 개인 UI이며 다른 사람의 팝업·방 상태를 변경하지 않는다.
+
+`camp-games.mjs`는 2026-11-05 공식 자료를 확인한 PARRUITS!와 Torizon Telecom의 소개·정보·링크 정적 목록이다. Torizon Telecom은 사용자 후속 배포 요청으로 공개 버전 24에 반영했다. 로고·대표 이미지·게임 장면은 `public/games/`의 공식 자산 사본이며 출처와 권리는 CREDITS.txt에 기록한다. 팝업은 게임별 Steam·데모·공식 웹사이트·SNS·프레스킷 등 등록된 링크를 새 탭으로 제공한다. 자동 크롤링·외부 게임 삽입·게임 등록 DB는 추가하지 않는다. 전시장 채팅 mapId와 플레이어 위치는 전체/변경분·체크포인트·승계에 포함되고 채팅·음악·작업 시간·연결은 기존 방에서 이어진다. DB 마이그레이션은 없다. 공개 배포는 별도 요청이 필요하며 배포 시 모든 참가자가 새로고침해야 한다.
+
+렌더러는 맵 경계에서 바닥·가장자리·산책로를 생성하고 포탈·전시 부스를 그린다. 기본 카메라는 캐릭터를 따라가며 전체 보기에서는 확장한 맵 전체가 들어오게 조정한다. 통나무 집중 보기는 불멍에만 적용한다.
+
+## 이전 불멍 몰입·연결 기준
+
 2026-11-05 기준. 통신 규약 v15. 통나무 근접 E 입력을 개선하고 개인 장작 간격 10분·방의 공동 경험치·레벨·선택형 불 외형을 추가했다. 통나무 좌석·개인 집중 보기·라디오 탭·Discord 필수 입장, 별도 불멍·놀이터 맵과 라디오 기본 자동 재생·개인 음소거를 적용했다. 상태 기반 보호 제거, 대화 중심 패널, 짧은 상태 배지와 기존 P2P 전송·판정, 축구공·작업 시간·YouTube 작은 창은 유지한다. 아래 과거 버전 절은 도입 당시의 기록이며 보호 계약은 v12가 대체한다.
 
 이 문서는 현재 구현의 기술 기준이다. 사용자 결정과 변경 절차는 [의도 기준](project-intent.md), 경험의 설명은 [제품 방향](product-direction.md), 구현과 의도의 차이는 [제품 검토](product-review.md)에서 확인한다.
@@ -10,7 +85,7 @@
 | --- | --- | --- |
 | 화면 조합 | `web/app/camp.tsx` | 장면과 패널 구성, 솔로 실행, UI에 필요한 요약 상태 |
 | 캠프 패널 | `web/components/camp/camp-panel.tsx`, `chat-panel.tsx`, `presence-editor.tsx` | 탭·작은 화면 접근, 마운트를 유지한 초안·채팅 읽기 상태, 키보드 포커스 |
-| 입퇴장 | `web/components/camp/use-camp-session.ts` | 방·참가자·연결 상태, 연결 생성과 정리, 오래된 비동기 입장 결과 폐기 |
+| 입퇴장 | `web/components/camp/use-camp-session.ts` | 방·참가자·연결 상태, 연결 생성과 정리, 오래된 비동기 입장 결과·연결 콜백 폐기, 종료 알림 1회 처리 |
 | 입장 화면 | `web/components/camp/camp-lobby.tsx`, `room-list.tsx` | 프로필·공개방 목록·공개/초대방 생성·링크/코드 참가 |
 | 작업 상태 | `web/lib/camp-presence.mjs`, `presence-editor.tsx` | 수동 상태·작업 메모·호출 계약. 상태에 따른 물리 보호 없음 |
 | 개인 작업 시간 | `web/lib/camp-work-clock.mjs` | 이번 입장의 작업 상태 구간 누적, 단조 시각 기준 계산 |
@@ -31,6 +106,12 @@
 | 서버 로비 | `camp-api.mjs`, `camp-room-store.mjs` | 인증과 API, D1 참가 정보·후임 선정·수명 관리 |
 
 기존 `CampNetwork`, `camp-world.mjs`, `CampAudio` 내보내기는 연결부로 유지한다. 공통 상태 계약·명령 검증과 중복 방지·방장 건강·입력 모듈은 `@ts-check`와 TypeScript 타입을 사용한다. 기존 물리와 전송 구현 전체의 TypeScript 전환은 완료한 것으로 간주하지 않는다.
+
+## 방 종료와 새로고침
+
+참여 중인 방의 조회 요청 자체가 401·403·404·410을 반환하면 CampNetwork가 타이머·RTC·페이지 종료 리스너와 미완료 명령을 정리하고 ended를 전달한다. 방 조회 성공 이후 이전 방장 대상 signal이 거절된 경우는 방 종료로 처리하지 않고 다음 조회로 승계를 확인한다. useCampSession은 입장 세대가 일치하는 콜백만 처리하며 종료를 받는 즉시 세대를 증가시켜 중복 종료와 이전 연결의 늦은 상태·채팅·음악·방장 변경을 무시한다. 수동 퇴장의 체크포인트 배출 중 완료된 poll도 종료 알림을 발생시키지 않는다.
+
+화면은 PIP와 입력을 정리하고 URL의 room 초대 코드를 제거한 뒤 location.reload()를 한 번 호출한다. notice=room-ended는 새 로비에서 종료 안내를 한 번 표시한 뒤 제거하며 다른 쿼리·해시는 보존한다. 새 문서에는 방 연결이나 초대 코드가 남지 않아 자동 재입장·반복 새로고침이 발생하지 않는다. 5xx·오프라인·방장 승계·recoveryWaiting은 확정 종료로 취급하지 않고 기존 복구를 유지한다. 서버의 다음 poll 응답에서 종료를 확인한 시점에 동작하며 서버 응답 전 장애 감지를 보장하지 않는다. DB·공유 상태·통신 규약 v15는 변경하지 않는다.
 
 ## 시간과 소유권
 

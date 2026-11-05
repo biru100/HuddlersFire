@@ -1,0 +1,39 @@
+{
+  "provider": "built-in image_gen",
+  "reference": "art/sprites/source/camper-base.png",
+  "referenceHash": "0689dab7a5e462ffd7227de0692711da7819e471ebac93cededb592f32fed07e",
+  "specHash": "f967021829d93e8edb0fc920382fdc398d7ddedfa5ba6f7e55a2f75277cc0f56",
+  "note": "Pilot originals only. Bindings added after generation do not change compiled prompt text. No Discord or game cover input.",
+  "assets": [
+    {
+      "id": "camper-idle",
+      "source": "camper-idle.png",
+      "sha256": "624258d80eb550c24fa42fcf2c72c5c36c361791129a09763e44a94b115f0532",
+      "prompt": "Use case: game sprite. Asset ID: camper-idle.\nStyle: Warm soft hand-painted gouache, smooth non-pixel illustration, restrained warm brown outlines. View: 2:1 isometric ground, elevated three-quarter props; avatar portrait remains circular and screen-facing. Lighting: Soft upper-left daylight; warm fire accent, no baked floor or cast shadows on isolated sprites.\nStyle reference: art/sprites/source/camper-base.png (character identity and paint treatment only).\nCharacter: Cream blank circular head, terracotta pear-shaped body, cream mittens and dark brown boots; no text or drawn face.\nSubject: standing relaxed with both feet planted, facing the viewer. Direction: front.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"feet\":[0.5,1]}. Blank head target: {\"center\":[0.5,0.28],\"radius\":0.255}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n"
+    },
+    {
+      "id": "camper-sit",
+      "source": "camper-sit.png",
+      "sha256": "c6d5dc196ca85d411ec3a3c16cdef6ac04c0d31a992e02df1a95a0669cde2f56",
+      "prompt": "Use case: game sprite. Asset ID: camper-sit.\nStyle: Warm soft hand-painted gouache, smooth non-pixel illustration, restrained warm brown outlines. View: 2:1 isometric ground, elevated three-quarter props; avatar portrait remains circular and screen-facing. Lighting: Soft upper-left daylight; warm fire accent, no baked floor or cast shadows on isolated sprites.\nStyle reference: art/sprites/source/camper-base.png (character identity and paint treatment only).\nCharacter: Cream blank circular head, terracotta pear-shaped body, cream mittens and dark brown boots; no text or drawn face.\nSubject: seated on an invisible horizontal log, thighs forward and boots below knees, arms resting beside belly; clear bottom contact under pelvis. Direction: front.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"feet\":[0.5,1],\"seat\":[0.5,0.73]}. Blank head target: {\"center\":[0.5,0.28],\"radius\":0.255}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n"
+    },
+    {
+      "id": "bench-ne",
+      "source": "bench-ne.png",
+      "sha256": "fe655b6ed6820f472eaaa04043154720fa3f18239d14b91678f59551b39cb4b9",
+      "prompt": "Use case: game sprite. Asset ID: bench-ne.\nStyle: Warm soft hand-painted gouache, smooth non-pixel illustration, restrained warm brown outlines. View: 2:1 isometric ground, elevated three-quarter props; avatar portrait remains circular and screen-facing. Lighting: Soft upper-left daylight; warm fire accent, no baked floor or cast shadows on isolated sprites.\nStyle reference: art/sprites/source/camper-base.png (character identity and paint treatment only).\nSubject: one low two-person log bench; long seating axis rises from lower left to upper right at 26.565 degrees; both top and front wood faces visible; no backrest. Direction: ne.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,1],\"seat\":[0.5,0.44]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n"
+    },
+    {
+      "id": "bench-nw",
+      "source": "bench-nw.png",
+      "sha256": "06824022d748fa804d0764949f4e8f26f82209eff183aa29fee9d2e93ddb5e8b",
+      "prompt": "Use case: game sprite. Asset ID: bench-nw.\nStyle: Warm soft hand-painted gouache, smooth non-pixel illustration, restrained warm brown outlines. View: 2:1 isometric ground, elevated three-quarter props; avatar portrait remains circular and screen-facing. Lighting: Soft upper-left daylight; warm fire accent, no baked floor or cast shadows on isolated sprites.\nStyle reference: art/sprites/source/camper-base.png (character identity and paint treatment only).\nSubject: one low two-person log bench; long seating axis descends from upper left to lower right at 26.565 degrees; both top and front wood faces visible; no backrest. Direction: nw.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,1],\"seat\":[0.5,0.44]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n"
+    },
+    {
+      "id": "grass",
+      "source": "grass.png",
+      "sha256": "e7ceec1cc70ed9756699f18e7300a790571e2f395519013f4eed205c18f92486",
+      "prompt": "Use case: game sprite. Asset ID: grass.\nStyle: Warm soft hand-painted gouache, smooth non-pixel illustration, restrained warm brown outlines. View: 2:1 isometric ground, elevated three-quarter props; avatar portrait remains circular and screen-facing. Lighting: Soft upper-left daylight; warm fire accent, no baked floor or cast shadows on isolated sprites.\nStyle reference: art/sprites/source/camper-base.png (character identity and paint treatment only).\nSubject: flat seamless top-down soft green grass material, sparse fine blades, uniform scale and lighting; no objects, perspective, border or vignette. Direction: none.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {}.\nOpaque seamless square texture.\n"
+    }
+  ]
+}

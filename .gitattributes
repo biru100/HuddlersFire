@@ -1,0 +1,17 @@
+# Visual reviews hash exact source and prompt bytes. Preserve reviewed line endings.
+/web/lib/camp-sprite-assets.mjs -text
+/web/lib/camp-sprite-animation.mjs -text
+/web/lib/camp-character.mjs -text
+/web/lib/camp-artwork.mjs -text
+/web/lib/camp-renderer.mjs -text
+/web/lib/camp-player-info.mjs -text
+/web/lib/camp-scene-contract.mjs -text
+/web/lib/camp-maps.mjs -text
+/web/lib/camp-seats.mjs -text
+/web/lib/camp-scene-layout.mjs -text
+/web/lib/camp-world.mjs -text
+/web/app/camp.tsx -text
+/web/components/camp/music-player.tsx -text
+/web/app/camp-layout.css -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/web/app/field-v2.css -text
+/art/sprites/field-v2/release/prompts/*.txt -text

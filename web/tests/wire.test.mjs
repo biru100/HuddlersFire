@@ -45,7 +45,7 @@ test('independent deltas survive missing and reversed frames and member addition
   const receiver=new WireReceiver(),base=world();receiver.read(fullWire(base),1,0);
   const next=world(8,false);next.players[0].x+=.05;next.players[1].bubble='hi';next.players.splice(2,1);next.players.push({...next.players[3],id:'new'});
   assert.deepEqual(receiver.read(json(deltaWire(next,base)),1,1).world,next);
-  const latest=json(next);latest.seq=12;latest.now=1012;latest.players[0].x+=.1;
+  const latest=json(next);latest.seq=12;latest.now=1012;latest.players[0].x=Math.round((latest.players[0].x+.1)*10000)/10000;
   assert.deepEqual(receiver.read(json(deltaWire(latest,base)),1,2).world,latest);
   assert.deepEqual(receiver.read(json(deltaWire(next,base)),1,3).world,next);
 });

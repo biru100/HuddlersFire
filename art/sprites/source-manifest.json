@@ -1,0 +1,106 @@
+{
+  "toolCommit": "4f5ccd55c7cf06685a41f954acc1e476b7772ece",
+  "recipe": "tools/rebuild-sprites.mjs",
+  "sources": [
+    {
+      "name": "camper-base.png",
+      "bytes": 757402,
+      "sha256": "0689dab7a5e462ffd7227de0692711da7819e471ebac93cededb592f32fed07e"
+    },
+    {
+      "name": "camper-carried.png",
+      "bytes": 887919,
+      "sha256": "eb91cddc60068ad5491af2839a8adce157032f741bcff13e21b009875529d65a"
+    },
+    {
+      "name": "camper-carry.png",
+      "bytes": 1125402,
+      "sha256": "c5d48bfb08af4b7fe380c6f771ea1a3232504bb0b7b544ae7433f3fa50195f43"
+    },
+    {
+      "name": "camper-clap.png",
+      "bytes": 878348,
+      "sha256": "42170ad69685876b11e004f4fc2b299d7ca0a0a00e01b853893a0e602f700e17"
+    },
+    {
+      "name": "camper-crouch.png",
+      "bytes": 779277,
+      "sha256": "152406e22be442dfb955347e2c4885ad43c9dcc2715e04f4ddc9c5b5d10b597b"
+    },
+    {
+      "name": "camper-dance.png",
+      "bytes": 936080,
+      "sha256": "fe56d725d5882767ca59116474d84404203f06c0c944e431638ddd0452575b66"
+    },
+    {
+      "name": "camper-heart.png",
+      "bytes": 959591,
+      "sha256": "fd8a9d74bc604800c48d19ef63c4c38fbedf0437e86d990f8f9a44bd18f60864"
+    },
+    {
+      "name": "camper-hit.png",
+      "bytes": 836519,
+      "sha256": "bc2e9548acadb50993bfd53ba25cf5cb534ff51e7b0690ecd02811da083e546b"
+    },
+    {
+      "name": "camper-idle.png",
+      "bytes": 884453,
+      "sha256": "2ba8b5a6a420b342ab789b294add708b349dad39f9f53e2e4a3828e2ba6ed4b2"
+    },
+    {
+      "name": "camper-jump.png",
+      "bytes": 824954,
+      "sha256": "a13e9c24cc458aa29040a3804b9936ea8306e5b7733fea496ab368a39f86712d"
+    },
+    {
+      "name": "camper-laugh.png",
+      "bytes": 901303,
+      "sha256": "27fe1c8399670e928c60a09f34f51d7b598ef7eeb6015f65987d56c4a9fb2ad4"
+    },
+    {
+      "name": "camper-run.png",
+      "bytes": 878399,
+      "sha256": "9e4efe6fa5b5147431b4ea690586229eeb12ff7b891f855af1adcb2622e49e4e"
+    },
+    {
+      "name": "camper-sit.png",
+      "bytes": 758141,
+      "sha256": "f6c7dd879ad86f5dd917c52f987b656f6ec081f2ee7e355d2f6c2f957e0e08f7"
+    },
+    {
+      "name": "camper-surprise.png",
+      "bytes": 933405,
+      "sha256": "82fc90489d6f43e9ef87738d7214da2e85996730c230ba12ce8890b6d04dce1d"
+    },
+    {
+      "name": "camper-walk.png",
+      "bytes": 845379,
+      "sha256": "f47879386a9412dae237f726c4211fc305ebb9947d71f36080bb948c4a7f3c9d"
+    },
+    {
+      "name": "camper-wave.png",
+      "bytes": 955958,
+      "sha256": "04a835669ac48c50c58abc763f1971046b52c57a0308d1a0df4837da6aca959b"
+    },
+    {
+      "name": "camper-weapon.png",
+      "bytes": 824447,
+      "sha256": "a6ee72fcddb6452b14c204eca5005865301bd372f2a7a6b46f988d208adf6c0c"
+    },
+    {
+      "name": "effects.png",
+      "bytes": 1342701,
+      "sha256": "c177036d935233c5a36963c7c4257e92a9d41cd504285336f836da056b9c876b"
+    },
+    {
+      "name": "environment.png",
+      "bytes": 1483177,
+      "sha256": "aba12624d9ce9017917b7ff694650609117f7cefb3f7f99c6313a4f7f89c4fc6"
+    },
+    {
+      "name": "terrain.png",
+      "bytes": 2148554,
+      "sha256": "58a34b0c6b2694d1f72f6b62fe5516c1cf383493af791b822a97a873126741e7"
+    }
+  ]
+}

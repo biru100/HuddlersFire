@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "id": "camper-wave",
+      "prompt": "Remove every opaque white background and every white rectangular cell panel from this four-frame wave sprite sheet. Keep the four teal-jacket character drawings and their correct blank circular ivory heads, poses and paint unchanged. Outside each complete character silhouette must be GENUINE TRANSPARENT ALPHA all the way to the canvas edges. Remove any floor shadow, haze or white halo. Exactly FOUR equal horizontal cells, same baseline. No new panels or graphics.",
+      "path": "C:\\Users\\user\\.codex\\generated_images\\01a1abc3-dfa7-7501-83c5-a209f507a529\\exec-427061f4-6601-4ff3-94de-fa0b97d441ab.png"
+    },
+    {
+      "id": "camper-crouch",
+      "prompt": "Exactly TWO equal horizontal cells, both showing the attached NEW teal jacket and ochre short-overalls character in an ALREADY DEEP LOW CROUCH. Knees fully bent, hips lowered near heels, boots firmly planted, arms low beside knees. BOTH frames remain low crouched, with only a tiny breathing change. Never include a standing or rising pose. Blank circular ivory portrait head always perfectly round and screen-facing, no face. Exact character identity, polished storybook gouache with thin charcoal contour. Full silhouettes, equal character scale, baseline and generous clear margins. Genuine transparent alpha background without floor, cast shadow, haze, text, white panels or grid lines.",
+      "path": "C:\\Users\\user\\.codex\\generated_images\\01a1abc3-dfa7-7501-83c5-a209f507a529\\exec-a092f3c5-f763-44d5-b62f-d0e6a2cacdd5.png"
+    }
+  ],
+  "rejected": {
+    "wave": "Opaque white cell backgrounds",
+    "crouch": "Second frame stood upright rather than remaining crouched"
+  }
+}

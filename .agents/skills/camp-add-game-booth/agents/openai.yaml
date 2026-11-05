@@ -1,0 +1,4 @@
+interface:
+  display_name: "게임 전시 부스 추가"
+  short_description: "공식 자료와 YouTube 썸네일로 전시 부스를 추가하고 검증합니다"
+  default_prompt: "$camp-add-game-booth로 공식 게임 자료를 확인하고 공통 템플릿에 맞춰 부스를 추가하거나 갱신해 주세요."

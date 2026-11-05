@@ -33,18 +33,18 @@ test('foreground map art cannot cover nameplates and picking follows their visib
   const keys=['window','ResizeObserver','requestAnimationFrame','cancelAnimationFrame'],saved=Object.fromEntries(keys.map(k=>[k,globalThis[k]]));
   globalThis.window={devicePixelRatio:1,matchMedia:()=>({matches:true})};globalThis.ResizeObserver=class{observe(){}disconnect(){}};globalThis.requestAnimationFrame=()=>1;globalThis.cancelAnimationFrame=()=>{};
   try{
-    for(const dpr of [1,2])for(const mapId of ['camp','playground'])for(const zoom of [.75,1,3])for(const posture of [{},{sitting:true},{carriedBy:'carrier',z:1.3}]){
+    for(const theme of ['color','dark'])for(const dpr of [1,2])for(const mapId of ['camp','playground'])for(const zoom of [.75,1,3])for(const posture of [{},{sitting:true},{carriedBy:'carrier',z:1.3}]){
       globalThis.window.devicePixelRatio=dpr;
       const p={...spawnPlayer(0,mapId),...posture,id:'self',name:'지형 뒤 친구',x:0,y:0};
       const canvas=createCanvas(1050,824);canvas.getBoundingClientRect=()=>({left:20,top:30,width:1050,height:824});
-      const renderer=new CampRenderer(canvas,()=>({players:[p],self:p.id,now:1000,zoom}));
+      const renderer=new CampRenderer(canvas,()=>({theme,players:[p],self:p.id,now:1000,zoom}));
       try{
         // Opaque foreground art covers every body and the original world-space label position.
         const cover=function(){this.ctx.fillStyle='#ff00ff';this.ctx.fillRect(-10000,-10000,20000,20000);};
         renderer.tree=cover;renderer.tent=cover;renderer.fence=cover;renderer.shade=cover;
         renderer.draw(1000);const box=renderer.hitAreas[0].label;
         const [r,g,b]=canvas.getContext('2d').getImageData(Math.floor((box.x+box.width/2)*dpr),Math.floor((box.y+3*renderer.camera.scale)*dpr),1,1).data;
-        assert.ok(g>80&&r>b,'The visible nameplate must be above foreground map art');
+        assert.deepEqual([r,g,b],theme==='dark'?[244,244,244]:[255,226,176],'The themed nameplate must cover the opaque foreground art');
         assert.equal(renderer.pickPlayer(20+box.x+box.width/2,30+box.y+box.height/2),p.id);
         p.motion='respawning';renderer.draw(1000);assert.equal(renderer.nameplates.length,0,'Hidden respawn bodies must not leave floating names');
       }finally{renderer.destroy();}

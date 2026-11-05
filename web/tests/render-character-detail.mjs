@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { drawCharacter } from '../lib/camp-character.mjs';
 import { avatarFixtures } from './character-fixtures.mjs';
 
-const conceptPath = fileURLToPath(new URL('../../docs/assets/character-concepts/pear-v1.png', import.meta.url));
+const conceptPath = fileURLToPath(new URL('../../art/sprites/source/camper-base.png', import.meta.url));
 // Published source snapshots contain web/ only; the reference PNG stays in the original project docs.
 const concept = existsSync(conceptPath) ? await loadImage(conceptPath) : null;
 const fixtures = avatarFixtures();
@@ -16,9 +16,9 @@ const movementPoses = [['걷기', { moving: true }], ['달리기', { moving: tru
 
 const canvas = createCanvas(1300, 1160), c = canvas.getContext('2d');
 c.fillStyle = '#18251f'; c.fillRect(0, 0, canvas.width, canvas.height);
-c.fillStyle = '#f5e6c9'; c.font = 'bold 26px "Malgun Gothic", sans-serif'; c.fillText('시안의 둥근 비율과 통통한 팔다리를 동작에 적용', 35, 44);
+c.fillStyle = '#f5e6c9'; c.font = 'bold 26px "Malgun Gothic", sans-serif'; c.fillText('생성 스프라이트 · 사진 머리 · 게임 동작', 35, 44);
 c.fillStyle = '#adbcaa'; c.font = '16px "Malgun Gothic", sans-serif';
-c.fillText('생성 시안', 150, 89); c.fillText('개선한 기본형', 515, 89); c.fillText('Discord 사진 머리', 960, 89);
+c.fillText('기준 원본', 150, 89); c.fillText('슬롯 팔레트', 515, 89); c.fillText('Discord 사진 머리', 960, 89);
 if (concept) c.drawImage(concept, 46, 94, 302, 330);
 c.save(); c.translate(590, 404); c.scale(5.4, 5.4); drawCharacter(c, {}, { blankHead: true }); c.restore();
 c.save(); c.translate(1025, 404); c.scale(5.4, 5.4); drawCharacter(c, {}, { avatar: fixtures[0].image }); c.restore();

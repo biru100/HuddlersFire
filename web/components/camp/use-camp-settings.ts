@@ -5,7 +5,7 @@ import { DEFAULT_SETTINGS, normalizeSettings, readSettings, saveSettings } from 
 type Settings = typeof DEFAULT_SETTINGS;
 let snapshot: Settings = { ...DEFAULT_SETTINGS }, raw: string | null | undefined;
 const listeners = new Set<() => void>();
-function getSnapshot(): Settings {
+export function getSettingsSnapshot(): Settings {
   try {
     const next = localStorage.getItem('huddlers-fire-settings');
     if (raw !== next) { raw = next; snapshot = readSettings(localStorage); }
@@ -19,12 +19,12 @@ function subscribe(listener: () => void) {
   return () => { listeners.delete(listener); window.removeEventListener('storage', changed); };
 }
 function updateSettings(update: SetStateAction<Settings>) {
-  snapshot = normalizeSettings(typeof update === 'function' ? update(getSnapshot()) : update);
+  snapshot = normalizeSettings(typeof update === 'function' ? update(getSettingsSnapshot()) : update);
   try { saveSettings(localStorage, snapshot); raw = localStorage.getItem('huddlers-fire-settings'); } catch { /* Keep the in-memory preferences. */ }
   for (const listener of listeners) listener();
 }
 const getServerSnapshot = () => DEFAULT_SETTINGS;
 export function useCampSettings() {
-  const settings = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const settings = useSyncExternalStore(subscribe, getSettingsSnapshot, getServerSnapshot);
   return [settings, updateSettings] as const;
 }

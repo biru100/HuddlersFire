@@ -1,41 +1,65 @@
-'use client';
+﻿'use client';
+import { Callout } from '@/seed-design/ui/callout';
 import { useState, type Dispatch, type SetStateAction } from 'react';
-import RoomList from './room-list';
-import { Flame, Users, Check, ArrowUpRight, ChevronRight } from 'lucide-react';
+import { Text, VStack, HStack } from '@seed-design/react';
+import { ActionButton as Button } from '@/seed-design/ui/action-button';
+import { TextField, TextFieldInput } from '@/seed-design/ui/text-field';
+import { RadioSelectBoxRoot, RadioSelectBoxItem } from '@/seed-design/ui/select-box';
+import { Badge } from '@/seed-design/ui/badge';
+import { Dialog } from '@/seed-design/ui/dialog';
+import { ArrowUpRight, Plus, KeyRound, Check, ArrowRight } from 'lucide-react';
+import { TONE_LABELS, TONE_MARKS, COLOR_LABELS, characterColor } from '@/lib/camp-appearance.mjs';
 import { COLORS } from '@/lib/camp-config.mjs';
+import { useCampSettings } from './use-camp-settings';
 import CharacterPreview from './character-preview';
+import RoomList from './room-list';
+import SpriteArt from './sprite-art';
 export type Profile = { name:string;color:string;avatar:string|null;linked:boolean };
 type Props = {onDiscord:()=>void;discordAvailable:boolean;discordBusy:boolean;discordMessage:string;profile:Profile;setProfile:Dispatch<SetStateAction<Profile>>;code:string;setCode:(value:string)=>void;busy:boolean;ready:boolean;error:string;enter:(mode:'create'|'join',code?:string,creation?:{title:string;visibility:string})=>Promise<void>;enterSolo:()=>void};
-export default function CampLobby({profile,setProfile,code,setCode,busy,ready,error,enter,enterSolo,onDiscord,discordAvailable,discordBusy,discordMessage}:Props) {
-  const [title,setTitle]=useState('우리의 모닥불'), [visibility,setVisibility]=useState('public');
-  return <>
-          <h2>함께 피우는 모닥불</h2><p className="intro">친구들과 둥글게 모여 앉아<br />아무 이야기나 나눠 보세요.</p>
-          <div className="profile-preview"><CharacterPreview color={profile.color} avatar={profile.avatar} /><div><strong>{profile.name || '오늘의 허들러'}</strong><span>{profile.linked ? 'Discord 계정 연결됨' : 'Discord 연결 후 입장할 수 있어요'}</span></div><span className="profile-spark">✦</span></div>
-          {!profile.linked&&<div className="discord-entry"><button className="primary-button" disabled={!discordAvailable||discordBusy||!ready} onClick={onDiscord}>{discordBusy?'Discord 연결 확인 중…':discordAvailable?'Discord 연결하고 입장 준비':'Discord 연결 준비 중'}</button><p>모든 참가자는 Discord 계정을 연결해야 해요.</p>{discordMessage&&<p role="status">{discordMessage}</p>}</div>}
-          <label className="field-label" htmlFor="nickname">어떤 이름으로 만날까요?</label>
-          <input id="nickname" className="text-input" maxLength={16} value={profile.name} onChange={e => setProfile(p => ({ ...p, name: e.target.value }))} placeholder="닉네임을 입력해 주세요" autoComplete="nickname" disabled={busy} />
-          <div className="color-row"><span>오늘의 색</span><div role="group" aria-label="캐릭터 색상">{COLORS.map((color: string, i: number) => <button key={color} className={'color-dot ' + (profile.color === color ? 'selected' : '')} style={{ backgroundColor: color }} aria-label={['살구색', '민트색', '보라색', '분홍색', '파란색', '노란색'][i]} aria-pressed={profile.color === color} onClick={() => setProfile(p => ({ ...p, color }))} disabled={busy}>{profile.color === color && <Check size={12} />}</button>)}</div></div>
-          {code.length===6&&<div className="invite-arrival"><strong>초대받은 모닥불 · {code}</strong><button className="primary-button" disabled={busy||!ready||!profile.linked} onClick={()=>void enter('join',code)}>이 방에 참여</button></div>}
-          <RoomList busy={busy||!ready||!profile.linked} join={code=>void enter('join',code)}/>
-          <div className="room-entry-options">
-            <section className="room-entry-card" aria-labelledby="create-room-title">
-              <h3 id="create-room-title">새 모닥불</h3><p>친구들을 초대할 방을 만들어요.</p>
-              <label className="field-label">방 이름<input className="text-input" value={title} maxLength={40} disabled={busy} onChange={e=>setTitle(e.target.value)}/></label>
-              <label className="field-label">공개 범위<select className="text-input" value={visibility} disabled={busy} onChange={e=>setVisibility(e.target.value)}><option value="public">공개방 · Discord 연결 후 목록에서 참여</option><option value="unlisted">초대방 · 링크나 코드로 참여</option></select></label>
-              <div className="capacity"><Users size={15} /><span>최대 16명</span></div>
-              <button className="primary-button" type="button" disabled={busy || !ready || !profile.linked || !title.trim()} onClick={() => enter('create',undefined,{title:title.trim(),visibility})}><Flame size={17} /><span>방 만들기</span></button>
-            </section>
-            <form className="room-entry-card room-entry-join" onSubmit={e => { e.preventDefault(); enter('join'); }} aria-labelledby="join-room-title">
-              <h3 id="join-room-title">코드로 함께하기</h3><label className="field-label" htmlFor="room-code">참가 코드 6자리</label>
-              <input className="text-input code-input" id="room-code" value={code} onChange={e => setCode(e.target.value.toUpperCase().replace(/[^A-Z2-9]/g, '').slice(0, 6))} placeholder="ABC234" maxLength={6} autoComplete="off" autoCapitalize="characters" spellCheck={false} required pattern="[A-Z2-9]{6}" disabled={busy} />
-              <button className="primary-button" type="submit" disabled={busy || !ready || !profile.linked || code.length !== 6}><span>참가하기</span><ArrowUpRight size={16} /></button>
-            </form>
-          </div>
-          {busy && <p className="entry-progress" role="status"><span className="spinner" /> 모닥불에 연결하는 중이에요…</p>}
-          {error && <p className="error-message" role="alert">{error}</p>}
-          <button className="solo-button" onClick={enterSolo} disabled={busy||!profile.linked}>먼저 혼자 둘러보기 <ChevronRight size={14} /></button>
-          <div className="divider" />
-          <p className="micro-copy">Discord 프로필 연결은 설정에서 할 수 있어요.<br />Discord 연결을 마치면 공개방과 초대방 모두 참여할 수 있어요.</p>
-
-  </>;
+export default function CampLobby(p:Props) {
+  const [{theme}] = useCampSettings();
+  const [title,setTitle]=useState('우리의 모닥불'),[visibility,setVisibility]=useState('public');
+  const [entry,setEntry]=useState<'create'|'join'|null>(null);
+  const blocked=p.busy||!p.ready||!p.profile.linked;
+  return <section className="lobby-content">
+    <header className="lobby-heading">
+      <Badge tone="neutral" variant="weak">잠깐, 같이 쉬어 갈까요?</Badge>
+      <Text as="h1" textStyle="t10Bold">각자의 하루,<br/>하나의 모닥불.</Text>
+      <Text as="p" textStyle="t5Regular" color="fg.neutralMuted">같이 쉬고, 만들고, 놀아요.<br/>잠깐 들러도 괜찮은 우리들의 작은 공간.</Text>
+      <div className="lobby-places" aria-label="캠프에서 할 수 있는 일"><span><SpriteArt name="amber"/>불멍과 대화</span><span><SpriteArt name="football"/>가벼운 놀이</span><span><SpriteArt name="gameBooth"/>게임 구경</span></div>
+    </header>
+    <div className="lobby-grid">
+      <section className="lobby-profile surface" aria-label="입장 준비">
+        <div className="section-heading"><Text as="h2" textStyle="t6Bold">오늘의 나</Text><span className="step-number">01</span></div>
+        <HStack gap="x4" align="center" className="profile-preview">
+          <CharacterPreview color={p.profile.color} avatar={p.profile.avatar}/>
+          <VStack gap="x1"><Text textStyle="t5Bold">{p.profile.name||'오늘의 허들러'}</Text><Text textStyle="t3Regular" color="fg.neutralMuted">{p.profile.linked?'Discord 연결됨':'Discord로 함께할 준비를 해요'}</Text></VStack>
+        </HStack>
+        {!p.profile.linked&&<VStack gap="x3"><Button variant="brandSolid" size="large" loading={p.discordBusy} disabled={!p.discordAvailable||!p.ready} onClick={p.onDiscord}>Discord 연결하기 <ArrowUpRight size={18}/></Button>{p.discordMessage&&<Text as="p" role="status" textStyle="t3Regular">{p.discordMessage}</Text>}</VStack>}
+        <TextField label="닉네임" value={p.profile.name} disabled={p.busy}>
+          <TextFieldInput id="nickname" aria-label="닉네임" maxLength={16} placeholder="어떤 이름으로 만날까요?" autoComplete="nickname" onChange={e=>p.setProfile(v=>({...v,name:e.target.value}))}/>
+        </TextField>
+        <VStack gap="x3"><Text textStyle="t4Medium">캐릭터 톤</Text><div className="tone-options" role="group" aria-label="캐릭터 톤">{COLORS.map((color:string,i:number)=><Button key={color} size="small" variant={p.profile.color===color?'neutralSolid':'neutralWeak'} aria-label={(theme==='dark'?TONE_LABELS:COLOR_LABELS)[i]+' · '+TONE_MARKS[i]} aria-pressed={p.profile.color===color} onClick={()=>p.setProfile(v=>({...v,color}))} disabled={p.busy}><span className="tone-swatch" style={{background:characterColor(color,theme)}}/>{p.profile.color===color?<Check size={14}/>:TONE_MARKS[i]}</Button>)}</div></VStack>
+        <Button className="solo-button" variant="ghost" disabled={blocked} onClick={p.enterSolo}>먼저 혼자 둘러보기 <ArrowRight size={16}/></Button>
+      </section>
+      <section className="lobby-rooms surface" aria-label="함께할 공간">
+        <div className="section-heading"><div><span className="eyebrow">MEET BY THE FIRE</span><Text as="h2" textStyle="t6Bold">함께할 공간</Text></div><SpriteArt name="tent" className="room-illustration"/></div>
+        {p.code.length===6&&<div className="invite-arrival"><Text textStyle="t5Bold">초대받은 모닥불 · {p.code}</Text><Button variant="brandSolid" disabled={blocked} onClick={()=>void p.enter('join',p.code)}>이 방에 참여</Button></div>}
+        <RoomList busy={blocked} join={code=>void p.enter('join',code)}/>
+        <div className="entry-actions"><Button variant="brandSolid" size="large" disabled={blocked} onClick={()=>setEntry('create')}><Plus size={18}/> 방 만들기</Button><Button size="large" disabled={blocked} onClick={()=>setEntry('join')}><KeyRound size={18}/> 코드로 참여</Button></div>
+        <Text as="p" textStyle="t3Regular" color="fg.neutralMuted">최대 16명 · Discord 연결 후 참여할 수 있어요.</Text>
+      </section>
+    </div>
+    {p.busy&&<p role="status">모닥불에 연결하는 중이에요…</p>}
+    {p.error&&<Callout tone="neutral" role="alert" description={p.error}/>}
+    <Dialog.Root open={entry!==null} onOpenChange={open=>{if(!open)setEntry(null);}}><Dialog.Portal><Dialog.Overlay/>
+      <Dialog.Content className="entry-dialog"><Dialog.Close aria-label="입장 창 닫기">×</Dialog.Close>
+        <Dialog.Title>{entry==='create'?'새 모닥불 피우기':'초대 코드로 참여'}</Dialog.Title><Dialog.Description>{entry==='create'?'함께할 공간의 이름과 공개 범위를 정해요.':'친구에게 받은 6자리 코드를 입력해요.'}</Dialog.Description>
+        <form onSubmit={e=>{e.preventDefault();if(entry==='create')void p.enter('create',undefined,{title:title.trim(),visibility});else void p.enter('join');}}>
+          {entry==='create'?<><TextField label="방 이름" value={title} disabled={p.busy}><TextFieldInput aria-label="방 이름" maxLength={40} onChange={e=>setTitle(e.target.value)}/></TextField><RadioSelectBoxRoot label="공개 범위" value={visibility} onValueChange={setVisibility} disabled={p.busy}><RadioSelectBoxItem value="public" label="공개방" description="목록에서 새로운 친구와 만나요"/><RadioSelectBoxItem value="unlisted" label="초대방" description="링크나 코드를 받은 친구와 만나요"/></RadioSelectBoxRoot></>:<TextField label="참가 코드 6자리" value={p.code} disabled={p.busy}><TextFieldInput id="room-code" aria-label="참가 코드 6자리" onChange={e=>p.setCode(e.target.value.toUpperCase().replace(/[^A-Z2-9]/g,'').slice(0,6))} placeholder="ABC234" maxLength={6} autoComplete="off" required pattern="[A-Z2-9]{6}"/></TextField>}
+          {p.error&&<Callout tone="neutral" role="alert" description={p.error}/>}
+          <Button variant="brandSolid" size="large" type="submit" loading={p.busy} disabled={blocked||(entry==='create'?!title.trim():p.code.length!==6)}>{entry==='create'?'모닥불 시작하기':'참가하기'}</Button>
+        </form>
+      </Dialog.Content></Dialog.Portal></Dialog.Root>
+  </section>;
 }

@@ -1,0 +1,4 @@
+// Display geometry only; authoritative positions and shared physics are unchanged.
+export function benchDirection(angle){const dx=-Math.sin(angle)-Math.cos(angle),dy=(Math.cos(angle)-Math.sin(angle))*.5;if(Math.abs(dx)<.001)return 'vertical';if(Math.abs(dy)<.001)return 'horizontal';return dx*dy<0?'ne':'nw';}
+export function benchBinding(assets,item){const direction=assets.manifest.bindings?.[item.id];if(!direction)return null;if(direction!==benchDirection(item.angle||0))throw Error('Bench direction does not match world seating axis: '+item.id);return assets.spriteFrame('bench',direction);}
+export function seatOffset(frame,z=0,width=frame.displayWidth||90){const seat=frame.contacts?.seat,ground=frame.contacts?.ground;if(!seat||!ground)throw Error('Seat and ground contacts required');const scale=width/frame.w;return {x:(seat.x-ground.x)*scale,y:(seat.y-ground.y)*scale+6+z*40};}

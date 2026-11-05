@@ -1,4 +1,5 @@
 'use client';
+import { ActionButton as Button } from '@/seed-design/ui/action-button';
 import { useEffect, useRef, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { createPortal } from 'react-dom';
@@ -77,13 +78,12 @@ export default function MusicPlayer({ music, isHost, hostNow, command, muted, vo
       controller.current = null; player.current = null; mount.replaceChildren();
     };
   }, [mount, retry]);
-  const dock=<aside className="music-dock" aria-label="내 YouTube 플레이어" inert={modalOpen&&!pip.pipWindow}>
-    <div className="music-dock-heading"><span title={music.current?.title || music.current?.videoId}>{music.current?.title || music.current?.videoId || '신청곡을 기다리고 있어요'}</span><button onClick={() => onMuted(!muted)} aria-pressed={muted} aria-label={muted ? '내 라디오 음소거 해제' : '내 라디오 음소거'} title={muted ? '내 라디오 음소거 해제' : '내 라디오 음소거'}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button></div>
+  const dock=<aside className={'music-dock'+(!music.current&&!pip.pipWindow?' is-empty':'')} aria-label="내 YouTube 플레이어" inert={modalOpen&&!pip.pipWindow}>
+    <div className="music-dock-heading"><span title={music.current?.title || music.current?.videoId}>{music.current?.title || music.current?.videoId || '신청곡을 기다리고 있어요'}</span><Button onClick={() => onMuted(!muted)} aria-pressed={muted} aria-label={muted ? '내 라디오 음소거 해제' : '내 라디오 음소거'} title={muted ? '내 라디오 음소거 해제' : '내 라디오 음소거'}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</Button></div>
     <div className="youtube-viewport" ref={setMount} />
-    <div className={'music-window-tools'+(pip.supported?'':' pip-unavailable')}><button disabled={!pip.supported||pip.busy} onClick={()=>{if(pip.pipWindow)pip.close();else void pip.open().catch(e=>setError(e.message));}}>{pip.pipWindow?'원래 화면으로':'YouTube 작은 창'}</button></div>
-    {!pip.pipWindow&&<p className="music-window-note">다른 창에서도 재생을 이어가요. 브라우저·기기가 재생을 제한할 수 있어요.{pip.supported?' 영상은 작은 창으로도 볼 수 있어요.':''}</p>}
-    {blocked && <button className="player-retry" onClick={() => { controller.current?.resume(); }}>눌러서 재생 허용</button>}
-    {error && <div className="player-message" role="status">{error}<button onClick={() => setRetry(v => v + 1)}>다시 연결</button></div>}
+    <div className={'music-window-tools'+(pip.supported?'':' pip-unavailable')}><Button disabled={!pip.supported||pip.busy} onClick={()=>{if(pip.pipWindow)pip.close();else void pip.open().catch(e=>setError(e.message));}}>{pip.pipWindow?'원래 화면으로':'YouTube 작은 창'}</Button></div>
+    {blocked && <Button className="player-retry" onClick={() => { controller.current?.resume(); }}>눌러서 재생 허용</Button>}
+    {error && <div className="player-message" role="status">{error}<Button onClick={() => setRetry(v => v + 1)}>다시 연결</Button></div>}
   </aside>;
   return pip.pipWindow?createPortal(dock,pip.pipWindow.document.body):dock;
 }

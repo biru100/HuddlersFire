@@ -1,4 +1,4 @@
-import { canPlay } from './camp-maps.mjs';
+import { canPlay, MAP_BOUNDS } from './camp-maps.mjs';
 // Gameplay-only toy weapons. Positions, trajectories and hits are owned by the room host.
 /** @typedef {import('./camp-types').Projectile} Projectile */
 /** @typedef {import('./camp-types').WeaponEffect} WeaponEffect */
@@ -81,7 +81,7 @@ export function stepWeapons(state, players, dt, now, obstacles, onHit) {
     }
     const x = shot.x + shot.vx * dt, y = shot.y + shot.vy * dt;
     const vz = weapon.id === 'gun' ? 0 : shot.vz - 8 * dt, z = shot.z + vz * dt;
-    if (Math.abs(x) > 9 || Math.abs(y) > 9) continue;
+    if (Math.abs(x) > MAP_BOUNDS.projectile || Math.abs(y) > MAP_BOUNDS.projectile) continue;
     let first = 2, target = null;
     for (const o of obstacles) {
       const t = segmentCircle(shot.x, shot.y, x, y, o.x, o.y, o.r + weapon.radius);
@@ -115,7 +115,7 @@ export function stepWeapons(state, players, dt, now, obstacles, onHit) {
 export function readWeapons(value) {
   if (value == null) return emptyWeapons();
   if (!Array.isArray(value.projectiles) || value.projectiles.length > MAX_PROJECTILES || !Array.isArray(value.effects) || value.effects.length > MAX_EFFECTS || (value.at != null && (!Number.isFinite(value.at) || value.at < 0))) return null;
-  const position = p => [p?.x, p?.y, p?.z].every(Number.isFinite) && Math.abs(p.x) <= 10 && Math.abs(p.y) <= 10 && p.z >= 0 && p.z <= 34;
+  const position = p => [p?.x, p?.y, p?.z].every(Number.isFinite) && Math.abs(p.x) <= MAP_BOUNDS.projectile+.25 && Math.abs(p.y) <= MAP_BOUNDS.projectile+.25 && p.z >= 0 && p.z <= 34;
   const id = s => typeof s === 'string' && s.length > 0 && s.length <= 96;
   const projectiles = [], effects = [];
   for (const p of value.projectiles) {

@@ -1,0 +1,112 @@
+{
+  "cell": {
+    "width": 128,
+    "height": 128
+  },
+  "states": {
+    "idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "subtle breathing, arms relaxed, feet planted, blank face"
+    },
+    "walk": {
+      "frames": 6,
+      "fps": 8,
+      "loop": true,
+      "action": "walking in place toward camera right three-quarter view, alternating left/right foot contacts and opposite arms, full cycle, blank face"
+    },
+    "run": {
+      "frames": 6,
+      "fps": 12,
+      "loop": true,
+      "action": "running in place toward camera right three-quarter view, alternating feet, wider stride and bent swinging arms, full cycle"
+    },
+    "sit": {
+      "frames": 2,
+      "fps": 2,
+      "loop": true,
+      "action": "seated resting pose on invisible log, feet forward, arms resting beside belly, small breathing change"
+    },
+    "crouch": {
+      "frames": 2,
+      "fps": 3,
+      "loop": true,
+      "action": "low crouch, knees bent, body lowered, feet firmly planted"
+    },
+    "jump": {
+      "frames": 4,
+      "fps": 8,
+      "loop": false,
+      "action": "jump poses: preparation crouch, rising with arms lifted, airborne descending arms out, landing crouch; no vertical root translation"
+    },
+    "carry": {
+      "frames": 4,
+      "fps": 6,
+      "loop": true,
+      "action": "holding an invisible friend overhead with BOTH mitten hands high above head, slight weight shift, feet planted"
+    },
+    "carried": {
+      "frames": 4,
+      "fps": 6,
+      "loop": true,
+      "action": "being held aloft with dangling legs and arms extended sideways, gentle sway"
+    },
+    "wave": {
+      "frames": 4,
+      "fps": 6,
+      "loop": true,
+      "action": "wave with right hand raised beside head, alternate hand angle, return near start"
+    },
+    "heart": {
+      "frames": 4,
+      "fps": 5,
+      "loop": true,
+      "action": "both mitten hands together in front of chest forming a loving gesture, gentle pulse, no detached hearts"
+    },
+    "clap": {
+      "frames": 4,
+      "fps": 8,
+      "loop": true,
+      "action": "hands open at chest, hands meet clapping, hands open, hands meet, feet planted"
+    },
+    "dance": {
+      "frames": 4,
+      "fps": 6,
+      "loop": true,
+      "action": "joyful side-to-side dance alternating raised hands and lifted feet"
+    },
+    "laugh": {
+      "frames": 4,
+      "fps": 6,
+      "loop": true,
+      "action": "laughing body gesture with hands over belly, alternating hunch and upright, blank face"
+    },
+    "surprise": {
+      "frames": 4,
+      "fps": 6,
+      "loop": true,
+      "action": "surprised gesture, hands up beside head, straighten then settle, blank face"
+    },
+    "weapon": {
+      "frames": 4,
+      "fps": 8,
+      "loop": false,
+      "action": "holding invisible toy at waist toward camera right with both hands: aim, small recoil, recover, aim. No actual weapon drawn"
+    },
+    "hit": {
+      "frames": 3,
+      "fps": 10,
+      "loop": false,
+      "action": "startled recoil backward, small squash, return to standing; blank face, no injuries"
+    }
+  },
+  "style": "Match the supplied soft hand-painted gouache reference; smooth illustration, not pixel art.",
+  "fit": {
+    "resample": "lanczos",
+    "pixel_unfake": false,
+    "align_y": "bottom",
+    "ground_frames": true
+  },
+  "description": "Warm terracotta mascot with blank cream avatar head, cream mittens, dark brown boots. No face, text, detached effects or shadows."
+}

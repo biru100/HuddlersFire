@@ -317,11 +317,13 @@ export class CampNetwork {
   async poll() {
     if (this.closed || this.leaving) return;
     let delay = 1200;
+    let roomResponseReceived = false;
     try {
       const recovery = this.lastRecovery?.world;
       const data = await this.request('room?' + new URLSearchParams({ code: this.code, player: this.player, after: String(this.after), epoch: String(this.epoch),
         ready: recovery && !(this.schedulerLagUntil > performance.now()) ? '1' : '0', recoveryEpoch: String(recovery?.epoch || 0), recoverySeq: String(recovery?.seq ?? -1), recoveryTime: String(Math.floor(recovery?.now || 0)),
         renew: this.coordinator().canRenew(this, performance.now()) ? '1' : '0' }));
+      roomResponseReceived = true;
       if (this.closed || this.leaving) return;
       this.failures = 0; this.members = data.members;
       if (data.recoveryWaiting) this.notify('복구할 수 있는 친구의 연결을 기다리는 중');
@@ -347,14 +349,16 @@ export class CampNetwork {
           catch { if (!this.closed) this.notify('연결을 다시 확인하고 있어요'); }
         }
       }));
+      if (this.closed || this.leaving) return;
       if (data.signals.length) this.after = data.signals.at(-1).id;
       if (!this.isHost && !this.peers.has(this.host) && this.attempts < 3) await this.connect();
       this.callbacks.members?.(data.members);
       const negotiating = [...this.peers.values()].some(p => p.pc.connectionState !== 'connected');
       delay = negotiating ? 800 : 3000;
     } catch (error) {
-      if (this.closed) return;
-      if ([401, 403, 404, 410].includes(error.status)) {
+      if (this.closed || this.leaving) return;
+      // A rejected offer to a departing host is not proof that the room ended.
+      if (!roomResponseReceived && [401, 403, 404, 410].includes(error.status)) {
         this.destroy(false); this.callbacks.ended?.(error.message); return;
       }
       this.failures++;

@@ -1,8 +1,8 @@
 // Shared limits and timing; this module has no browser, server or physics dependencies.
 export const MAX_PLAYERS = 16;
-export const CARRY_GAP = 1.3;
+export const CARRY_GAP = 1.65;
 export const MAX_HEIGHT = 32;
-export const COLORS = ['#e5a76d', '#89b6a5', '#b6a4d4', '#e5acb8', '#8cadd4', '#d8c486'];
+export const COLORS = ['#606060', '#7e7e7e', '#9c9c9c', '#bababa', '#d8d8d8', '#f6f6f6'];
 export const HOST_LEASE = 20_000;
 export const MEMBER_TTL = 90_000;
 export const CLEANUP_INTERVAL = 15_000;

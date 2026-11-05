@@ -1,5 +1,6 @@
 import vinext from "vinext";
 import { defineConfig } from "vite";
+import { seedDesignPlugin } from "@seed-design/vite-plugin";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { configureToolEnvironment } from "./scripts/tool-environment.mjs";
@@ -39,6 +40,12 @@ const localBindingConfig = {
 
 export default defineConfig(async ({ command }) => {
   configureToolEnvironment(process.cwd());
+  const previewJob = command === "serve" && process.env.CAMP_PREVIEW_JOB;
+  // Keep project-only authoring dependencies outside the published app's build graph.
+  const previewModule = new URL("./tests/sprite-preview-plugin.mjs", import.meta.url).href;
+  const previewPlugins = previewJob
+    ? [(await import(/* @vite-ignore */ previewModule)).spritePreviewPlugin(previewJob)]
+    : [];
 
   // Wrangler snapshots its log path while the Cloudflare plugin is imported.
   const { cloudflare } = await import("@cloudflare/vite-plugin");
@@ -48,12 +55,15 @@ export default defineConfig(async ({ command }) => {
       ...(managedLinux
         ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
         : {}),
-      ...(isCodexSeatbeltSandbox
-        ? { watch: { useFsEvents: false, usePolling: true } }
-        : {}),
+      watch: {
+        ignored: ["**/.wrangler/**", "**/.npm-cache/**", "**/outputs/**"],
+        ...(isCodexSeatbeltSandbox ? { useFsEvents: false, usePolling: true } : {}),
+      },
     },
     plugins: [
+      ...previewPlugins,
       vinext(),
+      seedDesignPlugin({ colorMode: "dark-only" }),
       sites({ mockAuth: !managedLinux }),
       connectorPreview(),
       cloudflare({

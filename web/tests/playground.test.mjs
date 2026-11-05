@@ -37,7 +37,7 @@ test('working and away status leave contact with the ball enabled',()=>{
 test('ball rebounds from scenery and returns to a clear spawn when leaving the island',()=>{
   const ball={...emptyBall(),x:1,y:0,vx:-3};stepBall(ball,new Map(),.1,[{x:0,y:0,r:.7}]);
   assert.ok(ball.x>.92);assert.ok(ball.vx>0);
-  Object.assign(ball,{x:6.1,y:3,vx:5});stepBall(ball,new Map(),.1,[]);assert.deepEqual(ball,emptyBall());
+  Object.assign(ball,{x:12.1,y:3,vx:5});stepBall(ball,new Map(),.1,[]);assert.deepEqual(ball,emptyBall());
 });
 test('full/delta packets validate ball state and keep independent checkpoint bases',()=>{
   const base={t:'state',v:PROTOCOL_VERSION,epoch:1,seq:1,now:1000,players:[encodePlayer(player())],fire:emptyFire(),weapons:emptyWeapons(),ball:emptyBall(),checkpoint:{chatId:null,musicRevision:0}};
@@ -46,7 +46,7 @@ test('full/delta packets validate ball state and keep independent checkpoint bas
   assert.deepEqual(receiver.read(deltaWire(next,base),1,1).world.ball,next.ball);
   const later={...next,seq:3,ball:{...next.ball,x:4.4}};
   assert.deepEqual(receiver.read(deltaWire(later,base),1,2).world.ball,later.ball);
-  for(const value of [null,{...emptyBall(),vx:Infinity},{...emptyBall(),x:9},{...emptyBall(),vy:7},{...emptyBall(),rotation:99}]) {
+  for(const value of [null,{...emptyBall(),vx:Infinity},{...emptyBall(),x:15},{...emptyBall(),vy:7},{...emptyBall(),rotation:99}]) {
     assert.equal(readBall(value),null);assert.equal(receiver.read({...fullWire(base),seq:5,u:value},1,3).world,null);
   }
   assert.equal(receiver.bases.get(1).world.ball.x,3.7);

@@ -2,7 +2,7 @@ import { emptyFire } from '../lib/camp-fire.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createCanvas } from '@napi-rs/canvas';
-import { CAMP_MAP, PLAY_MAP, getMap } from '../lib/camp-maps.mjs';
+import { CAMP_MAP, PLAY_MAP, SHOW_MAP, getMap } from '../lib/camp-maps.mjs';
 import { spawnPlayer, applyPlayerAction, simulateWorld, validPlayerState, validPosition, canLift, canUseRadio, RADIO, TRAMPOLINES } from '../lib/camp-world.mjs';
 import { emptyWeapons, stepWeapons } from '../lib/camp-weapons.mjs';
 import { emptyBall, stepBall } from '../lib/camp-ball.mjs';
@@ -15,11 +15,16 @@ import { CampRenderer } from '../lib/camp-renderer.mjs';
 
 const player=(id,mapId=CAMP_MAP,extra={})=>({id,name:id,color:'#e5a76d',...spawnPlayer(0,mapId),connected:true,x:0,y:2,...extra});
 const action=(kind,extra={})=>({id:crypto.randomUUID(),kind,...extra});
+const travel=(p,mapId)=>{
+  const portal=getMap(p.mapId).portals.find(o=>o.destination===mapId);
+  Object.assign(p,{x:portal.x+1,y:portal.y});
+  return action('change-map',{mapId,portalId:portal.id,mapRevision:p.mapRevision});
+};
 const snapshot=(players,extra={})=>({t:'state',v:PROTOCOL_VERSION,epoch:1,seq:1,now:1000,players:[...players.values()].map(encodePlayer),fire:emptyFire(),weapons:emptyWeapons(),ball:emptyBall(),checkpoint:{chatId:null,musicRevision:0},...extra});
 
 test('entry defaults to camp; both maps have valid spawns and distinct facilities',()=>{
   assert.equal(spawnPlayer().mapId,CAMP_MAP);
-  for(const mapId of [CAMP_MAP,PLAY_MAP]) for(let i=0;i<16;i++) {
+  for(const mapId of [CAMP_MAP,PLAY_MAP,SHOW_MAP]) for(let i=0;i<16;i++) {
     const p={id:String(i),...spawnPlayer(i,mapId)};
     assert.ok(validPosition(p.x,p.y,mapId));assert.ok(validPlayerState(p));
   }
@@ -65,26 +70,27 @@ test('ball, trampoline and radio obey the current map at the same coordinates',(
   }
 });
 
-test('moving a middle stack member releases both sides in the original map and only moves that member',()=>{
+test('a carried member cannot travel; a grounded carrier leaves the upper chain in the original map',()=>{
   const players=new Map(['a','b','c','d'].map(id=>[id,player(id,PLAY_MAP)]));
   for(const [id,target] of [['c','d'],['b','c'],['a','b']]) assert.equal(applyPlayerAction(players,id,action('lift',{target}),0),null);
-  const b=players.get('b');Object.assign(b,{presence:'away',workText:'개발 중',allowCall:false,allowCarry:false,lastCallAt:100,lastCalledAt:200,nextShotAt:1500});
-  const weapons=emptyWeapons();weapons.projectiles=[{owner:'b'},{owner:'a'}];
-  assert.equal(applyPlayerAction(players,'b',action('change-map',{mapId:CAMP_MAP}),1000,weapons),null);
+  const carried=players.get('b');assert.ok(applyPlayerAction(players,'b',travel(carried,CAMP_MAP),1000));assert.equal(carried.mapId,PLAY_MAP);
+  const b=players.get('a');Object.assign(b,{presence:'away',workText:'개발 중',allowCall:false,allowCarry:false,lastCallAt:100,lastCalledAt:200,nextShotAt:1500});
+  const weapons=emptyWeapons();weapons.projectiles=[{owner:'a'},{owner:'b'}];
+  assert.equal(applyPlayerAction(players,'a',travel(b,CAMP_MAP),1000,weapons),null);
   assert.equal(b.mapId,CAMP_MAP);assert.equal(b.mapRevision,1);assert.equal(b.weapon,'none');assert.equal(b.motion,'grounded');
   assert.equal(b.presence,'away');assert.equal(b.workText,'개발 중');assert.equal(b.allowCarry,false);assert.equal(b.allowCall,false);
   assert.equal(b.lastCallAt,100);assert.equal(b.lastCalledAt,200);assert.equal(b.nextShotAt,1500);
-  assert.equal(players.get('a').carrying,null);assert.equal(weapons.projectiles.length,1);assert.equal(weapons.projectiles[0].owner,'a');
-  for(const p of players.values()){assert.equal(p.carrying,null);assert.equal(p.carriedBy,null);assert.ok(validPlayerState(p));if(p.id!=='b')assert.equal(p.mapId,PLAY_MAP);}
+  assert.equal(b.carrying,null);assert.equal(weapons.projectiles.length,1);assert.equal(weapons.projectiles[0].owner,'b');
+  for(const p of players.values()){assert.equal(p.carrying,null);assert.equal(p.carriedBy,null);assert.ok(validPlayerState(p));if(p.id!=='a')assert.equal(p.mapId,PLAY_MAP);}
 });
 
-test('switching in flight, while thrown or respawning resets motion; falls return to the current map',()=>{
+test('portals reject flight, throws and respawning; falls return to the current map',()=>{
   for(const motion of ['airborne','falling','respawning']) {
     const p=player('a',PLAY_MAP,{motion,z:motion==='airborne'?2:-2,vx:2,vy:1,vz:-1,thrown:motion==='airborne'}),players=new Map([['a',p]]);
-    applyPlayerAction(players,'a',action('change-map',{mapId:CAMP_MAP}),1000);
-    assert.ok(validPlayerState(p));assert.equal(p.z,0);assert.equal(p.vx,0);assert.equal(p.thrown,false);assert.equal(p.motion,'grounded');
+    const before=structuredClone(p);assert.ok(applyPlayerAction(players,'a',travel(p,CAMP_MAP),1000));
+    assert.equal(p.mapId,PLAY_MAP);assert.equal(p.z,before.z);assert.equal(p.vx,before.vx);assert.equal(p.motion,before.motion);
   }
-  for(const mapId of [CAMP_MAP,PLAY_MAP]) {
+  for(const mapId of [CAMP_MAP,PLAY_MAP,SHOW_MAP]) {
     const p=player('a',mapId,{motion:'respawning',respawnAt:100,mapRevision:4,presence:'working'}),players=new Map([['a',p]]);
     simulateWorld(players,new Map(),.1,200);assert.equal(p.mapId,mapId);assert.equal(p.mapRevision,4);assert.equal(p.presence,'working');
   }
@@ -93,7 +99,7 @@ test('switching in flight, while thrown or respawning resets motion; falls retur
 test('full/delta checkpoints and recovery retain maps and reject cross-map chains or armed camp players',()=>{
   const players=new Map([['a',player('a')],['b',player('b',PLAY_MAP)]]),base=snapshot(players),receiver=new WireReceiver();
   assert.ok(receiver.read(fullWire(base),1,0).world);
-  applyPlayerAction(players,'b',action('change-map',{mapId:CAMP_MAP}),1000);
+  applyPlayerAction(players,'b',travel(players.get('b'),CAMP_MAP),1000);
   const next=snapshot(players,{seq:2,checkpoint:undefined}),decoded=receiver.read(deltaWire(next,base),1,1).world;
   assert.equal(decoded.players[1].mapId,CAMP_MAP);assert.equal(decoded.players[1].mapRevision,1);
   const recovery=captureRecovery(base,[],emptyMusic()),restored=restoreRecovery(recovery,[...players.values()]);
@@ -108,13 +114,13 @@ test('full/delta checkpoints and recovery retain maps and reject cross-map chain
 test('host clears queued movement at travel, deduplicates requests and rejects inputs from earlier map visits',()=>{
   const a=player('a',CAMP_MAP),players=new Map([['a',a]]);
   const n=Object.assign(Object.create(CampNetwork.prototype),{player:'host',host:'host',epoch:1,isHost:true,players,inputs:new Map([['a',{dx:1,dy:0,sitting:false}]]),peers:new Map(),ledger:new CommandLedger(),weapons:emptyWeapons(),callbacks:{},tick(){}});
-  const command=action('change-map',{mapId:PLAY_MAP});assert.ok(n.handleCommand('a',command).ok);assert.equal(n.inputs.has('a'),false);
+  const command=travel(a,PLAY_MAP);assert.ok(n.handleCommand('a',command).ok);assert.equal(n.inputs.has('a'),false);
   assert.ok(n.handleCommand('a',command).ok);assert.equal(a.mapRevision,1);
   const peer={id:'a',ready:true},channel={label:'camp',close(){}};n.peers.set('a',peer);n.attachChannel(peer,channel);
   const input=mapRevision=>channel.onmessage({data:JSON.stringify({t:'input',v:PROTOCOL_VERSION,epoch:1,mapRevision,dx:1,dy:0,sitting:false})});
   input(0);assert.equal(n.inputs.has('a'),false);input(1);assert.equal(n.inputs.get('a').dx,1);
   // A -> B -> A must not accept delayed input from A's earlier visit.
-  applyPlayerAction(players,'a',action('change-map',{mapId:CAMP_MAP}),2000);n.inputs.clear();input(0);assert.equal(n.inputs.has('a'),false);
+  applyPlayerAction(players,'a',travel(a,CAMP_MAP),2000);n.inputs.clear();input(0);assert.equal(n.inputs.has('a'),false);
 });
 
 test('travel snaps client interpolation even when the new spawn is nearby',()=>{

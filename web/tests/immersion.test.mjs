@@ -15,6 +15,7 @@ import { CampNetwork } from '../lib/camp-network.mjs';
 import { createCanvas } from '@napi-rs/canvas';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { CampAudio } from '../lib/camp-audio.mjs';
+import { getMap } from '../lib/camp-maps.mjs';
 
 const seat=CAMP_SEATS[0];
 const player=(id='a',extra={})=>({id,name:id,color:'#dcc08a',...spawnPlayer(),connected:true,x:seat.exitX,y:seat.exitY,...extra});
@@ -40,9 +41,9 @@ test('the whole log is reachable from either side and both ends, including while
     assert.ok(near,'A nearby log must be available');
     assert.equal(applyPlayerAction(players,'a',act('seat',{seatId:near.id}),1000),null);assert.ok(isSeated(p));assert.ok(validPlayerState(p));
   }
-  const s=setup();Object.assign(s.a,{x:CAMP_BENCHES[0].x+SEAT_REACH,y:0});
+  const s=setup();Object.assign(s.a,{x:CAMP_BENCHES[0].x+SEAT_REACH,y:CAMP_BENCHES[0].y});
   assert.equal(sit(s),null,'The exact approach boundary is accepted');
-  Object.assign(s.a,{seatId:null,x:CAMP_BENCHES[0].x+SEAT_REACH+.01,y:0,sitting:false});
+  Object.assign(s.a,{seatId:null,x:CAMP_BENCHES[0].x+SEAT_REACH+.01,y:CAMP_BENCHES[0].y,sitting:false});
   assert.ok(sit(s),'Outside the boundary cannot remotely sit');
   s.a.x=seat.exitX;s.a.y=seat.exitY;
   Object.assign(s.b,{seatId:seat.id,sitting:true,x:seat.x,y:seat.y,z:.18});
@@ -51,7 +52,7 @@ test('the whole log is reachable from either side and both ends, including while
 });
 
 test('walking, standing, jumping, map travel and disconnect release seats to walkable positions',()=>{
-  for(const command of [act('posture',{posture:'standing'}),act('jump'),act('change-map',{mapId:'playground'})]){
+  for(const command of [act('posture',{posture:'standing'}),act('jump')]){
     const s=setup();sit(s);applyPlayerAction(s.players,'a',command,1100);assert.equal(s.a.seatId,null);assert.ok(validPlayerState(s.a));
   }
   const s=setup();sit(s);simulateWorld(s.players,new Map([['a',{dx:.5,dy:0,sitting:false}]]),.05,1050);assert.equal(s.a.seatId,null);assert.equal(s.a.sitting,false);assert.ok(validPlayerState(s.a));
@@ -68,7 +69,8 @@ test('fire decays by camp time to persistent embers; only seated players can add
 test('fire commands are idempotent, ignore client fuel overrides and preserve player cooldown across travel',()=>{
   const s=setup();sit(s);const n=Object.assign(Object.create(CampNetwork.prototype),{players:s.players,fire:s.fire,weapons:emptyWeapons(),player:'a',host:'a',isHost:true,callbacks:{},peers:new Map(),inputs:new Map(),ledger:new CommandLedger(),hostNow:()=>2000,tick(){}});
   const command=act('add-firewood',{fuel:999999,xp:999999});assert.ok(n.handleCommand('a',command).ok);assert.ok(n.handleCommand('a',command).ok);assert.equal(s.fire.revision,1);assert.equal(s.fire.xp,1);assert.ok(s.fire.fuel<=MAX_FIRE_FUEL);
-  applyPlayerAction(s.players,'a',act('change-map',{mapId:'playground'}),2100);assert.equal(s.a.lastStokeAt,2000);
+  applyPlayerAction(s.players,'a',act('posture',{posture:'standing'}),2050);const portal=getMap('camp').portals.find(p=>p.id==='camp-play');Object.assign(s.a,{x:portal.x,y:portal.y});
+  assert.equal(applyPlayerAction(s.players,'a',act('change-map',{mapId:'playground',portalId:'camp-play',mapRevision:s.a.mapRevision}),2100),null);assert.equal(s.a.mapId,'playground');assert.equal(s.a.lastStokeAt,2000);
 });
 
 test('ten-minute contribution cooldowns are independent and successful contributions alone earn shared XP',()=>{

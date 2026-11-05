@@ -1,0 +1,4 @@
+Simple Icons v15.0.0: YouTube, X, Instagram, Discord, Reddit, TikTok.
+Source: https://github.com/simple-icons/simple-icons/tree/15.0.0/icons
+License: CC0-1.0 (https://creativecommons.org/publicdomain/zero/1.0/)
+Brand marks remain the property of their respective owners.

@@ -21,3 +21,9 @@ dist/
 *.log
 .DS_Store
 Thumbs.db
+
+# Project-local sprite authoring tools (recreated from tools/sprite-gen.lock.json)
+/tools/sprite-gen/
+/tools/.python/
+/tools/.uv-cache/
+/art/sprites/runs/

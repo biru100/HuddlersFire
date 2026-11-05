@@ -1,0 +1,7 @@
+Use case: game sprite. Asset ID: bench-nw.
+Style: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.
+Style reference: art/sprites/field-v2/master.png (character identity and paint treatment only).
+Subject: One simple TWO PERSON backless low timber bench, four short legs, continuous long flat top. Long axis descends from upper left to lower right at EXACTLY 26.565 degrees. No backrest, no people, no extra planks. Height roughly one third of its width.. Direction: nw.
+Composition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.
+Contact design, normalized within each tight alpha silhouette: {"ground":[0.5,0.98],"seat":[0.5,0.38]}.
+Genuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.

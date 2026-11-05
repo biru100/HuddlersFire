@@ -1,0 +1,4 @@
+HuddlersFire illustrated assets: generated with built-in image_gen for this project.
+Extraction, composition and terrain quilting: aldegad/sprite-gen, Apache-2.0, pinned in tools/sprite-gen.lock.json.
+App adapter: frame anchors, atlas packing, exact RGB character palette lookup and environment dark-mode grading.
+Discord avatars and game exhibition images are external content and are not part of these generated assets.

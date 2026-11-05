@@ -47,6 +47,59 @@ test('a world received long ago is not advertised as recovery-ready without an a
   await n.poll(); assert.equal(params.get('ready'), '0');
 });
 
+test('terminal room errors close the session once and prevent polling or reconnecting to the dead room', async () => {
+  for (const status of [401, 403, 404, 410]) {
+    let requests=0, ended=0, removed=0;
+    const n=new CampNetwork({code:'ABC234',player:'a',host:'b',epoch:1},{name:'A'},
+      {ended:message=>{assert.equal(message,'room ended');ended++;}},
+      {request:async()=>{requests++;throw Object.assign(new Error('room ended'),{status});},
+        lifecycle:{addEventListener(){},removeEventListener(){removed++;}}});
+    try {
+      await new Promise(resolve=>setImmediate(resolve));
+      assert.ok(n.closed);assert.equal(ended,1);assert.equal(removed,1);
+      await n.poll();n.retry();await n.poll();
+      assert.equal(requests,1);assert.equal(ended,1);
+    } finally {n.destroy(false);}
+  }
+});
+
+test('temporary lobby failures stay recoverable without firing room termination', async () => {
+  for (const error of [new TypeError('offline'),Object.assign(new Error('unavailable'),{status:503})]) {
+    let ended=0;
+    const n=new CampNetwork({code:'ABC234',player:'a',host:'b',epoch:1},{name:'A'},
+      {ended:()=>ended++},{request:async()=>{throw error;}});
+    try {
+      await new Promise(resolve=>setImmediate(resolve));
+      assert.equal(ended,0);assert.equal(n.closed,false);assert.equal(n.failures,1);assert.ok(n.pollTimer);
+    } finally {n.destroy(false);}
+  }
+});
+
+test('a successful room poll followed by rejected signalling does not terminate a live room during succession', async () => {
+  let resolvePoll,ended=0;
+  const n=new CampNetwork({code:'ABC234',player:'a',host:'b',epoch:1},{name:'A'},
+    {ended:()=>ended++},{request:()=>new Promise(resolve=>{resolvePoll=resolve;})});
+  try {
+    // The old host can leave between this room response and our connection offer.
+    n.connect=async()=>{throw Object.assign(new Error('peer left'),{status:403});};
+    resolvePoll({host:'b',epoch:1,members:[{id:'a'},{id:'b'}],signals:[]});
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(ended,0);assert.equal(n.closed,false);assert.ok(n.pollTimer);
+  } finally {n.destroy(false);}
+});
+
+test('a pending poll cannot turn a normal draining departure into a terminal room error', async () => {
+  let rejectPoll,ended=0;
+  const n=new CampNetwork({code:'ABC234',player:'a',host:'a',epoch:1},{name:'A'},
+    {ended:()=>ended++},{request:()=>new Promise((_,reject)=>{rejectPoll=reject;})});
+  try {
+    n.leaving=true;
+    rejectPoll(Object.assign(new Error('room ended'),{status:410}));
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(ended,0);assert.equal(n.closed,false);assert.equal(n.pollTimer,undefined);
+  } finally {n.destroy(false);}
+});
+
 async function lobby() {
   const f = fixture(), h = await f.enrolled('H'), a = await f.enrolled('A'), b = await f.enrolled('B');
   const { value: room } = await h('rooms', { op: 'create' }); f.advance(1);

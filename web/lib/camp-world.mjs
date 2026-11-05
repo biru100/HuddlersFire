@@ -1,6 +1,6 @@
 import { leaveSeat, takeSeat, seatById, isSeated } from './camp-seats.mjs';
 import { addFirewood, changeFireStyle } from './camp-fire.mjs';
-import { CAMP_MAP, PLAY_MAP, isMap, canPlay, getMap, RADIO } from './camp-maps.mjs';
+import { CAMP_MAP, PLAY_MAP, isMap, canPlay, getMap, RADIO, MAP_BOUNDS, portalFor } from './camp-maps.mjs';
 export { SCENERY, TRAMPOLINES, RADIO } from './camp-maps.mjs';
 import { createCarrySystem } from './camp-carry.mjs';
 import { stepBall } from './camp-ball.mjs';
@@ -12,8 +12,8 @@ export const SPEED = 2.35;
 export const RUN_MULTIPLIER = 1.6;
 export const JUMP_PREP_MS = 110;
 export const JUMP_SPEED = 3.8;
-export const WORLD_LIMIT = 5.7;
-export const GROUND_EDGE = 6;
+export const WORLD_LIMIT = MAP_BOUNDS.walk;
+export const GROUND_EDGE = MAP_BOUNDS.edge;
 export function canUseRadio(player) {
   return !!player && player.mapId === CAMP_MAP && player.motion === 'grounded' && !player.carriedBy &&
     Math.hypot(player.x - RADIO.x, player.y - RADIO.y) <= 1.35;
@@ -24,7 +24,7 @@ export const EMOTES = [
   { id: 'dance', label: '춤', symbol: '♪ ♫' }, { id: 'surprise', label: '놀람', symbol: '!!' },
 ];
 export function validPosition(x, y, mapId = CAMP_MAP) {
-  return Number.isFinite(x) && Number.isFinite(y) && Math.abs(x) <= WORLD_LIMIT && Math.abs(y) <= WORLD_LIMIT &&
+  return Number.isFinite(x) && Number.isFinite(y) && Math.abs(x) <= getMap(mapId).bounds.walk && Math.abs(y) <= getMap(mapId).bounds.walk &&
     getMap(mapId).obstacles.every(o => Math.hypot(x - o.x, y - o.y) > o.r + .18);
 }
 export function direction(keys) {
@@ -56,6 +56,8 @@ export function movePlayer(player, input, dt, allowFall = false) {
   }
 }
 export function spawnPlayer(index = 0, mapId = CAMP_MAP) {
+  const spawn=getMap(mapId).spawns?.[((index%MAX_PLAYERS)+MAX_PLAYERS)%MAX_PLAYERS];
+  if(spawn&&validPosition(spawn.x,spawn.y,mapId))return {...spawn,...restingState(),mapId,mapRevision:0};
   const start = index * Math.PI * 2 / MAX_PLAYERS + 1.5;
   for (let attempt = 0; attempt < 48; attempt++) {
     const angle = start + attempt * .17;
@@ -72,26 +74,26 @@ function restingState() {
     z: 0, vz: 0, vx: 0, vy: 0, thrown: false, motion: 'grounded', respawnAt: 0,
     carrying: null, carriedBy: null, allowCarry: true, emote: null, emoteUntil: 0, bubble: '', bubbleUntil: 0, respawns: 0 };
 }
-export const onGround = (x, y) => Math.abs(x) <= GROUND_EDGE && Math.abs(y) <= GROUND_EDGE;
+export const onGround = (x, y, mapId = CAMP_MAP) => Math.abs(x) <= getMap(mapId).bounds.edge && Math.abs(y) <= getMap(mapId).bounds.edge;
 function clearOfObstacles(x, y, tolerance = 0, mapId = CAMP_MAP) {
-  return Number.isFinite(x) && Number.isFinite(y) && Math.abs(x) < 8 && Math.abs(y) < 8 &&
+  return Number.isFinite(x) && Number.isFinite(y) && Math.abs(x) < getMap(mapId).bounds.state && Math.abs(y) < getMap(mapId).bounds.state &&
     getMap(mapId).obstacles.every(o => Math.hypot(x - o.x, y - o.y) > o.r + .18 - tolerance);
 }
 export function validPlayerState(p, tolerance = 0) {
   return p && isMap(p.mapId) && Number.isSafeInteger(p.mapRevision) && p.mapRevision >= 0 &&
-    (p.mapId !== CAMP_MAP || (p.weapon === 'none' && !p.carrying && !p.carriedBy && !p.thrown)) && typeof p.id === 'string' && Number.isFinite(p.x) && Number.isFinite(p.y) &&
+    (canPlay(p) || (p.weapon === 'none' && !p.carrying && !p.carriedBy && !p.thrown)) && typeof p.id === 'string' && Number.isFinite(p.x) && Number.isFinite(p.y) &&
     (p.seatId===null || (isSeated(p) && Math.hypot(p.x-seatById(p.seatId).x,p.y-seatById(p.seatId).y)<.002 && p.z===.18)) && Number.isFinite(p.lastStokeAt) && p.lastStokeAt>=-1 &&
     isWeapon(p.weapon) && Number.isFinite(p.nextShotAt) && p.nextShotAt >= 0 && Number.isFinite(p.shotAt) && p.shotAt >= -1 && Number.isFinite(p.hitAt) && p.hitAt >= -1 &&
     Number.isFinite(p.shotAimX) && Math.abs(p.shotAimX) <= 1 && Number.isFinite(p.shotAimY) && Math.abs(p.shotAimY) <= 1 &&
     typeof p.running === 'boolean' && Number.isFinite(p.jumpAt) && p.jumpAt >= -1 && Number.isFinite(p.landedAt) && p.landedAt >= -1 &&
-    Math.abs(p.x) <= 8 && Math.abs(p.y) <= 8 && Number.isFinite(p.z) && p.z >= -25 && p.z <= MAX_HEIGHT &&
+    Math.abs(p.x) <= getMap(p.mapId).bounds.state && Math.abs(p.y) <= getMap(p.mapId).bounds.state && Number.isFinite(p.z) && p.z >= -25 && p.z <= MAX_HEIGHT &&
     (p.respawnAt == null || (Number.isFinite(p.respawnAt) && p.respawnAt >= 0)) &&
     Number.isFinite(p.vz) && Math.abs(p.vz) <= 30 &&
     Number.isFinite(p.vx) && Math.abs(p.vx) <= 5 && Number.isFinite(p.vy) && Math.abs(p.vy) <= 5 &&
     typeof p.thrown === 'boolean' && (!p.thrown || p.motion === 'airborne') &&
     Number.isFinite(p.aimX) && Math.abs(p.aimX) <= 1 && Number.isFinite(p.aimY) && Math.abs(p.aimY) <= 1 &&
     ['grounded', 'airborne', 'carried', 'falling', 'respawning'].includes(p.motion) &&
-    (p.motion !== 'grounded' || (Math.abs(p.x) <= GROUND_EDGE + tolerance && Math.abs(p.y) <= GROUND_EDGE + tolerance && (p.seatId || clearOfObstacles(p.x, p.y, tolerance, p.mapId))));
+    (p.motion !== 'grounded' || (Math.abs(p.x) <= getMap(p.mapId).bounds.edge + tolerance && Math.abs(p.y) <= getMap(p.mapId).bounds.edge + tolerance && (p.seatId || clearOfObstacles(p.x, p.y, tolerance, p.mapId))));
 }
 export const { carryChain, canLift, carryTarget, syncCarry, releaseCarry, throwPassenger } = createCarrySystem(spawnPlayer);
 /** @param {import('./camp-weapons.mjs').WeaponWorld | null} [weapons] @param {import('./camp-types').FireState | null} [fire] */
@@ -102,14 +104,16 @@ export function applyPlayerAction(players, id, action, now, weapons = null, fire
   if(action.kind==='add-firewood')return fire?addFirewood(fire,p,now):'모닥불을 준비하고 있어요.';
   if(action.kind==='fire-style')return fire?changeFireStyle(fire,p,action.style):'모닥불을 준비하고 있어요.';
   if (action.kind === 'change-map') {
-    if (!isMap(action.mapId)) return '이동할 장소를 확인해 주세요.';
-    if (p.mapId === action.mapId) return null;
+    const portal=portalFor(p,action);
+    if (!portal) return '포탈 가까이에서 다시 상호작용해 주세요.';
     // Detach both sides before resetting this player; upper chains stay in their original map.
     if (p.carriedBy) releaseCarry(players, p);
     if (p.carrying) releaseCarry(players, p, true);
     const social = persistentSocialState(p), allowCarry = p.allowCarry, respawns = p.respawns;
     const mapRevision = p.mapRevision + 1, nextShotAt = p.nextShotAt;
     Object.assign(p, spawnPlayer([...players.keys()].indexOf(id), action.mapId), social, { allowCarry, respawns, mapRevision, nextShotAt });
+    const arrival=getMap(action.mapId).portals.find(o=>o.id===portal.arrivalId);
+    if(arrival && validPosition(arrival.x+1.9,arrival.y,action.mapId))Object.assign(p,{x:arrival.x+1.9,y:arrival.y});
     if (weapons) weapons.projectiles = weapons.projectiles.filter(shot => shot.owner !== id);
     return null;
   }
@@ -187,7 +191,7 @@ export function simulateWorld(players, inputs, elapsed, now, weapons = null, bal
         if (clearOfObstacles(x, y, 0, p.mapId)) { p.x = x; p.y = y; }
         else { p.vx = 0; p.vy = 0; }
       }
-      if (!onGround(p.x, p.y) && p.z <= 0 && p.motion !== 'falling') {
+      if (!onGround(p.x, p.y, p.mapId) && p.z <= 0 && p.motion !== 'falling') {
         if (p.carrying) releaseCarry(players, p);
         p.motion = 'falling'; p.thrown = false; p.vx = 0; p.vy = 0;
         p.sitting = false; p.crouching = false; p.running = false; p.jumpAt = -1; p.emote = null; p.respawnAt = now + 2000;
@@ -201,7 +205,7 @@ export function simulateWorld(players, inputs, elapsed, now, weapons = null, bal
         p.vz -= 8 * dt; p.z += p.vz * dt;
         const ceiling = MAX_HEIGHT - (carryChain(players, p).length - 1) * CARRY_GAP;
         if (p.z > ceiling) { p.z = ceiling; p.vz = Math.min(0, p.vz); }
-        if (p.z <= 0 && p.vz <= 0 && onGround(p.x, p.y)) {
+        if (p.z <= 0 && p.vz <= 0 && onGround(p.x, p.y, p.mapId)) {
           p.z = 0; p.vz = 0; p.vx = 0; p.vy = 0; p.thrown = false; p.motion = 'grounded'; p.landedAt = now;
         }
       }

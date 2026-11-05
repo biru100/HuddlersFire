@@ -135,7 +135,7 @@ test('calls have real timestamps, respect opt-out, deduplicate, and retain coold
 
 test('wide walking routes and all spawns stay navigable after scenery changes',()=>{
   for(let i=0;i<16;i++){const p=spawnPlayer(i);assert.ok(validPosition(p.x,p.y));}
-  for(let x=-2.7;x<=2.3;x+=.1)assert.ok(validPosition(x,.9),'radio corridor at '+x);
+  for(let x=-4.8;x<=-1.2;x+=.1)assert.ok(validPosition(x,0),'radio corridor at '+x);
   for(let y=-2.2;y<=2;y+=.1)assert.ok(validPosition(1.2,y),'fire corridor at '+y);
 });
 

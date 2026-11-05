@@ -1,0 +1,11 @@
+{
+  "generator": "native image_gen",
+  "bootstrapPrompt": "bootstrap.json",
+  "bootstrapImageReferences": [],
+  "candidate": "master-candidate.png",
+  "selected": "master.png",
+  "cleanupReference": "master-candidate.png",
+  "cleanupOperation": "Remove the gray vignette, haze and cast floor shadow while retaining the newly generated character; request genuine transparent alpha outside the silhouette.",
+  "selectedNativeOutput": "C:/Users/user/.codex/generated_images/01a1abc3-dfa7-7501-83c5-a209f507a529/exec-a545eb2e-bc83-4dc1-99ee-83591d8f8e8f.png",
+  "legacyPositiveImageReferences": []
+}

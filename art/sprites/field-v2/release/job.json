@@ -1,0 +1,1267 @@
+{
+  "version": 1,
+  "specHash": "80b506ee247512722d3ca23378176e1928e0aaf81ba26cfabe5dd4a9f2eaa505",
+  "spec": {
+    "version": 2,
+    "id": "field-v2",
+    "intentIds": [
+      "INT-03",
+      "INT-04",
+      "INT-07",
+      "INT-09",
+      "INT-12",
+      "INT-16",
+      "INT-17",
+      "INT-18"
+    ],
+    "style": {
+      "medium": "Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art",
+      "view": "Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing",
+      "light": "Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows",
+      "character": "Blank circular ivory portrait disc, teal canvas jacket, ochre short overalls, cream mitten hands and cocoa ankle boots. Match NEW reference identity exactly",
+      "reference": "art/sprites/field-v2/master.png"
+    },
+    "assets": {
+      "camper-idle": {
+        "kind": "character",
+        "state": "idle",
+        "direction": "front",
+        "frames": 4,
+        "fps": 4,
+        "loop": true,
+        "action": "subtle breathing, arms relaxed, feet planted, blank face",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-walk": {
+        "kind": "character",
+        "state": "walk",
+        "direction": "front",
+        "frames": 6,
+        "fps": 8,
+        "loop": true,
+        "action": "walking in place toward screen right three-quarter view, alternating left/right foot contacts and opposite arms, full cycle, blank face",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-run": {
+        "kind": "character",
+        "state": "run",
+        "direction": "front",
+        "frames": 6,
+        "fps": 12,
+        "loop": true,
+        "action": "running in place toward screen right three-quarter view, alternating feet, wider stride and bent swinging arms, full cycle",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-sit": {
+        "kind": "character",
+        "state": "sit",
+        "direction": "front",
+        "frames": 2,
+        "fps": 2,
+        "loop": true,
+        "action": "seated resting pose on invisible log, feet forward, arms resting beside belly, small breathing change",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ],
+          "seat": [
+            0.5,
+            0.71
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-crouch": {
+        "kind": "character",
+        "state": "crouch",
+        "direction": "front",
+        "frames": 2,
+        "fps": 3,
+        "loop": true,
+        "action": "low crouch, knees bent, body lowered, feet firmly planted",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-jump": {
+        "kind": "character",
+        "state": "jump",
+        "direction": "front",
+        "frames": 4,
+        "fps": 8,
+        "loop": false,
+        "action": "jump poses: preparation crouch, rising with arms lifted, airborne descending arms out, landing crouch; no vertical root translation",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-carry": {
+        "kind": "character",
+        "state": "carry",
+        "direction": "front",
+        "frames": 4,
+        "fps": 6,
+        "loop": true,
+        "action": "holding an invisible friend overhead with BOTH mitten hands high above head, slight weight shift, feet planted",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-carried": {
+        "kind": "character",
+        "state": "carried",
+        "direction": "front",
+        "frames": 4,
+        "fps": 6,
+        "loop": true,
+        "action": "being held aloft with dangling legs and arms extended sideways, gentle sway",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-wave": {
+        "kind": "character",
+        "state": "wave",
+        "direction": "front",
+        "frames": 4,
+        "fps": 6,
+        "loop": true,
+        "action": "wave with right hand raised beside head, alternate hand angle, return near start",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-heart": {
+        "kind": "character",
+        "state": "heart",
+        "direction": "front",
+        "frames": 4,
+        "fps": 5,
+        "loop": true,
+        "action": "both mitten hands together in front of chest forming a loving gesture, gentle pulse, no detached hearts",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-clap": {
+        "kind": "character",
+        "state": "clap",
+        "direction": "front",
+        "frames": 4,
+        "fps": 8,
+        "loop": true,
+        "action": "hands open at chest, hands meet clapping, hands open, hands meet, feet planted",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-dance": {
+        "kind": "character",
+        "state": "dance",
+        "direction": "front",
+        "frames": 4,
+        "fps": 6,
+        "loop": true,
+        "action": "joyful side-to-side dance alternating raised hands and lifted feet",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-laugh": {
+        "kind": "character",
+        "state": "laugh",
+        "direction": "front",
+        "frames": 4,
+        "fps": 6,
+        "loop": true,
+        "action": "laughing body gesture with hands over belly, alternating hunch and upright, blank face",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-surprise": {
+        "kind": "character",
+        "state": "surprise",
+        "direction": "front",
+        "frames": 4,
+        "fps": 6,
+        "loop": true,
+        "action": "surprised gesture, hands up beside head, straighten then settle, blank face",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-weapon": {
+        "kind": "character",
+        "state": "weapon",
+        "direction": "front",
+        "frames": 4,
+        "fps": 8,
+        "loop": false,
+        "action": "holding invisible toy at waist toward screen right with both hands: aim, small recoil, recover, aim. No actual weapon drawn",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "camper-hit": {
+        "kind": "character",
+        "state": "hit",
+        "direction": "front",
+        "frames": 3,
+        "fps": 10,
+        "loop": false,
+        "action": "startled recoil backward, small squash, return to standing; blank face, no injuries",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "sit-back-left": {
+        "kind": "character",
+        "state": "sit",
+        "direction": "back-left",
+        "frames": 1,
+        "fps": 2,
+        "loop": true,
+        "action": "Seated on an INVISIBLE low bench, pelvis bearing weight, two bent legs and boots dangling below the thighs. Body faces back-left in the isometric world. Blank circular portrait disc remains FULLY ROUND and SCREEN-FACING even when jacket and legs face away. Show back of jacket and boots projecting UP the screen toward the fire.",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ],
+          "seat": [
+            0.5,
+            0.71
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "sit-back-right": {
+        "kind": "character",
+        "state": "sit",
+        "direction": "back-right",
+        "frames": 1,
+        "fps": 2,
+        "loop": true,
+        "action": "Seated on an INVISIBLE low bench, pelvis bearing weight, two bent legs and boots dangling below the thighs. Body faces back-right in the isometric world. Blank circular portrait disc remains FULLY ROUND and SCREEN-FACING even when jacket and legs face away. Show back of jacket and boots projecting UP the screen toward the fire.",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ],
+          "seat": [
+            0.5,
+            0.71
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "sit-front-right": {
+        "kind": "character",
+        "state": "sit",
+        "direction": "front-right",
+        "frames": 1,
+        "fps": 2,
+        "loop": true,
+        "action": "Seated on an INVISIBLE low bench, pelvis bearing weight, two bent legs and boots dangling below the thighs. Body faces front-right in the isometric world. Blank circular portrait disc remains FULLY ROUND and SCREEN-FACING even when jacket and legs face away. Show bib front and boots projecting DOWN the screen toward the fire.",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ],
+          "seat": [
+            0.5,
+            0.71
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "sit-front-left": {
+        "kind": "character",
+        "state": "sit",
+        "direction": "front-left",
+        "frames": 1,
+        "fps": 2,
+        "loop": true,
+        "action": "Seated on an INVISIBLE low bench, pelvis bearing weight, two bent legs and boots dangling below the thighs. Body faces front-left in the isometric world. Blank circular portrait disc remains FULLY ROUND and SCREEN-FACING even when jacket and legs face away. Show bib front and boots projecting DOWN the screen toward the fire.",
+        "width": 96,
+        "contacts": {
+          "feet": [
+            0.5,
+            1
+          ],
+          "seat": [
+            0.5,
+            0.71
+          ]
+        },
+        "head": {
+          "center": [
+            0.5,
+            0.22
+          ],
+          "radius": 0.205
+        }
+      },
+      "tree": {
+        "kind": "prop",
+        "target": "tree",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 100,
+        "action": "round-canopy small leafy elm tree, short visible trunk, sparse coherent foliage",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "tent": {
+        "kind": "prop",
+        "target": "tent",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 145,
+        "action": "small ochre canvas A-frame camp shelter, open triangular doorway",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "lantern": {
+        "kind": "prop",
+        "target": "lantern",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 35,
+        "action": "small brass camping lantern with softly glowing ivory glass",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "radio": {
+        "kind": "prop",
+        "target": "radio",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 60,
+        "action": "portable teal wood radio with two round speaker grilles and ivory tuning strip",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "sign": {
+        "kind": "prop",
+        "target": "sign",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 65,
+        "action": "timber wayfinding sign on one post, blank ivory sign face",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "fence": {
+        "kind": "prop",
+        "target": "fence",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 90,
+        "action": "short low timber split-rail fence section, axis rises right at 26.565 degrees",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "shade": {
+        "kind": "prop",
+        "target": "shade",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 120,
+        "action": "small open timber pergola with pale canvas roof and four slim posts",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "crate": {
+        "kind": "prop",
+        "target": "crate",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 55,
+        "action": "open wooden toy box with colorful toy handles inside",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "trampoline": {
+        "kind": "prop",
+        "target": "trampoline",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 100,
+        "action": "low round teal trampoline, dark springy mat, four legs, visible elliptical top",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "football": {
+        "kind": "prop",
+        "target": "football",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 18,
+        "action": "classic ivory and cocoa patched football, almost circular",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "portal": {
+        "kind": "prop",
+        "target": "portal",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 100,
+        "action": "open timber trail gateway with two posts and rounded pale canvas top, EMPTY WALKABLE opening, tiny teal pennant, no glow, no stones",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "game-booth": {
+        "kind": "prop",
+        "target": "gameBooth",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 180,
+        "action": "gallery display stand: wide timber board on two short supports with LARGE EMPTY IVORY rectangular poster area at upper center, low plinth below, no awning, no fruit, no text",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted",
+        "poster": {
+          "x": 0.16,
+          "y": 0.15,
+          "w": 0.68,
+          "h": 0.44
+        }
+      },
+      "firewood": {
+        "kind": "prop",
+        "target": "firewood",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 95,
+        "action": "low circular ring of pale camp stones around a neat short stack of split logs, no flames",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "flowers": {
+        "kind": "prop",
+        "target": "flowers",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 35,
+        "action": "small low cluster of cream and ochre daisies in green grass",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "rock": {
+        "kind": "prop",
+        "target": "rock",
+        "direction": "isometric",
+        "frames": 1,
+        "width": 28,
+        "action": "small cluster of two softly rounded warm gray stones",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.96
+          ]
+        },
+        "depth": "sorted"
+      },
+      "bench-ne": {
+        "kind": "prop",
+        "target": "bench",
+        "direction": "ne",
+        "frames": 1,
+        "width": 110,
+        "action": "One simple TWO PERSON backless low timber bench, four short legs, continuous long flat top. Long axis rises from lower left to upper right at EXACTLY 26.565 degrees. No backrest, no people, no extra planks. Height roughly one third of its width.",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.98
+          ],
+          "seat": [
+            0.5,
+            0.38
+          ]
+        },
+        "depth": "sorted"
+      },
+      "bench-nw": {
+        "kind": "prop",
+        "target": "bench",
+        "direction": "nw",
+        "frames": 1,
+        "width": 110,
+        "action": "One simple TWO PERSON backless low timber bench, four short legs, continuous long flat top. Long axis descends from upper left to lower right at EXACTLY 26.565 degrees. No backrest, no people, no extra planks. Height roughly one third of its width.",
+        "contacts": {
+          "ground": [
+            0.5,
+            0.98
+          ],
+          "seat": [
+            0.5,
+            0.38
+          ]
+        },
+        "depth": "sorted"
+      },
+      "amber": {
+        "kind": "effect",
+        "target": "amber",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "warm amber camp flame",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "gold": {
+        "kind": "effect",
+        "target": "gold",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "golden yellow camp flame",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "blue": {
+        "kind": "effect",
+        "target": "blue",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "soft blue camp flame",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "jade": {
+        "kind": "effect",
+        "target": "jade",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "jade green camp flame",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "violet": {
+        "kind": "effect",
+        "target": "violet",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "violet purple camp flame",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "gun": {
+        "kind": "effect",
+        "target": "gun",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "friendly wooden teal toy water pistol pointing right",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "snowball": {
+        "kind": "effect",
+        "target": "snowball",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "round white snowball",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "bomb": {
+        "kind": "effect",
+        "target": "bomb",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "round charcoal toy bomb with short unlit cord",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "impact": {
+        "kind": "effect",
+        "target": "impact",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "soft playful orange starburst puff",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "dust": {
+        "kind": "effect",
+        "target": "dust",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "pale cream landing dust puff",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "heart": {
+        "kind": "effect",
+        "target": "heart",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "coral pink heart",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "spark": {
+        "kind": "effect",
+        "target": "spark",
+        "direction": "front",
+        "frames": 1,
+        "width": 64,
+        "action": "small warm gold four pointed sparkle",
+        "contacts": {
+          "ground": [
+            0.5,
+            1
+          ]
+        },
+        "depth": "sorted"
+      },
+      "grass": {
+        "kind": "terrain",
+        "target": "grass",
+        "direction": "none",
+        "frames": 1,
+        "width": 192,
+        "action": "Opaque seamless flat TOP DOWN material: quiet sage green lawn with very fine sparse blades. Uniform material scale and lighting, no perspective, border, gradient, props or vignette.",
+        "contacts": {}
+      },
+      "sand": {
+        "kind": "terrain",
+        "target": "sand",
+        "direction": "none",
+        "frames": 1,
+        "width": 192,
+        "action": "Opaque seamless flat TOP DOWN material: warm pale buff compacted dirt with extremely subtle grain. Uniform material scale and lighting, no perspective, border, gradient, props or vignette.",
+        "contacts": {}
+      },
+      "stone": {
+        "kind": "terrain",
+        "target": "stone",
+        "direction": "none",
+        "frames": 1,
+        "width": 192,
+        "action": "Opaque seamless flat TOP DOWN material: pale cream gray garden stone paving with restrained irregular joint lines. Uniform material scale and lighting, no perspective, border, gradient, props or vignette.",
+        "contacts": {}
+      }
+    },
+    "bindings": {
+      "log-0": {
+        "asset": "bench-ne",
+        "direction": "ne",
+        "characterDirection": "back-left"
+      },
+      "log-1": {
+        "asset": "bench-ne",
+        "direction": "ne",
+        "characterDirection": "back-left"
+      },
+      "log-2": {
+        "asset": "bench-nw",
+        "direction": "nw",
+        "characterDirection": "back-right"
+      },
+      "log-3": {
+        "asset": "bench-nw",
+        "direction": "nw",
+        "characterDirection": "back-right"
+      },
+      "log-4": {
+        "asset": "bench-ne",
+        "direction": "ne",
+        "characterDirection": "front-right"
+      },
+      "log-5": {
+        "asset": "bench-ne",
+        "direction": "ne",
+        "characterDirection": "front-right"
+      },
+      "log-6": {
+        "asset": "bench-nw",
+        "direction": "nw",
+        "characterDirection": "front-left"
+      },
+      "log-7": {
+        "asset": "bench-nw",
+        "direction": "nw",
+        "characterDirection": "front-left"
+      }
+    },
+    "cases": [
+      {
+        "id": "camp-color",
+        "map": "camp",
+        "theme": "color",
+        "view": "overview",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "density",
+          "wayfinding",
+          "contact",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "camp-dark",
+        "map": "camp",
+        "theme": "dark",
+        "view": "overview",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "density",
+          "wayfinding",
+          "contact",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "playground-color",
+        "map": "playground",
+        "theme": "color",
+        "view": "overview",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "density",
+          "wayfinding",
+          "contact",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "playground-dark",
+        "map": "playground",
+        "theme": "dark",
+        "view": "overview",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "density",
+          "wayfinding",
+          "contact",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "showroom-color",
+        "map": "showroom",
+        "theme": "color",
+        "view": "overview",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "density",
+          "wayfinding",
+          "contact",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "showroom-dark",
+        "map": "showroom",
+        "theme": "dark",
+        "view": "overview",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "density",
+          "wayfinding",
+          "contact",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "camp-seats",
+        "map": "camp",
+        "view": "seats",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "contact",
+          "direction",
+          "portrait",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "camp-actions",
+        "map": "playground",
+        "view": "actions",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "contact",
+          "direction",
+          "portrait",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "camp-stack",
+        "map": "playground",
+        "view": "stack",
+        "width": 1050,
+        "height": 824,
+        "kind": "canvas",
+        "criteria": [
+          "contact",
+          "direction",
+          "portrait",
+          "occlusion"
+        ]
+      },
+      {
+        "id": "ui-desktop",
+        "map": "camp",
+        "view": "ui",
+        "width": 1280,
+        "height": 900,
+        "kind": "ui",
+        "criteria": [
+          "ui-hierarchy",
+          "occlusion",
+          "readability"
+        ]
+      },
+      {
+        "id": "ui-desktop-field",
+        "map": "camp",
+        "view": "field",
+        "width": 1280,
+        "height": 900,
+        "kind": "ui",
+        "criteria": [
+          "ui-hierarchy",
+          "occlusion",
+          "readability"
+        ]
+      },
+      {
+        "id": "ui-mobile",
+        "map": "camp",
+        "view": "ui",
+        "width": 390,
+        "height": 844,
+        "kind": "ui",
+        "criteria": [
+          "ui-hierarchy",
+          "occlusion",
+          "readability"
+        ]
+      },
+      {
+        "id": "ui-mobile-field",
+        "map": "camp",
+        "view": "field",
+        "width": 390,
+        "height": 844,
+        "kind": "ui",
+        "criteria": [
+          "ui-hierarchy",
+          "occlusion",
+          "readability"
+        ]
+      }
+    ]
+  },
+  "selected": [
+    "camper-idle",
+    "camper-walk",
+    "camper-run",
+    "camper-sit",
+    "camper-crouch",
+    "camper-jump",
+    "camper-carry",
+    "camper-carried",
+    "camper-wave",
+    "camper-heart",
+    "camper-clap",
+    "camper-dance",
+    "camper-laugh",
+    "camper-surprise",
+    "camper-weapon",
+    "camper-hit",
+    "sit-back-left",
+    "sit-back-right",
+    "sit-front-right",
+    "sit-front-left",
+    "tree",
+    "tent",
+    "lantern",
+    "radio",
+    "sign",
+    "fence",
+    "shade",
+    "crate",
+    "trampoline",
+    "football",
+    "portal",
+    "game-booth",
+    "firewood",
+    "flowers",
+    "rock",
+    "bench-ne",
+    "bench-nw",
+    "amber",
+    "gold",
+    "blue",
+    "jade",
+    "violet",
+    "gun",
+    "snowball",
+    "bomb",
+    "impact",
+    "dust",
+    "heart",
+    "spark",
+    "grass",
+    "sand",
+    "stone"
+  ],
+  "scope": "full",
+  "referenceHash": "23905bf432639291af1220743855c76b374d9fc5a2edc63d04b2bf58b95fc5ad"
+}

@@ -1,4 +1,5 @@
 'use client';
+import { ActionButton as Button } from '@/seed-design/ui/action-button';
 import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -15,6 +16,6 @@ function Completion() {
       return () => window.clearTimeout(timer);
     }
   }, [notice]);
-  return <main className="discord-result"><h1>Discord 프로필 연결</h1><p role="status">{message}</p><p>원래 캠프장으로 돌아가 주세요.</p><button className="primary-button" onClick={() => window.close()}>이 창 닫기</button><Link href="/">캠프장으로 돌아가기</Link></main>;
+  return <main className="discord-result"><h1>Discord 프로필 연결</h1><p role="status">{message}</p><p>원래 캠프장으로 돌아가 주세요.</p><Button variant="neutralSolid" size="large" className="primary-button" onClick={() => window.close()}>이 창 닫기</Button><Link href="/">캠프장으로 돌아가기</Link></main>;
 }
 export default function DiscordComplete() { return <Suspense fallback={<p>Discord 연결 결과를 확인하고 있어요.</p>}><Completion /></Suspense>; }
