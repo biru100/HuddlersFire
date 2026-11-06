@@ -7,6 +7,7 @@ import {spawnPlayer,COLORS} from '../lib/camp-world.mjs';
 import {CAMP_SEATS} from '../lib/camp-seats.mjs';
 import {ROOT,inside,hash,readJSON,writeJSON} from '../../tools/lib/sprite-spec.mjs';
 import {loadPixelJob,pixelFingerprint} from '../../tools/lib/pixel-assets.mjs';
+import {renderPixelBody} from './render-pixel-body.mjs';
 export async function renderPixelPreview(file){
  const job=loadPixelJob(file),dir=dirname(resolve(file)),built=readJSON(inside(dir,'build/preview.json')),manifest=readJSON(inside(dir,'build/manifest.json'));
  if(built.fingerprint!==pixelFingerprint(job))throw Error('Rebuild stale pixel preview first');
@@ -22,5 +23,5 @@ export async function renderPixelPreview(file){
   const renderer=new CampRenderer(canvas,()=>({players,self:p.id,mapId:'camp',followSelf:true,now:1000,pixelMode:id==='canvas-before'?'off':'candidates'}),{assets});
   renderer.draw(1000);const path='screens/'+id+'.png',bytes=canvas.toBuffer('image/png');writeFileSync(inside(dir,path),bytes);cases.push({id,file:path,kind:'canvas',width:1050,height:824,sha256:hash(bytes),mode:renderer.pixelMode});renderer.destroy();
  }
- writeJSON(inside(dir,'evidence.json'),{fingerprint:built.fingerprint,manifestHash:built.manifestHash,cases});return cases;
+ cases.push(...renderPixelBody({dir,assets}));writeJSON(inside(dir,'evidence.json'),{fingerprint:built.fingerprint,manifestHash:built.manifestHash,cases});return cases;
 }

@@ -2507,6 +2507,109 @@
         "method": "source-sheet visual inspection plus file/alpha/size audit",
         "composite": "unreviewed"
       }
+    },
+    {
+      "id": "characters.body_nw_idle_v1",
+      "file": "art/sprites/pixel-quarterview/derived/body-nw-idle-v1/body-nw-idle.png",
+      "source": "art/sprites/pixel-quarterview/incoming/body-nw-idle-v1/source.png",
+      "crop": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "size": [
+        64,
+        96
+      ],
+      "kind": "avatar",
+      "slot": "base",
+      "status": "needs_anchor",
+      "reason": "NW idle 1컷의 64×96/이진 알파/6색 및 발·머리 측정 검수 완료. 기본 야간 피부 노출 부족과 의상·다른 방향/동작이 미해결이므로 생산 승인 보류.",
+      "projection": "candidate-NW-back-left",
+      "grid": "verified-native-1px",
+      "direction": "NW",
+      "frames": 1,
+      "ground": [
+        32,
+        88
+      ],
+      "displaySize": [
+        64,
+        96
+      ],
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": "body-pilot-6",
+      "paletteRgb": [
+        "#402115",
+        "#512e1f",
+        "#c37f55",
+        "#fdc38c",
+        "#fec48d",
+        "#fbcc99"
+      ],
+      "normalization": {
+        "recipe": "art/sprites/pixel-quarterview/incoming/body-nw-idle-v1/normalization.json",
+        "sourceSha256": "8931d47d6b8297c4cf74af0d5d44e559dad4bb7cf36a005d822f1e0ae1ed7673",
+        "pinnedCommit": "4f5ccd55c7cf06685a41f954acc1e476b7772ece",
+        "report": "art/sprites/pixel-quarterview/derived/body-nw-idle-v1/normalization-report.json"
+      },
+      "variants": {
+        "NW": {
+          "idle": {
+            "canvas": [
+              64,
+              96
+            ],
+            "pixelGrid": 1,
+            "paletteId": "body-pilot-6",
+            "frames": [
+              {
+                "layers": [
+                  {
+                    "name": "base",
+                    "rect": [
+                      0,
+                      0,
+                      64,
+                      96
+                    ]
+                  }
+                ]
+              }
+            ],
+            "durations": [
+              1000
+            ],
+            "frameAnchors": [
+              {
+                "feet": [
+                  32,
+                  88
+                ],
+                "head": [
+                  32,
+                  28
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "pilot": {
+        "type": "avatar",
+        "match": {
+          "direction": "NW",
+          "state": "idle"
+        }
+      },
+      "review": {
+        "method": "Deterministic normalization plus single-pose actual CampRenderer composite",
+        "composite": "observed; unresolved night exposure, missing directions and outfits"
+      }
     }
   ]
 }

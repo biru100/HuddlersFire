@@ -2,9 +2,21 @@
 
 ## INT-24 픽셀 리소스의 재사용 경로
 
+### 단일 신체 컷 정규화 검수 (2026-11-07)
+
+사용자가 승인한 검수 작업은 원본 1024×1536에서 정확한 1/16 nearest 샘플, alpha 128 기준 이진화, 발 접점을 위한 아래 1px 이동, 결정적 6색 팔레트 초안이다. 원본을 픽셀 격자 정합 원화로 간주하지 않고 raw/binary/palette 파생본을 비교한다. `incoming/body-nw-idle-v1/source.png`를 덮어쓰지 않는다. 새로운 생성 모델은 호출하지 않았다. 이 정규화는 사용자가 요청한 코드 기반 처리이며 일러스트를 자동 픽셀 변환해 완성했다고 판단하는 절차가 아니다.
+
+```powershell
+node tools/rebuild-sprites.mjs --normalize art/sprites/pixel-quarterview/incoming/body-nw-idle-v1/normalization.json
+```
+
+`tools/lib/pixel-normalize.mjs`가 변환 내역/원본·도구·결과 SHA를 기록한다. recipe는 파싱한 JSON, normalizer 소스는 LF 줄바꿈으로 해시하여 Git의 CRLF 변환으로 증거가 무효화되지 않게 한다. 고정 sprite-gen의 기존 smooth resize는 nearest 축소에 사용하지 않는다. 정규화 후 `slice-sheet`를 **배율 1**의 기하 검사에 사용하고 RGBA가 한 픽셀도 바뀌지 않았음을 확인한다. 원본/명세가 달라지면 새 recipe ID를 사용한다. 이 파생본을 catalog에 등록한 뒤 기존 `--pixel` prepare/build/render 경로를 사용한다.
+
+현재 catalog는 기존 패키지 69개와 NW idle 파생본 1개다(사용 가능 0/보정 24/재생성 40/참고 6). 새 컷의 발은 (32,88), 머리는 **(32,28)**로 측정했으며 전역 제안 (32,18)을 강제로 적용하지 않는다. NW idle의 레이어 계약은 기록했지만 다른 방향/걷기/착석/감정표현은 생성하지 않았다. 재생성·반전·런타임 사용자 교체 없이 test-only actor로 실제 `CampRenderer`의 크기/가림/그림자/기존 벤치 주변을 비교한다. 기본 야간에서 피부 노출이 부족해 생산 승인은 보류다. 기존 공개 버전 40의 캐릭터·사진·온라인 상태는 유지한다.
+
 신규 제작 규격은 `scene-spec.json.pixelQuarterview`, 파일별 판정은 `art/sprites/pixel-quarterview/catalog.json` 하나에서 관리한다. 아래 일러스트 경로는 기존 공개 자산 재현용이다. 패키지 START_HERE와 ART_DIRECTION/HARNESS_IMPLEMENTATION/CUSTOMIZATION_SPEC/ASSET_ISSUES/QA_CHECKLIST를 읽고 이 경로에 통합했다. 패키지 manifest는 출처이며 별도 활성 하네스로 관리하지 않는다.
 
-원본 3장·후보 69개는 `art/sprites/pixel-quarterview/incoming/v0.1/assets/`에 보존한다. `provenance.json`은 원본/ZIP SHA를 기록한다. 네 등급은 `usable_as_is/needs_anchor/needs_redraw/reference_only`이며 현재 0/23/40/6이다. 파일 검사를 통과해도 미승인 에셋을 프로덕션에 넣지 않는다.
+원본 3장·후보 69개는 `art/sprites/pixel-quarterview/incoming/v0.1/assets/`에 보존한다. `provenance.json`은 원본/ZIP SHA를 기록한다. 네 등급은 `usable_as_is/needs_anchor/needs_redraw/reference_only`이며 초기 패키지 69개만의 분류는 0/23/40/6이다. 파일 검사를 통과해도 미승인 에셋을 프로덕션에 넣지 않는다.
 
 ```powershell
 # 프로젝트 루트. 항상 새 job 이름을 사용한다.
@@ -46,7 +58,7 @@ node tools/prepare-sprite-job.mjs --pixel --catalog art/sprites/pixel-quartervie
 
 ### 승인·회귀·온라인 게이트
 
-기존 `review-sprite-job.mjs --job <job.json> --review <review.json>`가 픽셀 job도 검사한다. 모든 필수 Canvas/UI 증거의 해시·관찰, 미해결 0개, 시험 에셋의 사용 가능 판정이 필요하다. 현재 자료는 결함이 있어 생산 승인을 통과할 수 없다. 설치/전체 확장 완료를 주장하지 않는다. 신규 slicing/atlas는 고정 sprite-gen을 무손실/nearest 설정으로 검증한 뒤 기존 경로에 확장한다. 현재 분기는 제공 컷아웃의 검사·바이트 복사이며 새로운 추출/재패킹이 아니다.
+기존 `review-sprite-job.mjs --job <job.json> --review <review.json>`가 픽셀 job도 검사한다. 모든 필수 Canvas/UI 증거의 해시·관찰, 미해결 0개, 시험 에셋의 사용 가능 판정이 필요하다. 현재 자료는 결함이 있어 생산 승인을 통과할 수 없다. 설치/전체 확장 완료를 주장하지 않는다. 신규 slicing/atlas는 고정 sprite-gen을 무손실/nearest 설정으로 검증한 뒤 기존 경로에 확장한다. v0.1 후보는 검사·바이트 복사로 다루며, 위 단일 컷 정규화는 원본과 분리된 명시적 파생본 제작이다.
 
 `web/`의 기존 `test`, `test:sprites:pipeline`, `test:render`, `typecheck`, `build`를 사용한다. `test:browser:pixel`은 loopback QA 서버를 대상으로 headless 두 브라우저의 초안 복원·Discord 표시·실제 RTC·이동/착석·포탈·채팅/상태·라디오·확대/DPR·Canvas 폴백을 검사한다. OAuth/YouTube는 fixture다. 실행하지 못했거나 실패한 검사는 검증 기록에서 분리한다.
 

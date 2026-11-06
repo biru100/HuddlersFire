@@ -1,0 +1,2 @@
+body-nw-idle.png cell0 -> frame0.png main_h 76 -> 76 comps 1
+body-nw-idle.png: scale sheet, fit contain factor 1.0000 (target_height, frame0); report slice-sheet.json

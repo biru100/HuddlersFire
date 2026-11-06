@@ -4,7 +4,9 @@ import {spawnSync} from 'node:child_process';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)),run='art/sprites/runs/rebuild-'+Date.now();
-if(!process.argv.includes('--job')&&!process.argv.includes('--legacy')){
+if(process.argv.includes('--normalize')){
+  const file=process.argv[process.argv.indexOf('--normalize')+1];if(!file)throw Error('--normalize requires a recipe');console.log(JSON.stringify(await (await import('./lib/pixel-normalize.mjs')).normalizePixelAsset(resolve(file)),null,2));
+}else if(!process.argv.includes('--job')&&!process.argv.includes('--legacy')){
   const result=spawnSync(process.execPath,['tools/rebuild-field.mjs'],{cwd:root,stdio:'inherit',windowsHide:true});if(result.status!==0)throw Error('Reviewed field replay failed');
 }else if(process.argv.includes('--job')){
   const file=process.argv[process.argv.indexOf('--job')+1];

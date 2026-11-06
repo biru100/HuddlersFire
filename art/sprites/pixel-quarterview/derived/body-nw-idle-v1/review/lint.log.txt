@@ -1,0 +1,18 @@
+
+> huddlers-fire@0.1.0 lint
+> eslint . --ignore-pattern dist --ignore-pattern .next
+
+
+C:\Users\user\Desktop\HuddlersFire\web\lib\camp-camera.mjs
+  25:89  warning  'focused' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Desktop\HuddlersFire\web\lib\camp-canvas-renderer.mjs
+  9:188  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\user\Desktop\HuddlersFire\web\lib\camp-renderer.mjs
+  130:43  warning  's' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Desktop\HuddlersFire\web\lib\camp-world.mjs
+  9:46  warning  'COLORS' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 4 problems (0 errors, 4 warnings)

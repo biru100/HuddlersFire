@@ -1,0 +1,65 @@
+[
+  {
+    "id": "canvas-before",
+    "file": "screens/canvas-before.png",
+    "kind": "canvas",
+    "width": 1050,
+    "height": 824,
+    "sha256": "b316da0188239a0524d99291423a212457a4141a351620aadc69f956d3a4f5b8",
+    "mode": "off"
+  },
+  {
+    "id": "canvas-candidates",
+    "file": "screens/canvas-candidates.png",
+    "kind": "canvas",
+    "width": 1050,
+    "height": 824,
+    "sha256": "2e073fcff17ca02e84a1472085ecbe3e2eedecec540660bc65498502d0c69aa7",
+    "mode": "candidates"
+  },
+  {
+    "id": "canvas-seated",
+    "file": "screens/canvas-seated.png",
+    "kind": "canvas",
+    "width": 1050,
+    "height": 824,
+    "sha256": "63e4ba280c8ca367c91a079420e7522d629c12471d53256879fe93558a53149b",
+    "mode": "candidates"
+  },
+  {
+    "id": "canvas-occlusion",
+    "file": "screens/canvas-occlusion.png",
+    "kind": "canvas",
+    "width": 1050,
+    "height": 824,
+    "sha256": "20d9aae097a4287aa85b688c718ad3479f1dd6291c97cd45ba4d4a00b7ce2dd8",
+    "mode": "candidates"
+  },
+  {
+    "id": "canvas-body-field",
+    "file": "screens/canvas-body-field.png",
+    "kind": "canvas",
+    "width": 1050,
+    "height": 824,
+    "sha256": "26bfbddaca954f0838d34ce14ac7443b7b48a8d0543a654b5a79ec2e413badc7",
+    "scope": "Static NW idle candidate; legacy sitting/identity unchanged"
+  },
+  {
+    "id": "canvas-body-tree",
+    "file": "screens/canvas-body-tree.png",
+    "kind": "canvas",
+    "width": 1050,
+    "height": 824,
+    "sha256": "77944625fc812cb6b991d5d50a6cc5363f69357631615175808c21284296b8d7",
+    "scope": "Static NW idle candidate; legacy sitting/identity unchanged"
+  },
+  {
+    "id": "canvas-body-seats",
+    "file": "screens/canvas-body-seats.png",
+    "kind": "canvas",
+    "width": 1050,
+    "height": 824,
+    "sha256": "3825ee21e19da0fc6a77ab59c0b501e87a0f71ce41ae67fa4c251202ef6cf8b8",
+    "scope": "Static NW idle candidate; legacy sitting/identity unchanged"
+  }
+]

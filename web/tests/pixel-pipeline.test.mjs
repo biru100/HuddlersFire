@@ -4,11 +4,12 @@ import {createCanvas} from '@napi-rs/canvas';
 import {mkdtempSync,mkdirSync,writeFileSync,rmSync,readFileSync} from 'node:fs';
 import {resolve,join,sep} from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {ROOT,readJSON,writeJSON} from '../../tools/lib/sprite-spec.mjs';
-import {validatePixelCatalog,preparePixelJob,loadPixelJob,buildPixelJob,verifyPixelReview} from '../../tools/lib/pixel-assets.mjs';
+import {ROOT,readJSON,writeJSON,hash} from '../../tools/lib/sprite-spec.mjs';
+import {validatePixelCatalog,preparePixelJob,loadPixelJob,buildPixelJob,verifyPixelReview,pixelAssetRequest,verifyNormalizedEntry} from '../../tools/lib/pixel-assets.mjs';
 import {inspectAvatarCombination,readAvatarDraft,saveAvatarDraft,PIXEL_DIRECTIONS} from '../lib/camp-avatar-assembly.mjs';
 import {pixelPropDisplay,snapPixelOrigin} from '../lib/camp-pixel.mjs';
 import {createSpriteContext} from '../lib/camp-sprite-assets.mjs';
+import {nearestFrame,draftPalette,normalizePixelAsset} from '../../tools/lib/pixel-normalize.mjs';
 const catalog=readJSON(resolve(ROOT,'art/sprites/pixel-quarterview/catalog.json')),spec=readJSON(resolve(ROOT,'art/sprites/scene-spec.json')).pixelQuarterview;
 test('pixel preview honors a larger explicit cache so before/after captures contain all legacy assets',async()=>{
  const files=Object.fromEntries(Array.from({length:80},(_,i)=>['sheet-'+i,{url:String(i)}])),assets=createSpriteContext({files,preview:{pixelQuarterview:true}},{cacheLimit:128,loader:async()=>({width:2,height:2})});
@@ -18,8 +19,26 @@ test('pixel world directions project onto the actual NW NE SW SE axes',async()=>
  const {projectWorld}=await import('../lib/camp-scene-frame.mjs');assert.deepEqual(Object.fromEntries(Object.entries(PIXEL_DIRECTIONS).map(([d,[x,y]])=>[d,projectWorld(x,y)])),{NW:[-40,-20],NE:[40,-20],SW:[-40,20],SE:[40,20]});
 });
 test('all imported candidates remain unapproved; false approval and traversal are rejected',()=>{
- assert.equal(validatePixelCatalog(catalog).assets.length,69);assert.equal(catalog.assets.filter(a=>a.status==='usable_as_is').length,0);
+ assert.equal(validatePixelCatalog(catalog).assets.filter(a=>a.file.includes('/incoming/v0.1/')).length,69);assert.equal(catalog.assets.filter(a=>a.status==='usable_as_is').length,0);
  const c=structuredClone(catalog);c.assets[0].status='usable_as_is';assert.throws(()=>validatePixelCatalog(c),/Approval/);c.assets[0].status='needs_redraw';c.assets[0].file='../outside.png';assert.throws(()=>validatePixelCatalog(c),/outside/);
+});
+test('single-frame normalization uses exact nearest samples, binary alpha and declared RGB only',()=>{
+ const pixels=new Uint8ClampedArray(8*8*4);for(let y=0;y<8;y++)for(let x=0;x<8;x++)pixels.set([x*30,y*30,20,x===3?127:254],(y*8+x)*4);
+ const recipe={canvas:[4,4],alphaThreshold:128,translate:[0,0]},before=Buffer.from(pixels),raw=nearestFrame(pixels,8,8,recipe),palette=[[0,0,0],[255,255,255]],normalized=nearestFrame(pixels,8,8,{...recipe,palette});
+ assert.deepEqual(Buffer.from(pixels),before);assert.deepEqual([...raw.raw.slice(0,4)],[30,30,20,254]);
+ for(let i=0;i<normalized.output.length;i+=4){assert.ok([0,255].includes(normalized.output[i+3]));if(normalized.output[i+3])assert.ok(palette.some(p=>p.every((n,j)=>n===normalized.output[i+j])));else assert.deepEqual([...normalized.output.slice(i,i+4)],[0,0,0,0]);}
+ assert.deepEqual(draftPalette(raw.output),draftPalette(raw.output));assert.throws(()=>nearestFrame(pixels,8,8,{...recipe,canvas:[3,4]}),/uniform/);assert.throws(()=>nearestFrame(pixels,8,8,{...recipe,translate:[0,10]}),/clip/);
+});
+test('registered NW idle derivative is reproducible and remains blocked for every missing pose/direction',async()=>{
+ const entry=catalog.assets.find(a=>a.id==='characters.body_nw_idle_v1');assert.ok(entry);const before=Buffer.from(readFileSync(resolve(ROOT,entry.source))),runs=resolve(ROOT,'art/sprites/runs'),temporary=mkdtempSync(join(runs,'pixel-normalize-')),id=temporary.split(/[\\/]/).at(-1),output=resolve(ROOT,'art/sprites/pixel-quarterview/derived',id);
+ try{const recipe=readJSON(resolve(ROOT,entry.normalization.recipe));recipe.id=id;const file=join(temporary,'recipe.json');writeFileSync(file,JSON.stringify(recipe,null,4).replaceAll('\n','\r\n'));const result=await normalizePixelAsset(file);assert.equal(result.recipeSha256,hash(recipe));assert.equal(result.sourcePreserved,true);assert.deepEqual(readFileSync(resolve(ROOT,entry.source)),before);assert.equal(result.outputs['body-nw-idle.png'],readJSON(resolve(ROOT,entry.normalization.report)).outputs['body-nw-idle.png']);}
+ finally{for(const [base,p]of [[runs,temporary],[resolve(ROOT,'art/sprites/pixel-quarterview/derived'),output]]){assert.ok(p.startsWith(base+sep));rmSync(p,{recursive:true,force:true});}}
+ const draft={version:1,parts:{base:entry.id}};const current=inspectAvatarCombination(draft,catalog,'NW','idle',spec.avatar);assert.equal(current.ready,false);assert.ok(current.reasons.every(r=>r.endsWith(':not_approved')));assert.deepEqual(current.layers,[]);
+ for(const d of ['NE','SW','SE'])assert.ok(inspectAvatarCombination(draft,catalog,d,'idle',spec.avatar).reasons.some(r=>r.includes('missing_')));for(const state of ['walk','sit_bench','emote'])assert.ok(inspectAvatarCombination(draft,catalog,'NW',state,spec.avatar).reasons.some(r=>r.includes('missing_')));
+ const request=pixelAssetRequest({catalog,spec});assert.ok(request.includes(entry.file));assert.ok(request.includes('head=[32,28]'));assert.ok(request.includes('idle을 각각 한 장씩'));
+});
+test('normalization metadata cannot be reused with a different source receipt',()=>{
+ const entry=structuredClone(catalog.assets.find(a=>a.id==='characters.body_nw_idle_v1'));assert.equal(verifyNormalizedEntry(entry).productionApproved,false);entry.normalization.sourceSha256='0'.repeat(64);assert.throws(()=>verifyNormalizedEntry(entry),/mismatched normalization/);
 });
 test('provided hair and clothes cannot be assembled or mirrored into missing directions',()=>{
  const draft={version:1,parts:{base:'characters.base_stand_front_left',hair:'characters.hair_bob',top:'characters.top_hoodie'}};

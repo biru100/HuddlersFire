@@ -1,5 +1,17 @@
 # 구현 검증 기록
 
+## 2026-11-07 INT-24 후속 · NW idle 정규화
+
+사용자가 단일 신체의 64×96 검수본 제작을 승인했다. 원본을 `incoming/body-nw-idle-v1/source.png`로 바이트 보존하고 기존 `rebuild-sprites.mjs --normalize <recipe>` 분기에 결정적 처리와 고정 sprite-gen 배율 1 기하 검사를 통합했다. 생성 모델은 호출하지 않았으며 upstream/전역 설정을 고치지 않았다. 픽셀 파이프라인은 원본·recipe·normalizer·출력·보고서 해시를 함께 검사하고 오래된 조합을 거절한다.
+
+결과는 64×96, alpha 0/255, 불투명 1,815픽셀, 6색이다. 원본/최근접 raw/이진화/팔레트 결과와 4배 참조를 보존했다. 발 (32,88), 머리 (32,28)은 이 컷에서 측정한 초안이다. NW idle 이외의 variant를 만들거나 반전하지 않았다. catalog는 초기 69개 + 파생본 1개이며 등급은 사용 가능 0/보정 24/재생성 40/참고 6이다.
+
+실제 Canvas 합성 3개에서 크기·나무 앞뒤·기존 벤치 주변·빛/그림자를 검토했다. 후보는 `validPosition`을 통과한 곳에 서 있으며 기존 캐릭터만 벤치에 앉는다. 피부가 밤에 어두워 보이고 의상/다른 방향/동작이 없어 생산 승인은 보류했다. 새 컷의 WebGL/전체 UI·실시간 동작·새 커스터마이징 동기화는 미검증이다. 기존 사진/온라인/게임 런타임·정식 sprite manifest는 변경하지 않았다.
+
+검사: pipeline 회귀 32개, 전체 255개, typecheck/build/lint 통과(기존 경고 4개). 최근접 샘플·알파/팔레트·원본 보존·클리핑 거절·재현·오래된 정규화 증거 거절·누락 방향/포즈 차단을 검사했다. 고정 도구의 RGBA 동일성 검사도 통과했다. 런타임 변경이 없어 공개 버전 40의 그래픽을 교체하거나 재배포하지 않았다.
+
+근거: [검수 비교](../art/sprites/pixel-quarterview/derived/body-nw-idle-v1/comparison.png), [필드](../art/sprites/pixel-quarterview/derived/body-nw-idle-v1/review/screens/canvas-body-field.png), [나무](../art/sprites/pixel-quarterview/derived/body-nw-idle-v1/review/screens/canvas-body-tree.png), [벤치 주변](../art/sprites/pixel-quarterview/derived/body-nw-idle-v1/review/screens/canvas-body-seats.png), [관찰·한계](../art/sprites/pixel-quarterview/derived/body-nw-idle-v1/review/observations.md). 후속 요청서는 새 기준 컷을 참조하여 NE/SW/SE 정지 컷부터 받도록 갱신했다.
+
 ## 2026-11-07 INT-24 · 픽셀 쿼터뷰 제작 하네스 / 공개 버전 40
 
 **하네스 구현과 기존 기능 회귀는 완료, 전체 픽셀 그래픽/4방향 커스터마이징은 미완료**다. 패키지 START_HERE와 docs 명세를 기존 제작·장면·의도/구조 문서와 로컬 스킬에 통합했다. 전역 설정/모델/생성 도구는 변경·설치하지 않았다. 원본 3장·후보 69개는 incoming에 그대로 보존했고 정식 PNG·기존 manifest·물리/규약 v20·DB/로그인/사진/네트워크 필드는 변경하지 않았다.

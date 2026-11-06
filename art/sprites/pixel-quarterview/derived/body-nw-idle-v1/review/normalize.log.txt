@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "status": "candidate",
+  "recipe": "C:/Users/user/Desktop/HuddlersFire/art/sprites/pixel-quarterview/incoming/body-nw-idle-v1/normalization.json",
+  "recipeSha256": "c3f59579dd6f5dd52654c9c6b6d6ff7f0655077934c37a2596a7c0513f1a0a1c",
+  "sourceSha256": "8931d47d6b8297c4cf74af0d5d44e559dad4bb7cf36a005d822f1e0ae1ed7673",
+  "normalizerSha256": "321ed20cdaf58d72704825b18b3b34a28e051424d955b8c87f8856fb6ffdc8cd",
+  "textHashPolicy": "parsed recipe JSON; LF-normalized normalizer source",
+  "spriteGenCommit": "4f5ccd55c7cf06685a41f954acc1e476b7772ece",
+  "canvas": [
+    64,
+    96
+  ],
+  "anchors": {
+    "feet": [
+      32,
+      88
+    ],
+    "head": [
+      32,
+      28
+    ],
+    "seat": null
+  },
+  "paletteRgb": [
+    "#402115",
+    "#512e1f",
+    "#c37f55",
+    "#fdc38c",
+    "#fec48d",
+    "#fbcc99"
+  ],
+  "outputs": {
+    "nearest-raw.png": "03c972d885c1d641653ae1d143053f824af11ba0662b4a5153ec41a3f9bd79bc",
+    "nearest-binary.png": "685613d269c808245cef8ef2546064d5c7c4a0d924241fceac160c3424024eb7",
+    "body-nw-idle.png": "148f6b33d367a5f787002743e54a227519db90ef7241b15cb9052c549525d444",
+    "body-nw-idle-4x.png": "466c235c5a8c056a4c7f0fffc284317020a0d620e3aa1e5f38b8d225e222af67"
+  },
+  "sourcePreserved": true,
+  "productionApproved": false
+}

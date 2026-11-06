@@ -1,0 +1,53 @@
+{
+  "kind": "sprite-gen-slice-sheet",
+  "version": 1,
+  "sheet": "body-nw-idle.png",
+  "grid": [
+    1,
+    1
+  ],
+  "canvas": {
+    "w": 64,
+    "h": 96
+  },
+  "baseline_y": 88.0,
+  "target_height": 76.0,
+  "scale": "sheet",
+  "fit": "contain",
+  "factor": 1.0,
+  "factor_from": {
+    "rule": "target_height",
+    "cell": "frame0"
+  },
+  "alpha_cleanup": null,
+  "cells": [
+    {
+      "name": "frame0",
+      "file": "frame0.png",
+      "factor": 1.0,
+      "factor_from": "target_height",
+      "subject": {
+        "sheet": {
+          "w": 33,
+          "h": 76
+        },
+        "canvas": {
+          "w": 33,
+          "h": 76
+        }
+      },
+      "box": {
+        "x": 16,
+        "y": 12,
+        "w": 33,
+        "h": 76
+      },
+      "anchor": [
+        32.5,
+        88.0
+      ],
+      "clipped_px": 0,
+      "parts": 1
+    }
+  ]
+}

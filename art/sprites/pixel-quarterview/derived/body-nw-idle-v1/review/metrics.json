@@ -1,0 +1,117 @@
+{
+  "source": {
+    "sha256": "8931d47d6b8297c4cf74af0d5d44e559dad4bb7cf36a005d822f1e0ae1ed7673",
+    "bytes": 635809,
+    "size": [
+      1024,
+      1536
+    ],
+    "alpha": {
+      "opaque": 0,
+      "transparent": 1096096,
+      "soft": 476768
+    },
+    "bounds": [
+      89,
+      25,
+      905,
+      1471
+    ],
+    "visibleColors": 10260,
+    "paletteMismatches": null,
+    "edgePixels": 4332,
+    "redFringe": 0
+  },
+  "raw": {
+    "sha256": "03c972d885c1d641653ae1d143053f824af11ba0662b4a5153ec41a3f9bd79bc",
+    "bytes": 4083,
+    "size": [
+      64,
+      96
+    ],
+    "alpha": {
+      "opaque": 0,
+      "transparent": 4284,
+      "soft": 1860
+    },
+    "bounds": [
+      16,
+      11,
+      33,
+      76
+    ],
+    "visibleColors": 347,
+    "paletteMismatches": null,
+    "edgePixels": 222,
+    "redFringe": 0
+  },
+  "binary": {
+    "sha256": "685613d269c808245cef8ef2546064d5c7c4a0d924241fceac160c3424024eb7",
+    "bytes": 3759,
+    "size": [
+      64,
+      96
+    ],
+    "alpha": {
+      "opaque": 1815,
+      "transparent": 4329,
+      "soft": 0
+    },
+    "bounds": [
+      16,
+      12,
+      33,
+      76
+    ],
+    "visibleColors": 333,
+    "paletteMismatches": null,
+    "edgePixels": 222,
+    "redFringe": 0
+  },
+  "palette": {
+    "sha256": "148f6b33d367a5f787002743e54a227519db90ef7241b15cb9052c549525d444",
+    "bytes": 1556,
+    "size": [
+      64,
+      96
+    ],
+    "alpha": {
+      "opaque": 1815,
+      "transparent": 4329,
+      "soft": 0
+    },
+    "bounds": [
+      16,
+      12,
+      33,
+      76
+    ],
+    "visibleColors": 6,
+    "paletteMismatches": null,
+    "edgePixels": 222,
+    "redFringe": 0
+  },
+  "enlarged": {
+    "sha256": "466c235c5a8c056a4c7f0fffc284317020a0d620e3aa1e5f38b8d225e222af67",
+    "bytes": 3006,
+    "size": [
+      256,
+      384
+    ],
+    "alpha": {
+      "opaque": 29040,
+      "transparent": 69264,
+      "soft": 0
+    },
+    "bounds": [
+      64,
+      48,
+      132,
+      304
+    ],
+    "visibleColors": 6,
+    "paletteMismatches": null,
+    "edgePixels": 1080,
+    "redFringe": 0
+  }
+}

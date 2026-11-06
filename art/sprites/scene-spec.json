@@ -1454,7 +1454,20 @@
             150
           ]
         }
-      }
+      },
+      "pilotReference": "art/sprites/pixel-quarterview/derived/body-nw-idle-v1/body-nw-idle.png",
+      "pilotAnchors": {
+        "feet": [
+          32,
+          88
+        ],
+        "head": [
+          32,
+          28
+        ],
+        "seat": null
+      },
+      "pilotStatus": "NW idle diagnostic only; proposed global head [32,18] is not a measured value"
     },
     "layerOrder": [
       "back_hair",
@@ -1486,7 +1499,10 @@
       "ui-zoom-125-dpr1",
       "ui-zoom-150-dpr1",
       "ui-zoom-100-dpr2",
-      "ui-canvas-fallback"
+      "ui-canvas-fallback",
+      "canvas-body-field",
+      "canvas-body-tree",
+      "canvas-body-seats"
     ]
   }
 }
