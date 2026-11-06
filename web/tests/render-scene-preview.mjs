@@ -1,17 +1,20 @@
 // Production Canvas renderer with a separate authoring registry. No personal UI.
-import {createCanvas,loadImage,Image} from '@napi-rs/canvas';
 import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {CampRenderer} from '../lib/camp-renderer.mjs';
-import {createSpriteContext,setSpriteCanvasFactory} from '../lib/camp-sprite-assets.mjs';
-import {spawnPlayer,COLORS} from '../lib/camp-world.mjs';
-import {CAMP_SEATS} from '../lib/camp-seats.mjs';
-import {EXHIBITED_GAMES,exhibitCover} from '../lib/camp-games.mjs';
-import {avatarFixtures} from './character-fixtures.mjs';
 import {loadJob,readJSON,writeJSON,hash,inside,ROOT,runtimeHash,reviewCases} from '../../tools/lib/sprite-spec.mjs';
 export async function renderPreview(jobFile){
-  if(readJSON(jobFile).kind==='pixel-quarterview')return (await import('./render-pixel-preview.mjs')).renderPixelPreview(jobFile);
+  const kind=readJSON(jobFile).kind;
+  if(kind==='art-direction')return (await import('../../tools/lib/art-direction.mjs')).renderArtReview(jobFile);
+  if(kind==='pixel-quarterview')return (await import('./render-pixel-preview.mjs')).renderPixelPreview(jobFile);
+  // The external-art review page needs no game renderer or native Canvas dependency.
+  const {createCanvas,loadImage,Image}=await import('@napi-rs/canvas');
+  const {CampRenderer}=await import('../lib/camp-renderer.mjs');
+  const {createSpriteContext,setSpriteCanvasFactory}=await import('../lib/camp-sprite-assets.mjs');
+  const {spawnPlayer,COLORS}=await import('../lib/camp-world.mjs');
+  const {CAMP_SEATS}=await import('../lib/camp-seats.mjs');
+  const {EXHIBITED_GAMES,exhibitCover}=await import('../lib/camp-games.mjs');
+  const {avatarFixtures}=await import('./character-fixtures.mjs');
   const dir=dirname(resolve(jobFile)),job=loadJob(jobFile),built=readJSON(inside(dir,'build/preview.json')),manifest=readJSON(inside(dir,'build/manifest.json'));
   const assets=createSpriteContext(manifest,{cacheLimit:64,loader:url=>loadImage(url.startsWith('/__sprite-preview/files/')?inside(dir,'build/'+url.split('/').at(-1)):resolve(ROOT,'web/public'+url))});
   await assets.preloadSprites(Object.keys(manifest.files));setSpriteCanvasFactory(createCanvas);
@@ -32,4 +35,4 @@ export async function renderPreview(jobFile){
   const previous=existsSync(inside(dir,'evidence.json'))?readJSON(inside(dir,'evidence.json')):null;
   writeJSON(inside(dir,'evidence.json'),{fingerprint:built.fingerprint,runtimeHash:runtimeHash(),manifestHash:built.manifestHash,selected:job.selected,legacyAssets:manifest.preview.legacyAssets,ungraded:true,cases:[...cases,...(previous?.fingerprint===built.fingerprint&&previous?.manifestHash===built.manifestHash&&previous?.runtimeHash===runtimeHash()?previous.cases.filter(c=>c.kind==='ui'):[])]});return cases;
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){const job=process.argv[process.argv.indexOf('--job')+1];if(!process.argv.includes('--job'))throw Error('--job required');console.log(JSON.stringify(await renderPreview(job),null,2));}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){const job=process.argv[process.argv.indexOf('--job')+1];if(!process.argv.includes('--job')||!job||job.startsWith('--'))throw Error('--job required');console.log(JSON.stringify(await renderPreview(job),null,2));}

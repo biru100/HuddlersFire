@@ -1,0 +1,4 @@
+interface:
+  display_name: "캠프 미술 방향"
+  short_description: "ChatGPT 원화 제작과 미술 승인, 네이티브 납품을 분리"
+  default_prompt: "Use $camp-art-direction to review HuddlersFire artwork and prepare one external ChatGPT art request without substituting local image generation."

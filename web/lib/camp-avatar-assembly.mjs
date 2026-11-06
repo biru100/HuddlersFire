@@ -19,8 +19,10 @@ export function inspectAvatarCombination(draft,catalog,direction,state,contract)
   if(!Object.hasOwn(PIXEL_DIRECTIONS,direction)||!PIXEL_STATES.includes(state))return {ready:false,reasons:['unknown_direction_or_state'],layers:[]};
   const normalized=normalizeAvatarDraft(draft,catalog);
   if(!normalized.parts.base)reasons.push('missing_base');
+  const stateContract=contract?.states?.[state];
+  // A missing contract is a blocked draft, not a TypeError partway through assembly.
+  if(!stateContract||!Number.isInteger(stateContract.frames)||stateContract.frames<1||!Array.isArray(stateContract.durations)||stateContract.durations.length!==stateContract.frames||stateContract.durations.some(n=>!Number.isFinite(n)||n<=0))return {ready:false,reasons:[...reasons,'missing_approved_frame_contract'],layers:[],profilePhotoMode:'preserve'};
   let baseline;
-  if(!contract?.states?.[state])reasons.push('missing_approved_frame_contract');
   for(const slot of AVATAR_SLOTS){
     const id=normalized.parts[slot];if(!id)continue;
     const entry=catalog.assets.find(a=>a.id===id),variant=entry.variants?.[direction]?.[state];
@@ -28,10 +30,11 @@ export function inspectAvatarCombination(draft,catalog,direction,state,contract)
     if(!variant){reasons.push(id+':missing_'+direction+'_'+state);continue;}
     const validPoint=(point,canvas)=>Array.isArray(point)&&point.length===2&&point.every((n,i)=>Number.isInteger(n)&&n>=0&&n<canvas[i]);
     if(!Array.isArray(variant.canvas)||variant.canvas.length!==2||variant.canvas.some(n=>!Number.isInteger(n)||n<=0)||!variant.frames?.length||variant.frames.length!==(variant.durations?.length||0)||variant.durations.some(n=>!Number.isFinite(n)||n<=0)||!variant.frameAnchors||variant.frameAnchors.length!==variant.frames.length||variant.frameAnchors.some(a=>!validPoint(a.feet,variant.canvas)||!validPoint(a.head,variant.canvas)||(state==='sit_bench'&&!validPoint(a.seat,variant.canvas)))||variant.pixelGrid!==1){reasons.push(id+':invalid_frame_contract');continue;}
+    if(contract.canvas&&!equal(variant.canvas,contract.canvas))reasons.push(id+':outside_declared_canvas');
     const validRect=rect=>Array.isArray(rect)&&rect.length===4&&rect.every(Number.isInteger)&&rect[0]>=0&&rect[1]>=0&&rect[2]===variant.canvas[0]&&rect[3]===variant.canvas[1]&&rect[0]+rect[2]<=entry.size[0]&&rect[1]+rect[3]<=entry.size[1];
     if(variant.frames.some(frame=>!frame.layers?.length||new Set(frame.layers.map(l=>l.name)).size!==frame.layers.length||frame.layers.some(l=>!slotLayers[slot].includes(l.name)||!validRect(l.rect)))){reasons.push(id+':invalid_frame_layers_or_crop');continue;}
     if(!entry.paletteId||variant.paletteId!==entry.paletteId)reasons.push(id+':missing_palette_contract');
-    if(contract&&(variant.frames.length!==contract.states[state].frames||!equal(variant.durations,contract.states[state].durations)))reasons.push(id+':incorrect_frame_count_or_timing');
+    if(variant.frames.length!==stateContract.frames||!equal(variant.durations,stateContract.durations))reasons.push(id+':incorrect_frame_count_or_timing');
     const signature={canvas:variant.canvas,durations:variant.durations,frameAnchors:variant.frameAnchors,pixelGrid:variant.pixelGrid};
     if(slot==='base')baseline=signature;
     else if(!baseline||!equal(signature,baseline))reasons.push(id+':incompatible_canvas_timing_or_anchors');

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "id": "pixel-art-quality-reset-20261107",
+  "generation": {
+    "surface": "chatgpt",
+    "requestedModel": "gpt-image-2.6",
+    "modelEvidence": "user-reported; verify each delivered file, not the product name",
+    "codexRole": "brief-intake-assembly-validation",
+    "allowSilentFallback": false,
+    "allowPaidApi": false
+  },
+  "defaultStage": "lookdev",
+  "approvedBaseline": null,
+  "maxConceptRoundsBeforeReassessment": 3,
+  "criteria": ["silhouette", "direction", "pixel-language", "palette", "character-appeal", "scene-fit"],
+  "preserve": ["projection", "pan-and-zoom", "photos-and-identity", "multiplayer", "chat", "radio", "playground", "showroom"],
+  "forbiddenOperations": ["resize", "quantize", "dither", "mirror", "alpha-threshold", "procedural-redraw", "invent-missing-frames"],
+  "notes": [
+    "No previous sheet, native redraw or technical PASS is an approved art baseline.",
+    "Read geometry and proposed native canvas/anchors from scene-spec.json.pixelQuarterview only.",
+    "A large concept PNG can be reviewed as lookdev, never relabelled as a native sprite.",
+    "Aesthetic approval is an explicit user decision tied to exact bytes. It is not production approval.",
+    "If native output is unavailable, report blocked_native_delivery. Do not substitute code-drawn art or endless retries."
+  ]
+}

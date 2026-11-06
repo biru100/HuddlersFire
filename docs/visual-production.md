@@ -1,0 +1,113 @@
+# HuddlersFire 시각 제작: 좋은 기준 한 컷부터
+
+2026-11-07 활성 제작 경로. 이번 개편은 원화 생성 경로와 검수 흐름의 변경이지 전체 게임 그림의 교체나 배포가 아니다. [감사 기록](reviews/2026-11-07-art-pipeline-audit.md)을 함께 본다.
+
+## 현재 결정과 아직 미정인 것
+
+유지: 고정 픽셀 쿼터뷰, 기존 팬/줌, 동석·작업·놀이·전시, 개인 사진과 온라인 기능. 기존 공개 원화는 롤백 경로다.
+
+변경: 좋은 미술 기준을 확보하기 전에 기본 신체·48프레임·다양한 옷을 대량 생산하지 않는다. **착의 캐릭터의 매력 확인 → NW 신체 한 컷 → 소수 레이어 → 실제 캠프 한 구역 → 나머지 방향과 동작**으로 진행한다. 착의 시안은 기본 신체를 추출/잘라내는 재료가 아니라 비율과 디자인의 기준이다. 가려진 신체를 복원했다고 주장하지 않는다.
+
+미정: 승인된 픽셀 기준작, 공통 앵커/격자의 미술 승인, 실제 주야간 가독성. `64×96`, 발/머리 위치는 `scene-spec.json.pixelQuarterview.avatar`에 있는 제작 목표다. 규격을 임의 완화하거나 이전 (32,18) 머리 제안을 되살리지 않는다. 현재 제안은 머리 (32,28)이다.
+
+## 책임과 한 곳에서 관리할 값
+
+| 책임 | 담당 / 기준 |
+| --- | --- |
+| 원화와 반복 편집 | 사용자 지정 ChatGPT 제작 경로. 요청 모델은 `art/sprites/art-direction.json` |
+| 생성 모델 검증 | 요청 모델과 실제 도구 응답의 모델을 분리. 관찰 불가면 null/unverified |
+| 요청서·파일 보존·정합성·조립·테스트 | Codex와 저장소 도구. 무단 모델 대체·유료 API 호출 금지 |
+| 투영·캔버스·상태 프레임·앵커 제안 | 기존 `art/sprites/scene-spec.json.pixelQuarterview`만 사용 |
+| 파일 출처·기술 조사 | 작업별 submission.json, build/art-intake.json |
+| 미술 선택 | 실제 사용자 결정과 정확한 원본 SHA256. 에이전트가 승인 문구를 만들지 않음 |
+| 게임 내 동작·조명·가림 | 기존 pixel catalog와 실제 renderer/UI evidence |
+
+OpenAI 제품 발표의 모델 제공 범위와 특정 Codex 환경에서 실제 호출된 모델은 별개다. 요청 경로는 사용자 지정에 따르되, “2.6이면 무조건 더 좋은 도트/정확한 64×96”이라고 보증하지 않는다. 전역 스킬이나 개인 Codex 설정은 바꾸지 않는다.
+
+## 미술 판단 기준
+
+수치 점수나 PNG 형식은 취향을 판정하지 않는다. 아래 여섯 항목에는 실제 그림을 보고 구체적인 관찰을 쓴다.
+
+- **silhouette:** 머리만 커지고 몸이 실처럼 얇아지지 않는가. 손·발·상의 형태가 작은 표시에서도 구분되는가.
+- **direction:** NW는 등과 뒤통수가 보이는 왼쪽 위 뒷사선인가. 귀 하나나 이름표만으로 방향을 선언하지 않는가.
+- **pixel-language:** 외곽의 계단과 색면이 의도적인가. 잔점, 서로 다른 픽셀 크기, 가짜 도트/흐린 테두리가 없는가.
+- **palette:** 따뜻한 피부와 옷·숲 사이 명도 관계가 좋은가. 억지 색 수 제한 대신 필요한 명암을 사용했는가.
+- **character-appeal:** 가만히 있어도 입히고 싶은 옷과 기억할 실루엣이 있는가. 기존 기각본보다 무엇이 나아졌는가.
+- **scene-fit:** lookdev에서는 캠프에 어울리는 디자인인지 판단한다. 실제 게임 접지·조명·좌석 적합성은 별도 장면 검증까지 미확인이다.
+
+매력 없는 후보는 “일단 규격이 맞으니 확장”하지 않는다. compact/rounded/graphic은 비교용 디자인 가설이지 승인된 스타일이 아니다. 최대 세 차례 개선 뒤에도 기준을 못 찾으면 같은 지시를 반복하기보다 해상도 목표·제작 방식·디자인 제약 중 무엇을 바꿀지 근거를 정리한다. 이 횟수는 운영 지침이며 자동 차단 카운터는 아니다.
+
+## 1. 착의 시안 한 컷 요청
+
+프로젝트 루트에서:
+
+```sh
+node tools/prepare-sprite-job.mjs --art --stage lookdev --variation compact --out lookdev-nw-01
+```
+
+다른 후보는 `--variation rounded` 또는 `graphic`, 새로운 `--out`을 사용한다. 생성되는 `CHATGPT_REQUEST.txt`만 ChatGPT에 보낸다. 현재 미승인 시트/코드로 만든 신체는 자동 첨부하지 않는다. 과거 그림을 반드시 비교해야 할 때는 기각 사유를 함께 알려 기준작과 구분한다.
+
+이 단계는 단일 NW 착의 캐릭터다. 큰 생성 PNG도 **LOOKDEV_ONLY**로 비교할 수 있다. 이는 해상도 제약을 숨기려는 예외가 아니라 디자인 선정과 실제 네이티브 납품의 분리다. 큰 이미지를 축소하거나 도형으로 다시 그려 원본이라고 표시하지 않는다.
+
+## 2. 원본 수신과 검토
+
+해당 작업의 `source/candidate.png`에 원본을 보존하고 `submission.template.json`을 `submission.json`으로 복사해 관찰한 사실만 채운다. PNG를 올렸다는 사실은 승인과 다르다. 첨부 ZIP의 스크립트를 실행하지 않는다.
+
+```sh
+node tools/rebuild-sprites.mjs --job art/sprites/runs/lookdev-nw-01/job.json
+node web/tests/render-scene-preview.mjs --job art/sprites/runs/lookdev-nw-01/job.json
+```
+
+기존 raster inspector로 원본 크기·투명도·색을 조사한다. 이미지가 차단되면 보고서를 남기고 rebuild는 종료 코드 2를 반환한다. 원본을 수정하지 않는다. 생성된 `art-review.html`은 밝고 어두운 바탕에서 비교하는 정적 페이지다. **실제 밤 조명·WebGL·좌석 검증이 아니다.** 네이티브 이미지의 4배 표시는 CSS 정수 확대이며 별도 4배 PNG 납품을 대체하지 않는다.
+
+`art-review.template.json`은 미검토 상태로 생성된다. 담당자가 실제 그림에 대한 관찰을 쓰고 사용자의 선택이 있을 때만 reviewer, 정확한 결정 문구/출처를 기록한다. `reviewerRole:user`라고 써 놓는 것이 사람 신원을 인증하는 것은 아니다. 이 장치는 추적 가능한 절차이며 승인 위조를 허용하지 않는다.
+
+```sh
+node tools/review-sprite-job.mjs --job art/sprites/runs/lookdev-nw-01/job.json --review art/sprites/runs/lookdev-nw-01/art-review.json
+```
+
+미술 승인 결과도 `productionReady:false`, `runtimeVerified:false`다. 원본·receipt·정책·제작 계약·검사 도구가 바뀌면 기존 승인을 재사용하지 않는다. 형식 검사가 NW 방향이나 멋진 손발을 자동 판정하지는 않는다.
+
+## 3. 승인 시안에서 NW 기본 신체 제작
+
+```sh
+node tools/prepare-sprite-job.mjs --art --stage native-base --out native-nw-01 --previous-job art/sprites/runs/lookdev-nw-01/job.json --previous-review art/sprites/runs/lookdev-nw-01/art-review.json
+```
+
+부모가 실제로 승인된 lookdev일 때만 진행하며 같은 바이트의 `REFERENCE.png`를 전달한다. 이번에는 얼굴·머리카락·옷·액세서리 없이 NW 기본 신체 하나만 요청한다. 앵커·캔버스는 scene spec에서 자동으로 가져온다. 제출 PNG는 원래 64×96이며 실제 alpha 0/255, 정확한 RGB 표와 앵커 메타데이터가 필요하다. 뒤통수·어깨·골반·발의 회전은 사람이 확인한다. 피부 치환 마스크는 후속 레이어 납품의 필수 자료이며 이 검사에서 생성하지 않는다.
+
+생성기가 큰 이미지나 반투명 이미지를 반환하면 `blocked_native_delivery`다. 여기에 새 이미지를 만들어 넣거나 강제 축소·6색 변환·알파 threshold로 통과시키지 않는다. 선택지는 도구의 실제 네이티브 지원 확인, 픽셀 편집 작업의 별도 승인, 또는 다른 논리 해상도 제안이다. **현재 승인 없이 방법/해상도를 바꾸지 않고 막힌 원인을 보고한다.** 모델 이름을 바꾸는 것만으로 해결됐다고 하지 않는다.
+
+## 4. 레이어와 실제 캠프
+
+신체 승인 뒤 기존 [제작 명세](sprite-authoring.md)의 catalog에 실재하는 파일/방향/프레임만 등록한다. 우선 같은 NW idle의 base, hair 1종, top 1종, bottom 1종을 맞춘다. 한 방향만 되는 초안을 4방향 커스터마이징으로 발표하지 않는다. 방향/포즈/캔버스/시간/앵커가 안 맞으면 전체 기존 캐릭터로 폴백한다.
+
+```sh
+node tools/prepare-sprite-job.mjs --pixel --out pixel-scene-01
+node tools/rebuild-sprites.mjs --job art/sprites/runs/pixel-scene-01/job.json
+node web/tests/render-scene-preview.mjs --job art/sprites/runs/pixel-scene-01/job.json
+node tools/review-sprite-job.mjs --job art/sprites/runs/pixel-scene-01/job.json --review art/sprites/runs/pixel-scene-01/review.json
+```
+
+pixel review에는 기존 evidence 외에 아래 필드를 더한다. `assets`에는 **현재 시험하는 모든 pilot의 실제 ID와 파일 SHA256**을 넣는다. 예시 문자열은 실제 값으로 대체한다.
+
+```json
+{
+  "artDirection": {
+    "job": "art/sprites/runs/lookdev-nw-01/job.json",
+    "review": "art/sprites/runs/lookdev-nw-01/art-review.json",
+    "assets": [{"id": "ACTUAL_ASSET_ID", "sha256": "ACTUAL_SHA256"}]
+  },
+  "userDecision": {"actor": "user", "quote": "실제 조립 시안 선택 발언", "reference": "대화 또는 리뷰 출처"}
+}
+```
+
+추가 미술 게이트는 `review-sprite-job.mjs`의 pixel CLI에 통합돼 있다. `verifyPixelReview` 단독 호출은 기존 기술/장면 정합성 검사이므로 최종 승인 API로 사용하지 않는다. 현재 자동 production installer는 추가하지 않았다. 옛 pixel build의 `CHATGPT_REQUEST.txt`/`REQUEST_MISSING_ASSETS.md`는 과거 NW 기본 신체 요구이며 **활성 생성 요청은 반드시 --art로 새로 준비한다.**
+
+실제 장면은 [장면 구성 기준](scene-composition.md)으로 사람 > 자리 > 길/포탈 > 숲을 확인한다. 1배, 주/야간, 나무 앞뒤, 벤치 접촉, 사진/이름, UI가 열린 상태를 각각 기록한다. 밤에 안 보이면 원화 팔레트를 무작정 밝히기 전에 실제 조명을 확인한다. 큰 아틀라스 생산과 네트워크 커스터마이징은 이후 별도 작업이다.
+
+## 검증과 보고
+
+독립 규칙 검사: `cd web && npm run test:art-direction`. 정상 의존성이 있는 프로젝트에서 관련 `test:sprites:pipeline`, `typecheck`, `build`, 실제 pixel/browser 검사를 실행한다. 지금 이미지가 없어서 하지 못한 검사를 통과로 쓰지 않는다.
+
+보고는 원화 생성, 기술 정합성, 미술 선택, 실제 장면, 기능 회귀, 배포 상태를 구분한다. 이 하네스는 더 좋은 그림을 보장하지 않지만, 나쁜 결과를 기술 PASS만으로 확장하거나 다른 방식으로 몰래 바꾸는 경로를 막는 것이 목적이다.

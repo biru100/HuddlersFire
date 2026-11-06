@@ -5,13 +5,17 @@ import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)),run='art/sprites/runs/rebuild-'+Date.now();
 if(process.argv.includes('--normalize')){
-  const file=process.argv[process.argv.indexOf('--normalize')+1];if(!file)throw Error('--normalize requires a recipe');console.log(JSON.stringify(await (await import('./lib/pixel-normalize.mjs')).normalizePixelAsset(resolve(file)),null,2));
+  if(!process.argv.includes('--replay-rejected-experiment'))throw Error('Normalization is a rejected historical experiment, not the active art pipeline. Use --replay-rejected-experiment only for an explicitly requested reproduction.');
+  const file=process.argv[process.argv.indexOf('--normalize')+1];if(!file||file.startsWith('--'))throw Error('--normalize requires a recipe');console.log(JSON.stringify(await (await import('./lib/pixel-normalize.mjs')).normalizePixelAsset(resolve(file)),null,2));
 }else if(!process.argv.includes('--job')&&!process.argv.includes('--legacy')){
   const result=spawnSync(process.execPath,['tools/rebuild-field.mjs'],{cwd:root,stdio:'inherit',windowsHide:true});if(result.status!==0)throw Error('Reviewed field replay failed');
 }else if(process.argv.includes('--job')){
   const file=process.argv[process.argv.indexOf('--job')+1];
-  if(!file)throw Error('--job requires a job.json path');
-  if(JSON.parse(readFileSync(resolve(file),'utf8')).kind==='pixel-quarterview'){
+  if(!file||file.startsWith('--'))throw Error('--job requires a job.json path');
+  const kind=JSON.parse(readFileSync(resolve(file),'utf8')).kind;
+  if(kind==='art-direction'){
+    const result=await (await import('./lib/art-direction.mjs')).buildArtJob(file);console.log(JSON.stringify(result,null,2));if(result.status==='blocked')process.exitCode=2;
+  }else if(kind==='pixel-quarterview'){
     console.log(JSON.stringify(await (await import('./lib/pixel-assets.mjs')).buildPixelJob(file),null,2));
   }else{
   const {slicePreview}=await import('./lib/sprite-preview.mjs');slicePreview(file);
