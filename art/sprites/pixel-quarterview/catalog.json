@@ -2524,8 +2524,8 @@
       ],
       "kind": "avatar",
       "slot": "base",
-      "status": "needs_anchor",
-      "reason": "NW idle 1컷의 64×96/이진 알파/6색 및 발·머리 측정 검수 완료. 기본 야간 피부 노출 부족과 의상·다른 방향/동작이 미해결이므로 생산 승인 보류.",
+      "status": "needs_redraw",
+      "reason": "사용자가 원본보다 거칠고 지저분한 가공 품질을 지적했다. 1/16 축소·6색 가공본과 확대본은 기각하며 후속 제작 참조/파일럿에서 제외한다. 원본을 참고해 목표 규격에서 새로 그린 첫 컷이 필요하다.",
       "projection": "candidate-NW-back-left",
       "grid": "verified-native-1px",
       "direction": "NW",
@@ -2599,16 +2599,11 @@
           }
         }
       },
-      "pilot": {
-        "type": "avatar",
-        "match": {
-          "direction": "NW",
-          "state": "idle"
-        }
-      },
       "review": {
         "method": "Deterministic normalization plus single-pose actual CampRenderer composite",
-        "composite": "observed; unresolved night exposure, missing directions and outfits"
+        "composite": "Rejected after user visual feedback; technical reproducibility is not art-quality acceptance",
+        "rejected": true,
+        "referenceEligible": false
       }
     }
   ]

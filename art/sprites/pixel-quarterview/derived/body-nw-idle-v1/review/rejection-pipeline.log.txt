@@ -1,0 +1,45 @@
+
+> huddlers-fire@0.1.0 test:sprites:pipeline
+> node --import ./tests/sprite-fixture.mjs --test tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/materials.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs
+
+✔ material gate distinguishes a prototype from full installation and requires the matching backend (704.1831ms)
+✔ material gate rejects stale recipes, channels, screenshots, dimensions and unresolved observations (1300.752ms)
+✔ material gate rejects shader-only diagnostic lights or an unchanged shadow raster (512.7595ms)
+✔ normal generation uses silhouette and authored shape, independent of painted colour and highlight (7.671ms)
+✔ portrait and clear pixels cannot acquire normal lighting and mismatched atlas sizes are rejected (0.6236ms)
+✔ pixel preview honors a larger explicit cache so before/after captures contain all legacy assets (3.8619ms)
+✔ pixel world directions project onto the actual NW NE SW SE axes (0.5598ms)
+✔ all imported candidates remain unapproved; false approval and traversal are rejected (124.3238ms)
+✔ single-frame normalization uses exact nearest samples, binary alpha and declared RGB only (1.2109ms)
+✔ registered NW idle derivative is reproducible and remains blocked for every missing pose/direction (670.0654ms)
+✔ a visually rejected body cannot become a pilot even if its old pilot flag is restored (8418.7358ms)
+✔ normalization metadata cannot be reused with a different source receipt (5.71ms)
+✔ provided hair and clothes cannot be assembled or mirrored into missing directions (0.4232ms)
+✔ compatible synthetic layers pass; frame timing, canvas, anchors and crops cannot be silently fitted (0.5312ms)
+✔ draft persistence filters unknown IDs, handles unavailable storage and preserves online identity (0.226ms)
+✔ pixel field flag is map-scoped, keeps invalid benches out and preserves geometry (0.176ms)
+✔ pixel snapping aligns the device origin without changing the world scale (0.2986ms)
+✔ changed originals invalidate jobs; unresolved pixel evidence cannot pass the review gate (92.668ms)
+✔ package import preserves bytes, defaults to reference-only and refuses overwrite or traversal (494.535ms)
+✔ preview caches and manifests do not modify the shipped context (0.7246ms)
+✔ world bench tangent chooses the correct visual axis and refuses a reversed binding (0.4876ms)
+✔ contact offset follows image scale and only cancels display height, preserving world state (0.728ms)
+✔ explicit character directions never silently use idle or an unrelated frame; a seat anchor changes display origin (1.4913ms)
+✔ a seated gesture keeps the oriented pelvis and portrait height of the seated lower body (0.8103ms)
+✔ foreground/background drawing is decided by metadata and honors the ground anchor (1.0015ms)
+✔ a partial job compiles only requested assets and refuses output outside runs (16.8984ms)
+✔ required contacts, directions and matching bindings are validated before generation (9.181ms)
+✔ real pinned sprite-gen partial processing leaves production assets untouched and rejects missing inputs (754.884ms)
+✔ review rejects missing, failed, old-size and stale artifacts; complete evidence unlocks only matching-spec full preparation (1113.1466ms)
+✔ new full generation requires review while legacy repacking remains a separate entry point (1.5245ms)
+✔ a complete colour revision requires explicit unchanged sources and rejects a modified reused PNG (328.3255ms)
+✔ field v2 refuses incomplete releases, opaque character panels and anchors from an older source (746.038ms)
+✔ tiled terrain with a different output size fills the complete runtime cell without transparent seams (1987.7419ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10045.2943

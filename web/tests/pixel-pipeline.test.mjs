@@ -35,7 +35,12 @@ test('registered NW idle derivative is reproducible and remains blocked for ever
  finally{for(const [base,p]of [[runs,temporary],[resolve(ROOT,'art/sprites/pixel-quarterview/derived'),output]]){assert.ok(p.startsWith(base+sep));rmSync(p,{recursive:true,force:true});}}
  const draft={version:1,parts:{base:entry.id}};const current=inspectAvatarCombination(draft,catalog,'NW','idle',spec.avatar);assert.equal(current.ready,false);assert.ok(current.reasons.every(r=>r.endsWith(':not_approved')));assert.deepEqual(current.layers,[]);
  for(const d of ['NE','SW','SE'])assert.ok(inspectAvatarCombination(draft,catalog,d,'idle',spec.avatar).reasons.some(r=>r.includes('missing_')));for(const state of ['walk','sit_bench','emote'])assert.ok(inspectAvatarCombination(draft,catalog,'NW',state,spec.avatar).reasons.some(r=>r.includes('missing_')));
- const request=pixelAssetRequest({catalog,spec});assert.ok(request.includes(entry.file));assert.ok(request.includes('head=[32,28]'));assert.ok(request.includes('idle을 각각 한 장씩'));
+ const request=pixelAssetRequest({catalog,spec});assert.ok(request.includes('첨부할 실제 PNG: '+entry.source));assert.equal(request.includes(entry.file),false);assert.ok(request.includes('처음부터 64×96'));assert.ok(request.includes('정확한 6색 제한은 폐기'));assert.equal(entry.status,'needs_redraw');assert.equal(spec.avatar.pilotReference,null);
+});
+test('a visually rejected body cannot become a pilot even if its old pilot flag is restored',async()=>{
+ const runs=resolve(ROOT,'art/sprites/runs'),dir=mkdtempSync(join(runs,'pixel-rejected-'));
+ try{const c=structuredClone(catalog),entry=c.assets.find(a=>a.id==='characters.body_nw_idle_v1');entry.pilot={type:'avatar'};const file=join(dir,'catalog.json');writeJSON(file,c);const prepared=preparePixelJob({catalogFile:file,out:dir.split(/[\\/]/).at(-1)+'/job'});await buildPixelJob(join(prepared,'job.json'));const manifest=readJSON(join(prepared,'build/manifest.json'));assert.equal(manifest.pixelQuarterview.basePilot,null);assert.equal(manifest.preview.selected.includes('pixel-'+entry.id.replaceAll('.','-')),false);}
+ finally{assert.ok(resolve(dir).startsWith(runs+sep));rmSync(dir,{recursive:true,force:true});}
 });
 test('normalization metadata cannot be reused with a different source receipt',()=>{
  const entry=structuredClone(catalog.assets.find(a=>a.id==='characters.body_nw_idle_v1'));assert.equal(verifyNormalizedEntry(entry).productionApproved,false);entry.normalization.sourceSha256='0'.repeat(64);assert.throws(()=>verifyNormalizedEntry(entry),/mismatched normalization/);

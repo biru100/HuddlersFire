@@ -1415,7 +1415,7 @@
       ],
       "head": [
         32,
-        18
+        28
       ],
       "seat": [
         32,
@@ -1455,19 +1455,11 @@
           ]
         }
       },
-      "pilotReference": "art/sprites/pixel-quarterview/derived/body-nw-idle-v1/body-nw-idle.png",
-      "pilotAnchors": {
-        "feet": [
-          32,
-          88
-        ],
-        "head": [
-          32,
-          28
-        ],
-        "seat": null
-      },
-      "pilotStatus": "NW idle diagnostic only; proposed global head [32,18] is not a measured value"
+      "pilotReference": null,
+      "pilotStatus": "No accepted base pilot; normalized body-nw-idle-v1 rejected for degraded quality",
+      "styleReference": "art/sprites/pixel-quarterview/incoming/body-nw-idle-v1/source.png",
+      "anchorStatus": "Native-frame production targets only; first NW idle must pass visual review",
+      "palettePolicy": "Preserve source warmth and readable shading; artist-authored RGB table, no forced six-colour quantization"
     },
     "layerOrder": [
       "back_hair",
