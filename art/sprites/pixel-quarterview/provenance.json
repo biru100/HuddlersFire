@@ -1,0 +1,10 @@
+{
+  "package": "Huddlers_Pixel_Quarterview_Codex_Harness_v0.1.zip",
+  "sha256": "3f3221ffb4cd65f2f75f1d570659d0a4368aa18c221bd7433f8c7d9c374cad22",
+  "policy": "Immutable source archive; the package manifest is provenance, not an active second harness.",
+  "files": {
+    "characters.png": "29fc4e69c00d35d549dc998e2a85759d437e5a07148590612a73a7fdf76c43e3",
+    "environment.png": "28faccb6e3ace3475e0fd3cebe50b3c7f68b914695c91aa6b7fbff24b1a3cb2e",
+    "scene_mood.png": "b5417ad84a580ad62416c32666589db28cdaff8c68661bf383b588a054c0bd04"
+  }
+}

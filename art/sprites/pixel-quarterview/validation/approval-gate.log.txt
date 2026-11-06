@@ -1,0 +1,16 @@
+node : file:///C:/Users/user/Desktop/HuddlersFire/tools/lib/pixel-assets.mjs:65
+위치 줄:2 문자:1439
++ ... arterview'; node tools/review-sprite-job.mjs --job art/sprites/runs/p ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (file:///C:/User...l-assets.mjs:65:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  if(!review.reviewer||review.result!=='pass'||!review.observations?.length||review.unresolved?.length)throw Error('Unr
+esolved pixel review; production installation blocked');
+                                                                                                             ^
+
+Error: Unresolved pixel review; production installation blocked
+    at Module.verifyPixelReview (file:///C:/Users/user/Desktop/HuddlersFire/tools/lib/pixel-assets.mjs:65:110)
+    at file:///C:/Users/user/Desktop/HuddlersFire/tools/review-sprite-job.mjs:6:75
+
+Node.js v24.21.0

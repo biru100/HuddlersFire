@@ -1,0 +1,93 @@
+{
+  "kind": "pixel-quarterview",
+  "reviewer": "",
+  "fingerprint": "c5d8fec6a07768f3db6efd6bfaaa0137d85fd41320238e50fad176a776bb7e6e",
+  "manifestHash": "ae4b8ec30bb1a15e4ff106db77eca59159673bada90367224671c70e70d86021",
+  "result": "unreviewed",
+  "observations": [],
+  "unresolved": [
+    "characters.base_stand_front_left: 이미 옷·머리·얼굴이 합쳐진 참조. 서기 2장/바닥 앉기 2장만 있으며 4방향 이동·벤치 착석 및 독립 신체 레이어가 없음.",
+    "environment.campfire_merged_static: 불꽃·돌·빛이 합쳐진 한 장. 불 성장/외형·불꽃 루프·위치 기반 조명을 위한 비발광 바닥과 불꽃/발광 마스크 분리 필요.",
+    "environment.bench_ne_candidate: 2:1 세계 축(화면 기울기 ±0.5)과 그림의 방향/좌면 일치가 미검증. 벤치는 기존 좌석 두 접점과 네 착석 facing에 맞춘 재제작 필요.",
+    "environment.radio: 정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+    "environment.lantern_olive: 정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+    "environment.tree_green: 정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함."
+  ],
+  "cases": [
+    {
+      "id": "canvas-before",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "canvas-candidates",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "canvas-seated",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "canvas-occlusion",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-lobby",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-pilot",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-avatar",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-avatar-reload",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-online",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-portal-radio-chat",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-zoom-100-dpr1",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-zoom-125-dpr1",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-zoom-150-dpr1",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-zoom-100-dpr2",
+      "result": "unreviewed",
+      "observation": ""
+    },
+    {
+      "id": "ui-canvas-fallback",
+      "result": "unreviewed",
+      "observation": ""
+    }
+  ]
+}

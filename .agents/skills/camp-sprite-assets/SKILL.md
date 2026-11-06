@@ -5,6 +5,8 @@ description: HuddlersFire의 일러스트 캐릭터·환경·효과 스프라이
 
 # 캠프 스프라이트 제작
 
+INT-24의 신규 목표는 픽셀 쿼터뷰다. 기존 구아슈 원화/정식 manifest는 롤백 경로로 보존한다. 픽셀 패키지는 [기존 제작 경로의 픽셀 절](../../../docs/sprite-authoring.md)을 따라 `prepare-sprite-job.mjs --pixel` → 기존 `rebuild-sprites.mjs --job` → `render-scene-preview.mjs --job` → `review-sprite-job.mjs --job`로 검사한다. 원본은 새 incoming 폴더에 보존하며 덮어쓰지 않는다. 신규 수신 컷아웃의 무손실 검사/복사와 고정 sprite-gen의 추출/아틀라스 재패킹을 구분한다. 픽셀에 아래 일러스트용 Lanczos/비율 추정을 적용하지 않는다. 누락 방향/프레임/레이어는 생성 요청서로 기록하며 자동 반전/늘이기/블러로 채우지 않는다. 미승인 후보는 개발 플래그 안에서만 표시한다.
+
 ## 적용 범위
 
 새 bitmap 캐릭터·동작·지형·시설·효과를 만들거나 기존 원본을 교체할 때 사용한다. UI 문구나 게임 규칙만 바뀌면 적용하지 않는다. 계획만 요청되면 자료만 읽고 파일·생성 도구를 실행하지 않는다. 프로젝트 밖의 설정·스킬·도구를 변경하지 않는다.

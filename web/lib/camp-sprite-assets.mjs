@@ -1,5 +1,6 @@
 import { SPRITE_MANIFEST as manifest } from './camp-sprite-manifest.mjs';
 import {spriteImageMetadata,spriteMaterial} from './camp-materials.mjs';
+import {snapPixelOrigin} from './camp-pixel.mjs';
 let canvasFactory=null;
 export { manifest as spriteManifest };
 export function setSpriteCanvasFactory(value){canvasFactory=value;}
@@ -7,7 +8,7 @@ export function createSpriteSurface(ctx,w,h){if(canvasFactory)return canvasFacto
 function browserLoad(url){return new Promise((resolve,reject)=>{const ImageType=globalThis.Image;if(!ImageType){reject(Error('Image decoder unavailable'));return;}const image=new ImageType();image.onload=()=>{image.onload=image.onerror=null;resolve(image);};image.onerror=()=>{image.onload=image.onerror=null;reject(Error('Sprite image could not be loaded'));};image.src=url;});}
 /** Preview manifests and caches never replace the shipped registry. */
 export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:initialLimit=16}={}){
-  const entries=new Map(),listeners=new Set();let loader=initialLoader,cacheLimit=initialLimit,clock=0;
+  const entries=new Map(),listeners=new Set();let loader=initialLoader,cacheLimit=Math.max(initialLimit,data.preview?.pixelQuarterview?32:0),clock=0;
   const notify=()=>{for(const listener of listeners)listener();};
   const api={manifest:data,
     setSpriteLoader(value,options={}){loader=value;cacheLimit=options.cacheLimit||16;entries.clear();},
@@ -32,7 +33,7 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
       if(layer&&frame.depth!==layer)return false;
       const h=height??width*frame.h/frame.w,ground=frame.contacts?.ground;
       const ax=anchorX??(ground?ground.x/frame.w:.5),ay=anchorY??(ground?ground.y/frame.h:1);
-      ctx.save();ctx.setMaterial?.(spriteMaterial(api,sheet,id,direction));ctx.translate(x,y);if(flip)ctx.scale(-1,1);ctx.drawImage(image,frame.x,frame.y,frame.w,frame.h,-width*ax,-h*ay,width,h);ctx.restore();return true;
+      ctx.save();ctx.setMaterial?.(spriteMaterial(api,sheet,id,direction));ctx.translate(x,y);if(frame.sampling==='nearest'){ctx.imageSmoothingEnabled=false;snapPixelOrigin(ctx);}if(flip)ctx.scale(-1,1);ctx.drawImage(image,frame.x,frame.y,frame.w,frame.h,-width*ax,-h*ay,width,h);ctx.restore();return true;
     },
   };return api;
 }

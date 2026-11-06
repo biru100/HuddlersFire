@@ -1,0 +1,11 @@
+✔ legacy profile colors become neutral without dropping alpha; portals have distinct non-color cues (1.1131ms)
+✔ live theme switching covers every map/fire style without mutating profiles (1619.9268ms)
+✔ character slots remain consistent across the lobby, field and dark mode (0.4759ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1895.2583

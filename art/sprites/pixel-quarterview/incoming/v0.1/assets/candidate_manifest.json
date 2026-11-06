@@ -1,0 +1,1593 @@
+{
+  "schema_version": "0.1",
+  "warning": "No asset here is production-approved.",
+  "assets": [
+    {
+      "asset_id": "characters.base_stand_front_left",
+      "file": "assets/candidates/characters/base_stand_front_left.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        52,
+        7,
+        179,
+        285
+      ],
+      "size_px": [
+        127,
+        278
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.base_stand_front_right",
+      "file": "assets/candidates/characters/base_stand_front_right.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        240,
+        7,
+        368,
+        284
+      ],
+      "size_px": [
+        128,
+        277
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.base_sit_ground_left",
+      "file": "assets/candidates/characters/base_sit_ground_left.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        418,
+        56,
+        573,
+        277
+      ],
+      "size_px": [
+        155,
+        221
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.base_sit_ground_right",
+      "file": "assets/candidates/characters/base_sit_ground_right.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        619,
+        56,
+        776,
+        277
+      ],
+      "size_px": [
+        157,
+        221
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.hair_short_curly",
+      "file": "assets/candidates/characters/hair_short_curly.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        23,
+        299,
+        175,
+        419
+      ],
+      "size_px": [
+        152,
+        120
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.hair_medium_wavy",
+      "file": "assets/candidates/characters/hair_medium_wavy.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        189,
+        298,
+        358,
+        434
+      ],
+      "size_px": [
+        169,
+        136
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.hair_ponytail",
+      "file": "assets/candidates/characters/hair_ponytail.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        371,
+        291,
+        562,
+        441
+      ],
+      "size_px": [
+        191,
+        150
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.hair_bob",
+      "file": "assets/candidates/characters/hair_bob.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        573,
+        308,
+        736,
+        434
+      ],
+      "size_px": [
+        163,
+        126
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.hair_shaggy",
+      "file": "assets/candidates/characters/hair_shaggy.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        751,
+        287,
+        921,
+        425
+      ],
+      "size_px": [
+        170,
+        138
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.hair_long_straight",
+      "file": "assets/candidates/characters/hair_long_straight.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        932,
+        293,
+        1086,
+        472
+      ],
+      "size_px": [
+        154,
+        179
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.hair_short_with_band",
+      "file": "assets/candidates/characters/hair_short_with_band.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        1107,
+        298,
+        1262,
+        429
+      ],
+      "size_px": [
+        155,
+        131
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.hair_bun",
+      "file": "assets/candidates/characters/hair_bun.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        1279,
+        275,
+        1417,
+        448
+      ],
+      "size_px": [
+        138,
+        173
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.headwear_beanie",
+      "file": "assets/candidates/characters/headwear_beanie.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        85,
+        441,
+        260,
+        593
+      ],
+      "size_px": [
+        175,
+        152
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.headwear_cap",
+      "file": "assets/candidates/characters/headwear_cap.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        301,
+        465,
+        486,
+        580
+      ],
+      "size_px": [
+        185,
+        115
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.headwear_bucket",
+      "file": "assets/candidates/characters/headwear_bucket.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        508,
+        466,
+        703,
+        584
+      ],
+      "size_px": [
+        195,
+        118
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.headwear_headphones",
+      "file": "assets/candidates/characters/headwear_headphones.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        729,
+        450,
+        910,
+        596
+      ],
+      "size_px": [
+        181,
+        146
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.top_hoodie",
+      "file": "assets/candidates/characters/top_hoodie.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        27,
+        606,
+        245,
+        755
+      ],
+      "size_px": [
+        218,
+        149
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.top_knit",
+      "file": "assets/candidates/characters/top_knit.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        268,
+        609,
+        473,
+        751
+      ],
+      "size_px": [
+        205,
+        142
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.top_scarf_sweater",
+      "file": "assets/candidates/characters/top_scarf_sweater.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        487,
+        603,
+        704,
+        755
+      ],
+      "size_px": [
+        217,
+        152
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.top_jacket",
+      "file": "assets/candidates/characters/top_jacket.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        719,
+        609,
+        940,
+        760
+      ],
+      "size_px": [
+        221,
+        151
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.top_cardigan",
+      "file": "assets/candidates/characters/top_cardigan.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        951,
+        604,
+        1159,
+        753
+      ],
+      "size_px": [
+        208,
+        149
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.top_sweatshirt",
+      "file": "assets/candidates/characters/top_sweatshirt.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        1177,
+        603,
+        1385,
+        755
+      ],
+      "size_px": [
+        208,
+        152
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.bottom_jeans",
+      "file": "assets/candidates/characters/bottom_jeans.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        31,
+        775,
+        175,
+        930
+      ],
+      "size_px": [
+        144,
+        155
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.bottom_joggers",
+      "file": "assets/candidates/characters/bottom_joggers.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        199,
+        773,
+        357,
+        934
+      ],
+      "size_px": [
+        158,
+        161
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.bottom_skirt_leggings",
+      "file": "assets/candidates/characters/bottom_skirt_leggings.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        383,
+        773,
+        544,
+        934
+      ],
+      "size_px": [
+        161,
+        161
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.bottom_cargo",
+      "file": "assets/candidates/characters/bottom_cargo.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        564,
+        776,
+        714,
+        931
+      ],
+      "size_px": [
+        150,
+        155
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.held_mug",
+      "file": "assets/candidates/characters/held_mug.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        739,
+        803,
+        880,
+        920
+      ],
+      "size_px": [
+        141,
+        117
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.held_notebook",
+      "file": "assets/candidates/characters/held_notebook.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        921,
+        788,
+        1068,
+        935
+      ],
+      "size_px": [
+        147,
+        147
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.held_pencil",
+      "file": "assets/candidates/characters/held_pencil.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        1095,
+        795,
+        1193,
+        919
+      ],
+      "size_px": [
+        98,
+        124
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.held_laptop",
+      "file": "assets/candidates/characters/held_laptop.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        1187,
+        794,
+        1426,
+        922
+      ],
+      "size_px": [
+        239,
+        128
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.face_smile",
+      "file": "assets/candidates/characters/face_smile.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        16,
+        950,
+        160,
+        1077
+      ],
+      "size_px": [
+        144,
+        127
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.face_focus",
+      "file": "assets/candidates/characters/face_focus.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        181,
+        950,
+        323,
+        1078
+      ],
+      "size_px": [
+        142,
+        128
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.face_talking",
+      "file": "assets/candidates/characters/face_talking.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        346,
+        950,
+        506,
+        1081
+      ],
+      "size_px": [
+        160,
+        131
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.face_content",
+      "file": "assets/candidates/characters/face_content.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        519,
+        950,
+        665,
+        1077
+      ],
+      "size_px": [
+        146,
+        127
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.swatches_skin",
+      "file": "assets/candidates/characters/swatches_skin.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        699,
+        985,
+        970,
+        1058
+      ],
+      "size_px": [
+        271,
+        73
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "characters.swatches_clothing",
+      "file": "assets/candidates/characters/swatches_clothing.png",
+      "source_file": "assets/source/characters.png",
+      "source_crop_px": [
+        1003,
+        985,
+        1430,
+        1057
+      ],
+      "size_px": [
+        427,
+        72
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.campfire_merged_static",
+      "file": "assets/candidates/environment/campfire_merged_static.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        39,
+        17,
+        256,
+        206
+      ],
+      "size_px": [
+        217,
+        189
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.bench_ne_candidate",
+      "file": "assets/candidates/environment/bench_ne_candidate.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        307,
+        41,
+        550,
+        192
+      ],
+      "size_px": [
+        243,
+        151
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.bench_nw_candidate",
+      "file": "assets/candidates/environment/bench_nw_candidate.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        597,
+        32,
+        835,
+        200
+      ],
+      "size_px": [
+        238,
+        168
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.bench_s_candidate",
+      "file": "assets/candidates/environment/bench_s_candidate.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        864,
+        70,
+        1142,
+        182
+      ],
+      "size_px": [
+        278,
+        112
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.bench_se_candidate",
+      "file": "assets/candidates/environment/bench_se_candidate.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        1188,
+        32,
+        1406,
+        197
+      ],
+      "size_px": [
+        218,
+        165
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.tent",
+      "file": "assets/candidates/environment/tent.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        34,
+        226,
+        422,
+        462
+      ],
+      "size_px": [
+        388,
+        236
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.arch_round",
+      "file": "assets/candidates/environment/arch_round.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        438,
+        216,
+        710,
+        447
+      ],
+      "size_px": [
+        272,
+        231
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.arch_square",
+      "file": "assets/candidates/environment/arch_square.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        754,
+        216,
+        1024,
+        442
+      ],
+      "size_px": [
+        270,
+        226
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.sign_blank",
+      "file": "assets/candidates/environment/sign_blank.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        1092,
+        219,
+        1350,
+        442
+      ],
+      "size_px": [
+        258,
+        223
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.radio",
+      "file": "assets/candidates/environment/radio.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        19,
+        496,
+        177,
+        682
+      ],
+      "size_px": [
+        158,
+        186
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.lantern_olive",
+      "file": "assets/candidates/environment/lantern_olive.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        206,
+        510,
+        315,
+        682
+      ],
+      "size_px": [
+        109,
+        172
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.lantern_copper",
+      "file": "assets/candidates/environment/lantern_copper.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        335,
+        504,
+        434,
+        688
+      ],
+      "size_px": [
+        99,
+        184
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.ball",
+      "file": "assets/candidates/environment/ball.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        452,
+        550,
+        582,
+        682
+      ],
+      "size_px": [
+        130,
+        132
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.tree_green",
+      "file": "assets/candidates/environment/tree_green.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        589,
+        458,
+        799,
+        698
+      ],
+      "size_px": [
+        210,
+        240
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.tree_yellow",
+      "file": "assets/candidates/environment/tree_yellow.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        801,
+        458,
+        1003,
+        697
+      ],
+      "size_px": [
+        202,
+        239
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.tree_dusk",
+      "file": "assets/candidates/environment/tree_dusk.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        1008,
+        458,
+        1211,
+        697
+      ],
+      "size_px": [
+        203,
+        239
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.tree_autumn",
+      "file": "assets/candidates/environment/tree_autumn.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        1215,
+        458,
+        1440,
+        698
+      ],
+      "size_px": [
+        225,
+        240
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.bush_plain",
+      "file": "assets/candidates/environment/bush_plain.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        16,
+        725,
+        187,
+        849
+      ],
+      "size_px": [
+        171,
+        124
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.bush_white_flower",
+      "file": "assets/candidates/environment/bush_white_flower.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        196,
+        720,
+        363,
+        849
+      ],
+      "size_px": [
+        167,
+        129
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.bush_berry",
+      "file": "assets/candidates/environment/bush_berry.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        372,
+        719,
+        545,
+        849
+      ],
+      "size_px": [
+        173,
+        130
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.bush_yellow_flower",
+      "file": "assets/candidates/environment/bush_yellow_flower.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        555,
+        722,
+        724,
+        849
+      ],
+      "size_px": [
+        169,
+        127
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.rock_large",
+      "file": "assets/candidates/environment/rock_large.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        744,
+        745,
+        887,
+        841
+      ],
+      "size_px": [
+        143,
+        96
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.rock_small",
+      "file": "assets/candidates/environment/rock_small.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        898,
+        781,
+        961,
+        827
+      ],
+      "size_px": [
+        63,
+        46
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.grass_large",
+      "file": "assets/candidates/environment/grass_large.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        975,
+        743,
+        1088,
+        837
+      ],
+      "size_px": [
+        113,
+        94
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.grass_small",
+      "file": "assets/candidates/environment/grass_small.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        1100,
+        771,
+        1171,
+        834
+      ],
+      "size_px": [
+        71,
+        63
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.ground_dirt_patch",
+      "file": "assets/candidates/environment/ground_dirt_patch.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        1190,
+        769,
+        1324,
+        836
+      ],
+      "size_px": [
+        134,
+        67
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.ground_pebbles",
+      "file": "assets/candidates/environment/ground_pebbles.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        1334,
+        765,
+        1424,
+        830
+      ],
+      "size_px": [
+        90,
+        65
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.path_square_reference_only",
+      "file": "assets/candidates/environment/path_square_reference_only.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        37,
+        888,
+        209,
+        1054
+      ],
+      "size_px": [
+        172,
+        166
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.path_corner_reference_only",
+      "file": "assets/candidates/environment/path_corner_reference_only.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        240,
+        888,
+        420,
+        1055
+      ],
+      "size_px": [
+        180,
+        167
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.path_straight_reference_only",
+      "file": "assets/candidates/environment/path_straight_reference_only.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        449,
+        904,
+        676,
+        1035
+      ],
+      "size_px": [
+        227,
+        131
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.path_t_reference_only",
+      "file": "assets/candidates/environment/path_t_reference_only.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        702,
+        886,
+        934,
+        1070
+      ],
+      "size_px": [
+        232,
+        184
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.stump_plain",
+      "file": "assets/candidates/environment/stump_plain.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        956,
+        914,
+        1171,
+        1047
+      ],
+      "size_px": [
+        215,
+        133
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    },
+    {
+      "asset_id": "environment.stump_mushroom",
+      "file": "assets/candidates/environment/stump_mushroom.png",
+      "source_file": "assets/source/environment.png",
+      "source_crop_px": [
+        1189,
+        891,
+        1381,
+        1054
+      ],
+      "size_px": [
+        192,
+        163
+      ],
+      "review_status": "candidate_unverified",
+      "quarterview_projection_status": "needs_review",
+      "pivot_px": null,
+      "world_size": null,
+      "collision_shape": null,
+      "seat_anchors": null,
+      "palette_id": null,
+      "notes": "Preview crop; AI image does not guarantee iso 2:1 projection, seamless paths or avatar-layer alignment."
+    }
+  ]
+}

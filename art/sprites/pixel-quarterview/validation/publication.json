@@ -1,0 +1,533 @@
+{
+  "site": "https://huddlers-fire-camp.gywkd77.chatgpt.site",
+  "versionNumber": 40,
+  "sourceCommit": "c4ea90547f9feb82358f12b624ea7c76ea1828c9",
+  "files": 103,
+  "errors": [],
+  "versionStatus": 200,
+  "release": {
+    "release": {
+      "id": "6cd35d15-c98f-4b9b-b0e9-e0262bf01c98",
+      "revision": 1793997969500
+    }
+  },
+  "pageStatus": 200,
+  "authoringRouteStatus": 404,
+  "results": [
+    {
+      "url": "/.assetsignore",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/favicon.svg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/audio/CREDITS.txt",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/audio/campfire.ogg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/games/CREDITS.txt",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/games/parruits-scene.webp",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/games/parruits-logo.webp",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/camp-icon.svg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/games/torizon-telecom-logo.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/games/torizon-telecom-trailer-thumbnail.jpg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/icons/social/CREDITS.txt",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/icons/social/discord.svg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/games/parruits-trailer-thumbnail.jpg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/icons/social/instagram.svg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/icons/social/reddit.svg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/icons/social/x.svg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/icons/social/tiktok.svg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/icons/social/youtube.svg",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-0.f1a383dc42a3.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-2.7c1bb9ef8a63.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-1.57579bf8b911.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-1.85aba1dfa959.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-3.a4adb0aea36f.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/.vite/manifest.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-0.a8e43d26a33b.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-3.2eca5e861b43.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-4.3cec3e0dea87.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-2.df3ce0ed3897.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-0.13a50436669a.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-4.5cedd7ffb4ca.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-5.2bfd3a37bbb7.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-1.23f3b7f6b116.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-0.63b616ab1c82.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-5.27c8b0306af2.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-1.3d93b7acc100.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-2.430acffadc7e.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-2.7203288df254.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-3.74ae33e827ba.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-3.a1edc70850aa.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-5.0b2b1db316e1.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/CREDITS.txt",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-4.c30f7e5a9165.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-5.68418d1835da.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/camper-dark-4.00da80b8493d.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/effects.9089e20987c5.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/effects-dark.a1a6ef9a166e.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/effects-dark.e48e4d78c61e.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/grass-dark.38799f899cc5.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/effects.af0014f716fb.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/environment-dark.1b8ad5f5cdd8.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/environment-dark.a99dfe0cb863.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/grass.545d78bd8a2a.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/environment.a6f636558c48.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/manifest.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/normal-character.61733f96a699.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/normal-grass.c867780d1f47.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/normal-environment.b7166ef01f59.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/normal-sand.c867780d1f47.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/normal-environment.410cff5d1580.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/normal-character.77141e3408ab.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/normal-stone.c867780d1f47.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/sand-dark.c085168d0d6a.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/sand.947ecb112660.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/sprite-gen-LICENSE.txt",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/sprite-gen-NOTICE.txt",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/stone-dark.c02e87ad1cbd.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/stone.8d951136870c.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_headers",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/sprites/environment.5e696d35cc87.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/app-elements-H_Dr48wG.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/app-route-prefetch-policy-C_BtEgBC.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/app-rsc-cache-busting-CFGZP3lG.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/app-rsc-render-mode-CvTCGruk.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/browserAll-dUbVBXr9.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/camp-discord-CTvCQGci.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/camp-lighting-KClDHWPn.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/camp-webgl-renderer-CeIfWopP.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/camp-Dy98DmPn.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/deployment-id-DFhHa9wO.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/FederatedEventTarget-FgY9NbFD.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/CanvasTextSystem-DrDbG9s-.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/framework-D_rUT4EX.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/headers-C_MtfdF4.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/hash-Cp347hhd.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/index-Dwg5fyOm.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/init-BTeEXNJk.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/layout-segment-context-BTnyeYbv.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/vinext-client-entry-manifest.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/navigation-errors-D5LMQqDL.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/query-DtBGhX2J.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/protocol-headers-B9-bVeat.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/3c244285-04d5-4122-b202-f4ac4be1f1bd/_ssgManifest.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/3c244285-04d5-4122-b202-f4ac4be1f1bd/_buildManifest.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/streamed-icons-BGoXftz2.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/record-uXSNv6cl.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/webworkerAll-Dn_tJNUO.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/css/camp-discord.DVYhVsfM.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/css/index.CqZVsSs0.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/css/camp.gd2gw5h0.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/media/camp-ticker.worker.CK-HJsQ2.mjs",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/hybrid-client-route-owner-Cp1jVzcG.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "url": "/_next/static/chunks/page-8tgbie17.js",
+      "status": 200,
+      "match": true
+    }
+  ]
+}

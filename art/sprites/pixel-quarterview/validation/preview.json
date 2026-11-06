@@ -1,0 +1,12 @@
+{
+  "fingerprint": "c5d8fec6a07768f3db6efd6bfaaa0137d85fd41320238e50fad176a776bb7e6e",
+  "manifestHash": "ae4b8ec30bb1a15e4ff106db77eca59159673bada90367224671c70e70d86021",
+  "selected": [
+    "pixel-characters-base_stand_front_left",
+    "pixel-environment-campfire_merged_static",
+    "pixel-environment-bench_ne_candidate",
+    "pixel-environment-radio",
+    "pixel-environment-lantern_olive",
+    "pixel-environment-tree_green"
+  ]
+}

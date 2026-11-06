@@ -1351,5 +1351,142 @@
         "readability"
       ]
     }
-  ]
+  ],
+  "pixelQuarterview": {
+    "version": 1,
+    "intentIds": [
+      "INT-24"
+    ],
+    "status": "pilot-not-production",
+    "projection": {
+      "tile": [
+        80,
+        40
+      ],
+      "basisX": [
+        40,
+        20
+      ],
+      "basisY": [
+        -40,
+        20
+      ],
+      "directions": {
+        "NW": [
+          -1,
+          0
+        ],
+        "NE": [
+          0,
+          -1
+        ],
+        "SW": [
+          0,
+          1
+        ],
+        "SE": [
+          1,
+          0
+        ]
+      }
+    },
+    "style": {
+      "reference": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "environmentReference": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "moodReference": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/scene_mood.png",
+      "medium": "pixel art",
+      "logicalPixel": 1,
+      "sampling": "nearest",
+      "scaling": "integer device scaling preferred; fractional zoom is diagnostic",
+      "paletteStatus": "unapproved",
+      "outline": "one logical pixel, dark warm outline",
+      "shading": "target 3-4 discrete shades per material; exact palette pending base approval",
+      "bakedLighting": false
+    },
+    "avatar": {
+      "status": "proposed-unapproved",
+      "canvas": [
+        64,
+        96
+      ],
+      "feet": [
+        32,
+        88
+      ],
+      "head": [
+        32,
+        18
+      ],
+      "seat": [
+        32,
+        62
+      ],
+      "states": {
+        "idle": {
+          "frames": 1,
+          "durations": [
+            1000
+          ]
+        },
+        "walk": {
+          "frames": 6,
+          "durations": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        "sit_bench": {
+          "frames": 1,
+          "durations": [
+            1000
+          ]
+        },
+        "emote": {
+          "frames": 4,
+          "durations": [
+            150,
+            150,
+            150,
+            150
+          ]
+        }
+      }
+    },
+    "layerOrder": [
+      "back_hair",
+      "base",
+      "bottom",
+      "top",
+      "face",
+      "front_hair",
+      "headwear",
+      "accessory"
+    ],
+    "flag": {
+      "default": "off",
+      "candidateScope": "dev-only camp static props",
+      "approvedScope": "review gate required"
+    },
+    "cases": [
+      "canvas-before",
+      "canvas-candidates",
+      "canvas-seated",
+      "canvas-occlusion",
+      "ui-lobby",
+      "ui-pilot",
+      "ui-avatar",
+      "ui-avatar-reload",
+      "ui-online",
+      "ui-portal-radio-chat",
+      "ui-zoom-100-dpr1",
+      "ui-zoom-125-dpr1",
+      "ui-zoom-150-dpr1",
+      "ui-zoom-100-dpr2",
+      "ui-canvas-fallback"
+    ]
+  }
 }

@@ -1,5 +1,23 @@
 # HuddlersFire 구조와 유지보수 기준
 
+## INT-24 픽셀 제작 하네스 · 실제 코드와 통합 범위
+
+| 책임 | 실제 파일·함수 | 보존/확장 |
+| --- | --- | --- |
+| 투영·깊이 | `camp-scene-frame.mjs:projectWorld/sortSceneObjects` | `(40,20),(-40,20)` 기저, 80×40 diamond. 팬/줌은 `camp-camera.mjs` 유지 |
+| WebGL/Canvas | `CampRenderer`, `CampArtwork`, `camp-draw-context.mjs`, `CampWebGLRenderer` | 동일 순서·입력/HUD. 픽셀 시트만 nearest·장치 원점 정렬. 기존 원화 linear 유지 |
+| 에셋 | `art/sprites/scene-spec.json`, `camp-sprite-assets.mjs:createSpriteContext` | 새 규격은 `pixelQuarterview` 절, 목록은 `art/sprites/pixel-quarterview/catalog.json`. 기존 주입/캐시 경로 재사용 |
+| 이동·애니메이션 | `camp-world.mjs:movePlayer/simulateWorld`, `camp-sprite-animation.mjs`, `camp-character.mjs` | 공유 물리·기존 16개 동작 유지. 누락 픽셀 동작은 기존 캐릭터로 표시 |
+| 좌석·충돌·가림 | `camp-maps.mjs`, `camp-seats.mjs:takeSeat`, `camp-scene-contract.mjs`, `camp-shadows.mjs` | 기존 16석·충돌 권위 유지. 표시 접점은 별도. 시험 소품과 alpha 그림자/가림은 같은 표시 정의 사용 |
+| 로그인·온라인 | `camp-api.mjs`, `components/camp/use-camp-session.ts`, `camp-network.mjs`, `camp-wire.mjs` | Discord·P2P·Member/Player·스냅샷/승계·규약 v20 유지. 초안은 전송하지 않음 |
+| 채팅·라디오·상태·포탈 | `chat-panel.tsx`, `music-panel.tsx`, `camp-playback.mjs`, `camp-presence.mjs`, `camp-maps.mjs:portalFor` | 기존 서비스 경로 유지. 그래픽 플래그는 권위 동작을 바꾸지 않음 |
+
+표의 런타임 mjs는 `web/lib/`, TSX는 `web/components/camp/` 아래에 있다. 제작 명령은 기존 prepare → rebuild → render → review를 확장한다. `tools/lib/pixel-assets.mjs`가 입력 해시·알파/크기/RGB 가장자리·등급·요청서·승인 거절을 소유한다. `camp-avatar-assembly.mjs`는 공통 캔버스·모든 프레임의 발/머리/좌석·시간·팔레트·레이어 crop 일치를 검사하며 실패하면 부분 레이어를 반환하지 않는다. `huddlers-fire-avatar-draft-v1`은 검수 초안이며 사진/로그인/온라인 상태를 바꾸지 않는다.
+
+기존 `CAMP_PREVIEW_JOB` 개발 플러그인이 픽셀 job도 읽는다. `/?pixel=1`은 모닥불의 지정 나무 1개·랜턴 1개·라디오만 후보로 표시한다. query 삭제로 즉시 복원한다. 벤치·불·캐릭터는 방향/동작이 부족해 기존 표현을 유지하고 후보 카드에서 원본만 확인한다. 다른 두 맵에는 적용하지 않는다. `/__sprite-preview/avatar`는 loopback 개발 검수 도구다. 프로덕션에는 플러그인·후보 manifest·원본·검수 페이지가 들어가지 않는다.
+
+기존 하네스의 Lanczos 정규화·부위별 앵커 추정은 픽셀 입력에 적용하지 않는다. 픽셀 분기는 파일을 무손실 보존·복사한다. 현재는 수신·심사/합성 검사 단계이며 원화 생성·아틀라스 재패킹이 아니다. 이후 slicing/atlas가 필요하면 고정 sprite-gen을 nearest/무손실 설정으로 검증하여 확장한다.
+
 ## INT-22 참가자 피드백 · 로컬 소스
 
 사용자 후속 배포 요청으로 **공개 버전 38·규약 v20**에 반영했다. 전송 필드·DB·규약은 바꾸지 않았다. 상태 선택은 `PresenceEditor`의 세 버튼 한 곳에서 즉시 저장한다. 메모 초안은 상태 값을 복제하지 않으며 저장 시 최신 상태와 합친다. 저장 성공 후 서버의 500ms 갱신 간격까지 중복 제출을 막는다. `presenceSummary`로 기본 상태와 한마디를 머리 위/사람 목록에 표시하며 작업 내용도 사람 목록에 보인다. 긴 한마디의 전체 내용은 플레이어 정보에서 확인한다.

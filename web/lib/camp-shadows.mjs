@@ -1,6 +1,7 @@
 import {createSpriteSurface,defaultSpriteAssets} from './camp-sprite-assets.mjs';
 import {playerDisplay,propDisplay} from './camp-scene-contract.mjs';
 import {drawCharacter,characterPose} from './camp-character.mjs';
+import {pixelPropDisplay} from './camp-pixel.mjs';
 export function shadowProfile(item,assets=defaultSpriteAssets){
   const key=item.type==='bench'?(Math.abs(Math.sin(item.angle||0))<.5?'bench-ne':'bench-nw'):item.type==='garden'?item.variant:item.type==='fire'?'firewood':item.type;
   const row=assets.manifest.materials?.surfaces[key];if(!row)return null;const scale=item.scale||1;
@@ -41,7 +42,7 @@ export class GroundShadows{
     const result={image:softened,x,y,width:w/rasterScale,height:h/rasterScale,slope,baseline,relief:Math.max(8,baseline-(top/rasterScale-originY)+Math.abs(slope)*(right-left)/2/rasterScale),contacts};this.masks.set(key,result);while(this.masks.size>256)this.masks.delete(this.masks.keys().next().value);return result;
   }
   propMask(item,theme='color'){
-    const d=propDisplay(item,this.assets);if(!d||!this.assets.getSprite(d.frame.sheet+(theme==='dark'&&!d.frame.ungraded?'-dark':'')))return null;
+    const d=pixelPropDisplay(this.assets,item,this.mapId,this.pixelMode)||propDisplay(item,this.assets);if(!d||!this.assets.getSprite(d.frame.sheet+(theme==='dark'&&!d.frame.ungraded?'-dark':'')))return null;
     const slope=d.direction==='ne'?-.5:d.direction==='nw'?.5:0;
     const width=Math.max(240,Math.ceil(d.width+48)),height=Math.max(256,Math.ceil(d.width*d.frame.h/d.frame.w+48));
     return this.mask(JSON.stringify(['prop',theme,d.id,d.direction,d.width,d.y,d.flip]),c=>this.assets.drawSprite(c,d.id,{...d,theme}),{slope,width,height,originX:width*.5,originY:height-24});
@@ -59,7 +60,7 @@ export class GroundShadows{
   }
   layer(){const surface=createSpriteSurface(this.ctx,1050,600),c=surface.getContext('2d');c.scale(.5,.5);c.translate(1050,580);return {surface,c};}
   static(objects,lights,map,theme){
-    const candidates=objects.filter(o=>o.type!=='player').map(item=>({item,mask:this.propMask(item,theme)})),rows=candidates.filter(r=>r.mask),key=map+theme+JSON.stringify(candidates.map(r=>[r.item.type,r.item.id,r.item.x,r.item.y,r.item.scale,r.item.angle,r.item.variant,!!r.mask]));
+    const candidates=objects.filter(o=>o.type!=='player').map(item=>({item,mask:this.propMask(item,theme)})),rows=candidates.filter(r=>r.mask),key=map+theme+(this.pixelMode||'off')+JSON.stringify(candidates.map(r=>[r.item.type,r.item.id,r.item.x,r.item.y,r.item.scale,r.item.angle,r.item.variant,!!r.mask]));
     if(this.cache?.key!==key){const {surface,c}=this.layer();for(const {item,mask}of rows){const x=(item.x-item.y)*40,y=(item.x+item.y)*20;for(const foot of mask.contacts)this.blob(c,x+foot.x,y+foot.y,foot.rx+1,foot.ry,0,theme==='dark'?.55:.5);}this.cache={key,surface,layers:new Map()};}
     const c=this.ctx;this.activeLayers=[];c.drawImage(this.cache.surface,-1050,-580,2100,1200);
     for(const light of lights){const lightKey=JSON.stringify([light.x,light.y,light.height,Number(light.radius.toFixed(1))]);let layer=this.cache.layers.get(lightKey);if(!layer){layer=this.layer();for(const {item,mask}of rows){layer.c.save();layer.c.translate((item.x-item.y)*40,(item.x+item.y)*20);this.project(layer.c,mask,item,light);layer.c.restore();}this.cache.layers.set(lightKey,layer);while(this.cache.layers.size>6)this.cache.layers.delete(this.cache.layers.keys().next().value);}this.activeLayers.push(layer);c.save();c.globalAlpha*=light.intensity;c.drawImage(layer.surface,-1050,-580,2100,1200);c.restore();}

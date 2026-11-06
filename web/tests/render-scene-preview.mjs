@@ -11,6 +11,7 @@ import {EXHIBITED_GAMES,exhibitCover} from '../lib/camp-games.mjs';
 import {avatarFixtures} from './character-fixtures.mjs';
 import {loadJob,readJSON,writeJSON,hash,inside,ROOT,runtimeHash,reviewCases} from '../../tools/lib/sprite-spec.mjs';
 export async function renderPreview(jobFile){
+  if(readJSON(jobFile).kind==='pixel-quarterview')return (await import('./render-pixel-preview.mjs')).renderPixelPreview(jobFile);
   const dir=dirname(resolve(jobFile)),job=loadJob(jobFile),built=readJSON(inside(dir,'build/preview.json')),manifest=readJSON(inside(dir,'build/manifest.json'));
   const assets=createSpriteContext(manifest,{cacheLimit:64,loader:url=>loadImage(url.startsWith('/__sprite-preview/files/')?inside(dir,'build/'+url.split('/').at(-1)):resolve(ROOT,'web/public'+url))});
   await assets.preloadSprites(Object.keys(manifest.files));setSpriteCanvasFactory(createCanvas);

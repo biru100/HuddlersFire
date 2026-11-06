@@ -1,5 +1,34 @@
 # 구현 검증 기록
 
+## 2026-11-07 INT-24 · 픽셀 쿼터뷰 제작 하네스 / 공개 버전 40
+
+**하네스 구현과 기존 기능 회귀는 완료, 전체 픽셀 그래픽/4방향 커스터마이징은 미완료**다. 패키지 START_HERE와 docs 명세를 기존 제작·장면·의도/구조 문서와 로컬 스킬에 통합했다. 전역 설정/모델/생성 도구는 변경·설치하지 않았다. 원본 3장·후보 69개는 incoming에 그대로 보존했고 정식 PNG·기존 manifest·물리/규약 v20·DB/로그인/사진/네트워크 필드는 변경하지 않았다.
+
+변경 코드: 기존 `prepare-sprite-job`, `rebuild-sprites`, `review-sprite-job`, `render-scene-preview`, `sprite-preview-plugin` 진입점에 픽셀 분기를 통합했다. `tools/import-pixel-package.mjs`, `tools/lib/pixel-assets.mjs`, `camp-avatar-assembly.mjs`, `camp-pixel.mjs`를 추가하고 renderer/artwork/shadows/sprite/WebGL 경로를 표시 전용으로 확장했다. 규격은 `scene-spec.json.pixelQuarterview`, 파일별 분류는 `pixel-quarterview/catalog.json`이 소유한다. 검수 UI와 회귀 검사는 기존 web/tests에 있다.
+
+| 실행 | 결과/범위 |
+| --- | --- |
+| 변경 전 `npm.cmd test` | 242/242 통과 |
+| 변경 전 render/typecheck/build/lint | 통과. 직접 Canvas 화면 3장을 `outputs/pixel-quarterview/baseline/`에 저장. 린트 기존 경고 4개 |
+| `prepare-sprite-job --pixel`, `rebuild-sprites --job` | 69개 파일/명세 크기/이진 알파 검사 통과. 원본 반투명/RGB 가장자리·색 수와 후보별 방향/접점/프레임 미검증을 보고 |
+| 후보 심사 | 사용 가능 0 / 기준점 보정 23 / 재생성 40 / 참고 6. 정확한 파일별 이유는 catalog와 `validation/inventory.json` |
+| 변경 후 `npm.cmd test` | 최종 **252/252 통과**. 원본 변경·경로 이탈·초안 저장/불량 ID·레이어 타이밍/캔버스/앵커/crop/팔레트 거절·플래그/프로젝션·무손실 수신/덮어쓰기 거절 포함 |
+| 변경 후 typecheck/build/lint | 모두 exit 0. 신규 경고 없음, 기존 경고 4개 유지. 명시적 캐시 크기를 지켜 비교 캡처의 기존 자산이 빠지지 않는 회귀도 추가 |
+| `npm.cmd run test:render`와 `render-scene-preview --job` | 통과. 정식 Canvas 전경 및 후보/기존·착석·나무 앞뒤 4장. WebGL 품질 증거와 구분 |
+| `test:browser:pixel` | 최종 통과. 격리 Chrome 두 프로필의 실제 RTC/기존 사진·초안 복원·이동/기존 벤치·포탈 왕복·채팅/상태·라디오·nearest 텍스처·Canvas 폴백. 모바일 검수 UI 가로 넘침 없음 |
+| 확대/DPR | 페이지 배율 100/125/150%와 DPR 1, 100%/DPR 2 캡처. 페이지 배율 에뮬레이션이며 데스크톱 브라우저 자체 확대/실물 기기는 미검증 |
+| 생산 승인 게이트 | `review-sprite-job --job ... --review review.template.json`이 **의도대로 exit 1**: `Unresolved pixel review; production installation blocked`. 자동/시각/생산 승인을 혼동하지 않음 |
+
+검사 중 사실: 최종 이미지 검토에서 픽셀 비교 캡처의 명시적 128개 캐시가 기본값 32개로 덮이는 결함을 발견해 수정했다. 전체 자산 유지 회귀를 추가하고 Canvas 4장과 브라우저 13개를 새 해시로 다시 생성·검토했다. 초기 빈 배경 캡처는 최종 증거에서 제외했다. 샌드박스 Chrome는 `Runtime.enable`에 응답하지 않아 테스트 프로세스만 제한 밖에서 실행했다. 개인 브라우저는 사용하지 않았다. 병렬 검사 한 번에서 기존 appearance PNG 동등성 검사가 6/5로 실패했으며, 기대값 변경 없이 단독 재실행과 최종 전체 재실행은 통과했다. 원인은 확정하지 않았다. 기본 화면 비교에서 고정 시각 expanded-camp와 모바일은 픽셀 차이 0, 시각을 고정하지 않는 16인 기존 fixture는 24픽셀 차이가 났다. 이를 전체 화면의 완전 동일성 증거로 보고하지 않는다.
+
+실제 확인한 화면: [변경 전 표현](../art/sprites/pixel-quarterview/validation/screens/canvas-before.png), [후보 소품 합성](../art/sprites/pixel-quarterview/validation/screens/canvas-candidates.png), [나무 앞뒤](../art/sprites/pixel-quarterview/validation/screens/canvas-occlusion.png), [기존 벤치 착석](../art/sprites/pixel-quarterview/validation/screens/ui-seated.png), [커스터마이징 검수](../art/sprites/pixel-quarterview/validation/screens/ui-avatar.png), [모바일 검수](../art/sprites/pixel-quarterview/validation/screens/ui-avatar-mobile.png), [Canvas 폴백](../art/sprites/pixel-quarterview/validation/screens/ui-canvas-fallback.png). `validation/evidence.json`과 `result.json`은 Canvas 4/UI 13개 캡처의 경로·해시·검사 범위를 기록한다. 캡처 생성만으로 미술 품질을 통과 처리하지 않았다.
+
+시각 관찰/미해결: 나무·랜턴·라디오의 시험 접점은 연결됐으나 주변 구아슈와 픽셀 밀도/크기 차이가 보인다. 캐릭터·벤치·불은 새 방향/동작/분리 자료가 없어 기존 표현을 유지한다. 4방향 조립 가능 조합은 0개이며 원본 부위는 겹치지 않고 참고 카드로 표시한다. 색상 ID는 초안 저장만 한다. 개인 사진·공유 상태는 유지하지만 새 커스터마이징의 온라인 저장/전송은 구현하지 않았다. 신규 픽셀 불/노멀·전체 맵·실물 모바일·실제 YouTube/Discord·인터넷 NAT는 미검증이다. [추가 제작 요청](REQUEST_MISSING_ASSETS.md)과 [제품 검토](product-review.md)를 따른다.
+
+사용자 “끝나고 배포, 커밋, 푸시해줘” 요청에 따라 기존 Sites에 **버전 40·규약 v20**을 배포했다. 게시 소스 `c4ea90547f9feb82358f12b624ea7c76ea1828c9`, 빌드 `6cd35d15-c98f-4b9b-b0e9-e0262bf01c98` / revision `1793997969500`. [공개 사이트](https://huddlers-fire-camp.gywkd77.chatgpt.site)의 파일 **103개 전부 해시 일치**, 메인/API 200, 검수 경로 404를 확인했다. 기존 public 접근·DB 바인딩·환경 revision 1을 유지했다. 미승인 원본/후보·개발 검수 페이지는 생산 빌드에 포함하지 않았다. Git 게시 저장소의 계정 차이는 해당 프로세스의 정확한 safe.directory 값으로만 처리했고 전역 설정을 바꾸지 않았다. 상세 공개 검증은 `art/sprites/pixel-quarterview/validation/publication.json`에 있다.
+
+롤백: 개발 query의 `pixel=1`을 지우면 원래 그래픽으로 즉시 돌아온다. `CAMP_PREVIEW_JOB`을 해제하고 개발 서버를 재시작하면 미리보기 주입/검수 경로도 사라진다. 소스 전체는 이번 커밋을 revert해 복원할 수 있다. 공개 복원은 복원한 소스로 **새 빌드**를 만들어 배포하여 기존 업데이트 fence를 유지한다. 과거 바이너리로 revision을 되돌리지 않는다. 현재 생산 기본값은 이미 기존 그래픽이다.
+
 ## 2026-11-07 · 픽셀 실험 종료와 공개 버전 38 복원
 
 사용자 요청으로 로컬 코드·자산을 현재 공개 버전 **38·규약 v20**으로 복원했다. Sites의 버전·배포 성공 상태와 게시 소스 커밋 `a1b6163f0937520651f9c4d63366b7ce36cd318a`를 확인했다. 게시 과정에서만 추가한 `.gitattributes`를 제외한 소스 **291개**가 배포 기록의 SHA-256과 일치하며 누락·추가 파일은 없다. 검증 빌드 후 로컬 `dist`도 배포 당시 **175개 파일의 원래 바이트**로 복원했다. 그림자 제거 시안도 되돌렸다. 픽셀 제작·미리보기 예외와 관련 문서·도구를 제거하고 기존 공개본의 제작 계약을 복원했다.

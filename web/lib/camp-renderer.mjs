@@ -17,6 +17,7 @@ import {createDrawContext} from './camp-draw-context.mjs';
 import {GroundLightSprites} from './camp-canvas-renderer.mjs';
 import {sceneCamera} from './camp-camera.mjs';
 import {PRESENCE_LABELS,presenceSummary} from './camp-presence.mjs';
+import {pixelPropDisplay} from './camp-pixel.mjs';
 
 export class CampRenderer extends CampArtwork {
   constructor(canvas, getScene, {assets=defaultSpriteAssets}={}) {
@@ -191,6 +192,8 @@ export class CampRenderer extends CampArtwork {
     this.uiTheme=scene.uiTheme||this.theme;
     if(this.canvas.dataset){this.canvas.dataset.campFieldTheme=this.theme;this.canvas.dataset.campUiTheme=this.uiTheme;}
     const mapId=scene.mapId||self?.mapId||CAMP_MAP,map=getMap(mapId),playing=mapId===PLAY_MAP,focused=isSeated(self);
+    this.mapId=mapId;this.pixelMode=scene.pixelMode||(this.assets.manifest.pixelQuarterview&&new URLSearchParams(this.win.location?.search).get('pixel')==='1'?'candidates':'off');
+    if(this.canvas.dataset)this.canvas.dataset.campPixelMode=this.assets.manifest.pixelQuarterview?this.pixelMode:'off';
     this.sceneLighting=sceneLighting(mapId,this.theme);c.setLighting?.(null);c.setObject?.(null);c.setMaterial?.(null);
     const lightingMode=this.sceneLighting.night?'night':'day';if(this.canvas.dataset&&this.canvas.dataset.campLighting!==lightingMode)this.canvas.dataset.campLighting=lightingMode;
     const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),avatar:scene.avatar,sitting:true}]).map(p=>this.displayPlayer(p));
@@ -217,6 +220,7 @@ export class CampRenderer extends CampArtwork {
         return { ...p, x: p.x + p.vx * age, y: p.y + p.vy * age, z: Math.max(0, p.z + p.vz * age - (p.weapon === 'gun' ? 0 : 4 * age * age)), type: 'projectile' };
       }), ...(playing ? scene.weapons?.effects || [] : []).map(e => ({ ...e, type: 'weaponEffect' }))]
       ,this.assets);
+    this.groundShadows.pixelMode=this.pixelMode;this.groundShadows.mapId=mapId;
     this.shadowCasters=objects;this.groundShadows.draw(objects,this.lights,{map:mapId,edge:map.bounds.edge,theme:this.theme,time:t,now:this.sceneTime,reduced:this.reduced});
     for (const item of objects) {
       const [px, py] = this.project(item.x, item.y);
@@ -224,7 +228,7 @@ export class CampRenderer extends CampArtwork {
       if(screenX< -220*scale||screenX>w+220*scale||screenY< -80*scale||screenY>h+240*scale)continue;
       c.save(); c.translate(px, py);c.setObject?.(item);
       if(['tree','tent'].includes(item.type)){
-        const d=propDisplay(item,this.assets),height=d?d.width*d.frame.h/d.frame.w:125,anchor=d?.frame.contacts?.ground?.x/d?.frame.w||.5;
+        const d=pixelPropDisplay(this.assets,item,mapId,this.pixelMode)||propDisplay(item,this.assets),height=d?d.width*d.frame.h/d.frame.w:125,anchor=d?.frame.contacts?.ground?.x/d?.frame.w||.5;
         if(players.some(p=>{const [x,y]=this.project(p.x,p.y),head=y-(p.z||0)*40-45;return x>px-(d?.width||130)*anchor&&x<px+(d?.width||130)*(1-anchor)&&y<py+8&&head>py-height;}))c.globalAlpha=.4;
       }
       if (item.type === 'player') this.player(item, item.id === scene.self, t);

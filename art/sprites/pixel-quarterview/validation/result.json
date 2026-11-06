@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "fixture": "loopback OAuth/YouTube; real browser RTC",
+  "cases": [
+    "canvas-before",
+    "canvas-candidates",
+    "canvas-seated",
+    "canvas-occlusion",
+    "ui-lobby",
+    "ui-pilot",
+    "ui-avatar",
+    "ui-avatar-reload",
+    "ui-avatar-mobile",
+    "ui-online",
+    "ui-seated",
+    "ui-portal-radio-chat",
+    "ui-zoom-100-dpr1",
+    "ui-zoom-125-dpr1",
+    "ui-zoom-150-dpr1",
+    "ui-zoom-100-dpr2",
+    "ui-canvas-fallback"
+  ],
+  "onlineAvatarPreserved": true,
+  "customization": "local draft; 0 compatible production combinations",
+  "fractionalZoom": "nearest sampling tested; physical browser zoom and devices unverified"
+}

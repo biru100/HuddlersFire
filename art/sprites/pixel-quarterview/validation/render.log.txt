@@ -1,0 +1,39 @@
+
+> huddlers-fire@0.1.0 test:render
+> node --import ./tests/sprite-fixture.mjs tests/render-scene.mjs
+
+PASS expanded-camp: expanded terrain, map-specific portals/booths and camera
+PASS expanded-playground: expanded terrain, map-specific portals/booths and camera
+PASS showroom-overview: expanded terrain, map-specific portals/booths and camera
+PASS showroom-booth: expanded terrain, map-specific portals/booths and camera
+PASS showroom-booth-mobile: expanded terrain, map-specific portals/booths and camera
+PASS camp-portal: expanded terrain, map-specific portals/booths and camera
+PASS camp-portal-mobile: expanded terrain, map-specific portals/booths and camera
+PASS showroom-torizon-telecom: expanded terrain, map-specific portals/booths and camera
+PASS showroom-torizon-telecom-mobile: expanded terrain, map-specific portals/booths and camera
+PASS camp-desktop: 1050x824, 16 players, 301836 bytes
+PASS camp-mobile: 390x520, 1 players, 52058 bytes
+PASS camp-chat-radio: 16 nearby speech bubbles and radio interaction, 1050x824
+PASS camp-chat-radio-mobile: 16 nearby speech bubbles and radio interaction, 390x520
+PASS camp-actions: 1050x824, all emotes/crouch/carry/air/fall/chat, reduced=false, 349467 bytes
+PASS camp-actions-mobile: 390x520, all emotes/crouch/carry/air/fall/chat, reduced=false, 54686 bytes
+PASS camp-actions-reduced: 1050x824, all emotes/crouch/carry/air/fall/chat, reduced=true, 349448 bytes
+PASS camp-weapons: projectiles, impact effects, warning radius and knockback, reduced=false
+PASS camp-weapons-mobile: projectiles, impact effects, warning radius and knockback, reduced=false
+PASS camp-weapons-reduced: projectiles, impact effects, warning radius and knockback, reduced=true
+PASS camp-chain: 6 linked players framed and individually selectable at 1050x824
+PASS camp-chain-mobile: 6 linked players framed and individually selectable at 390x520
+PASS camp-chain-16: 16 linked players framed and individually selectable at 1050x824
+PASS character-profiles: all postures, four profile fixtures, six colors, two themes and native scales
+PASS character-detail-v2 and character-motion-preview: concept comparison, twelve poses and eight walking frames
+PASS camp-presence: compact presence badges, zoom and follow camera; full notes stay in player details
+PASS camp-pip: compact presence badges, zoom and follow camera; full notes stay in player details
+PASS camp-zoom-mobile: compact presence badges, zoom and follow camera; full notes stay in player details
+PASS campfire-focus: map, seats, shared fire, focused chat and camera
+PASS campfire-focus-mobile: map, seats, shared fire, focused chat and camera
+PASS campfire-embers: map, seats, shared fire, focused chat and camera
+PASS playground-daylight: map, seats, shared fire, focused chat and camera
+PASS campfire-level-styles: five shared appearances at equal fuel and persistent embers
+PASS camp-nameplates: labels render over foreground scenery
+PASS camp-nameplates-mobile: labels render over foreground scenery
+PASS playground-nameplates: labels render over foreground scenery

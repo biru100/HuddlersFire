@@ -1,0 +1,146 @@
+{
+  "fingerprint": "c5d8fec6a07768f3db6efd6bfaaa0137d85fd41320238e50fad176a776bb7e6e",
+  "manifestHash": "ae4b8ec30bb1a15e4ff106db77eca59159673bada90367224671c70e70d86021",
+  "cases": [
+    {
+      "id": "canvas-before",
+      "file": "screens/canvas-before.png",
+      "kind": "canvas",
+      "width": 1050,
+      "height": 824,
+      "sha256": "b316da0188239a0524d99291423a212457a4141a351620aadc69f956d3a4f5b8",
+      "mode": "off"
+    },
+    {
+      "id": "canvas-candidates",
+      "file": "screens/canvas-candidates.png",
+      "kind": "canvas",
+      "width": 1050,
+      "height": 824,
+      "sha256": "2e073fcff17ca02e84a1472085ecbe3e2eedecec540660bc65498502d0c69aa7",
+      "mode": "candidates"
+    },
+    {
+      "id": "canvas-seated",
+      "file": "screens/canvas-seated.png",
+      "kind": "canvas",
+      "width": 1050,
+      "height": 824,
+      "sha256": "63e4ba280c8ca367c91a079420e7522d629c12471d53256879fe93558a53149b",
+      "mode": "candidates"
+    },
+    {
+      "id": "canvas-occlusion",
+      "file": "screens/canvas-occlusion.png",
+      "kind": "canvas",
+      "width": 1050,
+      "height": 824,
+      "sha256": "20d9aae097a4287aa85b688c718ad3479f1dd6291c97cd45ba4d4a00b7ce2dd8",
+      "mode": "candidates"
+    },
+    {
+      "id": "ui-lobby",
+      "file": "screens/ui-lobby.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "0b64d28e39b2df5f9a85a57ac525d7eabde3ba8799b18a39cee4eb3e5a4891e8"
+    },
+    {
+      "id": "ui-pilot",
+      "file": "screens/ui-pilot.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "dbe6c52b67408ddec54a8e6a13caaf23e55985a84fd0b6d4fab0a3776940e638"
+    },
+    {
+      "id": "ui-avatar",
+      "file": "screens/ui-avatar.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "2686310418775e71298393ea915d0681f49ecf9a030cd9c9efbc21c5e5299960"
+    },
+    {
+      "id": "ui-avatar-reload",
+      "file": "screens/ui-avatar-reload.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "14abea07a6252f315e3271b7b79986c72abe8be553c3ebce52c0e9fe253fc2cb"
+    },
+    {
+      "id": "ui-avatar-mobile",
+      "file": "screens/ui-avatar-mobile.png",
+      "kind": "ui",
+      "width": 780,
+      "height": 1688,
+      "sha256": "785d80c5a584cf16cca63cea91e3866ab1535bd75d5b71ead790159b0fced519"
+    },
+    {
+      "id": "ui-online",
+      "file": "screens/ui-online.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "da9e6f3ad1a20f99cdfd4b8d9fa132b8d71b62b49e8b909b3a98b69c99acbc2c"
+    },
+    {
+      "id": "ui-seated",
+      "file": "screens/ui-seated.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "a4dbb2d161d86611265706263407dd9c36dcc00887b3e555dc335c8e8b7b4eb3"
+    },
+    {
+      "id": "ui-portal-radio-chat",
+      "file": "screens/ui-portal-radio-chat.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "0c4418f33877396d103873773d8e0feb2d12662e61d4695bd1817011354cde46"
+    },
+    {
+      "id": "ui-zoom-100-dpr1",
+      "file": "screens/ui-zoom-100-dpr1.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "5962091ff4563d8f709566e95fa4ca52f5cdba34ef241ee9eb1b6884381613c4"
+    },
+    {
+      "id": "ui-zoom-125-dpr1",
+      "file": "screens/ui-zoom-125-dpr1.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "ba9c1cbc22b5a4178c925098e145d27e78c039040082321c89173c0df89b32c3"
+    },
+    {
+      "id": "ui-zoom-150-dpr1",
+      "file": "screens/ui-zoom-150-dpr1.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "f354fb23c979d6edc3b371c2f1a7118016ae5f12f197885fbfa902c4b0879a0f"
+    },
+    {
+      "id": "ui-zoom-100-dpr2",
+      "file": "screens/ui-zoom-100-dpr2.png",
+      "kind": "ui",
+      "width": 2560,
+      "height": 1800,
+      "sha256": "d64804f7af6a22c5323dd7e2b5a277d4c9e89b67b53111d7f9b5854805c6e717"
+    },
+    {
+      "id": "ui-canvas-fallback",
+      "file": "screens/ui-canvas-fallback.png",
+      "kind": "ui",
+      "width": 1280,
+      "height": 900,
+      "sha256": "a8aa0907d2b57fdb6fefa1c875db8eb201ceeee1ce7edd9b659040e68a8269a1"
+    }
+  ]
+}

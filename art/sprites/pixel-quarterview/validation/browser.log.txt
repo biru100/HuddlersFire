@@ -1,0 +1,14 @@
+Captured ui-lobby
+Captured ui-pilot
+Captured ui-avatar
+Captured ui-avatar-reload
+Captured ui-avatar-mobile
+Captured ui-online
+Captured ui-seated
+Captured ui-portal-radio-chat
+Captured ui-zoom-100-dpr1
+Captured ui-zoom-125-dpr1
+Captured ui-zoom-150-dpr1
+Captured ui-zoom-100-dpr2
+Captured ui-canvas-fallback
+PASS pixel authoring UI, draft reload, real peers, movement/seats/portals/chat/status/radio, zoom/DPR and Canvas fallback

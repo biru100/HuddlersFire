@@ -9,8 +9,12 @@ if(!process.argv.includes('--job')&&!process.argv.includes('--legacy')){
 }else if(process.argv.includes('--job')){
   const file=process.argv[process.argv.indexOf('--job')+1];
   if(!file)throw Error('--job requires a job.json path');
+  if(JSON.parse(readFileSync(resolve(file),'utf8')).kind==='pixel-quarterview'){
+    console.log(JSON.stringify(await (await import('./lib/pixel-assets.mjs')).buildPixelJob(file),null,2));
+  }else{
   const {slicePreview}=await import('./lib/sprite-preview.mjs');slicePreview(file);
   const result=spawnSync(process.execPath,['web/scripts/build-sprite-assets.mjs','--job',resolve(file)],{cwd:root,stdio:'inherit',windowsHide:true});if(result.status!==0)throw Error('Preview build failed');
+  }
 }else{
 const lock=JSON.parse(readFileSync(resolve(root,'tools/sprite-gen.lock.json'),'utf8'));
 const repo=resolve(root,lock.location),python=resolve(repo,process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python');

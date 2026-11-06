@@ -1,0 +1,4821 @@
+{
+  "sources": {
+    "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png": {
+      "sha256": "29fc4e69c00d35d549dc998e2a85759d437e5a07148590612a73a7fdf76c43e3",
+      "bytes": 1343351,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": {
+        "opaque": 3904,
+        "transparent": 743084,
+        "soft": 825540
+      },
+      "bounds": [
+        0,
+        0,
+        1442,
+        1086
+      ],
+      "visibleColors": 113724,
+      "paletteMismatches": null,
+      "edgePixels": 25226,
+      "redFringe": 0
+    },
+    "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png": {
+      "sha256": "28faccb6e3ace3475e0fd3cebe50b3c7f68b914695c91aa6b7fbff24b1a3cb2e",
+      "bytes": 1562269,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": {
+        "opaque": 2055,
+        "transparent": 563981,
+        "soft": 1006492
+      },
+      "bounds": [
+        0,
+        0,
+        1448,
+        1086
+      ],
+      "visibleColors": 136965,
+      "paletteMismatches": null,
+      "edgePixels": 23131,
+      "redFringe": 0
+    }
+  },
+  "assets": [
+    {
+      "id": "characters.base_stand_front_left",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/base_stand_front_left.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        52,
+        7,
+        179,
+        285
+      ],
+      "size": [
+        127,
+        278
+      ],
+      "kind": "avatar",
+      "slot": "base",
+      "status": "needs_redraw",
+      "reason": "이미 옷·머리·얼굴이 합쳐진 참조. 서기 2장/바닥 앉기 2장만 있으며 4방향 이동·벤치 착석 및 독립 신체 레이어가 없음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": [
+        63,
+        272
+      ],
+      "displaySize": [
+        32,
+        70
+      ],
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "pilot": {
+        "type": "avatar",
+        "match": {}
+      },
+      "metrics": {
+        "sha256": "9c2996bf549cd0d9c403baddd56097ce75fab55084e51c16b4d929e1f18aad16",
+        "bytes": 44314,
+        "size": [
+          127,
+          278
+        ],
+        "alpha": {
+          "opaque": 25881,
+          "transparent": 9425,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          127,
+          278
+        ],
+        "visibleColors": 11510,
+        "paletteMismatches": null,
+        "edgePixels": 1006,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "draft",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.base_stand_front_right",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/base_stand_front_right.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        240,
+        7,
+        368,
+        284
+      ],
+      "size": [
+        128,
+        277
+      ],
+      "kind": "avatar",
+      "slot": "base",
+      "status": "needs_redraw",
+      "reason": "이미 옷·머리·얼굴이 합쳐진 참조. 서기 2장/바닥 앉기 2장만 있으며 4방향 이동·벤치 착석 및 독립 신체 레이어가 없음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "adff4420e7e1f4cfa36b1d8c1bd1ba102df152f79d5544a2d951b58c19db0e84",
+        "bytes": 44271,
+        "size": [
+          128,
+          277
+        ],
+        "alpha": {
+          "opaque": 25980,
+          "transparent": 9476,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          128,
+          277
+        ],
+        "visibleColors": 11559,
+        "paletteMismatches": null,
+        "edgePixels": 1014,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.base_sit_ground_left",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/base_sit_ground_left.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        418,
+        56,
+        573,
+        277
+      ],
+      "size": [
+        155,
+        221
+      ],
+      "kind": "avatar",
+      "slot": "base",
+      "status": "needs_redraw",
+      "reason": "이미 옷·머리·얼굴이 합쳐진 참조. 서기 2장/바닥 앉기 2장만 있으며 4방향 이동·벤치 착석 및 독립 신체 레이어가 없음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "67405101d75372b295f25b62b684cf7b90787878f5d93ca83a110a6bebcd8988",
+        "bytes": 41063,
+        "size": [
+          155,
+          221
+        ],
+        "alpha": {
+          "opaque": 23720,
+          "transparent": 10535,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          155,
+          221
+        ],
+        "visibleColors": 10248,
+        "paletteMismatches": null,
+        "edgePixels": 799,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.base_sit_ground_right",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/base_sit_ground_right.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        619,
+        56,
+        776,
+        277
+      ],
+      "size": [
+        157,
+        221
+      ],
+      "kind": "avatar",
+      "slot": "base",
+      "status": "needs_redraw",
+      "reason": "이미 옷·머리·얼굴이 합쳐진 참조. 서기 2장/바닥 앉기 2장만 있으며 4방향 이동·벤치 착석 및 독립 신체 레이어가 없음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "58b3be95c436117a3ef294bed5d41a160dd8d57734ef4107a9b170f549654ea8",
+        "bytes": 40759,
+        "size": [
+          157,
+          221
+        ],
+        "alpha": {
+          "opaque": 23776,
+          "transparent": 10921,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          157,
+          221
+        ],
+        "visibleColors": 10262,
+        "paletteMismatches": null,
+        "edgePixels": 799,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.hair_short_curly",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/hair_short_curly.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        23,
+        299,
+        175,
+        419
+      ],
+      "size": [
+        152,
+        120
+      ],
+      "kind": "avatar",
+      "slot": "hair",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "5f3af7fad69f93e05f2a51058e1cf121b773a41d84ab976b8c3b33b5c3ea9297",
+        "bytes": 16903,
+        "size": [
+          152,
+          120
+        ],
+        "alpha": {
+          "opaque": 10646,
+          "transparent": 7594,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          152,
+          120
+        ],
+        "visibleColors": 3320,
+        "paletteMismatches": null,
+        "edgePixels": 628,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.hair_medium_wavy",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/hair_medium_wavy.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        189,
+        298,
+        358,
+        434
+      ],
+      "size": [
+        169,
+        136
+      ],
+      "kind": "avatar",
+      "slot": "hair",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "658f9cf1214897468d17993d592b5e94c71ff23ff662c4e68aa4d680ecd8b09f",
+        "bytes": 22014,
+        "size": [
+          169,
+          136
+        ],
+        "alpha": {
+          "opaque": 13907,
+          "transparent": 9077,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          169,
+          136
+        ],
+        "visibleColors": 3900,
+        "paletteMismatches": null,
+        "edgePixels": 765,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.hair_ponytail",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/hair_ponytail.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        371,
+        291,
+        562,
+        441
+      ],
+      "size": [
+        191,
+        150
+      ],
+      "kind": "avatar",
+      "slot": "hair",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "bbf7a3d420e7cb38978500a0facc9206be6e759488b92e2739afa1038c0ff909",
+        "bytes": 28580,
+        "size": [
+          191,
+          150
+        ],
+        "alpha": {
+          "opaque": 18223,
+          "transparent": 10427,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          191,
+          150
+        ],
+        "visibleColors": 4886,
+        "paletteMismatches": null,
+        "edgePixels": 882,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.hair_bob",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/hair_bob.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        573,
+        308,
+        736,
+        434
+      ],
+      "size": [
+        163,
+        126
+      ],
+      "kind": "avatar",
+      "slot": "hair",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "ea87f5871a4ab6611f9149ec9fdc06492de4070e7bf9935e4f2e307904cb7629",
+        "bytes": 20146,
+        "size": [
+          163,
+          126
+        ],
+        "alpha": {
+          "opaque": 13688,
+          "transparent": 6850,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          163,
+          126
+        ],
+        "visibleColors": 3647,
+        "paletteMismatches": null,
+        "edgePixels": 687,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.hair_shaggy",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/hair_shaggy.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        751,
+        287,
+        921,
+        425
+      ],
+      "size": [
+        170,
+        138
+      ],
+      "kind": "avatar",
+      "slot": "hair",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "1f73e2dce2a9ae6d415dc7d0d3395d87adbcf53231b5891857775010aa55149c",
+        "bytes": 21226,
+        "size": [
+          170,
+          138
+        ],
+        "alpha": {
+          "opaque": 13445,
+          "transparent": 10015,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          170,
+          138
+        ],
+        "visibleColors": 3785,
+        "paletteMismatches": null,
+        "edgePixels": 759,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.hair_long_straight",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/hair_long_straight.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        932,
+        293,
+        1086,
+        472
+      ],
+      "size": [
+        154,
+        179
+      ],
+      "kind": "avatar",
+      "slot": "hair",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "78fe361e6e3eec5fbefe25ef9eb6fc16c7ad617c86ed891df7042629614325f2",
+        "bytes": 23755,
+        "size": [
+          154,
+          179
+        ],
+        "alpha": {
+          "opaque": 18866,
+          "transparent": 8700,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          154,
+          179
+        ],
+        "visibleColors": 3738,
+        "paletteMismatches": null,
+        "edgePixels": 923,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.hair_short_with_band",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/hair_short_with_band.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        1107,
+        298,
+        1262,
+        429
+      ],
+      "size": [
+        155,
+        131
+      ],
+      "kind": "avatar",
+      "slot": "hair",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "3bc4cb7e522420564df761d695e678031f3e2530e30d83c811862afc7d8b992b",
+        "bytes": 21685,
+        "size": [
+          155,
+          131
+        ],
+        "alpha": {
+          "opaque": 12674,
+          "transparent": 7631,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          155,
+          131
+        ],
+        "visibleColors": 5571,
+        "paletteMismatches": null,
+        "edgePixels": 630,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.hair_bun",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/hair_bun.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        1279,
+        275,
+        1417,
+        448
+      ],
+      "size": [
+        138,
+        173
+      ],
+      "kind": "avatar",
+      "slot": "hair",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "60611695aef1fd604e1342e4d504f7a4e7ed1f0d44a360d64742408e266e7c7d",
+        "bytes": 22032,
+        "size": [
+          138,
+          173
+        ],
+        "alpha": {
+          "opaque": 13700,
+          "transparent": 10174,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          138,
+          173
+        ],
+        "visibleColors": 3993,
+        "paletteMismatches": null,
+        "edgePixels": 776,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.headwear_beanie",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/headwear_beanie.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        85,
+        441,
+        260,
+        593
+      ],
+      "size": [
+        175,
+        152
+      ],
+      "kind": "avatar",
+      "slot": "headwear",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "3bc0749d9c3e5edd3a93a40fbe4d12ee5e58e98c4e18a2f436a43d4baa711247",
+        "bytes": 28594,
+        "size": [
+          175,
+          152
+        ],
+        "alpha": {
+          "opaque": 17680,
+          "transparent": 8920,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          175,
+          152
+        ],
+        "visibleColors": 7657,
+        "paletteMismatches": null,
+        "edgePixels": 593,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.headwear_cap",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/headwear_cap.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        301,
+        465,
+        486,
+        580
+      ],
+      "size": [
+        185,
+        115
+      ],
+      "kind": "avatar",
+      "slot": "headwear",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "0a1218d21399b86da7f4bfd2005bd9ddaa51653bf1aae0586807d5dc7bea9604",
+        "bytes": 21223,
+        "size": [
+          185,
+          115
+        ],
+        "alpha": {
+          "opaque": 14684,
+          "transparent": 6591,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          185,
+          115
+        ],
+        "visibleColors": 4751,
+        "paletteMismatches": null,
+        "edgePixels": 537,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.headwear_bucket",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/headwear_bucket.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        508,
+        466,
+        703,
+        584
+      ],
+      "size": [
+        195,
+        118
+      ],
+      "kind": "avatar",
+      "slot": "headwear",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "9ce2ff0b82ac896ef9764b34bae6b88a5298a8197757825264605e0ba9d2ade2",
+        "bytes": 23022,
+        "size": [
+          195,
+          118
+        ],
+        "alpha": {
+          "opaque": 17382,
+          "transparent": 5628,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          195,
+          118
+        ],
+        "visibleColors": 5137,
+        "paletteMismatches": null,
+        "edgePixels": 556,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.headwear_headphones",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/headwear_headphones.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        729,
+        450,
+        910,
+        596
+      ],
+      "size": [
+        181,
+        146
+      ],
+      "kind": "avatar",
+      "slot": "headwear",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "a39488c6e826a665b3525ca3f8a4f58facff5af6b9f95554afa712e934adee35",
+        "bytes": 26567,
+        "size": [
+          181,
+          146
+        ],
+        "alpha": {
+          "opaque": 16687,
+          "transparent": 9739,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          181,
+          146
+        ],
+        "visibleColors": 5468,
+        "paletteMismatches": null,
+        "edgePixels": 853,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.top_hoodie",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/top_hoodie.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        27,
+        606,
+        245,
+        755
+      ],
+      "size": [
+        218,
+        149
+      ],
+      "kind": "avatar",
+      "slot": "top",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "2091a3e7600607f7ed271fa69a70272b337e3ec11bb801a7a316732b9af02e8c",
+        "bytes": 36302,
+        "size": [
+          218,
+          149
+        ],
+        "alpha": {
+          "opaque": 25023,
+          "transparent": 7459,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          218,
+          149
+        ],
+        "visibleColors": 6636,
+        "paletteMismatches": null,
+        "edgePixels": 685,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.top_knit",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/top_knit.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        268,
+        609,
+        473,
+        751
+      ],
+      "size": [
+        205,
+        142
+      ],
+      "kind": "avatar",
+      "slot": "top",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "c7e9f204befeca74bb670be15824532e95fe5cdd4b38b647e08e747d13d41c68",
+        "bytes": 39445,
+        "size": [
+          205,
+          142
+        ],
+        "alpha": {
+          "opaque": 22974,
+          "transparent": 6136,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          205,
+          142
+        ],
+        "visibleColors": 8899,
+        "paletteMismatches": null,
+        "edgePixels": 663,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.top_scarf_sweater",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/top_scarf_sweater.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        487,
+        603,
+        704,
+        755
+      ],
+      "size": [
+        217,
+        152
+      ],
+      "kind": "avatar",
+      "slot": "top",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "33466b57fb1a4aa6d0623ec20c487612df94625e5031eccb5567d3b405e4c3f1",
+        "bytes": 37562,
+        "size": [
+          217,
+          152
+        ],
+        "alpha": {
+          "opaque": 25285,
+          "transparent": 7699,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          217,
+          152
+        ],
+        "visibleColors": 9646,
+        "paletteMismatches": null,
+        "edgePixels": 669,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.top_jacket",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/top_jacket.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        719,
+        609,
+        940,
+        760
+      ],
+      "size": [
+        221,
+        151
+      ],
+      "kind": "avatar",
+      "slot": "top",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "a92287e0abe7ccd57492c66ff1abc4593293895c2a14b4cb1cae5345c3084899",
+        "bytes": 37050,
+        "size": [
+          221,
+          151
+        ],
+        "alpha": {
+          "opaque": 25518,
+          "transparent": 7853,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          221,
+          151
+        ],
+        "visibleColors": 7466,
+        "paletteMismatches": null,
+        "edgePixels": 704,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.top_cardigan",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/top_cardigan.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        951,
+        604,
+        1159,
+        753
+      ],
+      "size": [
+        208,
+        149
+      ],
+      "kind": "avatar",
+      "slot": "top",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "af596dd985dece2252910a098eef2169c38cfc265d9a81ca561a9c32604288a2",
+        "bytes": 36679,
+        "size": [
+          208,
+          149
+        ],
+        "alpha": {
+          "opaque": 24284,
+          "transparent": 6708,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          208,
+          149
+        ],
+        "visibleColors": 8223,
+        "paletteMismatches": null,
+        "edgePixels": 669,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.top_sweatshirt",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/top_sweatshirt.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        1177,
+        603,
+        1385,
+        755
+      ],
+      "size": [
+        208,
+        152
+      ],
+      "kind": "avatar",
+      "slot": "top",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "171ef71eb73195cf6c3948097301fa4e60188cacfafbea50e2bb477285326034",
+        "bytes": 31744,
+        "size": [
+          208,
+          152
+        ],
+        "alpha": {
+          "opaque": 24454,
+          "transparent": 7162,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          208,
+          152
+        ],
+        "visibleColors": 4436,
+        "paletteMismatches": null,
+        "edgePixels": 718,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.bottom_jeans",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/bottom_jeans.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        31,
+        775,
+        175,
+        930
+      ],
+      "size": [
+        144,
+        155
+      ],
+      "kind": "avatar",
+      "slot": "bottom",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "4e063d94b47a8d365baef47c6cdfbb773f8d242017c17ff5851e3d3cdad4b92f",
+        "bytes": 23824,
+        "size": [
+          144,
+          155
+        ],
+        "alpha": {
+          "opaque": 18876,
+          "transparent": 3444,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          144,
+          155
+        ],
+        "visibleColors": 4465,
+        "paletteMismatches": null,
+        "edgePixels": 699,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.bottom_joggers",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/bottom_joggers.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        199,
+        773,
+        357,
+        934
+      ],
+      "size": [
+        158,
+        161
+      ],
+      "kind": "avatar",
+      "slot": "bottom",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "3f27c0319563fb0d1d6c4674bceb0cb9fb28f044fae38d85d20580747761fa01",
+        "bytes": 28520,
+        "size": [
+          158,
+          161
+        ],
+        "alpha": {
+          "opaque": 20303,
+          "transparent": 5135,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          158,
+          161
+        ],
+        "visibleColors": 5581,
+        "paletteMismatches": null,
+        "edgePixels": 727,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.bottom_skirt_leggings",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/bottom_skirt_leggings.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        383,
+        773,
+        544,
+        934
+      ],
+      "size": [
+        161,
+        161
+      ],
+      "kind": "avatar",
+      "slot": "bottom",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "f27ef8f88663fe601ecdc520ea7247dc958f534da0304f68ad46178f5411db7e",
+        "bytes": 22585,
+        "size": [
+          161,
+          161
+        ],
+        "alpha": {
+          "opaque": 18955,
+          "transparent": 6966,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          161,
+          161
+        ],
+        "visibleColors": 3758,
+        "paletteMismatches": null,
+        "edgePixels": 691,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.bottom_cargo",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/bottom_cargo.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        564,
+        776,
+        714,
+        931
+      ],
+      "size": [
+        150,
+        155
+      ],
+      "kind": "avatar",
+      "slot": "bottom",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "256c801259671dee3a0ce6c06638c966f1d5876f396ea126773d0c2dbdd4723f",
+        "bytes": 28331,
+        "size": [
+          150,
+          155
+        ],
+        "alpha": {
+          "opaque": 19191,
+          "transparent": 4059,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          150,
+          155
+        ],
+        "visibleColors": 6840,
+        "paletteMismatches": null,
+        "edgePixels": 694,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.held_mug",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/held_mug.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        739,
+        803,
+        880,
+        920
+      ],
+      "size": [
+        141,
+        117
+      ],
+      "kind": "avatar",
+      "slot": "accessory",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "461205a327244495e3c46cf408ee45238eb94aeed9bb5bb79640c71217696e4f",
+        "bytes": 21252,
+        "size": [
+          141,
+          117
+        ],
+        "alpha": {
+          "opaque": 13543,
+          "transparent": 2954,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          141,
+          117
+        ],
+        "visibleColors": 5861,
+        "paletteMismatches": null,
+        "edgePixels": 512,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.held_notebook",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/held_notebook.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        921,
+        788,
+        1068,
+        935
+      ],
+      "size": [
+        147,
+        147
+      ],
+      "kind": "avatar",
+      "slot": "accessory",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "cfd5b0a2c0a6888174cf85c9cfdf3bf3b74b020d65e3f69abc2761674e328aa2",
+        "bytes": 28181,
+        "size": [
+          147,
+          147
+        ],
+        "alpha": {
+          "opaque": 17096,
+          "transparent": 4513,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          147,
+          147
+        ],
+        "visibleColors": 7886,
+        "paletteMismatches": null,
+        "edgePixels": 546,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.held_pencil",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/held_pencil.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        1095,
+        795,
+        1193,
+        919
+      ],
+      "size": [
+        98,
+        124
+      ],
+      "kind": "avatar",
+      "slot": "accessory",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "cad50b9991073948841b613f1d2985089baafacc47f77b248dae6684a2a8b2e1",
+        "bytes": 11759,
+        "size": [
+          98,
+          124
+        ],
+        "alpha": {
+          "opaque": 5373,
+          "transparent": 6779,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          98,
+          124
+        ],
+        "visibleColors": 4151,
+        "paletteMismatches": null,
+        "edgePixels": 361,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.held_laptop",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/held_laptop.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        1187,
+        794,
+        1426,
+        922
+      ],
+      "size": [
+        239,
+        128
+      ],
+      "kind": "avatar",
+      "slot": "accessory",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "d20ff059a45966ff0457ff67a15164a75844a02c5de60f74f36045de1e475aa3",
+        "bytes": 25646,
+        "size": [
+          239,
+          128
+        ],
+        "alpha": {
+          "opaque": 22348,
+          "transparent": 8244,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          239,
+          128
+        ],
+        "visibleColors": 4193,
+        "paletteMismatches": null,
+        "edgePixels": 691,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.face_smile",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/face_smile.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        16,
+        950,
+        160,
+        1077
+      ],
+      "size": [
+        144,
+        127
+      ],
+      "kind": "avatar",
+      "slot": "face",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "e89488e9f234388e9bda6058681b607f827f2137901a89871b07f1c4676a9082",
+        "bytes": 21700,
+        "size": [
+          144,
+          127
+        ],
+        "alpha": {
+          "opaque": 13457,
+          "transparent": 4831,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          144,
+          127
+        ],
+        "visibleColors": 5502,
+        "paletteMismatches": null,
+        "edgePixels": 482,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.face_focus",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/face_focus.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        181,
+        950,
+        323,
+        1078
+      ],
+      "size": [
+        142,
+        128
+      ],
+      "kind": "avatar",
+      "slot": "face",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "ef03092850f45bd709cc9ccd7c9ef168f2c0fae90ff6357286888749a963a44e",
+        "bytes": 22208,
+        "size": [
+          142,
+          128
+        ],
+        "alpha": {
+          "opaque": 13357,
+          "transparent": 4819,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          142,
+          128
+        ],
+        "visibleColors": 5366,
+        "paletteMismatches": null,
+        "edgePixels": 474,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.face_talking",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/face_talking.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        346,
+        950,
+        506,
+        1081
+      ],
+      "size": [
+        160,
+        131
+      ],
+      "kind": "avatar",
+      "slot": "face",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "ddffe69983ba406f59bf7bf6a8df019758c8e3d657b9276dd75972455b6cfc0d",
+        "bytes": 24259,
+        "size": [
+          160,
+          131
+        ],
+        "alpha": {
+          "opaque": 14212,
+          "transparent": 6748,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          160,
+          127
+        ],
+        "visibleColors": 6513,
+        "paletteMismatches": null,
+        "edgePixels": 639,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.face_content",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/face_content.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        519,
+        950,
+        665,
+        1077
+      ],
+      "size": [
+        146,
+        127
+      ],
+      "kind": "avatar",
+      "slot": "face",
+      "status": "needs_redraw",
+      "reason": "방향/포즈별 동일 캔버스·앵커·프레임이 없고 기본 신체와 조립할 수 있는 레이어로 검증되지 않음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "3775cbdece124fce8a95ba91cc584f0d941b04c3d699a561a41812c55806d890",
+        "bytes": 22583,
+        "size": [
+          146,
+          127
+        ],
+        "alpha": {
+          "opaque": 13673,
+          "transparent": 4869,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          146,
+          127
+        ],
+        "visibleColors": 5660,
+        "paletteMismatches": null,
+        "edgePixels": 478,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "missing_direction_pose_frame_set"
+      }
+    },
+    {
+      "id": "characters.swatches_skin",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/swatches_skin.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        699,
+        985,
+        970,
+        1058
+      ],
+      "size": [
+        271,
+        73
+      ],
+      "kind": "avatar",
+      "slot": null,
+      "status": "reference_only",
+      "reason": "색감 참조만 가능. 정확 RGB 치환표·레이어 마스크·승인 팔레트가 아님.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "64ed5fc500a4f56ac1d1c995beb3be78435eb039432740a7e3363072ce423342",
+        "bytes": 18239,
+        "size": [
+          271,
+          73
+        ],
+        "alpha": {
+          "opaque": 17841,
+          "transparent": 1942,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          271,
+          73
+        ],
+        "visibleColors": 3350,
+        "paletteMismatches": null,
+        "edgePixels": 764,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "characters.swatches_clothing",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/characters/swatches_clothing.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/characters.png",
+      "crop": [
+        1003,
+        985,
+        1430,
+        1057
+      ],
+      "size": [
+        427,
+        72
+      ],
+      "kind": "avatar",
+      "slot": null,
+      "status": "reference_only",
+      "reason": "색감 참조만 가능. 정확 RGB 치환표·레이어 마스크·승인 팔레트가 아님.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "1a33dac10610361d5396ca31ef5a4153ae598be6117e4700180236dc3bd212f6",
+        "bytes": 27718,
+        "size": [
+          427,
+          72
+        ],
+        "alpha": {
+          "opaque": 28130,
+          "transparent": 2614,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          427,
+          72
+        ],
+        "visibleColors": 5126,
+        "paletteMismatches": null,
+        "edgePixels": 1150,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.campfire_merged_static",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/campfire_merged_static.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        39,
+        17,
+        256,
+        206
+      ],
+      "size": [
+        217,
+        189
+      ],
+      "kind": "effect",
+      "slot": null,
+      "status": "needs_redraw",
+      "reason": "불꽃·돌·빛이 합쳐진 한 장. 불 성장/외형·불꽃 루프·위치 기반 조명을 위한 비발광 바닥과 불꽃/발광 마스크 분리 필요.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": [
+        108,
+        180
+      ],
+      "displaySize": [
+        100,
+        87
+      ],
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "pilot": {
+        "type": "fire",
+        "match": {}
+      },
+      "metrics": {
+        "sha256": "e89a5752f169998348372a3a59f9091186ea9684e5aaab0a317936bb9ef2cf5d",
+        "bytes": 39588,
+        "size": [
+          217,
+          189
+        ],
+        "alpha": {
+          "opaque": 26450,
+          "transparent": 14563,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          217,
+          189
+        ],
+        "visibleColors": 9411,
+        "paletteMismatches": null,
+        "edgePixels": 733,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "draft",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.bench_ne_candidate",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/bench_ne_candidate.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        307,
+        41,
+        550,
+        192
+      ],
+      "size": [
+        243,
+        151
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_redraw",
+      "reason": "2:1 세계 축(화면 기울기 ±0.5)과 그림의 방향/좌면 일치가 미검증. 벤치는 기존 좌석 두 접점과 네 착석 facing에 맞춘 재제작 필요.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": [
+        121,
+        144
+      ],
+      "displaySize": [
+        110,
+        68
+      ],
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "pilot": {
+        "type": "bench",
+        "match": {
+          "id": "log-0"
+        }
+      },
+      "metrics": {
+        "sha256": "91e3dfbebacd5473650f99b7b10953e1f8aa879f9d81b268f66aca3e8a70c0b6",
+        "bytes": 32103,
+        "size": [
+          243,
+          151
+        ],
+        "alpha": {
+          "opaque": 23686,
+          "transparent": 13007,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          243,
+          151
+        ],
+        "visibleColors": 6176,
+        "paletteMismatches": null,
+        "edgePixels": 734,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "draft",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.bench_nw_candidate",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/bench_nw_candidate.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        597,
+        32,
+        835,
+        200
+      ],
+      "size": [
+        238,
+        168
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_redraw",
+      "reason": "2:1 세계 축(화면 기울기 ±0.5)과 그림의 방향/좌면 일치가 미검증. 벤치는 기존 좌석 두 접점과 네 착석 facing에 맞춘 재제작 필요.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "902f5e8c97e555141b1538921485b67200dc4b57052134113e0448d10e8579a1",
+        "bytes": 35276,
+        "size": [
+          238,
+          168
+        ],
+        "alpha": {
+          "opaque": 23797,
+          "transparent": 16187,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          238,
+          168
+        ],
+        "visibleColors": 6584,
+        "paletteMismatches": null,
+        "edgePixels": 715,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.bench_s_candidate",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/bench_s_candidate.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        864,
+        70,
+        1142,
+        182
+      ],
+      "size": [
+        278,
+        112
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_redraw",
+      "reason": "2:1 세계 축(화면 기울기 ±0.5)과 그림의 방향/좌면 일치가 미검증. 벤치는 기존 좌석 두 접점과 네 착석 facing에 맞춘 재제작 필요.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "7ec2bf24b91e932858b2ae5b26c6453ff469d60aa56dd67cd55c3d7afef98d83",
+        "bytes": 28517,
+        "size": [
+          278,
+          112
+        ],
+        "alpha": {
+          "opaque": 25084,
+          "transparent": 6052,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          278,
+          112
+        ],
+        "visibleColors": 5329,
+        "paletteMismatches": null,
+        "edgePixels": 787,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.bench_se_candidate",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/bench_se_candidate.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        1188,
+        32,
+        1406,
+        197
+      ],
+      "size": [
+        218,
+        165
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_redraw",
+      "reason": "2:1 세계 축(화면 기울기 ±0.5)과 그림의 방향/좌면 일치가 미검증. 벤치는 기존 좌석 두 접점과 네 착석 facing에 맞춘 재제작 필요.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "e60a4cec96d8460c1c717b9e76638bc01d9568073be840ab70232c0848b12242",
+        "bytes": 33492,
+        "size": [
+          218,
+          165
+        ],
+        "alpha": {
+          "opaque": 22335,
+          "transparent": 13635,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          218,
+          165
+        ],
+        "visibleColors": 6060,
+        "paletteMismatches": null,
+        "edgePixels": 685,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.tent",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/tent.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        34,
+        226,
+        422,
+        462
+      ],
+      "size": [
+        388,
+        236
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_redraw",
+      "reason": "2:1 세계 축(화면 기울기 ±0.5)과 그림의 방향/좌면 일치가 미검증. 벤치는 기존 좌석 두 접점과 네 착석 facing에 맞춘 재제작 필요.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "36956faf2f5f3b60ae978f3965598af1bef0dc1b861c5211cb65c2dc2944eb9e",
+        "bytes": 85261,
+        "size": [
+          388,
+          236
+        ],
+        "alpha": {
+          "opaque": 59847,
+          "transparent": 31721,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          388,
+          236
+        ],
+        "visibleColors": 17203,
+        "paletteMismatches": null,
+        "edgePixels": 1135,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.arch_round",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/arch_round.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        438,
+        216,
+        710,
+        447
+      ],
+      "size": [
+        272,
+        231
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "b3e9b5d22674415249b702898790108bd588230fb53e483258560a7b73e26639",
+        "bytes": 52340,
+        "size": [
+          272,
+          231
+        ],
+        "alpha": {
+          "opaque": 32432,
+          "transparent": 30400,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          272,
+          231
+        ],
+        "visibleColors": 12476,
+        "paletteMismatches": null,
+        "edgePixels": 1380,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.arch_square",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/arch_square.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        754,
+        216,
+        1024,
+        442
+      ],
+      "size": [
+        270,
+        226
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "5a025a392fe53638957753b1e5222f2b4bd215b5807c18fda56d086c4d2cca3c",
+        "bytes": 54777,
+        "size": [
+          270,
+          226
+        ],
+        "alpha": {
+          "opaque": 34436,
+          "transparent": 26584,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          270,
+          226
+        ],
+        "visibleColors": 12854,
+        "paletteMismatches": null,
+        "edgePixels": 1391,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.sign_blank",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/sign_blank.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        1092,
+        219,
+        1350,
+        442
+      ],
+      "size": [
+        258,
+        223
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "5f8fb04781943cdd169baddfbbc00610d3e3dcc0ed22481d67fa27480cc67c06",
+        "bytes": 49445,
+        "size": [
+          258,
+          223
+        ],
+        "alpha": {
+          "opaque": 45238,
+          "transparent": 12296,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          258,
+          223
+        ],
+        "visibleColors": 7471,
+        "paletteMismatches": null,
+        "edgePixels": 1066,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.radio",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/radio.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        19,
+        496,
+        177,
+        682
+      ],
+      "size": [
+        158,
+        186
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": [
+        79,
+        178
+      ],
+      "displaySize": [
+        48,
+        57
+      ],
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "pilot": {
+        "type": "radio",
+        "match": {
+          "id": "radio"
+        }
+      },
+      "metrics": {
+        "sha256": "045ee9c14404e61743b7a3c5c85b2f5ddf59770cf045d2de0e6211a93dd60385",
+        "bytes": 33880,
+        "size": [
+          158,
+          186
+        ],
+        "alpha": {
+          "opaque": 20311,
+          "transparent": 9077,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          158,
+          186
+        ],
+        "visibleColors": 10075,
+        "paletteMismatches": null,
+        "edgePixels": 743,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "draft",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.lantern_olive",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/lantern_olive.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        206,
+        510,
+        315,
+        682
+      ],
+      "size": [
+        109,
+        172
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": [
+        54,
+        164
+      ],
+      "displaySize": [
+        22,
+        35
+      ],
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "pilot": {
+        "type": "lantern",
+        "match": {
+          "x": -4.9,
+          "y": -3.8
+        }
+      },
+      "metrics": {
+        "sha256": "aaab865cda572c4db5b12c960b0c18cfdeaffcb4d5eb6387242e1cf57caea6f3",
+        "bytes": 26879,
+        "size": [
+          109,
+          172
+        ],
+        "alpha": {
+          "opaque": 14834,
+          "transparent": 3914,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          109,
+          172
+        ],
+        "visibleColors": 7792,
+        "paletteMismatches": null,
+        "edgePixels": 592,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "draft",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.lantern_copper",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/lantern_copper.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        335,
+        504,
+        434,
+        688
+      ],
+      "size": [
+        99,
+        184
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "34087ba8195e187062879e2b6ea132478554e3ea11f7b7b87561a70b02ca762a",
+        "bytes": 22368,
+        "size": [
+          99,
+          184
+        ],
+        "alpha": {
+          "opaque": 13541,
+          "transparent": 4675,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          99,
+          184
+        ],
+        "visibleColors": 7360,
+        "paletteMismatches": null,
+        "edgePixels": 577,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.ball",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/ball.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        452,
+        550,
+        582,
+        682
+      ],
+      "size": [
+        130,
+        132
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "dad64872ccb6b5ff9818b8579d3d5cacaf6c3f115d1621ab189dfec2fd22f0be",
+        "bytes": 21353,
+        "size": [
+          130,
+          132
+        ],
+        "alpha": {
+          "opaque": 13716,
+          "transparent": 3444,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          130,
+          132
+        ],
+        "visibleColors": 6002,
+        "paletteMismatches": null,
+        "edgePixels": 426,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.tree_green",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/tree_green.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        589,
+        458,
+        799,
+        698
+      ],
+      "size": [
+        210,
+        240
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": [
+        105,
+        231
+      ],
+      "displaySize": [
+        150,
+        171
+      ],
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "pilot": {
+        "type": "tree",
+        "match": {
+          "x": -9,
+          "y": -3
+        }
+      },
+      "metrics": {
+        "sha256": "394f349b6fa4dea8bd0b9b02e53be2b44395a310574e86bb7c4f1d523ffbf3d8",
+        "bytes": 47676,
+        "size": [
+          210,
+          240
+        ],
+        "alpha": {
+          "opaque": 33506,
+          "transparent": 16894,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          210,
+          240
+        ],
+        "visibleColors": 9915,
+        "paletteMismatches": null,
+        "edgePixels": 915,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "draft",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.tree_yellow",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/tree_yellow.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        801,
+        458,
+        1003,
+        697
+      ],
+      "size": [
+        202,
+        239
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "95601e7df7c419a22398f39cef4a17879d8be3ec476e5098a66e87ff9cadf26a",
+        "bytes": 49435,
+        "size": [
+          202,
+          239
+        ],
+        "alpha": {
+          "opaque": 33134,
+          "transparent": 15144,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          202,
+          239
+        ],
+        "visibleColors": 12019,
+        "paletteMismatches": null,
+        "edgePixels": 916,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.tree_dusk",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/tree_dusk.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        1008,
+        458,
+        1211,
+        697
+      ],
+      "size": [
+        203,
+        239
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "654ea6fa81a4d9c07e43b2a0ea9d0f0820055e08dd62aa5e6839e6ca3dc3c11a",
+        "bytes": 46725,
+        "size": [
+          203,
+          239
+        ],
+        "alpha": {
+          "opaque": 33895,
+          "transparent": 14622,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          203,
+          239
+        ],
+        "visibleColors": 8172,
+        "paletteMismatches": null,
+        "edgePixels": 918,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.tree_autumn",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/tree_autumn.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        1215,
+        458,
+        1440,
+        698
+      ],
+      "size": [
+        225,
+        240
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "5c7741d414612fcde207f6f999a57f29b0ede98a7a41db9d64ad531515ab0117",
+        "bytes": 53896,
+        "size": [
+          225,
+          240
+        ],
+        "alpha": {
+          "opaque": 37003,
+          "transparent": 16997,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          225,
+          240
+        ],
+        "visibleColors": 11226,
+        "paletteMismatches": null,
+        "edgePixels": 963,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.bush_plain",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/bush_plain.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        16,
+        725,
+        187,
+        849
+      ],
+      "size": [
+        171,
+        124
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "c31773bb2aadc49186f81378f04dfbd33bcbb63213d219ccb12bc2e95ddf0313",
+        "bytes": 23486,
+        "size": [
+          171,
+          124
+        ],
+        "alpha": {
+          "opaque": 16451,
+          "transparent": 4753,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          171,
+          124
+        ],
+        "visibleColors": 4534,
+        "paletteMismatches": null,
+        "edgePixels": 529,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.bush_white_flower",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/bush_white_flower.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        196,
+        720,
+        363,
+        849
+      ],
+      "size": [
+        167,
+        129
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "d90f5b326126c903cddb2b6320a173fe04a7ef8f7a0bcfe18f5b29ae1e65c872",
+        "bytes": 29159,
+        "size": [
+          167,
+          129
+        ],
+        "alpha": {
+          "opaque": 16865,
+          "transparent": 4678,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          167,
+          129
+        ],
+        "visibleColors": 7895,
+        "paletteMismatches": null,
+        "edgePixels": 537,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.bush_berry",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/bush_berry.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        372,
+        719,
+        545,
+        849
+      ],
+      "size": [
+        173,
+        130
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "65c17a5a95c2931fe56951064f338ce49a6dc19b133d98116c80e7f021b52a7b",
+        "bytes": 28780,
+        "size": [
+          173,
+          130
+        ],
+        "alpha": {
+          "opaque": 17041,
+          "transparent": 5449,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          173,
+          130
+        ],
+        "visibleColors": 9275,
+        "paletteMismatches": null,
+        "edgePixels": 544,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.bush_yellow_flower",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/bush_yellow_flower.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        555,
+        722,
+        724,
+        849
+      ],
+      "size": [
+        169,
+        127
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "88065fe3280b1e3aae978e42c3c8f71a5707698917963446012db1bc9dd2ec69",
+        "bytes": 27616,
+        "size": [
+          169,
+          127
+        ],
+        "alpha": {
+          "opaque": 16477,
+          "transparent": 4986,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          169,
+          127
+        ],
+        "visibleColors": 7487,
+        "paletteMismatches": null,
+        "edgePixels": 515,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.rock_large",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/rock_large.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        744,
+        745,
+        887,
+        841
+      ],
+      "size": [
+        143,
+        96
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "ffaca81d625aebd175b53856835ff1e5a0ff7ef3829c4e6ab04cc187a925f951",
+        "bytes": 14377,
+        "size": [
+          143,
+          96
+        ],
+        "alpha": {
+          "opaque": 9856,
+          "transparent": 3872,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          143,
+          96
+        ],
+        "visibleColors": 2652,
+        "paletteMismatches": null,
+        "edgePixels": 405,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.rock_small",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/rock_small.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        898,
+        781,
+        961,
+        827
+      ],
+      "size": [
+        63,
+        46
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "166c9d322a117bbacb0eaab2dcc22be2aee0036da8a50321eb7ecc179e2f1b11",
+        "bytes": 3960,
+        "size": [
+          63,
+          46
+        ],
+        "alpha": {
+          "opaque": 2246,
+          "transparent": 652,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          63,
+          46
+        ],
+        "visibleColors": 1116,
+        "paletteMismatches": null,
+        "edgePixels": 176,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.grass_large",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/grass_large.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        975,
+        743,
+        1088,
+        837
+      ],
+      "size": [
+        113,
+        94
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "d8bf784fde9a55ec7d197c920cc29b2c128180c4c667f2aff5ef25200ea59727",
+        "bytes": 13220,
+        "size": [
+          113,
+          94
+        ],
+        "alpha": {
+          "opaque": 7541,
+          "transparent": 3081,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          113,
+          94
+        ],
+        "visibleColors": 3933,
+        "paletteMismatches": null,
+        "edgePixels": 409,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.grass_small",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/grass_small.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        1100,
+        771,
+        1171,
+        834
+      ],
+      "size": [
+        71,
+        63
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "f9b92afc9f23a9f81fb605234d97e555c87ce8d8be14e4b4530dc4d9a57081fe",
+        "bytes": 5953,
+        "size": [
+          71,
+          63
+        ],
+        "alpha": {
+          "opaque": 3264,
+          "transparent": 1209,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          71,
+          63
+        ],
+        "visibleColors": 2008,
+        "paletteMismatches": null,
+        "edgePixels": 233,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.ground_dirt_patch",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/ground_dirt_patch.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        1190,
+        769,
+        1324,
+        836
+      ],
+      "size": [
+        134,
+        67
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "a352fab6bb97d40be6122143c66732d3ae1de96c8e8f6ef575e952ee8c8a74ea",
+        "bytes": 10755,
+        "size": [
+          134,
+          67
+        ],
+        "alpha": {
+          "opaque": 6726,
+          "transparent": 2252,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          134,
+          67
+        ],
+        "visibleColors": 2533,
+        "paletteMismatches": null,
+        "edgePixels": 382,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.ground_pebbles",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/ground_pebbles.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        1334,
+        765,
+        1424,
+        830
+      ],
+      "size": [
+        90,
+        65
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "dec3e662295877b7f4134aed8d2b3c6411ec3857678e9cbf3a5daa2349c62823",
+        "bytes": 5792,
+        "size": [
+          90,
+          65
+        ],
+        "alpha": {
+          "opaque": 2950,
+          "transparent": 2900,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          90,
+          65
+        ],
+        "visibleColors": 1459,
+        "paletteMismatches": null,
+        "edgePixels": 341,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.path_square_reference_only",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/path_square_reference_only.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        37,
+        888,
+        209,
+        1054
+      ],
+      "size": [
+        172,
+        166
+      ],
+      "kind": "terrain",
+      "slot": null,
+      "status": "reference_only",
+      "reason": "크기가 서로 다른 참조 조각. 반복/경계 접속/2:1 투영 규격이 없음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "59efe1b76a8c7abb0b6f95ba40fc1180d3d2d98ab0a38bbf9ef92d3bcc1a98c2",
+        "bytes": 36159,
+        "size": [
+          172,
+          166
+        ],
+        "alpha": {
+          "opaque": 26276,
+          "transparent": 2276,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          172,
+          166
+        ],
+        "visibleColors": 7673,
+        "paletteMismatches": null,
+        "edgePixels": 744,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "unverified",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.path_corner_reference_only",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/path_corner_reference_only.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        240,
+        888,
+        420,
+        1055
+      ],
+      "size": [
+        180,
+        167
+      ],
+      "kind": "terrain",
+      "slot": null,
+      "status": "reference_only",
+      "reason": "크기가 서로 다른 참조 조각. 반복/경계 접속/2:1 투영 규격이 없음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "f45e086ec7440aecb780911522ae15392f044931d74202079213baf0d3d203f9",
+        "bytes": 33310,
+        "size": [
+          180,
+          167
+        ],
+        "alpha": {
+          "opaque": 23284,
+          "transparent": 6776,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          180,
+          167
+        ],
+        "visibleColors": 7993,
+        "paletteMismatches": null,
+        "edgePixels": 675,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "unverified",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.path_straight_reference_only",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/path_straight_reference_only.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        449,
+        904,
+        676,
+        1035
+      ],
+      "size": [
+        227,
+        131
+      ],
+      "kind": "terrain",
+      "slot": null,
+      "status": "reference_only",
+      "reason": "크기가 서로 다른 참조 조각. 반복/경계 접속/2:1 투영 규격이 없음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "c511225efe5942565fc7cf74dda3e9d57507b8af840aa0f25150b8fe05d971fc",
+        "bytes": 37781,
+        "size": [
+          227,
+          131
+        ],
+        "alpha": {
+          "opaque": 27404,
+          "transparent": 2333,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          227,
+          131
+        ],
+        "visibleColors": 8730,
+        "paletteMismatches": null,
+        "edgePixels": 779,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "unverified",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.path_t_reference_only",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/path_t_reference_only.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        702,
+        886,
+        934,
+        1070
+      ],
+      "size": [
+        232,
+        184
+      ],
+      "kind": "terrain",
+      "slot": null,
+      "status": "reference_only",
+      "reason": "크기가 서로 다른 참조 조각. 반복/경계 접속/2:1 투영 규격이 없음.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "66095bf82db75d0c2c51956f372d7581f2774244082b17308e939d76f6e7bced",
+        "bytes": 45507,
+        "size": [
+          232,
+          184
+        ],
+        "alpha": {
+          "opaque": 31995,
+          "transparent": 10693,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          232,
+          184
+        ],
+        "visibleColors": 10139,
+        "paletteMismatches": null,
+        "edgePixels": 896,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "unverified",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.stump_plain",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/stump_plain.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        956,
+        914,
+        1171,
+        1047
+      ],
+      "size": [
+        215,
+        133
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "6d32f90fb1971a8577636ae7e9d949b99e213839cbd5caffafb2c6e65259748a",
+        "bytes": 30581,
+        "size": [
+          215,
+          133
+        ],
+        "alpha": {
+          "opaque": 21863,
+          "transparent": 6732,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          215,
+          133
+        ],
+        "visibleColors": 8016,
+        "paletteMismatches": null,
+        "edgePixels": 626,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    },
+    {
+      "id": "environment.stump_mushroom",
+      "file": "art/sprites/pixel-quarterview/incoming/v0.1/assets/candidates/environment/stump_mushroom.png",
+      "source": "art/sprites/pixel-quarterview/incoming/v0.1/assets/source/environment.png",
+      "crop": [
+        1189,
+        891,
+        1381,
+        1054
+      ],
+      "size": [
+        192,
+        163
+      ],
+      "kind": "prop",
+      "slot": null,
+      "status": "needs_anchor",
+      "reason": "정적 실루엣의 시험 표시는 가능. 지면 접점·표시 크기·공통 픽셀 밀도·가장자리 정리가 필요하며 충돌과 별도로 검토해야 함.",
+      "projection": "unverified",
+      "grid": "unverified",
+      "direction": "unverified",
+      "frames": 1,
+      "variants": {},
+      "ground": null,
+      "displaySize": null,
+      "collision": {
+        "authority": "web/lib/camp-maps.mjs",
+        "mode": "preserve-existing"
+      },
+      "paletteId": null,
+      "review": {
+        "method": "source-sheet visual inspection plus file/alpha/size audit",
+        "composite": "unreviewed"
+      },
+      "metrics": {
+        "sha256": "069c31a15dac94a6a617333ea477e82de60cb4f43f284103ebb3758d284d293c",
+        "bytes": 36760,
+        "size": [
+          192,
+          163
+        ],
+        "alpha": {
+          "opaque": 24497,
+          "transparent": 6799,
+          "soft": 0
+        },
+        "bounds": [
+          0,
+          0,
+          192,
+          163
+        ],
+        "visibleColors": 10627,
+        "paletteMismatches": null,
+        "edgePixels": 659,
+        "redFringe": 0
+      },
+      "productionEligible": false,
+      "checks": {
+        "fileSize": "pass",
+        "alpha": "pass",
+        "projection": "unverified",
+        "pixelGrid": "unverified",
+        "anchors": "missing",
+        "tileConnectivity": "not_applicable",
+        "layerCompatibility": "not_applicable"
+      }
+    }
+  ],
+  "grades": {
+    "usable_as_is": 0,
+    "needs_anchor": 23,
+    "needs_redraw": 40,
+    "reference_only": 6
+  },
+  "productionReady": []
+}

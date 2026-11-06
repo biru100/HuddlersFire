@@ -4,6 +4,7 @@ import { gameById, exhibitCover } from './camp-games.mjs';
 import { defaultSpriteAssets, createSpriteSurface } from './camp-sprite-assets.mjs';
 import { benchBinding,propDisplay } from './camp-scene-contract.mjs';
 import {paintGroundSurface} from './camp-canvas-renderer.mjs';
+import {pixelPropDisplay} from './camp-pixel.mjs';
 export const FIELD_INK=Object.freeze({background:'#111111',floor:'#343434',edge:'#222222',line:'#555555',muted:'#aaaaaa',paper:'#eeeeee',white:'#ffffff'});
 const COLOR_FIELD_INK=Object.freeze({background:'#f1ead9',floor:'#a9b67a',edge:'#7d8651',line:'#87975c',muted:'#655e48',paper:'#fff8e6',white:'#fffdf4'});
 export class CampArtwork {
@@ -11,7 +12,7 @@ export class CampArtwork {
   ink(dark,color){return this.theme==='dark'?dark:color;}
   get fieldInk(){return this.theme==='dark'?FIELD_INK:COLOR_FIELD_INK;}
   sprite(id,options={}){return this.sprites.drawSprite(this.ctx,id,{theme:this.theme,...options});}
-  prop(item){const display=propDisplay(item,this.sprites);return display&&this.sprite(display.id,display);}
+  prop(item){const display=pixelPropDisplay(this.sprites,item,this.mapId,this.pixelMode)||propDisplay(item,this.sprites);return display&&this.sprite(display.id,display);}
   round(x,y,w,h,r,fill,stroke){const c=this.ctx;c.beginPath();c.roundRect(x,y,w,h,r);c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=1.2;c.stroke();}}
   line(points,color=this.fieldInk.line,width=1){const c=this.ctx;c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';c.stroke();}
   caption(text,y=28,size=11){const c=this.ctx;c.textAlign='center';c.font=`600 ${size}px "Malgun Gothic",sans-serif`;c.fillStyle=this.ink('#ededed','#514530');c.strokeStyle=this.ink('#191919cc','#fff9e6cc');c.lineWidth=4;c.strokeText(text,0,y);c.fillText(text,0,y);}

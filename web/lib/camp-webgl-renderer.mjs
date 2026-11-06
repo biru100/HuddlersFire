@@ -23,7 +23,7 @@ export class CampWebGLRenderer{
   }
   texture(image,numerical=false){
     if(!image)return Texture.WHITE;
-    let row=this.textures.get(image);if(!row){const [width,height]=dims(image),Source=image.getContext?CanvasSource:ImageSource,source=new Source({resource:image,alphaMode:numerical?'no-premultiply-alpha':'premultiply-alpha-on-upload',autoGenerateMipmaps:false,scaleMode:'linear'});row=new Texture({source});this.textures.set(image,row);this.metrics.textureBytes+=width*height*4;this.metrics.uploads++;}
+    let row=this.textures.get(image);if(!row){const [width,height]=dims(image),meta=spriteImageMetadata.get(image),sampling=meta?.assets.manifest.files[meta.id]?.sampling,Source=image.getContext?CanvasSource:ImageSource,source=new Source({resource:image,alphaMode:numerical?'no-premultiply-alpha':'premultiply-alpha-on-upload',autoGenerateMipmaps:false,scaleMode:sampling==='nearest'?'nearest':'linear'});row=new Texture({source});this.textures.set(image,row);this.metrics.textureBytes+=width*height*4;this.metrics.uploads++;}
     this.textureUse.set(image,this.metrics.frames);return row;
   }
   imageMesh(index){

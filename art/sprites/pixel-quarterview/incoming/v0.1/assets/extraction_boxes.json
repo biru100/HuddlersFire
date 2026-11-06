@@ -1,0 +1,420 @@
+{
+  "characters": {
+    "base_stand_front_left": [
+      52,
+      7,
+      179,
+      285
+    ],
+    "base_stand_front_right": [
+      240,
+      7,
+      368,
+      284
+    ],
+    "base_sit_ground_left": [
+      418,
+      56,
+      573,
+      277
+    ],
+    "base_sit_ground_right": [
+      619,
+      56,
+      776,
+      277
+    ],
+    "hair_short_curly": [
+      23,
+      299,
+      175,
+      419
+    ],
+    "hair_medium_wavy": [
+      189,
+      298,
+      358,
+      434
+    ],
+    "hair_ponytail": [
+      371,
+      291,
+      562,
+      441
+    ],
+    "hair_bob": [
+      573,
+      308,
+      736,
+      434
+    ],
+    "hair_shaggy": [
+      751,
+      287,
+      921,
+      425
+    ],
+    "hair_long_straight": [
+      932,
+      293,
+      1086,
+      472
+    ],
+    "hair_short_with_band": [
+      1107,
+      298,
+      1262,
+      429
+    ],
+    "hair_bun": [
+      1279,
+      275,
+      1417,
+      448
+    ],
+    "headwear_beanie": [
+      85,
+      441,
+      260,
+      593
+    ],
+    "headwear_cap": [
+      301,
+      465,
+      486,
+      580
+    ],
+    "headwear_bucket": [
+      508,
+      466,
+      703,
+      584
+    ],
+    "headwear_headphones": [
+      729,
+      450,
+      910,
+      596
+    ],
+    "top_hoodie": [
+      27,
+      606,
+      245,
+      755
+    ],
+    "top_knit": [
+      268,
+      609,
+      473,
+      751
+    ],
+    "top_scarf_sweater": [
+      487,
+      603,
+      704,
+      755
+    ],
+    "top_jacket": [
+      719,
+      609,
+      940,
+      760
+    ],
+    "top_cardigan": [
+      951,
+      604,
+      1159,
+      753
+    ],
+    "top_sweatshirt": [
+      1177,
+      603,
+      1385,
+      755
+    ],
+    "bottom_jeans": [
+      31,
+      775,
+      175,
+      930
+    ],
+    "bottom_joggers": [
+      199,
+      773,
+      357,
+      934
+    ],
+    "bottom_skirt_leggings": [
+      383,
+      773,
+      544,
+      934
+    ],
+    "bottom_cargo": [
+      564,
+      776,
+      714,
+      931
+    ],
+    "held_mug": [
+      739,
+      803,
+      880,
+      920
+    ],
+    "held_notebook": [
+      921,
+      788,
+      1068,
+      935
+    ],
+    "held_pencil": [
+      1095,
+      795,
+      1193,
+      919
+    ],
+    "held_laptop": [
+      1187,
+      794,
+      1426,
+      922
+    ],
+    "face_smile": [
+      16,
+      950,
+      160,
+      1077
+    ],
+    "face_focus": [
+      181,
+      950,
+      323,
+      1078
+    ],
+    "face_talking": [
+      346,
+      950,
+      506,
+      1081
+    ],
+    "face_content": [
+      519,
+      950,
+      665,
+      1077
+    ],
+    "swatches_skin": [
+      699,
+      985,
+      970,
+      1058
+    ],
+    "swatches_clothing": [
+      1003,
+      985,
+      1430,
+      1057
+    ]
+  },
+  "environment": {
+    "campfire_merged_static": [
+      39,
+      17,
+      256,
+      206
+    ],
+    "bench_ne_candidate": [
+      307,
+      41,
+      550,
+      192
+    ],
+    "bench_nw_candidate": [
+      597,
+      32,
+      835,
+      200
+    ],
+    "bench_s_candidate": [
+      864,
+      70,
+      1142,
+      182
+    ],
+    "bench_se_candidate": [
+      1188,
+      32,
+      1406,
+      197
+    ],
+    "tent": [
+      34,
+      226,
+      422,
+      462
+    ],
+    "arch_round": [
+      438,
+      216,
+      710,
+      447
+    ],
+    "arch_square": [
+      754,
+      216,
+      1024,
+      442
+    ],
+    "sign_blank": [
+      1092,
+      219,
+      1350,
+      442
+    ],
+    "radio": [
+      19,
+      496,
+      177,
+      682
+    ],
+    "lantern_olive": [
+      206,
+      510,
+      315,
+      682
+    ],
+    "lantern_copper": [
+      335,
+      504,
+      434,
+      688
+    ],
+    "ball": [
+      452,
+      550,
+      582,
+      682
+    ],
+    "tree_green": [
+      589,
+      458,
+      799,
+      698
+    ],
+    "tree_yellow": [
+      801,
+      458,
+      1003,
+      697
+    ],
+    "tree_dusk": [
+      1008,
+      458,
+      1211,
+      697
+    ],
+    "tree_autumn": [
+      1215,
+      458,
+      1440,
+      698
+    ],
+    "bush_plain": [
+      16,
+      725,
+      187,
+      849
+    ],
+    "bush_white_flower": [
+      196,
+      720,
+      363,
+      849
+    ],
+    "bush_berry": [
+      372,
+      719,
+      545,
+      849
+    ],
+    "bush_yellow_flower": [
+      555,
+      722,
+      724,
+      849
+    ],
+    "rock_large": [
+      744,
+      745,
+      887,
+      841
+    ],
+    "rock_small": [
+      898,
+      781,
+      961,
+      827
+    ],
+    "grass_large": [
+      975,
+      743,
+      1088,
+      837
+    ],
+    "grass_small": [
+      1100,
+      771,
+      1171,
+      834
+    ],
+    "ground_dirt_patch": [
+      1190,
+      769,
+      1324,
+      836
+    ],
+    "ground_pebbles": [
+      1334,
+      765,
+      1424,
+      830
+    ],
+    "path_square_reference_only": [
+      37,
+      888,
+      209,
+      1054
+    ],
+    "path_corner_reference_only": [
+      240,
+      888,
+      420,
+      1055
+    ],
+    "path_straight_reference_only": [
+      449,
+      904,
+      676,
+      1035
+    ],
+    "path_t_reference_only": [
+      702,
+      886,
+      934,
+      1070
+    ],
+    "stump_plain": [
+      956,
+      914,
+      1171,
+      1047
+    ],
+    "stump_mushroom": [
+      1189,
+      891,
+      1381,
+      1054
+    ]
+  }
+}

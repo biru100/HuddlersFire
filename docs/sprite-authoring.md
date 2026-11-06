@@ -1,5 +1,57 @@
 # 장면 명세에서 파일럿 검토까지
 
+## INT-24 픽셀 리소스의 재사용 경로
+
+신규 제작 규격은 `scene-spec.json.pixelQuarterview`, 파일별 판정은 `art/sprites/pixel-quarterview/catalog.json` 하나에서 관리한다. 아래 일러스트 경로는 기존 공개 자산 재현용이다. 패키지 START_HERE와 ART_DIRECTION/HARNESS_IMPLEMENTATION/CUSTOMIZATION_SPEC/ASSET_ISSUES/QA_CHECKLIST를 읽고 이 경로에 통합했다. 패키지 manifest는 출처이며 별도 활성 하네스로 관리하지 않는다.
+
+원본 3장·후보 69개는 `art/sprites/pixel-quarterview/incoming/v0.1/assets/`에 보존한다. `provenance.json`은 원본/ZIP SHA를 기록한다. 네 등급은 `usable_as_is/needs_anchor/needs_redraw/reference_only`이며 현재 0/23/40/6이다. 파일 검사를 통과해도 미승인 에셋을 프로덕션에 넣지 않는다.
+
+```powershell
+# 프로젝트 루트. 항상 새 job 이름을 사용한다.
+node tools/prepare-sprite-job.mjs --pixel --out pixel-review-02
+node tools/rebuild-sprites.mjs --job art/sprites/runs/pixel-review-02/job.json
+node web/tests/render-scene-preview.mjs --job art/sprites/runs/pixel-review-02/job.json
+```
+
+출력은 `build/inventory.json`(원본 알파·RGB 가장자리·크기·색 수, 후보별 검사/등급), `manifest.json`, `preview.json`, `REQUEST_MISSING_ASSETS.md`, `screens/`, `review.template.json`이다. `docs/REQUEST_MISSING_ASSETS.md`는 현재 요청서 스냅샷이며 규격을 바꾸면 다시 생성한다. 원본/명세/catalog/렌더 코드가 바뀐 job은 재준비·재검토한다. 임의 리사이즈·반전·블러·색상 보정은 하지 않는다.
+
+```powershell
+# web/에서 개발 서버를 실행한다.
+$env:CAMP_PREVIEW_JOB='C:/path/to/HuddlersFire/art/sprites/runs/pixel-review-02/job.json'
+npm.cmd run dev -- --host 127.0.0.1 --port 5411
+# /?pixel=1 : 지정 소품 시험, / : 기존 그래픽
+# /__sprite-preview/avatar : 부위/색상 초안, 숨김, 크게 보기, 4방향×4동작 진단
+```
+
+기준점 보정 후보인 나무·랜턴·라디오만 개발 필드에 시험 표시한다. 잘못된 시점의 벤치와 불/캐릭터의 부족한 동작은 기존 표현을 유지하고 후보 카드로만 보여 준다. nearest/원점 정렬은 흐림을 줄이지만 원본의 불규칙한 격자를 고치지 못한다. 125/150%에서 균일한 픽셀 폭을 보장하지 않으며 DOM 글자는 일반 텍스트 렌더링을 유지한다. 정수 장치 배율·공통 격자·팔레트는 생산 승인 때 확인한다.
+
+### 다음 ChatGPT 패키지 수신
+
+압축을 새 임시 폴더에 풀고 아래 명령을 실행한다. 포함된 Python 스크립트/모델을 실행하지 않는다. 필수 문서·manifest·PNG 경로와 크기를 확인한 뒤 새 incoming 폴더·`catalog.draft.json`을 만든다. 같은 이름이 있으면 거절하고 원본을 덮어쓰지 않는다. 자동 분류는 모두 참고 전용이며 실제 검토 후에만 승격한다.
+
+```powershell
+node tools/import-pixel-package.mjs --source C:/temp/unpacked-package --name v0.2
+node tools/prepare-sprite-job.mjs --pixel --catalog art/sprites/pixel-quarterview/incoming/v0.2/catalog.draft.json --out pixel-v02
+```
+
+독립 PNG는 새 incoming 폴더에 보존하고 동일 catalog 항목으로 등록한다. `id,file,source,size,kind,slot,status,reason,projection,grid,ground,displaySize,paletteId,collision,variants`를 기록한다. 원본과 후보를 구분하고 모호한 방향·잘린 그림·누락 프레임을 추측해서 채우지 않는다. `collision.authority`는 기존 `camp-maps.mjs`이며 표시 크기로 물리를 바꾸지 않는다.
+
+### 레이어 계약과 저장
+
+선택 구조는 `{version:1,parts:{base,hair,top,bottom,headwear,face,accessory},palettes,profilePhotoMode:'preserve',scope:'local-draft'}`다. 현재 머리 2종/상의 2종을 포함한 선택·저장·복원은 참고 초안이며 승인 조립 조합은 0개다. 정확 RGB 치환표/마스크가 없어 색상 ID는 저장만 하고 원본을 재색칠하지 않는다.
+
+각 catalog 항목의 `variants.NW.idle` 같은 키 아래 `canvas:[w,h],pixelGrid:1,paletteId,frames:[{layers:[{name:'base',rect:[x,y,w,h]}]}],durations:[ms],frameAnchors:[{feet:[x,y],head:[x,y],seat:[x,y]}]`를 둔다. 헤어는 한 프레임 안에 `back_hair/front_hair`를 나눌 수 있다. 모든 부위의 프레임 수·지속시간·캔버스·프레임별 앵커가 같아야 한다. 포즈별 가림은 실제 화면으로 판정한다. 승인 조합만 방향별 반복 재생하며 모자/헤드폰·표정·액세서리도 같은 계약을 따른다.
+
+월드 방향은 NW=(-1,0), NE=(0,-1), SW=(0,1), SE=(1,0)이다. 64×96, 발(32,88)/머리(32,18)/좌면(32,62)은 제작 목표 **제안**이며 원본에서 측정한 승인 값이 아니다. 신체 한 컷을 먼저 검토한 뒤 같은 규격으로 idle/walk/sit_bench/emote를 제작한다. 상태별 요구 수/시간은 scene spec에 있으며 좌우 반전으로 누락을 대체하지 않는다.
+
+### 승인·회귀·온라인 게이트
+
+기존 `review-sprite-job.mjs --job <job.json> --review <review.json>`가 픽셀 job도 검사한다. 모든 필수 Canvas/UI 증거의 해시·관찰, 미해결 0개, 시험 에셋의 사용 가능 판정이 필요하다. 현재 자료는 결함이 있어 생산 승인을 통과할 수 없다. 설치/전체 확장 완료를 주장하지 않는다. 신규 slicing/atlas는 고정 sprite-gen을 무손실/nearest 설정으로 검증한 뒤 기존 경로에 확장한다. 현재 분기는 제공 컷아웃의 검사·바이트 복사이며 새로운 추출/재패킹이 아니다.
+
+`web/`의 기존 `test`, `test:sprites:pipeline`, `test:render`, `typecheck`, `build`를 사용한다. `test:browser:pixel`은 loopback QA 서버를 대상으로 headless 두 브라우저의 초안 복원·Discord 표시·실제 RTC·이동/착석·포탈·채팅/상태·라디오·확대/DPR·Canvas 폴백을 검사한다. OAuth/YouTube는 fixture다. 실행하지 못했거나 실패한 검사는 검증 기록에서 분리한다.
+
+실제 커스터마이징의 온라인 적용은 아직 하지 않는다. 승인 리소스가 준비되면 기존 Member/Player·허용 ID/크기 제한·전송/스냅샷/복구·이전 데이터 fallback을 함께 확장하고 필요하면 규약을 올린다. 새 서버/DB를 임의 도입하거나 사진을 없애지 않는다. 로컬 초안 단계에서 커스터마이징 동기화 완료로 보고하지 않는다.
+
 ## 현재 부분 개정 · field-polish-v1
 
 INT-22의 현재 로컬 검토는 `field-polish-v1/release-feedback-v1`이다. 기존 27개 런타임 PNG는 모두 이전 `release-updates-v1`과 SHA-256이 같고 신규 원화/노멀 제작은 없다. `material-spec.json`의 `reviewSet:feedback-v1`이 기존 43개 화면에 상태·자유 시점·착석·다크 UI·라디오·오디오·모바일/PIP 10개를 더해 **53개**를 요구한다. `browser.feedback.mjs`는 두 격리 브라우저의 실제 RTC와 모닥불 파일 decode/output/retry를 검사하고 UI 증거를 추가한다. 이전 검토 폴더는 보존하며 기본 `sprites:build`는 새 로컬 검토를 재현한다. 제품 다크 선택은 컬러 필드를 유지하고 직접 다크 자산 장면은 제작 호환 검사로 구분한다.
