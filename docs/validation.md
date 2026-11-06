@@ -1,5 +1,215 @@
 # 구현 검증 기록
 
+## 2026-11-07 · 픽셀 실험 종료와 공개 버전 38 복원
+
+사용자 요청으로 로컬 코드·자산을 현재 공개 버전 **38·규약 v20**으로 복원했다. Sites의 버전·배포 성공 상태와 게시 소스 커밋 `a1b6163f0937520651f9c4d63366b7ce36cd318a`를 확인했다. 게시 과정에서만 추가한 `.gitattributes`를 제외한 소스 **291개**가 배포 기록의 SHA-256과 일치하며 누락·추가 파일은 없다. 검증 빌드 후 로컬 `dist`도 배포 당시 **175개 파일의 원래 바이트**로 복원했다. 그림자 제거 시안도 되돌렸다. 픽셀 제작·미리보기 예외와 관련 문서·도구를 제거하고 기존 공개본의 제작 계약을 복원했다.
+
+- **삭제:** 프로젝트 내부 모델·엔진·캐시·파일럿과 전용 스크립트 2,479개 파일 **7,331,635,668 bytes**, 전용 임시 레퍼런스 6개 파일 **11,529,544 bytes**. 합계 **7,343,165,212 bytes(약 7.34GB / 6.84GiB)**. 비교용 PyTorch 환경은 앞선 작업에서 이미 제거했으며 이번 확보 용량에 중복 합산하지 않는다. 잔여 픽셀 모델·생성 프로세스는 없다. 기존 sprite-gen과 배포본의 원화·제작 환경은 유지했다.
+- **검증:** `npm.cmd test` **242/242 PASS**, `npm.cmd run typecheck`, `npm.cmd run test:render` **35개 Canvas 장면**, `npm.cmd run build` PASS. 새로운 시각 품질 승인이나 실제 브라우저 재검토로 해석하지 않는다. 공개 서비스·DB·접근 설정의 변경이나 재배포는 수행하지 않았다.
+
+## INT-22 공개 배포 · 버전 38 / 규약 v20 (2026-11-06)
+
+사용자 후속 **“일단 배포해줘”** 요청으로 검증한 참가자 피드백 개선본을 기존 사이트 https://huddlers-fire-camp.gywkd77.chatgpt.site 에 배포했다. 배포 `appgdep_6aede43021308191b0e053fb73fa916a`는 **succeeded**, 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_d2cbcb6844dc8191b588faac3791cfbb`는 **38**이다. public 접근·DB 바인딩·환경 리비전 **1**을 유지했다. 별도 DB/환경 변경은 없다. 기존 자동 업데이트 기능이 새 release를 감지해 이전 방을 초기화하고 새 로비로 전환한다.
+
+- **게시 전 검증:** 아래 로컬 **242/242 회귀·타입·Canvas 35장·실제 두 브라우저/PIP/오디오 검사·빌드**의 실행 결과를 입력이 변하지 않아 재사용했다. 이번에 현재 코드와 **53개 실제 화면**의 fingerprint `242d045614b6a31aed0bdae79cf273655a1c08ca9ff8b42dd328e2b4bebddde2`를 다시 확인했다. 런타임 입력 **217개**가 검증 빌드보다 새롭지 않다. 기존 종합 보행 하네스 중단은 아래 한계대로 유지하며 전체 PASS로 바꾸지 않았다.
+- **소스·패키지:** 게시 시점 소스 **292개**의 원본/게시 작업본/Git blob과 빌드 **175개**의 해시가 일치한다. 게시 전용 저장소 커밋·푸시 `a1b6163f0937520651f9c4d63366b7ce36cd318a`를 사용했고 원본 저장소는 커밋·푸시하지 않았다. 아카이브 `web/outputs/huddlers-fire-feedback-v1-deploy.tar.gz`는 **18,411,173 bytes**, gzip SHA-256 `2a264e214df17e354609761132e45bf15ff315158b3e403a8c2ce8e3d135c764`다. 비밀값·Git·의존성·로컬 상태는 포함하지 않는다. Sites 저장 tar SHA-256은 `eb558d3c208b3b54b9a55b8a8168dad36d626b798ae7f4b9b1402037ea697165`이다. 기존 검토 PNG 27개와 원화는 그대로다.
+- **공개 확인:** HTML과 정적 파일 **102개**가 게시 빌드와 일치한다. `/api/camp/version`은 검증한 `4a9952ec-b15e-490f-8797-fde8ea1537c9` / revision `1793974619298`을 반환한다. 방 목록 200·Discord 준비·현재 release의 미인증 방 생성 401을 확인했다. 사용자 방·세션을 검사 목적으로 만들지 않았다. 배포·공개 검사 기록은 `web/outputs/feedback-publish/`에 보존했다. 네트워크가 제한된 기본 실행에서 게시 저장소 연결 실패가 있었고, 허용된 네트워크 실행으로 같은 사이트를 이어 게시했다. 전역 설정은 변경하지 않았다.
+
+실제 휴대전화·NAT·외부 미디어/물리 스피커·커뮤니티 선호의 한계는 아래 로컬 기록과 같다. 공개 API/파일 확인을 이 항목의 실사용 검사로 확대하지 않는다.
+
+## INT-22 참가자 피드백 개선 (2026-11-06, 로컬)
+
+**승인 범위:** 사용자 “계획대로 구현”에 따른 로컬 수정·검증이다. 공개 사이트는 **버전 37·규약 v20**으로 유지하며 배포·커밋·푸시는 하지 않았다. DB·전송 필드·규약 변경도 없다. 빌드는 로컬 식별자 `4a9952ec-b15e-490f-8797-fde8ea1537c9` / revision `1793974619298`이며 공개 활성화를 뜻하지 않는다.
+
+- **수정:** 상태 드롭다운 제거·즉시 상태 버튼/명시적 메모 저장·초안과 최신 상태 병합·500ms 재제출 제한, 머리 위 상태 한마디와 사람 목록 작업 표시, 자유 시점 드래그/포인터 기준 확대·착석/따라가기 줌 유지, UI 다크와 컬러 필드 분리, 라디오 연결선 제거/화면 밖 숨김, 신규 효과음 25%·기존 음소거 보존·실패/재시도/재생 상태를 구현했다. 일반 채팅 연결선·공유 물리·업데이트 전환은 유지한다.
+- **회귀/빌드:** 최종 `npm.cmd test` **242/242 PASS**, 실패·건너뜀 0 (`web/outputs/feedback-v1/final-tests.txt`). `typecheck` **PASS**, `test:render` **35장 PASS** (`render.txt`), `sprites:build` 재현 **PASS**, 공식 `npm.cmd run build` **PASS** (`build.txt`). Canvas 직접 렌더와 실제 WebGL/UI 검사를 구분한다. 입력의 클릭/드래그 구분·취소/잠금, 자유 카메라 좌표·휠 기준점, 수동 줌과 높은 연쇄 전체 보기, 상태 배지·라디오 선, 기본 음량과 저장한 0, 오디오 실패/재시도/구독 정리를 검사했다.
+- **실제 UI/RTC/오디오:** `browser.feedback.mjs` **PASS**. 별도 Chrome context 두 개가 실제 RTC로 연결되어 상태 즉시 반영·저장 전 메모 비전송·초안 탭 전환 보존·최신 상태로 메모 저장·상대 목록의 한마디/작업 표시·작업 시간 누적/중지를 확인했다. 실제 포인터 드래그 135/-70px가 공유 좌표를 바꾸지 않고 자유 시점으로 전환되며 착석·따라가기 복귀/일어서기에도 선택 줌을 유지했다. 파일 요청을 고의 실패시켜 안내를 확인한 뒤 재시도로 native AudioContext가 running 상태의 비영 출력(절댓값 > 1e-6)을 내는 것을 검사했다. 실제 `.ogg` decode/신호 측정이며 물리 스피커 청취는 아니다. OAuth·Discord 사진·YouTube는 모의 콘텐츠다. 모바일 390×844·Document PIP 560×480도 **PASS**. 원자료는 `web/outputs/feedback-v1/browser-result.json`이다.
+- **화면 검토:** `browser.lighting.mjs` 대표 5개 → 전체·`browser.polish.mjs` → `browser.lighting-ui.mjs` → `browser.feedback.mjs` 순으로 캡처했다. WebGL/노멀 draw·조명 진단, 컨텍스트 손실/복구와 Canvas, 1/3/8/16명·모바일, 실제 상태/사람 패널·다크 UI·라디오·오디오·PIP를 포함한 **53개 PNG**를 열어 관찰했다. [검토](../art/sprites/field-polish-v1/release-feedback-v1/review.json)·[증거](../art/sprites/field-polish-v1/release-feedback-v1/evidence.json) fingerprint는 `242d045614b6a31aed0bdae79cf273655a1c08ca9ff8b42dd328e2b4bebddde2`다. 신규 UI 10개와 기존 호환 43개를 구분하며 직접 다크 필드는 자산 제작 호환 검사다. 실제 앱 다크는 컬러 필드를 유지한다. 기술 PASS를 미감 자동 판정으로 사용하지 않았다.
+- **자산:** 신규 생성/재패킹 없이 기존 PNG **27/27 동일**, 변경 0 (`asset-comparison.json`). `release-updates-v1`은 보존하고 현재 검토만 `release-feedback-v1`에 설치했다. 기본 재현도 새 검토를 통과했다.
+- **추가 종합 검사 중단:** 기존 `browser.community.mjs`도 실행했다. 지연 로딩 중 효과음 조절·최신 값/음소거·E 착석·장작/XP/쿨다운은 PASS했으나 불멍→놀이터 보행 단계에서 `browser-field.mjs`의 좌표 추적 timeout으로 종료됐다 (`community-browser.txt`). 이 보조 추적은 native Canvas ellipse와 예전 고정 카메라 원점을 가정한다. 현재 WebGL 기록 경로는 native ellipse 호출을 계속하지 않으므로 이번에는 종합 시나리오 전체 PASS로 보고하지 않는다. 제품 상태를 읽기만 하는 실제 렌더러 관찰을 사용하는 새 `browser.feedback.mjs`의 두 브라우저 결과와 구분한다. 이 보행 하네스의 갱신은 별도 후속 범위다.
+
+**남은 확인 범위:** 실제 휴대전화 성능/터치·인터넷 NAT·외부 YouTube의 음향/정책·물리 출력 장치·커뮤니티 선호는 이번 로컬 검사로 확인하지 않았다. 고정된 따라가기/자유 배율에서는 먼 친구가 잘릴 수 있어 전체 보기를 별도로 사용한다. 열린 패널/영상은 기존처럼 장면 공간을 차지한다. 승인 범위의 미해결 화면 결함은 없다.
+
+## INT-21 배포 후 방 초기화·자동 새로고침 (2026-11-06)
+
+**공개 완료:** 기존 사이트 https://huddlers-fire-camp.gywkd77.chatgpt.site 의 **버전 37·규약 v20**으로 배포했다. 배포 `appgdep_6aedd1e38344819185fbf939f2d838aa`는 **succeeded**, 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_ee6d6ee0f54c81919bae0e239e48e11c`다. public 접근·DB 바인딩·환경 리비전 **1**을 유지했다. 게시 전용 저장소 커밋은 `cd3947e713a9df925cdd13b1ebbe20d69537abfc`이며 원본 저장소는 커밋·푸시하지 않았다.
+
+게시 시점 소스 **290개**의 원본/작업본/Git blob, 빌드 **175개**의 해시가 일치했다. 런타임 입력 **216개**는 최종 검증 빌드보다 새롭지 않았다. 아카이브 `web/outputs/huddlers-fire-auto-update-v1-deploy.tar.gz`는 **18,407,989 bytes**, gzip SHA-256 `0e9653fe7f44cc4b336a5f896b960542006b882f86546f0e6746dcefa50dddd4`, Sites 저장 tar SHA-256 `77e0c3560b97d35afb368eb274f24dcc61209da4acc8f42b9f4f76f4853752a1`이다. 비밀값·Git·의존성·로컬 상태를 제외했다. 공개 파일 **102개**가 게시 빌드와 일치하고 `/api/camp/version`은 최종 검증한 `ab6a4a02-2999-429a-a177-a57a0dfebfaa` / `1793970377044`를 반환한다. 새 테이블을 사용하는 API 성공으로 마이그레이션 적용도 확인했다. 방 목록 200·Discord 준비·현재 release의 미인증 생성 401을 확인했고 사용자 방·세션은 만들지 않았다. 배포/공개 검사 기록은 `web/outputs/update-publish/`에 보존했다.
+
+사용자 요청에 따라 빌드 UUID/revision, D1 배포 fence, 이전 방의 일회 초기화와 클라이언트 자동 전환을 구현했다. 마이그레이션 `0004_release_reset`은 `camp_runtime`만 추가한다. 새 빌드의 최초 API 활성화가 방·참가·시그널을 한 트랜잭션으로 정리한다. 로그인·Discord 프로필·개인 설정은 보존한다. 같은 빌드/일시 장애·늦은 구 Worker 응답은 새 방 초기화나 뒤로 업데이트를 일으키지 않는다. 로비/솔로는 15초 주기·창 복귀 때 검사하고, 방은 기존 폴링 응답에서도 감지한다.
+
+- **회귀:** 최종 `npm.cmd test` **237/237 PASS**, 실패·건너뜀 0. 추가 7개 검사는 배포 일회 초기화·FK cascade·프로필 보존, 구 클라이언트/구 Worker 거절, 생성 도중 배포 경쟁, 익명/캐시 없는 버전 조회, URL·무한 새로고침 방지, 포커스/정리/장애, API 응답 전 버전 감지와 이전 revision 거절을 확인한다. 타입 검사 **PASS**. 일반 방 폴링은 캐시한 활성화 후 DB fence 조회 한 문장만 추가하며 기존 SQL 상한 회귀도 통과했다.
+- **실제 컴파일 앱 전환:** 격리 headless Chrome과 로컬 Worker/SQLite/모의 Discord로 `browser.updates.mjs`를 실행했다. 실제 공개 v36 빌드 → 새 빌드 → 다른 UUID의 다음 빌드를 연속 전환했다. v36의 410 종료·새 로비 로드, 다음 전환의 자동 감지·방/참가 0·PIP 종료·연결 정리·room URL 제거·기타 URL/프로필/개인 설정 보존을 확인했다. 다음 15초 검사 후에도 추가 탐색이 없어 새로고침 반복이 없었다. 로그/원자료는 `web/outputs/scene-polish-publish/update-browser.{txt,json}`, 화면은 `update-before-legacy.png`, `update-after-legacy.png`, `update-after-current.png`다.
+- **연결:** 전체 Node WebRTC 루프백 **PASS**, 16명·17번째 거절·놀이·맵·채팅/음악·재연결·승계 epoch 5, HTTP **1510회**. 실제 인터넷/NAT·휴대전화 RTC 결과로 확대하지 않는다. `update-network.txt`에 기록했다.
+- **화면/자산:** 색/노멀 PNG 27개는 이전과 같고 새 원화를 만들지 않았다. 새 런타임 지문 `840cd2202c759e696c91bf15c4f70f35738c453c28dc1febdd7684123d930378`으로 43개 장면을 재캡처했다. 29장은 이전 검토 PNG와 바이트가 같고, 차이 있는 불꽃 시점·1/3명·UI 14장은 열어 확인했다. 기존 검토본을 덮지 않고 [새 검토 revision](../art/sprites/field-polish-v1/release-updates-v1/review.json)과 evidence를 보존했다. 도구의 선택적 review revision 인자는 동일 원화에 대한 후속 코드 검토를 분리하며 기본 불변 release 보호는 유지한다.
+- **빌드:** 공식 Sites 빌드를 두 번 만들어 서로 다른 UUID/revision과 실제 새 클라이언트 로드를 확인했다. 최종 검증 빌드는 `ab6a4a02-2999-429a-a177-a57a0dfebfaa` / revision `1793970377044`이며 `update-build-next.txt`에 있다. 테스트 도중 구 빌드 서버가 원본 dist를 잡아 발생한 Windows 잠금은 별도 서버 스냅샷으로 격리해 해결했고 실패 산출물은 사용하지 않았다. 최종 빌드/브라우저 검사를 다시 완료했다.
+
+**전환 한계:** 이 기능을 아직 로드하지 않은 이전 로비/솔로 페이지에는 새 코드를 원격 실행할 수 없으므로 처음 한 번 수동 새로고침이 필요하다. 기존 v36 방은 이미 있던 종료 처리로 자동 새로고침되는 것을 확인했다. 이후 빌드는 로비·솔로도 자동 감지한다. 브라우저가 완전히 정지된 탭은 실행이 재개될 때 검사한다. 실물 휴대전화·실제 Discord/YouTube 음향과 공개 인터넷에서 배포 전환을 재현한 결과는 아니다.
+
+## INT-20 장면 구성 개선 공개 배포 · 버전 36 / 규약 v20 (2026-11-06)
+
+사용자 후속 **“배포해줘”** 요청으로 검증한 `field-polish-v1`을 기존 공개 사이트에 반영했다. 아래 로컬 구현 당시의 배포 제외 표기는 이력이며 이번 배포가 해당 경계를 대체한다.
+
+- **공개 결과:** https://huddlers-fire-camp.gywkd77.chatgpt.site · 버전 **36**, 배포 `appgdep_6aedca12916081918007eb2fea084a51`, 최종 **succeeded**. 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_9756e1656b7081919bfd797379e877f7`. 기존 public 접근·DB 바인딩·환경 리비전 **1**을 유지했다. 새 SQL·환경 변경은 없다. 좌석 배치 변경을 구분하는 규약 **v20**이 공개됐으므로 기존 열린 페이지는 함께 새로고침해야 한다.
+- **검증:** 현재 코드·자산과 **43개 화면**의 fingerprint `5dfa2f1f27ed8fb57e30adb3d172b84bad0fdd4820862103eb1b591552100414` 일치를 다시 확인했다. 입력이 같은 기존 **230/230 테스트·19/19 파이프라인·Canvas·타입·GPU·루프백 RTC 검사**를 재사용했으며 이번 실행으로 세지 않는다. 공식 `build-site.mjs`로 이번 게시 빌드를 새로 완료했다.
+- **게시 소스·패키지:** 런타임 입력 **212개**가 빌드보다 새롭지 않고, 게시 시점 소스 **284개**의 원본/게시 작업본/Git blob과 빌드 **173개**의 해시가 일치했다. 게시 전용 저장소 커밋·푸시 `793d7392eef1dad7ed9bcff4cf3de0107564431a`를 사용했다. 원본 저장소는 커밋·푸시하지 않았다. Git 소유권 확인에는 프로세스 한정 경로 설정을 사용했고 전역 설정을 변경하지 않았다.
+- **아카이브:** `web/outputs/huddlers-fire-polish-v1-deploy.tar.gz` **18,405,298 bytes**, gzip SHA-256 `8c31186d4d2ed4fbe9d1f906b6674143770f01fc114d359a4b56aa403757e0c2`. Sites 저장 tar SHA-256 `c78615b7eb1be93de8a18a6db16dab86ae84dd2106f90a150b138f9fa008685c`. 비밀값·Git·의존성·로컬 실행 상태를 포함하지 않는다. 보관된 이전 공개 PNG도 정적 파일에 포함되며 현재 manifest가 참조하는 런타임 자산 예산과 구분한다.
+- **공개 확인:** HTML과 JS/CSS·스프라이트·음원·게임 미디어 등 **102개 파일**을 새 빌드와 SHA-256 대조했다. 공개 manifest의 **field-polish-v1·PNG 27개**, 방 목록 HTTP **200**, `discordAvailable:true`, 미인증 방 생성 **401**을 확인했다. 사용자 방·로그인 세션은 만들지 않았다. 기존 사이트 audience는 **public**이며 버전 **36**을 다시 확인했다.
+
+배포·해시·공개 검사 기록은 `web/outputs/scene-polish-publish/{publication,deploy-inputs,deploy-package-check,deployment-check}.json`에 있다. 원본 저장소의 문서 상태는 배포 결과로 갱신하며 게시 스냅샷은 보존한다. 공개 파일/API 검사는 아래 실기기·실인터넷·실제 외부 미디어·커뮤니티 선호의 미확인 범위를 대체하지 않는다.
+
+## INT-20 스프라이트·화면 구성 개선 · field-polish-v1 / 로컬 규약 v20 (2026-11-06)
+
+**승인·범위:** 사용자가 원인 분석에 이은 수정 계획에 **“계획대로 구현”**을 선택했다. 카메라/HUD·좌석군/지형/소품·기본 얼굴/이동·부분 원화와 불꽃 루프를 구현하고 로컬 검증했다. 공개 사이트는 **버전 35·규약 v19**를 유지하며 이번 작업에서 배포·커밋·푸시하지 않았다. 기존 사진 복구·야간 조명 수정은 보존했다. 새 좌석 배치 혼용을 막기 위해 로컬 규약을 v20으로 올렸고 공유 필드·DB 스키마는 유지했다.
+
+**구현:** `camp-camera.mjs`의 기본 따라가기와 전체 보기 분리, HUD/영상 점유 영역 반영, 화면 픽셀 이름표/선택 영역, 비대칭 좌석군·다른 나무/벤치·비정형 공터/길, 몸과 기본 얼굴의 앞뒤·정지 방향 유지, 5종 불꽃의 고정 바닥 6프레임 루프를 적용했다. 사진은 원형/원색/원래 방향을 보존한다. 상단 필드 도구는 두 항목과 `보기` 메뉴로 정리하고 빈 라디오·밤의 불 도구를 축소·감광했다. 나무/텐트 크기에 맞춰 가림과 그림자 마스크도 갱신했다.
+
+### 자산과 재현
+
+- 고정 sprite-gen `4f5ccd` 계열의 프로젝트 lock을 사용했다. 기존 원본 **47개 재사용**, 내장 imagegen으로 **12개 부분 제작**: 뒤 idle/walk/run, 나무 두 종·벤치 두 변형, 5종 불꽃. 전체 명세 **59개**, 캐릭터 **83프레임**, 불꽃 **30프레임**이다. 외부 유료 API 호출은 없었다.
+- 원본/실제 생성 지시/참조/해시/alpha 검사/동결 앵커는 [artwork](../art/sprites/field-polish-v1/artwork/job.json)와 [generation-receipts](../art/sprites/field-polish-v1/artwork/generation-receipts.json)에 보존했다. Amber의 첫 얼룩 있는 결과는 `artwork/rejected`에 남기고 내장 편집 결과를 적용했다. 기존 원본의 재사용과 전체 신규 생성을 구분한다.
+- 대표 네 소품은 별도 파일럿에서 합성했고, 이후 전체 색상/다크·새 크기의 노멀을 만들었다. 27개 런타임 PNG는 합계 **9,571,297 bytes**로 전체 10MB 예산 안이다. 노멀은 캐릭터 **768×1056**, 환경 **768×1152**다. 프레임 페이지/노멀 크기는 manifest에서 파생한다.
+- 현재 [release](../art/sprites/field-polish-v1/release/review.json)와 `material-release.json`에 로컬 설치했다. `npm.cmd run sprites:build` **PASS**: 동결 색상 원본에서 현재 재질 묶음 재현·해시·검토를 확인했다. 기존 원본 해시 변경 거절과 부분 미리보기의 기존 좌석 binding 보존도 회귀로 고정했다.
+
+### 실제 화면 검토
+
+대표 검토 5개 이후 실제 WebGL/Canvas/UI **43개**를 캡처하고 PNG를 열어 관찰했다. [review](../art/sprites/field-polish-v1/release/review.json), [evidence](../art/sprites/field-polish-v1/release/evidence.json)의 fingerprint는 `5dfa2f1f27ed8fb57e30adb3d172b84bad0fdd4820862103eb1b591552100414`다. 자동 정합성 검증은 `verified:true, scope:full, cases:43`이며 시각 판단은 각 case의 별도 관찰로 남겼다.
+
+- [1명](../art/sprites/field-polish-v1/release/screens/polish-solo.png)·[3명](../art/sprites/field-polish-v1/release/screens/polish-three.png)의 기본 따라가기, 8/16명 전체 보기, [390×720 모바일 3명](../art/sprites/field-polish-v1/release/screens/polish-mobile.png), 앞/뒤/좌/우 이동·정지, 5종 불꽃을 확인했다. 네 착석 몸 방향과 좌면 접촉, 이름/머리 가림도 확인했다.
+- 기본/약한/강한 불·직접광 없음·노멀 없음·랜턴·좌/우 진단광, 세 맵 컬러/다크, 혼합 행동/16명 높은 연쇄, WebGL 컨텍스트 손실/복구와 강제 Canvas를 각각 확인했다. 원화 5페이지와 노멀 2장, 별도 원본 혼합 자세·불꽃 6프레임 및 루프 이음도 열었다.
+- 기본 PC/모바일, 필드, 열린 대화, 영상, 560×480 PIP의 UI **9개**를 확인했다. [모바일 기본](../art/sprites/field-polish-v1/release/screens/ui-mobile-default.png), [모바일 영상](../art/sprites/field-polish-v1/release/screens/ui-mobile-video.png)에서 조작·인물/이름·불을 읽을 수 있다. 영상은 모의 YouTube fixture, 원색 원형은 반전 검사용 모의 사진이다. 실제 개인 계정·브라우저 UI는 조작하지 않았다.
+
+같은 Canvas fixture의 수정 전/후 측정은 `web/outputs/scene-polish/{before,after}/metrics.json`이다. 390×720 솔로의 원형 머리 지름은 **18.1 → 37.7px**, 3명 착석은 **23.2 → 35.4px**다. 솔로 이름 글자는 이전 줌 적용 약 **5.9px → 현재 12.2px**다. 전체 보기의 인물 축소는 의도적으로 유지하며 이름은 최소 12px다. 이 수치는 해당 상태의 표시 크기이며 실기기 성능 수치가 아니다.
+
+### 기술 검사
+
+| 검사 | 이번 실행 결과 |
+| --- | --- |
+| `npm.cmd test` · 정식 로컬 manifest | **230/230 PASS**, 실패·건너뜀 0 |
+| `npm.cmd run test:sprites:pipeline` | **19/19 PASS** |
+| `npm.cmd run typecheck`, `npm.cmd run build` | **PASS** · 새 자산 설치 후 최종 빌드 |
+| `npm.cmd run test:render` | **PASS** · Canvas 장면/입력/접촉/선택 회귀, WebGL 품질과 구분 |
+| `node tests/render-polish.mjs outputs/scene-polish/after` | 정식 manifest로 **7개 Canvas 장면** 출력 |
+| `browser.night-lighting.mjs` | 실제 GPU 픽셀 계약 **PASS** |
+| `test:network` · 로컬 Node WebRTC | **PASS**, 16명·17번째 거절·놀이/좌석/맵 이동·불 성장·복구/승계 epoch 5, HTTP **1592회** |
+
+GPU의 무광원 `[36,44,60]`, 근접광 `[211,159,100]`, 먼 거리/노멀 없음/확대 불변, 보호 사진·발광 `[192,192,192]`, 투명 alpha 0을 확인했다. 네트워크 검사는 모의 API와 Node WebRTC의 루프백 연결이며 실제 인터넷/NAT·브라우저 간 RTC로 확대하지 않는다. 로그는 `web/outputs/scene-polish/`의 `tests-final.txt`, `pipeline-final.txt`, `typecheck-final.txt`, `build-final.txt`, `render.txt`, `network.txt`, `replay.txt`에 있다.
+
+### 렌더링 비용과 한계
+
+같은 16명 혼합 동작, 120프레임 준비 후 360프레임을 수집했다. 격리 headless Chrome, **RTX 5070 / ANGLE D3D11**이며 이전 버전과 동시 비교하지 않아 성능 개선률은 주장하지 않는다. [원자료](../art/sprites/field-polish-v1/release/browser-metrics.json)는 CPU 제출·rAF 간격·GPU 타이머를 분리한다.
+
+| 화면/경로 | CPU 중앙 / p95 (ms) | GPU 중앙 / p95 (ms) |
+| --- | --- | --- |
+| 1050×824 DPR1 · WebGL | 2.4 / 4.8 | 0.93 / 3.38 |
+| 390×844 DPR2 모의 · WebGL | 2.6 / 4.4 | 1.06 / 3.13 |
+| PC · Canvas | 2.2 / 4.3 | 해당 없음 |
+| 모바일 화면 모의 · Canvas | 2.4 / 4.5 | 해당 없음 |
+
+WebGL 텍스처 추정은 약 59.2MB로 80MB 상한 안이며 전체 드라이버 메모리 측정은 아니다. Canvas 색 보정 캐시는 약 15.5MB로 16MB 상한 안이다. 실물 휴대전화의 FPS/발열·터치 사용감, 실인터넷 RTC, 실제 Discord/YouTube 콘텐츠와 음향, 커뮤니티 선호는 미확인이다. 높은 연쇄와 전체 보기는 인물이 작아지는 예외이고 열린 대화 패널은 기존처럼 장면을 덮는다. 승인 범위의 화면 결함 검토와 이 검증 한계를 구분한다.
+
+## Discord 프로필 사진 누락 수정 · 공개 버전 35 / 규약 v19 (2026-11-06)
+
+- **원인:** 실제 공개 로그에서 사진 중계 응답 502를 확인했다. 개인정보 없는 잘못된 사진 주소도 공개 중계는 502, Discord 원본은 404였다. 같은 호환 날짜의 workerd에서 `redirect: 'error'`가 즉시 TypeError를 발생시키고 `manual`은 정상 요청하는 것을 재현했다. 추가로 로비 장면 상태와 렌더러의 미리보기 캐릭터에 avatar 전달이 빠져 있었다.
+- **수정:** `camp-avatar-proxy.mjs`를 `manual`로 바꾸고 기존 `!response.ok` 검사로 리다이렉트 거절을 유지했다. `app/camp.tsx`와 `camp-renderer.mjs`에서 로비 사진을 전달한다. 프로필·공유 상태·DB·규약·야간 수광 방식은 유지한다. 이미 실패한 페이지의 이미지 캐시는 새로고침해야 다시 요청한다.
+- **회귀:** 중계 수정 후 `npm.cmd test` **226/226**, 파이프라인 **18/18**, 타입 검사·공식 Sites 빌드를 통과했다. 로비 전달 수정 후 영향받는 `view.test.mjs`와 `avatar-proxy.test.mjs` **7/7**, 타입 검사·최종 빌드도 통과했다. 새 Miniflare/workerd 검사는 실제 fetch 옵션 처리로 PNG 성공·리다이렉트 차단을 확인하며 외부 네트워크를 모의 CDN Worker로 대체한다.
+- **화면:** `CAMP_QA_AVATAR=1` 로컬 전용 모의 Discord 사진을 추가했다. `browser.avatar.mjs`가 로그인→중계 HTTP 200/image/png→작은 미리보기→큰 로비→솔로 필드의 원색 픽셀을 확인했다. 최종 컴파일 앱은 로비 **216픽셀**, 필드 **496픽셀**의 식별 색을 확인했다. 실제 개인 계정이나 개인 브라우저를 조작한 결과는 아니다. 화면은 `web/outputs/avatar-debug/avatar-lobby.png`, `avatar-field.png`다.
+- **장면 계약:** 최종 런타임 지문 `0810eabd9ee180d9e776a5462e5df44c93ef4f8d5d981dc0f589ff05b66b35c1`으로 33개 화면을 새로 캡처·열람·검증해 설치했다. PC/모바일 에뮬레이션·PIP 7개 UI는 실제 사진 로더를 통한 모의 사진을 표시했다. 캡처는 `art/sprites/runs/avatar-proxy-v1/screens/`, 검토는 `art/sprites/field-night-v1/release/review.json`이다. 원본 PNG 27개·조명 계산은 변경하지 않았다. 성능·실물 모바일·NAT·실제 외부 영상 검증을 새로 수행한 것으로 세지 않는다.
+- **공개:** 먼저 중계 수정 버전 34를 배포하고, 로비 수정까지 포함한 최종 **버전 35**를 배포했다. URL https://huddlers-fire-camp.gywkd77.chatgpt.site · 배포 `appgdep_6aed642ba0ec81919374615e6b5e423d` **succeeded** · 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_5cd6a439124881919b1d411055646301` · 게시 전용 커밋 `16e5bfdf714585c983b8ba4c99b9802760212504`. 원본 저장소는 커밋·푸시하지 않았다.
+- **패키지·공개 검사:** 소스 **260개**의 원본/게시본/Git blob과 빌드 **155개**가 일치했다. 아카이브 `web/outputs/huddlers-fire-avatar-profile-v1-deploy.tar.gz` **9,146,821 bytes**, gzip SHA-256 `6b7b5014fa903e629a239330eef786f9cbee0770f373603cef1a0ab8e5d641ec`, 서비스 tar SHA-256 `e236095e67fa0d7b8b2f398733aab9db5364f71d9917259609da363c3105c56f`. 비밀값·Git·의존성·로컬 상태를 제외했다. 공개 파일 **84개**가 최종 빌드 해시와 일치하고, 방 목록·Discord 준비·미인증 생성 401을 확인했다. 잘못된 사진 경로는 공개 서버에서도 **404**로 정상 처리된다. 실제 사용자의 유효 사진 표시 여부는 사용자가 새로고침한 뒤 확인할 수 있다. public 접근·DB·환경 리비전 **1**을 유지했다.
+
+배포·파일 검사 기록은 `web/outputs/avatar-debug/publication.json`, `deploy-package-check.json`, `deployment-check.json`에 있다. 인증값은 숨겨진 stdin과 메모리로만 전달했으며 전역 설정은 변경하지 않았다.
+
+## INT-19 불멍 야간 조명 공개 배포 · 버전 33 / 규약 v19 (2026-11-06)
+
+사용자 **“배포해줘”** 요청으로 검증한 `field-night-v1`을 기존 공개 사이트에 반영했다. 아래 야간 구현의 로컬 전용 표기는 당시 이력이며, 이번 후속 배포가 해당 경계를 대체한다.
+
+- **공개 결과:** https://huddlers-fire-camp.gywkd77.chatgpt.site · 버전 **33**, 배포 `appgdep_6aed5db510688191b181e137d5deea3c`, 최종 **succeeded**. public 접근·DB 바인딩·런타임 환경 리비전 **1**·규약 **v19**를 유지했다. 새 SQL·환경 변경은 없다.
+- **검증 재사용:** 현재 소스와 fingerprint `728528df6a279d16e822046b83b512c412c122d88c5792e4d1315a670a95c35c`의 **33개 화면**이 일치함을 다시 검사했다. 변경 없는 입력의 기존 **225/225 회귀·18/18 파이프라인·35개 Canvas 장면·타입·빌드·컴파일 앱 UI 검증**을 재사용했으며 이번 실행으로 세지 않는다. 런타임 입력 **193개**가 최종 검증 빌드보다 새롭지 않다.
+- **게시 소스·패키지:** 소스 **259개**의 원본/게시 작업본/Git blob과 빌드 **155개 파일**의 해시가 일치한다. 게시 전용 저장소 커밋·푸시는 `4a4889de1fa58a1ae40b734e388a7a157a561b68`, 저장 버전은 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_5c8790c25544819193fd32f33b11de0c`이다. 원본 저장소 전체를 커밋·푸시하지 않았다. 패키지 검사에서 게시 복사본의 로컬 `.wrangler` 임시 폴더를 제외하고 공식 helper로 다시 포장했다.
+- **아카이브:** `web/outputs/huddlers-fire-night-v1-deploy.tar.gz` **9,146,891 bytes**, gzip SHA-256 `8fc0bad52a1616d157d42325db3308972c3ada38b34fedfbc5bbb8543f79afa8`. Sites 저장 tar 해시는 `40ec70bde5c2eac74efd35e130c1c611b308d193fb0332a065af750bd3aa5e00`이다. 비밀값·Git·의존성·로컬 실행 상태를 포함하지 않는다.
+- **공개 확인:** HTML·JS/CSS·Worker·게임/스프라이트·음원 등 **84개 파일**을 게시 빌드와 SHA-256 대조했다. 공개 manifest의 `field-night-v1`·PNG **27개**, 방 목록 HTTP **200**, `discordAvailable:true`, 미인증 방 생성 **401**을 확인했다. 사용자 방·로그인 세션은 만들지 않았다. 준비·패키지·배포 결과는 `web/outputs/night-publish/`에 보존했다.
+
+이번 검사는 공개 파일/API 확인이다. 아래 로컬 화면·성능 검토의 일시적 프레임 지연과 실물 휴대전화·실제 외부 미디어·인터넷 환경의 미확인 범위는 유지한다. 열린 페이지는 새로고침하면 야간 빌드를 받는다.
+
+## INT-19 불멍 야간 조명 · field-night-v1 (2026-11-06, 로컬)
+
+사용자가 **밤을 전제로 모닥불 중심의 전체 스프라이트 수광을 재구성하는 계획**에 **“계획대로 구현”**을 선택했다. 불멍 맵에 밤 주변광·세계 거리/높이 감쇠·모닥불/랜턴 직접광을 적용했다. 기본 얼굴은 둥근 노멀 캐시, 몸 번호 표식은 수광 대상으로 처리했다. 노멀 없는 스프라이트도 같은 밤 노출을 받고, 불꽃·사진·미디어·이름표의 역할을 구분한다. 실제 야간 UI에서 읽기 어려웠던 상태·시간·이동 안내의 글자 대비를 해당 필드에 한정해 보완했다.
+
+- **검토·설치:** [기본 근접](../art/sprites/field-night-v1/release/screens/camp-close.png), [이전/야간 비교](../art/sprites/field-night-v1/release/screens/night-comparison.png), 약한 불/강한 불·무광원·노멀 없음·랜턴·다크·16명 동작/연쇄·WebGL 손실/복구/Canvas·PC/모바일/PIP 등 **33개 검토 PASS**. [review](../art/sprites/field-night-v1/release/review.json)와 [evidence](../art/sprites/field-night-v1/release/evidence.json)는 fingerprint `728528df6a279d16e822046b83b512c412c122d88c5792e4d1315a670a95c35c`에 묶었다. UI 7개는 최종 빌드 앱에서 다시 캡처·열람했다.
+- **회귀:** 최종 **225/225 PASS**, 자산 파이프라인 **18/18 PASS**, Canvas 직접 렌더 **35개 장면 PASS**, **typecheck/build PASS**. 전체 회귀에서 드러난 모의 창 문서의 Canvas 생성 호환성을 수정하고 다시 225개를 통과했다. 초기 성능 하네스의 중복 자동 RAF 예약에 따른 타임아웃은 하네스를 수정한 뒤 새 표본으로 대체했다.
+- **실제 GPU 검사:** 노멀 없이도 주변광/직접광이 적용되고 거리·확대·발광/사진 예외·투명도를 보존한다. 기준색 192의 무광원 출력 `[36,44,60]`, 근접광 `[211,159,100]`은 노멀 끄기와 카메라 변경 후에도 유지됐다. 같은 초기 마스크 캐시의 놀이터/전시장 컬러·다크 4장면은 직전 렌더러와 최종 픽셀 차이 **0**이었다. 검사는 GPU 반올림 1단계까지 허용하며 자연스러움 판정과 구분한다. 별도 기록은 `web/outputs/night-v1/gpu-contract.json`이다.
+- **자산·상태:** 기존 색상/노멀 PNG **27개 모두 SHA-256 동일**. 새 원화나 디스크 노멀 PNG를 만들지 않았다. `asset-preservation.json`을 검토 묶음에 보존한다. 테마별 alpha 차이를 반영하도록 그림자 마스크 캐시 키를 보완했다. 공유 물리·API·규약 **v19**·DB·원본 Git의 커밋·원격 상태는 유지했다. **공개 배포·커밋·푸시는 하지 않았으며 공개 버전 32와 구분한다.**
+
+최종 성능은 같은 16명 혼합 행동 장면, 120프레임 준비/360프레임 표본, **RTX 5070 / ANGLE D3D11**이다. [원자료](../art/sprites/field-night-v1/release/browser-metrics.json)는 CPU 제출·rAF 간격·WebGL GPU 타이머를 분리한다. 기준은 직전 `field-shadow-v4`다.
+
+| 화면·경로 | CPU 중앙값 / p95 / 최대 (ms) | GPU 중앙값 / p95 (ms) |
+| --- | --- | --- |
+| PC 1050×824 DPR1 · 이전 WebGL | 3.2 / 6.5 / 17.8 | 0.84 / 1.95 |
+| PC · 야간 WebGL | 3.1 / 5.7 / 26.3 | 1.06 / 2.44 |
+| 모바일 화면 모의 390×844 DPR2 · 이전 WebGL | 3.3 / 6.3 / 12.0 | 0.97 / 2.11 |
+| 모바일 화면 모의 · 야간 WebGL | 3.6 / 5.9 / 41.2 | 1.30 / 2.30 |
+| PC · 야간 Canvas | 2.3 / 5.0 / 13.8 | 해당 없음 |
+| 모바일 화면 모의 · 야간 Canvas | 2.5 / 7.2 / 29.2 | 해당 없음 |
+
+GPU 텍스처 추정치는 두 야간 화면 모두 약 **49.6MB**, Canvas 색 보정 캐시는 최대 **15,329,512 bytes**로 16MB 한도 이내였다. 전체 메모리·드라이버/프레임버퍼를 포함한 수치가 아니다. 최종 표본에는 야간 WebGL CPU 최대 26.3/41.2ms의 일시 지연이 있었으며 p95만으로 모든 프레임의 시간 한도를 충족했다고 해석하지 않는다. 실제 휴대전화의 FPS·발열은 미확인이다.
+
+브라우저 검사는 임시 headless Chrome과 loopback API/SQLite·Discord/YouTube fixture를 사용했다. 개인 브라우저·데스크톱 UI를 조작하지 않았고 실제 외부 영상 디코딩/음향·인터넷/NAT·커뮤니티 선호는 검증하지 않았다. 로그·비교용 이전 런타임·GPU 검사·성능 하네스 결과는 `web/outputs/night-v1/`에 보존한다.
+
+## INT-19 스프라이트 윤곽 그림자 공개 배포 · 버전 32 / 규약 v19 (2026-11-06)
+
+사용자 **“스프라이트 윤곽 사용 수정본을 배포해줘”** 요청으로 `field-shadow-v4`를 기존 공개 사이트에 반영했다. 아래 v3/v4의 로컬 전용 표기는 수정 당시의 이력이며, 이 후속 배포가 해당 경계를 대체한다.
+
+- **공개 결과:** https://huddlers-fire-camp.gywkd77.chatgpt.site · 버전 **32**, 배포 `appgdep_6aed45958ca08191b2391f7d719ab25a`, 최종 **succeeded**. public 접근·DB 바인딩·런타임 환경 리비전 **1**·규약 **v19**를 유지했다. 새 SQL·환경 변경은 없다.
+- **검증:** 재질 검토를 다시 검사해 fingerprint `979ab2a8c3156a665c86244d5a56a0a71c2af0ee79c047894429e067fb85c5a7`의 **30개 화면**과 현재 코드·자산의 일치를 확인했다. 변경 없는 입력의 기존 **221/221 회귀·18/18 파이프라인·35개 Canvas 장면·타입/UI 검증**은 재사용했으며 이번 실행으로 세지 않는다. 공식 `build-site.mjs`로 새 배포 빌드를 완료했다.
+- **소스·패키지:** 런타임 입력 **193개**가 빌드보다 새롭지 않고, 게시 소스 **257개**의 원본/작업본/Git blob 바이트와 빌드 파일 **155개**의 SHA-256이 일치한다. 게시 전용 `.gitattributes`로 검토한 줄바꿈을 보존했다. 게시 저장소 커밋·푸시는 `fba3e39720775fc9f58eb25a750f881c36f35838`, 저장 버전은 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_21caa8e7ead48191bd38e0d780f99cd7`이다. 원본 저장소 전체를 커밋·푸시하지 않았다.
+- **아카이브:** `web/outputs/huddlers-fire-shadow-v4-deploy.tar.gz` **9,140,524 bytes**, gzip SHA-256 `780cdf2e4fed6db460fefd48a476779f6ae0cab0affb3fc2f211433c92dc1c74`. Sites 저장 tar 해시는 `1f158d74f4a39ff97c9d16a23902ac07a10aa9b4494a2f67f5e0d66e8669536d`이다. 비밀값·Git·의존성·로컬 상태를 포함하지 않는다.
+- **공개 확인:** HTML·JS/CSS·Worker·게임/스프라이트·음원 등 **84개 파일**을 게시 빌드와 해시 대조했다. 공개 manifest의 `field-shadow-v4`·PNG **27개**, 방 목록 HTTP **200**, `discordAvailable:true`, 미인증 방 생성 **401**을 확인했다. 사용자 방·로그인 세션은 만들지 않았다. 로그·입력·패키지·배포 검사는 `web/outputs/shadow-publish/`에 보존했다.
+
+이번 공개 검사는 파일/API 확인이다. 기존 로컬 화면 검토의 실물 휴대전화·실인터넷·YouTube 음향·커뮤니티 선호 한계를 확장하지 않는다. 열린 페이지는 새로고침하면 새 빌드를 받는다.
+
+## INT-19 그림자 농도 재조정 · field-shadow-v4 (2026-11-06, 로컬)
+
+사용자가 v3 수정본의 그림자가 거의 보이지 않는다고 지적했다. 투영의 거리 감쇠를 제곱에서 선형으로 바꾸고 계수를 .24에서 .48로 올렸다. 중간 거리/광량 .75 예시는 .045 → .18이다. 시설 접촉 계수는 컬러 .2 → .5 / 다크 .28 → .55, 서 있는 캐릭터의 접촉 계수는 .3 → .6으로 보정했다. 원화 윤곽·그림자 길이·공통 광원·합성 순서는 유지했다.
+
+- 일반 모닥불 광량의 기본/근접 카메라에서 먼저 농도를 검토했다. [비교 이미지](../art/sprites/field-shadow-v4/release/screens/shadow-contrast-comparison.png), [근접](../art/sprites/field-shadow-v4/release/screens/camp-close.png), [모바일](../art/sprites/field-shadow-v4/release/screens/ui-mobile-field.png)을 보존한다. v3의 명암 가독성 통과 판단은 정정하고 당시 검토본은 보존했다.
+- 새 fingerprint `979ab2a8c3156a665c86244d5a56a0a71c2af0ee79c047894429e067fb85c5a7`의 전체 **30개 검토 PASS**. 다크·랜턴/접촉만·혼합 행동·업기·WebGL 손실/복구/Canvas·실제 PC/모바일/PIP를 확인했고 UI 7개는 빌드 앱에서 다시 캡처·확인했다. 67프레임 4판과 수치 노멀 2판은 v3와 같은 PNG 바이트다.
+- **221/221 회귀, 18/18 파이프라인, 35개 Canvas 장면, typecheck/build PASS**. 기본 `sprites:build` 재현·설치도 통과했다. 코드·자산·검토 연결 검사와 실제 명암 판단을 구분한다. 농도 선택 자체를 임의의 미감 점수로 자동 판정하지 않았다.
+- 원화/노멀 PNG 27개의 바이트·물리·API·규약 v19는 유지한다. 성능은 이번 농도 변경에서 새로 측정하지 않았으며 v3 수치를 v4의 새 측정값으로 보고하지 않는다. 실행 로그는 `web/outputs/shadow-v4/`다. 공개 배포·커밋·푸시는 하지 않았다.
+
+## INT-19 후속 그림자 수정 · field-shadow-v3 (2026-11-06, 로컬)
+
+사용자의 수정 요청으로 아래 재검토에서 확인한 결함을 고쳤다. 공개 버전 31·규약 v19·DB·공유 물리는 유지한 로컬 수정본이며 배포·커밋·푸시는 수행하지 않았다. 이전 배포본과 [전후 비교](../art/sprites/field-shadow-v3/release/screens/shadow-comparison.png)를 남겼다.
+
+- **형태와 접촉:** 늘린 타원을 실제 원화 alpha·몸 합성의 투영으로 교체했다. 시설의 표시 크기/방향과 착석 보정은 렌더와 마스크가 공유한다. 벤치 다리의 접촉 구간과 다리 사이 여백을 보존하고, 공중 캐릭터는 유한 길이·높이 감쇠를 사용한다. 고정 우하향 투영은 제거했다.
+- **공통 광원/순서:** 모닥불·랜턴·좌우 진단광 모두 같은 세계 광원 배열을 사용한다. 품질 단계도 번짐·그림자·셰이더 이전에 한 번 선택한다. 정적/캐릭터 그림자 모두 사물 이전 지면 패스에 있으며, Canvas와 WebGL에서 같은 둥근 등각 지면 경계를 적용한다.
+- **성능 보완:** 새 포즈에서 마스크를 만드는 비용을 프로파일로 확인했다. 캐릭터 작업 해상도를 절반으로 줄이고 최대 256개를 캐시하며, 정적 접촉/광원별 투영은 분리해 깜빡임에 재생성하지 않는다. 다크 초기 진입은 이미 로딩한 다크 원화를 사용한다. 원형 사진을 마스크에 읽지 않는다.
+- **검토 하네스:** 기존 28개에 랜턴 단독·점광원 없는 접촉 장면을 더해 **30개**로 검토했다. 좌우 진단에는 같은 광원 배열과 실제 활성 그림자 raster의 이동을 요구하며 셰이더만 움직인 증거를 거절한다. 전시 이미지는 디코딩 후 다시 그려 캡처하여 빈 전시판을 통과시키지 않는다. [검토](../art/sprites/field-shadow-v3/release/review.json)와 [evidence](../art/sprites/field-shadow-v3/release/evidence.json)는 fingerprint `6ef33c4be8a3590107175c7365099615adf5dc50f742f0f30ed8027972942a75`에 묶었다. 실제 UI 7개는 정식 설치 후 빌드 앱에서 다시 캡처·열람했다.
+
+| 확인 | 결과 |
+| --- | --- |
+| 전체 회귀 | **221/221 PASS**. 벤치 다리 사이 alpha 여백/접촉, 랜턴 이동, 그림자의 지면 패스 순서, 품질 단계 공통 광원, 등각 clip, 다크 초기 소스, 잘못된 진단 증거 거절 추가 |
+| 자산 파이프라인 | **18/18 PASS**, 기본 `sprites:build`로 최종 검토본 재현·재검증·설치 PASS |
+| Canvas 회귀 | **35개 장면 PASS**. WebGL 품질/성능 증거와 구분 |
+| 실제 WebGL/Canvas | 세 맵 컬러·다크, 진단광/노멀 끄기/접촉/랜턴, 행동·업기·67프레임, 손실/복구/강제 Canvas, PC/모바일/영상/PIP **30개 검토 PASS** |
+| 빌드 앱 UI | PC 1280×900 / 모바일 390×844 / 실제 Document PIP 560×480에서 WebGL·노멀 draw·입력/패널/영상 공간 PASS. `test:browser:appearance`의 테마·저장/새로고침·초안·탭·팝업 초점 PASS |
+| 타입·빌드·lint | PASS / PASS / 오류 0. 기존 `camp-world.mjs` 미사용 `COLORS` 경고 1개 유지 |
+
+원화/노멀 PNG 27개는 이전과 같은 바이트이며 새 디스크 이미지 자산을 생성하지 않았다. 최종 재질 묶음과 포인터만 새 버전으로 보존했다. 중간 로컬 검토본은 ignored 작업 폴더에 보존하고 공개된 최초 검토본은 변경하지 않았다. 물리·RTC·API를 바꾸지 않아 실제 16인 RTC는 재실행하지 않았으며 앞선 통과를 이번 실행으로 세지 않는다. 검사는 임시 headless Chrome과 loopback QA API/SQLite로 수행했고 개인 브라우저·데스크톱 UI는 조작하지 않았다. 로그는 `web/outputs/shadow-v2/`에 있다.
+
+최종 성능은 동일한 16명 행동 장면, 120프레임 준비/360프레임 표본, **RTX 5070 / ANGLE D3D11**이다. [원자료](../art/sprites/field-shadow-v3/release/browser-metrics.json)의 전체 조명 결과는 다음과 같다.
+
+| 화면 | CPU 중앙값 / p95 / 최대 (ms) | GPU 중앙값 / p95 / 최대 (ms) | 텍스처 추정치 |
+| --- | --- | --- | --- |
+| PC 1050×824 DPR1 | 2.7 / 4.3 / 8.8 | 0.54 / 1.32 / 2.89 | 49,559,660 bytes |
+| 모바일 화면 모의 390×844 DPR2 | 2.9 / 4.5 / 16.0 | 0.66 / 1.71 / 9.42 | 49,597,416 bytes |
+
+CPU p95는 최초 조명 검토의 3.2ms보다 증가했다. 원래 Canvas 대비 추가 2ms 목표를 충족했다고 보고하지 않는다. 캐시·반해상도 처리로 비용을 제한했으며 rAF p95는 두 화면 모두 약 4.3ms였다. 이는 240Hz PC의 렌더 제출/GPU 측정이고 실제 휴대전화 FPS·발열이나 전체 메모리를 뜻하지 않는다. 이번 수정의 합성 품질 확인과 실기기 성능·실제 YouTube 음향·커뮤니티 선호의 미확인 범위를 구분한다.
+
+## INT-19 그림자 재검토 정정 (2026-11-06)
+
+공개 버전 31 이후 사용자 지적에 따라 보존한 실제 PNG 4개와 `camp-shadows.mjs`, `camp-renderer.mjs`, `lighting-preview.mjs`를 재검토했다. 긴 타원 투영의 형태/접촉 문제, 고정광·모닥불·랜턴 처리 불일치, 캐릭터 그림자의 합성 순서, 셰이더 광원만 이동하는 진단 장면의 한계를 확인했다. **기존 28개 검토 중 그림자 자연스러움의 pass 해석을 철회하며 미해결로 남긴다.** 상세 원인과 관찰 범위는 [제품 검토](product-review.md)의 최신 절에 있다. 기존 기술 검사·공개 파일 해시 결과는 유효하지만 이 품질 결함을 검증한 근거는 아니다. 이번 작업은 진단·기록이며 실행 코드·공개 버전은 바꾸지 않았다.
+
 ## INT-19 후속 공개 배포 · 버전 31 / 규약 v19 (2026-11-06)
 
 사용자 **“배포 커밋 푸시해줘”** 요청으로 검증한 조명·그림자·노멀맵을 기존 사이트에 공개했다. 아래 초기 로컬 검증의 배포 제외 경계는 이 후속 요청으로 대체한다.

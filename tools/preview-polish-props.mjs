@@ -1,0 +1,11 @@
+import {copyFileSync,existsSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {ROOT,readJSON,writeJSON} from './lib/sprite-spec.mjs';
+import {prepareJob} from './prepare-sprite-job.mjs';
+import {slicePreview,buildPreview} from './lib/sprite-preview.mjs';
+const spec=readJSON(resolve(ROOT,'art/sprites/scene-spec.json')),ids=['tree-birch','tree-pine','bench-weathered-ne','bench-weathered-nw'];
+spec.version=1;spec.id='scene-polish-prop-pilot';spec.assets=Object.fromEntries(ids.map(id=>[id,spec.assets[id]]));spec.bindings={};spec.cases=spec.cases.filter(c=>c.map==='camp'&&c.kind==='canvas').slice(0,2);
+const file=resolve(ROOT,'art/sprites/runs/scene-polish-v1/prop-pilot-spec.json');writeJSON(file,spec);
+const dir=resolve(ROOT,'art/sprites/runs/scene-polish-prop-pilot');if(!existsSync(resolve(dir,'job.json')))prepareJob({specFile:file,out:'scene-polish-prop-pilot'});
+for(const id of ids)copyFileSync(resolve(ROOT,'art/sprites/runs/scene-polish-assets/source/'+id+'.png'),resolve(dir,'source/'+id+'.png'));
+slicePreview(resolve(dir,'job.json'));await buildPreview(resolve(dir,'job.json'));console.log('Built isolated four-prop pilot; not installed');

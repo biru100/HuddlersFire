@@ -1,0 +1,191 @@
+{
+  "tree-birch": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-909e874b-e5ac-4e73-9474-0a7708df48ab.png",
+    "sha256": "00526ece1423a2a6e50a4d5224172d0d495caa09b9c100268dc72be77cac8416",
+    "prompt": "prompts/tree-birch.txt",
+    "references": [
+      "art/sprites/field-v2/master.png",
+      "art/sprites/field-v2/release/source/tree.png"
+    ],
+    "width": 1774,
+    "height": 887,
+    "transparentPixels": 1304904,
+    "opaquePixels": 256938,
+    "promptText": "Use case: game sprite. Asset ID: tree-birch.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: One graceful small silver birch with two pale ivory trunks and an airy asymmetric crown of sage and olive leaves. Elevated three-quarter view, clear trunk ground contact. Painted at the SAME detail density as the reference elm, no floor or shadow.. Direction: isometric.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,0.96]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput image 1 is the character paint-treatment reference ONLY. Input image 2 is the existing elm tree paint/line-density reference ONLY. Generate the new birch asset, not an edit of either reference. Keep a generous transparent margin all around.",
+    "promptHash": "c767cb5163210e837ec66bae5ce215665032f60240d7b47a4a4116e8d6c954ad"
+  },
+  "bench-weathered-ne": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-c24fa740-70b0-4e86-a8de-873c919fec16.png",
+    "sha256": "f4815a7f5f3ac57b0674210f57c91e5e0c32423c77bbb49b0bfebddeb9bfec8d",
+    "prompt": "prompts/bench-weathered-ne.txt",
+    "references": [
+      "art/sprites/field-v2/master.png",
+      "art/sprites/field-v2/release/source/bench-ne.png"
+    ],
+    "width": 1774,
+    "height": 887,
+    "transparentPixels": 1237641,
+    "opaquePixels": 323607,
+    "promptText": "Use case: game sprite. Asset ID: bench-weathered-ne.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: One TWO PERSON backless low timber bench, four short legs, one broad flat seat. Its long axis rises from lower left to upper right at 26.565 degrees. Warm weathered cocoa wood, rounded uneven ends and two subtle wood knots. No moss on the seat, no people. Preserve the reference bench proportions and seat plane.. Direction: ne.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,0.98],\"seat\":[0.5,0.38]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput 1 is the paint-treatment reference. Input 2 is the original silhouette/paint reference. Create the newly described asset. Match the reference contour thickness and keep generous transparent margins.",
+    "promptHash": "3a945a30cdff71fe8c924772e175b0e178c7396b6e547af369487fb1cd0ef825"
+  },
+  "tree-pine": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-7fe7f74b-290d-4dc5-be33-07190a73f915.png",
+    "sha256": "9fd24013a26c850d7b5167eeffb3f02c1f24865766175cefc45aa98a56ddf9d4",
+    "prompt": "prompts/tree-pine.txt",
+    "references": [
+      "art/sprites/field-v2/master.png",
+      "art/sprites/field-v2/release/source/tree.png"
+    ],
+    "width": 1774,
+    "height": 887,
+    "transparentPixels": 1393683,
+    "opaquePixels": 171543,
+    "promptText": "Use case: game sprite. Asset ID: tree-pine.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: One compact mountain pine with three irregular layered bough masses, muted deep teal-green needles and a short cocoa trunk. Asymmetric storybook silhouette, clear ground contact. Same paint and contour density as the reference elm.. Direction: isometric.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,0.96]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput 1 is the paint-treatment reference. Input 2 is the original silhouette/paint reference. Create the newly described asset. Match the reference contour thickness and keep generous transparent margins.",
+    "promptHash": "a7c20587a7a8303b3e8005dae0b62ed402df32c1af27ef5f48744b9fa7150571"
+  },
+  "bench-weathered-nw": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-a026f512-0b85-4b1a-b0e8-1020ff6d668c.png",
+    "sha256": "34686f62a8b79ee7699d449cbb6f2ac73ce1224eaa1014b41acd7516fc444001",
+    "prompt": "prompts/bench-weathered-nw.txt",
+    "references": [
+      "art/sprites/field-v2/master.png",
+      "art/sprites/field-v2/release/source/bench-nw.png"
+    ],
+    "width": 1774,
+    "height": 887,
+    "transparentPixels": 1262354,
+    "opaquePixels": 298446,
+    "promptText": "Use case: game sprite. Asset ID: bench-weathered-nw.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: One TWO PERSON backless low timber bench, four short legs, one broad flat seat. Its long axis falls from upper left to lower right at 26.565 degrees. Warm weathered cocoa wood, rounded uneven ends and two subtle wood knots. No moss on the seat, no people. Preserve the reference bench proportions and seat plane.. Direction: nw.\nComposition: exactly 1 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,0.98],\"seat\":[0.5,0.38]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput 1 is the paint-treatment reference. Input 2 is the original silhouette/paint reference. Create the newly described asset. Match the reference contour thickness and keep generous transparent margins.",
+    "promptHash": "b84d31c88aaf2245c2fbbe531eff5434769ee16eab46050314779a6f91d6e581"
+  },
+  "camper-run-back": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-7bebc5bc-f3e9-4dbc-b15a-ee92261d0448.png",
+    "sha256": "8482a6a22db1389852258b9f6ec0f4b25a31740114d05cc1ccde0b8eb1c15f49",
+    "prompt": "prompts/camper-run-back.txt",
+    "references": [
+      "art/sprites/field-v2/master.png"
+    ],
+    "width": 2172,
+    "height": 724,
+    "transparentPixels": 974466,
+    "opaquePixels": 555019,
+    "promptText": "Use case: game sprite. Asset ID: camper-run-back.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nCharacter: Blank circular ivory portrait disc, teal canvas jacket, ochre short overalls, cream mitten hands and cocoa ankle boots. Match NEW reference identity exactly.\nSubject: Exact same reference camper seen from BEHIND in three-quarter view, facing diagonally UP and RIGHT; show teal BACK of jacket, ochre short trouser legs and cocoa boots. No front bib pocket visible. Round blank portrait disc remains circular. running in place, wider stride and opposing bent arms, full loop. Fixed head diameter and clothing identity across all frames.. Direction: back.\nComposition: exactly 6 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"feet\":[0.5,1]}. Blank head target: {\"center\":[0.5,0.22],\"radius\":0.205}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nThe input image is the exact camper identity and paint reference, not an edit target. Every cell must contain the SAME full-body camper viewed from behind. Keep a perfectly circular blank portrait disc, same jacket collar/head ratio, same sleeves and boots. Draw exactly 6 non-overlapping evenly spaced frames in ONE horizontal strip, all cells identical size, feet on the same baseline. No text, arrows or cell dividers.",
+    "promptHash": "2fa05bfac9b58e4c37a445f6f45dc4df8572de4271aa05453167bde1b6ee2b1a"
+  },
+  "camper-idle-back": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-995258aa-04f3-4808-8d48-2e81e8c88b9d.png",
+    "sha256": "d1c1dd10c3eaa561e15ee6e2e6a79403418d4aac0f2acf6ffdcb16e1df0c8399",
+    "prompt": "prompts/camper-idle-back.txt",
+    "references": [
+      "art/sprites/field-v2/master.png"
+    ],
+    "width": 1774,
+    "height": 887,
+    "transparentPixels": 868056,
+    "opaquePixels": 670534,
+    "promptText": "Use case: game sprite. Asset ID: camper-idle-back.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nCharacter: Blank circular ivory portrait disc, teal canvas jacket, ochre short overalls, cream mitten hands and cocoa ankle boots. Match NEW reference identity exactly.\nSubject: Exact same reference camper seen from BEHIND in three-quarter view, facing diagonally UP and RIGHT; show teal BACK of jacket, ochre short trouser legs and cocoa boots. No front bib pocket visible. Round blank portrait disc remains circular. subtle breathing, feet planted, arms relaxed. Fixed head diameter and clothing identity across all frames.. Direction: back.\nComposition: exactly 4 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"feet\":[0.5,1]}. Blank head target: {\"center\":[0.5,0.22],\"radius\":0.205}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nThe input image is the exact camper identity and paint reference, not an edit target. Every cell must contain the SAME full-body camper viewed from behind. Keep a perfectly circular blank portrait disc, same jacket collar/head ratio, same sleeves and boots. Draw exactly 4 non-overlapping evenly spaced frames in ONE horizontal strip, all cells identical size, feet on the same baseline. No text, arrows or cell dividers.",
+    "promptHash": "246a99c117de4c1a0899cb3a4d038f2a4e8b03832bc1c76bb51ed6e7b0d02925"
+  },
+  "camper-walk-back": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-11fb1685-b41c-4678-888e-1c085c4a7e41.png",
+    "sha256": "dfc0f46097890eee4ff609222b8b66940b2b2fa2b754a949f02efb48578a8ffc",
+    "prompt": "prompts/camper-walk-back.txt",
+    "references": [
+      "art/sprites/field-v2/master.png"
+    ],
+    "width": 2172,
+    "height": 724,
+    "transparentPixels": 860236,
+    "opaquePixels": 672743,
+    "promptText": "Use case: game sprite. Asset ID: camper-walk-back.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nCharacter: Blank circular ivory portrait disc, teal canvas jacket, ochre short overalls, cream mitten hands and cocoa ankle boots. Match NEW reference identity exactly.\nSubject: Exact same reference camper seen from BEHIND in three-quarter view, facing diagonally UP and RIGHT; show teal BACK of jacket, ochre short trouser legs and cocoa boots. No front bib pocket visible. Round blank portrait disc remains circular. walking in place, alternating feet and opposite arms, full loop. Fixed head diameter and clothing identity across all frames.. Direction: back.\nComposition: exactly 6 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"feet\":[0.5,1]}. Blank head target: {\"center\":[0.5,0.22],\"radius\":0.205}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nThe input image is the exact camper identity and paint reference, not an edit target. Every cell must contain the SAME full-body camper viewed from behind. Keep a perfectly circular blank portrait disc, same jacket collar/head ratio, same sleeves and boots. Draw exactly 6 non-overlapping evenly spaced frames in ONE horizontal strip, all cells identical size, feet on the same baseline. No text, arrows or cell dividers.",
+    "promptHash": "d6cc4a00bf853dd1e440913b598f036e03f9eaeea345864fb4aaaceece55ff9c"
+  },
+  "gold": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-a193bdc0-19ee-4785-8b42-6261f53ae2c5.png",
+    "sha256": "247fc7aae7e3bc616288ad233cc49dccb3f268d132471132eccb55b4ef48825e",
+    "prompt": "prompts/gold.txt",
+    "references": [
+      "art/sprites/field-v2/release/source/gold.png"
+    ],
+    "width": 2172,
+    "height": 724,
+    "transparentPixels": 1195931,
+    "opaquePixels": 348831,
+    "promptText": "Use case: game sprite. Asset ID: gold.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: Six-frame seamless camp flame animation, golden yellow with warm ivory core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.. Direction: front.\nComposition: exactly 6 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,1]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput image is ONLY the gouache flame paint/color reference. Do NOT include its logs or isolated sparks. Exactly SIX separate flames in one evenly spaced horizontal strip, with generous transparent gutters between cells. Each flame fits its own equally sized cell. Same fixed low root position, varying flame tips. No labels or panel backgrounds.",
+    "promptHash": "75b878ee1eb136a4a51a0b81cb100f5d0640e7ae3ff282cdce615c73a073ab93"
+  },
+  "amber": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-5fee6774-bc96-4a53-886d-a64be39f4f21.png",
+    "sha256": "648d7e3505323242063bb76a32b975f3f4cbecd1cd4da139c8feb6689b026113",
+    "prompt": "prompts/amber.txt",
+    "references": [
+      "art/sprites/field-v2/release/source/amber.png"
+    ],
+    "width": 2172,
+    "height": 724,
+    "transparentPixels": 1171136,
+    "opaquePixels": 371636,
+    "promptText": "Use case: game sprite. Asset ID: amber.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: Six-frame seamless camp flame animation, amber orange with pale yellow core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.. Direction: front.\nComposition: exactly 6 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,1]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput image is ONLY the gouache flame paint/color reference. Do NOT include its logs or isolated sparks. Exactly SIX separate flames in one evenly spaced horizontal strip, with generous transparent gutters between cells. Each flame fits its own equally sized cell. Same fixed low root position, varying flame tips. No labels or panel backgrounds.",
+    "promptHash": "9cd8adb5ef8b308e36785d4dff2671693bc804a952f790a9a462a747cad57985",
+    "correction": {
+      "reason": "Removed an accidental pale blob above the first cell with built-in image_gen; original retained.",
+      "input": "rejected/amber-blob.png",
+      "prompt": "Edit ONLY the accidental pale gray/white blob at the very top-left of this image: remove that blob completely to transparent alpha. Preserve the SIX amber flame frames, their exact shapes, colors, spacing, dimensions, positions, transparent background and all painted flame pixels. Do not add anything. Keep the original canvas size. This is a production sprite strip; there must be nothing except the six flames."
+    }
+  },
+  "jade": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-dc1f99d2-6c4c-486e-9206-2bc164907e5c.png",
+    "sha256": "751685f0eb7f55b011663db0132bcf0f5c8ecb0f00fa59909cd4584837e8096a",
+    "prompt": "prompts/jade.txt",
+    "references": [
+      "art/sprites/field-v2/release/source/jade.png"
+    ],
+    "width": 2172,
+    "height": 724,
+    "transparentPixels": 1180567,
+    "opaquePixels": 362206,
+    "promptText": "Use case: game sprite. Asset ID: jade.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: Six-frame seamless camp flame animation, jade green with pale mint core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.. Direction: front.\nComposition: exactly 6 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,1]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput image is ONLY the gouache flame paint/color reference. Do NOT include its logs or isolated sparks. Exactly SIX separate flames in one evenly spaced horizontal strip, with generous transparent gutters between cells. Each flame fits its own equally sized cell. Same fixed low root position, varying flame tips. No labels, panel backgrounds, stray blobs or marks.",
+    "promptHash": "d1bb6e35b4c9a457d03a4a8d4a88415e550fd1eb4e26eedf63cdf0ce192c3f6b"
+  },
+  "blue": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-9d3327d9-562b-441f-a866-264a559a8765.png",
+    "sha256": "8da99cd443c6b850d35981f0e845c6f5dc1e8e23a045d7d456270cf7cc358833",
+    "prompt": "prompts/blue.txt",
+    "references": [
+      "art/sprites/field-v2/release/source/blue.png"
+    ],
+    "width": 2172,
+    "height": 724,
+    "transparentPixels": 1175410,
+    "opaquePixels": 355435,
+    "promptText": "Use case: game sprite. Asset ID: blue.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: Six-frame seamless camp flame animation, soft blue with pale blue-white core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.. Direction: front.\nComposition: exactly 6 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,1]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput image is ONLY the gouache flame paint/color reference. Do NOT include its logs or isolated sparks. Exactly SIX separate flames in one evenly spaced horizontal strip, with generous transparent gutters between cells. Each flame fits its own equally sized cell. Same fixed low root position, varying flame tips. No labels, panel backgrounds, stray blobs or marks.",
+    "promptHash": "ced75995cd725cb808f9b45d28d91a521fc8defa11a9031391f6322da20c9558"
+  },
+  "violet": {
+    "tool": "built-in image_gen",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a1afa9-f97f-7390-93eb-d7ef8ea4158e\\exec-97e6bdb0-0816-4169-8ecb-5b5180d4c9dd.png",
+    "sha256": "2b5c61b23db7ab6f936759f54e8a210db9bd7da4cd1b658266d5a880b5bf2934",
+    "prompt": "prompts/violet.txt",
+    "references": [
+      "art/sprites/field-v2/release/source/violet.png"
+    ],
+    "width": 2172,
+    "height": 724,
+    "transparentPixels": 1124798,
+    "opaquePixels": 414138,
+    "promptText": "Use case: game sprite. Asset ID: violet.\nStyle: Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art. View: Elevated three quarter props on 2:1 isometric ground. Circular avatar portraits always screen-facing. Lighting: Soft ambient daylight, mild upper-left highlights; no baked floor or cast shadows.\nStyle reference: art/sprites/field-v2/master.png (character identity and paint treatment only).\nSubject: Six-frame seamless camp flame animation, violet purple with pale lavender core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.. Direction: front.\nComposition: exactly 6 distinct frame(s) in one evenly spaced horizontal strip; full silhouettes, generous clear margin; consistent proportions.\nContact design, normalized within each tight alpha silhouette: {\"ground\":[0.5,1]}.\nGenuine transparent alpha background. No ground, cast shadow, text, face, watermark, grid or detached effects.\n\nInput image is ONLY the gouache flame paint/color reference. Do NOT include its logs or isolated sparks. Exactly SIX separate flames in one evenly spaced horizontal strip, with generous transparent gutters between cells. Each flame fits its own equally sized cell. Same fixed low root position, varying flame tips. No labels, panel backgrounds, stray blobs or marks.",
+    "promptHash": "2dda3829783ec027e03bbd320cb9204a2c4cc4770ddf2e614f9fe5fb53f45e80"
+  }
+}

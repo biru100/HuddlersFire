@@ -40,10 +40,12 @@ import PlayerInfoPanel, { type PlayerInfoView } from '@/components/camp/player-i
 import { playerInfo } from '@/lib/camp-player-info.mjs';
 import WeaponBar from '@/components/camp/weapon-bar';
 import { bindCampInput, zoomFromWheel } from '@/lib/camp-input.mjs';
+import {freeCamera,panCamera,zoomCameraAt} from '@/lib/camp-camera.mjs';
 import { useCampSession } from '@/components/camp/use-camp-session';
 import { emptyWeapons } from '@/lib/camp-weapons.mjs';
 import FireProgress from '@/components/camp/fire-progress';
 import GameInfoPanel from '@/components/camp/game-info-panel';
+import EffectsStatus from '@/components/camp/effects-status';
 
 type Person = { id: string; name: string; color: string; avatar?: string | null; connected?: boolean; x?: number; y?: number; sitting?: boolean };
 
@@ -52,14 +54,15 @@ export default function Camp() {
   const rendererRef=useRef<CampRenderer|null>(null);
   const [assetStatus,setAssetStatus]=useState<{loading:boolean;failed:string[]}>({loading:true,failed:[]});
   const occlusions=useRef<{x:number;y:number;width:number;height:number;kind:string}[]>([]);
-  const view = useRef({zoom:1,followSelf:true});
-  const [zoom,setZoom]=useState(1), [followSelf,setFollowSelf]=useState(true), [fieldOnly,setFieldOnly]=useState(false), [compactPanel,setCompactPanel]=useState(false);
+  const view = useRef<{zoom:number;followSelf:boolean;cameraMode:string;freeView:{x:number;y:number;baseScale:number}|null}>({zoom:1,followSelf:true,cameraMode:'follow',freeView:null});
+  const [zoom,setZoom]=useState(1),[cameraMode,setCameraMode]=useState<'follow'|'free'|'overview'>('follow'),[freeView,setFreeView]=useState<{x:number;y:number;baseScale:number}|null>(null), [fieldOnly,setFieldOnly]=useState(false), [compactPanel,setCompactPanel]=useState(false);
+  const followSelf=cameraMode==='follow';
   const [panelTab,setPanelTab]=useState<CampPanelTab>('chat'), [chatFocusRequest,setChatFocusRequest]=useState(0);
   const compactScreen=useCompactCamp();
   const [myPresence,setMyPresence]=useState<Presence>(presenceDefaults());
   const workClock=useRef(new WorkClock()), soloBall=useRef(emptyBall());
   const [workTime,setWorkTime]=useState('00:00:00');
-  const [presenceById,setPresenceById]=useState<Record<string,string>>({});
+  const [presenceById,setPresenceById]=useState<Record<string,Presence>>({});
   const [mapId,setMapId]=useState<MapId>('camp'), [mapBusy,setMapBusy]=useState(false);
   const [nearInteraction,setNearInteraction]=useState<ReturnType<typeof nearbyInteraction>>(null),[gameId,setGameId]=useState<string|null>(null);
   const travelPending=useRef(false);
@@ -72,7 +75,7 @@ export default function Camp() {
   const [unreadCalls,setUnreadCalls]=useState<ChatEntry[]>([]);
   const seenCalls=useRef(new Set<string>());
   const pip=useCampPip(()=>{closePlayerInfo();resetInput();});
-  useEffect(()=>{view.current={zoom,followSelf};},[zoom,followSelf]);
+  useEffect(()=>{view.current={zoom,followSelf,cameraMode,freeView};},[zoom,followSelf,cameraMode,freeView]);
   const network = useRef<CampNetwork | null>(null);
   const audio = useRef<CampAudio | null>(null);
   const keys = useRef(new Set<string>());
@@ -81,7 +84,7 @@ export default function Camp() {
   const touchRunRef = useRef(false), selectedPlayerRef = useRef<string | null>(null);
   const crouchRef = useRef(false), emotesRef = useRef(false), lockedRef = useRef(false), soloPose = useRef('standing');
   const soloPlayer = useRef({ id: 'solo', name: '허들러', color: COLORS[0], ...spawnPlayer() });
-  const scene = useRef({ name: '허들러', color: COLORS[0] });
+  const scene = useRef({ name: '허들러', color: COLORS[0], avatar: null as string | null });
   const soloWorld = useRef(new Map([['solo', soloPlayer.current]]));
   const soloLedger = useRef(new CommandLedger()), soloMusic = useRef(emptyMusic()), soloChat = useRef<ChatEntry[]>([]);
   const [profile, setProfile] = useState<Profile>({ name: '', color: COLORS[0], avatar: null, linked: false });
@@ -93,6 +96,7 @@ export default function Camp() {
   useEffect(() => { themeRef.current = getSettingsSnapshot().theme; applyTheme(document, themeRef.current); }, [settings.theme]);
   const [settingsOpen, setSettingsOpen] = useState(false), [carryBusy, setCarryBusy] = useState(false);
   const effectsNeedsGesture = useRef(true), sceneMusic = useRef<MusicState>(emptyMusic());
+  const [effectsStatus,setEffectsStatus]=useState('blocked');
   const [ready, setReady] = useState(false), [busy, setBusy] = useState(false);
   const [solo, setSolo] = useState(false);
   const [connected, setConnected] = useState(1);
@@ -109,6 +113,8 @@ export default function Camp() {
   const [infoAnchor, setInfoAnchor] = useState<{ x: number; y: number } | null>(null);
   const [actionState, setActionState] = useState({ crouching: false, carrying: false, carried: false, allowCarry: true, motion: 'grounded', weapon: 'none', fireReady: true, canFire: false, target: null as string | null });
   const {room,people,status,setStatus,connectRoom,disconnectRoom} = useCampSession({networkRef:network,
+    onUpdate:()=>{pip.close();resetInput();soloRef.current=false;setSolo(false);setRadioOpen(false);setMusic(emptyMusic());setChat([]);setToast('새 버전이 적용되어 방을 초기화하고 있어요.');},
+    onUpdateFailed:()=>setError('업데이트를 불러오지 못했어요. 잠시 후 페이지를 새로고침해 주세요.'),
     onChat:setChat,onMusic:setMusic,onHost:()=>{resetInput();setToast('새 방장에게 연결하고 있어요.');},
     onCall:entry=>{if(entry.to===network.current?.player&&!seenCalls.current.has(entry.id)){seenCalls.current.add(entry.id);if(seenCalls.current.size>200)seenCalls.current.delete(seenCalls.current.values().next().value!);setUnreadCalls(previous=>[...previous,entry].slice(-20));setToast(entry.name+'님이 불렀어요.');}},
     onEnded:(text)=>{
@@ -172,19 +178,20 @@ export default function Camp() {
       const notice = params.get('notice');
       if (notice) {
         if(notice==='room-ended')setError('방 연결이 종료되어 새로고침했어요. 새 방으로 입장해 주세요.');
+        else if(notice==='app-updated')setToast('새 버전으로 업데이트했어요. 방이 초기화되어 새 방으로 입장해 주세요.');
         else setToast(notice === 'discord-linked' ? 'Discord 계정을 연결했어요.' : notice === 'discord-cancelled' ? 'Discord 연결을 취소했어요. Discord 계정을 연결한 뒤 참여해 주세요.' : 'Discord 연결을 준비하고 있어요.');
-        params.delete('notice'); history.replaceState(null, '', location.pathname + (params.size ? '?' + params : '') + location.hash);
+        params.delete('notice');params.delete('camp-release'); history.replaceState(null, '', location.pathname + (params.size ? '?' + params : '') + location.hash);
       }
     });
     return () => { cancelled = true; };
   }, []);
   useEffect(() => {
-    scene.current = { name: profile.name || '허들러', color: profile.color };
+    scene.current = { name: profile.name || '허들러', color: profile.color, avatar: profile.avatar };
     Object.assign(soloPlayer.current, { name: profile.name || '허들러', color: profile.color, avatar: profile.avatar });
   }, [profile]);
   useEffect(() => {
     if (!canvas.current) return;
-    const renderer = new CampRenderer(canvas.current, () => ({ ...scene.current, ...view.current, theme: themeRef.current, onAssets:setAssetStatus,
+    const renderer = new CampRenderer(canvas.current, () => ({ ...scene.current, ...view.current, theme:'color',uiTheme:themeRef.current, onAssets:setAssetStatus,
       players: network.current ? [...network.current.players.values()] : soloRef.current ? [soloPlayer.current] : [],
       self: network.current?.player || (soloRef.current ? 'solo' : undefined),
       now: network.current?.hostNow() ?? performance.now(),
@@ -203,7 +210,18 @@ export default function Camp() {
       self:()=>network.current?network.current.players.get(network.current.player):soloRef.current?soloPlayer.current:null,
       aim:(x,y)=>renderer.aimDirection(x,y,network.current?network.current.players.get(network.current.player):soloRef.current?soloPlayer.current:null),
       seat:effectSeat,pickSeat:(x,y)=>renderer.pickSeat(x,y),
-      zoom:(deltaY,deltaMode)=>setZoom(previous=>zoomFromWheel(previous,deltaY,deltaMode)),
+      panStart:()=>{
+        if(!renderer.camera)return;
+        const next=freeCamera(renderer.camera,view.current.zoom);view.current={...view.current,cameraMode:'free',followSelf:false,freeView:next};setFreeView(next);setCameraMode('free');
+        if(canvas.current)canvas.current.dataset.dragging='true';
+      },
+      pan:(dx,dy)=>{const node=canvas.current;if(!node||!view.current.freeView)return;const r=node.getBoundingClientRect(),next=panCamera(view.current.freeView,view.current.zoom,dx*renderer.width/r.width,dy*renderer.height/r.height);view.current.freeView=next;setFreeView(next);},
+      panEnd:()=>{if(canvas.current)delete canvas.current.dataset.dragging;},
+      zoom:(deltaY,deltaMode,clientX,clientY)=>{
+        const current=view.current,nextZoom=zoomFromWheel(current.zoom,deltaY,deltaMode),node=canvas.current;
+        if(current.cameraMode==='free'&&current.freeView&&node&&renderer.camera){const r=node.getBoundingClientRect(),next=zoomCameraAt(current.freeView,current.zoom,nextZoom,renderer.camera.view,(clientX-r.left)*renderer.width/r.width,(clientY-r.top)*renderer.height/r.height);current.freeView=next;setFreeView(next);}
+        current.zoom=nextZoom;setZoom(nextZoom);
+      },
       setAim:aim=>{aimRef.current=aim;},pick:(x,y,touch)=>renderer.pickPlayer(x,y,touch),
     });
     const chatFromPip=()=>{if(inputWindow!==window){effectClosePip();setTimeout(()=>window.dispatchEvent(new Event('camp-chat-focus')),100);}};
@@ -217,10 +235,10 @@ export default function Camp() {
     const summary = setInterval(() => {
       const node=canvas.current;
       if(node){const base=node.getBoundingClientRect(),doc=node.ownerDocument;
-        occlusions.current=[...doc.querySelectorAll<HTMLElement>('.field-tools,.map-travel,.work-chip,.session-chip,.fire-seat-tools,.music-dock,.touch-actions,.touch-controls')].filter(e=>e.getClientRects().length&&doc.defaultView?.getComputedStyle(e).visibility!=='hidden').map(e=>{const r=e.getBoundingClientRect();return{x:r.x-base.x,y:r.y-base.y,width:r.width,height:r.height,kind:e.classList.contains('music-dock')?'music':'hud'};});
+        occlusions.current=[...doc.querySelectorAll<HTMLElement>('.field-tools,.map-travel,.work-chip,.session-chip,.effects-notice,.fire-seat-tools,.music-dock,.touch-actions,.touch-controls')].filter(e=>e.getClientRects().length&&doc.defaultView?.getComputedStyle(e).visibility!=='hidden').map(e=>{const r=e.getBoundingClientRect();return{x:r.x-base.x,y:r.y-base.y,width:r.width,height:r.height,kind:e.classList.contains('music-dock')?'music':'hud'};});
       }
       const n = network.current;
-      const statuses=Object.fromEntries((n?[...n.players.values()]:[soloPlayer.current]).map(p=>[p.id,p.presence]));
+      const statuses=Object.fromEntries((n?[...n.players.values()]:[soloPlayer.current]).map(p=>[p.id,presenceOf(p)]));
       setPresenceById(previous=>JSON.stringify(previous)===JSON.stringify(statuses)?previous:statuses);
       const locations=Object.fromEntries((n?[...n.players.values()]:[soloPlayer.current]).map(p=>[p.id,p.mapId]));
       setMapsById(previous=>JSON.stringify(previous)===JSON.stringify(locations)?previous:locations);
@@ -254,10 +272,10 @@ export default function Camp() {
     };
   }, [pip.pipWindow]);
   useEffect(()=>{
-    const sound=new CampAudio();audio.current=sound;
+    const sound=new CampAudio();audio.current=sound;const unsubscribe=sound.subscribe(setEffectsStatus);
     const resume=()=>{void sound.resume().catch(()=>{effectsNeedsGesture.current=true;});};
     document.addEventListener('visibilitychange',resume);window.addEventListener('pageshow',resume);
-    return()=>{document.removeEventListener('visibilitychange',resume);window.removeEventListener('pageshow',resume);sound.destroy();};
+    return()=>{unsubscribe();document.removeEventListener('visibilitychange',resume);window.removeEventListener('pageshow',resume);sound.destroy();};
   },[]);
   useEffect(()=>{
     const sound=audio.current;
@@ -552,7 +570,7 @@ export default function Camp() {
   const playing=active&&mapId===PLAY_MAP,showing=active&&mapId===SHOW_MAP;
   const world = (<section className="world" aria-label={showing?'허들러즈 게임 전시장':playing?'숲속 놀이터':'불멍 캠프장'}>
         {(assetStatus.loading||assetStatus.failed.length>0)&&<div className="scene-status" role="status">{assetStatus.failed.length>0?<><span>풍경을 불러오지 못했어요.</span><Button size="small" onClick={()=>void rendererRef.current?.retryAssets()}>다시 불러오기</Button></>:<span>캠프에 불을 밝히고 있어요…</span>}</div>}
-        <canvas data-camp-input ref={canvas} tabIndex={0} aria-label={`쿼터뷰 캠프장. 배율 ${Math.round(zoom*100)}%. 마우스 휠로 확대·축소. WASD 이동, Shift 달리기, Space 점프와 내려오기, E 가까운 포탈·부스 상호작용 또는 앉기, C 웅크리기, Q 감정표현, 놀이터에서 F 친구 들기·던지기, 1 총, 2 눈뭉치, 3 폭탄, 0 맨손, J 또는 우클릭으로 사용, R 어디서든 라디오 열기, Enter 채팅. 플레이어를 눌러 정보를 확인하세요.`} />
+        <canvas data-camp-input data-camera-mode={cameraMode} ref={canvas} tabIndex={0} aria-label={`쿼터뷰 캠프장. 배율 ${Math.round(zoom*100)}%. 마우스로 끌어서 시점 이동, 휠로 확대·축소. WASD 이동, Shift 달리기, Space 점프와 내려오기, E 가까운 포탈·부스 상호작용 또는 앉기, C 웅크리기, Q 감정표현, 놀이터에서 F 친구 들기·던지기, 1 총, 2 눈뭉치, 3 폭탄, 0 맨손, J 또는 우클릭으로 사용, R 어디서든 라디오 열기, Enter 채팅. 플레이어를 눌러 정보를 확인하세요.`} />
         <div className="world-heading"><Badge tone="neutral" variant="weak">{active?(showing?'게임 전시장':playing?'놀이터':'불멍'):'A PLACE TO GATHER'}</Badge><Text as="h2" textStyle="t7Bold">{active?(showing?'만드는 즐거움을 나누는 곳':playing?'마음껏, 함께 놀아요':'잠시 쉬어 가도 좋아요'):'우리들의 작은 쉼터'}</Text></div>
         {active && <div className="session-chip"><span className="live-dot" />{solo ? '나만의 산책' : `${connected}명과 함께`}<span className="chip-divider" />{String(Math.floor(elapsed / 60)).padStart(2, '0')}:{String(elapsed % 60).padStart(2, '0')}</div>}
         {active&&<div className="work-chip"><strong>{PRESENCE_LABELS[myPresence.presence as keyof typeof PRESENCE_LABELS]}</strong><span>내 작업 {workTime}</span></div>}
@@ -566,9 +584,15 @@ export default function Camp() {
         {active && <div className="touch-controls" aria-label="이동 버튼">{[['KeyW', '↑'], ['KeyA', '←'], ['KeyS', '↓'], ['KeyD', '→']].map(([key, label]) => <Button key={key} aria-label={`${label} 이동`} onPointerDown={e => { e.preventDefault(); e.currentTarget.setPointerCapture(e.pointerId); keys.current.add(key); sittingRef.current = false; setSitting(false); updateInput(); }} onPointerUp={() => keys.current.delete(key)} onPointerCancel={() => keys.current.delete(key)} onLostPointerCapture={() => keys.current.delete(key)}>{label}</Button>)}</div>}
         {active && <div className="touch-actions" aria-label="이동 동작"><Button variant={runMode?'neutralSolid':'neutralWeak'} aria-pressed={runMode} onPointerDown={e => e.preventDefault()} onClick={toggleRun}>{runMode ? '달리기 켜짐' : '달리기'}</Button><Button disabled={actionState.motion !== 'grounded' && !actionState.carried} onPointerDown={e => e.preventDefault()} onClick={jumpOrEscape}>{actionState.carried ? '내려오기' : '점프'}</Button><Button variant={sitting?'neutralSolid':'neutralWeak'} aria-pressed={sitting} onPointerDown={e => e.preventDefault()} onClick={toggleSit}>{sitting ? '일어나기' : '앉기'}</Button></div>}
         {active && playing && actionState.weapon !== 'none' && <Button className="touch-fire" disabled={!actionState.canFire || !actionState.fireReady} onPointerDown={e => e.preventDefault()} onClick={() => fireWeapon()}>{actionState.fireReady ? '사용' : '대기'}</Button>}
+        {active&&mapId===CAMP_MAP&&(effectsStatus!=='playing'||!volume)&&<aside className="effects-notice" aria-label="모닥불 소리"><EffectsStatus compact volume={volume} status={effectsStatus} onVolume={v=>void changeVolume(v)}/></aside>}
         {active&&<div className="field-tools">
-          <Button variant={followSelf?'neutralSolid':'neutralWeak'} aria-pressed={followSelf} onClick={()=>setFollowSelf(v=>!v)}>내 캐릭터 따라가기</Button><Button onClick={()=>{setZoom(1);setFollowSelf(false);}}>전체 보기</Button>
-          {pip.pipWindow?<Button onClick={pip.close}>원래 화면으로</Button>:<><Button variant={fieldOnly?'neutralSolid':'neutralWeak'} aria-pressed={fieldOnly} onClick={()=>{setFieldOnly(v=>!v);closePanel();}}>{fieldOnly?'기본 화면':'필드 보기'}</Button><Button disabled={!pip.supported||pip.busy} title={pip.supported?'다른 창 위에 띄우기':'이 브라우저에서는 필드 보기를 이용해 주세요'} onClick={()=>{resetInput();closePlayerInfo();void pip.open().catch(e=>setToast(e.message));}}>작은 창 · PIP</Button>{fieldOnly&&<Button aria-expanded={compactPanel} onClick={()=>compactPanel?closePanel():showPanel(panelTab)}>참가자·상태·채팅</Button>}</>}
+          {pip.pipWindow?<Button onClick={pip.close}>원래 화면으로</Button>:<Button variant="neutralWeak" aria-pressed={fieldOnly} onClick={()=>{setFieldOnly(v=>!v);closePanel();}}>{fieldOnly?'기본 화면':'필드 보기'}</Button>}
+          <details className="field-view-menu"><summary>보기</summary><div>
+            <Button variant={followSelf?'neutralSolid':'neutralWeak'} aria-pressed={followSelf} onClick={e=>{setCameraMode('follow');e.currentTarget.closest('details')?.removeAttribute('open');}}>내 캐릭터 따라가기</Button>
+            <Button onClick={e=>{setZoom(1);setCameraMode('overview');e.currentTarget.closest('details')?.removeAttribute('open');}}>전체 보기</Button>
+            <small>{cameraMode==='free'?'자유 시점 · 끌어서 이동':'마우스로 끌면 자유 시점으로 바뀌어요.'}</small>
+            {!pip.pipWindow&&<Button disabled={!pip.supported||pip.busy} title={pip.supported?'다른 창 위에 띄우기':'이 브라우저에서는 필드 보기를 이용해 주세요'} onClick={e=>{e.currentTarget.closest('details')?.removeAttribute('open');resetInput();closePlayerInfo();void pip.open().catch(e=>setToast(e.message));}}>작은 창 · PIP</Button>}
+          </div></details>
         </div>}
         {active&&pip.pipWindow&&<details className="pip-people"><summary>함께 있는 사람 {solo?1:people.length}명</summary>{(solo?[soloPlayer.current]:people).map(p=><Button key={p.id} onClick={e=>{const r=e.currentTarget.getBoundingClientRect();openPlayerInfo(p.id,r.left,r.top);}}>{p.name} · {mapName(mapsById[p.id])}{p.id===room?.host?' · 방장':''}</Button>)}</details>}
         {active&&unreadCalls.length>0&&<div className="call-notice" role="status"><strong>{unreadCalls.at(-1)?.name}님이 불렀어요 · {unreadCalls.length}건</strong><Button onClick={()=>{setUnreadCalls([]);if(pip.pipWindow)pip.close();showPanel('chat',true);}}>확인 · 채팅에서 기록 보기</Button></div>}
@@ -599,7 +623,7 @@ export default function Camp() {
           </>}
           presence={<PresenceEditor value={myPresence} workTime={workTime} expanded={panelTab==='status'} onFocus={resetInput} save={async value=>{await sendCommand('presence',value);resetInput();}}/>}
           people={<PeoplePanel people={solo?[{...profile,id:'solo',name:profile.name||'허들러'}]:people} self={solo?'solo':room?.player} host={room?.host} maps={mapsById} presence={presenceById} hidden={hiddenIds} open={openPlayerInfo}/>}
-          radio={<MusicPanel inline open={false} onOpenChange={()=>{}} onCloseFocus={()=>canvas.current?.focus()} music={music} isHost={solo||isHost} command={sendCommand} muted={settings.musicMuted} onMuted={musicMuted=>setSettings(s=>({...s,musicMuted}))} sound={{effectsVolume:volume,musicVolume:settings.musicVolume,onEffectsVolume:v=>void changeVolume(v),onMusicVolume:musicVolume=>setSettings(s=>({...s,musicVolume}))}}/>}
+          radio={<MusicPanel inline open={false} onOpenChange={()=>{}} onCloseFocus={()=>canvas.current?.focus()} music={music} isHost={solo||isHost} command={sendCommand} muted={settings.musicMuted} onMuted={musicMuted=>setSettings(s=>({...s,musicMuted}))} sound={{effectsVolume:volume,effectsStatus,musicVolume:settings.musicVolume,onEffectsVolume:v=>void changeVolume(v),onMusicVolume:musicVolume=>setSettings(s=>({...s,musicVolume}))}}/>}
           play={<>
             <Button className={'sit-button ' + (sitting ? 'is-sitting' : '')} onClick={toggleSit}><span>{sitting ? '다시 천천히 걷기' : mapId===CAMP_MAP ? '여기에 앉아 불멍하기' : '여기에 앉아 쉬기'}</span></Button>
             {mapId===CAMP_MAP&&<><FireProgress {...fireProgress} change={style=>runAction('fire-style',{style})}/><p className="micro-copy">함께 장작을 넣어 불을 키워요. 1회 +1 XP · 인당 10분에 한 번</p></>}
@@ -622,10 +646,10 @@ export default function Camp() {
     <PlayerInfoPanel canHide={!!seatId} hidden={!!selectedInfo&&hiddenIds.includes(selectedInfo.id)} onHidden={toggleHidden} container={pip.pipWindow?.document.body} onCall={id=>void runAction('call',{target:id})} player={selectedInfo} anchor={infoAnchor} onClose={closePlayerInfo} onCloseFocus={() => canvas.current?.focus()} />
     {active&&<GameInfoPanel gameId={gameId} onClose={()=>setGameId(null)} onCloseFocus={()=>canvas.current?.focus()}/>}
     <SettingsPanel theme={settings.theme} onTheme={theme => setSettings(s => ({ ...s, theme }))} inRoom={active} open={settingsOpen} onOpenChange={setSettingsOpen} onCloseFocus={() => canvas.current?.focus()}
-      effectsVolume={volume} musicVolume={settings.musicVolume} muted={settings.musicMuted} allowCarry={active ? actionState.allowCarry : settings.allowCarry} carryBusy={carryBusy}
+      effectsVolume={volume} effectsStatus={effectsStatus} musicVolume={settings.musicVolume} muted={settings.musicMuted} allowCarry={active ? actionState.allowCarry : settings.allowCarry} carryBusy={carryBusy}
       onEffectsVolume={value => void changeVolume(value)} onMusicVolume={musicVolume => setSettings(s => ({ ...s, musicVolume }))} onMuted={musicMuted => setSettings(s => ({ ...s, musicMuted }))} onAllowCarry={allow => void changeAllowCarry(allow)}
       linked={profile.linked} discordAvailable={discordAvailable} discordBusy={discordBusy} discordMessage={discordMessage} onDiscord={() => void (profile.linked ? unlink() : linkDiscord())} onCancelDiscord={() => { cancelDiscord(); setDiscordMessage(DISCORD_MESSAGES['discord-cancelled']); }} />
-    {active && <MusicPanel open={radioOpen} onOpenChange={setRadioOpen} onCloseFocus={() => canvas.current?.focus()} sound={{effectsVolume:volume,musicVolume:settings.musicVolume,onEffectsVolume:v=>void changeVolume(v),onMusicVolume:musicVolume=>setSettings(s=>({...s,musicVolume}))}} music={music} isHost={solo || isHost} command={sendCommand} muted={settings.musicMuted} onMuted={musicMuted => setSettings(s => ({ ...s, musicMuted }))} />}
+    {active && <MusicPanel open={radioOpen} onOpenChange={setRadioOpen} onCloseFocus={() => canvas.current?.focus()} sound={{effectsVolume:volume,effectsStatus,musicVolume:settings.musicVolume,onEffectsVolume:v=>void changeVolume(v),onMusicVolume:musicVolume=>setSettings(s=>({...s,musicVolume}))}} music={music} isHost={solo || isHost} command={sendCommand} muted={settings.musicMuted} onMuted={musicMuted => setSettings(s => ({ ...s, musicMuted }))} />}
     {active && <MusicPlayer music={music} isHost={solo || isHost} hostNow={() => network.current?.hostNow() ?? performance.now()} command={sendCommand} muted={settings.musicMuted} volume={settings.musicVolume} onMuted={musicMuted => setSettings(s => ({ ...s, musicMuted }))} modalOpen={modalOpen} suspended={()=>!!network.current?.migrating} />}
     <Dialog.Root open={help||leaveConfirm} onOpenChange={open=>{if(!open){setHelp(false);setLeaveConfirm(false);}}}><Dialog.Portal>
       <Dialog.Overlay className="modal-backdrop"/>

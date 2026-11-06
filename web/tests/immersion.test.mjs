@@ -167,6 +167,22 @@ test('personal hiding applies only while seated and never changes shared players
   assert.equal(fireConversation(chat,2000,['b']).length,1);assert.equal(chat.length,3);assert.equal(fireConversation(chat,15000).length,0);assert.deepEqual(all[1],before[1]);
 });
 
+test('audio reports load failure and successful retry, map gating and saved mute without replacing the loop',async()=>{
+ class Context{
+  state='running';currentTime=1;destination={};
+  createGain(){return{gain:{value:0,cancelScheduledValues(){},setValueAtTime(v){this.value=v;},setTargetAtTime(v){this.value=v;}},connect(){}};}
+  async decodeAudioData(){return{numberOfChannels:1,sampleRate:1000,length:1000,getChannelData:()=>new Float32Array(1000)};}
+  createBuffer(_channels,length){return{duration:length/1000,getChannelData:()=>new Float32Array(length)};}
+  createBufferSource(){return{connect(){},start(){},stop(){}};}async close(){}
+ }
+ let attempts=0;const sound=new CampAudio(Context,async()=>({ok:++attempts>1,arrayBuffer:async()=>new ArrayBuffer(4)})),states=[],off=sound.subscribe(s=>states.push(s));
+ await assert.rejects(sound.setVolume(.25),/불러오지/);assert.equal(sound.status,'failed');
+ await sound.setVolume(.25);assert.equal(sound.status,'playing');const loop=sound.noise;
+ sound.updateScene(emptyFire(),100,false);assert.equal(sound.status,'outside');sound.updateScene(emptyFire(),200,true);assert.equal(sound.status,'playing');
+ await sound.setVolume(0);assert.equal(sound.status,'muted');assert.equal(sound.noise,loop);assert.ok(states.includes('failed')&&states.includes('loading'));
+ off();const count=states.length;sound.destroy();assert.equal(states.length,count);
+});
+
 test('unlinked users cannot create or join by code, poll a room or signal; public discovery remains available',async()=>{
   const f=fixture();try{
     const h=await f.enrolled('Host'),u=await f.enrolled('Unlinked',false),room=(await h('rooms',{op:'create',visibility:'public'})).value;
@@ -176,13 +192,13 @@ test('unlinked users cannot create or join by code, poll a room or signal; publi
   }finally{f.sqlite.close();}
 });
 
-test('focused renderer zooms toward fire, hides selected bodies/picking and restores the previous camera after standing',()=>{
+test('seating preserves the user zoom while personal hiding, picking and fire conversation still work',()=>{
   const names=['window','ResizeObserver','requestAnimationFrame','cancelAnimationFrame'],saved=Object.fromEntries(names.map(k=>[k,globalThis[k]]));
   globalThis.window={devicePixelRatio:1,matchMedia:()=>({matches:true})};globalThis.ResizeObserver=class{observe(){}disconnect(){}};globalThis.requestAnimationFrame=()=>1;globalThis.cancelAnimationFrame=()=>{};let r;
   try{
     const s=setup(),canvas=createCanvas(800,650);canvas.getBoundingClientRect=()=>({left:0,top:0,width:800,height:650});
     const scene={players:[s.a,s.b],self:'a',fire:s.fire,now:1000,chat:[{id:'m',by:'a',name:'a',text:'fire talk',kind:'chat',mapId:'camp',at:1000}],hiddenIds:['b'],zoom:1.25};
-    r=new CampRenderer(canvas,()=>scene);r.draw(1000);const scale=r.camera.scale;assert.equal(r.hitAreas.length,2);sit(s);r.draw(1100);assert.ok(r.camera.scale>scale);assert.equal(r.hitAreas.length,1);assert.ok(r.bubbleAreas.length>0);assert.equal(r.pickSeat(r.seatAreas[0].x,r.seatAreas[0].y),seat.id);
+    r=new CampRenderer(canvas,()=>scene);r.draw(1000);const scale=r.camera.scale;assert.equal(r.hitAreas.length,2);sit(s);r.draw(1100);assert.equal(r.camera.scale,scale);assert.equal(r.hitAreas.length,1);assert.ok(r.bubbleAreas.length>0);assert.equal(r.pickSeat(r.seatAreas[0].x,r.seatAreas[0].y),seat.id);
     applyPlayerAction(s.players,'a',act('posture',{posture:'standing'}),1200);r.draw(1200);assert.equal(r.hitAreas.length,2);assert.equal(r.camera.scale,scale);
     canvas.getBoundingClientRect=()=>({left:0,top:0,width:390,height:700});r.resize();sit(s);
     scene.occlusions=[{x:158,y:260,width:222,height:200,kind:'music'},{x:12,y:204,width:132,height:85,kind:'hud'},{x:12,y:12,width:160,height:90,kind:'hud'}];

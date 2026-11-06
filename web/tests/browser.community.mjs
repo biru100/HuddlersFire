@@ -55,7 +55,7 @@ try {
   await send('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false},sessionId);
   await send('Page.addScriptToEvaluateOnNewDocument',{source:youtubeFixture},sessionId);
   await send('Page.addScriptToEvaluateOnNewDocument',{source:`window.__campAudio=[];const AC=window.AudioContext;window.AudioContext=class extends AC{constructor(...args){super(...args);window.__campAudio.push({context:this,sources:0,gains:[]});}createGain(){const g=super.createGain();window.__campAudio.at(-1).gains.push(g);return g;}createBufferSource(){window.__campAudio.at(-1).sources++;return super.createBufferSource();}decodeAudioData(...args){return super.decodeAudioData(...args).then(b=>{window.__campAudio.at(-1).duration=b.duration;return b;});}};`},sessionId);
-  await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('huddlers-fire-settings'))localStorage.setItem('huddlers-fire-settings',JSON.stringify({listening:false,musicVolume:25}));`},sessionId);
+  await send('Page.addScriptToEvaluateOnNewDocument',{source:`if(!localStorage.getItem('huddlers-fire-settings'))localStorage.setItem('huddlers-fire-settings',JSON.stringify({listening:false,musicVolume:25,effectsVolume:0}));`},sessionId);
   await send('Page.addScriptToEvaluateOnNewDocument',{source:`window.__campAudioFetchReleased=false;const fetchAudio=window.fetch;window.fetch=async(...args)=>{const r=await fetchAudio(...args);if(String(args[0])==='/audio/campfire.ogg'&&!window.__campAudioFetchReleased)await new Promise(done=>{window.__campReleaseAudio=()=>{window.__campAudioFetchReleased=true;done();};});return r;};`},sessionId);
   await send('Page.navigate',{url:origin},sessionId);
   await until(()=>evaluate(`!!document.querySelector('#nickname')&&!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Discord 연결하기'))`),'Discord gate absent');
@@ -73,7 +73,7 @@ try {
   assert.ok(await evaluate(`document.querySelector('#camp-page-radio').getClientRects().length>0&&!!document.querySelector('#camp-page-radio [role="slider"][aria-label="효과음 음량"]')`));
   await click('효과음 켜기');
   await until(()=>evaluate(`!!window.__campReleaseAudio`),'Audio request did not enter delayed loading');
-  assert.equal(await evaluate(`JSON.parse(localStorage.getItem('huddlers-fire-settings')).effectsVolume`),.4,'UI preferences must not wait for audio loading');
+  assert.equal(await evaluate(`JSON.parse(localStorage.getItem('huddlers-fire-settings')).effectsVolume`),.25,'UI preferences must not wait for audio loading');
   for(const value of ['15','0','75'])await fill('#camp-page-radio [role="slider"][aria-label="효과음 음량"]',value);
   assert.equal(await evaluate(`document.querySelector('#camp-page-radio [role="slider"][aria-label="효과음 음량"]').getAttribute('aria-valuenow')`),'75');
   assert.equal(await evaluate(`JSON.parse(localStorage.getItem('huddlers-fire-settings')).effectsVolume`),.75);
@@ -225,7 +225,7 @@ try {
   console.log('PASS: hidden main document keeps playback and next-song events; browser pause stays local; foreground retains mute (simulated visibility, stub API)');
   assert.ok(await evaluate(`document.querySelector('#camp-tab-chat').getAttribute('aria-selected')==='true'&&!document.querySelector('.invite-card').open`));
   await panelTab('status');
-  await evaluate(`document.querySelector('.presence-editor [role="combobox"]').click()`);await until(()=>evaluate(`!!document.querySelector('[role="option"][data-value="working"]')`),'Status options unavailable');await evaluate(`document.querySelector('[role="option"][data-value="working"]').click()`);await fill('.presence-editor input[maxlength="80"]','보스 패턴 구현 중');await click('상태 공유하기');
+  assert.equal(await evaluate(`document.querySelectorAll('.presence-editor [role="combobox"]').length`),0);await click('작업 중');await fill('.presence-editor input[maxlength="80"]','보스 패턴 구현 중');await click('메모 저장하기');
   await until(()=>evaluate(`document.querySelector('.presence-quick button[aria-pressed="true"]').textContent==='작업 중'`),'Presence not applied');
   await until(()=>evaluate(`document.querySelector('.presence-time output').textContent!=='00:00:00'`),'Work timer not advancing');
   await click('자리 비움');await until(()=>evaluate(`document.querySelector('.presence-quick button[aria-pressed="true"]').textContent==='자리 비움'`),'Away status not applied');

@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "newAssets": [
+    "amber",
+    "gold",
+    "blue",
+    "jade",
+    "violet",
+    "tree-birch",
+    "tree-pine",
+    "bench-weathered-ne",
+    "bench-weathered-nw",
+    "camper-idle-back",
+    "camper-walk-back",
+    "camper-run-back"
+  ],
+  "reuseCount": 47
+}

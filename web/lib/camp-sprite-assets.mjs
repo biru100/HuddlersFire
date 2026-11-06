@@ -24,9 +24,11 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
     retrySprites(ids){for(const id of ids)if(entries.get(id)?.error)entries.delete(id);return api.preloadSprites(ids);},
     sceneSpriteIds(theme='color',map='camp'){const dark=theme==='dark',suffix=dark?'-dark':'';const ids=[...data.character[dark?'darkVariants':'variants'],'environment'+suffix,'effects'+suffix,(map==='showroom'?'stone':'grass')+suffix,...(map==='camp'||map==='playground'?['sand'+suffix]:[]),...(data.previewFiles||[])];return [...new Set([...ids,...ids.map(id=>data.materials?.sheets[id]).filter(Boolean)])];},
     characterSheet(slot,theme='color'){return data.character[theme==='dark'?'darkVariants':'variants'][Math.max(0,Math.min(5,slot|0))];},
-    spriteFrame(id,direction){const base=data.sprites[id];if(direction){const variant=base?.directions?.[direction];if(!variant)throw Error('Missing sprite direction: '+id+'/'+direction);return data.sprites[variant];}return base;},
-    drawSprite(ctx,id,{x=0,y=0,width=64,height=null,anchorX=null,anchorY=null,theme='color',flip=false,direction=null,layer=null}={}){
-      const frame=api.spriteFrame(id,direction);if(!frame)return false;const sheet=frame.sheet+(theme==='dark'&&!frame.ungraded?'-dark':''),image=api.getSprite(sheet);if(!image)return false;
+    spriteFrame(id,direction){const base=data.sprites[id];if(direction){if(base?.direction===direction&&!base.directions)return base;const variant=base?.directions?.[direction];if(!variant)throw Error('Missing sprite direction: '+id+'/'+direction);return data.sprites[variant];}return base;},
+    drawSprite(ctx,id,{x=0,y=0,width=64,height=null,anchorX=null,anchorY=null,theme='color',flip=false,direction=null,layer=null,elapsed=0,reduced=false}={}){
+      let frame=api.spriteFrame(id,direction);if(!frame)return false;
+      if(frame.animation){const row=frame.animation,total=row.durations.reduce((n,v)=>n+v,0);let time=reduced?0:row.loop?((elapsed%total)+total)%total:Math.min(total-1,Math.max(0,elapsed)),index=0;while(index<row.frames.length-1&&time>=row.durations[index])time-=row.durations[index++];frame=row.frames[index];}
+      const sheet=frame.sheet+(theme==='dark'&&!frame.ungraded?'-dark':''),image=api.getSprite(sheet);if(!image)return false;
       if(layer&&frame.depth!==layer)return false;
       const h=height??width*frame.h/frame.w,ground=frame.contacts?.ground;
       const ax=anchorX??(ground?ground.x/frame.w:.5),ay=anchorY??(ground?ground.y/frame.h:1);

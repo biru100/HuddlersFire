@@ -12,7 +12,7 @@ export function slicePreview(jobFile){
   const head=spawnSync('git',['rev-parse','HEAD'],{cwd:repo,encoding:'utf8',windowsHide:true});if(head.status!==0||head.stdout.trim()!==lock.commit)throw Error('Pinned sprite-gen checkout required');
   for(const id of job.selected){const a=job.spec.assets[id],source=inside(dir,'source/'+id+'.png');if(!existsSync(source))throw Error('Selected source missing: '+id);}
   for(const id of job.selected){const a=job.spec.assets[id],v2=job.spec.version===2,cell=a.kind==='character'?(v2?96:128):(v2?192:256),baseline=a.kind==='character'?(v2?90:116):a.kind==='terrain'?cell:cell-12,height=a.kind==='character'?(v2?82:104):a.kind==='terrain'?cell:cell-28;
-    const result=spawnSync(python,['-m','sprite_gen.cli','slice-sheet','--sheet',inside(dir,'source/'+id+'.png'),'--out-dir',inside(dir,'sliced/'+id),'--chroma-key','none','--alpha-floor','64','--grid',a.frames+'x1','--names',Array.from({length:a.frames},(_,i)=>'frame'+i).join(','),'--cell-width',String(cell),'--cell-height',String(cell),'--baseline-y',String(baseline),'--target-height',String(height),'--scale','cell','--fit','contain'],{cwd:ROOT,encoding:'utf8',windowsHide:true});
+    const result=spawnSync(python,['-m','sprite_gen.cli','slice-sheet','--sheet',inside(dir,'source/'+id+'.png'),'--out-dir',inside(dir,'sliced/'+id),'--chroma-key','none','--alpha-floor','64','--grid',a.frames+'x1','--names',Array.from({length:a.frames},(_,i)=>'frame'+i).join(','),'--cell-width',String(cell),'--cell-height',String(cell),'--baseline-y',String(baseline),'--target-height',String(height),'--scale',a.kind==='effect'&&a.frames>1?'sheet':'cell','--fit','contain'],{cwd:ROOT,encoding:'utf8',windowsHide:true});
     if(result.status!==0)throw Error('sprite-gen slice failed: '+id+'\n'+result.stderr+result.stdout);
     if(a.kind==='terrain'){
       let source=inside(dir,'sliced/'+id+'/frame0.png');
@@ -49,7 +49,7 @@ export async function buildPreview(jobFile){
   }
   // These preview bindings refer to existing map IDs, never a second source of world coordinates.
   for(const [id,binding]of Object.entries(job.spec.bindings||{}))if(job.selected.includes(binding.asset)){bindings[id]=binding.direction;if(binding.characterDirection)characterBindings[id]=binding.characterDirection;}
-  data.bindings=bindings;data.characterBindings=characterBindings;data.previewFiles=selectedFiles;data.preview={specHash:job.specHash,selected:job.selected,legacyAssets:Object.keys(SPRITE_MANIFEST.sprites).filter(id=>!job.selected.includes(id)),ungraded:true};
+  data.bindings={...SPRITE_MANIFEST.bindings,...bindings};data.characterBindings={...SPRITE_MANIFEST.characterBindings,...characterBindings};data.previewFiles=selectedFiles;data.preview={specHash:job.specHash,selected:job.selected,legacyAssets:Object.keys(SPRITE_MANIFEST.sprites).filter(id=>!job.selected.includes(id)),ungraded:true};
   writeJSON(inside(out,'manifest.json'),data);const fingerprint=buildFingerprint(job,inputs,annotations);
   writeJSON(inside(out,'preview.json'),{specHash:job.specHash,fingerprint,manifestHash:hash(readFileSync(inside(out,'manifest.json'))),inputs,annotations,toolCommit:readJSON(resolve(ROOT,'tools/sprite-gen.lock.json')).commit});return{dir,fingerprint};
 }

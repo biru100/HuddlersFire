@@ -1,4 +1,5 @@
 'use client';
+import EffectsStatus from './effects-status';
 import { ActionButton as Button } from '@/seed-design/ui/action-button';
 import { VolumeSlider } from '@/components/camp/form-controls';
 import { List, ListSwitchItem } from '@/seed-design/ui/list';
@@ -7,7 +8,7 @@ import { RadioSelectBoxRoot, RadioSelectBoxItem } from '@/seed-design/ui/select-
 
 type Props = { open: boolean; onOpenChange: (open: boolean) => void; onCloseFocus: () => void;
   theme: string; onTheme: (theme: string) => void;
-  effectsVolume: number; musicVolume: number; muted: boolean; allowCarry: boolean; carryBusy: boolean;
+  effectsVolume: number; effectsStatus:string; musicVolume: number; muted: boolean; allowCarry: boolean; carryBusy: boolean;
   onEffectsVolume: (volume: number) => void; onMusicVolume: (volume: number) => void; onMuted: (muted: boolean) => void; onAllowCarry: (allow: boolean) => void;
   inRoom?:boolean; linked: boolean; discordAvailable: boolean; discordBusy: boolean; discordMessage: string; onDiscord: () => void; onCancelDiscord: () => void };
 export default function SettingsPanel(p: Props) {
@@ -19,13 +20,13 @@ export default function SettingsPanel(p: Props) {
       <fieldset><legend>화면 테마</legend>
         <RadioSelectBoxRoot aria-label="화면 테마" value={p.theme} onValueChange={p.onTheme} className="theme-options">
           <RadioSelectBoxItem value="color" label="컬러 모드" description="따뜻한 불빛과 생동감 있는 색상"/>
-          <RadioSelectBoxItem value="dark" label="다크 모드" description="어두운 배경과 차분한 흑백 톤"/>
+          <RadioSelectBoxItem value="dark" label="다크 모드" description="필드 색은 유지하고 메뉴와 패널을 어둡게"/>
         </RadioSelectBoxRoot>
         <p>내 화면에 바로 적용돼요. 작은 창에도 같은 테마를 사용해요.</p>
       </fieldset>
       <fieldset><legend>소리</legend>
         <VolumeSlider label="효과음 음량" value={Math.round(p.effectsVolume*100)} onChange={v=>p.onEffectsVolume(v/100)}/>
-        <Button onClick={() => p.onEffectsVolume(p.effectsVolume ? 0 : .5)}>{p.effectsVolume ? '효과음 끄기' : '효과음 켜기'}</Button>
+        <EffectsStatus volume={p.effectsVolume} status={p.effectsStatus} onVolume={p.onEffectsVolume}/>
         <List><ListSwitchItem title="내 라디오 음소거" detail="다른 친구의 재생에는 영향을 주지 않아요." checked={p.muted} onCheckedChange={p.onMuted}/></List>
         <VolumeSlider label="음악 음량" value={p.musicVolume} onChange={p.onMusicVolume}/>
         <p>효과음 음량은 모닥불·장작 등 효과음 전체에 적용돼요. 라디오는 자동으로 함께 재생돼요. 음소거와 음량은 나에게만 적용돼요. 방 전체 재생은 라디오에서 바꿔요.</p>

@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "specHash": "ce9cfac17c747aba1b4ac1e2ab26c8b9b103a36062fba7af7e35894173ebdbe3",
+  "baseArtworkHash": "f517f7fbac5fac6f590b888357f017ea12400278bf457a695c7b1e89103dc43b",
+  "baseManifestHash": "44c40a0de516f7a273e2f25017c93d0ffba02d56cea4d633a903dbc170fe0760",
+  "inputs": {
+    "camper-0": "f1a383dc42a3790e4fded19a28d786ef86f9957eb3e30051d3beedaf4f5035c0",
+    "camper-dark-0": "63b616ab1c827c30af349345fcfef93a3484d0edb2ec835b933dfad007bf7970",
+    "camper-1": "85aba1dfa959ea0784452d3b18b83fa83c72f5601174364f6731090e5ef9d4e1",
+    "camper-dark-1": "23f3b7f6b11696e76b8f144d55b50824848211ae8ae3893c71e7a9960a42b8ac",
+    "camper-2": "df3ce0ed389753df136e63d146e3fce4c70d7f1340588bf38e357bc31c021ecc",
+    "camper-dark-2": "7203288df25406773fa1c11dfd74437a710f9fceadcff0aaf98312f02d64c155",
+    "camper-3": "2eca5e861b43fcd6fe9aafa72087f09f5ca5a45dc006e95643cefaf614fdd47d",
+    "camper-dark-3": "a1edc70850aaa8a42772f0d2a15ff33fd70e7460afedf12639dba929e9cc6f6c",
+    "camper-4": "5cedd7ffb4cae13f8ea2f7a508e6746f43c5ffd63222b1805f13b32373740ebf",
+    "camper-dark-4": "c30f7e5a9165807c944753b2bacf9ecbe54f65b9ae8ff58ffa2295535703a393",
+    "camper-5": "2bfd3a37bbb7a504103090718e69e05f69b1b0805e39a309952042a0c4af44b3",
+    "camper-dark-5": "68418d1835da27f2dba7b6baaf56ef511ec1f9b8df5451e1ed2c16407daededc",
+    "environment": "5e696d35cc87cc63b291577815eb9eecbfda0704084d533ab1020243dce21673",
+    "environment-dark": "a99dfe0cb863aa052d7307667ff99c21e80e77272da3eed564bce656263bad7d",
+    "effects": "af0014f716fb5b77e9f1bc815fd994c57d3ff3ae0fc32beefe2f8ec7cc3cee8a",
+    "effects-dark": "a1a6ef9a166e8efe34c0025f1a480282a700b4a10f7d5abaaf9177a34dcb0fbe",
+    "grass": "545d78bd8a2abeb4305663f06a05562971957f6bba6657a8815996e183609581",
+    "grass-dark": "38799f899cc52dc8a475d68af6d4cb677f134efbb546f52cd931108420953e92",
+    "sand": "947ecb1126606bdde9855a95396fc51041c77ccb48fd49aefb94eb8e356ef4eb",
+    "sand-dark": "c085168d0d6a76d8da5acdb146600d2789b1775d0b6b70352e045441bcb74436",
+    "stone": "8d951136870c48309a36d0f37388aed0fd332d3d4c3b8b10dd97202d2f035603",
+    "stone-dark": "c02e87ad1cbd606f538ef4e332d48b875e5c3f2e0ebc3025215acf2fc94dc61a"
+  },
+  "files": {
+    "normal-character": {
+      "url": "/sprites/normal-character.77141e3408ab.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 245350,
+      "sha256": "77141e3408ab0d6b58479f696a6aa2d895c828120649493dfcea53152fe7b185"
+    },
+    "normal-environment": {
+      "url": "/sprites/normal-environment.410cff5d1580.png",
+      "width": 768,
+      "height": 1152,
+      "bytes": 250194,
+      "sha256": "410cff5d158058cfcc6626d87527303573cc528d2e6ab31eab91cde443356e15"
+    },
+    "normal-grass": {
+      "url": "/sprites/normal-grass.c867780d1f47.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 11494,
+      "sha256": "c867780d1f472c6defb72e9fb4db998848296a849f675f80ba869afa59583b1f"
+    },
+    "normal-sand": {
+      "url": "/sprites/normal-sand.c867780d1f47.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 11494,
+      "sha256": "c867780d1f472c6defb72e9fb4db998848296a849f675f80ba869afa59583b1f"
+    },
+    "normal-stone": {
+      "url": "/sprites/normal-stone.c867780d1f47.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 11494,
+      "sha256": "c867780d1f472c6defb72e9fb4db998848296a849f675f80ba869afa59583b1f"
+    }
+  },
+  "manifestHash": "69c7bbef965e31edb4c9c3b092fc073a638b296fe7666e1844b6b25ff357f48e",
+  "generatorHash": "1c10fb48b52d0f0c43c22c8aa3ef2cfbec504a67efa096183f88714c14f7fafb",
+  "bytes": 9571297
+}

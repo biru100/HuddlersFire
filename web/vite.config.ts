@@ -40,6 +40,8 @@ const localBindingConfig = {
 
 export default defineConfig(async ({ command }) => {
   configureToolEnvironment(process.cwd());
+  const release=command==='build' ? JSON.parse(process.env.CAMP_BUILD_RELEASE||'null') : {id:'development',revision:0};
+  if(!release||typeof release.id!=='string'||!Number.isSafeInteger(release.revision))throw new Error('Build through npm run build to create a shared release identity.');
   const previewJob = command === "serve" && process.env.CAMP_PREVIEW_JOB;
   // Keep project-only authoring dependencies outside the published app's build graph.
   const previewModule = new URL("./tests/sprite-preview-plugin.mjs", import.meta.url).href;
@@ -56,6 +58,7 @@ export default defineConfig(async ({ command }) => {
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
+    define: {__CAMP_RELEASE__:JSON.stringify(release)},
     server: {
       ...(managedLinux
         ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }

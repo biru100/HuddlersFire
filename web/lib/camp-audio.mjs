@@ -1,9 +1,12 @@
 import { emptyFire, fireStrength } from './camp-fire.mjs';
 // Recorded campfire: Glaneur de sons, CC BY 3.0. See public/audio/CREDITS.txt.
 export class CampAudio {
-  constructor(Context=globalThis.AudioContext,request=globalThis.fetch) {
+  constructor(Context=globalThis.AudioContext||globalThis.webkitAudioContext,request=globalThis.fetch) {
     this.Context=Context;this.request=request;this.volume=0;this.strength=.55;this.inCamp=true;this.seenFlare=new Set();this.initializedScene=false;
+    this.status='muted';this.listeners=new Set();
   }
+  subscribe(listener){this.listeners.add(listener);listener(this.status);return()=>this.listeners.delete(listener);}
+  refreshStatus(){const next=this.destroyed?'stopped':!this.volume?'muted':this.loadError?'failed':this.context?.state!=='running'?'blocked':!this.buffer||!this.noise?'loading':!this.inCamp?'outside':'playing';if(next!==this.status){this.status=next;for(const listener of this.listeners)listener(next);}}
   async load() {
     if(this.buffer)return this.buffer;
     if(!this.loading)this.loading=(async()=>{
@@ -22,19 +25,26 @@ export class CampAudio {
   }
   async setVolume(volume) {
     if(this.destroyed)return;
+    const generation=this.generation=(this.generation||0)+1;
     this.volume=Number.isFinite(volume)?Math.max(0,Math.min(1,volume)):0;
+    this.loadError=false;
+    try{
     if(!this.context&&this.volume>0) {
       this.context=new this.Context();this.gain=this.context.createGain();this.gain.gain.value=0;this.gain.connect(this.context.destination);
       this.campGain=this.context.createGain();this.campGain.gain.value=this.inCamp?1:0;this.campGain.connect(this.gain);
       this.ambienceGain=this.context.createGain();this.ambienceGain.gain.value=.18+.32*this.strength;this.ambienceGain.connect(this.campGain);
+      this.stateChanged=()=>this.refreshStatus();this.context.addEventListener?.('statechange',this.stateChanged);
     }
-    if(!this.context)return;
+    if(!this.context){this.refreshStatus();return;}
     this.applyGain();
+    this.refreshStatus();
     if(!this.volume)return;
     const [buffer]=await Promise.all([this.load(),this.context.state==='running'?undefined:this.context.resume()]);
     if(!this.destroyed&&this.volume>0&&!this.noise&&buffer) {
       const source=this.context.createBufferSource();source.buffer=buffer;source.loop=true;source.connect(this.ambienceGain);source.start();this.noise=source;
     }
+    this.refreshStatus();
+    }catch(error){if(!this.destroyed&&this.volume>0&&this.generation===generation){this.loadError=true;this.refreshStatus();}throw error;}
   }
   applyGain(){
     if(!this.gain)return;
@@ -49,7 +59,7 @@ export class CampAudio {
     this.ambienceGain.gain.setTargetAtTime(.18+.32*this.strength,at,.25);
   }
   updateScene(fire=emptyFire(),now=0,inCamp=true) {
-    this.strength=fireStrength(fire,now);this.inCamp=inCamp;this.applyGain();
+    this.strength=fireStrength(fire,now);this.inCamp=inCamp;this.applyGain();this.refreshStatus();
     const key=fire.xp+':'+fire.stokedAt;
     if(this.initializedScene&&fire.stokedAt>=0&&!this.seenFlare.has(key)&&now>=fire.stokedAt&&now-fire.stokedAt<1200&&inCamp)this.flare();
     this.seenFlare.add(key);if(this.seenFlare.size>100)this.seenFlare.delete(this.seenFlare.values().next().value);
@@ -64,5 +74,5 @@ export class CampAudio {
     source.start(0,Math.min(12,this.buffer.duration/3),2);source.stop(at+2.1);
   }
   async resume(){if(this.volume>0&&this.context&&this.context.state!=='closed'&&(this.context.state!=='running'||!this.noise))await this.setVolume(this.volume);}
-  destroy(){this.destroyed=true;this.noise?.stop();for(const source of this.flares||[])try{source.stop();}catch{}void this.context?.close().catch(()=>{});}
+  destroy(){this.destroyed=true;this.refreshStatus();this.listeners.clear();this.context?.removeEventListener?.('statechange',this.stateChanged);this.noise?.stop();for(const source of this.flares||[])try{source.stop();}catch{}void this.context?.close().catch(()=>{});}
 }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createCanvas} from '@napi-rs/canvas';
-import {spriteManifest as m,getSprite,characterSheet,sceneSpriteIds,setSpriteLoader,loadSprite,spriteStatus,retrySprites,subscribeSprites} from '../lib/camp-sprite-assets.mjs';
+import {spriteManifest as m,getSprite,characterSheet,sceneSpriteIds,setSpriteLoader,loadSprite,spriteStatus,retrySprites,subscribeSprites,createSpriteContext} from '../lib/camp-sprite-assets.mjs';
 import {frameAt,characterAnimation} from '../lib/camp-sprite-animation.mjs';
 import {drawCharacter} from '../lib/camp-character.mjs';
 
@@ -24,7 +24,7 @@ test('shipped atlas frames have valid crop/anchor/duration metadata and decoded 
     });
   }
   assert.equal(count,front.reduce((n,a)=>n+a.frames,0));
-  for(const a of Object.values(spec.assets).filter(a=>a.kind==='character'&&a.direction!=='front')){const row=m.character.states[a.state].directions[a.direction];assert.equal(row.frames.length,a.frames);assert.ok(row.frames.every(f=>f.contacts?.seat&&f.head.radius>10));}
+  for(const a of Object.values(spec.assets).filter(a=>a.kind==='character'&&a.direction!=='front')){const row=m.character.states[a.state].directions[a.direction];assert.equal(row.frames.length,a.frames);assert.ok(row.frames.every(f=>f.contacts?.feet&&f.head.radius>10&&(a.state!=='sit'||f.contacts.seat)));}
 });
 test('files match content hashes and fit the explicit 10 MB transfer/6 MB scene budgets',()=>{
   for(const file of Object.values(m.files)){
@@ -33,6 +33,12 @@ test('files match content hashes and fit the explicit 10 MB transfer/6 MB scene 
   }
   assert.ok(Object.values(m.files).reduce((n,f)=>n+f.bytes,0)<10_000_000);
   for(const theme of ['color','dark'])for(const map of ['camp','playground','showroom'])assert.ok(sceneSpriteIds(theme,map).reduce((n,id)=>n+m.files[id].bytes,0)<6_000_000);
+});
+test('animated effects loop with a fixed root and reduced motion freezes the first image',async()=>{
+ const source=createCanvas(8,4),paint=source.getContext('2d');paint.fillStyle='#ff0000';paint.fillRect(0,0,4,4);paint.fillStyle='#0000ff';paint.fillRect(4,0,4,4);
+ const frame=x=>({sheet:'effects',x,y:0,w:4,h:4,contacts:{ground:{x:2,y:4}}}),first=frame(0),data={files:{effects:{url:'fixture'}},sprites:{flame:{...first,animation:{frames:[first,frame(4)],durations:[100,100],loop:true}}}};
+ const assets=createSpriteContext(data,{loader:async()=>source});await assets.loadSprite('effects');
+ for(const [elapsed,reduced,expected]of [[0,false,[255,0,0,255]],[100,false,[0,0,255,255]],[200,false,[255,0,0,255]],[100,true,[255,0,0,255]]]){const c=createCanvas(16,16).getContext('2d');assets.drawSprite(c,'flame',{x:8,y:10,width:4,elapsed,reduced});assert.deepEqual([...c.getImageData(8,8,1,1).data],expected);assert.equal(c.getImageData(8,10,1,1).data[3],0,'Root stays at the requested baseline');}
 });
 test('animation cycles, one-shot clamp, reduced motion and combined poses preserve gameplay state',()=>{
   assert.equal(frameAt('walk',0).index,frameAt('walk',750).index);

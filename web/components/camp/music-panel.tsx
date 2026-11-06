@@ -1,4 +1,5 @@
 'use client';
+import EffectsStatus from './effects-status';
 import { ActionButton as Button } from '@/seed-design/ui/action-button';
 import { Input, VolumeSlider } from '@/components/camp/form-controls';
 import { useState } from 'react';
@@ -8,7 +9,7 @@ import { parseYouTubeUrl } from '@/lib/camp-media.mjs';
 export type Track = { id: string; videoId: string; title?: string; by: string; name: string };
 export type MusicState = { revision: number; transport: number; current: Track | null; queue: Track[]; playing: boolean; position: number; anchor: number };
 type Props = { music: MusicState; isHost: boolean; command: (kind: string, data?: Record<string, unknown>) => Promise<unknown>;
-  inline?:boolean; sound?:{effectsVolume:number;musicVolume:number;onEffectsVolume:(v:number)=>void;onMusicVolume:(v:number)=>void};
+  inline?:boolean; sound?:{effectsVolume:number;effectsStatus:string;musicVolume:number;onEffectsVolume:(v:number)=>void;onMusicVolume:(v:number)=>void};
   open: boolean; onOpenChange: (open: boolean) => void; onCloseFocus: () => void; muted: boolean; onMuted: (muted: boolean) => void };
 
 export default function MusicPanel({ music, isHost, command, open, onOpenChange, onCloseFocus, muted, onMuted, inline=false, sound }: Props) {
@@ -29,7 +30,7 @@ export default function MusicPanel({ music, isHost, command, open, onOpenChange,
         {sound&&<fieldset className="radio-sound-settings"><legend>나에게 들리는 소리</legend>
           <VolumeSlider label="라디오 음량" value={sound.musicVolume} onChange={sound.onMusicVolume}/>
           <VolumeSlider label="효과음 음량" value={Math.round(sound.effectsVolume*100)} onChange={v=>sound.onEffectsVolume(v/100)}/>
-          <Button onClick={()=>sound.onEffectsVolume(sound.effectsVolume?0:.4)}>{sound.effectsVolume?'효과음 끄기':'효과음 켜기'}</Button>
+          <EffectsStatus volume={sound.effectsVolume} status={sound.effectsStatus} onVolume={sound.onEffectsVolume}/>
           <small>모닥불·장작 등 효과음 전체에 적용돼요. 모닥불은 불멍에서 들려요. <a href="/audio/CREDITS.txt" target="_blank" rel="noopener noreferrer">소리 출처 · CC BY 3.0</a></small>
         </fieldset>}
         <form onSubmit={async e => {

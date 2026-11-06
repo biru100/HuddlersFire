@@ -1,0 +1,231 @@
+{
+  "reviewer": "Codex: inspection of actual WebGL/UI PNGs, source/mixed/effect contact sheets and Canvas fallback; no automated aesthetic scoring",
+  "scope": "full",
+  "fingerprint": "5dfa2f1f27ed8fb57e30adb3d172b84bad0fdd4820862103eb1b591552100414",
+  "observations": [
+    "INT-20 representative composition, portraits, source frame/loop seams and actual UI inspected separately from technical checks."
+  ],
+  "unresolved": [],
+  "limitations": [
+    "Desktop headless mobile viewport is not a physical phone performance test.",
+    "Mock Discord/YouTube media do not verify real media sound or community preference.",
+    "Overview and tall chains intentionally allow small bodies; an open conversation panel intentionally overlays the scene."
+  ],
+  "cases": [
+    {
+      "id": "camp-color",
+      "result": "pass",
+      "observation": "비대칭 좌석군과 커진 수목, 흙/잔디 전이, 16명의 어두운 이름 칩을 확인했다. 원형 사진은 정방향이고 기본 뒤쪽 몸에는 뒤통수가 보인다."
+    },
+    {
+      "id": "camp-close",
+      "result": "pass",
+      "observation": "네 착석 몸 방향의 좌면 접촉, 앞/뒤 기본 얼굴과 밝은 사진의 보존, 목 연결, 벤치 변형을 가까이서 확인했다."
+    },
+    {
+      "id": "normal-left",
+      "result": "pass",
+      "observation": "왼쪽 진단광에 얼굴·나무·벤치가 밝아지고 공통 광원 입력의 그림자가 반대편으로 이동한다."
+    },
+    {
+      "id": "normal-right",
+      "result": "pass",
+      "observation": "오른쪽 광원에서 오른쪽 시설의 면과 반대쪽 그림자가 함께 바뀌며 왼쪽이 밤 주변광으로 남는다."
+    },
+    {
+      "id": "normals-off",
+      "result": "pass",
+      "observation": "노멀 draw 0에서도 밤·거리 감쇠·기본 얼굴의 가독성을 유지하며 면 방향만 단순해진다."
+    },
+    {
+      "id": "night-low-fire",
+      "result": "pass",
+      "observation": "잔불에서 불꽃과 빛 번짐이 줄어도 빈 좌석과 사람·이름을 찾을 수 있다."
+    },
+    {
+      "id": "night-high-fire",
+      "result": "pass",
+      "observation": "강한 불이 공터와 가까운 몸·시설을 밝히고 외곽 숲은 어둡게 남는다."
+    },
+    {
+      "id": "night-no-normals",
+      "result": "pass",
+      "observation": "기본 불의 조명과 얼굴 명암은 남고 노멀 면 반응만 생략된다."
+    },
+    {
+      "id": "contact-only",
+      "result": "pass",
+      "observation": "직접광 없이 접촉 그림자와 밤 주변광만 남으며 사진·이름·작은 기본 얼굴을 식별할 수 있다."
+    },
+    {
+      "id": "lantern-only",
+      "result": "pass",
+      "observation": "랜턴 위치에서 표면과 지면이 밝아지고 같은 광원에서 투영이 반대 방향으로 생긴다."
+    },
+    {
+      "id": "camp-dark",
+      "result": "pass",
+      "observation": "기본 시설과 지형·기본 얼굴은 무채색이며 원색 사진 예외와 이름 가독성을 보존한다."
+    },
+    {
+      "id": "playground-color",
+      "result": "pass",
+      "observation": "중앙 공놀이 공간은 비어 있고 트램펄린·울타리·귀환 길의 접촉과 지형 전이가 보인다."
+    },
+    {
+      "id": "playground-dark",
+      "result": "pass",
+      "observation": "놀이터의 무채색 지형/시설과 이름·귀환 경로를 확인했다."
+    },
+    {
+      "id": "showroom-color",
+      "result": "pass",
+      "observation": "두 공식 대표 이미지의 원색과 전시대 슬롯을 보존하고 관람 길이 부스 앞으로 이어진다."
+    },
+    {
+      "id": "showroom-dark",
+      "result": "pass",
+      "observation": "석재·시설은 무채색이며 두 공식 이미지의 원색과 제목 구분을 유지한다."
+    },
+    {
+      "id": "actions",
+      "result": "pass",
+      "observation": "16명 혼합 동작에서 몸·얼굴·손/머리 경계와 이름 가림, 높은 사람의 약한 주변광을 확인했다."
+    },
+    {
+      "id": "stack",
+      "result": "pass",
+      "observation": "16명 연쇄를 화면 높이에 맞추고 몸·원형 머리·이름 선택 관계를 유지한다. 인물 크기 축소의 명시적 예외다."
+    },
+    {
+      "id": "context-restored",
+      "result": "pass",
+      "observation": "복구 후 같은 배치·사진·이름 위에 WebGL 노멀 면 반응이 돌아온다."
+    },
+    {
+      "id": "frames-0",
+      "result": "pass",
+      "observation": "idle·walk 앞/뒤 원화의 프레임별 윤곽과 원형 머리, 투명 여백을 확인했다."
+    },
+    {
+      "id": "frames-1",
+      "result": "pass",
+      "observation": "뒤 걷기·앞/뒤 달리기·착석 원화의 다리/손과 머리 앵커를 확인했다."
+    },
+    {
+      "id": "frames-2",
+      "result": "pass",
+      "observation": "방향 착석·웅크리기·점프·들기·들림 원화의 투명 영역과 전신 잘림 여부를 확인했다."
+    },
+    {
+      "id": "frames-3",
+      "result": "pass",
+      "observation": "인사·하트·박수·춤·웃음 원화의 팔과 고정 원형 머리 영역을 확인했다."
+    },
+    {
+      "id": "frames-4",
+      "result": "pass",
+      "observation": "놀람·무기·피격의 나머지 11프레임을 확인해 전체 83개 원화 프레임 검토를 마쳤다."
+    },
+    {
+      "id": "polish-solo",
+      "result": "pass",
+      "observation": "1인 기본 따라가기에서 불·인물·이름이 시선의 중심에 있고 커진 수목이 주변을 감싼다."
+    },
+    {
+      "id": "polish-three",
+      "result": "pass",
+      "observation": "가까운 두 좌석군의 세 사람이 불을 향하며 빈 좌석과 접근 통로를 구분할 수 있다."
+    },
+    {
+      "id": "polish-eight",
+      "result": "pass",
+      "observation": "8인 전체 보기에서 이름이 세계 배율과 독립된 크기로 읽히고 좌석군 사이 통로가 남는다."
+    },
+    {
+      "id": "polish-sixteen",
+      "result": "pass",
+      "observation": "16석 전체 점유에서 네 몸 방향과 변형 벤치의 접촉·이름 가림을 확인했다."
+    },
+    {
+      "id": "polish-mobile",
+      "result": "pass",
+      "observation": "390×720 실제 CSS viewport에서 3인의 머리가 모두 화면 안에 있으며 이름 글자는 12px 이상이다."
+    },
+    {
+      "id": "polish-moving",
+      "result": "pass",
+      "observation": "앞/뒤와 좌/우 네 이동 방향의 재킷·다리와 기본 얼굴 방향이 구분된다."
+    },
+    {
+      "id": "polish-flames",
+      "result": "pass",
+      "observation": "다섯 불 외형과 앞/뒤 인물의 분리된 검토판을 확인했다. 별도 effect-loops 판에서 여섯 프레임과 첫 프레임으로 돌아오는 이음을 확인했다."
+    },
+    {
+      "id": "context-lost",
+      "result": "pass",
+      "observation": "컨텍스트 손실 시 같은 장면·이름·사진을 Canvas에서 유지하며 표면 방향 명암은 단순해진다."
+    },
+    {
+      "id": "fallback",
+      "result": "pass",
+      "observation": "강제 Canvas에서도 좌석 방향·큰 지형 경계·이름/사진을 유지한다. WebGL과 같은 GPU 품질로 판정하지 않는다."
+    },
+    {
+      "id": "ui-desktop-field",
+      "result": "pass",
+      "observation": "필드 보기의 상단 도구가 두 항목으로 정리되고 빈 라디오와 불 도구가 작은 낮은 밝기 표면으로 남는다."
+    },
+    {
+      "id": "ui-mobile-field",
+      "result": "pass",
+      "observation": "모바일의 인물과 이름이 커졌고 상단 도구가 줄바꿈하지 않으며 이동·앉기·탭이 노출된다."
+    },
+    {
+      "id": "ui-desktop-panel",
+      "result": "pass",
+      "observation": "열린 대화 패널과 필드 복귀, 초안/연결을 유지하는 기존 흐름을 확인했다. 패널의 의도된 장면 가림은 남는다."
+    },
+    {
+      "id": "ui-mobile-panel",
+      "result": "pass",
+      "observation": "열린 모바일 패널의 입력과 복귀 조작을 확인했으며 키보드 입력이 필드로 새지 않는 흐름을 보존한다."
+    },
+    {
+      "id": "ui-desktop-video",
+      "result": "pass",
+      "observation": "영상의 200px 이상 공간과 음소거/PIP를 유지하며 불 도구와 하단 탭을 사용할 수 있다."
+    },
+    {
+      "id": "ui-mobile-video",
+      "result": "pass",
+      "observation": "영상과 이동 조작을 함께 보존하고 불 도구가 왼쪽으로 이동하며 인물/불이 영상 위에 남는다. 흰 영상은 모의 YouTube fixture다."
+    },
+    {
+      "id": "ui-pip",
+      "result": "pass",
+      "observation": "560×480 PIP에서 같은 원형 프로필과 필드, 보기/복귀 도구를 확인했다."
+    },
+    {
+      "id": "ui-desktop-default",
+      "result": "pass",
+      "observation": "기본 사이드 패널과 필드가 함께 있을 때 사람과 불, 보기 메뉴와 대화 입력을 읽을 수 있다."
+    },
+    {
+      "id": "ui-mobile-default",
+      "result": "pass",
+      "observation": "기본 모바일의 한 줄 보기 도구와 하단 탭, 커진 인물/이름을 확인했다."
+    },
+    {
+      "id": "normal-atlas-character",
+      "result": "pass",
+      "observation": "새 크기 768×1056의 노멀과 색 아틀라스 위치가 맞으며 원형 사진 머리 제외 영역을 보존한다."
+    },
+    {
+      "id": "normal-atlas-environment",
+      "result": "pass",
+      "observation": "나무/벤치 변형을 포함한 768×1152 노멀의 alpha와 시설별 면 방향을 확인했다."
+    }
+  ]
+}

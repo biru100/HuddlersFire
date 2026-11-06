@@ -1,5 +1,19 @@
 # 장면 명세에서 파일럿 검토까지
 
+## 현재 부분 개정 · field-polish-v1
+
+INT-22의 현재 로컬 검토는 `field-polish-v1/release-feedback-v1`이다. 기존 27개 런타임 PNG는 모두 이전 `release-updates-v1`과 SHA-256이 같고 신규 원화/노멀 제작은 없다. `material-spec.json`의 `reviewSet:feedback-v1`이 기존 43개 화면에 상태·자유 시점·착석·다크 UI·라디오·오디오·모바일/PIP 10개를 더해 **53개**를 요구한다. `browser.feedback.mjs`는 두 격리 브라우저의 실제 RTC와 모닥불 파일 decode/output/retry를 검사하고 UI 증거를 추가한다. 이전 검토 폴더는 보존하며 기본 `sprites:build`는 새 로컬 검토를 재현한다. 제품 다크 선택은 컬러 필드를 유지하고 직접 다크 자산 장면은 제작 호환 검사로 구분한다.
+
+INT-21은 같은 원화/노멀의 후속 런타임 검토를 `field-polish-v1/release-updates-v1`에 분리 보존한다. `install-materials.mjs <job-directory> <review.json> [review-revision]`의 선택적 revision을 사용하며 기존 `release`를 덮지 않는다. PNG 제작이나 전체 재생성 승인을 뜻하지 않는다.
+
+INT-20의 현재 명세는 59개 자산이다. **전체 신규 생성이 아닌 명시적 부분 개정**으로, 기존 원본 47개를 해시로 고정하고 12개를 새로 제작했다. 뒤쪽 idle/walk/run 16프레임, 나무/벤치 네 변형과 5종×6프레임 불꽃이 새 범위다. 캐릭터 전체는 83프레임이다. 원본·실제 생성 지시·참조·보정·탈락 이유는 `art/sprites/field-polish-v1/artwork/`에 보존한다. Amber 첫 결과의 외부 얼룩은 탈락 원본을 남기고 내장 이미지 편집으로 제거했다. 생성 API를 다시 부르지 않고 재현할 수 있다.
+
+`prepare-sprite-job.mjs --scope revision --assets <개정 ID 목록> --out <새 작업>`은 전체 명세를 선택하되 나머지를 `reusedSources`로 명시한다. 빌드는 기존 원본 해시가 달라지면 실패하며 예전 manifest로 누락을 채우지 않는다. 전체 신규 생성의 `full` 검토 조건은 그대로다. v1의 부분 미리보기는 선택 밖의 기존 seat bindings도 유지한다.
+
+애니메이션 effect는 명세의 grid·프레임 수·fps를 사용한다. 프레임 전체 실루엣의 공통 bounds와 바닥 앵커로 정규화해 불의 바닥이 흔들리지 않게 한다. 모션 감소는 첫 프레임을 고정한다. 뒤 이동 방향은 manifest의 `locomotionDirections`가 명시할 때만 사용한다.
+
+현재 색상 묶음과 새 크기의 노멀은 `scene-polish-materials` 작업에서 대표 5개 → 전체 43개 WebGL/Canvas/UI 검토 후 `field-polish-v1/release`에 설치했다. 전체 검토에는 추가 프레임 페이지·1/3/8/16명·모바일·방향·불꽃과 기본 PC/모바일 UI가 포함된다. 프레임 페이지 수와 노멀 크기는 manifest에서 파생한다. 기본 `sprites:build`는 이 검토본을 재현한다. 다음 절의 INT-18 v2 제작은 원래 전체 신규 제작 이력이다.
+
 ## 기존 그림의 재질 채널 추가
 
 INT-19의 조명 계약은 [lighting.md](lighting.md)를 따른다. 기존 색 원화의 재생성·재패킹과 구분해 `material-spec.json`의 형태 명세에서 노멀 채널을 만든다. 원화·기존 manifest를 동결하고 `tools/build-material-maps.mjs`로 작업 폴더에 출력한다. 기본 원본은 현재 검토 묶음의 `base-manifest.json`이며 새 색 원본을 쓰려면 해당 manifest를 명시한다.

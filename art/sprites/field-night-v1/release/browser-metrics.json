@@ -1,0 +1,181 @@
+{
+  "kind": "Disposable headless Chrome. Same 16-player action scene, 120 warm-up and 360 sampled frames. Mobile viewport emulation is not a physical phone.",
+  "baseline": "/outputs/night-v1/baseline/lib/camp-renderer.mjs",
+  "rows": [
+    {
+      "view": "desktop",
+      "width": 1050,
+      "height": 824,
+      "dpr": 1,
+      "mode": "baseline-webgl",
+      "cpu": {
+        "count": 360,
+        "median": 3.199999988079071,
+        "p95": 6.5,
+        "max": 17.80000001192093
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 8.300000000000182,
+        "max": 16.800000000000182
+      },
+      "webglGpu": {
+        "count": 360,
+        "median": 0.843136,
+        "p95": 1.954528,
+        "max": 3.931936
+      },
+      "driver": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 (0x00002F04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "textureBytes": 49553844,
+      "canvasTintBytes": 0
+    },
+    {
+      "view": "desktop",
+      "width": 1050,
+      "height": 824,
+      "dpr": 1,
+      "mode": "night-webgl",
+      "cpu": {
+        "count": 360,
+        "median": 3.100000023841858,
+        "p95": 5.699999988079071,
+        "max": 26.30000001192093
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 4.300000000000182,
+        "max": 25.199999999999818
+      },
+      "webglGpu": {
+        "count": 360,
+        "median": 1.05728,
+        "p95": 2.442304,
+        "max": 3.243392
+      },
+      "driver": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 (0x00002F04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "textureBytes": 49613940,
+      "canvasTintBytes": 0
+    },
+    {
+      "view": "desktop",
+      "width": 1050,
+      "height": 824,
+      "dpr": 1,
+      "mode": "night-canvas",
+      "cpu": {
+        "count": 360,
+        "median": 2.300000011920929,
+        "p95": 5,
+        "max": 13.799999952316284
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 4.300000000000182,
+        "max": 12.5
+      },
+      "webglGpu": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      },
+      "driver": null,
+      "textureBytes": 0,
+      "canvasTintBytes": 15329512
+    },
+    {
+      "view": "mobile-emulation",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "mode": "baseline-webgl",
+      "cpu": {
+        "count": 360,
+        "median": 3.300000011920929,
+        "p95": 6.300000011920929,
+        "max": 12
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 8.299999999999955,
+        "max": 12.599999999999909
+      },
+      "webglGpu": {
+        "count": 360,
+        "median": 0.967424,
+        "p95": 2.112192,
+        "max": 2.986528
+      },
+      "driver": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 (0x00002F04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "textureBytes": 49551644,
+      "canvasTintBytes": 0
+    },
+    {
+      "view": "mobile-emulation",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "mode": "night-webgl",
+      "cpu": {
+        "count": 360,
+        "median": 3.599999964237213,
+        "p95": 5.899999976158142,
+        "max": 41.200000047683716
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 8.300000000000182,
+        "max": 41.600000000000364
+      },
+      "webglGpu": {
+        "count": 360,
+        "median": 1.296288,
+        "p95": 2.29584,
+        "max": 3.032544
+      },
+      "driver": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 (0x00002F04) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "textureBytes": 49616452,
+      "canvasTintBytes": 0
+    },
+    {
+      "view": "mobile-emulation",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "mode": "night-canvas",
+      "cpu": {
+        "count": 360,
+        "median": 2.5,
+        "p95": 7.199999988079071,
+        "max": 29.19999998807907
+      },
+      "rafInterval": {
+        "count": 360,
+        "median": 4.199999999999818,
+        "p95": 8.300000000000182,
+        "max": 29.199999999999818
+      },
+      "webglGpu": {
+        "count": 0,
+        "median": null,
+        "p95": null,
+        "max": null
+      },
+      "driver": null,
+      "textureBytes": 0,
+      "canvasTintBytes": 15146788
+    }
+  ],
+  "runtimeHash": "71bedc815388447e1e2cb627bee6700cfe1a68445d906903715e767cc3c903cd",
+  "materials": "field-night-v1",
+  "baselineSource": {
+    "version": 32,
+    "sourceCommit": "fba3e39720775fc9f58eb25a750f881c36f35838",
+    "exactBaselineFiles": 57
+  }
+}

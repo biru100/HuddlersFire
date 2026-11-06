@@ -10,7 +10,7 @@ function setup() {
     reset:()=>{keys.clear();calls.push('reset');},update:()=>calls.push('input'),startMove:()=>calls.push('move'),
     crouch:x=>calls.push(['crouch',x]),emote:x=>calls.push(['emote',x]),equip:x=>calls.push(['equip',x]),fire:x=>calls.push(['fire',x]),
     jump:()=>calls.push('jump'),lift:()=>calls.push('lift'),radio:()=>calls.push('radio'),sit:()=>calls.push('sit'),player:id=>calls.push(['player',id]),
-    self:()=>({weapon:'gun'}),aim:()=>({dx:1,dy:0}),setAim:x=>calls.push(['aim',x]),pick:()=> 'friend',zoom:(delta,mode)=>calls.push(['zoom',delta,mode]),editable:()=>false });
+    self:()=>({weapon:'gun'}),aim:()=>({dx:1,dy:0}),setAim:x=>calls.push(['aim',x]),pick:()=> 'friend',zoom:(delta,mode)=>calls.push(['zoom',delta,mode]),panStart:()=>calls.push('pan-start'),pan:(x,y)=>calls.push(['pan',x,y]),panEnd:()=>calls.push('pan-end'),editable:()=>false });
   function event(target,type,values={}) {const e=new Event(type,{cancelable:true});Object.assign(e,values);target.dispatchEvent(e);return e;}
   return {win,doc,node,keys,calls,stop,event,lock:x=>{locked=x;},activate:x=>{active=x;}};
 }
@@ -56,4 +56,13 @@ test('wheel zoom normalizes pixel, line and page deltas, preserves direction and
   assert.equal(zoomFromWheel(1,-100/16,1),zoomFromWheel(1,-100));assert.equal(zoomFromWheel(1,-1,2),1.25);
   assert.equal(zoomFromWheel(1,-100000),3);assert.equal(zoomFromWheel(1,100000),.75);assert.equal(zoomFromWheel(1,NaN),1);
   const tiny=zoomFromWheel(1,-.5);assert.ok(tiny>1&&tiny<1.01,'Trackpad deltas must remain smooth');
+});
+
+test('mouse drag starts after the click threshold, cancels picking and releases on blur or cancellation',()=>{
+ const s=setup(),point={pointerId:1,pointerType:'mouse',button:0,clientX:10,clientY:20};
+ s.event(s.node,'pointerdown',point);s.event(s.node,'pointermove',{...point,clientX:15});s.event(s.node,'pointerup',{...point,clientX:15});assert.ok(s.calls.some(c=>Array.isArray(c)&&c[0]==='player'));assert.ok(!s.calls.includes('pan-start'));
+ s.calls.length=0;s.event(s.node,'pointerdown',point);s.event(s.node,'pointermove',{...point,clientX:35,clientY:40});s.event(s.node,'pointerup',{...point,clientX:35,clientY:40});
+ assert.deepEqual(s.calls,['pan-start',['pan',25,20],'pan-end']);
+ s.calls.length=0;s.event(s.node,'pointerdown',point);s.event(s.node,'pointermove',{...point,clientX:35});s.event(s.win,'blur');assert.ok(s.calls.includes('pan-end'));s.event(s.node,'pointerup',point);assert.ok(!s.calls.some(c=>Array.isArray(c)&&c[0]==='player'));
+ s.lock(true);s.event(s.node,'pointerdown',point);const count=s.calls.length;s.event(s.node,'pointermove',{...point,clientX:60});assert.equal(s.calls.length,count);s.stop();
 });

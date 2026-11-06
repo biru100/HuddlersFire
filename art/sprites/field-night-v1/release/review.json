@@ -1,0 +1,175 @@
+{
+  "version": 1,
+  "scope": "full",
+  "fingerprint": "0810eabd9ee180d9e776a5462e5df44c93ef4f8d5d981dc0f589ff05b66b35c1",
+  "reviewer": "Codex — 실제 PNG 및 격리 앱 UI 열람",
+  "reviewedAt": "2026-11-06T05:20:43.908Z",
+  "unresolved": [],
+  "cases": [
+    {
+      "id": "camp-color",
+      "result": "pass",
+      "observation": "기본 전체 보기에서 불 둘레의 사람·벤치와 어두운 외곽의 길·포털을 식별했다. 불이 가장 밝은 중심으로 읽힌다."
+    },
+    {
+      "id": "camp-close",
+      "result": "pass",
+      "observation": "일반 모닥불에서 가까운 면·몸·둥근 얼굴의 명암과 다리 접촉을 확인했다. 사진과 이름표는 식별 가능하다."
+    },
+    {
+      "id": "normal-left",
+      "result": "pass",
+      "observation": "왼쪽 세계 광원에 나무·벤치·얼굴이 반응하고 투영은 반대쪽으로 이동한다. 공통 광원과 raster 이동도 확인했다."
+    },
+    {
+      "id": "normal-right",
+      "result": "pass",
+      "observation": "오른쪽 진단광에서 밝은 영역과 그림자가 함께 이동하고 반대편은 밤 주변광으로 남는다."
+    },
+    {
+      "id": "normals-off",
+      "result": "pass",
+      "observation": "노멀 draw 0에서도 밤 노출과 거리별 광량을 유지하며 표면 방향 명암만 단순화한다."
+    },
+    {
+      "id": "night-low-fire",
+      "result": "pass",
+      "observation": "연료가 낮을 때 불과 지면의 따뜻한 영역이 줄어들고 좌석·얼굴·길은 주변광 아래 식별 가능하다."
+    },
+    {
+      "id": "night-high-fire",
+      "result": "pass",
+      "observation": "강한 불의 지면과 벤치·몸이 약한 불보다 밝아지고 불꽃이 중심으로 읽힌다. 외곽 전체를 낮처럼 밝히지 않는다."
+    },
+    {
+      "id": "night-no-normals",
+      "result": "pass",
+      "observation": "기본 모닥불에서 노멀을 꺼도 지면과 몸·얼굴이 밤 주변광 및 직접광을 받는다."
+    },
+    {
+      "id": "contact-only",
+      "result": "pass",
+      "observation": "직접광을 제거하면 밝은 빛 영역이 사라지고 밤 주변광과 접촉이 남는다. 불꽃은 발광 자산으로 유지된다."
+    },
+    {
+      "id": "lantern-only",
+      "result": "pass",
+      "observation": "랜턴 주변의 몸과 벤치·지면이 따뜻해지고 모닥불 위치에는 발광 그림만 남는다. 진단 fixture와 실제 광원 배열을 구분한다."
+    },
+    {
+      "id": "camp-dark",
+      "result": "pass",
+      "observation": "무채색 밤 주변광과 불 중심 밝기를 확인했다. 사진은 원색이고 이름표·좌석은 구분된다."
+    },
+    {
+      "id": "playground-color",
+      "result": "pass",
+      "observation": "밝은 기존 놀이터 지형·시설·캐릭터와 동선이 유지된다. 이전 렌더러와 별도 GPU 회귀도 비교했다."
+    },
+    {
+      "id": "playground-dark",
+      "result": "pass",
+      "observation": "놀이터의 기존 무채색 밝기와 시설·캐릭터 표시를 유지한다."
+    },
+    {
+      "id": "showroom-color",
+      "result": "pass",
+      "observation": "기존 석재 지면과 전시대·길을 유지하며 두 공식 썸네일이 디코딩되어 표시된다."
+    },
+    {
+      "id": "showroom-dark",
+      "result": "pass",
+      "observation": "전시대와 지면은 기존 무채색이고 공식 썸네일은 원색으로 유지된다."
+    },
+    {
+      "id": "actions",
+      "result": "pass",
+      "observation": "16명 혼합 동작에서 몸·기본 얼굴·번호 표식이 같은 밤 광량을 받으며 감정 아이콘·이름은 식별 가능하다."
+    },
+    {
+      "id": "stack",
+      "result": "pass",
+      "observation": "높은 연쇄에서 위쪽 몸은 약한 밤 주변광으로 남고 이름표와 선택 관계를 유지한다. 불의 빛이 높은 곳까지 균일하게 적용되지 않는다."
+    },
+    {
+      "id": "context-restored",
+      "result": "pass",
+      "observation": "WebGL 복구 뒤 둥근 얼굴과 표면 노멀 명암이 돌아오고 같은 배치와 이름표를 유지한다."
+    },
+    {
+      "id": "frames-0",
+      "result": "pass",
+      "observation": "idle·walk·run·sit 원화 프레임의 외곽·앵커를 확인했다. 이 판은 자산 확인이며 야간 합성 판과 구분한다."
+    },
+    {
+      "id": "frames-1",
+      "result": "pass",
+      "observation": "방향별 sit·crouch·jump·carry·carried 원화의 앵커와 투명 영역을 확인했다."
+    },
+    {
+      "id": "frames-2",
+      "result": "pass",
+      "observation": "wave·heart·clap·dance·laugh 원화의 손과 외곽을 확인했다."
+    },
+    {
+      "id": "frames-3",
+      "result": "pass",
+      "observation": "laugh·surprise·weapon·hit 나머지 원화 프레임을 확인했다."
+    },
+    {
+      "id": "context-lost",
+      "result": "pass",
+      "observation": "WebGL 손실 후 Canvas에서도 밤 배경과 주변광·빛 번짐·이름표가 유지된다. 표면 방향 명암은 단순하다."
+    },
+    {
+      "id": "fallback",
+      "result": "pass",
+      "observation": "강제 Canvas에서 같은 밤 장면과 캐릭터·좌석을 유지한다. WebGL과 동일한 노멀 품질로 평가하지 않는다."
+    },
+    {
+      "id": "ui-desktop-field",
+      "result": "pass",
+      "observation": "실제 PC 필드에서 모닥불 중심의 밤 밝기, 빈 좌석과 길, 밝게 보정한 상태·시간 글자를 확인했다."
+    },
+    {
+      "id": "ui-mobile-field",
+      "result": "pass",
+      "observation": "390×844 필드에서 불·내 캐릭터·이름·빈 좌석과 이동 조작을 확인했다. 상태·시간 글자 대비 보정을 확인했다."
+    },
+    {
+      "id": "ui-desktop-panel",
+      "result": "pass",
+      "observation": "실제 PC 패널이 기존 테마와 입력 공간을 유지하며 뒤의 밤 필드와 구분된다."
+    },
+    {
+      "id": "ui-mobile-panel",
+      "result": "pass",
+      "observation": "모바일 패널의 대화 입력과 탭이 기존 밝은 UI로 유지되며 밤 표현 때문에 변색되지 않는다."
+    },
+    {
+      "id": "ui-desktop-video",
+      "result": "pass",
+      "observation": "실제 PC 영상 fixture와 라디오 안내가 밤 필드 위에서도 기존 표시 공간을 유지한다. 실제 외부 재생 품질은 미검증이다."
+    },
+    {
+      "id": "ui-mobile-video",
+      "result": "pass",
+      "observation": "모바일 영상 fixture의 200×200 표시 공간과 기존 터치·불 조작을 유지한다."
+    },
+    {
+      "id": "ui-pip",
+      "result": "pass",
+      "observation": "실제 Document PIP 560×480에서 밤 필드·이동 조작·상태/시간 안내·영상 안내를 확인했다."
+    },
+    {
+      "id": "normal-atlas-character",
+      "result": "pass",
+      "observation": "기존 몸 노멀과 사진 제외 alpha 영역을 확인했다. 둥근 기본 얼굴 노멀은 런타임 캐시로 별도 합성한다."
+    },
+    {
+      "id": "normal-atlas-environment",
+      "result": "pass",
+      "observation": "기존 시설의 면 방향과 alpha 여백을 확인했다. 원본 노멀 PNG의 바이트는 v4와 같다."
+    }
+  ]
+}

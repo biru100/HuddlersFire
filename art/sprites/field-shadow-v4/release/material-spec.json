@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "id": "field-shadow-v4",
+  "normalConvention": "view-x-right-y-up-z-viewer",
+  "baseRelease": "art/sprites/field-v2/release",
+  "character": {
+    "strength": 0.42,
+    "bevel": 9,
+    "relief": 0.65
+  },
+  "surfaces": {
+    "tree": {
+      "form": "tree",
+      "strength": 0.38,
+      "bevel": 12,
+      "height": 2.8,
+      "footprint": [
+        11,
+        5
+      ]
+    },
+    "tent": {
+      "form": "tent",
+      "strength": 0.38,
+      "bevel": 8,
+      "height": 1.55,
+      "footprint": [
+        53,
+        19
+      ]
+    },
+    "bench-ne": {
+      "form": "bench-ne",
+      "strength": 0.52,
+      "bevel": 5,
+      "height": 0.48,
+      "footprint": [
+        45,
+        5
+      ],
+      "axis": -0.463648
+    },
+    "bench-nw": {
+      "form": "bench-nw",
+      "strength": 0.52,
+      "bevel": 5,
+      "height": 0.48,
+      "footprint": [
+        45,
+        5
+      ],
+      "axis": 0.463648
+    },
+    "lantern": {
+      "form": "round",
+      "strength": 0.35,
+      "bevel": 4,
+      "height": 0.7,
+      "footprint": [
+        8,
+        3
+      ]
+    },
+    "sign": {
+      "form": "flat",
+      "strength": 0.22,
+      "bevel": 3,
+      "height": 1,
+      "footprint": [
+        10,
+        4
+      ]
+    },
+    "fence": {
+      "form": "flat",
+      "strength": 0.28,
+      "bevel": 3,
+      "height": 0.7,
+      "footprint": [
+        35,
+        4
+      ]
+    },
+    "shade": {
+      "form": "tent",
+      "strength": 0.32,
+      "bevel": 7,
+      "height": 1.8,
+      "footprint": [
+        40,
+        14
+      ]
+    },
+    "crate": {
+      "form": "box",
+      "strength": 0.48,
+      "bevel": 4,
+      "height": 0.6,
+      "footprint": [
+        21,
+        8
+      ]
+    },
+    "firewood": {
+      "form": "round",
+      "strength": 0.33,
+      "bevel": 5,
+      "height": 0.3,
+      "footprint": [
+        28,
+        10
+      ]
+    },
+    "trampoline": {
+      "form": "flat",
+      "strength": 0.24,
+      "bevel": 5,
+      "height": 0.35,
+      "footprint": [
+        36,
+        13
+      ]
+    },
+    "radio": {
+      "form": "box",
+      "strength": 0.42,
+      "bevel": 4,
+      "height": 0.65,
+      "footprint": [
+        22,
+        8
+      ]
+    },
+    "portal": {
+      "form": "round",
+      "strength": 0.3,
+      "bevel": 5,
+      "height": 2,
+      "footprint": [
+        24,
+        7
+      ]
+    },
+    "game-booth": {
+      "form": "box",
+      "strength": 0.32,
+      "bevel": 5,
+      "height": 1.8,
+      "footprint": [
+        57,
+        13
+      ]
+    },
+    "rock": {
+      "form": "round",
+      "strength": 0.4,
+      "bevel": 7,
+      "height": 0.32,
+      "footprint": [
+        11,
+        4
+      ]
+    },
+    "flowers": {
+      "form": "round",
+      "strength": 0.12,
+      "bevel": 5,
+      "height": 0.15,
+      "footprint": [
+        10,
+        3
+      ]
+    }
+  },
+  "terrain": {
+    "grass": 0.06,
+    "sand": 0.04,
+    "stone": 0.1
+  },
+  "unlit": [
+    "amber",
+    "jade",
+    "violet",
+    "gold",
+    "blue",
+    "spark",
+    "dust",
+    "heart",
+    "impact",
+    "gun",
+    "snowball",
+    "bomb",
+    "football"
+  ],
+  "budgets": {
+    "totalBytes": 10000000,
+    "sceneBytes": 6000000
+  }
+}

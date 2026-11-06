@@ -2,6 +2,7 @@ import { isMap } from './camp-maps.mjs';
 // User-authored presence is independent of physical posture and game input.
 export const PRESENCE_LABELS = { available: '대화 가능', working: '작업 중', away: '자리 비움' };
 export const presenceDefaults = () => ({ presence: 'available', statusText: '', workText: '', allowCall: true });
+export const presenceSummary=p=>(PRESENCE_LABELS[p?.presence]||PRESENCE_LABELS.available)+(p?.statusText?.trim()?' · '+p.statusText.trim():'');
 /** @returns {import('./camp-types').Presence} */
 export const presenceOf = p => ({ presence:p.presence ?? 'available', statusText:p.statusText ?? '', workText:p.workText ?? '', allowCall:p.allowCall ?? true });
 export const persistentSocialState = p => ({ ...presenceOf(p), lastStokeAt:p.lastStokeAt??-1, lastCallAt:p.lastCallAt ?? -1, lastCalledAt:p.lastCalledAt ?? -1 });

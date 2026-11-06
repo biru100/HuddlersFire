@@ -29,7 +29,7 @@ test('postures keep the same circular photo size and facing never mirrors the or
   a.fillStyle = '#ff0000'; a.fillRect(0, 0, 32, 64); a.fillStyle = '#0000ff'; a.fillRect(32, 0, 32, 64);
   for (const p of [{}, { sitting: true }, { crouching: true }]) {
     const left = render({ ...p, facing: -1 }, avatar), right = render({ ...p, facing: 1 }, avatar);
-    assert.deepEqual(left.canvas.toBuffer('image/png'), right.canvas.toBuffer('image/png'));
+    for(const item of [left,right]){const x=64+item.pose.headX*item.pose.mirror,y=104+item.pose.headY;assert.deepEqual(pixel(item.c,Math.round(x-7),Math.round(y)),[255,0,0,255]);assert.deepEqual(pixel(item.c,Math.round(x+7),Math.round(y)),[0,0,255,255]);}
     const { data, width, height } = left.c.getImageData(0, 0, 128, 128), points = [];
     for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
       const i = (y * width + x) * 4;

@@ -1,0 +1,11 @@
+import {copyFileSync,existsSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {createRequire} from 'node:module';
+import {ROOT,readJSON,writeJSON,hash,inside} from './lib/sprite-spec.mjs';
+const require=createRequire(new URL('../web/package.json',import.meta.url)),{loadImage,createCanvas}=require('@napi-rs/canvas');
+const [id,source]=process.argv.slice(2),dir=resolve(ROOT,'art/sprites/runs/scene-polish-assets'),job=readJSON(resolve(dir,'job.json'));
+if(!job.selected.includes(id)||job.reusedSources[id])throw Error('Not a requested new asset');
+const image=await loadImage(source),canvas=createCanvas(image.width,image.height),c=canvas.getContext('2d');c.drawImage(image,0,0);const d=c.getImageData(0,0,image.width,image.height).data;
+let transparent=0,opaque=0;for(let i=3;i<d.length;i+=4){if(d[i]===0)transparent++;if(d[i]>200)opaque++;}if(transparent<d.length/4*.1||!opaque)throw Error('Real transparent alpha and visible art required');
+const target=inside(dir,'source/'+id+'.png');copyFileSync(source,target);const file=resolve(dir,'generation-receipts.json'),receipts=existsSync(file)?readJSON(file):{};
+receipts[id]={tool:'built-in image_gen',source,sha256:hash((await import('node:fs')).readFileSync(target)),prompt:'prompts/'+id+'.txt',references:['art/sprites/field-v2/master.png',...(id.startsWith('tree')?['art/sprites/field-v2/release/source/tree.png']:id.startsWith('bench')?['art/sprites/field-v2/release/source/bench-'+(id.endsWith('ne')?'ne':'nw')+'.png']:[])],width:image.width,height:image.height,transparentPixels:transparent,opaquePixels:opaque};writeJSON(file,receipts);console.log(JSON.stringify({id,width:image.width,height:image.height,transparentPixels:transparent}));

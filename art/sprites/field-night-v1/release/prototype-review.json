@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "scope": "prototype",
+  "fingerprint": "0810eabd9ee180d9e776a5462e5df44c93ef4f8d5d981dc0f589ff05b66b35c1",
+  "reviewer": "Codex — 실제 PNG 및 격리 앱 UI 열람",
+  "reviewedAt": "2026-11-06T05:20:42.935Z",
+  "unresolved": [],
+  "cases": [
+    {
+      "id": "camp-color",
+      "result": "pass",
+      "observation": "기본 전체 보기에서 불 둘레의 사람·벤치와 어두운 외곽의 길·포털을 식별했다. 불이 가장 밝은 중심으로 읽힌다."
+    },
+    {
+      "id": "camp-close",
+      "result": "pass",
+      "observation": "일반 모닥불에서 가까운 면·몸·둥근 얼굴의 명암과 다리 접촉을 확인했다. 사진과 이름표는 식별 가능하다."
+    },
+    {
+      "id": "normal-left",
+      "result": "pass",
+      "observation": "왼쪽 세계 광원에 나무·벤치·얼굴이 반응하고 투영은 반대쪽으로 이동한다. 공통 광원과 raster 이동도 확인했다."
+    },
+    {
+      "id": "normal-right",
+      "result": "pass",
+      "observation": "오른쪽 진단광에서 밝은 영역과 그림자가 함께 이동하고 반대편은 밤 주변광으로 남는다."
+    },
+    {
+      "id": "normals-off",
+      "result": "pass",
+      "observation": "노멀 draw 0에서도 밤 노출과 거리별 광량을 유지하며 표면 방향 명암만 단순화한다."
+    }
+  ]
+}

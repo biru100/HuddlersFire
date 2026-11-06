@@ -1,5 +1,9 @@
 import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
 
+export const runtime = sqliteTable("camp_runtime", {
+  id: integer("id").primaryKey(), release: text("release").notNull(), revision: integer("revision").notNull(),
+});
+
 export const sessions = sqliteTable("camp_sessions", {
   id: text("id").primaryKey(), name: text("name").notNull(), color: text("color").notNull(),
   avatar: text("avatar"), discordId: text("discord_id"), expires: integer("expires").notNull(),

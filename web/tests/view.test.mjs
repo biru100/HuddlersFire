@@ -3,6 +3,45 @@ import assert from 'node:assert/strict';
 import { createCanvas } from '@napi-rs/canvas';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { spawnPlayer } from '../lib/camp-world.mjs';
+import {sceneCamera,freeCamera,panCamera,zoomCameraAt} from '../lib/camp-camera.mjs';
+
+test('radio bubbles have no connector and disappear offscreen while player chat keeps its connector',()=>{
+ let strokes=0;const ctx={measureText:t=>({width:t.length*6}),beginPath(){},moveTo(){},lineTo(){},stroke(){strokes++;},roundRect(){},fill(){},fillText(){}};
+ const r={ctx,camera:{x:350,y:300},project:()=>[0,0],sceneTime:1000,width:800,height:650};
+ const music={current:{title:'노래',name:'친구'},playing:true};CampRenderer.prototype.bubbles.call(r,[],1,music);assert.equal(strokes,0);assert.ok(r.bubbleAreas.some(b=>b.id==='__radio__'));
+ CampRenderer.prototype.bubbles.call(r,[{id:'friend',x:0,y:0,bubble:'hello',bubbleUntil:2000}],1,music);assert.equal(strokes,1);
+ r.camera.x=-1000;CampRenderer.prototype.bubbles.call(r,[],1,music);assert.equal(r.bubbleAreas.length,0);
+});
+
+test('mobile following preserves readable people; overview fits tall stacks without overriding a chosen follow zoom',()=>{
+ const self={id:'self',x:2.6,y:4.5,z:0},hud=[{x:12,y:48,width:150,height:40},{x:12,y:590,width:120,height:100}];
+ const camera=sceneCamera({width:390,height:720,players:[self],self,follow:true,occlusions:hud});
+ assert.ok(camera.scale*77>=64);const y=camera.y+(self.x+self.y)*20*camera.scale;
+ assert.ok(y-80*camera.scale>=camera.view.top&&y+25<=camera.view.bottom);
+ const overview=sceneCamera({width:390,height:720,players:[self],self,follow:false});assert.ok(overview.scale<camera.scale);
+ const stack=Array.from({length:16},(_,i)=>({id:String(i),x:0,y:0,z:i*1.4}));
+ const high=sceneCamera({width:390,height:520,players:stack,self:stack[0],follow:false});
+ for(const p of stack){const y=high.y-p.z*40*high.scale;assert.ok(y-85*high.scale>=high.view.top-.01&&y+30*high.scale<=high.view.bottom+.01);}
+ const follow=sceneCamera({width:390,height:520,players:stack,self:stack[0],follow:true,zoom:2});assert.ok(follow.scale>high.scale);
+});
+
+test('free dragging preserves the captured camera, anchors wheel zoom and ignores seating or other players moving',()=>{
+ const self={id:'self',x:1,y:2,z:0},args={width:1050,height:824,players:[self],self,follow:true,zoom:2};
+ const before=sceneCamera(args),captured=freeCamera(before,2),free=sceneCamera({...args,mode:'free',freeView:captured});
+ assert.ok(Math.abs(free.x-before.x)<1e-10&&Math.abs(free.y-before.y)<1e-10);assert.equal(free.scale,before.scale);
+ const moved=panCamera(captured,2,150,-70),after=sceneCamera({...args,mode:'free',freeView:moved});
+ assert.ok(Math.abs(after.x-before.x-150)<1e-10&&Math.abs(after.y-before.y+70)<1e-10);
+ const point={x:234,y:300},world={x:(point.x-after.x)/after.scale,y:(point.y-after.y)/after.scale};
+ const zoomedView=zoomCameraAt(moved,2,2.5,after.view,point.x,point.y),zoomed=sceneCamera({...args,zoom:2.5,mode:'free',freeView:zoomedView});
+ assert.ok(Math.abs(zoomed.x+world.x*zoomed.scale-point.x)<1e-10&&Math.abs(zoomed.y+world.y*zoomed.scale-point.y)<1e-10);
+ const seated=sceneCamera({...args,self:{...self,z:.18},players:[{...self,z:20}],focused:1});assert.equal(seated.scale,before.scale);
+ const still=sceneCamera({...args,self:{...self,x:10,z:20},players:[{...self,z:20}],mode:'free',freeView:moved,focused:1});assert.equal(still.x,after.x);assert.equal(still.y,after.y);
+});
+test('display movement direction persists after stopping and never rewrites shared player state',()=>{
+ const p={id:'friend',moving:true,vx:-1,vy:0,facing:1},before=structuredClone(p),display={motionDirections:new Map(),getScene:()=>({players:[p]})};
+ const moving=CampRenderer.prototype.displayPlayer.call(display,p);assert.equal(moving.visualDirection,'back-left');assert.deepEqual(p,before);
+ const stopped=CampRenderer.prototype.displayPlayer.call(display,{...p,moving:false,vx:0,vy:0});assert.equal(stopped.visualDirection,'back-left');
+});
 
 test('zoom and following preserve hit testing and inverse aiming across sizes and window ownership',()=>{
   const saved={window:globalThis.window,ResizeObserver:globalThis.ResizeObserver,requestAnimationFrame:globalThis.requestAnimationFrame,cancelAnimationFrame:globalThis.cancelAnimationFrame};
@@ -44,7 +83,8 @@ test('foreground map art cannot cover nameplates and picking follows their visib
         renderer.tree=cover;renderer.tent=cover;renderer.fence=cover;renderer.shade=cover;
         renderer.draw(1000);const box=renderer.hitAreas[0].label;
         const [r,g,b]=canvas.getContext('2d').getImageData(Math.floor((box.x+box.width/2)*dpr),Math.floor((box.y+3*renderer.camera.scale)*dpr),1,1).data;
-        assert.deepEqual([r,g,b],theme==='dark'?[244,244,244]:[255,226,176],'The themed nameplate must cover the opaque foreground art');
+        assert.ok(!(r>230&&g<20&&b>230),'The visible nameplate must cover the magenta foreground art');
+        assert.ok(renderer.nameFontSize>=12,'Names remain readable independently of world zoom');
         assert.equal(renderer.pickPlayer(20+box.x+box.width/2,30+box.y+box.height/2),p.id);
         p.motion='respawning';renderer.draw(1000);assert.equal(renderer.nameplates.length,0,'Hidden respawn bodies must not leave floating names');
       }finally{renderer.destroy();}
@@ -71,7 +111,7 @@ test('compact presence badges avoid profiles, nameplates and speech at crowded d
         renderer.draw(1000);
         const blocked=renderer.hitAreas.flatMap(a=>[a.body,a.label,{x:a.head.x-a.head.radius,y:a.head.y-a.head.radius,width:a.head.radius*2,height:a.head.radius*2}]).concat(renderer.bubbleAreas);
         for(const badge of renderer.presenceAreas){
-          total++;assert.ok(['작업','비움'].includes(badge.text));assert.ok(badge.x>=0&&badge.y>=0&&badge.x+badge.width<=width&&badge.y+badge.height<=height);
+          total++;assert.ok(/^(작업 중|자리 비움) · 상세 상태/.test(badge.text));assert.ok(badge.x>=0&&badge.y>=0&&badge.x+badge.width<=width&&badge.y+badge.height<=height);
           assert.ok(blocked.every(area=>!overlap(badge,area)),'Status badge covers a profile, name or conversation');
           assert.equal(renderer.pickPlayer(badge.x+badge.width/2,badge.y+badge.height/2),badge.id);
           blocked.push(badge);

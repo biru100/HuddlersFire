@@ -10,7 +10,8 @@ export function createAvatarProxy({fetch:fetchImage=globalThis.fetch,now=Date.no
     if(pending.has(key))return (await pending.get(key)).clone();
     const task=(async()=>{
       try{
-        const response=await fetchImage(`https://cdn.discordapp.com/avatars/${match[1]}/${match[2]}.png?size=64`,{redirect:'error',signal:AbortSignal.timeout(5000)});
+        // Workers supports manual/follow only; !ok below also rejects redirects.
+        const response=await fetchImage(`https://cdn.discordapp.com/avatars/${match[1]}/${match[2]}.png?size=64`,{redirect:'manual',signal:AbortSignal.timeout(5000)});
         if(!response.ok)return new Response(null,{status:404});
         if(Number(response.headers.get('content-length'))>maxBytes)return new Response(null,{status:413});
         const reader=response.body?.getReader();if(!reader)return new Response(null,{status:502});

@@ -19,8 +19,9 @@ export const GAME_BOOTHS = [
 export const RADIO = { id: 'radio', type: 'radio', x: -6, y: -.5, r: .4 };
 export const TRAMPOLINES = [{ id: 'spring', type: 'trampoline', x: 3, y: -3, r: .75 }];
 export const CAMP_BENCHES = Array.from({ length: 8 }, (_, i) => {
-  const angle=Math.floor(i/2)*Math.PI/2,t=(i%2?1:-1)*1.65;
-  return { id:'log-'+i, type:'bench', x:Math.cos(angle)*4.1-Math.sin(angle)*t, y:Math.sin(angle)*4.1+Math.cos(angle)*t, angle, r:.36 };
+  const angle=Math.floor(i/2)*Math.PI/2;
+  const [x,y]=[[3.55,1.6],[3.85,-1.25],[-1.8,4.2],[1.6,4.5],[-4.5,-1.5],[-4,1.5],[1.55,-4.25],[-1.75,-3.55]][i];
+  return {id:'log-'+i,type:'bench',x,y,angle,r:.36,variant:i%2?'weathered':null};
 });
 export const CAMP_SEATS = CAMP_BENCHES.flatMap(b=>[-1,1].map((side,i)=>({
   id:b.id+'-'+i, bench:b.id, x:b.x-Math.sin(b.angle)*side*.5, y:b.y+Math.cos(b.angle)*side*.5,
@@ -31,10 +32,10 @@ export const CAMP_SEATS = CAMP_BENCHES.flatMap(b=>[-1,1].map((side,i)=>({
 // Open sightlines through the gathering circle; scenery lives in quiet perimeter clusters.
 export const SCENERY = [
   ...CAMP_BENCHES,
-  ...[[-9,-7,1.15],[-7.5,-9,.9],[-9,-3,.9],[-2,-9,1.1],[8,-9,1.05],[9,-3,.8],[-9,8,.9],[8.5,9,.8]].map(([x,y,scale])=>({type:'tree',x,y,r:.42,scale})),
+  ...[[-9,-7,1.18],[-7.5,-9,.92],[-9,-3,.96],[-2,-9,1.12],[8,-9,1.05],[9,-3,.9],[-9,8,.9],[8.5,9,.86],[-10,-5,.82],[6.8,-9,.78]].map(([x,y,scale],i)=>({type:'tree',x,y,r:.42,scale,variant:i%3===1?'birch':i%3===2?'pine':null})),
   {type:'tent',x:-7,y:-5.7,r:.85},
-  {type:'lantern',x:-5.6,y:-3.4,r:.2},
-  {type:'lantern',x:5.6,y:1.2,r:.2},
+  {type:'lantern',x:-4.9,y:-3.8,r:.2},
+  {type:'lantern',x:4.8,y:2.1,r:.2},
 ];
 const playScenery = [
   ...[[-9,-5],[-9,-7],[-9,-9],[-7,-9],[-5,-9]].map(([x,y])=>({type:'fence',x,y,r:.18})),

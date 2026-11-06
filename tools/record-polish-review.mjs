@@ -1,0 +1,66 @@
+// Authored observations recorded after inspecting the corresponding PNGs. This
+// does not score images or convert an automatic test result into a visual pass.
+import {resolve} from 'node:path';
+import {readJSON,writeJSON} from './lib/sprite-spec.mjs';
+import {materialCases,materialFingerprint,verifyMaterialReview} from './lib/material-review.mjs';
+const dir=resolve(process.argv[3]||'art/sprites/runs/scene-polish-materials'),scope=process.argv[2]||'prototype';
+const observations={
+ 'camp-color':'비대칭 좌석군과 커진 수목, 흙/잔디 전이, 16명의 어두운 이름 칩을 확인했다. 원형 사진은 정방향이고 기본 뒤쪽 몸에는 뒤통수가 보인다.',
+ 'camp-close':'네 착석 몸 방향의 좌면 접촉, 앞/뒤 기본 얼굴과 밝은 사진의 보존, 목 연결, 벤치 변형을 가까이서 확인했다.',
+ 'normal-left':'왼쪽 진단광에 얼굴·나무·벤치가 밝아지고 공통 광원 입력의 그림자가 반대편으로 이동한다.',
+ 'normal-right':'오른쪽 광원에서 오른쪽 시설의 면과 반대쪽 그림자가 함께 바뀌며 왼쪽이 밤 주변광으로 남는다.',
+ 'normals-off':'노멀 draw 0에서도 밤·거리 감쇠·기본 얼굴의 가독성을 유지하며 면 방향만 단순해진다.',
+ 'night-low-fire':'잔불에서 불꽃과 빛 번짐이 줄어도 빈 좌석과 사람·이름을 찾을 수 있다.',
+ 'night-high-fire':'강한 불이 공터와 가까운 몸·시설을 밝히고 외곽 숲은 어둡게 남는다.',
+ 'night-no-normals':'기본 불의 조명과 얼굴 명암은 남고 노멀 면 반응만 생략된다.',
+ 'contact-only':'직접광 없이 접촉 그림자와 밤 주변광만 남으며 사진·이름·작은 기본 얼굴을 식별할 수 있다.',
+ 'lantern-only':'랜턴 위치에서 표면과 지면이 밝아지고 같은 광원에서 투영이 반대 방향으로 생긴다.',
+ 'camp-dark':'기본 시설과 지형·기본 얼굴은 무채색이며 원색 사진 예외와 이름 가독성을 보존한다.',
+ 'playground-color':'중앙 공놀이 공간은 비어 있고 트램펄린·울타리·귀환 길의 접촉과 지형 전이가 보인다.',
+ 'playground-dark':'놀이터의 무채색 지형/시설과 이름·귀환 경로를 확인했다.',
+ 'showroom-color':'두 공식 대표 이미지의 원색과 전시대 슬롯을 보존하고 관람 길이 부스 앞으로 이어진다.',
+ 'showroom-dark':'석재·시설은 무채색이며 두 공식 이미지의 원색과 제목 구분을 유지한다.',
+ 'actions':'16명 혼합 동작에서 몸·얼굴·손/머리 경계와 이름 가림, 높은 사람의 약한 주변광을 확인했다.',
+ 'stack':'16명 연쇄를 화면 높이에 맞추고 몸·원형 머리·이름 선택 관계를 유지한다. 인물 크기 축소의 명시적 예외다.',
+ 'context-lost':'컨텍스트 손실 시 같은 장면·이름·사진을 Canvas에서 유지하며 표면 방향 명암은 단순해진다.',
+ 'context-restored':'복구 후 같은 배치·사진·이름 위에 WebGL 노멀 면 반응이 돌아온다.',
+ 'fallback':'강제 Canvas에서도 좌석 방향·큰 지형 경계·이름/사진을 유지한다. WebGL과 같은 GPU 품질로 판정하지 않는다.',
+ 'frames-0':'idle·walk 앞/뒤 원화의 프레임별 윤곽과 원형 머리, 투명 여백을 확인했다.',
+ 'frames-1':'뒤 걷기·앞/뒤 달리기·착석 원화의 다리/손과 머리 앵커를 확인했다.',
+ 'frames-2':'방향 착석·웅크리기·점프·들기·들림 원화의 투명 영역과 전신 잘림 여부를 확인했다.',
+ 'frames-3':'인사·하트·박수·춤·웃음 원화의 팔과 고정 원형 머리 영역을 확인했다.',
+ 'frames-4':'놀람·무기·피격의 나머지 11프레임을 확인해 전체 83개 원화 프레임 검토를 마쳤다.',
+ 'normal-atlas-character':'새 크기 768×1056의 노멀과 색 아틀라스 위치가 맞으며 원형 사진 머리 제외 영역을 보존한다.',
+ 'normal-atlas-environment':'나무/벤치 변형을 포함한 768×1152 노멀의 alpha와 시설별 면 방향을 확인했다.',
+ 'ui-desktop-default':'기본 사이드 패널과 필드가 함께 있을 때 사람과 불, 보기 메뉴와 대화 입력을 읽을 수 있다.',
+ 'ui-mobile-default':'기본 모바일의 한 줄 보기 도구와 하단 탭, 커진 인물/이름을 확인했다.',
+ 'ui-desktop-field':'필드 보기의 상단 도구가 두 항목으로 정리되고 빈 라디오와 불 도구가 작은 낮은 밝기 표면으로 남는다.',
+ 'ui-mobile-field':'모바일의 인물과 이름이 커졌고 상단 도구가 줄바꿈하지 않으며 이동·앉기·탭이 노출된다.',
+ 'ui-desktop-panel':'열린 대화 패널과 필드 복귀, 초안/연결을 유지하는 기존 흐름을 확인했다. 패널의 의도된 장면 가림은 남는다.',
+ 'ui-mobile-panel':'열린 모바일 패널의 입력과 복귀 조작을 확인했으며 키보드 입력이 필드로 새지 않는 흐름을 보존한다.',
+ 'ui-desktop-video':'영상의 200px 이상 공간과 음소거/PIP를 유지하며 불 도구와 하단 탭을 사용할 수 있다.',
+ 'ui-mobile-video':'영상과 이동 조작을 함께 보존하고 불 도구가 왼쪽으로 이동하며 인물/불이 영상 위에 남는다. 흰 영상은 모의 YouTube fixture다.',
+ 'ui-pip':'560×480 PIP에서 같은 원형 프로필과 필드, 보기/복귀 도구를 확인했다.',
+ 'polish-solo':'1인 기본 따라가기에서 불·인물·이름이 시선의 중심에 있고 커진 수목이 주변을 감싼다.',
+ 'polish-three':'가까운 두 좌석군의 세 사람이 불을 향하며 빈 좌석과 접근 통로를 구분할 수 있다.',
+ 'polish-eight':'8인 전체 보기에서 이름이 세계 배율과 독립된 크기로 읽히고 좌석군 사이 통로가 남는다.',
+ 'polish-sixteen':'16석 전체 점유에서 네 몸 방향과 변형 벤치의 접촉·이름 가림을 확인했다.',
+ 'polish-mobile':'390×720 CSS viewport에서 내 캐릭터와 이름의 가독성/배율을 유지한다. INT-22의 따라가기는 먼 친구를 담으려고 자동 축소하지 않으므로 왼쪽 친구의 일부는 화면 밖이며 전체 보기를 별도로 사용한다.',
+ 'polish-moving':'앞/뒤와 좌/우 네 이동 방향의 재킷·다리와 기본 얼굴 방향이 구분된다.',
+ 'polish-flames':'다섯 불 외형과 앞/뒤 인물의 분리된 검토판을 확인했다. INT-22는 기존 여섯 프레임 원화를 바꾸지 않는다.',
+ 'ui-feedback-audio-error':'파일 요청 실패가 필드 위 작은 안내와 효과음 다시 시도 버튼으로 표시되며 사람/불/하단 조작을 가리지 않는다.',
+ 'ui-feedback-audio':'설정에 신규 기본 음량 25%와 모닥불 소리 재생 중이 표시된다. 라디오 음소거/음량은 별도 항목이며 실제 decoded audio 신호 검사와 화면 관찰을 구분했다.',
+ 'ui-feedback-status':'작업 중 버튼 한 곳과 두 메모 입력이 보이고 중복 드롭다운이 없다. 저장한 한마디가 머리 위 작업 중 라벨과 함께 표시된다. 하단 저장 버튼은 패널 스크롤로 접근한다.',
+ 'ui-feedback-people':'상대 브라우저 사람 목록에서 자리 비움·저장 전 메모·영상 편집을 한 플레이어 아래에 읽을 수 있고 전체 정보 안내도 보인다. 머리 위 한마디와 같은 저장 값을 표시한다.',
+ 'ui-feedback-pan':'필드를 135px 오른쪽/70px 위로 끈 자유 시점이며 사람과 이름·한마디의 관계를 유지한다. 화면 끝 시설이 잘리는 것은 자유 시점의 결과다.',
+ 'ui-feedback-seated':'끌어서 확대한 시야에서 통나무에 앉아도 선택한 배율을 유지한다. 좌면/발과 이름·한마디가 분리되고 착석 도구는 오른쪽 하단에 놓인다.',
+ 'ui-feedback-dark':'설정과 화면 UI는 무채색 다크로 바뀌고 뒤의 숲·불·목재에는 기존 컬러와 밤 조명이 남는다. 모달 뒤 어두운 막은 기존 대화상자 배경이다.',
+ 'ui-feedback-radio':'다크 UI와 컬러 필드를 함께 확인했다. 라디오 재생 말풍선에는 위/아래로 이어지는 선이 없고 재생 영상과 하단 조작을 유지한다. 검증 영상/사진은 모의 콘텐츠다.',
+ 'ui-feedback-mobile':'390×844에서 다크 UI·컬러 필드와 머리 위 한마디, 선 없는 라디오 말풍선을 확인했다. 영상 200px 영역과 이동·앉기·하단 탭을 유지한다.',
+ 'ui-feedback-pip':'560×480 실제 Document PIP에서 다크 조작 UI와 컬러 필드·이름·한마디를 확인했다. 화면 밖 라디오의 말풍선은 사라지며 원래 화면 복귀와 이동·앉기 조작이 남는다.',
+};
+const manifest=readJSON(resolve(dir,'manifest.json')),required=materialCases(scope,manifest);
+for(const c of required)if(!observations[c.id])throw Error('A concrete authored observation is required for '+c.id);
+const file=resolve(dir,scope==='prototype'?'prototype-review.json':'review.json');
+writeJSON(file,{reviewer:'Codex: inspection of actual WebGL/UI PNGs, frame/normal contact sheets and Canvas fallback; no automated aesthetic scoring',scope,fingerprint:materialFingerprint(dir),observations:[manifest.materials.reviewSet==='feedback-v1'?'INT-22: existing artwork, camera and actual participant-feedback UI inspected separately from technical checks. Raw dark field cases preserve authoring compatibility; the actual product dark UI keeps a colour field.':'INT-20 representative composition and actual UI inspected separately from technical checks.'],unresolved:[],limitations:['Desktop headless mobile viewport is not a physical phone performance test.','Mock Discord/YouTube media do not verify real external media sound or community preference. Campfire output uses real decoding and an analyser, not a physical speaker listening test.','Overview and tall chains intentionally allow small bodies; follow/free retain the chosen zoom and may crop distant campers. An open conversation panel intentionally overlays the scene.'],cases:required.map(c=>({id:c.id,result:'pass',observation:observations[c.id]}))});
+console.log(JSON.stringify(verifyMaterialReview(dir,file,{scope})));

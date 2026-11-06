@@ -15,13 +15,14 @@ export function zoomFromWheel(zoom,deltaY,deltaMode=0) {
  * jump:()=>void, lift:()=>void, radio:()=>void, sit:()=>void, player:(id:string,x:number,y:number)=>void,
  * self:()=>({weapon:string}|null), aim:(x:number,y:number)=>Aim, setAim:(aim:Aim)=>void,
  * seat?:(id:string)=>void,pickSeat?:(x:number,y:number)=>string|null,
- * zoom?:(deltaY:number,deltaMode:number)=>void,
+ * zoom?:(deltaY:number,deltaMode:number,x:number,y:number)=>void,panStart?:()=>void,pan?:(dx:number,dy:number)=>void,panEnd?:()=>void,
  * pick:(x:number,y:number,touch:boolean)=>string|null, editable?:(target:EventTarget|null)=>boolean}} o
  */
 export function bindCampInput(o) {
   const editable = o.editable || (target => !!target && 'nodeType' in target && target.nodeType === 1 &&
     (/** @type {HTMLElement} */(target).matches('input,textarea,select,button,a,summary') || !!/** @type {HTMLElement} */(target).closest('[data-camp-panel]') || /** @type {HTMLElement} */(target).isContentEditable));
-  /** @type {{id:number,x:number,y:number}|null} */ let pointer = null;
+  /** @type {{id:number,x:number,y:number,lastX:number,lastY:number,mouse:boolean,dragged:boolean}|null} */ let pointer = null;
+  const cancelPointer=()=>{const current=pointer;pointer=null;if(current?.dragged)o.panEnd?.();if(current&&o.node.hasPointerCapture?.(current.id))o.node.releasePointerCapture(current.id);};
   /** @param {KeyboardEvent} e */
   const down = e => {
     if (e.isComposing || o.locked() || editable(e.target) || !o.active()) return;
@@ -45,34 +46,42 @@ export function bindCampInput(o) {
   const up = e => { o.keys.delete(e.code); if (e.code === 'KeyC') o.crouch(false); o.update(); };
   /** @param {PointerEvent} e */
   const pointerDown = e => {
-    if (e.button === 0) pointer = { id:e.pointerId,x:e.clientX,y:e.clientY };
+    if (e.button === 0&&!o.locked()&&o.active()) {pointer = { id:e.pointerId,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,mouse:e.pointerType==='mouse',dragged:false };if(pointer.mouse)o.node.setPointerCapture?.(e.pointerId);}
     else if (e.button === 2 && !o.locked() && o.self()?.weapon && o.self()?.weapon !== 'none') {
       pointer = null; e.preventDefault(); o.node.focus(); o.fire(o.aim(e.clientX,e.clientY));
     }
   };
   /** @param {PointerEvent} e */
   const pointerUp = e => {
-    const start = pointer; pointer = null;
+    const start = pointer;cancelPointer();
+    if(start?.dragged)return;
     if (!start || start.id !== e.pointerId || Math.hypot(e.clientX-start.x,e.clientY-start.y)>8 || o.locked() || !o.active()) return;
     const id = o.pick(e.clientX,e.clientY,e.pointerType==='touch'); if (id) o.player(id,e.clientX,e.clientY);else {const seat=o.pickSeat?.(e.clientX,e.clientY);if(seat)o.seat?.(seat);}
   };
   /** @param {PointerEvent} e */
-  const pointerMove = e => { if (e.pointerType==='mouse' && !o.locked()) o.setAim(o.aim(e.clientX,e.clientY)); };
+  const pointerMove = e => {
+    if(o.locked()||!o.active()){cancelPointer();return;}
+    if(pointer?.mouse&&pointer.id===e.pointerId&&o.pan){
+      if(!pointer.dragged&&Math.hypot(e.clientX-pointer.x,e.clientY-pointer.y)>8){pointer.dragged=true;o.panStart?.();}
+      if(pointer.dragged){e.preventDefault();o.pan(e.clientX-pointer.lastX,e.clientY-pointer.lastY);pointer.lastX=e.clientX;pointer.lastY=e.clientY;return;}
+    }
+    if(e.pointerType==='mouse')o.setAim(o.aim(e.clientX,e.clientY));
+  };
   /** @param {MouseEvent} e */
   const context = e => { if (!o.locked() && o.self()?.weapon && o.self()?.weapon !== 'none') e.preventDefault(); };
   /** @param {WheelEvent} e */
   const wheel = e => {
     if(!o.zoom || o.locked() || !o.active() || e.ctrlKey || !Number.isFinite(e.deltaY) || e.deltaY===0)return;
-    e.preventDefault();o.zoom(e.deltaY,e.deltaMode);
+    e.preventDefault();o.zoom(e.deltaY,e.deltaMode,e.clientX,e.clientY);
   };
   /** @type {(()=>void)[]} */ const cleanup = [];
   /** @template {Event} T @param {EventTarget} target @param {string} type @param {(event:T)=>void} handler @param {AddEventListenerOptions} [options] */
   const listen = (target,type,handler,options) => { const listener = /** @type {EventListener} */ (handler); target.addEventListener(type,listener,options); cleanup.push(()=>target.removeEventListener(type,listener,options)); };
-  listen(o.win,'keydown',down); listen(o.win,'keyup',up); listen(o.win,'blur',o.reset);
-  listen(o.doc,'visibilitychange',()=>{if(o.doc.hidden)o.reset();});
+  listen(o.win,'keydown',down); listen(o.win,'keyup',up); listen(o.win,'blur',()=>{cancelPointer();o.reset();});
+  listen(o.doc,'visibilitychange',()=>{if(o.doc.hidden){cancelPointer();o.reset();}});
   listen(o.doc,'focusin',e=>{if(e.target && e.target!==o.node)o.reset();});
   listen(o.node,'pointerdown',pointerDown); listen(o.node,'pointerup',pointerUp); listen(o.node,'pointermove',pointerMove);
-  listen(o.node,'pointercancel',()=>{pointer=null;}); listen(o.node,'contextmenu',context);
+  listen(o.node,'pointercancel',cancelPointer);listen(o.node,'lostpointercapture',cancelPointer); listen(o.node,'contextmenu',context);
   listen(o.node,'wheel',wheel,{passive:false});
-  return () => { cleanup.forEach(fn=>fn()); pointer=null; o.reset(); };
+  return () => { cleanup.forEach(fn=>fn());cancelPointer();o.reset(); };
 }

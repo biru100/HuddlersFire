@@ -1,11 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdirSync,writeFileSync,readFileSync,mkdtempSync,existsSync} from 'node:fs';
+import {mkdirSync,writeFileSync,readFileSync,mkdtempSync,existsSync,copyFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {createCanvas,loadImage} from '@napi-rs/canvas';
 import {ROOT,readJSON,writeJSON,validateSpec,hash,loadJob,inside,verifyReview,runtimeHash} from '../../tools/lib/sprite-spec.mjs';
 import {prepareJob as prepareSceneJob} from '../../tools/prepare-sprite-job.mjs';
 import {slicePreview,buildPreview} from '../../tools/lib/sprite-preview.mjs';
+import {spriteManifest} from '../lib/camp-sprite-assets.mjs';
 const runs=resolve(ROOT,'art/sprites/runs');mkdirSync(runs,{recursive:true});
 const temporary=()=>mkdtempSync(resolve(runs,'test-authoring-'));
 const specFile=resolve(ROOT,'art/sprites/examples/composition-pilot-v1.json');
@@ -23,7 +24,7 @@ test('required contacts, directions and matching bindings are validated before g
 test('real pinned sprite-gen partial processing leaves production assets untouched and rejects missing inputs',async()=>{
   const paths=['web/lib/camp-sprite-manifest.mjs','web/public/sprites/manifest.json','art/sprites/source/environment.png'].map(p=>resolve(ROOT,p)),before=paths.map(p=>hash(readFileSync(p)));
   const dir=prepareJob({selected:['bench-ne'],out:resolve(temporary(),'job')}),file=resolve(dir,'job.json');assert.throws(()=>slicePreview(file),/Selected source missing/);source(dir,'bench-ne');slicePreview(file);const result=await buildPreview(file),data=readJSON(resolve(dir,'build/manifest.json'));
-  assert.ok(result.fingerprint);assert.ok(data.sprites.bench.directions.ne);assert.equal(existsSync(resolve(dir,'source/camper-idle.png')),false);assert.deepEqual(paths.map(p=>hash(readFileSync(p))),before);
+  assert.ok(result.fingerprint);assert.ok(data.sprites.bench.directions.ne);assert.equal(data.bindings['log-2'],spriteManifest.bindings['log-2']);assert.equal(data.characterBindings['log-2'],spriteManifest.characterBindings['log-2']);assert.equal(existsSync(resolve(dir,'source/camper-idle.png')),false);assert.deepEqual(paths.map(p=>hash(readFileSync(p))),before);
   writeJSON(resolve(dir,'annotations.json'),{'bench-ne':{contacts:{ground:[1.5,1]}}});await assert.rejects(buildPreview(file),/Invalid contact|outside silhouette/);
 });
 test('review rejects missing, failed, old-size and stale artifacts; complete evidence unlocks only matching-spec full preparation',async()=>{
@@ -40,6 +41,14 @@ test('review rejects missing, failed, old-size and stale artifacts; complete evi
 test('new full generation requires review while legacy repacking remains a separate entry point',()=>{
   assert.throws(()=>prepareJob({scope:'full',out:resolve(temporary(),'full')}),/reviewed pilot/);
   assert.throws(()=>inside(runs,'../../web/public'),/outside/);
+});
+test('a complete colour revision requires explicit unchanged sources and rejects a modified reused PNG',async()=>{
+ const file=resolve(ROOT,'art/sprites/scene-spec.json');
+ assert.throws(()=>prepareSceneJob({specFile:file,scope:'revision',out:resolve(temporary(),'no-proof')}),/explicit source reuse/);
+ const dir=prepareSceneJob({specFile:file,scope:'revision',reuseFrom:'art/sprites/field-v2/release',out:resolve(temporary(),'revision')}),job=loadJob(resolve(dir,'job.json'));
+ assert.equal(job.selected.length,Object.keys(job.spec.assets).length);const [id,entry]=Object.entries(job.reusedSources)[0];
+ copyFileSync(resolve(ROOT,entry.path),resolve(dir,'source/'+id+'.png'));writeFileSync(resolve(dir,'source/'+id+'.png'),Buffer.from('changed reused source'));
+ await assert.rejects(buildPreview(resolve(dir,'job.json')),/Reused source changed/);
 });
 test('field v2 refuses incomplete releases, opaque character panels and anchors from an older source',async()=>{
   const v2=resolve(ROOT,'art/sprites/scene-spec.json');

@@ -4,6 +4,11 @@ import vm from 'node:vm';
 import { applyTheme, themeBootstrap } from '../lib/camp-theme.mjs';
 import { DEFAULT_SETTINGS, normalizeSettings, readSettings, saveSettings } from '../lib/camp-settings.mjs';
 
+test('new profiles start with quiet effects while existing explicit zero and legacy mute remain silent',()=>{
+ assert.equal(normalizeSettings(null).effectsVolume,.25);assert.equal(readSettings({getItem:()=>null}).effectsVolume,.25);
+ assert.equal(normalizeSettings({effectsVolume:0}).effectsVolume,0);assert.equal(normalizeSettings({forestVolume:0}).effectsVolume,0);assert.equal(normalizeSettings({effectsVolume:.7,forestVolume:0}).effectsVolume,.7);
+});
+
 test('theme migration preserves audio and consent; invalid themes fall back to color', () => {
   const legacy = { effectsVolume:.7, musicVolume:28, musicMuted:true, allowCarry:false };
   assert.deepEqual(normalizeSettings(legacy), { ...legacy, theme:'color' });

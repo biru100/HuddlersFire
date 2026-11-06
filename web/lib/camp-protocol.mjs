@@ -5,7 +5,7 @@ import { isWeapon } from './camp-weapons.mjs';
 import { validPresence } from './camp-presence.mjs';
 import { fireStyle } from './camp-fire.mjs';
 // v18: illustrated scene layout and taller sprite carry spacing share one physics contract.
-export const PROTOCOL_VERSION = 19;
+export const PROTOCOL_VERSION = 20;
 export const MAX_FRAME_BYTES = 48_000;
 /** @typedef {import('./camp-types').CampAction} CampAction */
 /** @typedef {{ok:boolean,error?:string}} CommandResult */

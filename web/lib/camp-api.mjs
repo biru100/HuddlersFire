@@ -2,6 +2,7 @@ import { COLORS, MAX_PLAYERS, MEMBER_TTL, HOST_LEASE } from './camp-config.mjs';
 import { lookupYouTubeTitle } from './camp-metadata.mjs';
 import { maintainRoom, updatePresence } from './camp-room-store.mjs';
 import {createAvatarProxy} from './camp-avatar-proxy.mjs';
+import {CAMP_RELEASE,RELEASE_HEADER,REVISION_HEADER,activateRelease} from './camp-release.mjs';
 const avatarProxy=createAvatarProxy();
 
 export { MEMBER_TTL, HOST_LEASE } from './camp-config.mjs';
@@ -48,16 +49,31 @@ async function iceConfig(env, playerId, now) {
   return { iceServers: servers, turnConfigured: servers.length > 1 };
 }
 
-export async function handleCampRequest(req, env, options = {}) {
+export async function handleCampRequest(req,env,options={}) {
+  const response=await dispatchCampRequest(req,env,options),headers=new Headers(response.headers);
+  if(!headers.has(RELEASE_HEADER))headers.set(RELEASE_HEADER,(options.release??CAMP_RELEASE).id);
+  if(!headers.has(REVISION_HEADER))headers.set(REVISION_HEADER,String((options.release??CAMP_RELEASE).revision));
+  return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
+}
+async function dispatchCampRequest(req, env, options = {}) {
   const now = options.now ?? Date.now(), outboundFetch = options.fetch ?? fetch;
   const url = new URL(req.url), route = url.pathname.replace(/^\/api\/camp\/?/, '');
   if(route.startsWith('avatar/'))return options.fetch?createAvatarProxy({fetch:outboundFetch})(route,req):avatarProxy(route,req);
   const db = env.DB;
   if (!db) return json({ error: '로비 저장소가 준비되지 않았습니다.' }, 503);
+  const release=options.release??CAMP_RELEASE;
+  let active=release;
+  const reply=(data,status=200,extra={})=>json(data,status,{[RELEASE_HEADER]:active.id,[REVISION_HEADER]:String(active.revision),...extra});
+  const updated=()=>reply({error:'새 버전이 적용되어 방을 초기화했어요. 새로고침 후 새 방으로 입장해 주세요.',code:'release-updated',release:active},410);
   try {
     if (req.method !== 'GET') {
       if (req.headers.get('origin') !== url.origin || req.headers.get('sec-fetch-site') === 'cross-site') fail('요청 출처를 확인할 수 없습니다.', 403);
     }
+    active=await activateRelease(db,release);
+    if(route==='version'&&req.method==='GET')return reply({release:active});
+    const clientRelease=req.headers.get(RELEASE_HEADER)||url.searchParams.get('release');
+    if(active.id!==release.id||(clientRelease&&clientRelease!==active.id)||
+      (release.revision>0&&!clientRelease&&(route==='room'||route==='rooms'&&req.method==='POST')))return updated();
     let s = await session(db, req, now);
     if (route === 'session') {
       if (req.method === 'GET') return json({ profile: s ? profile(s) : null, discordAvailable: !!(env.DISCORD_CLIENT_ID && env.DISCORD_CLIENT_SECRET), ...(s ? await iceConfig(env, s.id, now) : {}) });
@@ -161,9 +177,10 @@ export async function handleCampRequest(req, env, options = {}) {
           code = Array.from(crypto.getRandomValues(new Uint8Array(6)), v => CODE_ALPHABET[v % CODE_ALPHABET.length]).join('');
           try {
             await db.batch([
-              db.prepare('INSERT INTO camp_rooms (code, host, created, lease_until, title, visibility) VALUES (?, ?, ?, ?, ?, ?)').bind(code, id, now, now + HOST_LEASE, title, visibility),
-              db.prepare('INSERT INTO camp_members (id, room, session, name, color, avatar, seen, joined) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').bind(id, code, s.id, s.name, s.color, s.avatar, now, now),
+              db.prepare('INSERT INTO camp_rooms (code, host, created, lease_until, title, visibility) SELECT ?, ?, ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM camp_runtime WHERE id = 1 AND release = ?)').bind(code, id, now, now + HOST_LEASE, title, visibility,release.id),
+              db.prepare('INSERT INTO camp_members (id, room, session, name, color, avatar, seen, joined) SELECT ?, ?, ?, ?, ?, ?, ?, ? WHERE EXISTS (SELECT 1 FROM camp_rooms WHERE code = ?) AND EXISTS (SELECT 1 FROM camp_runtime WHERE id = 1 AND release = ?)').bind(id, code, s.id, s.name, s.color, s.avatar, now, now,code,release.id),
             ]);
+            if(!await db.prepare('SELECT id FROM camp_members WHERE id = ?').bind(id).first()){active=await activateRelease(db,release);return updated();}
             return json({ code, title, visibility, player: id, host: id, epoch: 1, ...await iceConfig(env, id, now) }, 201);
           } catch (e) { if (!String(e).includes('UNIQUE')) throw e; }
         }
@@ -175,8 +192,9 @@ export async function handleCampRequest(req, env, options = {}) {
       if (!room) fail('방이 없거나 이미 종료되었습니다.', 404);
       const inserted = await db.prepare(`INSERT INTO camp_members (id, room, session, name, color, avatar, seen, joined)
         SELECT ?, ?, ?, ?, ?, ?, ?, ? WHERE (SELECT COUNT(*) FROM camp_members WHERE room = ?) < ?
-        AND EXISTS (SELECT 1 FROM camp_rooms r JOIN camp_members m ON m.id = r.host WHERE r.code = ? AND m.seen > ?) RETURNING id`)
-        .bind(id, code, s.id, s.name, s.color, s.avatar, now, now, code, MAX_PLAYERS, code, now - MEMBER_TTL).first();
+        AND EXISTS (SELECT 1 FROM camp_rooms r JOIN camp_members m ON m.id = r.host WHERE r.code = ? AND m.seen > ?)
+        AND EXISTS (SELECT 1 FROM camp_runtime WHERE id = 1 AND release = ?) RETURNING id`)
+        .bind(id, code, s.id, s.name, s.color, s.avatar, now, now, code, MAX_PLAYERS, code, now - MEMBER_TTL,release.id).first();
       if (!inserted) fail('방이 가득 찼거나 종료되었습니다.', 409);
       return json({ code, title: room.title, visibility: room.visibility, player: id, host: room.host, epoch: room.epoch, ...await iceConfig(env, id, now) }, 201);
     }
@@ -219,6 +237,6 @@ export async function handleCampRequest(req, env, options = {}) {
     return json({ error: '요청한 기능을 찾을 수 없습니다.' }, 404);
   } catch (error) {
     if (!error.status) console.error('Camp API failure:', error.message);
-    return json({ error: error.status ? error.message : '잠시 연결이 원활하지 않습니다. 다시 시도해 주세요.' }, error.status || 500);
+    return reply({ error: error.status ? error.message : '잠시 연결이 원활하지 않습니다. 다시 시도해 주세요.' }, error.status || 500);
   }
 }

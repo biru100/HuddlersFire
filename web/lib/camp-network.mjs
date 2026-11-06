@@ -12,14 +12,23 @@ import { deltaWire, WireReceiver } from './camp-wire.mjs';
 import { callError, validChatEntry } from './camp-presence.mjs';
 import { emptyBall } from './camp-ball.mjs';
 import { startCampTicker } from './camp-scheduler.mjs';
+import {CAMP_RELEASE,RELEASE_HEADER,REVISION_HEADER} from './camp-release.mjs';
+import {notifyUpdate} from './camp-updates.mjs';
 
 export async function api(path, data, extra = {}) {
   const response = await fetch('/api/camp/' + path, {
     method: data === undefined ? 'GET' : 'POST', credentials: 'same-origin', cache: 'no-store',
-    ...(data === undefined ? {} : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }),
+    ...(data === undefined ? {} : { body: JSON.stringify(data) }),
     signal: AbortSignal.timeout(12_000), ...extra,
+    headers:{[RELEASE_HEADER]:CAMP_RELEASE.id,[REVISION_HEADER]:String(CAMP_RELEASE.revision),...(data===undefined?{}:{'Content-Type':'application/json'}),...extra.headers},
   });
   const value = await response.json().catch(() => ({ error: '서버 응답을 확인할 수 없습니다.' }));
+  const release=response.headers.get(RELEASE_HEADER);
+  if(release&&release!==CAMP_RELEASE.id){
+    const revision=Number(response.headers.get(REVISION_HEADER));
+    if(!Number.isSafeInteger(revision)||revision<CAMP_RELEASE.revision)throw Object.assign(new Error('서버 업데이트를 기다리는 중이에요.'),{status:503});
+    notifyUpdate(release);throw Object.assign(new Error('새 버전을 적용하고 있어요.'),{status:410,code:'release-updated'});
+  }
   if (!response.ok) throw Object.assign(new Error(value.error || '연결하지 못했습니다.'), { status: response.status });
   return value;
 }
@@ -37,7 +46,7 @@ export class CampNetwork {
     this.request = runtime.request || api;
     this.PeerConnection = runtime.PeerConnection || globalThis.RTCPeerConnection;
     this.lifecycle = runtime.lifecycle || globalThis.window;
-    this.beacon = runtime.beacon || (payload => globalThis.navigator?.sendBeacon?.('/api/camp/room', new Blob([payload], { type: 'application/json' })));
+    this.beacon = runtime.beacon || (payload => globalThis.navigator?.sendBeacon?.('/api/camp/room?release='+encodeURIComponent(CAMP_RELEASE.id), new Blob([payload], { type: 'application/json' })));
     this.allowCarry = runtime.allowCarry !== false;
     this.players = new Map([[this.player, { ...profile, id: this.player, ...spawnPlayer(), allowCarry: this.allowCarry, connected: this.isHost }]]);
     this.members = [];

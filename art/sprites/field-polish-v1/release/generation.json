@@ -1,0 +1,6 @@
+{
+  "method": "Analytical alpha/shape normals and seamless low-relief ground; no colour-image brightness reconstruction. Colour artwork and any built-in image generation are recorded separately in baseArtwork.",
+  "specHash": "ce9cfac17c747aba1b4ac1e2ab26c8b9b103a36062fba7af7e35894173ebdbe3",
+  "generatorHash": "1c10fb48b52d0f0c43c22c8aa3ef2cfbec504a67efa096183f88714c14f7fafb",
+  "baseArtwork": "art/sprites/field-polish-v1/artwork"
+}

@@ -1,0 +1,6391 @@
+{
+  "version": 2,
+  "revision": "field-polish-v1",
+  "sourceCommit": "4f5ccd55c7cf06685a41f954acc1e476b7772ece",
+  "files": {
+    "camper-0": {
+      "url": "/__sprite-preview/files/camper-0.f1a383dc42a3.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 543955,
+      "sha256": "f1a383dc42a3790e4fded19a28d786ef86f9957eb3e30051d3beedaf4f5035c0"
+    },
+    "camper-dark-0": {
+      "url": "/__sprite-preview/files/camper-dark-0.63b616ab1c82.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 433727,
+      "sha256": "63b616ab1c827c30af349345fcfef93a3484d0edb2ec835b933dfad007bf7970"
+    },
+    "camper-1": {
+      "url": "/__sprite-preview/files/camper-1.85aba1dfa959.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 541560,
+      "sha256": "85aba1dfa959ea0784452d3b18b83fa83c72f5601174364f6731090e5ef9d4e1"
+    },
+    "camper-dark-1": {
+      "url": "/__sprite-preview/files/camper-dark-1.23f3b7f6b116.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 435699,
+      "sha256": "23f3b7f6b11696e76b8f144d55b50824848211ae8ae3893c71e7a9960a42b8ac"
+    },
+    "camper-2": {
+      "url": "/__sprite-preview/files/camper-2.df3ce0ed3897.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 544907,
+      "sha256": "df3ce0ed389753df136e63d146e3fce4c70d7f1340588bf38e357bc31c021ecc"
+    },
+    "camper-dark-2": {
+      "url": "/__sprite-preview/files/camper-dark-2.7203288df254.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 437120,
+      "sha256": "7203288df25406773fa1c11dfd74437a710f9fceadcff0aaf98312f02d64c155"
+    },
+    "camper-3": {
+      "url": "/__sprite-preview/files/camper-3.2eca5e861b43.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 548868,
+      "sha256": "2eca5e861b43fcd6fe9aafa72087f09f5ca5a45dc006e95643cefaf614fdd47d"
+    },
+    "camper-dark-3": {
+      "url": "/__sprite-preview/files/camper-dark-3.a1edc70850aa.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 438282,
+      "sha256": "a1edc70850aaa8a42772f0d2a15ff33fd70e7460afedf12639dba929e9cc6f6c"
+    },
+    "camper-4": {
+      "url": "/__sprite-preview/files/camper-4.5cedd7ffb4ca.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 545704,
+      "sha256": "5cedd7ffb4cae13f8ea2f7a508e6746f43c5ffd63222b1805f13b32373740ebf"
+    },
+    "camper-dark-4": {
+      "url": "/__sprite-preview/files/camper-dark-4.c30f7e5a9165.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 439756,
+      "sha256": "c30f7e5a9165807c944753b2bacf9ecbe54f65b9ae8ff58ffa2295535703a393"
+    },
+    "camper-5": {
+      "url": "/__sprite-preview/files/camper-5.2bfd3a37bbb7.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 550120,
+      "sha256": "2bfd3a37bbb7a504103090718e69e05f69b1b0805e39a309952042a0c4af44b3"
+    },
+    "camper-dark-5": {
+      "url": "/__sprite-preview/files/camper-dark-5.68418d1835da.png",
+      "width": 768,
+      "height": 1056,
+      "bytes": 439244,
+      "sha256": "68418d1835da27f2dba7b6baaf56ef511ec1f9b8df5451e1ed2c16407daededc"
+    },
+    "environment": {
+      "url": "/__sprite-preview/files/environment.5e696d35cc87.png",
+      "width": 768,
+      "height": 1152,
+      "bytes": 727960,
+      "sha256": "5e696d35cc87cc63b291577815eb9eecbfda0704084d533ab1020243dce21673"
+    },
+    "environment-dark": {
+      "url": "/__sprite-preview/files/environment-dark.a99dfe0cb863.png",
+      "width": 768,
+      "height": 1152,
+      "bytes": 531185,
+      "sha256": "a99dfe0cb863aa052d7307667ff99c21e80e77272da3eed564bce656263bad7d"
+    },
+    "effects": {
+      "url": "/__sprite-preview/files/effects.af0014f716fb.png",
+      "width": 768,
+      "height": 1920,
+      "bytes": 1004110,
+      "sha256": "af0014f716fb5b77e9f1bc815fd994c57d3ff3ae0fc32beefe2f8ec7cc3cee8a"
+    },
+    "effects-dark": {
+      "url": "/__sprite-preview/files/effects-dark.a1a6ef9a166e.png",
+      "width": 768,
+      "height": 1920,
+      "bytes": 722659,
+      "sha256": "a1a6ef9a166e8efe34c0025f1a480282a700b4a10f7d5abaaf9177a34dcb0fbe"
+    },
+    "grass": {
+      "url": "/__sprite-preview/files/grass.545d78bd8a2a.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 37694,
+      "sha256": "545d78bd8a2abeb4305663f06a05562971957f6bba6657a8815996e183609581"
+    },
+    "grass-dark": {
+      "url": "/__sprite-preview/files/grass-dark.38799f899cc5.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 12313,
+      "sha256": "38799f899cc52dc8a475d68af6d4cb677f134efbb546f52cd931108420953e92"
+    },
+    "sand": {
+      "url": "/__sprite-preview/files/sand.947ecb112660.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 34762,
+      "sha256": "947ecb1126606bdde9855a95396fc51041c77ccb48fd49aefb94eb8e356ef4eb"
+    },
+    "sand-dark": {
+      "url": "/__sprite-preview/files/sand-dark.c085168d0d6a.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 10969,
+      "sha256": "c085168d0d6a76d8da5acdb146600d2789b1775d0b6b70352e045441bcb74436"
+    },
+    "stone": {
+      "url": "/__sprite-preview/files/stone.8d951136870c.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 44404,
+      "sha256": "8d951136870c48309a36d0f37388aed0fd332d3d4c3b8b10dd97202d2f035603"
+    },
+    "stone-dark": {
+      "url": "/__sprite-preview/files/stone-dark.c02e87ad1cbd.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 16273,
+      "sha256": "c02e87ad1cbd606f538ef4e332d48b875e5c3f2e0ebc3025215acf2fc94dc61a"
+    }
+  },
+  "sprites": {
+    "tree": {
+      "sheet": "environment",
+      "x": 18,
+      "y": 17,
+      "w": 157,
+      "h": 162,
+      "displayWidth": 100,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 78.5,
+          "y": 155.51999999999998
+        }
+      }
+    },
+    "tent": {
+      "sheet": "environment",
+      "x": 194,
+      "y": 23,
+      "w": 189,
+      "h": 156,
+      "displayWidth": 145,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 94.5,
+          "y": 149.76
+        }
+      }
+    },
+    "lantern": {
+      "sheet": "environment",
+      "x": 442,
+      "y": 17,
+      "w": 77,
+      "h": 163,
+      "displayWidth": 35,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 38.5,
+          "y": 156.48
+        }
+      }
+    },
+    "radio": {
+      "sheet": "environment",
+      "x": 577,
+      "y": 33,
+      "w": 190,
+      "h": 147,
+      "displayWidth": 60,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 95,
+          "y": 141.12
+        }
+      }
+    },
+    "sign": {
+      "sheet": "environment",
+      "x": 24,
+      "y": 208,
+      "w": 145,
+      "h": 163,
+      "displayWidth": 65,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 72.5,
+          "y": 156.48
+        }
+      }
+    },
+    "fence": {
+      "sheet": "environment",
+      "x": 200,
+      "y": 209,
+      "w": 176,
+      "h": 162,
+      "displayWidth": 90,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 88,
+          "y": 155.51999999999998
+        }
+      }
+    },
+    "shade": {
+      "sheet": "environment",
+      "x": 392,
+      "y": 208,
+      "w": 176,
+      "h": 163,
+      "displayWidth": 120,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 88,
+          "y": 156.48
+        }
+      }
+    },
+    "crate": {
+      "sheet": "environment",
+      "x": 587,
+      "y": 209,
+      "w": 171,
+      "h": 162,
+      "displayWidth": 55,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 85.5,
+          "y": 155.51999999999998
+        }
+      }
+    },
+    "trampoline": {
+      "sheet": "environment",
+      "x": 1,
+      "y": 441,
+      "w": 190,
+      "h": 122,
+      "displayWidth": 100,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 95,
+          "y": 117.11999999999999
+        }
+      }
+    },
+    "football": {
+      "sheet": "environment",
+      "x": 208,
+      "y": 400,
+      "w": 160,
+      "h": 163,
+      "displayWidth": 18,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 80,
+          "y": 156.48
+        }
+      }
+    },
+    "portal": {
+      "sheet": "environment",
+      "x": 399,
+      "y": 401,
+      "w": 162,
+      "h": 163,
+      "displayWidth": 100,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 81,
+          "y": 156.48
+        }
+      }
+    },
+    "game-booth": {
+      "sheet": "environment",
+      "x": 582,
+      "y": 401,
+      "w": 180,
+      "h": 162,
+      "displayWidth": 180,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 90,
+          "y": 155.51999999999998
+        }
+      },
+      "poster": {
+        "x": 0.16,
+        "y": 0.15,
+        "w": 0.68,
+        "h": 0.44
+      }
+    },
+    "gameBooth": {
+      "sheet": "environment",
+      "x": 582,
+      "y": 401,
+      "w": 180,
+      "h": 162,
+      "displayWidth": 180,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 90,
+          "y": 155.51999999999998
+        }
+      },
+      "poster": {
+        "x": 0.16,
+        "y": 0.15,
+        "w": 0.68,
+        "h": 0.44
+      }
+    },
+    "firewood": {
+      "sheet": "environment",
+      "x": 2,
+      "y": 629,
+      "w": 189,
+      "h": 126,
+      "displayWidth": 95,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 94.5,
+          "y": 120.96
+        }
+      }
+    },
+    "flowers": {
+      "sheet": "environment",
+      "x": 194,
+      "y": 629,
+      "w": 189,
+      "h": 127,
+      "displayWidth": 35,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 94.5,
+          "y": 121.92
+        }
+      }
+    },
+    "rock": {
+      "sheet": "environment",
+      "x": 386,
+      "y": 640,
+      "w": 189,
+      "h": 115,
+      "displayWidth": 28,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 94.5,
+          "y": 110.39999999999999
+        }
+      }
+    },
+    "bench-ne": {
+      "sheet": "environment",
+      "x": 577,
+      "y": 636,
+      "w": 191,
+      "h": 120,
+      "displayWidth": 110,
+      "depth": "sorted",
+      "direction": "ne",
+      "contacts": {
+        "ground": {
+          "x": 95.5,
+          "y": 117.6
+        },
+        "seat": {
+          "x": 95.5,
+          "y": 45.6
+        }
+      }
+    },
+    "bench": {
+      "sheet": "environment",
+      "x": 577,
+      "y": 636,
+      "w": 191,
+      "h": 120,
+      "displayWidth": 110,
+      "depth": "sorted",
+      "direction": "ne",
+      "contacts": {
+        "ground": {
+          "x": 95.5,
+          "y": 117.6
+        },
+        "seat": {
+          "x": 95.5,
+          "y": 45.6
+        }
+      },
+      "directions": {
+        "ne": "bench-ne",
+        "nw": "bench-nw"
+      }
+    },
+    "bench-nw": {
+      "sheet": "environment",
+      "x": 0,
+      "y": 826,
+      "w": 192,
+      "h": 122,
+      "displayWidth": 110,
+      "depth": "sorted",
+      "direction": "nw",
+      "contacts": {
+        "ground": {
+          "x": 96,
+          "y": 119.56
+        },
+        "seat": {
+          "x": 96,
+          "y": 46.36
+        }
+      }
+    },
+    "tree-birch": {
+      "sheet": "environment",
+      "x": 213,
+      "y": 784,
+      "w": 150,
+      "h": 164,
+      "displayWidth": 180,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 75,
+          "y": 157.44
+        }
+      }
+    },
+    "tree-pine": {
+      "sheet": "environment",
+      "x": 418,
+      "y": 784,
+      "w": 124,
+      "h": 164,
+      "displayWidth": 180,
+      "depth": "sorted",
+      "direction": "isometric",
+      "contacts": {
+        "ground": {
+          "x": 62,
+          "y": 157.44
+        }
+      }
+    },
+    "bench-weathered-ne": {
+      "sheet": "environment",
+      "x": 576,
+      "y": 826,
+      "w": 192,
+      "h": 122,
+      "displayWidth": 110,
+      "depth": "sorted",
+      "direction": "ne",
+      "contacts": {
+        "ground": {
+          "x": 96,
+          "y": 119.56
+        },
+        "seat": {
+          "x": 96,
+          "y": 46.36
+        }
+      }
+    },
+    "bench-weathered-nw": {
+      "sheet": "environment",
+      "x": 0,
+      "y": 1016,
+      "w": 192,
+      "h": 124,
+      "displayWidth": 110,
+      "depth": "sorted",
+      "direction": "nw",
+      "contacts": {
+        "ground": {
+          "x": 96,
+          "y": 121.52
+        },
+        "seat": {
+          "x": 96,
+          "y": 47.12
+        }
+      }
+    },
+    "amber": {
+      "sheet": "effects",
+      "x": 36,
+      "y": 16,
+      "w": 121,
+      "h": 163,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 60.5,
+          "y": 163
+        }
+      },
+      "animation": {
+        "frames": [
+          {
+            "sheet": "effects",
+            "x": 36,
+            "y": 16,
+            "w": 121,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 60.5,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 228,
+            "y": 16,
+            "w": 121,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 60.5,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 420,
+            "y": 16,
+            "w": 121,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 60.5,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 612,
+            "y": 16,
+            "w": 121,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 60.5,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 36,
+            "y": 208,
+            "w": 121,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 60.5,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 228,
+            "y": 208,
+            "w": 121,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 60.5,
+                "y": 163
+              }
+            }
+          }
+        ],
+        "durations": [
+          111,
+          111,
+          111,
+          111,
+          111,
+          111
+        ],
+        "loop": true
+      }
+    },
+    "gold": {
+      "sheet": "effects",
+      "x": 421,
+      "y": 209,
+      "w": 119,
+      "h": 162,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 59.5,
+          "y": 162
+        }
+      },
+      "animation": {
+        "frames": [
+          {
+            "sheet": "effects",
+            "x": 421,
+            "y": 209,
+            "w": 119,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 59.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 613,
+            "y": 209,
+            "w": 119,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 59.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 37,
+            "y": 401,
+            "w": 119,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 59.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 229,
+            "y": 401,
+            "w": 119,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 59.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 421,
+            "y": 401,
+            "w": 119,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 59.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 613,
+            "y": 401,
+            "w": 119,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 59.5,
+                "y": 162
+              }
+            }
+          }
+        ],
+        "durations": [
+          111,
+          111,
+          111,
+          111,
+          111,
+          111
+        ],
+        "loop": true
+      }
+    },
+    "blue": {
+      "sheet": "effects",
+      "x": 33,
+      "y": 592,
+      "w": 126,
+      "h": 164,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 63,
+          "y": 164
+        }
+      },
+      "animation": {
+        "frames": [
+          {
+            "sheet": "effects",
+            "x": 33,
+            "y": 592,
+            "w": 126,
+            "h": 164,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63,
+                "y": 164
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 225,
+            "y": 592,
+            "w": 126,
+            "h": 164,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63,
+                "y": 164
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 417,
+            "y": 592,
+            "w": 126,
+            "h": 164,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63,
+                "y": 164
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 609,
+            "y": 592,
+            "w": 126,
+            "h": 164,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63,
+                "y": 164
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 33,
+            "y": 784,
+            "w": 126,
+            "h": 164,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63,
+                "y": 164
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 225,
+            "y": 784,
+            "w": 126,
+            "h": 164,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63,
+                "y": 164
+              }
+            }
+          }
+        ],
+        "durations": [
+          111,
+          111,
+          111,
+          111,
+          111,
+          111
+        ],
+        "loop": true
+      }
+    },
+    "jade": {
+      "sheet": "effects",
+      "x": 417,
+      "y": 785,
+      "w": 127,
+      "h": 162,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 63.5,
+          "y": 162
+        }
+      },
+      "animation": {
+        "frames": [
+          {
+            "sheet": "effects",
+            "x": 417,
+            "y": 785,
+            "w": 127,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 609,
+            "y": 785,
+            "w": 127,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 33,
+            "y": 977,
+            "w": 127,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 225,
+            "y": 977,
+            "w": 127,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 417,
+            "y": 977,
+            "w": 127,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63.5,
+                "y": 162
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 609,
+            "y": 977,
+            "w": 127,
+            "h": 162,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 63.5,
+                "y": 162
+              }
+            }
+          }
+        ],
+        "durations": [
+          111,
+          111,
+          111,
+          111,
+          111,
+          111
+        ],
+        "loop": true
+      }
+    },
+    "violet": {
+      "sheet": "effects",
+      "x": 35,
+      "y": 1168,
+      "w": 122,
+      "h": 163,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 61,
+          "y": 163
+        }
+      },
+      "animation": {
+        "frames": [
+          {
+            "sheet": "effects",
+            "x": 35,
+            "y": 1168,
+            "w": 122,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 61,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 227,
+            "y": 1168,
+            "w": 122,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 61,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 419,
+            "y": 1168,
+            "w": 122,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 61,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 611,
+            "y": 1168,
+            "w": 122,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 61,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 35,
+            "y": 1360,
+            "w": 122,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 61,
+                "y": 163
+              }
+            }
+          },
+          {
+            "sheet": "effects",
+            "x": 227,
+            "y": 1360,
+            "w": 122,
+            "h": 163,
+            "displayWidth": 64,
+            "depth": "sorted",
+            "direction": "front",
+            "contacts": {
+              "ground": {
+                "x": 61,
+                "y": 163
+              }
+            }
+          }
+        ],
+        "durations": [
+          111,
+          111,
+          111,
+          111,
+          111,
+          111
+        ],
+        "loop": true
+      }
+    },
+    "gun": {
+      "sheet": "effects",
+      "x": 389,
+      "y": 1361,
+      "w": 182,
+      "h": 162,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 91,
+          "y": 162
+        }
+      }
+    },
+    "snowball": {
+      "sheet": "effects",
+      "x": 591,
+      "y": 1361,
+      "w": 163,
+      "h": 162,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 81.5,
+          "y": 162
+        }
+      }
+    },
+    "bomb": {
+      "sheet": "effects",
+      "x": 38,
+      "y": 1553,
+      "w": 117,
+      "h": 162,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 58.5,
+          "y": 162
+        }
+      }
+    },
+    "impact": {
+      "sheet": "effects",
+      "x": 198,
+      "y": 1549,
+      "w": 181,
+      "h": 166,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 90.5,
+          "y": 166
+        }
+      }
+    },
+    "dust": {
+      "sheet": "effects",
+      "x": 386,
+      "y": 1567,
+      "w": 189,
+      "h": 148,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 94.5,
+          "y": 148
+        }
+      }
+    },
+    "heart": {
+      "sheet": "effects",
+      "x": 581,
+      "y": 1553,
+      "w": 183,
+      "h": 162,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 91.5,
+          "y": 162
+        }
+      }
+    },
+    "spark": {
+      "sheet": "effects",
+      "x": 27,
+      "y": 1745,
+      "w": 138,
+      "h": 162,
+      "displayWidth": 64,
+      "depth": "sorted",
+      "direction": "front",
+      "contacts": {
+        "ground": {
+          "x": 69,
+          "y": 162
+        }
+      }
+    }
+  },
+  "character": {
+    "states": {
+      "idle": {
+        "fps": 4,
+        "loop": true,
+        "durations": [
+          250,
+          250,
+          250,
+          250
+        ],
+        "frames": [
+          {
+            "x": 0,
+            "y": 0,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 45,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 26,
+                "y": 60,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 63,
+                "y": 60,
+                "w": 8,
+                "h": 9
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 96,
+            "y": 0,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 44,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 26,
+                "y": 59,
+                "w": 10,
+                "h": 10
+              },
+              {
+                "x": 62,
+                "y": 60,
+                "w": 8,
+                "h": 8
+              },
+              {
+                "x": 45,
+                "y": 42,
+                "w": 8,
+                "h": 6
+              },
+              {
+                "x": 36,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 192,
+            "y": 0,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 45,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 26,
+                "y": 60,
+                "w": 11,
+                "h": 9
+              },
+              {
+                "x": 62,
+                "y": 60,
+                "w": 9,
+                "h": 9
+              },
+              {
+                "x": 37,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 288,
+            "y": 0,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 25,
+              "y": 8,
+              "w": 45,
+              "h": 82
+            },
+            "head": {
+              "x": 46,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 46,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 25,
+                "y": 60,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 61,
+                "y": 60,
+                "w": 9,
+                "h": 9
+              },
+              {
+                "x": 44,
+                "y": 43,
+                "w": 9,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 47.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          }
+        ],
+        "direction": "front",
+        "directions": {
+          "back": {
+            "fps": 4,
+            "loop": true,
+            "durations": [
+              250,
+              250,
+              250,
+              250
+            ],
+            "frames": [
+              {
+                "x": 288,
+                "y": 768,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 39,
+                  "h": 82
+                },
+                "head": {
+                  "x": 47,
+                  "y": 25,
+                  "radius": 17.5
+                },
+                "feet": {
+                  "x": 47,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 58,
+                    "y": 59,
+                    "w": 10,
+                    "h": 10
+                  },
+                  {
+                    "x": 29,
+                    "y": 60,
+                    "w": 6,
+                    "h": 7
+                  },
+                  {
+                    "x": 37,
+                    "y": 76,
+                    "w": 9,
+                    "h": 5
+                  },
+                  {
+                    "x": 49,
+                    "y": 77,
+                    "w": 9,
+                    "h": 4
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 73.375
+              },
+              {
+                "x": 384,
+                "y": 768,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 39,
+                  "h": 82
+                },
+                "head": {
+                  "x": 47,
+                  "y": 25,
+                  "radius": 17
+                },
+                "feet": {
+                  "x": 47,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 58,
+                    "y": 57,
+                    "w": 10,
+                    "h": 10
+                  },
+                  {
+                    "x": 29,
+                    "y": 58,
+                    "w": 6,
+                    "h": 7
+                  },
+                  {
+                    "x": 49,
+                    "y": 77,
+                    "w": 9,
+                    "h": 4
+                  },
+                  {
+                    "x": 37,
+                    "y": 76,
+                    "w": 9,
+                    "h": 4
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 73.2
+              },
+              {
+                "x": 480,
+                "y": 768,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 39,
+                  "h": 82
+                },
+                "head": {
+                  "x": 46,
+                  "y": 24,
+                  "radius": 17
+                },
+                "feet": {
+                  "x": 46,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 58,
+                    "y": 56,
+                    "w": 10,
+                    "h": 9
+                  },
+                  {
+                    "x": 29,
+                    "y": 56,
+                    "w": 7,
+                    "h": 8
+                  },
+                  {
+                    "x": 48,
+                    "y": 76,
+                    "w": 10,
+                    "h": 5
+                  },
+                  {
+                    "x": 37,
+                    "y": 75,
+                    "w": 9,
+                    "h": 5
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 72.85
+              },
+              {
+                "x": 576,
+                "y": 768,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 39,
+                  "h": 82
+                },
+                "head": {
+                  "x": 47,
+                  "y": 25,
+                  "radius": 17.5
+                },
+                "feet": {
+                  "x": 47,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 58,
+                    "y": 59,
+                    "w": 10,
+                    "h": 10
+                  },
+                  {
+                    "x": 29,
+                    "y": 60,
+                    "w": 6,
+                    "h": 7
+                  },
+                  {
+                    "x": 49,
+                    "y": 77,
+                    "w": 9,
+                    "h": 4
+                  },
+                  {
+                    "x": 37,
+                    "y": 76,
+                    "w": 9,
+                    "h": 5
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 73.375
+              }
+            ],
+            "direction": "back"
+          }
+        }
+      },
+      "walk": {
+        "fps": 8,
+        "loop": true,
+        "durations": [
+          125,
+          125,
+          125,
+          125,
+          125,
+          125
+        ],
+        "frames": [
+          {
+            "x": 384,
+            "y": 0,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 28,
+              "y": 8,
+              "w": 40,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 28,
+                "y": 59,
+                "w": 12,
+                "h": 11
+              },
+              {
+                "x": 60,
+                "y": 60,
+                "w": 8,
+                "h": 9
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 35,
+                "y": 76,
+                "w": 10,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 480,
+            "y": 0,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 29,
+              "y": 8,
+              "w": 37,
+              "h": 82
+            },
+            "head": {
+              "x": 46,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 46,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 44,
+                "y": 54,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 50,
+                "y": 70,
+                "w": 10,
+                "h": 8
+              },
+              {
+                "x": 45,
+                "y": 42,
+                "w": 7,
+                "h": 6
+              },
+              {
+                "x": 32,
+                "y": 76,
+                "w": 9,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 47.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 576,
+            "y": 0,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 30,
+              "y": 8,
+              "w": 36,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 45,
+                "y": 55,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 52,
+                "y": 74,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 30,
+                "y": 56,
+                "w": 6,
+                "h": 9
+              },
+              {
+                "x": 46,
+                "y": 42,
+                "w": 8,
+                "h": 6
+              },
+              {
+                "x": 34,
+                "y": 74,
+                "w": 9,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 672,
+            "y": 0,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 31,
+              "y": 8,
+              "w": 35,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 45,
+                "y": 57,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 46,
+                "y": 42,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 32,
+                "y": 56,
+                "w": 6,
+                "h": 8
+              },
+              {
+                "x": 37,
+                "y": 73,
+                "w": 8,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 0,
+            "y": 96,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 29,
+              "y": 8,
+              "w": 39,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 47,
+                "y": 55,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 51,
+                "y": 71,
+                "w": 10,
+                "h": 8
+              },
+              {
+                "x": 33,
+                "y": 73,
+                "w": 9,
+                "h": 7
+              },
+              {
+                "x": 46,
+                "y": 42,
+                "w": 8,
+                "h": 7
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 96,
+            "y": 96,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 31,
+              "y": 8,
+              "w": 35,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 47,
+                "y": 58,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 46,
+                "y": 42,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 51,
+                "y": 75,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 36,
+                "y": 74,
+                "w": 9,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          }
+        ],
+        "direction": "front",
+        "directions": {
+          "back": {
+            "fps": 8,
+            "loop": true,
+            "durations": [
+              125,
+              125,
+              125,
+              125,
+              125,
+              125
+            ],
+            "frames": [
+              {
+                "x": 672,
+                "y": 768,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 28,
+                  "y": 8,
+                  "w": 40,
+                  "h": 82
+                },
+                "head": {
+                  "x": 49,
+                  "y": 25,
+                  "radius": 17.5
+                },
+                "feet": {
+                  "x": 49,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 28,
+                    "y": 59,
+                    "w": 8,
+                    "h": 8
+                  },
+                  {
+                    "x": 38,
+                    "y": 76,
+                    "w": 9,
+                    "h": 5
+                  },
+                  {
+                    "x": 51,
+                    "y": 74,
+                    "w": 10,
+                    "h": 4
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48,
+                    "y": 90
+                  }
+                },
+                "waist": 73.375
+              },
+              {
+                "x": 0,
+                "y": 864,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 27,
+                  "y": 8,
+                  "w": 42,
+                  "h": 82
+                },
+                "head": {
+                  "x": 49,
+                  "y": 25,
+                  "radius": 17
+                },
+                "feet": {
+                  "x": 49,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 27,
+                    "y": 58,
+                    "w": 9,
+                    "h": 8
+                  },
+                  {
+                    "x": 38,
+                    "y": 76,
+                    "w": 9,
+                    "h": 4
+                  },
+                  {
+                    "x": 49,
+                    "y": 70,
+                    "w": 9,
+                    "h": 6
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48,
+                    "y": 90
+                  }
+                },
+                "waist": 73.2
+              },
+              {
+                "x": 96,
+                "y": 864,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 37,
+                  "h": 82
+                },
+                "head": {
+                  "x": 47,
+                  "y": 25,
+                  "radius": 17
+                },
+                "feet": {
+                  "x": 47,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 56,
+                    "y": 55,
+                    "w": 10,
+                    "h": 10
+                  },
+                  {
+                    "x": 35,
+                    "y": 72,
+                    "w": 10,
+                    "h": 7
+                  },
+                  {
+                    "x": 29,
+                    "y": 55,
+                    "w": 5,
+                    "h": 8
+                  },
+                  {
+                    "x": 48,
+                    "y": 74,
+                    "w": 9,
+                    "h": 6
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 47.5,
+                    "y": 90
+                  }
+                },
+                "waist": 73.2
+              },
+              {
+                "x": 192,
+                "y": 864,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 39,
+                  "h": 82
+                },
+                "head": {
+                  "x": 47,
+                  "y": 25,
+                  "radius": 17
+                },
+                "feet": {
+                  "x": 47,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 59,
+                    "y": 56,
+                    "w": 9,
+                    "h": 9
+                  },
+                  {
+                    "x": 29,
+                    "y": 57,
+                    "w": 6,
+                    "h": 9
+                  },
+                  {
+                    "x": 45,
+                    "y": 76,
+                    "w": 9,
+                    "h": 4
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 73.2
+              },
+              {
+                "x": 288,
+                "y": 864,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 27,
+                  "y": 8,
+                  "w": 43,
+                  "h": 82
+                },
+                "head": {
+                  "x": 48,
+                  "y": 26,
+                  "radius": 18
+                },
+                "feet": {
+                  "x": 48,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 27,
+                    "y": 59,
+                    "w": 8,
+                    "h": 8
+                  },
+                  {
+                    "x": 46,
+                    "y": 72,
+                    "w": 10,
+                    "h": 6
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 73.9
+              },
+              {
+                "x": 384,
+                "y": 864,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 28,
+                  "y": 8,
+                  "w": 41,
+                  "h": 82
+                },
+                "head": {
+                  "x": 49,
+                  "y": 25,
+                  "radius": 17
+                },
+                "feet": {
+                  "x": 49,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 28,
+                    "y": 56,
+                    "w": 8,
+                    "h": 9
+                  },
+                  {
+                    "x": 61,
+                    "y": 57,
+                    "w": 8,
+                    "h": 8
+                  },
+                  {
+                    "x": 46,
+                    "y": 76,
+                    "w": 10,
+                    "h": 4
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 73.2
+              }
+            ],
+            "direction": "back"
+          }
+        }
+      },
+      "run": {
+        "fps": 12,
+        "loop": true,
+        "durations": [
+          83,
+          83,
+          83,
+          83,
+          83,
+          83
+        ],
+        "frames": [
+          {
+            "x": 192,
+            "y": 96,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 45,
+              "h": 82
+            },
+            "head": {
+              "x": 52,
+              "y": 26,
+              "radius": 18.5
+            },
+            "feet": {
+              "x": 52,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 31,
+                "y": 54,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 61,
+                "y": 46,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 49,
+                "y": 70,
+                "w": 10,
+                "h": 8
+              },
+              {
+                "x": 32,
+                "y": 72,
+                "w": 9,
+                "h": 8
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 74.075
+          },
+          {
+            "x": 288,
+            "y": 96,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 25,
+              "y": 8,
+              "w": 46,
+              "h": 82
+            },
+            "head": {
+              "x": 52,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 52,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 61,
+                "y": 45,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 47,
+                "y": 72,
+                "w": 11,
+                "h": 9
+              },
+              {
+                "x": 25,
+                "y": 49,
+                "w": 9,
+                "h": 11
+              },
+              {
+                "x": 51,
+                "y": 44,
+                "w": 6,
+                "h": 6
+              },
+              {
+                "x": 34,
+                "y": 68,
+                "w": 5,
+                "h": 8
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 384,
+            "y": 96,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 28,
+              "y": 8,
+              "w": 40,
+              "h": 82
+            },
+            "head": {
+              "x": 49,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 49,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 31,
+                "y": 55,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 56,
+                "y": 52,
+                "w": 9,
+                "h": 11
+              },
+              {
+                "x": 48,
+                "y": 43,
+                "w": 7,
+                "h": 7
+              },
+              {
+                "x": 37,
+                "y": 77,
+                "w": 11,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 480,
+            "y": 96,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 44,
+              "h": 82
+            },
+            "head": {
+              "x": 51,
+              "y": 25,
+              "radius": 18.5
+            },
+            "feet": {
+              "x": 51,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 60,
+                "y": 45,
+                "w": 10,
+                "h": 12
+              },
+              {
+                "x": 26,
+                "y": 49,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 46,
+                "y": 66,
+                "w": 11,
+                "h": 9
+              },
+              {
+                "x": 49,
+                "y": 43,
+                "w": 7,
+                "h": 7
+              },
+              {
+                "x": 32,
+                "y": 72,
+                "w": 9,
+                "h": 8
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.725
+          },
+          {
+            "x": 576,
+            "y": 96,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 23,
+              "y": 8,
+              "w": 50,
+              "h": 82
+            },
+            "head": {
+              "x": 50,
+              "y": 26,
+              "radius": 19
+            },
+            "feet": {
+              "x": 50,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 61,
+                "y": 46,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 24,
+                "y": 54,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 51,
+                "y": 71,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 32,
+                "y": 70,
+                "w": 6,
+                "h": 10
+              },
+              {
+                "x": 50,
+                "y": 44,
+                "w": 6,
+                "h": 7
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 74.25
+          },
+          {
+            "x": 672,
+            "y": 96,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 27,
+              "y": 8,
+              "w": 41,
+              "h": 82
+            },
+            "head": {
+              "x": 49,
+              "y": 26,
+              "radius": 18.5
+            },
+            "feet": {
+              "x": 49,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 38,
+                "y": 53,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 56,
+                "y": 53,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 33,
+                "y": 74,
+                "w": 9,
+                "h": 7
+              },
+              {
+                "x": 48,
+                "y": 44,
+                "w": 6,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 47.5,
+                "y": 90
+              }
+            },
+            "waist": 74.075
+          }
+        ],
+        "direction": "front",
+        "directions": {
+          "back": {
+            "fps": 12,
+            "loop": true,
+            "durations": [
+              83,
+              83,
+              83,
+              83,
+              83,
+              83
+            ],
+            "frames": [
+              {
+                "x": 480,
+                "y": 864,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 26,
+                  "y": 8,
+                  "w": 43,
+                  "h": 82
+                },
+                "head": {
+                  "x": 49,
+                  "y": 24,
+                  "radius": 16.5
+                },
+                "feet": {
+                  "x": 49,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 47,
+                    "y": 75,
+                    "w": 9,
+                    "h": 7
+                  },
+                  {
+                    "x": 26,
+                    "y": 52,
+                    "w": 9,
+                    "h": 8
+                  },
+                  {
+                    "x": 60,
+                    "y": 42,
+                    "w": 9,
+                    "h": 9
+                  },
+                  {
+                    "x": 39,
+                    "y": 69,
+                    "w": 7,
+                    "h": 9
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 47.5,
+                    "y": 90
+                  }
+                },
+                "waist": 72.67500000000001
+              },
+              {
+                "x": 576,
+                "y": 864,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 39,
+                  "h": 82
+                },
+                "head": {
+                  "x": 49,
+                  "y": 24,
+                  "radius": 16.5
+                },
+                "feet": {
+                  "x": 49,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 47,
+                    "y": 69,
+                    "w": 11,
+                    "h": 7
+                  },
+                  {
+                    "x": 36,
+                    "y": 73,
+                    "w": 9,
+                    "h": 8
+                  },
+                  {
+                    "x": 60,
+                    "y": 44,
+                    "w": 8,
+                    "h": 9
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 72.67500000000001
+              },
+              {
+                "x": 672,
+                "y": 864,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 26,
+                  "y": 8,
+                  "w": 43,
+                  "h": 82
+                },
+                "head": {
+                  "x": 49,
+                  "y": 24,
+                  "radius": 16
+                },
+                "feet": {
+                  "x": 49,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 38,
+                    "y": 68,
+                    "w": 11,
+                    "h": 10
+                  },
+                  {
+                    "x": 26,
+                    "y": 49,
+                    "w": 8,
+                    "h": 9
+                  },
+                  {
+                    "x": 61,
+                    "y": 38,
+                    "w": 8,
+                    "h": 8
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 47.5,
+                    "y": 90
+                  }
+                },
+                "waist": 72.5
+              },
+              {
+                "x": 0,
+                "y": 960,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 28,
+                  "y": 8,
+                  "w": 39,
+                  "h": 82
+                },
+                "head": {
+                  "x": 46,
+                  "y": 24,
+                  "radius": 16
+                },
+                "feet": {
+                  "x": 46,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 48,
+                    "y": 65,
+                    "w": 10,
+                    "h": 8
+                  },
+                  {
+                    "x": 61,
+                    "y": 46,
+                    "w": 6,
+                    "h": 9
+                  },
+                  {
+                    "x": 32,
+                    "y": 71,
+                    "w": 9,
+                    "h": 7
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 47.5,
+                    "y": 90
+                  }
+                },
+                "waist": 72.5
+              },
+              {
+                "x": 96,
+                "y": 960,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 27,
+                  "y": 8,
+                  "w": 41,
+                  "h": 82
+                },
+                "head": {
+                  "x": 48,
+                  "y": 24,
+                  "radius": 17
+                },
+                "feet": {
+                  "x": 48,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 43,
+                    "y": 75,
+                    "w": 9,
+                    "h": 7
+                  },
+                  {
+                    "x": 39,
+                    "y": 68,
+                    "w": 10,
+                    "h": 9
+                  },
+                  {
+                    "x": 59,
+                    "y": 45,
+                    "w": 9,
+                    "h": 9
+                  },
+                  {
+                    "x": 27,
+                    "y": 51,
+                    "w": 8,
+                    "h": 8
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 47.5,
+                    "y": 90
+                  }
+                },
+                "waist": 72.85
+              },
+              {
+                "x": 192,
+                "y": 960,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 27,
+                  "y": 8,
+                  "w": 43,
+                  "h": 82
+                },
+                "head": {
+                  "x": 50,
+                  "y": 24,
+                  "radius": 16
+                },
+                "feet": {
+                  "x": 50,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 38,
+                    "y": 71,
+                    "w": 10,
+                    "h": 8
+                  },
+                  {
+                    "x": 27,
+                    "y": 52,
+                    "w": 9,
+                    "h": 8
+                  },
+                  {
+                    "x": 48,
+                    "y": 74,
+                    "w": 9,
+                    "h": 7
+                  },
+                  {
+                    "x": 61,
+                    "y": 42,
+                    "w": 9,
+                    "h": 8
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  }
+                },
+                "waist": 72.5
+              }
+            ],
+            "direction": "back"
+          }
+        }
+      },
+      "sit": {
+        "fps": 2,
+        "loop": true,
+        "durations": [
+          500,
+          500
+        ],
+        "frames": [
+          {
+            "x": 0,
+            "y": 192,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 29,
+              "y": 8,
+              "w": 38,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 24,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 49,
+                "y": 69,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 36,
+                "y": 69,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 32,
+                "y": 58,
+                "w": 12,
+                "h": 9
+              },
+              {
+                "x": 52,
+                "y": 58,
+                "w": 12,
+                "h": 9
+              },
+              {
+                "x": 44,
+                "y": 41,
+                "w": 9,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              },
+              "seat": {
+                "x": 48,
+                "y": 66.22
+              }
+            },
+            "waist": 66.22
+          },
+          {
+            "x": 96,
+            "y": 192,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 29,
+              "y": 8,
+              "w": 38,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 49,
+                "y": 69,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 36,
+                "y": 69,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 32,
+                "y": 58,
+                "w": 12,
+                "h": 9
+              },
+              {
+                "x": 52,
+                "y": 58,
+                "w": 12,
+                "h": 9
+              },
+              {
+                "x": 44,
+                "y": 42,
+                "w": 8,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              },
+              "seat": {
+                "x": 48,
+                "y": 66.22
+              }
+            },
+            "waist": 66.22
+          }
+        ],
+        "direction": "front",
+        "directions": {
+          "back-left": {
+            "fps": 2,
+            "loop": true,
+            "durations": [
+              500
+            ],
+            "frames": [
+              {
+                "x": 672,
+                "y": 672,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 39,
+                  "h": 82
+                },
+                "head": {
+                  "x": 49,
+                  "y": 26,
+                  "radius": 18
+                },
+                "feet": {
+                  "x": 49,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 32,
+                    "y": 72,
+                    "w": 10,
+                    "h": 7
+                  },
+                  {
+                    "x": 31,
+                    "y": 56,
+                    "w": 6,
+                    "h": 10
+                  },
+                  {
+                    "x": 44,
+                    "y": 73,
+                    "w": 9,
+                    "h": 4
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48.5,
+                    "y": 90
+                  },
+                  "seat": {
+                    "x": 48.5,
+                    "y": 66.22
+                  }
+                },
+                "waist": 66.22
+              }
+            ],
+            "direction": "back-left"
+          },
+          "back-right": {
+            "fps": 2,
+            "loop": true,
+            "durations": [
+              500
+            ],
+            "frames": [
+              {
+                "x": 0,
+                "y": 768,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 29,
+                  "y": 8,
+                  "w": 38,
+                  "h": 82
+                },
+                "head": {
+                  "x": 46,
+                  "y": 25,
+                  "radius": 18
+                },
+                "feet": {
+                  "x": 46,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 55,
+                    "y": 72,
+                    "w": 9,
+                    "h": 7
+                  },
+                  {
+                    "x": 59,
+                    "y": 56,
+                    "w": 7,
+                    "h": 9
+                  },
+                  {
+                    "x": 43,
+                    "y": 72,
+                    "w": 9,
+                    "h": 4
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48,
+                    "y": 90
+                  },
+                  "seat": {
+                    "x": 48,
+                    "y": 66.22
+                  }
+                },
+                "waist": 66.22
+              }
+            ],
+            "direction": "back-right"
+          },
+          "front-right": {
+            "fps": 2,
+            "loop": true,
+            "durations": [
+              500
+            ],
+            "frames": [
+              {
+                "x": 96,
+                "y": 768,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 28,
+                  "y": 8,
+                  "w": 40,
+                  "h": 82
+                },
+                "head": {
+                  "x": 45,
+                  "y": 25,
+                  "radius": 17.5
+                },
+                "feet": {
+                  "x": 45,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 43,
+                    "y": 69,
+                    "w": 10,
+                    "h": 9
+                  },
+                  {
+                    "x": 38,
+                    "y": 58,
+                    "w": 11,
+                    "h": 9
+                  },
+                  {
+                    "x": 55,
+                    "y": 66,
+                    "w": 10,
+                    "h": 9
+                  },
+                  {
+                    "x": 57,
+                    "y": 55,
+                    "w": 9,
+                    "h": 8
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48,
+                    "y": 90
+                  },
+                  "seat": {
+                    "x": 48,
+                    "y": 66.22
+                  }
+                },
+                "waist": 66.22
+              }
+            ],
+            "direction": "front-right"
+          },
+          "front-left": {
+            "fps": 2,
+            "loop": true,
+            "durations": [
+              500
+            ],
+            "frames": [
+              {
+                "x": 192,
+                "y": 768,
+                "w": 96,
+                "h": 96,
+                "bounds": {
+                  "x": 28,
+                  "y": 8,
+                  "w": 40,
+                  "h": 82
+                },
+                "head": {
+                  "x": 50,
+                  "y": 25,
+                  "radius": 17.5
+                },
+                "feet": {
+                  "x": 50,
+                  "y": 90
+                },
+                "hands": [
+                  {
+                    "x": 48,
+                    "y": 58,
+                    "w": 10,
+                    "h": 9
+                  },
+                  {
+                    "x": 43,
+                    "y": 69,
+                    "w": 10,
+                    "h": 8
+                  },
+                  {
+                    "x": 31,
+                    "y": 54,
+                    "w": 9,
+                    "h": 9
+                  },
+                  {
+                    "x": 31,
+                    "y": 66,
+                    "w": 10,
+                    "h": 9
+                  }
+                ],
+                "contacts": {
+                  "feet": {
+                    "x": 48,
+                    "y": 90
+                  },
+                  "seat": {
+                    "x": 48,
+                    "y": 66.22
+                  }
+                },
+                "waist": 66.22
+              }
+            ],
+            "direction": "front-left"
+          }
+        }
+      },
+      "crouch": {
+        "fps": 3,
+        "loop": true,
+        "durations": [
+          333,
+          333
+        ],
+        "frames": [
+          {
+            "x": 192,
+            "y": 192,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 20,
+              "y": 8,
+              "w": 56,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 29,
+              "radius": 22
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 31,
+                "y": 71,
+                "w": 14,
+                "h": 10
+              },
+              {
+                "x": 52,
+                "y": 71,
+                "w": 14,
+                "h": 10
+              },
+              {
+                "x": 20,
+                "y": 68,
+                "w": 10,
+                "h": 12
+              },
+              {
+                "x": 66,
+                "y": 68,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 44,
+                "y": 49,
+                "w": 10,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 76.35
+          },
+          {
+            "x": 288,
+            "y": 192,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 20,
+              "y": 8,
+              "w": 56,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 29,
+              "radius": 22
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 31,
+                "y": 70,
+                "w": 14,
+                "h": 11
+              },
+              {
+                "x": 52,
+                "y": 71,
+                "w": 14,
+                "h": 10
+              },
+              {
+                "x": 20,
+                "y": 68,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 66,
+                "y": 68,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 44,
+                "y": 50,
+                "w": 9,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 76.35
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "jump": {
+        "fps": 8,
+        "loop": false,
+        "durations": [
+          125,
+          125,
+          125,
+          125
+        ],
+        "frames": [
+          {
+            "x": 384,
+            "y": 192,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 20,
+              "y": 8,
+              "w": 56,
+              "h": 82
+            },
+            "head": {
+              "x": 51,
+              "y": 28,
+              "radius": 20.5
+            },
+            "feet": {
+              "x": 51,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 20,
+                "y": 55,
+                "w": 12,
+                "h": 13
+              },
+              {
+                "x": 36,
+                "y": 73,
+                "w": 13,
+                "h": 8
+              },
+              {
+                "x": 55,
+                "y": 73,
+                "w": 13,
+                "h": 8
+              },
+              {
+                "x": 50,
+                "y": 48,
+                "w": 10,
+                "h": 8
+              },
+              {
+                "x": 67,
+                "y": 56,
+                "w": 9,
+                "h": 10
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 75.475
+          },
+          {
+            "x": 480,
+            "y": 192,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 20,
+              "y": 8,
+              "w": 56,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 20,
+                "y": 33,
+                "w": 12,
+                "h": 11
+              },
+              {
+                "x": 65,
+                "y": 32,
+                "w": 11,
+                "h": 12
+              },
+              {
+                "x": 46,
+                "y": 43,
+                "w": 8,
+                "h": 5
+              },
+              {
+                "x": 35,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              },
+              {
+                "x": 51,
+                "y": 75,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 576,
+            "y": 192,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 16,
+              "y": 8,
+              "w": 64,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 26,
+              "radius": 18
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 16,
+                "y": 44,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 70,
+                "y": 46,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 33,
+                "y": 73,
+                "w": 10,
+                "h": 6
+              },
+              {
+                "x": 52,
+                "y": 74,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 46,
+                "y": 44,
+                "w": 8,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.9
+          },
+          {
+            "x": 672,
+            "y": 192,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 25,
+              "y": 8,
+              "w": 47,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 28,
+              "radius": 20.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 28,
+                "y": 59,
+                "w": 14,
+                "h": 12
+              },
+              {
+                "x": 59,
+                "y": 60,
+                "w": 13,
+                "h": 11
+              },
+              {
+                "x": 33,
+                "y": 73,
+                "w": 13,
+                "h": 8
+              },
+              {
+                "x": 51,
+                "y": 73,
+                "w": 14,
+                "h": 8
+              },
+              {
+                "x": 45,
+                "y": 49,
+                "w": 10,
+                "h": 7
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 75.475
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "carry": {
+        "fps": 6,
+        "loop": true,
+        "durations": [
+          167,
+          167,
+          167,
+          167
+        ],
+        "frames": [
+          {
+            "x": 0,
+            "y": 288,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 27,
+              "y": 8,
+              "w": 42,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 31.000000000000004,
+              "radius": 14.000000000000002
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 57,
+                "y": 8,
+                "w": 12,
+                "h": 8
+              },
+              {
+                "x": 27,
+                "y": 8,
+                "w": 12,
+                "h": 8
+              },
+              {
+                "x": 59,
+                "y": 14,
+                "w": 8,
+                "h": 8
+              },
+              {
+                "x": 30,
+                "y": 14,
+                "w": 7,
+                "h": 7
+              },
+              {
+                "x": 36,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 44,
+                "y": 44,
+                "w": 8,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 74.25
+          },
+          {
+            "x": 96,
+            "y": 288,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 27,
+              "y": 8,
+              "w": 42,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 31.000000000000004,
+              "radius": 14.000000000000002
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 57,
+                "y": 8,
+                "w": 12,
+                "h": 8
+              },
+              {
+                "x": 27,
+                "y": 8,
+                "w": 12,
+                "h": 7
+              },
+              {
+                "x": 30,
+                "y": 14,
+                "w": 7,
+                "h": 7
+              },
+              {
+                "x": 59,
+                "y": 14,
+                "w": 8,
+                "h": 8
+              },
+              {
+                "x": 49,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              },
+              {
+                "x": 36,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 44,
+                "y": 44,
+                "w": 7,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 74.25
+          },
+          {
+            "x": 192,
+            "y": 288,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 27,
+              "y": 8,
+              "w": 42,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 31.000000000000004,
+              "radius": 14.000000000000002
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 58,
+                "y": 8,
+                "w": 11,
+                "h": 8
+              },
+              {
+                "x": 27,
+                "y": 8,
+                "w": 11,
+                "h": 7
+              },
+              {
+                "x": 29,
+                "y": 14,
+                "w": 8,
+                "h": 7
+              },
+              {
+                "x": 59,
+                "y": 15,
+                "w": 8,
+                "h": 7
+              },
+              {
+                "x": 49,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 36,
+                "y": 75,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 44,
+                "y": 45,
+                "w": 7,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 74.25
+          },
+          {
+            "x": 288,
+            "y": 288,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 27,
+              "y": 8,
+              "w": 43,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 31.000000000000004,
+              "radius": 14.000000000000002
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 27,
+                "y": 8,
+                "w": 12,
+                "h": 13
+              },
+              {
+                "x": 58,
+                "y": 8,
+                "w": 12,
+                "h": 7
+              },
+              {
+                "x": 59,
+                "y": 14,
+                "w": 8,
+                "h": 7
+              },
+              {
+                "x": 36,
+                "y": 75,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 49,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 45,
+                "y": 44,
+                "w": 7,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 74.25
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "carried": {
+        "fps": 6,
+        "loop": true,
+        "durations": [
+          167,
+          167,
+          167,
+          167
+        ],
+        "frames": [
+          {
+            "x": 384,
+            "y": 288,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 18,
+              "y": 8,
+              "w": 61,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 18,
+                "y": 41,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 70,
+                "y": 41,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 44,
+                "y": 42,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 50,
+                "y": 73,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 37,
+                "y": 73,
+                "w": 9,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 480,
+            "y": 288,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 18,
+              "y": 8,
+              "w": 61,
+              "h": 82
+            },
+            "head": {
+              "x": 49,
+              "y": 25,
+              "radius": 18.5
+            },
+            "feet": {
+              "x": 49,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 18,
+                "y": 38,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 70,
+                "y": 44,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 44,
+                "y": 42,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 42,
+                "y": 74,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 30,
+                "y": 70,
+                "w": 8,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.725
+          },
+          {
+            "x": 576,
+            "y": 288,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 18,
+              "y": 8,
+              "w": 61,
+              "h": 82
+            },
+            "head": {
+              "x": 46,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 46,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 18,
+                "y": 44,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 70,
+                "y": 39,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 44,
+                "y": 42,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 60,
+                "y": 67,
+                "w": 8,
+                "h": 7
+              },
+              {
+                "x": 46,
+                "y": 74,
+                "w": 9,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 672,
+            "y": 288,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 18,
+              "y": 8,
+              "w": 61,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 18,
+                "y": 41,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 70,
+                "y": 41,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 44,
+                "y": 42,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 51,
+                "y": 73,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 37,
+                "y": 73,
+                "w": 9,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "wave": {
+        "fps": 6,
+        "loop": true,
+        "durations": [
+          167,
+          167,
+          167,
+          167
+        ],
+        "frames": [
+          {
+            "x": 0,
+            "y": 384,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 25,
+              "y": 8,
+              "w": 46,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 25,
+                "y": 34,
+                "w": 10,
+                "h": 12
+              },
+              {
+                "x": 62,
+                "y": 60,
+                "w": 9,
+                "h": 9
+              },
+              {
+                "x": 46,
+                "y": 42,
+                "w": 8,
+                "h": 5
+              },
+              {
+                "x": 38,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 51,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 96,
+            "y": 384,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 24,
+              "y": 8,
+              "w": 48,
+              "h": 82
+            },
+            "head": {
+              "x": 49,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 49,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 24,
+                "y": 28,
+                "w": 10,
+                "h": 12
+              },
+              {
+                "x": 63,
+                "y": 60,
+                "w": 9,
+                "h": 9
+              },
+              {
+                "x": 46,
+                "y": 42,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 39,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 52,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 192,
+            "y": 384,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 24,
+              "y": 8,
+              "w": 49,
+              "h": 82
+            },
+            "head": {
+              "x": 50,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 50,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 24,
+                "y": 34,
+                "w": 11,
+                "h": 12
+              },
+              {
+                "x": 64,
+                "y": 60,
+                "w": 9,
+                "h": 9
+              },
+              {
+                "x": 47,
+                "y": 42,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 53,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 40,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 288,
+            "y": 384,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 25,
+              "y": 8,
+              "w": 46,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 25,
+                "y": 35,
+                "w": 10,
+                "h": 12
+              },
+              {
+                "x": 62,
+                "y": 60,
+                "w": 9,
+                "h": 9
+              },
+              {
+                "x": 46,
+                "y": 42,
+                "w": 8,
+                "h": 5
+              },
+              {
+                "x": 38,
+                "y": 75,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 51,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "heart": {
+        "fps": 5,
+        "loop": true,
+        "durations": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "frames": [
+          {
+            "x": 384,
+            "y": 384,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 30,
+              "y": 8,
+              "w": 37,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 37,
+                "y": 50,
+                "w": 10,
+                "h": 10
+              },
+              {
+                "x": 51,
+                "y": 50,
+                "w": 10,
+                "h": 10
+              },
+              {
+                "x": 45,
+                "y": 42,
+                "w": 8,
+                "h": 5
+              },
+              {
+                "x": 37,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 51,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 480,
+            "y": 384,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 31,
+              "y": 8,
+              "w": 35,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 49,
+                "y": 47,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 39,
+                "y": 47,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 45,
+                "y": 42,
+                "w": 8,
+                "h": 5
+              },
+              {
+                "x": 51,
+                "y": 76,
+                "w": 8,
+                "h": 4
+              },
+              {
+                "x": 37,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 576,
+            "y": 384,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 31,
+              "y": 8,
+              "w": 35,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 40,
+                "y": 42,
+                "w": 17,
+                "h": 14
+              },
+              {
+                "x": 37,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 672,
+            "y": 384,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 31,
+              "y": 8,
+              "w": 35,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 40,
+                "y": 49,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 48,
+                "y": 48,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 44,
+                "y": 42,
+                "w": 8,
+                "h": 5
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 37,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "clap": {
+        "fps": 8,
+        "loop": true,
+        "durations": [
+          125,
+          125,
+          125,
+          125
+        ],
+        "frames": [
+          {
+            "x": 0,
+            "y": 480,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 29,
+              "y": 8,
+              "w": 38,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 24,
+              "radius": 17
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 54,
+                "y": 43,
+                "w": 10,
+                "h": 12
+              },
+              {
+                "x": 33,
+                "y": 43,
+                "w": 10,
+                "h": 12
+              },
+              {
+                "x": 50,
+                "y": 75,
+                "w": 11,
+                "h": 4
+              },
+              {
+                "x": 36,
+                "y": 75,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 45,
+                "y": 41,
+                "w": 7,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 72.85
+          },
+          {
+            "x": 96,
+            "y": 480,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 31,
+              "y": 8,
+              "w": 34,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 24,
+              "radius": 17
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 50,
+                "y": 75,
+                "w": 11,
+                "h": 4
+              },
+              {
+                "x": 36,
+                "y": 75,
+                "w": 10,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 72.85
+          },
+          {
+            "x": 192,
+            "y": 480,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 29,
+              "y": 8,
+              "w": 38,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 24,
+              "radius": 17
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 33,
+                "y": 43,
+                "w": 10,
+                "h": 12
+              },
+              {
+                "x": 54,
+                "y": 44,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 36,
+                "y": 75,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 50,
+                "y": 75,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 45,
+                "y": 41,
+                "w": 7,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 72.85
+          },
+          {
+            "x": 288,
+            "y": 480,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 31,
+              "y": 8,
+              "w": 34,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 24,
+              "radius": 17
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 41,
+                "y": 41,
+                "w": 16,
+                "h": 14
+              },
+              {
+                "x": 36,
+                "y": 75,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 50,
+                "y": 75,
+                "w": 10,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 72.85
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "dance": {
+        "fps": 6,
+        "loop": true,
+        "durations": [
+          167,
+          167,
+          167,
+          167
+        ],
+        "frames": [
+          {
+            "x": 384,
+            "y": 480,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 25,
+              "y": 8,
+              "w": 46,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 25,
+                "y": 59,
+                "w": 11,
+                "h": 9
+              },
+              {
+                "x": 62,
+                "y": 59,
+                "w": 9,
+                "h": 9
+              },
+              {
+                "x": 45,
+                "y": 43,
+                "w": 8,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 480,
+            "y": 480,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 22,
+              "y": 8,
+              "w": 53,
+              "h": 82
+            },
+            "head": {
+              "x": 45,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 45,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 22,
+                "y": 51,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 64,
+                "y": 25,
+                "w": 10,
+                "h": 10
+              },
+              {
+                "x": 45,
+                "y": 42,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 58,
+                "y": 67,
+                "w": 8,
+                "h": 7
+              },
+              {
+                "x": 39,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 576,
+            "y": 480,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 24,
+              "y": 8,
+              "w": 48,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 24,
+                "y": 59,
+                "w": 11,
+                "h": 9
+              },
+              {
+                "x": 62,
+                "y": 59,
+                "w": 10,
+                "h": 10
+              },
+              {
+                "x": 45,
+                "y": 43,
+                "w": 7,
+                "h": 5
+              },
+              {
+                "x": 36,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 51,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 672,
+            "y": 480,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 21,
+              "y": 8,
+              "w": 54,
+              "h": 82
+            },
+            "head": {
+              "x": 52,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 52,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 24,
+                "y": 24,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 65,
+                "y": 53,
+                "w": 10,
+                "h": 10
+              },
+              {
+                "x": 30,
+                "y": 65,
+                "w": 9,
+                "h": 8
+              },
+              {
+                "x": 44,
+                "y": 42,
+                "w": 7,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "laugh": {
+        "fps": 6,
+        "loop": true,
+        "durations": [
+          167,
+          167,
+          167,
+          167
+        ],
+        "frames": [
+          {
+            "x": 0,
+            "y": 576,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 45,
+              "h": 82
+            },
+            "head": {
+              "x": 52,
+              "y": 26,
+              "radius": 19
+            },
+            "feet": {
+              "x": 52,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 38,
+                "y": 54,
+                "w": 13,
+                "h": 10
+              },
+              {
+                "x": 52,
+                "y": 53,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 49,
+                "y": 45,
+                "w": 7,
+                "h": 5
+              },
+              {
+                "x": 34,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 49,
+                "y": 75,
+                "w": 9,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 74.25
+          },
+          {
+            "x": 96,
+            "y": 576,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 29,
+              "y": 8,
+              "w": 37,
+              "h": 82
+            },
+            "head": {
+              "x": 45,
+              "y": 24,
+              "radius": 17
+            },
+            "feet": {
+              "x": 45,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 37,
+                "y": 52,
+                "w": 12,
+                "h": 10
+              },
+              {
+                "x": 51,
+                "y": 51,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 48,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              },
+              {
+                "x": 35,
+                "y": 75,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 44,
+                "y": 41,
+                "w": 8,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 47.5,
+                "y": 90
+              }
+            },
+            "waist": 72.85
+          },
+          {
+            "x": 192,
+            "y": 576,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 44,
+              "h": 82
+            },
+            "head": {
+              "x": 51,
+              "y": 26,
+              "radius": 18.5
+            },
+            "feet": {
+              "x": 51,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 38,
+                "y": 55,
+                "w": 12,
+                "h": 10
+              },
+              {
+                "x": 51,
+                "y": 54,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 34,
+                "y": 75,
+                "w": 11,
+                "h": 5
+              },
+              {
+                "x": 48,
+                "y": 45,
+                "w": 7,
+                "h": 5
+              },
+              {
+                "x": 49,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 74.075
+          },
+          {
+            "x": 288,
+            "y": 576,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 30,
+              "y": 8,
+              "w": 37,
+              "h": 82
+            },
+            "head": {
+              "x": 46,
+              "y": 24,
+              "radius": 17
+            },
+            "feet": {
+              "x": 46,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 38,
+                "y": 52,
+                "w": 12,
+                "h": 10
+              },
+              {
+                "x": 52,
+                "y": 51,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 36,
+                "y": 75,
+                "w": 9,
+                "h": 5
+              },
+              {
+                "x": 49,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 45,
+                "y": 41,
+                "w": 8,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 72.85
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "surprise": {
+        "fps": 6,
+        "loop": true,
+        "durations": [
+          167,
+          167,
+          167,
+          167
+        ],
+        "frames": [
+          {
+            "x": 384,
+            "y": 576,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 27,
+              "y": 8,
+              "w": 43,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 35,
+                "y": 47,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 61,
+                "y": 43,
+                "w": 9,
+                "h": 11
+              },
+              {
+                "x": 54,
+                "y": 72,
+                "w": 10,
+                "h": 7
+              },
+              {
+                "x": 46,
+                "y": 43,
+                "w": 8,
+                "h": 6
+              },
+              {
+                "x": 37,
+                "y": 75,
+                "w": 10,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          },
+          {
+            "x": 480,
+            "y": 576,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 44,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 45,
+                "y": 42,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 36,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 576,
+            "y": 576,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 28,
+              "y": 8,
+              "w": 40,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 32,
+                "y": 45,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 59,
+                "y": 45,
+                "w": 9,
+                "h": 11
+              },
+              {
+                "x": 45,
+                "y": 43,
+                "w": 8,
+                "h": 5
+              },
+              {
+                "x": 36,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              },
+              {
+                "x": 50,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 672,
+            "y": 576,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 45,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 25,
+              "radius": 18
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 26,
+                "y": 60,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 62,
+                "y": 61,
+                "w": 9,
+                "h": 9
+              },
+              {
+                "x": 45,
+                "y": 43,
+                "w": 9,
+                "h": 6
+              },
+              {
+                "x": 51,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              },
+              {
+                "x": 37,
+                "y": 76,
+                "w": 10,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.55
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "weapon": {
+        "fps": 8,
+        "loop": false,
+        "durations": [
+          125,
+          125,
+          125,
+          125
+        ],
+        "frames": [
+          {
+            "x": 0,
+            "y": 672,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 44,
+              "h": 82
+            },
+            "head": {
+              "x": 43,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 43,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 47,
+                "y": 49,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 61,
+                "y": 46,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 31,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              },
+              {
+                "x": 48,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 96,
+            "y": 672,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 27,
+              "y": 8,
+              "w": 42,
+              "h": 82
+            },
+            "head": {
+              "x": 44,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 44,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 46,
+                "y": 40,
+                "w": 12,
+                "h": 13
+              },
+              {
+                "x": 60,
+                "y": 39,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 37,
+                "y": 74,
+                "w": 10,
+                "h": 6
+              },
+              {
+                "x": 54,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 192,
+            "y": 672,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 43,
+              "h": 82
+            },
+            "head": {
+              "x": 43,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 43,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 47,
+                "y": 51,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 61,
+                "y": 48,
+                "w": 8,
+                "h": 10
+              },
+              {
+                "x": 51,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              },
+              {
+                "x": 35,
+                "y": 76,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 47.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 288,
+            "y": 672,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 26,
+              "y": 8,
+              "w": 43,
+              "h": 82
+            },
+            "head": {
+              "x": 43,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 43,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 46,
+                "y": 49,
+                "w": 11,
+                "h": 10
+              },
+              {
+                "x": 60,
+                "y": 46,
+                "w": 9,
+                "h": 10
+              },
+              {
+                "x": 47,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              },
+              {
+                "x": 31,
+                "y": 75,
+                "w": 10,
+                "h": 5
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 47.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      },
+      "hit": {
+        "fps": 10,
+        "loop": false,
+        "durations": [
+          100,
+          100,
+          100
+        ],
+        "frames": [
+          {
+            "x": 384,
+            "y": 672,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 21,
+              "y": 8,
+              "w": 54,
+              "h": 82
+            },
+            "head": {
+              "x": 38,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 38,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 37,
+                "y": 48,
+                "w": 10,
+                "h": 11
+              },
+              {
+                "x": 56,
+                "y": 43,
+                "w": 10,
+                "h": 9
+              },
+              {
+                "x": 39,
+                "y": 75,
+                "w": 11,
+                "h": 6
+              },
+              {
+                "x": 57,
+                "y": 70,
+                "w": 9,
+                "h": 8
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          },
+          {
+            "x": 480,
+            "y": 672,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 24,
+              "y": 8,
+              "w": 47,
+              "h": 82
+            },
+            "head": {
+              "x": 48,
+              "y": 28,
+              "radius": 20.5
+            },
+            "feet": {
+              "x": 48,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 33,
+                "y": 55,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 58,
+                "y": 54,
+                "w": 11,
+                "h": 11
+              },
+              {
+                "x": 33,
+                "y": 73,
+                "w": 12,
+                "h": 8
+              },
+              {
+                "x": 55,
+                "y": 72,
+                "w": 11,
+                "h": 7
+              },
+              {
+                "x": 45,
+                "y": 48,
+                "w": 9,
+                "h": 4
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 47.5,
+                "y": 90
+              }
+            },
+            "waist": 75.475
+          },
+          {
+            "x": 576,
+            "y": 672,
+            "w": 96,
+            "h": 96,
+            "bounds": {
+              "x": 27,
+              "y": 8,
+              "w": 43,
+              "h": 82
+            },
+            "head": {
+              "x": 47,
+              "y": 25,
+              "radius": 17.5
+            },
+            "feet": {
+              "x": 47,
+              "y": 90
+            },
+            "hands": [
+              {
+                "x": 27,
+                "y": 60,
+                "w": 10,
+                "h": 9
+              },
+              {
+                "x": 62,
+                "y": 60,
+                "w": 8,
+                "h": 9
+              },
+              {
+                "x": 46,
+                "y": 42,
+                "w": 8,
+                "h": 6
+              }
+            ],
+            "contacts": {
+              "feet": {
+                "x": 48.5,
+                "y": 90
+              }
+            },
+            "waist": 73.375
+          }
+        ],
+        "direction": "front",
+        "directions": {}
+      }
+    },
+    "variants": [
+      "camper-0",
+      "camper-1",
+      "camper-2",
+      "camper-3",
+      "camper-4",
+      "camper-5"
+    ],
+    "darkVariants": [
+      "camper-dark-0",
+      "camper-dark-1",
+      "camper-dark-2",
+      "camper-dark-3",
+      "camper-dark-4",
+      "camper-dark-5"
+    ],
+    "locomotionDirections": true
+  },
+  "bindings": {
+    "log-0": "ne",
+    "log-1": "ne",
+    "log-2": "nw",
+    "log-3": "nw",
+    "log-4": "ne",
+    "log-5": "ne",
+    "log-6": "nw",
+    "log-7": "nw"
+  },
+  "characterBindings": {
+    "log-0": "back-left",
+    "log-1": "back-left",
+    "log-2": "back-right",
+    "log-3": "back-right",
+    "log-4": "front-right",
+    "log-5": "front-right",
+    "log-6": "front-left",
+    "log-7": "front-left"
+  },
+  "previewFiles": [],
+  "preview": {
+    "specHash": "c7857344fcbdd146fa90ade2efba5a5c31d621f81905646e94c1070dc37eecba",
+    "selected": [
+      "camper-idle",
+      "camper-walk",
+      "camper-run",
+      "camper-sit",
+      "camper-crouch",
+      "camper-jump",
+      "camper-carry",
+      "camper-carried",
+      "camper-wave",
+      "camper-heart",
+      "camper-clap",
+      "camper-dance",
+      "camper-laugh",
+      "camper-surprise",
+      "camper-weapon",
+      "camper-hit",
+      "sit-back-left",
+      "sit-back-right",
+      "sit-front-right",
+      "sit-front-left",
+      "tree",
+      "tent",
+      "lantern",
+      "radio",
+      "sign",
+      "fence",
+      "shade",
+      "crate",
+      "trampoline",
+      "football",
+      "portal",
+      "game-booth",
+      "firewood",
+      "flowers",
+      "rock",
+      "bench-ne",
+      "bench-nw",
+      "amber",
+      "gold",
+      "blue",
+      "jade",
+      "violet",
+      "gun",
+      "snowball",
+      "bomb",
+      "impact",
+      "dust",
+      "heart",
+      "spark",
+      "grass",
+      "sand",
+      "stone",
+      "tree-birch",
+      "tree-pine",
+      "bench-weathered-ne",
+      "bench-weathered-nw",
+      "camper-idle-back",
+      "camper-walk-back",
+      "camper-run-back"
+    ],
+    "legacyAssets": [],
+    "ungraded": false,
+    "anchorsFrozen": true
+  }
+}

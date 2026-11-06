@@ -6,7 +6,8 @@ export function screenClips(paths){
   const clips=[];
   for(const path of paths){let index=0;for(const op of path.ops){const {a,b,c,d,e,f}=path.matrix;if(Math.abs(b)>1e-6||Math.abs(c)>1e-6)throw Error('Rotated image clip is not supported');
     let rect,radius=0,kind=0;
-    if(op[0]==='rect'||op[0]==='roundRect'){rect=op.slice(1,5);radius=Number(op[5])||0;}
+    if(op[0]==='ground'){rect=[-op[1]*80,-op[1]*40,op[1]*160,op[1]*80];radius=80;kind=2;}
+    else if(op[0]==='rect'||op[0]==='roundRect'){rect=op.slice(1,5);radius=Number(op[5])||0;}
     else if(op[0]==='arc'){rect=[op[1]-op[3],op[2]-op[3],op[3]*2,op[3]*2];kind=1;}
     else if(op[0]==='closePath')continue;else throw Error('Unsupported image clip '+op[0]);
     const [x,y,w,h]=rect;clips.push({rect:[Math.min(a*x+e,a*(x+w)+e),Math.min(d*y+f,d*(y+h)+f),Math.abs(w*a),Math.abs(h*d)],kind,radius:radius*Math.abs(a),inverse:path.rule==='evenodd'&&index++>0});

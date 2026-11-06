@@ -28,3 +28,14 @@
 /web/package-lock.json -text
 /tools/lib/material-assets.mjs -text
 /art/sprites/field-lighting-v1/release/base-manifest.json -text
+/art/sprites/field-shadow-v3/release/base-manifest.json -text
+/art/sprites/field-shadow-v4/release/base-manifest.json -text
+/art/sprites/field-night-v1/release/base-manifest.json -text
+# Preserve the deployed v38 source bytes when Git stages files with CRLF.
+/web/app/camp-theme.css -text
+/web/app/globals.css -text
+/web/components/camp/camp-lobby.tsx -text
+/web/components/camp/camp-panel.tsx -text
+/web/public/sprites/sprite-gen-LICENSE.txt -text
+/web/public/sprites/sprite-gen-NOTICE.txt -text
+/web/seed-design/ui/dialog.tsx -text

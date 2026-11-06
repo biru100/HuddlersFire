@@ -1,0 +1,82 @@
+{
+  "pixels": {
+    "ambient": [
+      36,
+      44,
+      60,
+      255
+    ],
+    "near": [
+      211,
+      159,
+      100,
+      255
+    ],
+    "far": [
+      36,
+      44,
+      60,
+      255
+    ],
+    "noNormals": [
+      211,
+      159,
+      100,
+      255
+    ],
+    "zoom": [
+      211,
+      159,
+      100,
+      255
+    ],
+    "emissive": [
+      192,
+      192,
+      192,
+      255
+    ],
+    "protected": [
+      192,
+      192,
+      192,
+      255
+    ],
+    "transparent": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "maps": [
+    {
+      "mapId": "playground",
+      "theme": "color",
+      "changed": 0,
+      "maxDelta": 0,
+      "channels": 1482160
+    },
+    {
+      "mapId": "playground",
+      "theme": "dark",
+      "changed": 0,
+      "maxDelta": 0,
+      "channels": 1482160
+    },
+    {
+      "mapId": "showroom",
+      "theme": "color",
+      "changed": 0,
+      "maxDelta": 0,
+      "channels": 1482160
+    },
+    {
+      "mapId": "showroom",
+      "theme": "dark",
+      "changed": 0,
+      "maxDelta": 0,
+      "channels": 1482160
+    }
+  ]
+}

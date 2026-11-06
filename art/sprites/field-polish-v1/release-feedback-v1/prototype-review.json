@@ -1,0 +1,41 @@
+{
+  "reviewer": "Codex: inspection of actual WebGL/UI PNGs, source/mixed/effect contact sheets and Canvas fallback; no automated aesthetic scoring",
+  "scope": "prototype",
+  "fingerprint": "242d045614b6a31aed0bdae79cf273655a1c08ca9ff8b42dd328e2b4bebddde2",
+  "observations": [
+    "INT-20 representative composition, portraits, source frame/loop seams and actual UI inspected separately from technical checks."
+  ],
+  "unresolved": [],
+  "limitations": [
+    "Desktop headless mobile viewport is not a physical phone performance test.",
+    "Mock Discord/YouTube media do not verify real media sound or community preference.",
+    "Overview and tall chains intentionally allow small bodies; an open conversation panel intentionally overlays the scene."
+  ],
+  "cases": [
+    {
+      "id": "camp-color",
+      "result": "pass",
+      "observation": "비대칭 좌석군과 커진 수목, 흙/잔디 전이, 16명의 어두운 이름 칩을 확인했다. 원형 사진은 정방향이고 기본 뒤쪽 몸에는 뒤통수가 보인다."
+    },
+    {
+      "id": "camp-close",
+      "result": "pass",
+      "observation": "네 착석 몸 방향의 좌면 접촉, 앞/뒤 기본 얼굴과 밝은 사진의 보존, 목 연결, 벤치 변형을 가까이서 확인했다."
+    },
+    {
+      "id": "normal-left",
+      "result": "pass",
+      "observation": "왼쪽 진단광에 얼굴·나무·벤치가 밝아지고 공통 광원 입력의 그림자가 반대편으로 이동한다."
+    },
+    {
+      "id": "normal-right",
+      "result": "pass",
+      "observation": "오른쪽 광원에서 오른쪽 시설의 면과 반대쪽 그림자가 함께 바뀌며 왼쪽이 밤 주변광으로 남는다."
+    },
+    {
+      "id": "normals-off",
+      "result": "pass",
+      "observation": "노멀 draw 0에서도 밤·거리 감쇠·기본 얼굴의 가독성을 유지하며 면 방향만 단순해진다."
+    }
+  ]
+}

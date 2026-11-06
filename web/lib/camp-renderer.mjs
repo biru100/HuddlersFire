@@ -1,29 +1,29 @@
 import { CampArtwork } from './camp-artwork.mjs';
 import { sceneDecorations } from './camp-scene-layout.mjs';
 import { defaultSpriteAssets } from './camp-sprite-assets.mjs';
-import { benchBinding, seatOffset } from './camp-scene-contract.mjs';
+import { playerDisplay,propDisplay } from './camp-scene-contract.mjs';
 import { emptyFire, fireStrength, flareAt } from './camp-fire.mjs';
-import { isSeated, CAMP_SEATS, CAMP_BENCHES, seatById } from './camp-seats.mjs';
+import { isSeated, CAMP_SEATS } from './camp-seats.mjs';
 import { visiblePlayers, fireConversation } from './camp-focus.mjs';
 import { RADIO, EMOTES, spawnPlayer, canUseRadio } from './camp-world.mjs';
 import { layoutBubbles } from './camp-bubbles.mjs';
 import { AvatarImages, drawCharacter, characterPose } from './camp-character.mjs';
 import { pickPlayer } from './camp-player-info.mjs';
 import { CAMP_MAP, PLAY_MAP, getMap, nearbyInteraction } from './camp-maps.mjs';
-import {GroundShadows} from './camp-shadows.mjs';
-import {sceneLights} from './camp-lighting.mjs';
+import {GroundShadows,lightVisibility} from './camp-shadows.mjs';
+import {sceneLights,sceneLighting} from './camp-lighting.mjs';
 import {projectWorld,sortSceneObjects} from './camp-scene-frame.mjs';
 import {createDrawContext} from './camp-draw-context.mjs';
 import {GroundLightSprites} from './camp-canvas-renderer.mjs';
-
-const presenceBadges = { available: ['대화', '#bdbdbd'], working: ['작업', '#c5c5c5'], away: ['비움', '#bcbcbc'] };
+import {sceneCamera} from './camp-camera.mjs';
+import {PRESENCE_LABELS,presenceSummary} from './camp-presence.mjs';
 
 export class CampRenderer extends CampArtwork {
   constructor(canvas, getScene, {assets=defaultSpriteAssets}={}) {
     super();
     this.assets=assets;
-    this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.getScene = getScene; this.avatars = new AvatarImages(); this.hitAreas = [];this.exhibitImages=new Map();
-    this.groundShadows=new GroundShadows(this.ctx);this.groundLights=new GroundLightSprites(this.ctx);if(canvas.dataset){canvas.dataset.campInput='';canvas.dataset.campRenderer='canvas';}
+    this.canvas = canvas; this.ctx = createDrawContext(canvas.getContext('2d'),{dpr:()=>this.dpr||1}); this.getScene = getScene; this.avatars = new AvatarImages(); this.hitAreas = [];this.exhibitImages=new Map();
+    this.groundShadows=new GroundShadows(this.ctx,{assets});this.groundLights=new GroundLightSprites(this.ctx);if(canvas.dataset){canvas.dataset.campInput='';canvas.dataset.campRenderer='canvas';}
     this.win = canvas.ownerDocument?.defaultView || window;
     this.raf = this.win.requestAnimationFrame?.bind(this.win) || requestAnimationFrame;
     this.cancelFrame = this.win.cancelAnimationFrame?.bind(this.win) || cancelAnimationFrame;
@@ -37,12 +37,18 @@ export class CampRenderer extends CampArtwork {
   }
   async initBackend(){
     if(!this.canvas.ownerDocument||!this.canvas.parentNode||!this.assets.manifest.materials)return;
-    try{const {CampWebGLRenderer}=await import('./camp-webgl-renderer.mjs');if(this.stopped)return;this.webgl=new CampWebGLRenderer(this.canvas,{onStatus:(mode,reason='')=>{this.canvas.dataset.campRenderer=mode;this.canvas.dataset.campRenderReason=reason;}});await this.webgl.init();if(this.stopped)return;this.ctx=createDrawContext(this.ctx,{dpr:()=>this.dpr});this.groundShadows.ctx=this.ctx;}
+    try{const {CampWebGLRenderer}=await import('./camp-webgl-renderer.mjs');if(this.stopped)return;this.webgl=new CampWebGLRenderer(this.canvas,{onStatus:(mode,reason='')=>{this.canvas.dataset.campRenderer=mode;this.canvas.dataset.campRenderReason=reason;}});await this.webgl.init();}
     catch(error){this.webgl?.fail(error);if(this.canvas.dataset)this.canvas.dataset.campRenderReason=String(error.message);}
   }
   reportAssets(){if(this.stopped)return;const status=this.assets.spriteStatus(this.assetIds),key=JSON.stringify(status);if(key!==this.assetStatusKey){this.assetStatusKey=key;this.getScene().onAssets?.(status);}}
   ensureSprites(scene){const map=scene.mapId||scene.players?.find(p=>p.id===scene.self)?.mapId||'camp';const key=(scene.theme||'color')+':'+map;if(key===this.spriteKey)return;this.spriteKey=key;this.assetIds=this.assets.sceneSpriteIds(scene.theme,map);this.ready=this.assets.preloadSprites(this.assetIds).then(()=>this.reportAssets());this.reportAssets();}
   retryAssets(){this.ready=this.assets.retrySprites(this.assetIds).then(()=>this.reportAssets());this.reportAssets();return this.ready;}
+  displayPlayer(player){
+    this.motionDirections??=new Map();let direction=this.motionDirections.get(player.id)||'front-'+(player.facing===-1?'left':'right');
+    if(player.moving&&Math.hypot(player.vx||0,player.vy||0)>.02){const sx=player.vx-player.vy,sy=player.vx+player.vy;direction=(sy<-.01?'back':'front')+'-'+(sx<0?'left':'right');this.motionDirections.set(player.id,direction);}
+    if(this.motionDirections.size>64){const active=new Set(this.getScene().players?.map(p=>p.id));for(const id of this.motionDirections.keys())if(!active.has(id))this.motionDirections.delete(id);}
+    return {...player,visualDirection:direction};
+  }
   resize() {
     const rect = this.canvas.getBoundingClientRect(); this.width = rect.width; this.height = rect.height;
     this.dpr = Math.min(this.win.devicePixelRatio || 1, 2);
@@ -95,13 +101,11 @@ export class CampRenderer extends CampArtwork {
     if (p.motion === 'respawning') return;
     const c = this.ctx;
     const emote = p.emoteUntil > this.sceneTime ? EMOTES.find(e => e.id === p.emote) : null;
-    this.groundShadows.player(p,this.lights||[]);
+    c.setMaterial?.({lighting:'protected'});
     if (p.targeted) { c.strokeStyle = this.ink('#cfcfcf','#b55429'); c.lineWidth = 2; c.beginPath(); c.ellipse(0, 3, 20, 11, 0, 0, Math.PI * 2); c.stroke(); }
     if (self) { c.strokeStyle = this.ink('#cfcfcf55','#b5542980'); c.lineWidth = 1; c.beginPath(); c.ellipse(0, 3, 19, 10, 0, 0, Math.PI * 2); c.stroke(); }
     if (p.selected) { c.strokeStyle = this.ink('#c8c8c8','#386f98'); c.lineWidth = 1.5; c.beginPath(); c.ellipse(0, 3, 23, 12, 0, 0, Math.PI * 2); c.stroke(); }
-    c.translate(0, -(p.z || 0) * 40);
-    const seat=seatById(p.seatId),bench=seat&&CAMP_BENCHES.find(b=>b.id===seat.bench),seatFrame=bench&&benchBinding(this.assets,bench);
-    if(seatFrame&&this.assets.manifest.character.states.sit.frames[0].contacts?.seat){const offset=seatOffset(seatFrame,p.z||0);c.translate(offset.x,offset.y);p={...p,renderSeat:true,renderDirection:this.assets.manifest.characterBindings?.[bench.id]};}
+    c.setMaterial?.(null);const display=playerDisplay(p,this.assets);c.translate(display.x,display.y);p=display.player;
     if (p.motion === 'falling') c.globalAlpha *= Math.max(.1, 1 + p.z / 15);
     drawCharacter(c, p, { time, now: this.sceneTime, reduced: this.reduced, emote: emote?.id, avatar: this.avatars.get(p.avatar), theme: this.theme,assets:this.assets });
     c.font = '500 11px "Malgun Gothic", sans-serif'; c.textAlign = 'center';
@@ -120,21 +124,27 @@ export class CampRenderer extends CampArtwork {
   }
   drawNameplates() {
     const c=this.ctx,occupied=this.hitAreas.flatMap(a=>[{x:a.head.x-a.head.radius,y:a.head.y-a.head.radius,width:a.head.radius*2,height:a.head.radius*2},a.body]),overlap=(a,b)=>a.x<b.x+b.width+2&&a.x+a.width+2>b.x&&a.y<b.y+b.height+2&&a.y+a.height+2>b.y;
-    for(const plate of this.nameplates){
-      const {matrix:m,x,y,width,self,label}=plate,s=m.a/this.dpr,w=width*s,h=20*s,px=(m.e+m.a*x)/this.dpr,py=(m.f+m.d*y)/this.dpr;
-      const candidates=[];for(const dy of [0,22,-22,44,-44,66,-66,88,-88])for(const dx of [0,-width/2,width/2,-width,width])candidates.push({x:px+dx*s,y:py+dy*s,width:w,height:h});
+    this.nameFontSize=Math.max(12,Math.min(14,11*this.camera.scale));
+    for(const plate of [...this.nameplates].sort((a,b)=>Number(b.self)-Number(a.self))){
+      const {matrix:m,y,self,label}=plate,s=m.a/this.dpr;
+      c.font=`500 ${this.nameFontSize}px "Malgun Gothic",sans-serif`;
+      const w=c.measureText(label).width+14,h=this.nameFontSize+8,px=m.e/this.dpr-w/2,py=(m.f+m.d*y)/this.dpr;
+      const candidates=[];for(const dy of [0,h+3,-h-3,(h+3)*2,-(h+3)*2,(h+3)*3,-(h+3)*3,(h+3)*4,-(h+3)*4])for(const dx of [0,-w/2,w/2,-w,w])candidates.push({x:px+dx,y:py+dy,width:w,height:h});
       const box=candidates.filter(r=>r.x>=3&&r.y>=3&&r.x+r.width<=this.width-3&&r.y+r.height<=this.height-3&&occupied.every(o=>!overlap(r,o))).sort((a,b)=>Math.hypot(a.x-px,a.y-py)-Math.hypot(b.x-px,b.y-py))[0];
       const area=this.hitAreas.find(a=>a.id===plate.id);if(!box){if(area)area.label={x:-10000,y:-10000,width:0,height:0};continue;}occupied.push(box);if(area)area.label=box;
-      c.save();c.setTransform(this.dpr,0,0,this.dpr,0,0);c.globalAlpha=plate.alpha;c.font=`500 ${11*s}px "Malgun Gothic", sans-serif`;c.textAlign='center';
-      c.fillStyle=self?this.ink('#f4f4f4','#ffe2b0'):this.ink('#171717','#fffdf3');c.beginPath();c.roundRect(box.x,box.y,w,h,5*s);c.fill();
-      c.fillStyle=this.theme==='dark'?(self?'#171717':'#eeeeee'):'#37442e';c.fillText(label,box.x+w/2,box.y+14*s);c.restore();
+      c.save();c.setTransform(this.dpr,0,0,this.dpr,0,0);c.globalAlpha=plate.alpha;c.font=`500 ${this.nameFontSize}px "Malgun Gothic",sans-serif`;c.textAlign='center';
+      const night=this.sceneLighting?.night;
+      const dark=this.uiTheme==='dark';
+      c.fillStyle=self?(dark?'#dedede':'#e5be82'):dark?'#202020e8':night?'#17281ee8':'#fbf4e0ed';c.beginPath();c.roundRect(box.x,box.y,w,h,5);c.fill();
+      c.fillStyle=self?(dark?'#202020':'#352c20'):dark?'#ededed':night?'#ede9dc':'#37442e';c.fillText(label,box.x+w/2,box.y+this.nameFontSize+2);c.restore();
     }
   }
   bubbles(players, scale, music) {
     const c = this.ctx, candidates = [];
     c.font = '12px "Malgun Gothic", sans-serif';
     const speakers = [...players];
-    if (music?.current) speakers.push({ id: '__radio__', x: RADIO.x, y: RADIO.y, z: 0,
+    const radioPoint=this.project(RADIO.x,RADIO.y),radioX=this.camera.x+radioPoint[0]*scale,radioY=this.camera.y+radioPoint[1]*scale;
+    if (music?.current&&radioX>=0&&radioX<=this.width&&radioY>=0&&radioY<=this.height) speakers.push({ id: '__radio__', x: RADIO.x, y: RADIO.y, z: 0,
       name: music.playing ? '♪ 라디오 · 재생 중' : '♪ 라디오 · 일시정지',
       bubble: `${music.current.title || music.current.videoId} · ${music.current.name}의 신청곡`, bubbleUntil: Number.MAX_SAFE_INTEGER });
     for (const p of speakers) {
@@ -159,6 +169,7 @@ export class CampRenderer extends CampArtwork {
     this.bubbleAreas = boxes;
     c.strokeStyle = '#e2e2e299'; c.lineWidth = 1;
     for (const b of boxes) {
+      if(b.id==='__radio__')continue;
       c.beginPath(); c.moveTo(b.anchorX, b.anchorY); c.lineTo(b.x + b.width / 2, b.y + b.height); c.stroke();
     }
     c.textAlign = 'left';
@@ -177,28 +188,21 @@ export class CampRenderer extends CampArtwork {
     const scene=this.getScene(),all=scene.players||[],self=all.find(p=>p.id===scene.self);
     this.ensureSprites(scene);
     this.theme=scene.theme==='dark'?'dark':'color';
+    this.uiTheme=scene.uiTheme||this.theme;
+    if(this.canvas.dataset){this.canvas.dataset.campFieldTheme=this.theme;this.canvas.dataset.campUiTheme=this.uiTheme;}
     const mapId=scene.mapId||self?.mapId||CAMP_MAP,map=getMap(mapId),playing=mapId===PLAY_MAP,focused=isSeated(self);
-    const players=all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),sitting:true}];
+    this.sceneLighting=sceneLighting(mapId,this.theme);c.setLighting?.(null);c.setObject?.(null);c.setMaterial?.(null);
+    const lightingMode=this.sceneLighting.night?'night':'day';if(this.canvas.dataset&&this.canvas.dataset.campLighting!==lightingMode)this.canvas.dataset.campLighting=lightingMode;
+    const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),avatar:scene.avatar,sitting:true}]).map(p=>this.displayPlayer(p));
     const recording=this.webgl?.status==='ready'&&this.ctx.recording;if(recording)this.ctx.recording.begin();
     this.background(w,h);
-    let scale = Math.min(w / (w<600?760:1050), h / 740) * 1.04, originY = h * .56;
-    const top = Math.min(0, ...players.filter(p => p.motion !== 'respawning').map(p => (scene.followSelf?0:(p.x + p.y) * 20) - Math.max(0, p.z || 0) * 40 - 90));
-    if(!scene.followSelf)scale*=6/map.bounds.edge;
-    scale *= Math.max(.75, Math.min(3, scene.zoom || 1));
-    const frameHeight=originY+top*scale<h*.18;
-    if(frameHeight){const bottom=Math.max(30,...players.map(p=>(scene.followSelf?0:(p.x+p.y)*20)-(p.z||0)*40+30));scale=Math.min(scale,h*.68/(bottom-top));originY=h*.18-top*scale;}
-    let originX = w * .51;
-    const mobileMusic=w<600&&(scene.occlusions||[]).find(r=>r.kind==='music'&&r.x>w*.25&&r.x<w&&r.y<h);
-    const visibleCenterY=mobileMusic?Math.min(h*.58,mobileMusic.y-90):h*.58;
-    const followed = scene.followSelf && players.find(p => p.id === scene.self);
-    if (followed) { const [fx,fy] = this.project(followed.x,followed.y); originX=w*.5-fx*scale;if(!frameHeight)originY=visibleCenterY-(fy-(followed.z||0)*40)*scale; }
     this.focusMix=this.reduced?Number(focused):(this.focusMix||0)+(Number(focused)-(this.focusMix||0))*.12;
-    scale*=1+this.focusMix*(mobileMusic ? .12 : .28);
-    const focusX=mobileMusic?Math.max(95,mobileMusic.x-35):w*.5,focusY=mobileMusic?Math.min(h*.53,mobileMusic.y-65):h*.55;
-    originX+=(focusX-originX)*this.focusMix;originY+=(focusY-originY)*this.focusMix;
-    this.camera = { scale, x: originX, y: originY };
+    this.camera=sceneCamera({width:w,height:h,players,self,follow:!!scene.followSelf,mode:scene.cameraMode,freeView:scene.freeView,zoom:scene.zoom||1,edge:map.bounds.edge,occlusions:scene.occlusions});
+    const {scale,x:originX,y:originY}=this.camera;
     this.sceneTime=scene.now??performance.now();this.fireLevel=fireStrength(scene.fire||emptyFire(),this.sceneTime);this.fireFlare=flareAt(scene.fire||emptyFire(),this.sceneTime);this.fireAppearance=scene.fire?.style||'amber';
-    this.lights=sceneLights({...scene,now:this.sceneTime,selfPosition:self,viewport:{width:w,height:h}},map,this.camera,this.reduced);
+    const lights=sceneLights({...scene,now:this.sceneTime,selfPosition:self,viewport:{width:w,height:h}},map,this.camera,this.reduced,this.lightSources);
+    this.lights=this.webgl?.quality.level===0?lights.slice(0,1):lights;
+    const visibility=new WeakMap();c.setLighting?.({profile:this.sceneLighting,camera:this.camera,lights:this.lights,visibility:object=>{if(!object)return [];let row=visibility.get(object);if(!row){row=this.lights.map(light=>lightVisibility(object,light,this.shadowCasters||[]));visibility.set(object,row);}return row;}});
     this.seatAreas=map.fire?CAMP_SEATS.map(s=>{const [x,y]=this.project(s.x,s.y);return{id:s.id,x:originX+x*scale,y:originY+(y-8)*scale,radius:18*scale};}):[];
     c.save(); c.translate(originX, originY); c.scale(scale, scale);
     this.ground(map.bounds.edge,mapId);
@@ -213,20 +217,24 @@ export class CampRenderer extends CampArtwork {
         return { ...p, x: p.x + p.vx * age, y: p.y + p.vy * age, z: Math.max(0, p.z + p.vz * age - (p.weapon === 'gun' ? 0 : 4 * age * age)), type: 'projectile' };
       }), ...(playing ? scene.weapons?.effects || [] : []).map(e => ({ ...e, type: 'weaponEffect' }))]
       ,this.assets);
-    this.groundShadows.static(objects.filter(o=>!['player','football','projectile','weaponEffect'].includes(o.type)),this.lights,mapId,this.theme);
+    this.shadowCasters=objects;this.groundShadows.draw(objects,this.lights,{map:mapId,edge:map.bounds.edge,theme:this.theme,time:t,now:this.sceneTime,reduced:this.reduced});
     for (const item of objects) {
       const [px, py] = this.project(item.x, item.y);
       const screenX=originX+px*scale,screenY=originY+(py-(item.z||0)*40)*scale;
       if(screenX< -220*scale||screenX>w+220*scale||screenY< -80*scale||screenY>h+240*scale)continue;
       c.save(); c.translate(px, py);c.setObject?.(item);
-      if (['tree','tent'].includes(item.type) && players.some(p => { const [x,y]=this.project(p.x,p.y); return Math.abs(x-px)<65 && y<py && y>py-125; })) c.globalAlpha=.4;
+      if(['tree','tent'].includes(item.type)){
+        const d=propDisplay(item,this.assets),height=d?d.width*d.frame.h/d.frame.w:125,anchor=d?.frame.contacts?.ground?.x/d?.frame.w||.5;
+        if(players.some(p=>{const [x,y]=this.project(p.x,p.y),head=y-(p.z||0)*40-45;return x>px-(d?.width||130)*anchor&&x<px+(d?.width||130)*(1-anchor)&&y<py+8&&head>py-height;}))c.globalAlpha=.4;
+      }
       if (item.type === 'player') this.player(item, item.id === scene.self, t);
       else if (item.type === 'fire') this.fire(t);
       else this[item.type]?.(item, t);
       c.restore();
     }
     c.globalAlpha = 1; c.restore();
-    if(recording){const commands=c.recording.end();try{this.webgl.render(commands,{width:w,height:h,dpr:this.dpr,lights:this.lights,now:this.sceneTime,frameMs:interval>0&&interval<200?interval:0,casters:objects});const count=String(this.webgl.metrics.normalDraws);if(this.canvas.dataset.campNormalDraws!==count)this.canvas.dataset.campNormalDraws=count;}catch(error){this.webgl.fail(error);this.draw(ms);return;}}
+    if(recording){const commands=c.recording.end();try{this.webgl.render(commands,{width:w,height:h,dpr:this.dpr,lights:this.lights,lighting:this.sceneLighting,camera:this.camera,now:this.sceneTime,frameMs:interval>0&&interval<200?interval:0,casters:objects});const count=String(this.webgl.metrics.normalDraws);if(this.canvas.dataset.campNormalDraws!==count)this.canvas.dataset.campNormalDraws=count;}catch(error){this.webgl.fail(error);this.draw(ms);return;}}
+    c.setLighting?.(null);c.setObject?.(null);c.setMaterial?.(null);
     this.drawNameplates();
     if(focused){this.bubbleAreas=[];this.fireChats(fireConversation(scene.chat||[],this.sceneTime,scene.hiddenIds||[]),scale,scene.occlusions||[]);}
     else this.bubbles(players, scale, map.radio ? scene.music : null);
@@ -261,7 +269,7 @@ export class CampRenderer extends CampArtwork {
   presenceLabels(players, scene) {
     const c = this.ctx;
     this.presenceAreas = [];
-    c.font = '10px "Malgun Gothic", sans-serif'; c.textAlign = 'left';
+    c.font = '12px "Malgun Gothic", sans-serif'; c.textAlign = 'left';
     const occupied = this.hitAreas.flatMap(a => [a.body, a.label,
       {x:a.head.x-a.head.radius,y:a.head.y-a.head.radius,width:a.head.radius*2,height:a.head.radius*2}]);
     occupied.push(...(this.bubbleAreas || []));
@@ -269,9 +277,11 @@ export class CampRenderer extends CampArtwork {
     const priority = p => p.id===scene.selectedId ? 2 : p.id===scene.self ? 1 : 0;
     const sorted = [...players].sort((a,b) => priority(b)-priority(a) || a.id.localeCompare(b.id));
     for (const p of sorted) {
-      const badge = presenceBadges[p.presence], area = this.hitAreas.find(a => a.id === p.id);
-      if (!badge || !area || (p.presence==='available'&&p.id!==scene.selectedId) || ['falling','respawning'].includes(p.motion)) continue;
-      const [text,color] = badge, width = c.measureText(text).width+12, height = 18;
+      const area = this.hitAreas.find(a => a.id === p.id);
+      if (!PRESENCE_LABELS[p.presence] || !area || (p.presence==='available'&&!p.statusText?.trim()&&p.id!==scene.selectedId) || ['falling','respawning'].includes(p.motion)) continue;
+      let text=presenceSummary(p);const maxWidth=Math.min(220,this.width-20);
+      if(c.measureText(text).width>maxWidth-12){const chars=Array.from(text);while(chars.length>1&&c.measureText(chars.join('')+'…').width>maxWidth-12)chars.pop();text=chars.join('')+'…';}
+      const color='#e5e5e5',width = c.measureText(text).width+12, height = 22;
       const y=area.head.y-area.head.radius-height-5;
       const box=[0,-width*.55,width*.55].map(offset=>({x:area.head.x-width/2+offset,y,width,height})).find(b=>
         b.x>=8 && b.x+b.width<=this.width-8 && b.y>=40 && b.y+b.height<=this.height-56 && occupied.every(other => !overlaps(b,other)));
@@ -280,10 +290,10 @@ export class CampRenderer extends CampArtwork {
       area.badge = box;
       this.presenceAreas.push({...box,id:p.id,text});occupied.push(box);
       c.fillStyle = '#232323ed';c.beginPath();c.roundRect(box.x,box.y,width,height,5);c.fill();
-      c.fillStyle = color;c.fillText(text,box.x+6,box.y+12);
+      c.fillStyle = color;c.fillText(text,box.x+6,box.y+15);
     }
   }
-  destroy() { this.stopped = true; this.unsubscribeSprites?.();this.groundCache=null;this.groundShadows.destroy();this.groundLights.destroy();this.webgl?.destroy();this.cancelFrame(this.frame);if(this.resizeFrame)this.cancelFrame(this.resizeFrame);this.observer.disconnect(); this.avatars.dispose();for(const {image}of this.exhibitImages.values())image.onload=image.onerror=null;this.exhibitImages.clear(); }
+  destroy() { this.stopped = true; this.unsubscribeSprites?.();this.groundCache=null;this.ctx.clearLighting?.();this.groundShadows.destroy();this.groundLights.destroy();this.webgl?.destroy();this.cancelFrame(this.frame);if(this.resizeFrame)this.cancelFrame(this.resizeFrame);this.observer.disconnect(); this.avatars.dispose();for(const {image}of this.exhibitImages.values())image.onload=image.onerror=null;this.exhibitImages.clear(); }
 }
 
 export { CampAudio } from './camp-audio.mjs';

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "id": "field-v2",
+  "id": "field-polish-v1",
   "intentIds": [
     "INT-03",
     "INT-04",
@@ -9,7 +9,8 @@
     "INT-12",
     "INT-16",
     "INT-17",
-    "INT-18"
+    "INT-18",
+    "INT-20"
   ],
   "style": {
     "medium": "Polished storybook game illustration, soft chalky gouache fills with restrained fine texture, clean silhouettes, thin warm charcoal contours; no glossy plastic or pixel art",
@@ -772,76 +773,86 @@
       "kind": "effect",
       "target": "amber",
       "direction": "front",
-      "frames": 1,
+      "frames": 6,
       "width": 64,
-      "action": "warm amber camp flame",
+      "action": "Six-frame seamless camp flame animation, amber orange with pale yellow core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.",
       "contacts": {
         "ground": [
           0.5,
           1
         ]
       },
-      "depth": "sorted"
+      "depth": "sorted",
+      "fps": 9,
+      "loop": true
     },
     "gold": {
       "kind": "effect",
       "target": "gold",
       "direction": "front",
-      "frames": 1,
+      "frames": 6,
       "width": 64,
-      "action": "golden yellow camp flame",
+      "action": "Six-frame seamless camp flame animation, golden yellow with warm ivory core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.",
       "contacts": {
         "ground": [
           0.5,
           1
         ]
       },
-      "depth": "sorted"
+      "depth": "sorted",
+      "fps": 9,
+      "loop": true
     },
     "blue": {
       "kind": "effect",
       "target": "blue",
       "direction": "front",
-      "frames": 1,
+      "frames": 6,
       "width": 64,
-      "action": "soft blue camp flame",
+      "action": "Six-frame seamless camp flame animation, soft blue with pale blue-white core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.",
       "contacts": {
         "ground": [
           0.5,
           1
         ]
       },
-      "depth": "sorted"
+      "depth": "sorted",
+      "fps": 9,
+      "loop": true
     },
     "jade": {
       "kind": "effect",
       "target": "jade",
       "direction": "front",
-      "frames": 1,
+      "frames": 6,
       "width": 64,
-      "action": "jade green camp flame",
+      "action": "Six-frame seamless camp flame animation, jade green with pale mint core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.",
       "contacts": {
         "ground": [
           0.5,
           1
         ]
       },
-      "depth": "sorted"
+      "depth": "sorted",
+      "fps": 9,
+      "loop": true
     },
     "violet": {
       "kind": "effect",
       "target": "violet",
       "direction": "front",
-      "frames": 1,
+      "frames": 6,
       "width": 64,
-      "action": "violet purple camp flame",
+      "action": "Six-frame seamless camp flame animation, violet purple with pale lavender core. A low broad root stays fixed at the SAME ground baseline in every cell. Two or three flame tongues stretch, curl and separate asymmetrically; naturally different silhouettes, not simply scaled copies. First and last frames connect smoothly. ONLY flame, no logs, stones, ground, light halo, smoke or stray particles.",
       "contacts": {
         "ground": [
           0.5,
           1
         ]
       },
-      "depth": "sorted"
+      "depth": "sorted",
+      "fps": 9,
+      "loop": true
     },
     "gun": {
       "kind": "effect",
@@ -974,6 +985,143 @@
       "width": 192,
       "action": "Opaque seamless flat TOP DOWN material: pale cream gray garden stone paving with restrained irregular joint lines. Uniform material scale and lighting, no perspective, border, gradient, props or vignette.",
       "contacts": {}
+    },
+    "tree-birch": {
+      "kind": "prop",
+      "target": "tree-birch",
+      "direction": "isometric",
+      "frames": 1,
+      "width": 180,
+      "action": "One graceful small silver birch with two pale ivory trunks and an airy asymmetric crown of sage and olive leaves. Elevated three-quarter view, clear trunk ground contact. Painted at the SAME detail density as the reference elm, no floor or shadow.",
+      "contacts": {
+        "ground": [
+          0.5,
+          0.96
+        ]
+      },
+      "depth": "sorted"
+    },
+    "tree-pine": {
+      "kind": "prop",
+      "target": "tree-pine",
+      "direction": "isometric",
+      "frames": 1,
+      "width": 180,
+      "action": "One compact mountain pine with three irregular layered bough masses, muted deep teal-green needles and a short cocoa trunk. Asymmetric storybook silhouette, clear ground contact. Same paint and contour density as the reference elm.",
+      "contacts": {
+        "ground": [
+          0.5,
+          0.96
+        ]
+      },
+      "depth": "sorted"
+    },
+    "bench-weathered-ne": {
+      "kind": "prop",
+      "target": "bench-weathered-ne",
+      "direction": "ne",
+      "frames": 1,
+      "width": 110,
+      "action": "One TWO PERSON backless low timber bench, four short legs, one broad flat seat. Its long axis rises from lower left to upper right at 26.565 degrees. Warm weathered cocoa wood, rounded uneven ends and two subtle wood knots. No moss on the seat, no people. Preserve the reference bench proportions and seat plane.",
+      "contacts": {
+        "ground": [
+          0.5,
+          0.98
+        ],
+        "seat": [
+          0.5,
+          0.38
+        ]
+      },
+      "depth": "sorted"
+    },
+    "bench-weathered-nw": {
+      "kind": "prop",
+      "target": "bench-weathered-nw",
+      "direction": "nw",
+      "frames": 1,
+      "width": 110,
+      "action": "One TWO PERSON backless low timber bench, four short legs, one broad flat seat. Its long axis falls from upper left to lower right at 26.565 degrees. Warm weathered cocoa wood, rounded uneven ends and two subtle wood knots. No moss on the seat, no people. Preserve the reference bench proportions and seat plane.",
+      "contacts": {
+        "ground": [
+          0.5,
+          0.98
+        ],
+        "seat": [
+          0.5,
+          0.38
+        ]
+      },
+      "depth": "sorted"
+    },
+    "camper-idle-back": {
+      "kind": "character",
+      "state": "idle",
+      "direction": "back",
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "Exact same reference camper seen from BEHIND in three-quarter view, facing diagonally UP and RIGHT; show teal BACK of jacket, ochre short trouser legs and cocoa boots. No front bib pocket visible. Round blank portrait disc remains circular. subtle breathing, feet planted, arms relaxed. Fixed head diameter and clothing identity across all frames.",
+      "width": 96,
+      "contacts": {
+        "feet": [
+          0.5,
+          1
+        ]
+      },
+      "head": {
+        "center": [
+          0.5,
+          0.22
+        ],
+        "radius": 0.205
+      }
+    },
+    "camper-walk-back": {
+      "kind": "character",
+      "state": "walk",
+      "direction": "back",
+      "frames": 6,
+      "fps": 8,
+      "loop": true,
+      "action": "Exact same reference camper seen from BEHIND in three-quarter view, facing diagonally UP and RIGHT; show teal BACK of jacket, ochre short trouser legs and cocoa boots. No front bib pocket visible. Round blank portrait disc remains circular. walking in place, alternating feet and opposite arms, full loop. Fixed head diameter and clothing identity across all frames.",
+      "width": 96,
+      "contacts": {
+        "feet": [
+          0.5,
+          1
+        ]
+      },
+      "head": {
+        "center": [
+          0.5,
+          0.22
+        ],
+        "radius": 0.205
+      }
+    },
+    "camper-run-back": {
+      "kind": "character",
+      "state": "run",
+      "direction": "back",
+      "frames": 6,
+      "fps": 12,
+      "loop": true,
+      "action": "Exact same reference camper seen from BEHIND in three-quarter view, facing diagonally UP and RIGHT; show teal BACK of jacket, ochre short trouser legs and cocoa boots. No front bib pocket visible. Round blank portrait disc remains circular. running in place, wider stride and opposing bent arms, full loop. Fixed head diameter and clothing identity across all frames.",
+      "width": 96,
+      "contacts": {
+        "feet": [
+          0.5,
+          1
+        ]
+      },
+      "head": {
+        "center": [
+          0.5,
+          0.22
+        ],
+        "radius": 0.205
+      }
     }
   },
   "bindings": {
