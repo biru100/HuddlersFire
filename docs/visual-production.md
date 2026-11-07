@@ -39,6 +39,16 @@ OpenAI 제품 발표의 모델 제공 범위와 특정 Codex 환경에서 실제
 
 ## 1. 착의 시안 한 컷 요청
 
+첫 제작 작업은 [NW 착의 캐릭터 요청서·전달 안내](briefs/nw-clothed-lookdev-01.md)를 사용한다. 사용자가 요청한 둥글고 귀여운 실루엣에 맞춰 rounded를 첫 **디자인 가설**로 준비했으며, 미술 승인을 뜻하지 않는다. 최종 복사용 요청문은 [ROUNDED 요청문](briefs/nw-clothed-lookdev-01.txt)이다.
+
+| 후보 | 비교할 차이 | 고정할 것 |
+| --- | --- | --- |
+| compact | 짧고 다부진 비율, 몸 가까운 소매, 응축된 외곽 | 같은 NW 정지 자세, 곱슬머리·세이지 후드·긴 바지·갈색 신발, 중립광 |
+| rounded | 둥근 뒤통수와 어깨·소매의 부피, 포근한 덩어리 | 동일 |
+| graphic | 중립 체형에서 색면·외곽 단순화, 최소한의 주름·곱슬 묶음 | 동일 |
+
+세 가지는 서로 배타적인 미술 장르가 아니라 비교할 강조점이다. 한 요청에 세 명을 그리지 않는다. 첫 rounded가 약한 지점을 확인한 다음 비교 목적에 맞는 후보만 별도 생성한다.
+
 프로젝트 루트에서:
 
 ```sh
@@ -51,14 +61,22 @@ node tools/prepare-sprite-job.mjs --art --stage lookdev --variation compact --ou
 
 ## 2. 원본 수신과 검토
 
-해당 작업의 `source/candidate.png`에 원본을 보존하고 `submission.template.json`을 `submission.json`으로 복사해 관찰한 사실만 채운다. PNG를 올렸다는 사실은 승인과 다르다. 첨부 ZIP의 스크립트를 실행하지 않는다.
+ChatGPT에서 **다운로드한 원본 PNG**를 첨부하거나 로컬 경로를 전달한다. 화면 캡처, 메신저 재압축 미리보기, 리사이즈본을 원본으로 받지 않는다. 생성한 후보 이름과 대화 링크/모델 표시 정보를 함께 주면 출처에 기록한다. 실제 모델을 확인할 수 없다면 null/unverified로 남긴다.
+
+권장 수신은 기존 rebuild 명령에 `--source`를 한 번만 주는 방법이다. 원본 바이트를 그대로 `source/candidate.png`에 배타적으로 복사하고 원본명·SHA256·출처 참조를 `submission.json`에 기록한 뒤 실제 PNG inspector를 실행한다. 기존 원본이나 receipt가 있으면 덮어쓰지 않는다. 새 후보는 새 job으로 받는다. PNG를 올렸다는 사실은 승인과 다르며 첨부 ZIP의 스크립트를 실행하지 않는다.
+
+```powershell
+node tools/rebuild-sprites.mjs --job art/sprites/runs/lookdev-nw-01/job.json --source "C:\Downloads\original.png" --source-reference "ChatGPT 대화 링크 또는 전달 출처"
+```
+
+이미 수신한 job의 재검사는 `--source` 없이 실행한다. 수동으로 수신할 때도 원본을 수정하지 않고 template을 복사해 실제 사실만 기록한다. native-base의 RGB/앵커는 관찰 후 채우며 자동 수신이 이를 측정했다고 간주하지 않는다.
 
 ```sh
 node tools/rebuild-sprites.mjs --job art/sprites/runs/lookdev-nw-01/job.json
 node web/tests/render-scene-preview.mjs --job art/sprites/runs/lookdev-nw-01/job.json
 ```
 
-기존 raster inspector로 원본 크기·투명도·색을 조사한다. 이미지가 차단되면 보고서를 남기고 rebuild는 종료 코드 2를 반환한다. 원본을 수정하지 않는다. 생성된 `art-review.html`은 밝고 어두운 바탕에서 비교하는 정적 페이지다. **실제 밤 조명·WebGL·좌석 검증이 아니다.** 네이티브 이미지의 4배 표시는 CSS 정수 확대이며 별도 4배 PNG 납품을 대체하지 않는다.
+기존 raster inspector로 원본 크기·투명도·색을 조사한다. 이미지가 차단되면 보고서를 남기고 rebuild는 종료 코드 2를 반환한다. 원본을 수정하지 않는다. 생성된 `art-review.html`은 밝고 어두운 바탕, 원본 100%, 종횡비를 보존한 작은 표시 가설, 모델 경고·차단 사유와 여섯 관찰 항목을 보여 주는 오프라인 정적 페이지다. **실제 밤 조명·WebGL·좌석 검증이 아니다.** 작은 표시는 원본 전체를 spec의 목표 캔버스 안에 맞추는 CSS 표시이며 파일 축소나 실제 픽셀 밀도 증거가 아니다. 네이티브 이미지의 4배 표시도 CSS 정수 확대이며 별도 4배 PNG 납품을 대체하지 않는다.
 
 `art-review.template.json`은 미검토 상태로 생성된다. 담당자가 실제 그림에 대한 관찰을 쓰고 사용자의 선택이 있을 때만 reviewer, 정확한 결정 문구/출처를 기록한다. `reviewerRole:user`라고 써 놓는 것이 사람 신원을 인증하는 것은 아니다. 이 장치는 추적 가능한 절차이며 승인 위조를 허용하지 않는다.
 
@@ -108,6 +126,8 @@ pixel review에는 기존 evidence 외에 아래 필드를 더한다. `assets`�
 
 ## 검증과 보고
 
-독립 규칙 검사: `cd web && npm run test:art-direction`. 정상 의존성이 있는 프로젝트에서 관련 `test:sprites:pipeline`, `typecheck`, `build`, 실제 pixel/browser 검사를 실행한다. 지금 이미지가 없어서 하지 못한 검사를 통과로 쓰지 않는다.
+독립 규칙·스킬 참조 검사: `cd web` → `npm.cmd run test:art-direction`. 실제 PNG 디코딩·수신 CLI 검사: `npm.cmd run test:art-intake` (프로젝트 의존성 필요). 후자는 테스트 전용 1픽셀 PNG로 빈 이미지 차단·원본 보존·중복 수신 거절·변경 원본 차단·native 납품 차단·HTML 생성을 검사하며 실제 미술 승인이 아니다. 정상 의존성이 있는 프로젝트에서 관련 `test:sprites:pipeline`, `typecheck`, `build`, 실제 pixel/browser 검사를 실행한다. 지금 이미지가 없어서 하지 못한 검사를 통과로 쓰지 않는다.
+
+`npm.cmd run test:browser:art-review`는 기존 CDP helper와 별도 일회성 headless Chrome 프로필로 **테스트용 PNG의** 데스크톱/모바일 검토 페이지를 검사한다. 개인 브라우저 UI는 사용하지 않는다. `CAMP_TEST_BROWSER`로 실행 파일을 지정할 수 있으며 기본은 기존 Windows Chrome 경로다. 출력은 `/outputs/art-review-smoke-desktop.png`, `/outputs/art-review-smoke-mobile.png`다. 이 검사는 HTML 표시 준비의 근거이며 캐릭터 품질·게임 WebGL 검증이 아니다. 이번 환경에서는 샌드박스의 `Runtime.enable` 시간 초과 뒤 일반 실행 권한에서 통과했다.
 
 보고는 원화 생성, 기술 정합성, 미술 선택, 실제 장면, 기능 회귀, 배포 상태를 구분한다. 이 하네스는 더 좋은 그림을 보장하지 않지만, 나쁜 결과를 기술 PASS만으로 확장하거나 다른 방식으로 몰래 바꾸는 경로를 막는 것이 목적이다.

@@ -1,7 +1,7 @@
 // External artwork handoff within the existing prepare -> rebuild -> render -> review tools.
 // No image generation, network calls, resizing, quantization or runtime installation.
 import {readFileSync, writeFileSync, mkdirSync, existsSync, realpathSync, copyFileSync} from 'node:fs';
-import {resolve, relative, dirname, isAbsolute} from 'node:path';
+import {resolve, relative, dirname, isAbsolute, basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 
@@ -44,11 +44,11 @@ export function artPrompt(job) {
   const common = 'Huddlers Fire는 친구들이 불 옆에서 쉬고, 각자 작업하고, 장난치며 게임을 소개하는 작은 캠프야. 따뜻한 피부/목재, 절제된 녹색과 청록, 분명한 색면과 짙은 갈색 윤곽의 픽셀 아트로 만들어 줘. 카메라는 고정 쿼터뷰이며 월드 축은 화면에서 ±0.5 기울기야. 기존 사진은 사용하지 마.';
   if (job.stage === 'lookdev') {
     const styles = {
-      compact: '머리와 몸이 모두 읽히는 작고 단단한 실루엣, 크게 구분되는 후드와 신발, 세부 질감보다 좋은 형태.',
-      rounded: '부드럽고 둥근 실루엣, 약간 여유 있는 후드티, 묶음 단위로 정돈된 명암. 길고 가는 팔다리는 피함.',
-      graphic: '큰 색면과 간결한 외곽, 옷의 접힘과 머리카락을 적게 써도 개성 있는 실루엣. 그림자를 진하게 뭉치지 않음.'
+      compact: 'COMPACT — 비율과 밀집도를 비교하는 후보야. 머리 아래 몸통이 분명히 남는 짧고 다부진 비율, 몸 가까운 소매, 짧지만 구분되는 두 다리, 큼직하고 단단한 신발로 응축된 실루엣을 만들어 줘. 후드티 부피와 옷 주름은 절제해 줘.',
+      rounded: 'ROUNDED — 부드러운 볼륨과 덩어리감을 비교하는 후보야. 둥근 뒤통수, 어깨에서 소매까지 완만하게 이어지는 약간 넉넉한 후드티, 통통한 손과 둥근 신발로 포근한 실루엣을 만들어 줘. 머리만 과장하지 말고 몸통과 두 다리가 따로 읽히게 해 줘. 길고 가는 팔다리는 피하고 곡선은 일정한 픽셀 계단으로 표현해 줘.',
+      graphic: 'GRAPHIC — 색면과 윤곽의 명료함을 비교하는 후보야. 기본 체형은 중립적으로 유지하고 머리·후드·소매·바지·신발을 큰 색 덩어리로 구분해 줘. 곱슬머리는 몇 개의 특징적인 묶음으로, 옷 주름은 꼭 필요한 경계만 사용해 줘. 각 재질은 소수의 명암 면으로 정리하되 정확한 색 수는 강제하지 말고 그림자를 검은 덩어리로 뭉치지 마.'
     };
-    return `${common}\n\n이번에는 완성된 착의 캐릭터의 미술 기준 시안 한 장만 만들어 줘. ${styles[job.variation]}\n화면 왼쪽 위를 바라보는 NW 뒷사선 idle 한 명. 등이 보이고 얼굴은 보이지 않음. 짧은 곱슬머리, 세이지 후드티, 단정한 바지와 갈색 신발. 눈에 먼저 들어오는 실루엣과 옷의 형태를 우선해 줘.\n독립된 단일 캐릭터만, 잘림 없이 중립적인 밝기와 투명 배경. 여러 방향, 프레임 시트, UI, 글자, 모닥불 조명, 광선, 바닥 그림자는 제외해 줘.\n의도적인 픽셀 색면과 일정한 계단형 외곽을 사용해 줘. 반짝이는 점, 불규칙한 가짜 도트, 늘인 팔다리는 피하고 실제 게임에서 작게 보아도 형태가 읽히게 해 줘.\n이것은 LOOKDEV_ONLY 시안이며 ${a.canvas.join('×')} 납품 원화가 아니야. 출력은 도구의 실제 해상도로 보존하고 자동 축소·양자화·코드로 다시 그리기를 하지 마. 이 시안을 그대로 게임에 넣거나 규격 통과라고 주장하지 마.\n이번 후보만 검토하고 마음에 드는 디자인을 선택한 뒤 기본 신체를 제작할 거야.\n`;
+    return `${common}\n\n이번에는 완성된 착의 캐릭터의 미술 기준 시안 한 장만 만들어 줘. ${styles[job.variation]}\n화면 왼쪽 위를 바라보는 NW 뒷사선 idle 한 명. 카메라는 살짝 위에서 내려다보고 뒤통수·등·후드의 윗면이 보여야 해. 뒤통수, 양어깨, 골반, 두 신발이 모두 같은 NW 방향으로 돌아가고 얼굴과 눈은 보이지 않게 해 줘. 정측면이나 정면으로 돌리지 마.\n짙은 밤색의 짧은 곱슬머리, 세이지 후드티, 차콜 브라운 긴 바지, 따뜻한 갈색 신발. 후드는 머리에 쓰지 않고 등 위에 내려져 있어야 해. 짧은 목과 몸통, 소매 끝의 작은 손, 두 바짓단과 신발의 경계가 읽히게 해 줘. 양발은 바닥에 편하게 두고 팔은 옆으로 자연스럽게 내린 정지 자세야. 걷기, 손 흔들기, 소품과 가방은 제외해 줘. 눈에 먼저 들어오는 실루엣과 입히고 싶은 옷의 형태를 우선해 줘.\n독립된 단일 캐릭터만 머리부터 신발까지 잘림 없이 적당한 투명 여백 안에 배치해 줘. 중립적인 확산광으로 원래 피부와 옷 색을 보여 줘. 실제 투명 배경 PNG를 원하며 체크무늬를 배경에 그리지 마. 여러 방향, 비교 패널, 프레임 시트, UI, 글자, 모닥불 조명, 광선, 바닥 그림자는 제외해 줘.\n의도적인 픽셀 색면과 일정한 계단형 외곽을 사용해 줘. 곱슬은 작은 점의 집합이 아니라 읽히는 머리 덩어리로 표현하고 윤곽 두께와 픽셀 단위를 통일해 줘. 부드러운 에어브러시, 3D 렌더, 반짝이는 점, 디더링, 불규칙한 가짜 도트, 늘인 팔다리는 피하고 실제 게임에서 작게 보아도 머리·후드·긴 바지·신발이 구분되게 해 줘. 정확한 6색 제한 없이 따뜻한 명암을 살려 줘.\n이것은 LOOKDEV_ONLY 시안이며 ${a.canvas.join('×')} 납품 원화가 아니야. 출력은 도구의 실제 해상도로 보존하고 자동 축소·양자화·코드로 다시 그리기를 하지 마. 이 시안을 그대로 게임에 넣거나 규격 통과라고 주장하지 마.\n원본 PNG 한 파일을 전달해 줘. 투명도나 출력 크기를 도구가 지원하지 않으면 그 사실을 별도로 알려 주고 변환으로 숨기지 마. 이전에 기각된 NW 기본 신체는 기준작으로 사용하지 마. 이번 후보만 검토하고 마음에 드는 디자인을 선택한 뒤 기본 신체를 제작할 거야.\n`;
   }
   return `${common}\n\n첨부 REFERENCE.png는 사용자가 선택한 착의 캐릭터의 실루엣·비율·색감 기준이야. 이번에는 같은 디자인 계열의 기본 신체/피부만 NW 뒷사선 idle 한 컷으로 새로 제작해 줘. 등은 보이고 얼굴은 보이지 않아야 해. 머리카락·표정·상의·하의·액세서리는 제외하고, 해부학적 상세 없는 중립적인 게임용 마네킹으로 그려 줘.\n제작 목표는 ${a.canvas.join('×')} 논리 픽셀, feet=(${a.feet.join(',')}), head=(${a.head.join(',')}). 좌면 앵커는 이 정지 컷에 적용하지 않아. 목표가 비율을 망치면 임의로 늘이지 말고 불일치를 알려 줘.\n1px 격자에 연결된 색면과 일정한 윤곽/명암, 실제 투명 PNG와 alpha 0/255만 사용해 줘. 안티앨리어싱·디더링·글로우·바닥 그림자·라벨 금지. 정확한 6색 제한은 폐기하며 따뜻한 명암을 살려 줘.\n한 장의 원본 PNG, 실제 크기·RGB 팔레트·앵커 정보, 가능하면 정확한 4배 최근접 복제 검토본을 제출해 줘. 다른 방향·동작·의상은 아직 만들지 마.\n중요: 생성기가 이 실제 크기/격자/알파로 만들지 못하면 원본을 보존하고 blocked_native_delivery로 알려 줘. 큰 이미지의 사후 강제 축소, 색 양자화, Python/SVG 도형 재작화로 통과시키지 마. 프롬프트만으로 크기와 격자가 보장됐다고 주장하지 마.\n`;
 }
@@ -78,7 +78,7 @@ export function prepareArtJob({root = ART_ROOT, out, stage = 'lookdev', variatio
   save(resolve(dir, 'job.json'), job);
   writeFileSync(resolve(dir, 'CHATGPT_REQUEST.txt'), artPrompt(job));
   save(resolve(dir, 'submission.template.json'), {file: 'source/candidate.png', sourceType: 'image-generation', surface: 'chatgpt', requestedModel: context.policy.generation.requestedModel, observedModel: null, modelEvidence: {kind: 'unverified', reference: ''}, operations: [], paletteRgb: [], frameAnchors: {feet: context.contract.avatar.feet, head: context.contract.avatar.head}, note: 'Fill with observed facts only. Do not run scripts from incoming packages.'});
-  writeFileSync(resolve(dir, 'README.md'), '# Artwork handoff\n\nSend CHATGPT_REQUEST.txt and REFERENCE.png if present. Return ONE original PNG at source/candidate.png and factual submission.json (copy the template). Do not resize or redraw. Run the existing rebuild, render and review commands for this job. LOOKDEV approval is never runtime approval.\n');
+  writeFileSync(resolve(dir, 'README.md'), '# Artwork handoff\n\nSend CHATGPT_REQUEST.txt and REFERENCE.png if present. Return ONE downloaded original PNG, never a screenshot or recompressed preview. Receive it with rebuild-sprites.mjs --job <this job.json> --source <original.png> and optionally --source-reference <conversation reference>. This preserves exact bytes and creates a factual submission.json; existing originals/receipts are never overwritten. Unknown actual models stay null/unverified. Then run render and review. Do not resize or redraw. LOOKDEV approval is never runtime approval.\n');
   return {directory: dir, stage, status: 'awaiting_external_art', generated: false};
 }
 export function loadArtJob(file, {root = ART_ROOT} = {}) {
@@ -99,6 +99,20 @@ export function loadArtJob(file, {root = ART_ROOT} = {}) {
   } else if (job.reference) throw Error('Unapproved reference in lookdev job');
   return job;
 }
+export function receiveArtSubmission(file, original, {root = ART_ROOT, reference = ''} = {}) {
+  loadArtJob(file, {root});
+  if (!text(original)) throw Error('--source requires an original PNG path');
+  const dir = dirname(artPath(root, file));
+  const destination = artPath(dir, 'source/candidate.png'), receiptFile = artPath(dir, 'submission.json');
+  if (existsSync(destination) || existsSync(receiptFile)) throw Error('Artwork already received; preserve the original and prepare a fresh job');
+  const bytes = readFileSync(resolve(original));
+  if (bytes.subarray(0, 8).toString('hex') !== '89504e470d0a1a0a') throw Error('Original PNG required; do not convert the file');
+  const receipt = {...json(resolve(dir, 'submission.template.json')), originalName: basename(original), originalSha256: digest(bytes), sourceReference: reference, operations: ['lossless-copy']};
+  // Exclusive writes preserve original bytes even if the same receive command is repeated.
+  writeFileSync(destination, bytes, {flag: 'wx'});
+  writeFileSync(receiptFile, JSON.stringify(receipt, null, 2) + '\n', {flag: 'wx'});
+  return {file: destination, sourceSha256: receipt.originalSha256, generated: false, artApproved: false};
+}
 export function assessArtSubmission(job, receipt, metrics) {
   const blockers = [], warnings = [];
   if (receipt.surface !== 'chatgpt' || receipt.sourceType !== 'image-generation') blockers.push('unapproved_generation_route');
@@ -108,6 +122,7 @@ export function assessArtSubmission(job, receipt, metrics) {
   if (receipt.observedModel != null && (typeof receipt.observedModel !== 'string' || !(receipt.observedModel.toLowerCase() === expectedModel || receipt.observedModel.toLowerCase().startsWith(expectedModel + '-')))) blockers.push('model_mismatch_no_silent_fallback');
   if (!receipt.observedModel || receipt.modelEvidence?.kind !== 'tool-metadata' || !text(receipt.modelEvidence?.reference)) warnings.push('actual_image_model_unverified');
   if (!metrics?.bounds || metrics.alpha?.opaque + metrics.alpha?.soft <= 0) blockers.push('empty_image');
+  if (receipt.originalSha256 != null && (!sha(receipt.originalSha256) || receipt.originalSha256 !== metrics?.sha256)) blockers.push('received_original_changed');
   if (job.stage === 'native-base') {
     if (!equal(metrics.size, job.contract.avatar.canvas)) blockers.push('blocked_native_delivery:canvas');
     if (metrics.alpha?.soft !== 0 || !(metrics.alpha?.transparent > 0)) blockers.push('blocked_native_delivery:binary_alpha');
@@ -172,7 +187,10 @@ export function renderArtReview(file, {root = ART_ROOT} = {}) {
   const [w, h] = intake.metrics.size;
   const img = `data:image/png;base64,${bytes.toString('base64')}`;
   const scale = job.stage === 'native-base' ? 1 : Math.min(1, 384 / h);
-  const html = `<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Huddlers art review</title><style>body{font:16px system-ui;margin:24px;background:#eee7d9;color:#2c241c}section{display:flex;gap:16px;flex-wrap:wrap}.panel{padding:24px}.night{background:#142c30;color:#f8f0db}.day{background:#c3c79b}img{image-rendering:pixelated;max-width:none}code{word-break:break-all}</style><h1>${job.stage}: 승인 대기</h1><p>원본 ${w}×${h}. ${job.stage === 'lookdev' ? '시안 표시용 축소만 적용. 원본 파일은 변경하지 않음. 네이티브 스프라이트 아님.' : '1배 / 정확한 4배 CSS 픽셀 복제 비교. PNG 파일은 변경하지 않음.'}</p><section><div class="panel day"><h2>밝은 바탕</h2><img width="${w * scale}" height="${h * scale}" src="${img}"></div><div class="panel night"><h2>어두운 바탕</h2><img width="${w * scale}" height="${h * scale}" src="${img}"></div>${job.stage === 'native-base' ? `<div class="panel"><h2>4배</h2><img width="${w * 4}" height="${h * 4}" src="${img}"></div>` : ''}</section><p>배경 대비 검토 도구이며 실제 게임 주야간 조명·가림·좌석·WebGL 검증이 아님. 생성 성공/기술 검사와 미술 승인을 구분.</p><p>SHA256 <code>${intake.sourceSha256}</code></p></html>`;
+  const targetScale = Math.min(1, job.contract.avatar.canvas[0] / w, job.contract.avatar.canvas[1] / h);
+  const escape = value => String(value).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const imageAt = s => `<img alt="${job.variation} NW ${job.stage}" width="${w * s}" height="${h * s}" src="${img}">`;
+  const html = `<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Huddlers art review</title><style>body{font:16px/1.6 system-ui;margin:24px;background:#eee7d9;color:#2c241c}section{display:flex;gap:16px;flex-wrap:wrap}.panel{padding:24px;max-width:100%;overflow:auto}.night{background:#142c30;color:#f8f0db}.day{background:#c3c79b}img{image-rendering:pixelated;max-width:none}code{word-break:break-all}details{overflow:auto;max-width:100%}</style><h1>${job.stage}: ${intake.status === 'blocked' ? '차단 — 승인 불가' : '승인 대기'}</h1><p>원본 ${w}×${h}. ${job.stage === 'lookdev' ? '시안 표시용 축소만 적용. 원본 파일은 변경하지 않음. 네이티브 스프라이트 아님.' : '1배 / 정확한 4배 CSS 픽셀 복제 비교. PNG 파일은 변경하지 않음.'}</p><p>요청 모델: ${escape(receipt.requestedModel)} / 실제 모델: ${escape(receipt.observedModel || 'unverified')}. 경고: ${escape(intake.warnings.join(', ') || '없음')}. 차단: ${escape(intake.blockers.join(', ') || '없음')}.</p><section><div class="panel day"><h2>밝은 바탕</h2>${imageAt(scale)}</div><div class="panel night"><h2>어두운 바탕</h2>${imageAt(scale)}</div>${job.stage === 'native-base' ? `<div class="panel"><h2>4배</h2>${imageAt(4)}</div>` : `<div class="panel day"><h2>작은 표시 가설 · 밝음</h2>${imageAt(targetScale)}</div><div class="panel night"><h2>작은 표시 가설 · 어두움</h2>${imageAt(targetScale)}</div>`}</section>${job.stage === 'lookdev' ? `<p>작은 표시는 목표 ${job.contract.avatar.canvas.join('×')} 캔버스 안에 원래 종횡비로 맞춘 CSS 비교다. 실제 픽셀 밀도·게임 카메라 배율·네이티브 납품의 증거가 아니다. 여백도 원본 그대로 포함한다.</p>` : ''}<details><summary>원본 100% 크기로 보기</summary>${imageAt(1)}</details><h2>직접 관찰할 항목</h2><ul><li>실루엣: 머리·몸통·손·두 다리·신발이 작은 표시에서도 구분되는가.</li><li>방향: 뒤통수·어깨·후드·골반·신발이 함께 NW를 향하는가.</li><li>픽셀 표현: 일정한 계단과 색면인가, 흐림·잔점·가짜 도트가 있는가.</li><li>팔레트: 밝고 어두운 바탕에서 의상과 신체가 구분되는가.</li><li>매력: 가만히 서 있어도 이 캐릭터로 캠프에 참여하고 싶은가.</li><li>장면 적합성: 디자인 가설을 기록하고 실제 접지·조명·좌석은 미확인으로 남긴다.</li></ul><p>배경 대비 검토 도구이며 실제 게임 주야간 조명·가림·좌석·WebGL 검증이 아님. 생성 성공/기술 검사와 미술 승인을 구분.</p><p>SHA256 <code>${intake.sourceSha256}</code></p></html>`;
   writeFileSync(resolve(dir, 'art-review.html'), html);
   return {file: resolve(dir, 'art-review.html'), stage: job.stage, runtimeVerified: false, renderedGameScene: false};
 }

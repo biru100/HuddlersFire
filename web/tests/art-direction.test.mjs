@@ -2,17 +2,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, symlinkSync, existsSync} from 'node:fs';
-import {resolve, join} from 'node:path';
+import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
-import {prepareArtJob, loadArtJob, artPrompt, assessArtSubmission, validateArtDecision, verifyArtReview, verifyPixelArtApproval, renderArtReview, artPath} from '../../tools/lib/art-direction.mjs';
+import {prepareArtJob, loadArtJob, artPrompt, receiveArtSubmission, assessArtSubmission, validateArtDecision, verifyArtReview, verifyPixelArtApproval, renderArtReview, artPath} from '../../tools/lib/art-direction.mjs';
 import {inspectAvatarCombination} from '../lib/camp-avatar-assembly.mjs';
 const hash = x => createHash('sha256').update(typeof x === 'string' || Buffer.isBuffer(x) ? x : JSON.stringify(x)).digest('hex');
 const save = (p, x) => writeFileSync(p, JSON.stringify(x, null, 2) + '\n');
 const read = p => JSON.parse(readFileSync(p, 'utf8'));
 const policy = read(new URL('../../art/sprites/art-direction.json', import.meta.url));
 // A valid tiny PNG. Fixtures exercise receipt binding; raster decode remains an integration test.
-const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLttAAAAABJRU5ErkJggg==', 'base64');
+const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aCWQAAAAASUVORK5CYII=', 'base64');
 function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'huddlers-art-'));
   t.after(() => rmSync(root, {recursive: true, force: true}));
@@ -48,6 +48,44 @@ test('prepare is external-only and creates one scoped prompt, not artwork', t =>
 });
 test('a duplicate job cannot overwrite source', t => {
   const f = context(t);assert.throws(() => prepareArtJob({root: f.root, out: 'test-lookdev'}), /already exists/);
+});
+
+test('receive preserves downloaded bytes and unknown model, and refuses a second source', t => {
+  const f = context(t), original = join(f.root, 'download.png');writeFileSync(original, png);
+  const result = receiveArtSubmission(f.jobFile, original, {root: f.root, reference: 'TEST conversation reference'});
+  const r = read(join(f.dir, 'submission.json'));
+  assert.deepEqual(readFileSync(result.file), readFileSync(original));assert.equal(result.sourceSha256, hash(png));
+  assert.equal(r.originalSha256, hash(png));assert.equal(r.observedModel, null);assert.equal(r.modelEvidence.kind, 'unverified');
+  assert.equal(r.sourceReference, 'TEST conversation reference');assert.deepEqual(r.operations, ['lossless-copy']);
+  assert.throws(() => receiveArtSubmission(f.jobFile, original, {root: f.root}), /already received/);
+  assert.deepEqual(readFileSync(result.file), png);
+  assert.ok(assessArtSubmission(f.job, r, {...metrics(), sha256: '0'.repeat(64)}).blockers.includes('received_original_changed'));
+});
+
+test('receive refuses non-PNG input and an existing receipt without touching source', t => {
+  const f = context(t), original = join(f.root, 'download.jpg');writeFileSync(original, 'not PNG');
+  assert.throws(() => receiveArtSubmission(f.jobFile, original, {root: f.root}), /Original PNG/);
+  assert.equal(existsSync(join(f.dir, 'source/candidate.png')), false);
+  writeFileSync(original, png);save(join(f.dir, 'submission.json'), {note: 'preserve existing receipt'});
+  assert.throws(() => receiveArtSubmission(f.jobFile, original, {root: f.root}), /already received/);
+  assert.equal(existsSync(join(f.dir, 'source/candidate.png')), false);
+});
+
+test('look variants change one design emphasis while retaining NW clothed idle and delivery boundaries', t => {
+  const {job} = context(t), prompts = ['compact', 'rounded', 'graphic'].map(variation => artPrompt({...job, variation}));
+  assert.equal(new Set(prompts).size, 3);
+  for (const p of prompts) {assert.match(p, /곱슬머리/);assert.match(p, /긴 바지/);assert.match(p, /후드는 머리에 쓰지 않고/);assert.match(p, /정지 자세/);assert.match(p, /LOOKDEV_ONLY/);assert.match(p, /강제|자동 축소/);}
+  assert.match(prompts[0], /비율과 밀집도/);assert.match(prompts[1], /볼륨과 덩어리감/);assert.match(prompts[2], /색면과 윤곽의 명료함/);
+});
+
+test('active art and validation skills retain resolvable local document links', () => {
+  for (const name of ['camp-art-direction', 'camp-sprite-assets', 'camp-change-validation']) {
+    const file = new URL(`../../.agents/skills/${name}/SKILL.md`, import.meta.url), source = readFileSync(file, 'utf8');
+    assert.match(source, new RegExp(`name: ${name}`));
+    for (const [, link] of source.matchAll(/\]\(([^)#]+)(?:#[^)]*)?\)/g)) {
+      if (!/^https?:/.test(link)) assert.ok(existsSync(new URL(link, file)), `${name}: broken link ${link}`);
+    }
+  }
 });
 test('bad job names and unknown stages are rejected', t => {
   const root = fixture(t);for (const out of ['../outside', '', '/tmp/art']) assert.throws(() => prepareArtJob({root, out}), /fresh simple/);
