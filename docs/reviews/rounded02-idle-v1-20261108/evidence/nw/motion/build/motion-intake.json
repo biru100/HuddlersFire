@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "kind": "motion-lookdev-intake",
+  "view": "nw",
+  "action": "idle-breath",
+  "frameCount": 4,
+  "grid": [
+    2,
+    2
+  ],
+  "order": "row-major",
+  "originalSha256": "7abce57cf6e2cd4a4f2611d9cabb652a40526b7faac26a229b4ba1aafa404581",
+  "sourceReference": "https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-idle-motion-01/original/nw-idle-4cut-v1.png",
+  "metrics": {
+    "sha256": "7abce57cf6e2cd4a4f2611d9cabb652a40526b7faac26a229b4ba1aafa404581",
+    "bytes": 685555,
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": {
+      "opaque": 733,
+      "transparent": 1176982,
+      "soft": 394801
+    },
+    "bounds": [
+      17,
+      0,
+      1219,
+      1254
+    ],
+    "visibleColors": 35425,
+    "paletteMismatches": null,
+    "edgePixels": 6783,
+    "redFringe": 0
+  },
+  "cellSize": [
+    627,
+    627
+  ],
+  "status": "reference_only",
+  "blockers": [],
+  "warnings": [
+    "motion_concept_not_native_or_runtime_animation",
+    "soft_alpha_not_native"
+  ],
+  "motionConcept": true,
+  "frameCellsVerified": false,
+  "loopVerified": false,
+  "artApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "checksToPerform": [
+    "same-character-every-frame",
+    "same-view-every-frame",
+    "feet-registration",
+    "hair-and-clothing-consistency",
+    "frame-order",
+    "breathing-motion-readable",
+    "loop-seam-4-to-1"
+  ],
+  "note": "Image format/grid geometry is not per-frame artistic, native-resolution or runtime approval."
+}

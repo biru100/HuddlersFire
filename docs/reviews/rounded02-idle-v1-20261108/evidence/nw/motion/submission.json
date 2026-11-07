@@ -1,0 +1,15 @@
+{
+  "kind": "motion-lookdev-receipt",
+  "sourceType": "chatgpt-image-generation",
+  "sourceFilename": "nw-idle-4cut-v1.png",
+  "sourceReference": "https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-idle-motion-01/original/nw-idle-4cut-v1.png",
+  "sourceSha256": "7abce57cf6e2cd4a4f2611d9cabb652a40526b7faac26a229b4ba1aafa404581",
+  "originalBytes": 685555,
+  "operations": [
+    "lossless-copy"
+  ],
+  "observedModel": null,
+  "observedModelStatus": "unverified",
+  "animationApproved": false,
+  "productionReady": false
+}

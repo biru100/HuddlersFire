@@ -1,5 +1,7 @@
 # Rounded 02 · NW/SE 독립 원화 작업 환경
 
+> **2026-11-08 실제 부모 연결:** GitHub 승인 원본 두 장을 새 lookdev 부모 job에 수신하고 기존 승인 문서의 평가·선택을 검증했다. [계보·Idle 기술 검토 묶음](../../reviews/rounded02-idle-v1-20261108/README.md)에 NW·SE 프레임/루프·정렬 자료와 v2 수정 요청서를 정리했다. 과거의 다른 해시 후보와 pending 리뷰는 보존한다. 새 모션은 미술 승인 대기이며 네이티브/게임/배포 작업은 하지 않는다.
+
 > **최신 인계 규칙:** ZIP이 아니라 [GitHub 원본 레지스트리](../../../art/sprites/source-registry/README.md)의 PNG 바이너리 + SHA256를 사용한다. 이 문서의 ZIP/다운로드 지시는 구형 준비 절차이며 신규 기본 경로가 아니다. 실제 GitHub 파일이 없으면 업로드 완료가 아니다.
 
 > **2026-11-07 신규 애니메이션 단계:** ChatGPT가 생성한 NW/SE **각 2×2 4컷 Idle 모션 시안**은 [모션 전용 브리프](animation-idle-handoff.md)와 `tools/motion-lookdev.mjs`를 따른다. 기존 캐릭터 디자인 승인은 유효하지만 새 모션은 별도 검토 대상이다. 아래 내용은 최초 디자인 준비에 관한 이력이다.

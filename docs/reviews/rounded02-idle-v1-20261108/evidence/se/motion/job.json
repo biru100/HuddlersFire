@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "kind": "motion-lookdev",
+  "stage": "motion-concept",
+  "view": "se",
+  "action": "idle-breath",
+  "variation": "rounded",
+  "frameCount": 4,
+  "grid": [
+    2,
+    2
+  ],
+  "order": "row-major",
+  "status": "awaiting_external_art",
+  "productionReady": false,
+  "runtimeVerified": false,
+  "parent": {
+    "job": "art/sprites/runs/lookdev-se-rounded02-rev2-approved-20261108/job.json",
+    "review": "art/sprites/runs/lookdev-se-rounded02-rev2-approved-20261108/art-review.json",
+    "fingerprint": "bb15189ec9a54d6fc3024efefca819e3d4ce5ebad223fbc1557ca5a02f7d8877",
+    "reviewSha256": "cb397dc2f586fc1dfd404d04ce1c4e872bce5fe69cc7f6d3349763891e8ce032",
+    "sourceSha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2"
+  },
+  "reference": {
+    "file": "REFERENCE.png",
+    "sha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2"
+  }
+}
