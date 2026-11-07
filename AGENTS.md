@@ -4,6 +4,11 @@
 - 이 프로젝트 작업 중에는 전역 규칙과 설정을 수정하지 않는다. `C:\Users\user\.codex\AGENTS.md`, 전역 Codex 설정, 사용자 공통 스킬·하네스 설정 등이 포함된다.
 - 필요한 규칙과 설정은 HuddlersFire 프로젝트 내부에만 추가하거나 변경한다.
 
+## GitHub deployment (2026-11-07)
+- 사이트 배포는 GitHub Actions의 [Verify and deploy](.github/workflows/deploy.yml)를 사용한다. GPT/Sites 도구·게시 전용 저장소·배포 아카이브는 신규 배포 경로에서 제거한다. 기존 공개 사이트와 배포 이력은 임의로 삭제하지 않는다.
+- PR/main push는 검사만 수행하며 공개 배포는 main의 수동 workflow 실행으로 한다. [배포 안내](docs/github-deployment.md)의 Cloudflare Worker·D1·Discord 설정을 사용한다. GitHub Pages에 클라이언트만 올려 서버 기능을 완료로 처리하지 않는다.
+- 실제 배포 Secret/Variable·D1 migration 이력이 없으면 차단 상태를 보고한다. 원본 업로드·게임 자산 승인·운영 배포는 별개이며 비밀값과 로컬 상태를 커밋하지 않는다.
+
 ## GitHub-first artwork delivery (2026-11-07)
 
 - **Default delivery:** GitHub original PNGs and exact SHA256. Stop creating ZIPs as the routine handoff. Read [source registry](art/sprites/source-registry/README.md) first.

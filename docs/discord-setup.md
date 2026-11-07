@@ -6,7 +6,7 @@
 2. 앱의 **OAuth2** 설정에 아래 Redirect URI를 정확히 등록하고 저장합니다.
 
    ```text
-   https://huddlers-fire-camp.gywkd77.chatgpt.site/api/camp/discord/callback
+   https://YOUR_WORKER_HOST/api/camp/discord/callback
    ```
 
 3. **Client ID**와 **Client Secret**을 확인합니다. Secret을 복사할 수 없으면 **Reset Secret**으로 새로 발급합니다. 봇 생성이나 서버 초대는 필요하지 않습니다.
@@ -17,7 +17,7 @@
    DISCORD_CLIENT_SECRET=발급받은_Client_Secret
    ```
 
-5. 값 등록이 끝나면 이 작업의 에이전트에게 알려 주세요. 에이전트는 값을 출력하지 않고 Sites의 서버 환경 변수에 비밀 값으로 등록하고 새 버전을 배포합니다. 로컬 파일에만 값을 넣으면 운영 사이트에는 적용되지 않습니다.
+5. 운영 값은 대상 Cloudflare Worker의 `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` 비밀값으로 별도 등록합니다. [GitHub 배포 안내](github-deployment.md)에 따라 GitHub Actions로 배포합니다. 로컬 파일이나 GitHub 빌드 환경에만 값을 넣으면 운영 Worker에는 적용되지 않습니다. 기존 운영 주소는 새 Worker의 OAuth·DB·게임 검증이 끝날 때까지 유지합니다.
 
 로컬 인증까지 확인하려면 사용하는 개발 주소의 `/api/camp/discord/callback`도 Redirect URI에 추가합니다. 예: `http://127.0.0.1:5173/api/camp/discord/callback`.
 

@@ -69,11 +69,9 @@ The API issues HMAC-based one-hour credentials. The shared secret stays server-s
 
 ## Deployment
 
-`.openai/hosting.json` retains the Sites project ID and declares D1 binding `DB`. The Sites build integration and `worker/index.ts` are retained from the starter. Deployment packages include Worker output, static assets, the hosting manifest and generated D1 migrations. They do not include local state or secrets.
+Deployment is owned by [GitHub Actions](../.github/workflows/deploy.yml), using Cloudflare Workers + D1. Follow [setup and release instructions](../docs/github-deployment.md). PRs and main pushes run validation; a manual run on main publishes production. GPT/Sites publishing, publication-only source snapshots and `.openai/hosting.json` are removed from the active deployment path. The remaining Sites-named environment/local-preview helpers are development utilities, not publishers.
 
-The source directory remains part of the user's original repository. A publication-only source snapshot is staged under ignored `outputs/site-source`; the Sites helper owns its separate Git metadata. Do not initialize a nested Git repository at `web/`.
-
-Sites was confirmed to use a public audience on 2026-11-03. Preserve this existing audience during update deployments unless the owner requests a change. Discord photo linking is independent of the hosting platform's access gate.
+`vite.config.ts` always declares binding `DB`. Set `CAMP_WORKER_NAME` and `CAMP_D1_DATABASE_ID` before the production build. Local builds use a placeholder database; `npm run deploy` refuses to publish it. `npm run deploy:check` performs a Wrangler dry run. Apply pending D1 migrations only with the explicit workflow option after reviewing the target history. Local state and secrets are never part of the source commit.
 
 This is a server application. Uploading `dist/client` alone to static hosting will not provide sessions, rooms or signaling. D1 data is temporary application state: cleanup is request-driven, signals expire after two minutes, inactive memberships after 90 seconds, and guest sessions after seven days. The host lease is 20 seconds, followed by automatic successor election and WebRTC negotiation. Hosting-platform abuse controls and limits should be selected before unrestricted public use.
 
