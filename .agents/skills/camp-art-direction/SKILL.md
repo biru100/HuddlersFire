@@ -1,18 +1,21 @@
 ---
 name: camp-art-direction
-description: "HuddlersFire의 그래픽이 어색하거나 품질 개선, 기준 캐릭터 선정, ChatGPT 이미지 제작 요청을 할 때 사용한다. 미술 판단과 네이티브 납품·게임 검증을 분리한다. 일반 기능 수정에는 사용하지 않는다."
+description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미술 판단을 수행하고 Codex에서 검사 증거·요청서를 관리하도록 분담한다."
 ---
 
-# 캠프 미술 방향과 외부 제작
+# ChatGPT 아트 디렉션 · 원화 선택
 
-[시각 제작](../../../docs/visual-production.md)을 활성 기준으로 읽고 [정책](../../../art/sprites/art-direction.json), 관련 의도와 현재 사용자 피드백을 확인한다. 일반 기능 수정에 이 절차를 추가하지 않는다.
+[활성 시각 제작](../../../docs/visual-production.md), [정책](../../../art/sprites/art-direction.json), [Rounded 02 현재 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)를 먼저 읽는다. 일반 기능 수정에는 이 절차를 추가하지 않는다.
 
-1. 먼저 실제 이미지를 본다. 파일 수·알파·캔버스 PASS를 미술 평가로 대신하지 않는다. 아직 본 적 없는 장면은 미확인으로 쓴다. 불만 원인을 실루엣, 방향, 픽셀 표현, 색, 사람의 존재감, 실제 장면 관계로 좁힌다.
-2. 승인된 기준이 없거나 품질이 기각됐다면 `prepare-sprite-job.mjs --art --stage lookdev`로 **착의 NW 캐릭터 한 컷**의 외부 요청을 만든다. compact/rounded/graphic 중 비교 목적을 정한다. 세 후보도 각각 단일 파일로 요청하며, 대형 아틀라스·모든 방향을 한꺼번에 요구하지 않는다.
-3. 이 프로젝트의 생성 경로는 ChatGPT다. 요청 모델은 정책에서 읽되 실제 모델은 도구 결과로 확인한 경우만 기록한다. Codex imagegen, 유료 API, 코드 그림, 자동 픽셀 변환으로 대체하지 않는다. 생성 기능이 없으면 요청서와 필요한 파일을 전달하고 생성됐다고 말하지 않는다.
-4. 원본·출처를 보존하고 기존 rebuild/render 명령으로 조사한다. lookdev의 큰 PNG는 디자인 시안으로 볼 수 있지만 64×96 납품으로 승격하지 않는다. `art-review.html`은 명암 바탕 비교이지 실제 게임 조명 검증이 아니다.
-5. 실루엣과 의상이 매력적인 후보가 없으면 승인 없이 수정한다. 세 차례에도 개선되지 않으면 같은 프롬프트를 반복하지 말고 크기/제작 방식/작풍 중 원인을 분석한다. 3회는 작업 운영 지침이지 자동 품질 점수가 아니다.
-6. 실제 사용자 선택을 정확한 원본 해시와 함께 남긴다. 승인 발언/참조를 창작하지 않는다. 구현을 맡겼다는 말은 개별 그림 승인과 다르다. 사용자가 이미 선택했다면 재질문하지 않는다.
-7. 선택된 lookdev를 부모로 `--stage native-base`를 준비한다. 신체 한 컷이 미술과 네이티브 규격을 모두 충족한 뒤에만 다음 방향/레이어를 확장한다. 후속 조립은 camp-sprite-assets로 넘긴다.
+현재 [Rounded 02 전달 환경](../../../docs/briefs/rounded-02/README.md)은 원본 미수신 상태다. 첨부 ZIP의 과거 시안·비교판을 독립 원화로 승격하거나 새 ChatGPT 미술 평가가 있는 것처럼 기록하지 않는다.
 
-완료 보고는 `요청서 준비 / 원본 수신 / 기술 검사 / 미술 선택 / 실제 장면 확인`을 구분한다. 하네스 수정만 했으면 더 예쁜 이미지나 전체 그래픽이 완성됐다고 보고하지 않는다.
+1. **ChatGPT가 아트 디렉터**다. 실제 이미지에 근거한 silhouette / direction / pixel-language / palette / character-appeal / scene-fit 관찰과 수정 후보를 ChatGPT 제작 대화에서 정한다. Codex는 자기 미술 점수나 인위적인 PASS로 이를 대체하지 않는다.
+2. 첫 Rounded 01은 승인된 기준이 아니다. 새 후보는 같은 사람과 복장·색·idle을 고정하고 머리/몸통 균형, 발의 일관된 회전, 작은 화면 가독성을 개선한다. 기본 후보는 Rounded 02 A이며 B의 가방은 기본형 비교에 넣지 않는다.
+3. `node tools/prepare-sprite-job.mjs --art --stage lookdev --variation rounded --view nw --out lookdev-nw-rounded-02`와 별도 `--view se --out lookdev-se-rounded-02`로 **각 방향 단독 PNG**를 요청한다. 비교판/라벨/배경/여러 캐릭터를 독립된 제작 원본처럼 수신하지 않는다.
+4. ChatGPT에서 생성한 원본 다운로드 파일을 코드 처리 없이 Codex로 전달한다. 요청 모델명은 실제 호출 모델의 증명이 아니다. 원본 SHA256/출처를 기록하고 재수신 시 덮어쓰지 않는다. 원본이 없다면 생성 또는 수신 성공을 주장하지 않는다.
+5. Codex는 PNG 디코딩·바이트·투명도·크기·앵커·작은 CSS 표시를 검사하며, 실제 게임 캡처를 ChatGPT에 다시 보내 주야간·가림·접지 등 미술적 평가를 요청한다. HTML 작은 표시는 실제 게임 장면이 아니다.
+6. ChatGPT의 미술 평가 내용을 실제 대화 참조와 함께 `artDirectorReview: {actor: "chatgpt", reference: "...", summary: "..."}`에 기록한다. 여섯 기준의 구체적 관찰은 실제 그림을 보고 작성한다. 사용자의 **개별 원본 선택 발언/출처**만 `userDecision`에 기록한다. 모든 후속 구현을 승인했다는 말은 이미지 최종 승인으로 확장하지 않는다.
+7. NW·SE가 모두 사용자 승인된 뒤에만 `--stage native-base --previous-job ... --previous-review ... --companion-job ... --companion-review ...`을 호출한다. 후속 스프라이트 조립은 **camp-sprite-assets**에 넘긴다.
+8. 세 번의 디자인 수정을 해도 매력이 없으면 같은 프롬프트 반복 대신 제약/해상도/제작 방식의 원인을 제시한다. 원화와 기술 증거, 사용자 선택, 게임 배포의 상태를 따로 보고한다.
+
+Codex 내장 imagegen이나 유료 API·자동 리사이즈·좌우 반전·코드로 재작화하여 원본을 대체하지 않는다. 요청 기능이 없으면 요청서만 제공한다. 전역 에이전트 설정·공통 스킬을 수정하지 않는다.

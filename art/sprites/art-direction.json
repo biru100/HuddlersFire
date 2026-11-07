@@ -12,14 +12,52 @@
   "defaultStage": "lookdev",
   "approvedBaseline": null,
   "maxConceptRoundsBeforeReassessment": 3,
-  "criteria": ["silhouette", "direction", "pixel-language", "palette", "character-appeal", "scene-fit"],
-  "preserve": ["projection", "pan-and-zoom", "photos-and-identity", "multiplayer", "chat", "radio", "playground", "showroom"],
-  "forbiddenOperations": ["resize", "quantize", "dither", "mirror", "alpha-threshold", "procedural-redraw", "invent-missing-frames"],
+  "criteria": [
+    "silhouette",
+    "direction",
+    "pixel-language",
+    "palette",
+    "character-appeal",
+    "scene-fit"
+  ],
+  "preserve": [
+    "projection",
+    "pan-and-zoom",
+    "photos-and-identity",
+    "multiplayer",
+    "chat",
+    "radio",
+    "playground",
+    "showroom"
+  ],
+  "forbiddenOperations": [
+    "resize",
+    "quantize",
+    "dither",
+    "mirror",
+    "alpha-threshold",
+    "procedural-redraw",
+    "invent-missing-frames"
+  ],
   "notes": [
     "No previous sheet, native redraw or technical PASS is an approved art baseline.",
     "Read geometry and proposed native canvas/anchors from scene-spec.json.pixelQuarterview only.",
     "A large concept PNG can be reviewed as lookdev, never relabelled as a native sprite.",
     "Aesthetic approval is an explicit user decision tied to exact bytes. It is not production approval.",
     "If native output is unavailable, report blocked_native_delivery. Do not substitute code-drawn art or endless retries."
-  ]
+  ],
+  "workflow": {
+    "artDirector": "chatgpt-generates-reviews-and-iterates",
+    "humanDecision": "user-approves-selected-original-hash",
+    "technicalOwner": "codex-intake-geometry-assembly-runtime-tests",
+    "lookdevViews": [
+      "nw",
+      "se"
+    ],
+    "nativeBaseRequiresApprovedViews": [
+      "nw",
+      "se"
+    ],
+    "note": "A multi-character sheet is a comparison reference, not a single original sprite. Process approval does not approve any particular candidate or deployment."
+  }
 }

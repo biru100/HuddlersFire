@@ -1,5 +1,17 @@
 # 구현 검증 기록
 
+## 2026-11-07 INT-24 · PR #2 Rounded 02 ZIP 수신과 작업 환경
+
+사용자 지정 PR #2 HEAD `48be5e5`로 기존 브랜치를 fast-forward하고 ZIP 원본과 내부 참고 파일 5개를 `art/sprites/incoming/lookdev-handoff-v2/`에 바이트 그대로 보존했다. 이미지 3장의 manifest 해시·바이트·실제 크기가 일치했다. Rounded 01과 두 비교판은 모두 미승인 참고이며 새 Rounded 02 NW/SE 원본은 없다. 두 독립 lookdev job·방향별 요청문·ChatGPT 전달용 ZIP을 준비했고 source는 비워 뒀다.
+
+새 승인 계약을 반영하지 않던 PNG 통합 테스트 fixture만 수정했다. 최종 전체 **294/294**, pipeline **71/71**, 아트 **34/34**, PNG 수신 **4/4** 통과. typecheck/build/기존 Canvas render/격리 headless 검토 HTML 통과, lint 오류 0·기존 경고 4개다. 실제 원화 생성·Codex 미술 평가·네이티브 제작·게임 적용·공개 배포는 하지 않았다. [상세 검증](reviews/2026-11-07-rounded02-handoff-validation.md), [필요한 PNG와 전달 절차](briefs/rounded-02/README.md)를 따른다.
+
+## 2026-11-07 INT-24 · 첫 착의 NW 제작 준비와 미실행 검증 보완
+
+PR #1이 이미 병합됐고 시작 main/기존 작업 브랜치 HEAD는 모두 `2deddaf`임을 확인했다. 기존 작업 브랜치에서 외부 원본의 배타적 수신·SHA256 추적, 요청 변형의 차이, 검토 HTML의 원본/작은 표시/출처·차단 안내, 실제 PNG 검사 통합과 프로젝트 로컬 스킬을 보강했다. 첫 rounded 요청서와 compact/graphic 비교용 job은 준비됐으며 새 캐릭터 원본은 없다.
+
+전체 **291/291**, 파이프라인 **68/68**, 독립 아트 **31/31**, PNG 수신 통합 **4/4** 통과. typecheck/build/Canvas render/로컬 16명 WebRTC 회귀 통과(HTTP 1,537회). 검토 HTML의 일회성 headless 데스크톱/모바일 검사는 샌드박스 `Runtime.enable` 시간 초과 후 일반 실행 권한에서 통과했다. lint는 오류 없이 기존 런타임 경고 4개다. 실제 게임 WebGL·전체 UI·실기기·새 캐릭터 미술/장면 검토·배포는 수행하지 않았다. [수정 파일·실패 원인·검증 범위](reviews/2026-11-07-first-lookdev-validation.md), [최종 요청문과 원본 전달 방법](briefs/nw-clothed-lookdev-01.md)을 따른다.
+
 ## 2026-11-07 INT-24 후속 · 일반 ChatGPT 전달 요청서
 
 사용자가 일반 ChatGPT에 넘길 요청서 제작과 제작 전 규격/원본 품질 보존 피드백의 하네스 반영을 명시했다. 기존 `pixelAssetRequest`의 활성 요청을 코드·저장소 설명 없는 NW idle 한 컷용 자연어로 정리했다. canvas/feet/head는 scene-spec에서 가져오며, 원본 참고·6색 제한 폐기·사후 강제 축소 금지·출력 도구 미지원/미측정 항목의 정직한 보고·대표 한 컷 품질 검토를 요구한다. 이후 전체 방향/레이어 명세는 scene-spec에 유지한다.

@@ -4,6 +4,7 @@ import {spawnSync} from 'node:child_process';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url)),run='art/sprites/runs/rebuild-'+Date.now();
+if(process.argv.includes('--source')&&!process.argv.includes('--job'))throw Error('--source requires an art-direction --job');
 if(process.argv.includes('--normalize')){
   if(!process.argv.includes('--replay-rejected-experiment'))throw Error('Normalization is a rejected historical experiment, not the active art pipeline. Use --replay-rejected-experiment only for an explicitly requested reproduction.');
   const file=process.argv[process.argv.indexOf('--normalize')+1];if(!file||file.startsWith('--'))throw Error('--normalize requires a recipe');console.log(JSON.stringify(await (await import('./lib/pixel-normalize.mjs')).normalizePixelAsset(resolve(file)),null,2));
@@ -13,8 +14,17 @@ if(process.argv.includes('--normalize')){
   const file=process.argv[process.argv.indexOf('--job')+1];
   if(!file||file.startsWith('--'))throw Error('--job requires a job.json path');
   const kind=JSON.parse(readFileSync(resolve(file),'utf8')).kind;
+  if(process.argv.includes('--source')&&kind!=='art-direction')throw Error('--source requires an art-direction --job');
   if(kind==='art-direction'){
-    const result=await (await import('./lib/art-direction.mjs')).buildArtJob(file);console.log(JSON.stringify(result,null,2));if(result.status==='blocked')process.exitCode=2;
+    const art=await import('./lib/art-direction.mjs');
+    if(process.argv.includes('--source')){
+      const source=process.argv[process.argv.indexOf('--source')+1];
+      if(!source||source.startsWith('--'))throw Error('--source requires an original PNG path');
+      const refIndex=process.argv.indexOf('--source-reference'),reference=refIndex<0?'':process.argv[refIndex+1];
+      if(refIndex>=0&&(!reference||reference.startsWith('--')))throw Error('--source-reference requires a conversation reference');
+      console.log(JSON.stringify(art.receiveArtSubmission(file,source,{reference}),null,2));
+    }
+    const result=await art.buildArtJob(file);console.log(JSON.stringify(result,null,2));if(result.status==='blocked')process.exitCode=2;
   }else if(kind==='pixel-quarterview'){
     console.log(JSON.stringify(await (await import('./lib/pixel-assets.mjs')).buildPixelJob(file),null,2));
   }else{

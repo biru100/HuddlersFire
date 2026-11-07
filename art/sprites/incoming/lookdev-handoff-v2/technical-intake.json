@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "source": "user-attached-huddlers_lookdev_handoff_v2.zip",
+  "archive": {
+    "file": "art/sprites/incoming/lookdev-handoff-v2/archive/huddlers_lookdev_handoff_v2.zip",
+    "sha256": "a80bbdae68f19ce6ece5fc3b894985a7cc3f1aecac8f0ba8d56a0fa11cd3bf0e",
+    "bytes": 4326527
+  },
+  "files": [
+    {
+      "file": "art/sprites/incoming/lookdev-handoff-v2/original/artwork-not-approved/포근한_후드_캐릭터_뒷모습.png",
+      "kind": "rounded01-nw-lookdev",
+      "classification": "unapproved-historical-lookdev",
+      "metrics": {
+        "sha256": "8e4169f1b96a31334ec2b2756f589fcb619717f885e9166c13c97ba006c9d650",
+        "bytes": 670054,
+        "size": [
+          1086,
+          1448
+        ],
+        "alpha": {
+          "opaque": 516,
+          "transparent": 987246,
+          "soft": 584766
+        },
+        "bounds": [
+          0,
+          33,
+          1066,
+          1415
+        ],
+        "visibleColors": 22199,
+        "paletteMismatches": null,
+        "edgePixels": 4591,
+        "redFringe": 0
+      },
+      "manifestMatches": true,
+      "artApproved": false,
+      "productionReady": false,
+      "runtimeVerified": false,
+      "observedModel": null,
+      "modelEvidence": {
+        "kind": "unverified",
+        "reference": ""
+      }
+    },
+    {
+      "file": "art/sprites/incoming/lookdev-handoff-v2/original/reference-only/a_polished_detailed_project_update_for_huddlers.png",
+      "kind": "rounded02-ab-board-01",
+      "classification": "reference-only-comparison-board",
+      "metrics": {
+        "sha256": "47b0b7b90e0b46505b8c8e7568d80f752ce8c32d20a516ed0437cf2c18f6378d",
+        "bytes": 1684566,
+        "size": [
+          1536,
+          1024
+        ],
+        "alpha": {
+          "opaque": 0,
+          "transparent": 35196,
+          "soft": 1537668
+        },
+        "bounds": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "visibleColors": 67528,
+        "paletteMismatches": null,
+        "edgePixels": 12792,
+        "redFringe": 0
+      },
+      "manifestMatches": true,
+      "artApproved": false,
+      "productionReady": false,
+      "runtimeVerified": false,
+      "observedModel": null,
+      "modelEvidence": {
+        "kind": "unverified",
+        "reference": ""
+      }
+    },
+    {
+      "file": "art/sprites/incoming/lookdev-handoff-v2/original/reference-only/a_detailed_polished_project_update_and_design_pro.png",
+      "kind": "rounded02-ab-board-02",
+      "classification": "reference-only-comparison-board",
+      "metrics": {
+        "sha256": "d01d4c83655589ed305dee74f81bd683f12fdfbf5ef5129b5d9069d3f36c3455",
+        "bytes": 2119200,
+        "size": [
+          1536,
+          1024
+        ],
+        "alpha": {
+          "opaque": 0,
+          "transparent": 0,
+          "soft": 1572864
+        },
+        "bounds": [
+          0,
+          0,
+          1536,
+          1024
+        ],
+        "visibleColors": 146947,
+        "paletteMismatches": null,
+        "edgePixels": 9267,
+        "redFringe": 0
+      },
+      "manifestMatches": true,
+      "artApproved": false,
+      "productionReady": false,
+      "runtimeVerified": false,
+      "observedModel": null,
+      "modelEvidence": {
+        "kind": "unverified",
+        "reference": ""
+      }
+    }
+  ],
+  "artDirector": "chatgpt",
+  "technicalOwner": "codex",
+  "receivedRounded02Originals": {
+    "nw": false,
+    "se": false
+  },
+  "artApproved": false,
+  "nativeSpriteReady": false,
+  "runtimeVerified": false,
+  "deployed": false,
+  "archiveEntries": [
+    {
+      "file": "art/sprites/incoming/lookdev-handoff-v2/original/MANIFEST.json",
+      "bytes": 1826,
+      "sha256": "31006bedfc4973928690289764c7b71fb83df7d35811ed6a7fd71d9482cffcbd"
+    },
+    {
+      "file": "art/sprites/incoming/lookdev-handoff-v2/original/README_KO.txt",
+      "bytes": 1262,
+      "sha256": "045773c9c1783fbe16ad7108652ee74689b1b6b5686be59d75d0e207e97207d8"
+    },
+    {
+      "file": "art/sprites/incoming/lookdev-handoff-v2/original/artwork-not-approved/포근한_후드_캐릭터_뒷모습.png",
+      "bytes": 670054,
+      "sha256": "8e4169f1b96a31334ec2b2756f589fcb619717f885e9166c13c97ba006c9d650"
+    },
+    {
+      "file": "art/sprites/incoming/lookdev-handoff-v2/original/reference-only/a_detailed_polished_project_update_and_design_pro.png",
+      "bytes": 2119200,
+      "sha256": "d01d4c83655589ed305dee74f81bd683f12fdfbf5ef5129b5d9069d3f36c3455"
+    },
+    {
+      "file": "art/sprites/incoming/lookdev-handoff-v2/original/reference-only/a_polished_detailed_project_update_for_huddlers.png",
+      "bytes": 1684566,
+      "sha256": "47b0b7b90e0b46505b8c8e7568d80f752ce8c32d20a516ed0437cf2c18f6378d"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "project": "HuddlersFire",
+  "date": "2026-11-07",
+  "branch": "art/quality-first-harness-20261107",
+  "pull_request": "https://github.com/biru100/HuddlersFire/pull/2",
+  "status": {
+    "workflow_updated": true,
+    "design_baseline_approved": false,
+    "independent_rounded02_nw_png_received": false,
+    "independent_rounded02_se_png_received": false,
+    "native_sprite_ready": false,
+    "runtime_verified": false
+  },
+  "files": [
+    {
+      "archive_path": "artwork-not-approved/포근한_후드_캐릭터_뒷모습.png",
+      "original_name": "포근한_후드_캐릭터_뒷모습.png",
+      "kind": "rounded01-nw-lookdev",
+      "sha256": "8e4169f1b96a31334ec2b2756f589fcb619717f885e9166c13c97ba006c9d650",
+      "bytes": 670054,
+      "size": [
+        1086,
+        1448
+      ],
+      "note": "single-character concept; NOT APPROVED; not native delivery"
+    },
+    {
+      "archive_path": "reference-only/a_polished_detailed_project_update_for_huddlers.png",
+      "original_name": "a_polished_detailed_project_update_for_huddlers.png",
+      "kind": "rounded02-ab-board-01",
+      "sha256": "47b0b7b90e0b46505b8c8e7568d80f752ce8c32d20a516ed0437cf2c18f6378d",
+      "bytes": 1684566,
+      "size": [
+        1536,
+        1024
+      ],
+      "note": "A/B and NW/SE comparison sheet; NOT A SINGLE CHARACTER ORIGINAL"
+    },
+    {
+      "archive_path": "reference-only/a_detailed_polished_project_update_and_design_pro.png",
+      "original_name": "a_detailed_polished_project_update_and_design_pro.png",
+      "kind": "rounded02-ab-board-02",
+      "sha256": "d01d4c83655589ed305dee74f81bd683f12fdfbf5ef5129b5d9069d3f36c3455",
+      "bytes": 2119200,
+      "size": [
+        1536,
+        1024
+      ],
+      "note": "secondary design board with speculative 64x96 mockups; NOT VERIFIED NATIVE"
+    }
+  ]
+}
