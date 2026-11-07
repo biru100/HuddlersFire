@@ -45,7 +45,8 @@ function assertManifest(manifest,root,manifestPath){
       !Array.isArray(entry.dimensions)||entry.dimensions.length!==2||entry.dimensions.some(n=>!Number.isInteger(n)||n<1))throw Error('Invalid original manifest entry: '+entry.slot);
   }
   const expected=manifest.originals.map(entry=>entry.sha256+'  '+entry.path).join('\n')+'\n';
-  if(readFileSync(join(dirname(manifestPath),'SHA256SUMS.txt'),'utf8')!==expected)throw Error('Checksums file differs from manifest; do not edit either silently');
+  // Git/Windows may use CRLF in this text index; original PNG bytes remain exact.
+  if(readFileSync(join(dirname(manifestPath),'SHA256SUMS.txt'),'utf8').replaceAll('\r\n','\n')!==expected)throw Error('Checksums file differs from manifest; do not edit either silently');
 }
 export function loadRegistry(manifestName,{root=ROOT}={}){
   const file=inside(root,manifestName),data=json(file);

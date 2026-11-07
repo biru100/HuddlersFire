@@ -84,3 +84,20 @@ test('reject missing source path, unexpected slot and path traversal',t=>{
   assert.throws(()=>ingestRegistry(f.manifestFile,{root:f.root,sources:{nw:f.sources.nw,se:f.sources.se,other:f.sources.nw}}),/both --nw and --se/);
   assert.throws(()=>loadRegistry('../etc/passwd',{root:f.root}),/escapes repository/);
 });
+
+test('CRLF checksum index is accepted without weakening exact PNG hashes or checksum values',t=>{
+  const f=fixture(t),path=join(f.dir,'SHA256SUMS.txt');
+  const original=readFileSync(path,'utf8');
+  writeFileSync(path,original.replaceAll('\n','\r\n'));
+  assert.equal(loadRegistry(f.manifestFile,{root:f.root}).data.setId,'test-assets');
+  assert.equal(ingestRegistry(f.manifestFile,{root:f.root,sources:f.sources}).copied.length,2);
+  writeFileSync(path,original.replace(hash(png),'0'.repeat(64)).replaceAll('\n','\r\n'));
+  assert.throws(()=>loadRegistry(f.manifestFile,{root:f.root}),/Checksums file differs/);
+});
+
+test('both tracked registry manifests load from a real checkout before PNG delivery',()=>{
+  for(const set of ['rounded02-rev2-lookdev','rounded02-idle-motion-01']){
+    const registry=loadRegistry('art/sprites/source-registry/'+set+'/MANIFEST.json');
+    assert.equal(registry.data.setId,set);assert.equal(registry.data.originals.length,2);
+  }
+});

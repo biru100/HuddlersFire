@@ -42,3 +42,4 @@
 
 # Exact PNG bytes for source-of-truth originals.
 /art/sprites/source-registry/*/original/*.png binary
+/art/sprites/source-registry/*/SHA256SUMS.txt text eol=lf
