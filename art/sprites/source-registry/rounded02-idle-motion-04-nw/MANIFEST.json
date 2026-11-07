@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "setId": "rounded02-idle-motion-04-nw",
+  "revision": 4,
+  "kind": "motion-concept",
+  "reviewState": "pending-motion-review",
+  "approvalDocument": null,
+  "artApproved": false,
+  "animationApproved": false,
+  "decision": "pending",
+  "productionReady": false,
+  "runtimeVerified": false,
+  "generation": {
+    "surface": "chatgpt",
+    "observedModel": null,
+    "modelEvidence": "unverified",
+    "sourceReference": "AgentHub 사용자 첨부 Image #1, 2026-11-08, 3cb7e21cdc8c6a0f30577354a7067896.png; 제작 대화 URL 미제공"
+  },
+  "notes": [
+    "Revision 4 is an intake-sequence identifier, not a user-specified final name or approval.",
+    "Only NW received; no SE substitution.",
+    "No image transformations, native conversion, runtime replacement or deployment."
+  ],
+  "originals": [
+    {
+      "slot": "nw",
+      "filename": "nw-idle-4cut-v4.png",
+      "path": "original/nw-idle-4cut-v4.png",
+      "sourceFilename": "3cb7e21cdc8c6a0f30577354a7067896.png",
+      "sha256": "43cebe6d478d7718258a59e8667b28283cdbd6fe654ad7319de282374e2dbe7c",
+      "bytes": 869226,
+      "dimensions": [
+        1254,
+        1254
+      ]
+    }
+  ]
+}
