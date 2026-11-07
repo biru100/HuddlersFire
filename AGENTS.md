@@ -4,6 +4,11 @@
 - 이 프로젝트 작업 중에는 전역 규칙과 설정을 수정하지 않는다. `C:\Users\user\.codex\AGENTS.md`, 전역 Codex 설정, 사용자 공통 스킬·하네스 설정 등이 포함된다.
 - 필요한 규칙과 설정은 HuddlersFire 프로젝트 내부에만 추가하거나 변경한다.
 
+## Current animation graphics workflow (2026-11-07)
+- **원화·애니메이션 제작의 주도권은 ChatGPT**에 있다. 방향별/동작별 각 프레임 이미지와 의상 레이어 원화, 미술 검토 및 수정 요청도 ChatGPT 이미지 제작 대화에서 수행한다. Codex는 원본의 SHA256·알파·프레임/셀 정렬·루프·앵커·규격을 검사하고 승인 후 실제 게임에 연결한다. 기술 검사는 미술적 승인·이미지 생성이 아니다.
+- 현재 NW/SE Rounded 02 Rev2 캐릭터 **착의 디자인만** 미술 기준작으로 선정됐다. 같은 캐릭터의 **Idle 4컷 모션 시안은 아직 미승인**이다. [모션 전달 브리프](docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](.agents/skills/camp-animation-art/SKILL.md) 스킬을 사용한다.
+- 새 모션 시트는 `tools/motion-lookdev.mjs`의 독립된 reference-only 수신/검토 경로를 사용한다. 기존 `art-direction.mjs`·정책 파일이나 승인 fingerprint, `native-base` 진입 조건을 변경하지 않는다. 시트를 코드로 잘라 맞췄다고 네이티브 64×96 프레임 납품으로 주장하지 않는다. 게임 자산 교체·배포 승인은 별개다.
+
 ## Current graphics workflow
 - **활성 역할 분담(2026-11-07):** ChatGPT가 미술 생성·비평·개선, 사용자가 개별 이미지 선택, Codex가 출처·기술 검사·게임 적용 및 캡처를 맡는다. [Rounded 02 브리프](docs/briefs/nw-se-rounded-lookdev-02.md)를 우선한다. NW와 SE의 독립 원본/리뷰 없이 native-base에 진입하지 않는다. 프로세스 구현 승인은 개별 이미지 승인이나 배포 권한이 아니다.
 - 신규 픽셀 제작의 활성 경로는 [시각 제작](docs/visual-production.md)과 `art/sprites/art-direction.json`이다. 과거 생성·정규화 절차보다 이 경로를 먼저 적용한다. 정확한 투영·캔버스 제안은 기존 `scene-spec.json.pixelQuarterview`에서만 읽는다.
