@@ -5,6 +5,8 @@ description: "HuddlersFire 캐릭터 Idle/Walk/Sit 등 모션 원화를 ChatGPT�
 
 # ChatGPT 애니메이션 원화와 Codex 모션 인계
 
+**최신 원본 전달:** [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md). ChatGPT 제작 모션/레이어 PNG는 직접 GitHub 바이너리 업로드와 원격 해시 검증이 가능하면 그렇게 처리한다. 불가능하면 Codex가 실제 원본 PNG를 안전하게 Git에 등록한다. ZIP을 재생성하거나 기본으로 요구하지 않는다. 이미지 수정본은 새 파일과 새 해시로 등록한다.
+
 [활성 시각 제작](../../../docs/visual-production.md), [Rounded 02 모션 인계](../../../docs/briefs/rounded-02/animation-idle-handoff.md), [캐릭터 디자인 승인](../../../docs/reviews/2026-11-07-rounded02-rev2-art-approval.md)을 먼저 읽는다. 게임 로직이나 단순 기능 수정에는 이 스킬을 호출하지 않는다.
 
 1. **ChatGPT가 원화 제작자 겸 미술 디렉터**다. 방향별 Idle/Walk/Sit 동작과 후속 헤어·옷 레이어의 각 프레임 *이미지*는 ChatGPT 이미지 제작 경로에서 만들고 미술 평가·반복 수정도 여기서 한다. Codex는 대체 이미지를 생성·코드로 그리거나 도형 재작화하지 않는다.

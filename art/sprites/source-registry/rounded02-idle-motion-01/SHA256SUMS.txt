@@ -1,0 +1,2 @@
+7abce57cf6e2cd4a4f2611d9cabb652a40526b7faac26a229b4ba1aafa404581  original/nw-idle-4cut-v1.png
+1483c3c713929c407f0e427096d92dcf9b3fd0a995e08058369e4b3b792da929  original/se-idle-4cut-v1.png
