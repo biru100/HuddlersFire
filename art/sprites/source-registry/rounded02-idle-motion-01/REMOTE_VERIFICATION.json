@@ -1,0 +1,49 @@
+{
+  "repository": "biru100/HuddlersFire",
+  "commit": "f822f7b89a28aae7696abf6a611b0b480b8bcd53",
+  "verifiedAt": "2026-11-07T14:24:52.002Z",
+  "method": "Fresh HTTP requests to commit-pinned raw.githubusercontent.com; SHA256 of response bytes",
+  "allOriginalsVerified": false,
+  "results": [
+    {
+      "set": "rounded02-rev2-lookdev",
+      "path": "art/sprites/source-registry/rounded02-rev2-lookdev/original/nw-approved.png",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/f822f7b89a28aae7696abf6a611b0b480b8bcd53/art/sprites/source-registry/rounded02-rev2-lookdev/original/nw-approved.png",
+      "httpStatus": 404,
+      "expectedSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+      "expectedBytes": 521850,
+      "status": "missing_original"
+    },
+    {
+      "set": "rounded02-rev2-lookdev",
+      "path": "art/sprites/source-registry/rounded02-rev2-lookdev/original/se-approved.png",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/f822f7b89a28aae7696abf6a611b0b480b8bcd53/art/sprites/source-registry/rounded02-rev2-lookdev/original/se-approved.png",
+      "httpStatus": 404,
+      "expectedSha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2",
+      "expectedBytes": 521444,
+      "status": "missing_original"
+    },
+    {
+      "set": "rounded02-idle-motion-01",
+      "path": "art/sprites/source-registry/rounded02-idle-motion-01/original/nw-idle-4cut-v1.png",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/f822f7b89a28aae7696abf6a611b0b480b8bcd53/art/sprites/source-registry/rounded02-idle-motion-01/original/nw-idle-4cut-v1.png",
+      "httpStatus": 200,
+      "expectedSha256": "7abce57cf6e2cd4a4f2611d9cabb652a40526b7faac26a229b4ba1aafa404581",
+      "expectedBytes": 685555,
+      "bytes": 685555,
+      "sha256": "7abce57cf6e2cd4a4f2611d9cabb652a40526b7faac26a229b4ba1aafa404581",
+      "status": "remote_bytes_verified"
+    },
+    {
+      "set": "rounded02-idle-motion-01",
+      "path": "art/sprites/source-registry/rounded02-idle-motion-01/original/se-idle-4cut-v1.png",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/f822f7b89a28aae7696abf6a611b0b480b8bcd53/art/sprites/source-registry/rounded02-idle-motion-01/original/se-idle-4cut-v1.png",
+      "httpStatus": 200,
+      "expectedSha256": "1483c3c713929c407f0e427096d92dcf9b3fd0a995e08058369e4b3b792da929",
+      "expectedBytes": 709599,
+      "bytes": 709599,
+      "sha256": "1483c3c713929c407f0e427096d92dcf9b3fd0a995e08058369e4b3b792da929",
+      "status": "remote_bytes_verified"
+    }
+  ]
+}

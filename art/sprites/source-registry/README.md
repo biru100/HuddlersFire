@@ -23,7 +23,7 @@ art/sprites/source-registry/
       se-<role>-v1.png
 ```
 
-현재 두 자산 묶음은 **업로드 대상과 정확한 SHA256을 기록한 사전 등록 상태**다. PNG 바이너리를 아직 커밋하지 않았으므로 두 폴더의 `original/` 파일 존재를 확인하기 전까지 실제 원격 원본이 있다고 보고하지 않는다.
+현재 상태는 **4개 중 Idle 원본 2개만 원격 바이트 검증 완료**다. `rounded02-rev2-lookdev`의 승인 디자인 원본 2개는 로컬에서 찾지 못해 `missing_original`이며 전체 업로드는 미완료다. [실행·원격 검증 기록](../../../docs/reviews/2026-11-07-github-originals-validation.md)을 따른다. 네 원본이 모두 검증되기 전에는 PR #5를 병합하지 않는다.
 
 - [Rounded 02 Rev2 사용자 선택 착의 룩데브](rounded02-rev2-lookdev/README.md). 두 PNG는 **미술 기준으로 사용자 선택 완료**지만 네이티브 제작/게임 검증은 별개다.
 - [Rounded 02 Idle 모션 4컷 시안](rounded02-idle-motion-01/README.md). 사용자 모션 승인 **대기**, 비네이티브 참고 자료다.

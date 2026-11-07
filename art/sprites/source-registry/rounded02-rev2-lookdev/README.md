@@ -5,7 +5,7 @@
 - 용도: 사용자가 선택한 NW·SE 착의 룩데브 디자인 원본
 - 승인/검토 상태: `selected-lookdev`
 - 배포 상태: `productionReady:false`, `runtimeVerified:false`
-- 현재 커밋에서는 `original/*.png`의 **업로드가 아직 확인되지 않았다**. `MANIFEST.json`의 `originals[].path`는 예정 경로이고, 실제 파일 존재/원격 검증 여부를 확인한 후에만 업로드 완료라고 말한다.
+- 현재 `original/*.png` 두 파일은 **`missing_original`**이다. 프로젝트·현재 대화 첨부 폴더·Downloads에서 PNG 5,696개를 확인했으나 아래 SHA256·바이트 크기의 원본은 없었다. 원격 커밋 `f822f7b89a28aae7696abf6a611b0b480b8bcd53`에서도 두 경로는 HTTP 404다. [검증 기록](../../../../docs/reviews/2026-11-07-github-originals-validation.md)을 따른다. 다른 로컬 후보를 대체 업로드하거나 기존 승인 기록·예정 해시를 변경하지 않는다.
 - 파일명은 GitHub용 영문이며 실제 PNG 바이트는 SHA256으로 식별한다. 리사이즈, 자르기, 압축 재저장, 색상 양자화, 반전, 임의 프레임 추출은 금지.
 - `SHA256SUMS.txt`의 각 값은 ChatGPT에서 생성한 원본 파일과 검증하여 작성했다. 새 이미지는 기존 이름 덮어쓰기 없이 새 set ID/파일명으로 추가한다.
 
