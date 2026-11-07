@@ -1,0 +1,15 @@
+{
+  "kind": "derived-technical-review-screenshot-not-art-original",
+  "file": "review/region-plan-preview.png",
+  "sha256": "48ac43c26b470f80b2b251da2e7bf72a36cff5f4d5fc1103db8a6e5d2bbb965e",
+  "bytes": 156113,
+  "capturedBy": "isolated headless browser test:browser:idle-frames",
+  "anchorSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "planSha256": "e5c47c485ba2c04c48cc04e8b519a3d1a2634defc8bd909cf2762af82ddb02b2",
+  "maskSha256": "fefef5a715acfaaacd58c98a0a00b9b3e3d58cef1710791b58830d86665b4680",
+  "planConfirmed": false,
+  "artApproved": false,
+  "decision": "pending",
+  "productionReady": false,
+  "runtimeVerified": false
+}

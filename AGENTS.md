@@ -20,7 +20,9 @@
 - **원화·애니메이션 제작의 주도권은 ChatGPT**에 있다. 방향별/동작별 각 프레임 이미지와 의상 레이어 원화, 미술 검토 및 수정 요청도 ChatGPT 이미지 제작 대화에서 수행한다. Codex는 원본의 SHA256·알파·프레임/셀 정렬·루프·앵커·규격을 검사하고 승인 후 실제 게임에 연결한다. 기술 검사는 미술적 승인·이미지 생성이 아니다.
 - 현재 NW/SE Rounded 02 Rev2 캐릭터 **착의 디자인만** 미술 기준작으로 선정됐다. 같은 캐릭터의 **Idle 4컷 모션 시안은 아직 미승인**이다. [모션 전달 브리프](docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](.agents/skills/camp-animation-art/SKILL.md) 스킬을 사용한다.
 - **Rounded 02 Idle 기본 경로는 anchor → 영역 잠금 → 프레임별 개별 생성 → 마지막 무손실 조립**이다. [프레임 제작 절차](docs/briefs/rounded-02/idle-frame-workflow.md)와 `tools/idle-frames.mjs`를 사용한다. f1 neutral, f2 inhale, f3 exhale, f4 return이며 모든 생성은 같은 f1을 기준으로 한다. NW부터 적용하고 SE는 독립 부모·anchor·영역 검토를 요구한다.
-- 두 신발 전체·발바닥/뒤꿈치/발끝·무릎 아래·전신 위치·카메라/원근/방향은 잠근다. 확인된 가슴/어깨/후드 상단/등 위/머리 일부 끝/상완의 작은 영역만 제한적으로 움직인다. 명시한 움직임 영역 밖은 전부 잠금이다. 위치 보정·알파 이진화·양자화로 실패를 숨기지 않는다.
+- 두 신발 전체·발바닥/뒤꿈치/발끝·무릎 아래·전신 위치·카메라/원근/방향과 **곱슬머리 전체**를 잠근다. 목 아래·어깨·후드·등 윗부분의 자연스러운 연결을 고려한 제한 호흡 영역을 검토한다. 머리 끝 움직임을 허용하던 플랜 01은 이력이다. 명시한 움직임 영역 밖은 전부 잠금이며 위치 보정·알파 이진화·양자화로 실패를 숨기지 않는다.
+- **NW 플랜 02 검토:** 사용자가 전달한 ChatGPT 검토에 따라 승인 NW 원본은 f1 neutral로 사용 가능하다. [수정 플랜](docs/briefs/rounded-02/idle-masked-upper-body-02.md)은 전체 머리 잠금·연결된 상체 영역·1.8~2초(초안 4×475ms) 호흡과 사전 마스크 기반 부분 원화 합성을 제안한다. 수정 플랜의 실제 미술 검토 전에는 `confirm-plan`을 실행하지 않는다. f1 사용 가능 기록을 수정 영역/모션 승인으로 확대하지 않는다.
+- 명시적으로 검토된 부분 원화 경로는 생성 원본 `generated/`와 파생 합성 `composites/`를 분리한다. 동결된 마스크 안은 ChatGPT 원본 RGBA, 밖은 anchor RGBA를 그대로 선택하고 각 SHA·변경 영역·제외 변경·경계 띠/이음새를 검사한다. 블렌딩·페더링·재작화·자동 정렬로 생성 실패를 수리하지 않는다. 마스크/경계가 미확인 또는 불일치하면 합성을 차단한다. 생성 원본 전체를 성공한 완성 프레임으로 주장하지 않는다.
 - 기존 2×2 전체 시트 일괄 생성은 신규 기본 경로에서 제외한다. `tools/motion-lookdev.mjs prepare --legacy-sheet`는 과거 시트 수신/검토 재현용으로만 남긴다. 기존 원본·리뷰·승인 fingerprint 및 `art-direction.mjs`·정책·native-base 게이트는 보존한다. 새 프레임 job은 source-registry version 3에 실제 PNG만 등록하고, 조립 시트는 파생 참고 자료로 분리한다.
 - anchor/영역 초안의 실제 ChatGPT 확인, 프레임 기술 통과, 사용자 모션 선택, native/runtime·게임 자산 교체·배포는 각각 별개다. 모션은 `pending-motion-review`, `artApproved:false`, `decision:pending`, `productionReady:false`, `runtimeVerified:false`를 유지한다. 기술 검사와 참고 시트 조립은 미술/네이티브 납품 승인이 아니다.
 

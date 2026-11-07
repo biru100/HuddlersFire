@@ -12,6 +12,8 @@
 
 ## 표준 구조
 
+**NW 최신 검토는 [플랜 02](rounded02-idle-frames-nw-02/README.md)**다. version 3 원본 레지스트리 안에서 job version 2의 명시적 상체 부분 원화/사전 마스크 경로를 지원한다. `generated/`는 ChatGPT 원본, `composites/`는 별도 해시·source/anchor/mask 지문이 있는 파생물이다. SHA256SUMS/MANIFEST에는 실제 원본만 등록하고 파생물을 원본으로 바꾸지 않는다. 원격 검증은 PNG와 동결 mask 바이트도 확인한다. f1 neutral 사용 가능과 수정 영역/모션 승인은 별개다.
+
 **2026-11-08 Rounded 02 Idle 신규 기본 경로:** version 3 `idle-frames`는 [anchor 기반 프레임 제작](../../../docs/briefs/rounded-02/idle-frame-workflow.md)을 저장한다. [NW 준비 폴더](rounded02-idle-frames-nw-01/README.md)처럼 `base/frame01-anchor.png`, `motion-plan/`, 실제 수신한 `generated/frame02..04.png`, 파생 참고용 `assembly/`, `review/`를 구분한다. SHA256SUMS는 실제 원본 슬롯만 포함하며 누락 프레임을 대체하지 않는다. 전체 시트 일괄 생성은 신규 기본 경로가 아니고 version 1/2 시트는 과거 수신 이력으로 유지한다. 원격 검증 대상은 `original/`뿐 아니라 version 3의 `base/`, `generated/` PNG도 포함한다. 디자인 부모 승인은 모션으로 전달되지 않는다.
 
 미승인 모션의 새 revision은 version 2 manifest로 NW 또는 SE 한 방향씩 수신할 수 있다. `revision`에 맞는 파일명을 사용하고, `artApproved:false`, `animationApproved:false`, `decision:pending`을 유지한다. 실제 받은 슬롯만 등록하며 미수신 방향을 이전 원본으로 대신 채우지 않는다. 기존 version 1 디자인/모션 manifest의 NW·SE 쌍 계약은 그대로다. [NW Idle v2 수신](rounded02-idle-motion-02-nw/README.md)을 참고한다.

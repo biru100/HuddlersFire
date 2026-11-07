@@ -11,6 +11,8 @@ INT-24 픽셀 작업도 기존 검사 경로를 사용한다. `test:sprites:pipe
 
 Rounded 02 Idle 하네스 변경은 `test:idle-frames`로 anchor/플랜/프레임 불변성, 전신 이동·신발/잠금 영역·부위 예산·리듬·4→1 차단, 무손실 RGBA 조립과 승인 분리를 검사한다. `test:motion-lookdev`, `test:art-source-registry`, `test:art-direction`도 함께 확인한다. 테스트용 기하 픽셀은 미술 원화가 아니다. 실제 프레임이 없는 준비 상태와 완성 루프를 구분하고 새 미술 평가를 꾸며 기록하지 않는다.
 
+부분 원화 합성 경로는 전체 머리 잠금, 1.8~2초 타이밍, f1 neutral 기록과 플랜 확인 분리, 사전 mask/SHA 불변성, 원본/합성 독립 해시, 제외 변화 공개, 경계 띠와 내부 gradient 차단, 합성 PNG의 정확한 RGBA 선택과 별도 시트 입력을 검사한다. 실제 플랜 02에는 확인 receipt·생성 원본·합성 PNG가 없어야 한다. 합성 회귀의 확인 기록은 테스트 fixture에서만 만든다.
+
 작업 전 기존 수정과 새 변경을 구분한다. 다른 작업자의 변경을 되돌리거나 배포를 위해 원본 저장소 전체를 임의로 커밋하지 않는다. 프로젝트 규칙은 [AGENTS.md](../../../AGENTS.md), 승인 기준은 [의도 기준](../../../docs/project-intent.md)의 해당 ID와 현재 요청에서 확인한다.
 
 [구조 문서](../../../docs/architecture.md)에서 변경 모듈의 소유권과 계약을 확인하고 실제 명령은 [web/package.json](../../../web/package.json) 및 [실행·배포 안내](../../../web/README.md)에서 확인한다. 아래는 선택 기준이며 모든 변경마다 전체 검사를 요구하지 않는다.

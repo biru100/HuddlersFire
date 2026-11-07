@@ -14,6 +14,12 @@ export function compileIdlePlan(plan){
   const ids=new Set();
   for(const z of plan.protectedZones){assert.ok(z.id&&!ids.has(z.id)&&Array.isArray(z.rect)&&z.rect.length===4&&z.rect.every(Number.isInteger)&&z.rect[0]>=0&&z.rect[1]>=0&&z.rect[2]>0&&z.rect[3]>0&&z.rect[0]+z.rect[2]<=w&&z.rect[1]+z.rect[3]<=h,'Invalid protected rectangle');ids.add(z.id);}
   for(const id of ['shoe-screen-left','shoe-screen-right','lower-body'])assert.ok(ids.has(id),'Missing locked zone '+id);
+  if(plan.composition){
+    const c=plan.composition;
+    assert.ok(ids.has('hair-whole'),'Masked upper-body plan must lock all hair');
+    assert.ok(c.mode==='masked-rgba-replacement'&&c.maskSource==='frozen-motion-polygons'&&c.outsideMask==='anchor'&&c.insideMask==='generated-original','Only explicit exact RGBA selection is supported');
+    assert.ok(Number.isInteger(c.guardBandPx)&&c.guardBandPx>=1&&c.guardBandPx<=16&&Number.isFinite(c.maxInnerEdgeChannelDelta)&&c.maxInnerEdgeChannelDelta>=0&&c.maxInnerEdgeChannelDelta<=255,'Invalid seam guard');
+  }
   const allowed=new Uint8Array(w*h),regions=[];
   for(const r of plan.motionRegions){
     assert.ok(r.id&&!ids.has(r.id)&&r.polygon?.length>=3,'Invalid motion region');ids.add(r.id);
@@ -40,6 +46,7 @@ function compare(a,b,indices){
   if(indices instanceof Uint8Array){for(let i=0;i<indices.length;i++)if(indices[i])visit(i);}else for(const i of indices)visit(i);
   return {changedPixels:changed,rawChangedPixels:rawChanged,visibleUnionPixels:visible,changedFraction:round(changed/(visible||1)),meanRgbaError:round(error/(4*(visible||1)))};
 }
+export {compare as compareIdleRegion};
 function rectMask(w,h,rect){const mask=new Uint8Array(w*h);for(let y=rect[1];y<rect[1]+rect[3];y++)for(let x=rect[0];x<rect[0]+rect[2];x++)mask[y*w+x]=1;return mask;}
 function maskedPremultiplied(data,mask){const out=new Uint8Array(data.length);let mass=0,sx=0,sy=0;for(let p=0;p<mask.length;p++)if(mask[p]){
   const i=p*4,a=data[i+3];out[i+3]=a;for(let k=0;k<3;k++)out[i+k]=Math.round(data[i+k]*a/255);
@@ -50,6 +57,7 @@ export function inspectIdlePixels(frames,plan,intent){
   assert.equal(frames.length,4);for(const data of frames)assert.equal(data.length,w*h*4,'Frame canvas differs from f1');
   assert.deepEqual(intent.frames.map(f=>f.id),['f1','f2','f3','f4']);assert.deepEqual(intent.frames.map(f=>f.intent),['neutral-anchor','inhale','exhale','return']);
   assert.ok(intent.frames.every(f=>Number.isInteger(f.durationMs)&&f.durationMs>=80&&f.durationMs<=2000),'Invalid frame timing');
+  if(plan.composition)assert.ok(intent.frames.reduce((n,f)=>n+f.durationMs,0)>=1800&&intent.frames.reduce((n,f)=>n+f.durationMs,0)<=2000,'Masked Idle loop must target 1.8–2 seconds');
   const locked=Uint8Array.from(allowed,v=>v?0:1),feet=plan.protectedZones.filter(z=>z.id.startsWith('shoe-'));
   const lower=rectMask(w,h,plan.protectedZones.find(z=>z.id==='lower-body').rect);lower.width=w;
   const origin=maskedPremultiplied(frames[0],lower),errors=[];

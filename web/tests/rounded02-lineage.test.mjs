@@ -27,5 +27,8 @@ test('persisted exact-byte design evidence restores through current gates and mo
   const idleFile=join(root,'art/sprites/source-registry/rounded02-idle-frames-nw-01/job.json');
   const idle=loadIdleFrames(idleFile,{root});assert.equal(idle.confirmed,false);assert.equal(idle.job.parent.sourceSha256,lineage.views.find(v=>v.view==='nw').parent.sourceSha256);
   const check=inspectIdleFrames(idleFile,{root});assert.deepEqual(check.missingFrames,['f2','f3','f4']);assert.equal(check.assemblyReady,false);assert.equal(check.artApproved,false);
+  const revisedFile=join(root,'art/sprites/source-registry/rounded02-idle-frames-nw-02/job.json'),revised=loadIdleFrames(revisedFile,{root});
+  assert.equal(revised.job.version,2);assert.equal(revised.confirmed,false);assert.equal(revised.plan.protectedZones.some(z=>z.id==='hair-whole'),true);
+  const newCheck=inspectIdleFrames(revisedFile,{root});assert.equal(newCheck.assemblyReady,false);assert.equal(newCheck.decision,'pending');
   await assert.rejects(()=>restoreRounded02Review({root}),/Run already exists/);
 });

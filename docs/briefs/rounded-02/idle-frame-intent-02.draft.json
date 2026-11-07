@@ -1,0 +1,14 @@
+{
+  "version":1,
+  "status":"revised-timing-draft-awaiting-chatgpt-review",
+  "loopTargetMs":[1800,2000],
+  "proposedLoopMs":1900,
+  "frames":[
+    {"id":"f1","intent":"neutral-anchor","durationMs":475,"instruction":"Exact approved NW design. User reports ChatGPT accepted f1 neutral use; no region/motion/native approval follows."},
+    {"id":"f2","intent":"inhale","durationMs":475,"instruction":"Small connected neck-below-hair/shoulder/hood/back response. Hair, lower body and global pose remain fixed. Start from same f1."},
+    {"id":"f3","intent":"exhale","durationMs":475,"instruction":"Gentle release, no sudden opposite peak or oversized 2→3 jump. Preserve neck/hood/shoulder continuity. Start from same f1."},
+    {"id":"f4","intent":"return","durationMs":475,"instruction":"Approach f1 with a small 4→1 seam. No head/hair/shoe movement. Start from same f1."}
+  ],
+  "rhythm":"Initial 1.9s loop hypothesis, not an artistic smoothness PASS. Compare all four transition errors per second and watch the actual loop after real sources exist.",
+  "sourceRule":"Separate original-canvas RGBA PNG upper-body source for each frame; transparent elsewhere permitted outside fixed mask. The mask/collar must be art-reviewed before generation. Preserve raw source and derived composite independently."
+}

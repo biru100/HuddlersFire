@@ -9,6 +9,8 @@ description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·
 
 ## 활성 경로
 
+현재 NW Idle [플랜 02](../../../docs/briefs/rounded-02/idle-masked-upper-body-02.md)는 전체 머리 잠금과 1.9초 상체 호흡·사전 마스크 합성을 검토한다. 실제 수정 플랜 확인 전 `confirm-plan`/합성을 하지 않는다. 부분 생성 원본과 합성 파생물을 각각 보존·SHA·변경 bbox·마스크 밖 제외 변화·경계 띠/이음새로 검사하며, 선택된 RGBA 복사만 허용한다. 원본 실패를 블렌딩/그리기/자동 정렬로 수리하지 않는다.
+
 **Idle·Walk·Sit 모션 원화 생성과 미술 검토는 ChatGPT가 담당한다.** Rounded 02 Idle은 [프레임 제작 절차](../../../docs/briefs/rounded-02/idle-frame-workflow.md)와 [camp-animation-art](../camp-animation-art/SKILL.md)의 anchor 고정·영역 잠금·개별 생성 경로를 사용한다. Codex는 원본 보존, global translation/foot lock/잠금 영역/변화 예산/4→1/morph 검사를 하고 마지막에 무손실 참고 시트를 조립한다. 전체 시트 일괄 생성은 이력 전용이다. 시트 존재·기술 통과·디자인 승인을 모션/native/runtime 승인으로 확대하지 않으며 승인 후 게임 연결은 별도다.
 
 ## 활성 경로

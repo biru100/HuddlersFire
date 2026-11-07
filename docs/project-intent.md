@@ -16,6 +16,8 @@
 
 ## 현재 확정 의도
 
+2026-11-08 **INT-24 후속 — NW f1 neutral 사용과 수정 상체 플랜:** 사용자가 ChatGPT 검토 결과로 승인 NW 원본의 f1 neutral 사용 가능을 전달했다. 곱슬머리 전체 잠금·목 아래/어깨/후드/등 위의 연결 재검토, 1.8~2초 호흡, ChatGPT 상체 부분 원화와 사전 마스크의 무손실·결정론적 선택을 검토한다. 원본과 합성은 별도 SHA·변경 영역·제외 변화·경계 검사를 남긴다. [플랜 02](briefs/rounded-02/idle-masked-upper-body-02.md)는 수정 미술 검토 전 confirm-plan 금지다. 모션/native/runtime 승인·게임 교체·배포로 확대하지 않는다.
+
 2026-11-08 **INT-24 후속 확정 — Idle anchor 기반 개별 프레임 제작:** 사용자 요청으로 전체 2×2 시트 일괄 생성을 신규 기본 경로에서 제외한다. 동일 neutral anchor 고정, 두 신발/하체/전체 위치/카메라 잠금과 제한 상체 부위 분리, ChatGPT f2 inhale·f3 exhale·f4 return 개별 생성, Codex 기술 검사와 마지막 무손실 참고 조립으로 전환한다. [제작 절차](briefs/rounded-02/idle-frame-workflow.md)를 따른다. 디자인 승인은 유지하며 neutral/영역 확인·모션 선택·native/runtime·배포는 별개다. 새 원화 생산보다 구조 정비/문서화가 이번 범위다.
 
 2026-11-08 **INT-24 후속 확정 — 실제 부모 연결과 Idle 기술 검토:** 사용자 요청에 따라 GitHub 승인 Rounded 02 Rev2 NW·SE 디자인을 기존 art-direction 승인 게이트로 검증한 부모 lookdev job에 연결하고, 미승인 Idle 4컷의 bbox·발 하단·몸 중심 이동·픽셀 차이·전환/루프를 기술 자료화한다. [검토 묶음](reviews/rounded02-idle-v1-20261108/README.md)을 ChatGPT 미술 수정에 전달한다. 기존 디자인 선택은 유지하되 모션은 pending이며 64×96 변환·알파 이진화·네이티브 제작·게임 교체·공개 배포는 이번 범위가 아니다.

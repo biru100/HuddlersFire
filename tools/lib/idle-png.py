@@ -34,6 +34,33 @@ def read(file):
 if sys.argv[1] == "decode":
     image, original = read(sys.argv[2])
     sys.stdout.buffer.write(struct.pack(">II", *image.size) + image.tobytes())
+elif sys.argv[1] == "composite":
+    request = json.load(sys.stdin)
+    anchor, anchor_bytes = read(request["anchor"])
+    source, source_bytes = read(request["source"])
+    mask = Path(request["mask"]).read_bytes()
+    if source.size != anchor.size or len(mask) != anchor.width * anchor.height or any(v not in (0, 1) for v in mask):
+        raise ValueError("Same canvas and explicit binary selection mask required")
+    profile = colors(anchor_bytes)
+    if colors(source_bytes) != profile:
+        raise ValueError("PNG color profile chunks differ; do not silently recolor")
+    a, s = anchor.tobytes(), source.tobytes()
+    pixels = bytearray(a)
+    for index, selected in enumerate(mask):
+        if selected:
+            pixels[index * 4:index * 4 + 4] = s[index * 4:index * 4 + 4]
+    result = Image.frombytes("RGBA", anchor.size, bytes(pixels))
+    stream = io.BytesIO()
+    result.save(stream, format="PNG")
+    encoded = stream.getvalue()
+    encoded = encoded[:33] + b"".join(profile) + encoded[33:]
+    with Image.open(io.BytesIO(encoded)) as check:
+        if check.tobytes() != bytes(pixels):
+            raise ValueError("Composite changed selected RGBA values")
+    with open(request["out"], "xb") as file:
+        file.write(encoded)
+    print(json.dumps({"sha256": hashlib.sha256(encoded).hexdigest(), "pixelExact": True,
+                      "operations": ["exact-rgba-selection"], "native": False}))
 elif sys.argv[1] == "assemble":
     request = json.load(sys.stdin)
     images = [read(file) for file in request["files"]]
@@ -63,4 +90,4 @@ elif sys.argv[1] == "assemble":
                       "dimensions": [width * 2, height * 2], "pixelExact": True,
                       "operations": ["lossless-rgba-placement"], "native": False}))
 else:
-    raise ValueError("Expected decode or assemble")
+    raise ValueError("Expected decode, composite or assemble")

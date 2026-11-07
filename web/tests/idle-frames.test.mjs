@@ -8,7 +8,8 @@ import {createHash} from 'node:crypto';
 import {deflateSync} from 'node:zlib';
 import {prepareArtJob,assessArtSubmission,verifyArtReview} from '../../tools/lib/art-direction.mjs';
 import {prepareMotionJob} from '../../tools/motion-lookdev.mjs';
-import {prepareIdleFrames,loadIdleFrames,confirmIdlePlan,receiveIdleFrame,inspectIdleFrames,assembleIdleFrames,decodeIdlePng} from '../../tools/idle-frames.mjs';
+import {prepareIdleFrames,loadIdleFrames,confirmIdlePlan,receiveIdleFrame,inspectIdleFrames,assembleIdleFrames,decodeIdlePng,composeIdleFrame} from '../../tools/idle-frames.mjs';
+import {compositeMasks,inspectCompositeSource} from '../../tools/lib/idle-composite.mjs';
 import {compileIdlePlan,inspectIdlePixels} from '../../tools/lib/idle-checks.mjs';
 import {verifyRegistry,loadRegistry} from '../../tools/art-source-registry.mjs';
 const sha=b=>createHash('sha256').update(b).digest('hex');
@@ -104,4 +105,64 @@ test('a failed current frame cannot be rescued with an old passing report',t=>{
 });
 test('assembly refuses mismatched PNG color interpretation rather than recoloring',t=>{
   const f=prepared(t);fill(f,{profile:true});assert.equal(inspectIdleFrames(f.file,{root:f.root}).assemblyReady,false);assert.throws(()=>assembleIdleFrames(f.file,{root:f.root}),/png_color_profile_chunks_differ/);assert.equal(existsSync(join(f.dir,'assembly/idle-4cut-reference.png')),false);
+});
+
+function compositeFixture(t,{duration=475}={}){
+  const f=fixture(t),p=structuredClone(plan),timing=structuredClone(intent);
+  p.protectedZones.push({id:'hair-whole',rect:[0,0,W,8]});
+  p.composition={mode:'masked-rgba-replacement',maskSource:'frozen-motion-polygons',outsideMask:'anchor',insideMask:'generated-original',guardBandPx:1,maxInnerEdgeChannelDelta:12};
+  timing.frames.forEach(frame=>frame.durationMs=duration);save(join(f.root,'plan.json'),p);save(join(f.root,'intent.json'),timing);
+  const anchorReview=join(f.root,'neutral.json');save(anchorReview,{actor:'chatgpt',reportedBy:'user',reference:'SYNTHETIC REPORTED REVIEW ONLY',quote:'SYNTHETIC f1 neutral suitability only',scope:'f1-neutral-only',sourceSha256:sha(f.bytes)});
+  return {...f,plan:p,intent:timing,options:{...f.options,anchorReview}};
+}
+function preparedComposite(t){const f=compositeFixture(t),made=prepareIdleFrames(f.options);return {...f,file:made.job,dir:dirname(made.job)};}
+function partialPixels(phase){const source=pixels(phase);source[0]++;source[(42*W+8)*4+3]=0;return source;}
+function intakePartial(f,frame,phase,data=partialPixels(phase)){
+  const source=join(f.root,frame+'-partial.png');writeFileSync(source,png(data));receiveIdleFrame(f.file,{root:f.root,frame,source,sourceReference:'SYNTHETIC PARTIAL SOURCE ONLY',anchorSha256:sha(f.bytes)});return source;
+}
+test('revised plan requires whole hair lock, explicit composition and a fixed editable interior',()=>{
+  const p=structuredClone(plan);p.composition={mode:'masked-rgba-replacement',maskSource:'frozen-motion-polygons',outsideMask:'anchor',insideMask:'generated-original',guardBandPx:1,maxInnerEdgeChannelDelta:12};
+  assert.throws(()=>compositeMasks(p),/all hair/);p.protectedZones.push({id:'hair-whole',rect:[0,0,W,8]});assert.ok(compositeMasks(p).core.some(Boolean));
+  p.composition.mode='alpha-blend';assert.throws(()=>compositeMasks(p),/exact RGBA/);
+});
+test('partial source diagnostics disclose discarded source/hair/shoe/hidden RGB changes separately',()=>{
+  const p=structuredClone(plan);p.protectedZones.push({id:'hair-whole',rect:[0,0,W,8]});p.composition={mode:'masked-rgba-replacement',maskSource:'frozen-motion-polygons',outsideMask:'anchor',insideMask:'generated-original',guardBandPx:1,maxInnerEdgeChannelDelta:12};
+  const anchor=pixels(),source=partialPixels(12),original=Buffer.from(source),{output,report}=inspectCompositeSource(anchor,source,p);
+  assert.equal(report.technicalStatus,'technical_checks_passed');assert.equal(report.sourceOutsideMask.rawChangedPixels,2);assert.equal(report.compositeOutsideMask.rawChangedPixels,0);assert.deepEqual(output,pixels(12));assert.deepEqual(source,original);
+  assert.equal(report.protectedZones.find(z=>z.id==='hair-whole').sourceChanges.rawChangedPixels,1);assert.equal(report.protectedZones.find(z=>z.id==='hair-whole').compositeChanges.rawChangedPixels,0);assert.equal(report.artApproved,false);
+});
+test('neutral suitability never confirms revised regions or permits composition/intake',t=>{
+  const f=preparedComposite(t),loaded=loadIdleFrames(f.file,{root:f.root});assert.equal(loaded.confirmed,false);assert.equal(loaded.job.version,2);
+  const report=read(join(f.dir,'review/alignment-report.json'));assert.equal(report.neutralAnchorUsableAsReportedByUser,true);assert.equal(report.planConfirmed,false);assert.equal(report.loopDurationMs,1900);assert.equal(report.assemblyReady,false);
+  assert.equal(existsSync(join(f.dir,'motion-plan/confirmation.json')),false);assert.equal(existsSync(join(f.dir,'composites/frame02-inhale.png')),false);
+  assert.throws(()=>composeIdleFrame(f.file,{root:f.root,frame:'f2'}),/not been confirmed/);
+  const source=join(f.root,'partial.png');writeFileSync(source,png(partialPixels(12)));assert.throws(()=>receiveIdleFrame(f.file,{root:f.root,frame:'f2',source,sourceReference:'SYNTHETIC ONLY',anchorSha256:sha(f.bytes)}),/Confirm/);
+});
+test('revised timing and actual neutral review scope are mandatory before preparation',t=>{
+  const f=compositeFixture(t,{duration:250});assert.throws(()=>prepareIdleFrames(f.options),/1.8/);
+  const g=compositeFixture(t);const n=read(g.options.anchorReview);n.scope='all-motion-approved';save(g.options.anchorReview,n);assert.throws(()=>prepareIdleFrames(g.options),/neutral-anchor review/);
+});
+test('source collar mismatch blocks composition, preserves raw failure and never writes a repaired image',t=>{
+  const f=preparedComposite(t);confirmIdlePlan(f.file,{root:f.root,reference:'SYNTHETIC REVISED PLAN CONFIRMATION ONLY'});
+  const data=partialPixels(12);data[(12*W+10)*4]++;const source=intakePartial(f,'f2',12,data),bytes=readFileSync(source);
+  assert.throws(()=>composeIdleFrame(f.file,{root:f.root,frame:'f2'}),/source_guard_band/);assert.equal(existsSync(join(f.dir,'composites/frame02-inhale.png')),false);assert.deepEqual(readFileSync(source),bytes);
+  assert.ok(read(join(f.dir,'review/f2-source-technical.json')).blockers.includes('source_guard_band_differs_from_anchor'));
+  assert.equal(inspectIdleFrames(f.file,{root:f.root}).technicalStatus,'blocked');
+});
+test('the inner edge of an unchanged collar still detects a sharp seam',t=>{
+  const f=compositeFixture(t),source=partialPixels(12);source[(12*W+11)*4]+=20;
+  const {report}=inspectCompositeSource(pixels(),source,f.plan);assert.equal(report.boundarySeam.guardBandComparison.rawChangedPixels,0);assert.ok(report.blockers.includes('inner_seam_gradient_budget_exceeded'));
+});
+test('source and deterministic derivatives have independent hashes; final sheet uses composites and all gates stay pending',t=>{
+  const f=preparedComposite(t);confirmIdlePlan(f.file,{root:f.root,reference:'SYNTHETIC REVISED PLAN CONFIRMATION ONLY'});
+  for(const [frame,phase] of [['f2',12],['f3',24],['f4',12]]){const source=intakePartial(f,frame,phase),bytes=readFileSync(source),result=composeIdleFrame(f.file,{root:f.root,frame});assert.notEqual(result.sha256,sha(bytes));assert.deepEqual(decodeIdlePng(result.file).data,pixels(phase));assert.deepEqual(readFileSync(source),bytes);assert.deepEqual(readFileSync(join(f.dir,read(join(f.dir,'MANIFEST.json')).originals.find(e=>e.slot===frame).path)),bytes);}
+  const inspected=inspectIdleFrames(f.file,{root:f.root});assert.equal(inspected.assemblyReady,true);assert.equal(inspected.artApproved,false);
+  const report=read(join(f.dir,'review/alignment-report.json'));assert.equal(report.sourceTechnicalReviews.length,3);assert.equal(report.sourceTechnicalReviews[0].sourceOutsideMask.rawChangedPixels,2);
+  const result=assembleIdleFrames(f.file,{root:f.root}),proof=read(join(f.dir,'assembly/ASSEMBLY.json'));assert.equal(result.pixelExact,true);assert.match(proof.sources[1].path,/composites/);assert.match(proof.sourceOriginals[1].path,/generated/);assert.equal(proof.runtimeVerified,false);
+  assert.throws(()=>composeIdleFrame(f.file,{root:f.root,frame:'f2'}),/never overwrite/);
+});
+test('frozen mask and derivative provenance tampering are detected independently',t=>{
+  const f=preparedComposite(t),mask=join(f.dir,'motion-plan/COMPOSITE_MASK.bin'),bytes=readFileSync(mask);bytes[0]=1;writeFileSync(mask,bytes);assert.throws(()=>loadIdleFrames(f.file,{root:f.root}),/Changed frozen mask/);
+  const g=preparedComposite(t);confirmIdlePlan(g.file,{root:g.root,reference:'SYNTHETIC ONLY'});intakePartial(g,'f2',12);composeIdleFrame(g.file,{root:g.root,frame:'f2'});
+  const proofFile=join(g.dir,'composites/f2-COMPOSITE.json'),proof=read(proofFile);proof.maskSha256='0'.repeat(64);save(proofFile,proof);assert.throws(()=>inspectIdleFrames(g.file,{root:g.root}),/Stale composite provenance/);
 });
