@@ -10,6 +10,8 @@
 
 수정 플랜은 곱슬머리 전체를 보수적 상단 잠금 띠로 보호하고, 목 아래·어깨·후드·등 위를 하나의 연결된 허용 다각형으로 제안한다. 목표 주기는 1.8~2초, 초안은 475ms×4=1900ms다. 영역·해부학적 연결·변화 예산·경계 띠/미술적 이음새는 ChatGPT가 다시 검토해야 한다. [플랜 검토 요청](../briefs/rounded-02/idle-masked-upper-body-02.md)과 원본/오버레이 PNG를 바로 전달할 수 있다.
 
+개편 commit [`9f0a6c2`](https://github.com/biru100/HuddlersFire/commit/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd)을 기존 PR #7에 푸시했다. 고정 커밋의 실제 anchor/mask/오버레이 및 인계 파일 13개를 HTTP 200으로 재수신해 로컬 바이트와 SHA256 일치를 확인했다. [원격 검증 증거](../../art/sprites/source-registry/rounded02-idle-frames-nw-02/REMOTE_VERIFICATION.json)를 남겼다. 이 검증은 생성/모션/미술 승인이나 게임 배포가 아니다.
+
 ## 합성 설계와 경계
 
 사용자가 검토를 요청한 부분 원화 경로를 **명시적 job version 2 모드**로 구현하고, registry version 3/기존 job version 1은 유지했다. 기존 플랜 01의 원본/요청/리뷰는 변경하지 않았다.

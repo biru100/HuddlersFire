@@ -2,6 +2,8 @@
 
 **f1 neutral은 사용 가능. 수정 영역·마스크·타이밍은 미확인. confirm-plan 미실행.**
 
+commit `9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd`에서 실제 anchor PNG·동결 mask·오버레이 PNG 및 인계 파일 13개를 GitHub로부터 다시 받아 바이트/SHA256을 대조했다. [REMOTE_VERIFICATION.json](REMOTE_VERIFICATION.json)은 준비 자료 업로드만 증명하며 수정 플랜/모션 승인을 의미하지 않는다.
+
 사용자가 전달한 실제 ChatGPT 검토의 범위는 [NEUTRAL_ANCHOR_REVIEW.json](motion-plan/NEUTRAL_ANCHOR_REVIEW.json)에 보존했다. 새 모션 원화나 합성 결과는 없다. 디자인 승인은 유지하고 motion/native/runtime은 pending이다.
 
 | 파일/범위 | 내용 |

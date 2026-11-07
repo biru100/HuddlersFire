@@ -1,0 +1,128 @@
+{
+  "repository": "biru100/HuddlersFire",
+  "commit": "9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd",
+  "verifiedAt": "2026-11-07T20:05:12.368Z",
+  "method": "Fresh commit-pinned GitHub raw downloads; response bytes equal local files and SHA256 checked",
+  "files": [
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/base/frame01-anchor.png",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/base/frame01-anchor.png",
+      "httpStatus": 200,
+      "bytes": 521850,
+      "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/MANIFEST.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/MANIFEST.json",
+      "httpStatus": 200,
+      "bytes": 1197,
+      "sha256": "6554def0fac7511d00be8e674d40c56620a35c7f852d6c83ddfdf765d3097afe",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/SHA256SUMS.txt",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/SHA256SUMS.txt",
+      "httpStatus": 200,
+      "bytes": 90,
+      "sha256": "c830050e5bf9b25acaf592f80c1889a83af79794e71c6b5dd99f69bb3ef6f43e",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/job.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/job.json",
+      "httpStatus": 200,
+      "bytes": 2002,
+      "sha256": "c5e26109a23691ba8e7e8cc5fa3c216777f6ed75d9b68e9feae11e330799febc",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/REGION_LOCKS.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/REGION_LOCKS.json",
+      "httpStatus": 200,
+      "bytes": 3513,
+      "sha256": "e5c47c485ba2c04c48cc04e8b519a3d1a2634defc8bd909cf2762af82ddb02b2",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/FRAME_INTENT.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/FRAME_INTENT.json",
+      "httpStatus": 200,
+      "bytes": 1475,
+      "sha256": "396ab141d5979ebcedc4481d9b3d5758bd7bda78a11c1370c49dee3152b8d329",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/f2-request.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/f2-request.json",
+      "httpStatus": 200,
+      "bytes": 2666,
+      "sha256": "60cdb906b0820fbdc92ac716688272917fabc9d08c2702e68f32987a8a0677c0",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/f3-request.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/f3-request.json",
+      "httpStatus": 200,
+      "bytes": 2666,
+      "sha256": "a8e90b7df4a592c1391cccb47ff29c67ddd93e9c5fb4a667d392e1d7a835e8e3",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/f4-request.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/f4-request.json",
+      "httpStatus": 200,
+      "bytes": 2666,
+      "sha256": "fd9003c522b294a4e69f96715942e147db7b9980e34aff77c25957de4541830a",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/COMPOSITE_MASK.bin",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/COMPOSITE_MASK.bin",
+      "httpStatus": 200,
+      "bytes": 1572528,
+      "sha256": "fefef5a715acfaaacd58c98a0a00b9b3e3d58cef1710791b58830d86665b4680",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/NEUTRAL_ANCHOR_REVIEW.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/motion-plan/NEUTRAL_ANCHOR_REVIEW.json",
+      "httpStatus": 200,
+      "bytes": 816,
+      "sha256": "e74eb8caaf6e7674bdec9acc17be72ec23af3321cfdc23661fe7afa7a2fddfc5",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/review/region-plan-preview.png",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/review/region-plan-preview.png",
+      "httpStatus": 200,
+      "bytes": 156113,
+      "sha256": "48ac43c26b470f80b2b251da2e7bf72a36cff5f4d5fc1103db8a6e5d2bbb965e",
+      "verified": true
+    },
+    {
+      "path": "art/sprites/source-registry/rounded02-idle-frames-nw-02/review/PREVIEW_ARTIFACT.json",
+      "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/9f0a6c238a3aa23f36a8fee7a9daafe3d31816fd/art/sprites/source-registry/rounded02-idle-frames-nw-02/review/PREVIEW_ARTIFACT.json",
+      "httpStatus": 200,
+      "bytes": 667,
+      "sha256": "86ddd0e94397618fed9e7eb2e17e70b2461553ce3a990655b6fedbc6c99228a4",
+      "verified": true
+    }
+  ],
+  "anchorOnly": true,
+  "neutralAnchorUsableAsReportedByUser": true,
+  "generatedSourcesReceived": false,
+  "compositesCreated": false,
+  "missingFrames": [
+    "f2",
+    "f3",
+    "f4"
+  ],
+  "planConfirmed": false,
+  "reviewState": "pending-motion-review",
+  "decision": "pending",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false
+}
