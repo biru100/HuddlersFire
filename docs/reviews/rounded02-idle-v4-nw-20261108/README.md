@@ -14,6 +14,8 @@ AgentHub 사용자 첨부 Image #1: `3cb7e21cdc8c6a0f30577354a7067896.png`, 2026
 SHA256: **`43cebe6d478d7718258a59e8667b28283cdbd6fe654ad7319de282374e2dbe7c`**.
 원본은 무손실 보존했고 실제 디코딩과 레지스트리·job 수신 해시를 대조했다.
 
+커밋 `3fe6a1b121362adc5e0f3725c6221a9c16593455`의 GitHub PNG를 raw URL에서 새로 내려받아 SHA256과 869,226 bytes를 재검증했다. [원격 검증 기록](../../../art/sprites/source-registry/rounded02-idle-motion-04-nw/REMOTE_VERIFICATION.json)을 참조한다.
+
 ## 이전 가로 정렬 문제는 남아 있음
 
 2번·4번 컷에서 **몸과 양발이 함께 왼쪽으로 이동하는 성분**이 계속 보인다. 발중점 기준 이동은 약 −9px이며 몸 중심은 −15.2px/−11.7px다. 전체 이동과 국소 형태 변화가 함께 있어 두 측정값이 완전히 같지는 않다. 수치는 모두 원본 셀 기준이다.
