@@ -1,5 +1,7 @@
 # Codex 작업 지시 · GitHub-first PNG 원본 이관
 
+> **완료 상태 갱신 (2026-11-07):** 이 문서 아래의 ‘원본 4개 미업로드’ 문구는 최초 요청 이력이다. 네 개 원본은 GitHub에 보관 및 원격 무결성 확인을 마쳤다. [검증 기록](../../reviews/2026-11-07-github-originals-validation.md)과 [원본 레지스트리](../../../art/sprites/source-registry/README.md)를 최신 기준으로 사용한다. 다음 작업은 올바른 디자인 승인 부모 job 연결과 모션 기술·미술 평가이며 원본 재업로드가 아니다.
+
 기준 PR: [#5](https://github.com/biru100/HuddlersFire/pull/5), 브랜치 `art/github-original-source-workflow-20261107`.
 
 ## 목적

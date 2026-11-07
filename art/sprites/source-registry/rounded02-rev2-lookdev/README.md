@@ -5,13 +5,13 @@
 - 용도: 사용자가 선택한 NW·SE 착의 룩데브 디자인 원본
 - 승인/검토 상태: `selected-lookdev`
 - 배포 상태: `productionReady:false`, `runtimeVerified:false`
-- 현재 `original/*.png` 두 파일은 **`missing_original`**이다. 프로젝트·현재 대화 첨부 폴더·Downloads에서 PNG 5,696개를 확인했으나 아래 SHA256·바이트 크기의 원본은 없었다. 원격 커밋 `f822f7b89a28aae7696abf6a611b0b480b8bcd53`에서도 두 경로는 HTTP 404다. [검증 기록](../../../../docs/reviews/2026-11-07-github-originals-validation.md)을 따른다. 다른 로컬 후보를 대체 업로드하거나 기존 승인 기록·예정 해시를 변경하지 않는다.
+- **최신 상태: 두 승인 원본 모두 GitHub에 무손실 업로드 완료.** 최초 Codex 로컬 검사에서는 누락됐지만 같은 대화에서 원본 2개를 찾아 복구하고 commit [`602c28c`](https://github.com/biru100/HuddlersFire/commit/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba)에 등록했다. GitHub `fetch_file(encoding=base64)` 응답으로부터 계산한 SHA256·바이트 수가 아래 승인 문서와 일치한다. [전체 검증 기록](../../../../docs/reviews/2026-11-07-github-originals-validation.md) 및 [기계 판독 기록](../REMOTE_VERIFICATION.json)을 따른다. 이 업로드는 디자인 LOOKDEV 선택과 별개인 native/runtime 승인을 의미하지 않는다.
 - 파일명은 GitHub용 영문이며 실제 PNG 바이트는 SHA256으로 식별한다. 리사이즈, 자르기, 압축 재저장, 색상 양자화, 반전, 임의 프레임 추출은 금지.
 - `SHA256SUMS.txt`의 각 값은 ChatGPT에서 생성한 원본 파일과 검증하여 작성했다. 새 이미지는 기존 이름 덮어쓰기 없이 새 set ID/파일명으로 추가한다.
 
 ## 파일 인계
 
-| 방향 | GitHub 예정 파일 | 원본 제공 파일 | SHA256 |
+| 방향 | GitHub 원본 파일 | 원본 제공 파일 | SHA256 |
 | --- | --- | --- | --- |
 | NW | `original/nw-approved.png` | `곱슬머리_소년의_후면_픽셀_아트.png` | `c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a` |
 | SE | `original/se-approved.png` | `세이지_후디를_입은_곱슬머리_소년_스프라이트.png` | `c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2` |

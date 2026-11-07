@@ -1,6 +1,16 @@
 # PR #5 · GitHub 원본 업로드 검증
 
-## 결과: 2/4 원격 검증 완료, 병합 보류
+## 최종 후속 결과: 원본 4/4 GitHub 업로드 및 재검증 완료
+
+- **승인 NW 디자인:** `art/sprites/source-registry/rounded02-rev2-lookdev/original/nw-approved.png`, 521,850바이트, SHA256 `c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a`.
+- **승인 SE 디자인:** `art/sprites/source-registry/rounded02-rev2-lookdev/original/se-approved.png`, 521,444바이트, SHA256 `c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2`.
+- 두 파일의 원본은 해당 ChatGPT 대화의 작업 공간에서 회수했다. [원본 저장 커밋](https://github.com/biru100/HuddlersFire/commit/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba)에서 직접 `fetch_file(encoding=base64)`로 재조회해 바이트를 복원하고 SHA256을 독립 계산한 결과 정확히 일치했다.
+- Idle NW·SE는 이전 커밋 `f822f7b`에서 이미 HTTP 200 원본 SHA256 확인됐으며, 같은 `602c28c` 커밋에서도 각각 정확한 Git Blob SHA와 원본 바이트 길이가 일치했다.
+- [전체 검증 기록](../../art/sprites/source-registry/REMOTE_VERIFICATION.json)은 작업에 필요한 네 원본의 고정 커밋 경로와 서로 다른 검증 방식을 구분해 기록한다.
+- 기존 테스트 308/308, 모션 6/6 및 빌드 PASS는 아래 과거 Codex 검사 근거다. 이번 회수·바이너리 커밋 단계에서는 애플리케이션 코드를 수정하거나 전체 테스트를 재실행하지 않았다.
+- **미술 및 제작 경계:** NW·SE 디자인 LOOKDEV는 사용자가 선택했지만, Idle 모션 미술 승인은 여전히 pending이다. 64×96 네이티브 스프라이트, 실제 게임 렌더, 배포는 미완료다.
+
+## 이전 검사 시점: 2/4 원격 검증 완료, 병합 보류
 
 대상: [PR #5](https://github.com/biru100/HuddlersFire/pull/5), `art/github-original-source-workflow-20261107`.
 하네스 회귀와 빌드는 통과했다. Idle NW·SE 두 PNG는 정확한 원본 바이트로 커밋·푸시하고 GitHub에서 새로 내려받아 검증했다. 승인 디자인 NW·SE 두 원본은 찾지 못했다. 사용자 지시에 따라 네 원본이 모두 검증되기 전에는 병합하지 않는다.
