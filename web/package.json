@@ -6,7 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "test": "node --import ./tests/sprite-fixture.mjs --test --test-concurrency=4 tests/release.test.mjs tests/camp.test.mjs tests/features.test.mjs tests/playback.test.mjs tests/character.test.mjs tests/weapons.test.mjs tests/carry-handoff.test.mjs tests/architecture.test.mjs tests/input.test.mjs tests/wire.test.mjs tests/community.test.mjs tests/view.test.mjs tests/playground.test.mjs tests/maps.test.mjs tests/immersion.test.mjs tests/exhibition.test.mjs tests/appearance.test.mjs tests/theme.test.mjs tests/sprites.test.mjs tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/lighting.test.mjs tests/materials.test.mjs tests/avatar-proxy.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs tests/art-direction.test.mjs tests/art-intake.test.mjs",
+    "test": "node --import ./tests/sprite-fixture.mjs --test --test-concurrency=4 tests/release.test.mjs tests/camp.test.mjs tests/features.test.mjs tests/playback.test.mjs tests/character.test.mjs tests/weapons.test.mjs tests/carry-handoff.test.mjs tests/architecture.test.mjs tests/input.test.mjs tests/wire.test.mjs tests/community.test.mjs tests/view.test.mjs tests/playground.test.mjs tests/maps.test.mjs tests/immersion.test.mjs tests/exhibition.test.mjs tests/appearance.test.mjs tests/theme.test.mjs tests/sprites.test.mjs tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/lighting.test.mjs tests/materials.test.mjs tests/avatar-proxy.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs tests/art-direction.test.mjs tests/art-intake.test.mjs tests/motion-lookdev.test.mjs",
     "test:network": "node tests/network.integration.mjs",
     "test:render": "node --import ./tests/sprite-fixture.mjs tests/render-scene.mjs",
     "test:metrics": "node tests/measure-camp.mjs",
@@ -24,7 +24,7 @@
     "test:qa-server": "node tests/local-immersion-server.mjs",
     "test:render:metrics": "node --import ./tests/sprite-fixture.mjs tests/measure-render.mjs outputs/sprite-render-after.json",
     "sprites:build": "node ../tools/rebuild-sprites.mjs",
-    "test:sprites:pipeline": "node --import ./tests/sprite-fixture.mjs --test tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/materials.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs tests/art-direction.test.mjs tests/art-intake.test.mjs",
+    "test:sprites:pipeline": "node --import ./tests/sprite-fixture.mjs --test tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/materials.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs tests/art-direction.test.mjs tests/art-intake.test.mjs tests/motion-lookdev.test.mjs",
     "test:render:preview": "node tests/render-scene-preview.mjs",
     "test:browser:lighting": "node tests/browser.lighting.mjs",
     "materials:build": "node ../tools/build-material-maps.mjs",
@@ -33,7 +33,8 @@
     "test:browser:pixel": "node tests/browser.pixel.mjs",
     "test:art-direction": "node --test tests/art-direction.test.mjs",
     "test:art-intake": "node --test tests/art-intake.test.mjs",
-    "test:browser:art-review": "node tests/browser.art-review.mjs"
+    "test:browser:art-review": "node tests/browser.art-review.mjs",
+    "test:motion-lookdev": "node --test tests/motion-lookdev.test.mjs"
   },
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^1.33.0",
