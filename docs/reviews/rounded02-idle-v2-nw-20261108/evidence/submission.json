@@ -1,0 +1,15 @@
+{
+  "kind": "motion-lookdev-receipt",
+  "sourceType": "chatgpt-image-generation",
+  "sourceFilename": "4718868ec929dc8c065e9729a580f0f9.png",
+  "sourceReference": "AgentHub 사용자 첨부 Image #1, 2026-11-08, NW Idle v2 후보; 제작 대화 URL 미제공",
+  "sourceSha256": "c9779f37594fbaad5dccc25e7cde64d20172cd743d619de3f6ad2144e47e70b0",
+  "originalBytes": 915804,
+  "operations": [
+    "lossless-copy"
+  ],
+  "observedModel": null,
+  "observedModelStatus": "unverified",
+  "animationApproved": false,
+  "productionReady": false
+}

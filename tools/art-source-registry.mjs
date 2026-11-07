@@ -24,13 +24,19 @@ function pngDetails(bytes){
   return {width,height};
 }
 function assertManifest(manifest,root,manifestPath){
-  if(manifest.version!==1||!/^[-a-z0-9]+$/.test(manifest.setId??'')||
+  if(![1,2].includes(manifest.version)||!/^[-a-z0-9]+$/.test(manifest.setId??'')||
      !['design-lookdev','motion-concept'].includes(manifest.kind)||
      !['selected-lookdev','pending-motion-review'].includes(manifest.reviewState)||
      manifest.productionReady!==false||manifest.runtimeVerified!==false)throw Error('Invalid artwork registry contract');
   if((manifest.kind==='design-lookdev')!==(manifest.reviewState==='selected-lookdev'))throw Error('Selection state conflicts with artwork type');
-  if(!Array.isArray(manifest.originals)||manifest.originals.length!==2||
-     manifest.originals.map(x=>x.slot).join(',')!=='nw,se')throw Error('Expected exactly NW then SE originals');
+  if(manifest.version===1){
+    if(!Array.isArray(manifest.originals)||manifest.originals.length!==2||
+       manifest.originals.map(x=>x.slot).join(',')!=='nw,se')throw Error('Expected exactly NW then SE originals');
+  }else{
+    if(manifest.kind!=='motion-concept'||manifest.artApproved!==false||manifest.animationApproved!==false||manifest.decision!=='pending'||
+       !Number.isSafeInteger(manifest.revision)||manifest.revision<1)throw Error('Version 2 only stores pending motion revisions');
+    if(!Array.isArray(manifest.originals)||!['nw','se','nw,se'].includes(manifest.originals.map(x=>x.slot).join(',')))throw Error('Expected one motion view or ordered NW,SE; no duplicates');
+  }
   const base=relative(resolve(root),dirname(manifestPath)).replaceAll('\\','/');
   if(base!=='art/sprites/source-registry/'+manifest.setId)throw Error('Manifest must be in its own source-registry folder');
   if(manifest.reviewState==='selected-lookdev'){
@@ -39,7 +45,8 @@ function assertManifest(manifest,root,manifestPath){
     for(const entry of manifest.originals)if(!approval.includes(entry.sha256))throw Error('Approval document does not reference source hash: '+entry.slot);
   }else if(manifest.approvalDocument)throw Error('Motion concept cannot inherit a design decision');
   for(const entry of manifest.originals){
-    if(!['nw','se'].includes(entry.slot)||entry.filename!==entry.slot+'-'+(manifest.kind==='design-lookdev'?'approved':'idle-4cut-v1')+'.png'||
+    const role=manifest.kind==='design-lookdev'?'approved':'idle-4cut-v'+(manifest.version===1?1:manifest.revision);
+    if(!['nw','se'].includes(entry.slot)||entry.filename!==entry.slot+'-'+role+'.png'||
       entry.path!=='original/'+entry.filename||typeof entry.sourceFilename!=='string'||!entry.sourceFilename.endsWith('.png')||
       !SHA.test(entry.sha256)||!Number.isInteger(entry.bytes)||entry.bytes<33||
       !Array.isArray(entry.dimensions)||entry.dimensions.length!==2||entry.dimensions.some(n=>!Number.isInteger(n)||n<1))throw Error('Invalid original manifest entry: '+entry.slot);
@@ -62,7 +69,8 @@ function verifyBytes(bytes,entry){
 }
 export function ingestRegistry(manifestName,{root=ROOT,sources={}}={}){
   const {base,data}=loadRegistry(manifestName,{root});
-  if(Object.keys(sources).sort().join(',')!=='nw,se'||typeof sources.nw!=='string'||!sources.nw.trim()||typeof sources.se!=='string'||!sources.se.trim())throw Error('Provide both --nw and --se original PNG files');
+  const slots=data.originals.map(x=>x.slot);
+  if(Object.keys(sources).sort().join(',')!==slots.join(',')||slots.some(slot=>typeof sources[slot]!=='string'||!sources[slot].trim()))throw Error(data.version===1?'Provide both --nw and --se original PNG files':'Provide original PNG files for registered slots only: '+slots.join(','));
   const prepared=data.originals.map(entry=>{
     const source=resolve(sources[entry.slot]);
     if(!existsSync(source)||lstatSync(source).isSymbolicLink())throw Error('Source missing or symlink: '+entry.slot);
@@ -107,7 +115,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
   const manifest=option(args,'--manifest');
   if(!manifest)throw Error('Use --manifest art/sprites/source-registry/<set-id>/MANIFEST.json');
   let output;
-  if(action==='ingest')output=ingestRegistry(manifest,{sources:{nw:option(args,'--nw'),se:option(args,'--se')}});
+  if(action==='ingest')output=ingestRegistry(manifest,{sources:Object.fromEntries(['nw','se'].map(slot=>[slot,option(args,'--'+slot)]).filter(([,value])=>value!==undefined))});
   else if(action==='verify')output=verifyRegistry(manifest);
   else throw Error('Usage: art-source-registry.mjs ingest|verify --manifest PATH [--nw ORIGINAL --se ORIGINAL]');
   process.stdout.write(JSON.stringify(output,null,2)+'\n');

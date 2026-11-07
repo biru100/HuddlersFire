@@ -55,12 +55,12 @@ function soleProxy(data, w, h, bounds, side, split) {
   return { anchor: [contact.centroid[0], bottom], supportBounds: contact.bounds, samples: contact.count };
 }
 
-function describe(data, w, h, index) {
+function describe(data, w, h, index, footSplitX) {
   const full = region(data, w, h), core = region(data, w, h, { threshold: 128 });
   const alpha = { transparent: 0, soft: 0, opaque: 0 }, histogram = new Uint32Array(256);
   for (let i = 3; i < data.length; i += 4) { alpha[data[i] === 0 ? 'transparent' : data[i] === 255 ? 'opaque' : 'soft']++; histogram[data[i]]++; }
   const b = core.bounds;
-  const split = shoeSplit(data, w, h, b);
+  const split = footSplitX ?? shoeSplit(data, w, h, b);
   const screenLeft = soleProxy(data, w, h, b, 0, split), screenRight = soleProxy(data, w, h, b, 1, split);
   const feetMidpoint = screenLeft && screenRight ? screenLeft.anchor.map((x, i) => round((x + screenRight.anchor[i]) / 2)) : null;
   const body = b ? region(data, w, h, { threshold: 128, y0: b[1] + b[3] * .35, y1: b[1] + b[3] * .68 }) : null;
@@ -117,14 +117,15 @@ export function estimateTranslation(a, b, w, h, seed = [0, 0]) {
   return residual.meanPremultipliedRgbaError <= raw.meanPremultipliedRgbaError ? { shiftBToA: [best.dx, best.dy], residual } : { shiftBToA: [0, 0], residual: raw };
 }
 
-export function analyzePixels(data, width, height) {
+export function analyzePixels(data, width, height, { footSplitX } = {}) {
   assert.ok(Number.isInteger(width) && Number.isInteger(height) && width > 0 && height > 0 && width % 2 === 0 && height % 2 === 0, 'Even 2x2 PNG dimensions required');
   assert.equal(data.length, width * height * 4);
   const w = width / 2, h = height / 2, cells = [], frames = [];
+  assert.ok(footSplitX === undefined || Number.isInteger(footSplitX) && footSplitX > 0 && footSplitX < w, 'Foot split must be an integer inside the cell');
   for (let i = 0; i < 4; i++) {
     const cell = new Uint8Array(w * h * 4), ox = i % 2 * w, oy = Math.floor(i / 2) * h;
     for (let y = 0; y < h; y++) cell.set(data.subarray(((y + oy) * width + ox) * 4, ((y + oy) * width + ox + w) * 4), y * w * 4);
-    frames.push(describe(cell, w, h, i)); cells.push(premultiply(cell));
+    frames.push(describe(cell, w, h, i, footSplitX)); cells.push(premultiply(cell));
   }
   const first = frames[0];
   for (const f of frames) {
@@ -142,7 +143,7 @@ export function analyzePixels(data, width, height) {
       footPairVectorChange: vector(next.feet.pairVector, f.feet.pairVector),
       alignedRegions: Object.fromEntries(Object.entries(bands).map(([name, band]) => [name, compareFrames(cells[i], cells[j], w, h, dx, dy, 1, band)])) };
   });
-  return { cellSize: [w, h], frames, transitions, loopSeam: transitions[3],
+  return { cellSize: [w, h], analysisParameters: { footSplitX: footSplitX ?? null, footSplitSource: footSplitX === undefined ? 'automatic palette-based valley; inspect markers' : 'operator-selected image-plane division; inspect markers; not a world-contact approval' }, frames, transitions, loopSeam: transitions[3],
     technicalBlockers: frames.flatMap(f => !f.bounds ? [`empty_frame_${f.frame}`] : f.touchesCellBoundary ? [`frame_${f.frame}_touches_cell_boundary`] : []),
     technicalWarnings: frames.filter(f => f.faintAlphaAtCellBoundary).map(f => `faint_alpha_at_frame_${f.frame}_cell_boundary_not_core_clipping`),
     measurementPolicy: { coordinates: 'Cell-local pixel indices, row-major TL/TR/BL/BR. Bounds are x,y,width,height; max indices inclusive.',
@@ -156,11 +157,11 @@ export function analyzePixels(data, width, height) {
     decision: 'pending', reviewState: 'pending-motion-review', artApproved: false, animationApproved: false, frameCellsVerified: false, loopVerified: false, productionReady: false, runtimeVerified: false };
 }
 
-export async function writeMotionAnalysis({ original, view, directory, sourceReference, parent }) {
+export async function writeMotionAnalysis({ original, view, directory, sourceReference, parent, footSplitX }) {
   const image = await loadImage(original), canvas = createCanvas(image.width, image.height), context = canvas.getContext('2d');
   context.drawImage(image, 0, 0);
   const analysis = { version: 1, kind: 'motion-lookdev-technical-analysis', view, originalSha256: sha(original), originalBytes: original.length,
-    sheetSize: [image.width, image.height], sourceReference, parent, ...analyzePixels(context.getImageData(0, 0, image.width, image.height).data, image.width, image.height) };
+    sheetSize: [image.width, image.height], sourceReference, parent, ...analyzePixels(context.getImageData(0, 0, image.width, image.height).data, image.width, image.height, { footSplitX }) };
   writeFileSync(join(directory, 'motion-analysis.json'), JSON.stringify(analysis, null, 2) + '\n');
   writeFileSync(join(directory, 'motion-analysis.html'), motionAnalysisHtml(analysis, original));
   return analysis;
@@ -174,8 +175,8 @@ export function motionAnalysisHtml(analysis, original, parentOriginal) {
   // Full sheets remain the only image sources. CSS moves view windows; no new art pixels are written.
   return `<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${viewTitle(analysis)} Idle 기술 검토</title>
 <style>*{box-sizing:border-box}body{font:15px/1.6 system-ui;color:#27312c;background:#f2eee5;margin:0;padding:24px;max-width:1480px;margin:auto}h1{font-size:26px}code{overflow-wrap:anywhere}section{display:flex;flex-wrap:wrap;gap:18px}article,.box{padding:14px;background:#fff;border:1px solid #bcc5bc;border-radius:10px;min-width:0}article{width:min(100%,325px)}.display{width:100%;aspect-ratio:${cw}/${ch};overflow:hidden;background:var(--back,#dce2d0);position:relative}.plane{position:absolute;transform-origin:0 0}.cell{position:relative;overflow:hidden;flex-shrink:0}.cell img{image-rendering:pixelated}.line{position:absolute;left:0;width:${cw}px;height:1px;background:#e75252;pointer-events:none}.dot{position:absolute;width:7px;height:7px;border:1px solid #ff4040;border-radius:50%;transform:translate(-50%,-50%)}button,select,input{font:inherit;margin:5px;padding:6px}table{border-collapse:collapse;font-size:13px}td,th{border:1px solid #aaa;padding:6px;text-align:left}.scroll{overflow:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere}.overlay .cell{position:absolute;left:0;top:0}.parent{max-width:100%;max-height:330px;object-fit:contain}.notice{padding:14px;background:#fff1bd}a{color:#145838}</style>
-<h1>${viewTitle(analysis)} · Idle v1 기술 검토</h1><p class="notice">pending-motion-review · artApproved:false · productionReady:false · runtimeVerified:false. 원본은 그대로이며 네이티브 변환/게임 합성/미술 승인이 아닙니다.</p>
-<p>원본 ${width}×${height} / cell ${cw}×${ch} · SHA256 <code>${analysis.originalSha256}</code></p><p>표시는 CSS 창·배율만 사용합니다. 아래 발점은 이미지의 하단 윤곽 측정값이며 실제 월드 접점은 ChatGPT/사용자가 확인해야 합니다.</p>
+<h1>${viewTitle(analysis)} · Idle 기술 검토</h1><p class="notice">pending-motion-review · artApproved:false · productionReady:false · runtimeVerified:false. 원본은 그대로이며 네이티브 변환/게임 합성/미술 승인이 아닙니다.</p>
+<p>원본 ${width}×${height} / cell ${cw}×${ch} · SHA256 <code>${analysis.originalSha256}</code></p><p>표시는 CSS 창·배율만 사용합니다. 아래 발점은 이미지의 하단 윤곽 측정값이며 실제 월드 접점은 ChatGPT/사용자가 확인해야 합니다. 발 영역 분할: ${analysis.analysisParameters?.footSplitX == null ? '자동 추정 (마커 확인 필요)' : '원본 대조 후 지정한 셀 x='+analysis.analysisParameters.footSplitX+' (측정용, 픽셀 이동 없음)'}.</p>
 <label>바탕 <select id="background"><option value="#dce2d0">밝음</option><option value="#17252a">어두움</option><option value="#777777">중간 회색</option></select></label>
 ${parentOriginal ? `<details><summary>승인된 디자인 부모 (LOOKDEV만 승인)</summary><img class="parent" alt="Approved design reference" src="data:image/png;base64,${parentOriginal.toString('base64')}"><p>원본 SHA256 <code>${analysis.parent.sourceSha256}</code></p></details>` : ''}
 <h2>프레임별 원본 창</h2><section id="frames">${[0, 1, 2, 3].map(frame).join('')}</section>

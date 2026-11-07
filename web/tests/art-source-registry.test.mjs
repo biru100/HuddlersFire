@@ -101,3 +101,35 @@ test('both tracked registry manifests load from a real checkout before PNG deliv
     assert.equal(registry.data.setId,set);assert.equal(registry.data.originals.length,2);
   }
 });
+
+function motionRevision(t,slot='nw'){
+  const f=fixture(t,{kind:'motion-concept'}),file=join(f.dir,'MANIFEST.json');
+  const m=JSON.parse(readFileSync(file,'utf8'));
+  Object.assign(m,{version:2,revision:2,artApproved:false,animationApproved:false,decision:'pending'});
+  m.originals=m.originals.filter(e=>e.slot===slot).map(e=>({...e,filename:slot+'-idle-4cut-v2.png',path:'original/'+slot+'-idle-4cut-v2.png'}));
+  writeFileSync(file,JSON.stringify(m,null,2)+'\n');
+  writeFileSync(join(f.dir,'SHA256SUMS.txt'),m.originals.map(e=>e.sha256+'  '+e.path).join('\n')+'\n');
+  return {...f,file,manifest:m};
+}
+test('a new pending motion revision preserves one actual view without a substitute companion',t=>{
+  for(const slot of ['nw','se']){
+    const f=motionRevision(t,slot);const result=ingestRegistry(f.manifestFile,{root:f.root,sources:{[slot]:f.sources[slot]}});
+    assert.equal(result.copied.length,1);assert.deepEqual(readFileSync(join(f.dir,'original/'+slot+'-idle-4cut-v2.png')),png);
+    const checked=verifyRegistry(f.manifestFile,{root:f.root});assert.equal(checked.files.length,1);assert.equal(checked.productionReady,false);assert.equal(checked.reviewState,'pending-motion-review');
+    assert.throws(()=>ingestRegistry(f.manifestFile,{root:f.root,sources:f.sources}),/registered slots only/);
+  }
+});
+test('motion revision schema cannot approve art, reinterpret designs, duplicate views or change revision filenames',t=>{
+  const f=motionRevision(t),original=structuredClone(f.manifest);
+  for(const change of [{artApproved:true},{animationApproved:true},{decision:'approved'},{kind:'design-lookdev',reviewState:'selected-lookdev'},{revision:0},{originals:[original.originals[0],original.originals[0]]},{revision:3}]){
+    writeFileSync(f.file,JSON.stringify({...original,...change}));
+    assert.throws(()=>loadRegistry(f.manifestFile,{root:f.root}),/Invalid|Version 2|Expected|Selection state/);
+  }
+});
+test('legacy design and motion manifests still require both directions',t=>{
+  for(const kind of ['design-lookdev','motion-concept']){
+    const f=fixture(t,{kind}),file=join(f.dir,'MANIFEST.json'),m=JSON.parse(readFileSync(file,'utf8'));
+    m.originals.pop();writeFileSync(file,JSON.stringify(m));
+    assert.throws(()=>loadRegistry(f.manifestFile,{root:f.root}),/exactly NW then SE/);
+  }
+});

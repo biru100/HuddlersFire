@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "kind": "motion-lookdev-intake",
+  "view": "nw",
+  "action": "idle-breath",
+  "frameCount": 4,
+  "grid": [
+    2,
+    2
+  ],
+  "order": "row-major",
+  "originalSha256": "c9779f37594fbaad5dccc25e7cde64d20172cd743d619de3f6ad2144e47e70b0",
+  "sourceReference": "AgentHub 사용자 첨부 Image #1, 2026-11-08, NW Idle v2 후보; 제작 대화 URL 미제공",
+  "metrics": {
+    "sha256": "c9779f37594fbaad5dccc25e7cde64d20172cd743d619de3f6ad2144e47e70b0",
+    "bytes": 915804,
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": {
+      "opaque": 495,
+      "transparent": 1138304,
+      "soft": 433717
+    },
+    "bounds": [
+      0,
+      9,
+      1240,
+      1245
+    ],
+    "visibleColors": 33746,
+    "paletteMismatches": null,
+    "edgePixels": 6944,
+    "redFringe": 0
+  },
+  "cellSize": [
+    627,
+    627
+  ],
+  "status": "reference_only",
+  "blockers": [],
+  "warnings": [
+    "motion_concept_not_native_or_runtime_animation",
+    "soft_alpha_not_native"
+  ],
+  "motionConcept": true,
+  "frameCellsVerified": false,
+  "loopVerified": false,
+  "artApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "checksToPerform": [
+    "same-character-every-frame",
+    "same-view-every-frame",
+    "feet-registration",
+    "hair-and-clothing-consistency",
+    "frame-order",
+    "breathing-motion-readable",
+    "loop-seam-4-to-1"
+  ],
+  "note": "Image format/grid geometry is not per-frame artistic, native-resolution or runtime approval."
+}

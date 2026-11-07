@@ -12,6 +12,8 @@
 
 ## 표준 구조
 
+미승인 모션의 새 revision은 version 2 manifest로 NW 또는 SE 한 방향씩 수신할 수 있다. `revision`에 맞는 파일명을 사용하고, `artApproved:false`, `animationApproved:false`, `decision:pending`을 유지한다. 실제 받은 슬롯만 등록하며 미수신 방향을 이전 원본으로 대신 채우지 않는다. 기존 version 1 디자인/모션 manifest의 NW·SE 쌍 계약은 그대로다. [NW Idle v2 수신](rounded02-idle-motion-02-nw/README.md)을 참고한다.
+
 ```text
 art/sprites/source-registry/
   <new-asset-set-id>/

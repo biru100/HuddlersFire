@@ -57,5 +57,13 @@ test('review uses original-sheet windows once, pending boundaries and adjustable
   assert.equal((html.match(/data-sheet alt=/g)||[]).length,7);
   assert.equal((html.match(/data:image\/png;base64,/g)||[]).length,1);
   assert.match(html,/pending-motion-review/);assert.match(html,/250ms/);
+  assert.doesNotMatch(html,/Idle v1/,'Shared viewer must not mislabel later revisions');
   assert.doesNotMatch(html,/canvas|toDataURL|toBlob/);
+});
+test('explicit image-plane shoe division is recorded without changing source pixels and rejects out-of-cell columns',()=>{
+  const pixels=sheet([frame(),frame(),frame(),frame()]),before=Buffer.from(pixels);
+  const a=analyzePixels(pixels,48,64,{footSplitX:14});
+  assert.ok(a.frames.every(f=>f.feet.splitX===14));assert.equal(a.analysisParameters.footSplitX,14);
+  assert.equal(a.loopVerified,false);assert.deepEqual(Buffer.from(pixels),before);
+  assert.throws(()=>analyzePixels(pixels,48,64,{footSplitX:24}),/inside the cell/);
 });

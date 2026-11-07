@@ -98,7 +98,7 @@ export function receiveMotionJob(file,source,{root=ART_ROOT,sourceReference=''}=
   return {view:job.view,sourceSha256:record.sourceSha256,originalPreserved:true,status:'awaiting_motion_inspection'};
 }
 
-export async function inspectMotionJob(file,{root=ART_ROOT}={}){
+export async function inspectMotionJob(file,{root=ART_ROOT,footSplitX}={}){
   const job=loadMotionJob(file,{root}),dir=dirname(artPath(root,file));
   const receipt=readJson(resolve(dir,'submission.json')),filename=resolve(dir,'source/candidate.png');
   const original=readFileSync(filename);
@@ -128,7 +128,7 @@ export async function inspectMotionJob(file,{root=ART_ROOT}={}){
   let analysisFile=null;
   if(!assessment.blockers.length){
     const {writeMotionAnalysis}=await import('./lib/motion-analysis.mjs');
-    await writeMotionAnalysis({original,view:job.view,directory:build,sourceReference:receipt.sourceReference,parent:job.parent});
+    await writeMotionAnalysis({original,view:job.view,directory:build,sourceReference:receipt.sourceReference,parent:job.parent,footSplitX});
     analysisFile=resolve(build,'motion-analysis.html');
   }
   return {status:assessment.status,report:resolve(build,'motion-intake.json'),review:resolve(build,'motion-review.html'),
@@ -141,7 +141,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
   let output;
   if(op==='prepare')output=prepareMotionJob({out:arg(args,'--out'),view:arg(args,'--view'),parentJob:arg(args,'--parent-job'),parentReview:arg(args,'--parent-review')});
   else if(op==='intake')output=receiveMotionJob(job,arg(args,'--source'),{sourceReference:arg(args,'--source-reference')??''});
-  else if(op==='inspect')output=await inspectMotionJob(job);
+  else if(op==='inspect')output=await inspectMotionJob(job,{footSplitX:arg(args,'--foot-split')===undefined?undefined:Number(arg(args,'--foot-split'))});
   else throw Error('Usage: motion-lookdev.mjs prepare|intake|inspect (see docs/briefs/rounded-02/animation-idle-handoff.md)');
   console.log(JSON.stringify(output,null,2));
 }
