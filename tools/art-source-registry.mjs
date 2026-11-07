@@ -1,7 +1,7 @@
 // GitHub-first binary artwork intake. No image transforms, model calls, or approval changes.
 // Run from the project root with explicit original PNG paths; git commit/push remain separate.
 import {readFileSync,copyFileSync,mkdirSync,existsSync,lstatSync,constants} from 'node:fs';
-import {resolve,relative,dirname,basename,isAbsolute,join} from 'node:path';
+import {resolve,relative,dirname,isAbsolute,join} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 
@@ -61,7 +61,7 @@ function verifyBytes(bytes,entry){
 }
 export function ingestRegistry(manifestName,{root=ROOT,sources={}}={}){
   const {base,data}=loadRegistry(manifestName,{root});
-  if(Object.keys(sources).sort().join(',')!=='nw,se')throw Error('Provide both --nw and --se original PNG files');
+  if(Object.keys(sources).sort().join(',')!=='nw,se'||typeof sources.nw!=='string'||!sources.nw.trim()||typeof sources.se!=='string'||!sources.se.trim())throw Error('Provide both --nw and --se original PNG files');
   const prepared=data.originals.map(entry=>{
     const source=resolve(sources[entry.slot]);
     if(!existsSync(source)||lstatSync(source).isSymbolicLink())throw Error('Source missing or symlink: '+entry.slot);
