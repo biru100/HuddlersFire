@@ -4,6 +4,11 @@
 - 이 프로젝트 작업 중에는 전역 규칙과 설정을 수정하지 않는다. `C:\Users\user\.codex\AGENTS.md`, 전역 Codex 설정, 사용자 공통 스킬·하네스 설정 등이 포함된다.
 - 필요한 규칙과 설정은 HuddlersFire 프로젝트 내부에만 추가하거나 변경한다.
 
+## GitHub deployment (2026-11-07)
+- 사이트 배포는 GitHub Actions의 [Verify and deploy](.github/workflows/deploy.yml)를 사용한다. GPT/Sites 도구·게시 전용 저장소·배포 아카이브는 신규 배포 경로에서 제거한다. 기존 공개 사이트와 배포 이력은 임의로 삭제하지 않는다.
+- PR/main push는 검사만 수행하며 공개 배포는 main의 수동 workflow 실행으로 한다. [배포 안내](docs/github-deployment.md)의 Cloudflare Worker·D1·Discord 설정을 사용한다. GitHub Pages에 클라이언트만 올려 서버 기능을 완료로 처리하지 않는다.
+- 실제 배포 Secret/Variable·D1 migration 이력이 없으면 차단 상태를 보고한다. 원본 업로드·게임 자산 승인·운영 배포는 별개이며 비밀값과 로컬 상태를 커밋하지 않는다.
+
 ## Current animation graphics workflow (2026-11-07)
 - **원화·애니메이션 제작의 주도권은 ChatGPT**에 있다. 방향별/동작별 각 프레임 이미지와 의상 레이어 원화, 미술 검토 및 수정 요청도 ChatGPT 이미지 제작 대화에서 수행한다. Codex는 원본의 SHA256·알파·프레임/셀 정렬·루프·앵커·규격을 검사하고 승인 후 실제 게임에 연결한다. 기술 검사는 미술적 승인·이미지 생성이 아니다.
 - 현재 NW/SE Rounded 02 Rev2 캐릭터 **착의 디자인만** 미술 기준작으로 선정됐다. 같은 캐릭터의 **Idle 4컷 모션 시안은 아직 미승인**이다. [모션 전달 브리프](docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](.agents/skills/camp-animation-art/SKILL.md) 스킬을 사용한다.

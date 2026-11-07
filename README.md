@@ -1,5 +1,7 @@
 # HuddlersFire · 허들러즈 불멍
 
+**현재 배포 경로:** [GitHub Actions → Cloudflare Workers + D1](docs/github-deployment.md). GPT/Sites를 통한 신규 배포는 중단한다. GitHub 운영 설정이 아직 없어 새 호스트 배포는 대기 중이며, 아래 Sites URL·버전은 과거 공개 이력이다.
+
 인디게임개발자 Discord 커뮤니티 사람들이 함께 쉬고 놀기 위한 웹 기반 2D 쿼터뷰 캠프장입니다. 최대 16명이 공개방 목록·초대 링크·코드로 입장하며, 게임 상태는 방장을 중심으로 WebRTC DataChannel로 동기화합니다. 사용자 결정의 근거와 변경·충돌 절차는 [의도 기준](docs/project-intent.md), 원하는 경험과 미정 범위는 [제품 방향](docs/product-direction.md)에 정리합니다.
 
 **현재 공개 버전 29: INT-18 새 필드·규약 v19.** 세 맵의 배치·동선·카메라·필드 HUD와 52개 자산/67프레임을 전면 재생성했습니다. 16석의 방향·접촉과 모바일 영상/조작을 맞추고 기존 공유 기능을 유지합니다. 201개 회귀·PC/모바일·16인 RTC/승계와 공개 파일 72개/API를 확인했습니다. [제작과 재현](docs/sprite-authoring.md) · [검증 기록](docs/validation.md). 기존 참가자는 새로고침 후 다시 입장합니다. 아래 이전 버전 설명은 이력입니다.
