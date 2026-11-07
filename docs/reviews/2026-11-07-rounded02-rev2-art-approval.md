@@ -10,6 +10,13 @@
 - 성격: **LOOKDEV_ONLY 미술적 기준작 승인**, 두 이미지의 구체적 선택. 이전의 "프로세스 전체 승인"과 구분한다.
 - 이 문서만으로 Codex 로컬 `art-review.json`이나 `build/art-intake.json`이 생성·수정됐다고 주장하지 않는다. 정식 job 검증은 Codex 환경에서 이어서 수행한다.
 
+## GitHub에 보존된 정확한 원본
+
+- [NW 승인 Lookdev 원본](https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-rev2-lookdev/original/nw-approved.png)
+- [SE 승인 Lookdev 원본](https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-rev2-lookdev/original/se-approved.png)
+
+두 파일의 원본은 ChatGPT 대화에서 복구해 실제 GitHub 바이너리로 등록했으며, 원격 재조회 PNG의 SHA256·바이트 수를 각각 확인했다. 이 등록은 native-base 또는 게임 런타임 승인을 대신하지 않는다.
+
 ## 선택된 원본 (변환 금지)
 
 | 방향 | ChatGPT에서 제공된 원본 파일명 | PNG 크기 | SHA256 |

@@ -39,3 +39,7 @@
 /web/public/sprites/sprite-gen-LICENSE.txt -text
 /web/public/sprites/sprite-gen-NOTICE.txt -text
 /web/seed-design/ui/dialog.tsx -text
+
+# Exact PNG bytes for source-of-truth originals.
+/art/sprites/source-registry/*/original/*.png binary
+/art/sprites/source-registry/*/SHA256SUMS.txt text eol=lf

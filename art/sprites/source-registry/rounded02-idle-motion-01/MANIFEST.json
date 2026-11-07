@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "setId": "rounded02-idle-motion-01",
+  "kind": "motion-concept",
+  "reviewState": "pending-motion-review",
+  "approvalDocument": null,
+  "generation": {
+    "surface": "chatgpt",
+    "observedModel": null,
+    "modelEvidence": "unverified",
+    "sourceReference": "ChatGPT generated 2x2 Idle-motion exploratory sheets; not approved"
+  },
+  "productionReady": false,
+  "runtimeVerified": false,
+  "notes": [
+    "Two 2x2 PNGs are separate exploratory Idle sheets, not approved animation clips.",
+    "Parent design job/hash linkage must be proven; do not fabricate or bypass a blocked motion-lookdev parent gate.",
+    "Motion timing, frame anchors, alpha 0/255, 64x96 and game runtime remain unverified."
+  ],
+  "originals": [
+    {
+      "slot": "nw",
+      "filename": "nw-idle-4cut-v1.png",
+      "path": "original/nw-idle-4cut-v1.png",
+      "sourceFilename": "아늑한_꼬마_소년_4프레임_스프라이트시트.png",
+      "sha256": "7abce57cf6e2cd4a4f2611d9cabb652a40526b7faac26a229b4ba1aafa404581",
+      "bytes": 685555,
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "slot": "se",
+      "filename": "se-idle-4cut-v1.png",
+      "path": "original/se-idle-4cut-v1.png",
+      "sourceFilename": "포근한_픽셀_소년의_숨결_애니메이션.png",
+      "sha256": "1483c3c713929c407f0e427096d92dcf9b3fd0a995e08058369e4b3b792da929",
+      "bytes": 709599,
+      "dimensions": [
+        1254,
+        1254
+      ]
+    }
+  ]
+}

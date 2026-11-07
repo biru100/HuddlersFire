@@ -1,0 +1,2 @@
+c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a  original/nw-approved.png
+c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2  original/se-approved.png
