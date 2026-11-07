@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "repository": "biru100/HuddlersFire",
+  "commit": "602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba",
+  "allOriginalsVerified": true,
+  "approvedDesign": {
+    "reviewState": "selected-lookdev",
+    "productionReady": false,
+    "runtimeVerified": false
+  },
+  "idleMotion": {
+    "reviewState": "pending-motion-review",
+    "productionReady": false,
+    "runtimeVerified": false
+  },
+  "notes": [
+    "Design original PNG bytes were restored from the ChatGPT conversation working filesystem, uploaded via the connected GitHub API as Git blobs, and SHA256 was recalculated from the remote file content returned by GitHub.",
+    "Idle original PNGs were uploaded by Codex in commit f822f7b with independent HTTP 200 and SHA256 verification, and verified again here by remote Git object SHA and byte length.",
+    "No new artistic approval, 64x96 delivery, game runtime installation or public-site deployment is claimed."
+  ],
+  "files": [
+    {
+      "set": "rounded02-rev2-lookdev",
+      "slot": "nw",
+      "path": "art/sprites/source-registry/rounded02-rev2-lookdev/original/nw-approved.png",
+      "bytes": 521850,
+      "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+      "gitBlobSha": "1b1ce46697bedfcf93963ed6718f7749ae88615e",
+      "verifyMethod": "GitHub remote base64 response decoded; independent SHA256 recomputation",
+      "verified": true,
+      "url": "https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-rev2-lookdev/original/nw-approved.png"
+    },
+    {
+      "set": "rounded02-rev2-lookdev",
+      "slot": "se",
+      "path": "art/sprites/source-registry/rounded02-rev2-lookdev/original/se-approved.png",
+      "bytes": 521444,
+      "sha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2",
+      "gitBlobSha": "951bee3db0b8cc6dc723283d99c9a50005aaa77f",
+      "verifyMethod": "GitHub remote base64 response decoded; independent SHA256 recomputation",
+      "verified": true,
+      "url": "https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-rev2-lookdev/original/se-approved.png"
+    },
+    {
+      "set": "rounded02-idle-motion-01",
+      "slot": "nw",
+      "path": "art/sprites/source-registry/rounded02-idle-motion-01/original/nw-idle-4cut-v1.png",
+      "bytes": 685555,
+      "sha256": "7abce57cf6e2cd4a4f2611d9cabb652a40526b7faac26a229b4ba1aafa404581",
+      "gitBlobSha": "6f1e705b12646dd817dd4cf0a5234e5db48e5aac",
+      "verifyMethod": "Prior Codex raw HTTP SHA256 check (f822f7b), plus current remote Git blob SHA and byte length",
+      "verified": true,
+      "url": "https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-idle-motion-01/original/nw-idle-4cut-v1.png"
+    },
+    {
+      "set": "rounded02-idle-motion-01",
+      "slot": "se",
+      "path": "art/sprites/source-registry/rounded02-idle-motion-01/original/se-idle-4cut-v1.png",
+      "bytes": 709599,
+      "sha256": "1483c3c713929c407f0e427096d92dcf9b3fd0a995e08058369e4b3b792da929",
+      "gitBlobSha": "2073cb5148142d5b896c9d84e7c1d59536400302",
+      "verifyMethod": "Prior Codex raw HTTP SHA256 check (f822f7b), plus current remote Git blob SHA and byte length",
+      "verified": true,
+      "url": "https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-idle-motion-01/original/se-idle-4cut-v1.png"
+    }
+  ]
+}

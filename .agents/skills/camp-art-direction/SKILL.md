@@ -7,6 +7,8 @@ description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미
 
 # ChatGPT 아트 디렉션 · 원화 선택
 
+**최신 원본 전달:** [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md). ChatGPT 원화는 직접 GitHub 바이너리 업로드가 가능하면 원격 파일/해시까지 검증하고, 불가능하면 Codex가 원본 그대로 커밋한다. ZIP/로컬 다운로드 중심의 과거 지시는 이력이다. GitHub MANIFEST만으로 업로드/미술 승인을 주장하지 않는다.
+
 [활성 시각 제작](../../../docs/visual-production.md), [정책](../../../art/sprites/art-direction.json), [Rounded 02 현재 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)를 먼저 읽는다. 일반 기능 수정에는 이 절차를 추가하지 않는다.
 
 현재 [Rounded 02 전달 환경](../../../docs/briefs/rounded-02/README.md)은 원본 미수신 상태다. 첨부 ZIP의 과거 시안·비교판을 독립 원화로 승격하거나 새 ChatGPT 미술 평가가 있는 것처럼 기록하지 않는다.
