@@ -21,6 +21,12 @@
 
 ## 전용 하네스와 의도적 분리
 
+### 실제 Codex 수신 확인
+
+후속 사용자 첨부는 `HF_Rounded02_Idle_Package_20261107.zip`이며 ZIP SHA256은 `e72e89bdc21d05dceb91ff87374315de951a7c6eec0aa5b56a3a9736427f8e49`다. 위 최초 패키지와 ZIP 이름/구성/해시는 다르지만, 내부 `rounded02_rev2_idle_nw.png`, `rounded02_rev2_idle_se.png`의 SHA256·바이트 수는 위 두 원본과 일치한다. 실제 패키지의 `README.txt`, `SHA256SUMS.txt`, `MANIFEST.json`도 수정하지 않고 보존한다.
+
+현재 승인 문서는 `c1d4…` / `c1a1…` 디자인 원본을 선택했지만 Codex 로컬 Rev2 job의 원본은 `7e6b…` / `0e76…`이고 리뷰도 pending이다. 문서상 디자인 선택과 실제로 검증 가능한 동일 해시의 로컬 승인 리뷰를 구분한다. 정확한 승인 원본·리뷰 연결이 준비될 때까지 **정식 motion-lookdev job 준비는 차단**하고, 부모 미연결 원본 보존·독립 참고용 프레임 검사만 수행한다. 모션 승인이나 부모 승인을 꾸며 등록하지 않는다.
+
 이전 `tools/lib/art-direction.mjs`의 코드·정책 해시와 기존 사용자 디자인 승인 계보를 바꾸지 않고, 새 `tools/motion-lookdev.mjs`로 독립적인 `motion-lookdev` 작업을 관리한다. **기존 `--art --stage lookdev`나 `native-base` 작업에 4컷 시트를 밀어 넣지 않는다.**
 
 사용자 승인된 동일 방향 **lookdev 부모 job + review**가 실제로 Codex 환경에 있어야 모션 작업을 준비할 수 있다. 아래 경로는 예시로, 실제 준비된 Rev2 job 이름을 확인해 사용한다. 부모 승인 기록이나 수신 원본이 없으면 임의로 승인/receipt를 만들지 말고 멈춰서 보고한다.

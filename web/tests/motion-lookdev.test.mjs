@@ -1,12 +1,12 @@
 // Synthetic receipts test the motion handoff contract; never treated as user art.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync,existsSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
 import {prepareArtJob,assessArtSubmission,verifyArtReview} from '../../tools/lib/art-direction.mjs';
-import {prepareMotionJob,loadMotionJob,receiveMotionJob,validateMotionMetrics,motionPrompt} from '../../tools/motion-lookdev.mjs';
+import {prepareMotionJob,loadMotionJob,receiveMotionJob,inspectMotionJob,validateMotionMetrics,motionPrompt} from '../../tools/motion-lookdev.mjs';
 const sha = data => createHash('sha256').update(Buffer.isBuffer(data)||typeof data==='string'?data:JSON.stringify(data)).digest('hex');
 const save = (file,x) => writeFileSync(file,JSON.stringify(x,null,2)+'\n');
 const read = file => JSON.parse(readFileSync(file,'utf8'));
@@ -78,4 +78,34 @@ test('parent direction mismatch and altered reference are rejected',t=>{
   const m=prepareMotionJob({root:f.root,out:'right-view',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
   writeFileSync(join(m.directory,'REFERENCE.png'),'changed');
   assert.throws(()=>loadMotionJob(join(m.directory,'job.json'),{root:f.root}),/Changed motion design reference/);
+});
+
+test('real PNG decoding preserves the sheet, renders four CSS cells and blocks invalid grid delivery',async t=>{
+  const f=approvedParent(t),{createCanvas}=await import('@napi-rs/canvas');
+  // Four one-pixel test markers are geometry fixtures, never character artwork.
+  const canvas=createCanvas(4,4),ctx=canvas.getContext('2d');
+  ctx.fillStyle='rgba(240,120,80,0.5)';
+  for(const [x,y] of [[0,0],[2,0],[0,2],[2,2]])ctx.fillRect(x,y,1,1);
+  const bytes=canvas.toBuffer('image/png'),source=join(f.root,'four-marker-fixture.png');
+  writeFileSync(source,bytes);
+  const made=prepareMotionJob({root:f.root,out:'decoder-four-cells',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
+  const file=join(made.directory,'job.json');
+  receiveMotionJob(file,source,{root:f.root,sourceReference:'SYNTHETIC DECODER FIXTURE ONLY'});
+  const result=await inspectMotionJob(file,{root:f.root}),report=read(result.report);
+  assert.equal(result.status,'reference_only');assert.deepEqual(result.cellSize,[2,2]);
+  assert.equal(report.metrics.sha256,sha(bytes));assert.equal(report.metrics.alpha.soft,4);assert.equal(report.metrics.alpha.transparent,12);
+  assert.equal(report.frameCellsVerified,false);assert.equal(report.loopVerified,false);assert.equal(report.artApproved,false);
+  assert.equal(report.productionReady,false);assert.equal(report.runtimeVerified,false);
+  const html=readFileSync(result.review,'utf8');
+  assert.equal((html.match(/<h3>Frame [1-4]<\/h3>/g)||[]).length,4);
+  assert.ok(html.includes(bytes.toString('base64')));assert.match(html,/left:-2px;top:-2px/);
+  assert.deepEqual(readFileSync(source),bytes);assert.deepEqual(readFileSync(join(made.directory,'source/candidate.png')),bytes);
+  const review=read(join(made.directory,'motion-review.template.json'));
+  assert.equal(review.status,'pending');assert.equal(review.artDirectorReview.reference,'');assert.equal(review.userDecision.quote,'');
+  const invalid=prepareMotionJob({root:f.root,out:'decoder-invalid-grid',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
+  const onePixel=join(f.root,'invalid-grid.png');writeFileSync(onePixel,fixturePng);
+  const invalidJob=join(invalid.directory,'job.json');receiveMotionJob(invalidJob,onePixel,{root:f.root});
+  const blocked=await inspectMotionJob(invalidJob,{root:f.root});
+  assert.equal(blocked.status,'blocked');assert.ok(read(blocked.report).blockers.includes('invalid_2x2_sheet_dimensions'));
+  assert.deepEqual(readFileSync(join(invalid.directory,'source/candidate.png')),fixturePng);
 });

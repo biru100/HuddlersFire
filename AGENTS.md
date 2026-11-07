@@ -13,7 +13,7 @@
 - **활성 역할 분담(2026-11-07):** ChatGPT가 미술 생성·비평·개선, 사용자가 개별 이미지 선택, Codex가 출처·기술 검사·게임 적용 및 캡처를 맡는다. [Rounded 02 브리프](docs/briefs/nw-se-rounded-lookdev-02.md)를 우선한다. NW와 SE의 독립 원본/리뷰 없이 native-base에 진입하지 않는다. 프로세스 구현 승인은 개별 이미지 승인이나 배포 권한이 아니다.
 - 신규 픽셀 제작의 활성 경로는 [시각 제작](docs/visual-production.md)과 `art/sprites/art-direction.json`이다. 과거 생성·정규화 절차보다 이 경로를 먼저 적용한다. 정확한 투영·캔버스 제안은 기존 `scene-spec.json.pixelQuarterview`에서만 읽는다.
 - 미술 원화는 사용자가 지정한 ChatGPT 이미지 제작 경로로 요청하고, Codex는 요청서·수신·조립·검수를 담당한다. 내장 imagegen이나 유료 API를 조용히 대신 호출하지 않는다. 요청 모델과 실제 확인 모델은 분리하며 관찰할 수 없으면 `unverified`다.
-- 현재 승인된 픽셀 미술 기준은 없다. 과거 시트, 6색 파생본, 코드로 그린 NW 신체를 기준작으로 자동 승격하지 않는다. 착의 캐릭터 시안을 먼저 선택하고 NW 기본 신체, 소수 레이어, 실제 캠프 순서로 확인한다.
+- Rounded 02 Rev2 착의 디자인의 문서상 선택은 [승인 기록](docs/reviews/2026-11-07-rounded02-rev2-art-approval.md)을 따른다. 실제 로컬 원본 SHA256·유효한 리뷰와 일치해야 부모 승인으로 연결할 수 있다. 과거 시트, 6색 파생본, 코드로 그린 NW 신체를 기준작으로 자동 승격하지 않는다. 모션 승인은 별개이며 실제 캠프 검증도 별도로 수행한다.
 - `--art --stage lookdev --view nw|se`는 독립된 시점별 원화 검토, `--stage native-base`는 사용자 승인된 NW·SE 두 시안의 참조를 요구한다. `--pixel`은 기존 조립/장면 검사다. 두 경로는 동일 prepare → rebuild → render → review 명령을 사용한다. 시안 승인, 네이티브 규격 통과, 게임 장면 승인을 서로 대신하지 않는다.
 - 큰 생성물을 64×96로 강제 축소·양자화하거나 Python/SVG 도형으로 다시 그려 원화 생성 성공처럼 보고하지 않는다. 네이티브 납품이 안 되면 `blocked_native_delivery`로 보존하고 제작 방식의 결정을 분리한다.
 
