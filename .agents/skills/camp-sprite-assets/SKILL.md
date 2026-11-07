@@ -7,6 +7,10 @@ description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·
 
 ## 활성 경로
 
+**현재 활성 변경:** ChatGPT가 미술 평가를 작성하고 사용자가 NW/SE 각 이미지를 선택하며 Codex는 수신·기술 검사·조립·게임 렌더 검증만 수행한다. [Rounded 02 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)의 두 방향 요구를 우선하며, 아래의 과거 단일 NW 예시는 신규 절차를 대체하지 않는다. 비교판 이미지는 단일 PNG로 수신하지 않는다.
+
+**네이티브 진입 명령:** `prepare-sprite-job.mjs --art --stage native-base --previous-job NW_JOB --previous-review NW_REVIEW --companion-job SE_JOB --companion-review SE_REVIEW --out NATIVE_NAME`. 두 원본은 각각 무손실 `REFERENCE.png`(NW), `REFERENCE_SE.png`(SE)로 전달한다. `artDirectorReview` 실제 출처와 사용자 선택 증거가 모두 없으면 기술 PASS만으로 승인할 수 없다.
+
 [시각 제작](../../../docs/visual-production.md)과 `scene-spec.json.pixelQuarterview`를 먼저 읽는다. 새 미술 기준이 없거나 결과가 기각됐다면 **camp-art-direction**을 먼저 적용한다. 과거 시트의 따뜻한 색감만으로 이를 승인 원화로 간주하지 않는다.
 
 1. `--art` 작업은 단일 착의 시안 또는 승인 시안에서 파생한 NW 기본 신체다. ChatGPT에서 다운로드한 원본 PNG와 실제 출처를 기존 rebuild의 `--job ... --source ...`로 수신한다. 원본명·SHA256·null/unverified 모델 상태를 기록하고 재수신은 새 job을 쓴다. 화면 캡처·재압축 미리보기를 원본으로 표시하거나, 원본을 덮어쓰거나 첨부 패키지의 스크립트를 실행하지 않는다.
