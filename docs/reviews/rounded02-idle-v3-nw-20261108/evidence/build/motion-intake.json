@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "kind": "motion-lookdev-intake",
+  "view": "nw",
+  "action": "idle-breath",
+  "frameCount": 4,
+  "grid": [
+    2,
+    2
+  ],
+  "order": "row-major",
+  "originalSha256": "d6bb11d78ce4d3e2e26a353ba1303e4dfc7a419d5dea7671b352c0aebb1c2ed0",
+  "sourceReference": "AgentHub 사용자 첨부 Image #1, 2026-11-08, 6a8e6f67a9dff7c7e61c56a959521b47.png; 제작 대화 URL 미제공",
+  "metrics": {
+    "sha256": "d6bb11d78ce4d3e2e26a353ba1303e4dfc7a419d5dea7671b352c0aebb1c2ed0",
+    "bytes": 976617,
+    "size": [
+      1254,
+      1254
+    ],
+    "alpha": {
+      "opaque": 473,
+      "transparent": 1053428,
+      "soft": 518615
+    },
+    "bounds": [
+      0,
+      0,
+      1234,
+      1254
+    ],
+    "visibleColors": 29828,
+    "paletteMismatches": null,
+    "edgePixels": 6549,
+    "redFringe": 0
+  },
+  "cellSize": [
+    627,
+    627
+  ],
+  "status": "reference_only",
+  "blockers": [],
+  "warnings": [
+    "motion_concept_not_native_or_runtime_animation",
+    "soft_alpha_not_native"
+  ],
+  "motionConcept": true,
+  "frameCellsVerified": false,
+  "loopVerified": false,
+  "artApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "checksToPerform": [
+    "same-character-every-frame",
+    "same-view-every-frame",
+    "feet-registration",
+    "hair-and-clothing-consistency",
+    "frame-order",
+    "breathing-motion-readable",
+    "loop-seam-4-to-1"
+  ],
+  "note": "Image format/grid geometry is not per-frame artistic, native-resolution or runtime approval."
+}
