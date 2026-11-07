@@ -51,12 +51,12 @@ test('reject invalid grid, blank sheets and no transparency',()=>{
 });
 test('cannot prepare motion without an approved design parent',t=>{
   const {root}=approvedParent(t);
-  assert.throws(()=>prepareMotionJob({root,out:'no-parent',view:'nw'}),/parent and review required/);
-  assert.throws(()=>prepareMotionJob({root,out:'bad-view',view:'sw'}),/view/);
+  assert.throws(()=>prepareMotionJob({legacySheet:true,root,out:'no-parent',view:'nw'}),/parent and review required/);
+  assert.throws(()=>prepareMotionJob({legacySheet:true,root,out:'bad-view',view:'sw'}),/view/);
 });
 test('approved same-view lookdev is byte-preserved, still a concept, receipt never overwritten',t=>{
   const f=approvedParent(t);
-  const m=prepareMotionJob({root:f.root,out:'motion-nw-idle-01',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
+  const m=prepareMotionJob({legacySheet:true,root:f.root,out:'motion-nw-idle-01',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
   const file=join(m.directory,'job.json'),job=loadMotionJob(file,{root:f.root});
   assert.equal(job.view,'nw');assert.equal(job.frameCount,4);assert.deepEqual(job.grid,[2,2]);
   assert.deepEqual(readFileSync(join(m.directory,'REFERENCE.png')),fixturePng);
@@ -70,12 +70,12 @@ test('approved same-view lookdev is byte-preserved, still a concept, receipt nev
   assert.deepEqual(readFileSync(join(m.directory,'source/candidate.png')),fixturePng);
   assert.equal(read(join(m.directory,'submission.json')).productionReady,false);
   assert.throws(()=>receiveMotionJob(file,png,{root:f.root}),/already received/);
-  assert.throws(()=>prepareMotionJob({root:f.root,out:'motion-nw-idle-01',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile}),/Job exists/);
+  assert.throws(()=>prepareMotionJob({legacySheet:true,root:f.root,out:'motion-nw-idle-01',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile}),/Job exists/);
 });
 test('parent direction mismatch and altered reference are rejected',t=>{
   const f=approvedParent(t);
-  assert.throws(()=>prepareMotionJob({root:f.root,out:'wrong-view',view:'se',parentJob:f.jobFile,parentReview:f.reviewFile}),/same view/);
-  const m=prepareMotionJob({root:f.root,out:'right-view',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
+  assert.throws(()=>prepareMotionJob({legacySheet:true,root:f.root,out:'wrong-view',view:'se',parentJob:f.jobFile,parentReview:f.reviewFile}),/same view/);
+  const m=prepareMotionJob({legacySheet:true,root:f.root,out:'right-view',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
   writeFileSync(join(m.directory,'REFERENCE.png'),'changed');
   assert.throws(()=>loadMotionJob(join(m.directory,'job.json'),{root:f.root}),/Changed motion design reference/);
 });
@@ -88,7 +88,7 @@ test('real PNG decoding preserves the sheet, renders four CSS cells and blocks i
   for(const [x,y] of [[0,0],[2,0],[0,2],[2,2]])ctx.fillRect(x,y,1,1);
   const bytes=canvas.toBuffer('image/png'),source=join(f.root,'four-marker-fixture.png');
   writeFileSync(source,bytes);
-  const made=prepareMotionJob({root:f.root,out:'decoder-four-cells',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
+  const made=prepareMotionJob({legacySheet:true,root:f.root,out:'decoder-four-cells',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
   const file=join(made.directory,'job.json');
   receiveMotionJob(file,source,{root:f.root,sourceReference:'SYNTHETIC DECODER FIXTURE ONLY'});
   const result=await inspectMotionJob(file,{root:f.root}),report=read(result.report);
@@ -102,7 +102,7 @@ test('real PNG decoding preserves the sheet, renders four CSS cells and blocks i
   assert.deepEqual(readFileSync(source),bytes);assert.deepEqual(readFileSync(join(made.directory,'source/candidate.png')),bytes);
   const review=read(join(made.directory,'motion-review.template.json'));
   assert.equal(review.status,'pending');assert.equal(review.artDirectorReview.reference,'');assert.equal(review.userDecision.quote,'');
-  const invalid=prepareMotionJob({root:f.root,out:'decoder-invalid-grid',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
+  const invalid=prepareMotionJob({legacySheet:true,root:f.root,out:'decoder-invalid-grid',view:'nw',parentJob:f.jobFile,parentReview:f.reviewFile});
   const onePixel=join(f.root,'invalid-grid.png');writeFileSync(onePixel,fixturePng);
   const invalidJob=join(invalid.directory,'job.json');receiveMotionJob(invalidJob,onePixel,{root:f.root});
   const blocked=await inspectMotionJob(invalidJob,{root:f.root});

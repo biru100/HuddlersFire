@@ -1,5 +1,7 @@
 # Rounded 02 Rev2 · ChatGPT Idle 4컷 모션 시안 전달
 
+> **2026-11-08 대체된 제작 방식:** 새 Idle 제작은 [anchor 기반 프레임 절차](idle-frame-workflow.md)와 `tools/idle-frames.mjs`를 사용한다. 이 문서의 전체 2×2 생성은 과거 수신 이력이다. 기존 시트/요청문/리뷰는 보존하며 레거시 prepare에는 `--legacy-sheet`를 명시한다. 디자인 승인은 유지하고 모션은 계속 pending이다.
+
 # 최신 후속: 2026-11-08 부모 연결·Idle 기술 검토
 
 GitHub의 승인 디자인 원본 두 장으로 실제 `lookdev-*-rounded02-rev2-approved-20261108` 부모 job과 기존 승인 게이트 검증을 완료했다. 각 방향의 독립 `motion-*-rounded02-idle-v1-20261108` job은 이 부모만 참조한다. [NW·SE 리포트·프레임 비교·루프·Idle v2 요청서](../../reviews/rounded02-idle-v1-20261108/README.md)를 사용한다. 아래의 원본 미수신/부모 미연결/ZIP 지시는 과거 이력이며 현재 상태를 대신하지 않는다. 모션은 계속 pending이고 네이티브 변환·게임 교체·배포는 하지 않았다.

@@ -1,0 +1,91 @@
+{
+  "technicalStatus": "awaiting_frames",
+  "blockers": [
+    "missing_original_frames",
+    "anchor_region_plan_unconfirmed"
+  ],
+  "reviewState": "pending-motion-review",
+  "decision": "pending",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "view": "nw",
+  "anchorSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "planSha256": "e7a634045fc43b40104a579c05c5f243865d892d5faedcb5cfa54ea97386818b",
+  "intentSha256": "02c6148a8653cdc98a45e76c3d3667c03a32f0539cf191422a2e0ea9ea071ffc",
+  "planConfirmed": false,
+  "missingFrames": [
+    "f2",
+    "f3",
+    "f4"
+  ],
+  "sourceMetrics": [
+    {
+      "frame": "f1",
+      "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+      "bytes": 521850,
+      "colorProfileSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bounds": [
+        0,
+        23,
+        1058,
+        1425
+      ],
+      "alpha": {
+        "transparent": 1186839,
+        "soft": 384922,
+        "opaque": 767
+      },
+      "alphaWeightedCenter": [
+        534.938946261456,
+        751.4169964428401
+      ],
+      "coreBoundsAtAlpha128": [
+        327,
+        146,
+        415,
+        1197
+      ],
+      "footAnchors": [
+        {
+          "zone": "shoe-screen-left",
+          "measurementAlphaThreshold": 128,
+          "lowestAlphaRow": 1342,
+          "contactSpan": [
+            429,
+            505
+          ],
+          "interpretation": "image-space proxy inside draft shoe rectangle; threshold is measurement only, never alpha conversion; anatomical contact requires ChatGPT review"
+        },
+        {
+          "zone": "shoe-screen-right",
+          "measurementAlphaThreshold": 128,
+          "lowestAlphaRow": 1318,
+          "contactSpan": [
+            540,
+            540
+          ],
+          "interpretation": "image-space proxy inside draft shoe rectangle; threshold is measurement only, never alpha conversion; anatomical contact requires ChatGPT review"
+        }
+      ]
+    }
+  ],
+  "durationsMs": [
+    250,
+    250,
+    250,
+    250
+  ],
+  "globalPositionPolicy": "zero correction; lower-body translation measurement plus exact outside-mask comparison",
+  "requiredChecks": [
+    "global-translation",
+    "foot-lock",
+    "locked-region-consistency",
+    "motion-region-change-budget",
+    "loop-4-to-1",
+    "morph-summary"
+  ],
+  "artisticBreathingReadability": "unreviewed",
+  "assemblyReady": false
+}

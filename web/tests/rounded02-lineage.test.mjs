@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { restoreRounded02Review } from '../../tools/restore-rounded02-idle-review.mjs';
 import { verifyArtReview } from '../../tools/lib/art-direction.mjs';
 import { loadMotionJob } from '../../tools/motion-lookdev.mjs';
+import {loadIdleFrames,inspectIdleFrames} from '../../tools/idle-frames.mjs';
 const repository=fileURLToPath(new URL('../../',import.meta.url));
 test('persisted exact-byte design evidence restores through current gates and motion stays pending',async t=>{
   const root=mkdtempSync(join(tmpdir(),'hf-real-lineage-'));
@@ -23,5 +24,8 @@ test('persisted exact-byte design evidence restores through current gates and mo
     const pending=JSON.parse(readFileSync(join(dirname(join(root,item.motion.job)),'motion-review.template.json'),'utf8'));
     assert.equal(pending.status,'pending');assert.equal(pending.artDirectorReview.reference,'');assert.equal(pending.animationApproved,false);assert.equal(pending.runtimeVerified,false);
   }
+  const idleFile=join(root,'art/sprites/source-registry/rounded02-idle-frames-nw-01/job.json');
+  const idle=loadIdleFrames(idleFile,{root});assert.equal(idle.confirmed,false);assert.equal(idle.job.parent.sourceSha256,lineage.views.find(v=>v.view==='nw').parent.sourceSha256);
+  const check=inspectIdleFrames(idleFile,{root});assert.deepEqual(check.missingFrames,['f2','f3','f4']);assert.equal(check.assemblyReady,false);assert.equal(check.artApproved,false);
   await assert.rejects(()=>restoreRounded02Review({root}),/Run already exists/);
 });

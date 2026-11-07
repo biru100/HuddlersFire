@@ -3,7 +3,7 @@ name: camp-art-direction
 description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미술 판단을 수행하고 Codex에서 검사 증거·요청서를 관리하도록 분담한다."
 ---
 
-후속 모션 원화(Idle·Walk·Sit)와 헤어/의상 레이어의 **미술 제작/평가 역시 ChatGPT**가 담당한다. 원본 인계 및 4컷 모션 검토는 [camp-animation-art](../camp-animation-art/SKILL.md)와 [Idle 브리프](../../../docs/briefs/rounded-02/animation-idle-handoff.md)를 따른다. Codex 기술 검사는 모션 원화 제작을 대신하지 않는다.
+후속 모션 원화(Idle·Walk·Sit)와 헤어/의상 레이어의 **미술 제작/평가 역시 ChatGPT**가 담당한다. Rounded 02 Idle은 [camp-animation-art](../camp-animation-art/SKILL.md)와 [프레임별 제작](../../../docs/briefs/rounded-02/idle-frame-workflow.md)의 anchor 고정 → 영역 잠금 → f2/f3/f4 개별 생성 → 마지막 무손실 조립을 따른다. 전체 2×2 일괄 생성은 신규 기본 경로가 아니다. 디자인 승인·anchor/영역 확인·모션 선택은 별개이며 Codex 기술 검사는 미술 평가를 대신하지 않는다.
 
 # ChatGPT 아트 디렉션 · 원화 선택
 

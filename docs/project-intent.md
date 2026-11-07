@@ -16,6 +16,8 @@
 
 ## 현재 확정 의도
 
+2026-11-08 **INT-24 후속 확정 — Idle anchor 기반 개별 프레임 제작:** 사용자 요청으로 전체 2×2 시트 일괄 생성을 신규 기본 경로에서 제외한다. 동일 neutral anchor 고정, 두 신발/하체/전체 위치/카메라 잠금과 제한 상체 부위 분리, ChatGPT f2 inhale·f3 exhale·f4 return 개별 생성, Codex 기술 검사와 마지막 무손실 참고 조립으로 전환한다. [제작 절차](briefs/rounded-02/idle-frame-workflow.md)를 따른다. 디자인 승인은 유지하며 neutral/영역 확인·모션 선택·native/runtime·배포는 별개다. 새 원화 생산보다 구조 정비/문서화가 이번 범위다.
+
 2026-11-08 **INT-24 후속 확정 — 실제 부모 연결과 Idle 기술 검토:** 사용자 요청에 따라 GitHub 승인 Rounded 02 Rev2 NW·SE 디자인을 기존 art-direction 승인 게이트로 검증한 부모 lookdev job에 연결하고, 미승인 Idle 4컷의 bbox·발 하단·몸 중심 이동·픽셀 차이·전환/루프를 기술 자료화한다. [검토 묶음](reviews/rounded02-idle-v1-20261108/README.md)을 ChatGPT 미술 수정에 전달한다. 기존 디자인 선택은 유지하되 모션은 pending이며 64×96 변환·알파 이진화·네이티브 제작·게임 교체·공개 배포는 이번 범위가 아니다.
 
 2026-11-07 **운영 배포 경로 후속 확정:** 사용자 “사이트배포 gpt에서 하는건 삭제하고 깃허브로 해주라”에 따라 GPT/Sites 게시 경로를 제거하고 GitHub에서 소스·검사·배포를 관리한다. [GitHub Actions 배포](github-deployment.md)로 기존 Worker·D1 서버 구조를 유지한다. 사이트/DB 삭제와 새 DB로의 데이터 이전은 요청되지 않았으며 기존 운영 서비스를 임의 종료하지 않는다. 원본 PNG 업로드·개별 미술 승인·게임 자산 교체도 별개다. 실제 운영 계정·배포 토큰·대상 DB가 확보되지 않으면 배포 완료로 보고하지 않는다.

@@ -41,7 +41,8 @@ export function validateMotionMetrics(metrics){
   return {status:blockers.length?'blocked':'reference_only',blockers,warnings,motionConcept:true,frameCellsVerified:false,loopVerified:false,artApproved:false,productionReady:false,runtimeVerified:false};
 }
 
-export function prepareMotionJob({root=ART_ROOT,out,view,parentJob,parentReview}={}){
+export function prepareMotionJob({root=ART_ROOT,out,view,parentJob,parentReview,legacySheet=false}={}){
+  if(!legacySheet)throw Error('Whole-sheet generation is legacy-only. Use tools/idle-frames.mjs prepare; historical sheet intake requires --legacy-sheet.');
   if(!/^[a-z][a-z0-9-]{2,79}$/.test(out||''))throw Error('--out needs a new simple job name');
   if(!['nw','se'].includes(view))throw Error('Motion view must be nw or se');
   if(!parentJob||!parentReview)throw Error('Approved same-view lookdev parent and review required');
@@ -139,7 +140,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
   const [op,...args]=process.argv.slice(2);
   const job=arg(args,'--job');
   let output;
-  if(op==='prepare')output=prepareMotionJob({out:arg(args,'--out'),view:arg(args,'--view'),parentJob:arg(args,'--parent-job'),parentReview:arg(args,'--parent-review')});
+  if(op==='prepare')output=prepareMotionJob({out:arg(args,'--out'),view:arg(args,'--view'),parentJob:arg(args,'--parent-job'),parentReview:arg(args,'--parent-review'),legacySheet:args.includes('--legacy-sheet')});
   else if(op==='intake')output=receiveMotionJob(job,arg(args,'--source'),{sourceReference:arg(args,'--source-reference')??''});
   else if(op==='inspect')output=await inspectMotionJob(job,{footSplitX:arg(args,'--foot-split')===undefined?undefined:Number(arg(args,'--foot-split'))});
   else throw Error('Usage: motion-lookdev.mjs prepare|intake|inspect (see docs/briefs/rounded-02/animation-idle-handoff.md)');

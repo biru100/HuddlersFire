@@ -1,23 +1,22 @@
 ---
 name: camp-animation-art
-description: "HuddlersFire 캐릭터 Idle/Walk/Sit 등 모션 원화를 ChatGPT가 생성·미술 평가하고, Codex는 원본 보존·프레임 기술 검사·게임 합성만 수행할 때 사용한다."
+description: "HuddlersFire 모션 원화의 ChatGPT 제작·미술 검토와 Codex의 원본·정렬·루프 검사를 분담한다. Rounded 02 Idle은 anchor 고정과 영역 잠금 후 프레임별 수신·마지막 조립을 사용한다."
 ---
 
 # ChatGPT 애니메이션 원화와 Codex 모션 인계
 
-**최신 원본 전달:** [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md). ChatGPT 제작 모션/레이어 PNG는 직접 GitHub 바이너리 업로드와 원격 해시 검증이 가능하면 그렇게 처리한다. 불가능하면 Codex가 실제 원본 PNG를 안전하게 Git에 등록한다. ZIP을 재생성하거나 기본으로 요구하지 않는다. 이미지 수정본은 새 파일과 새 해시로 등록한다.
+원화 생성·수정·미술 평가는 ChatGPT, 원본 보존·기술 검사·조립·승인 후 게임 연동은 Codex, 실제 모션 최종 선택은 사용자다. 일반 게임 로직 수정에는 이 제작 절차를 추가하지 않는다.
 
-[활성 시각 제작](../../../docs/visual-production.md), [Rounded 02 모션 인계](../../../docs/briefs/rounded-02/animation-idle-handoff.md), [캐릭터 디자인 승인](../../../docs/reviews/2026-11-07-rounded02-rev2-art-approval.md)을 먼저 읽는다. 게임 로직이나 단순 기능 수정에는 이 스킬을 호출하지 않는다.
+먼저 [GitHub 원본 레지스트리](../../../art/sprites/source-registry/README.md), [현재 Idle 프레임 절차](../../../docs/briefs/rounded-02/idle-frame-workflow.md), [디자인 승인](../../../docs/reviews/2026-11-07-rounded02-rev2-art-approval.md)을 읽는다. Rounded 02 Rev2 NW/SE **디자인만** 승인됐고 Idle은 `pending-motion-review`다.
 
-1. **ChatGPT가 원화 제작자 겸 미술 디렉터**다. 방향별 Idle/Walk/Sit 동작과 후속 헤어·옷 레이어의 각 프레임 *이미지*는 ChatGPT 이미지 제작 경로에서 만들고 미술 평가·반복 수정도 여기서 한다. Codex는 대체 이미지를 생성·코드로 그리거나 도형 재작화하지 않는다.
-2. ChatGPT에서 만든 4컷 시트라도 실제 승인된 `64×96` 프레임, 스프라이트 아틀라스, 게임 애니메이션으로 간주하지 않는다. 우선 `motion-lookdev`의 **참고용 원본**으로 받고 2×2 셀/프레임 순서(좌상→우상→좌하→우하)를 확인한다.
-3. 예시: 승인된 부모 `lookdev`의 NW/SE를 각각 `node tools/motion-lookdev.mjs prepare --view nw|se --out <fresh-name> --parent-job <approved-job> --parent-review <approved-review>`로 연결한다. 부모 원본/승인 근거가 없으면 모션 작업을 생성하지 않고 보존 가능한 자료만 남긴다. 필요한 경로는 README를 따른다.
-4. 신규 모션 PNG 원본 1장씩 `intake --job <job.json> --source <actual-png> --source-reference <actual-conversation>`로 바이트 보존 수신한 뒤 `inspect --job <job.json>`으로 검사한다. 해시·alpha·2×2 셀 크기/프레임 정렬/동일 인물 여부·접지·4→1 루프 이음새를 검토한다. 원본을 덮어쓰지 않는다.
-5. `inspect`는 기존 `motion-review.html`과 함께 `build/motion-analysis.json/html`을 만든다. bbox·알파 히스토그램·발 하단/몸 중심 proxy·전환별 원시/정합 후 픽셀 차이·4→1을 측정하고, 재생·스크럽·명암 바탕·고스트·CSS 발중점 고정을 제공한다. 이 좌표는 의미 마커나 월드 접점의 자동 승인이 아니다. 컷을 별도 PNG로 재저장하거나 픽셀 수를 바꾸지 않는다. 같은 job의 실제 검토 기록을 덮어쓰지 않으며 수정본은 새 job이다. 정렬·동일 인물·미술적 루프는 `frameCellsVerified:false`, `loopVerified:false`, `productionReady:false`로 유지하고 ChatGPT가 판정한다. [Rounded 02 실제 검토 묶음](../../../docs/reviews/rounded02-idle-v1-20261108/README.md)에 검증된 부모 계보·복원 경로·Idle v2 요청서가 있다.
-6. ChatGPT가 결과 화면과 검사 보고서를 보고 캐릭터 정체성·움직임의 자연스러움·얼굴/헤어·후드/바지·실루엣·색감·루프의 미술적 완성도를 판단하고 수정 원화를 새 작업으로 생성한다. **사용자의 실제 모션 후보 선택**은 캐릭터 기준작 승인과 다르다.
+1. **기본 경로:** `tools/idle-frames.mjs prepare`로 실제 같은 방향 lookdev 부모·리뷰와 동일 SHA의 원본을 f1 neutral 후보로 연결한다. NW부터 적용하고 SE는 독립 anchor·부위 플랜이 필요하다. 없는 부모/원본을 만들거나 과거 2×2 시트에서 f1을 잘라 대체하지 않는다.
+2. **기준 고정:** 두 신발 전체·발바닥/뒤꿈치/발끝·무릎 아래·전체 위치·카메라/원근/방향은 잠근다. 허용 다각형 밖은 전부 잠금이다. 작은 가슴/어깨/후드 위/등 위/일부 머리 끝/상완만 예산 안에서 움직인다. 초안 영역·neutral·예산·타이밍은 실제 ChatGPT 확인을 받은 뒤 `confirm-plan --reference <실제-출처>`로 기록한다. 최종 모션 승인이 아니다.
+3. **각각 생성:** ChatGPT에 동일 f1 PNG, REGION_LOCKS.md/json, FRAME_INTENT.json과 해당 `f2-request.txt/json`을 첨부한다. f2 inhale, f3 exhale, f4 return을 하나씩 만든다. 각 프레임은 같은 f1에서 시작한다. f2→3의 독보적 급변이나 전신 상하 바운스를 허용하지 않는다. 모델의 원본 픽셀 보존 한계는 보고하고 자동 복원 합성으로 숨기지 않는다.
+4. **원본 수신:** `intake --frame f2|f3|f4 --source <실제-PNG> --source-reference <실제-생성출처> --anchor-sha <f1-SHA>`로 바이트 그대로 등록한다. PNG/동일 캔버스/출처/플랜/해시를 검사한다. 수정본은 새 set이다. 관찰 못 한 모델은 null/unverified다. GitHub 실제 바이너리와 원격 SHA까지 검증하며 ZIP을 기본 인계로 만들지 않는다.
+5. **검사:** `inspect`로 global translation, foot lock, locked region, motion budget, 네 전환 리듬과 4→1, morph summary를 본다. 위치 보정·확대축소·양자화·반전·알파 이진화·코드 재작화를 하지 않는다. 보고서와 원본 재생 HTML을 ChatGPT에 보내 호흡 가독성·인물/옷/방향의 미술 일관성을 평가받는다. 미수신 프레임을 f1 반복으로 채우지 않는다.
+6. **마지막 조립:** 네 실제 원본과 확인된 플랜, 현재 기술 통과 후 `assemble`로 동일 크기 2×2 참고 시트에 무손실 배치한다. 원본 RGBA/반투명/숨은 RGB와 색 해석을 유지한다. `ASSEMBLY.json`은 파생물 증거다. 이 시트는 native 납품이나 모션 승인이 아니다. GIF 대신 원본 PNG를 사용하는 HTML 루프를 제공한다.
+7. **승인 분리:** 디자인 승인·anchor/플랜 확인·모션 사용자 선택·native/pixel/runtime·배포를 구분한다. 이 하네스는 `artApproved:false`, `animationApproved:false`, `decision:pending`, `productionReady:false`, `runtimeVerified:false`를 유지한다. 실제 ChatGPT 평가/사용자 발언이 없으면 review 출처나 내용을 만들지 않는다. 별도 승인 전 게임 원화 교체·배포를 하지 않는다.
 
-발점 자동 추정이 붙은 윤곽에서 잘못된 신발 영역을 잡으면 원본 마커를 대조하고 `inspect --foot-split <셀 내부 x열>`로 측정 영역을 명시할 수 있다. 값과 추정/지정 방식을 JSON·HTML에 공개하며, 이것을 원화 위치 보정·월드 접점 승인으로 취급하지 않는다. 새 모션은 registry version 2로 한 방향씩 수신할 수 있고 미수신 방향을 v1로 채우지 않는다. [NW Idle v2 수신 예](../../../docs/reviews/rounded02-idle-v2-nw-20261108/README.md)를 참고한다.
-7. 모션 시안이 승인되어도 실제 64×96 프레임 격자·알파·앵커·방향·동작별 레이어 일치·네이티브 캔버스는 별도 검증해야 한다. 기존 `art-direction.mjs`의 디자인 승인 게이트 및 pixel catalog를 우회하거나 이 시트를 production-ready로 승격하지 않는다.
-8. 테스트는 `cd web; npm.cmd run test:motion-lookdev` 및 변경 범위의 `npm.cmd test`, `test:sprites:pipeline`, typecheck/build를 기존 규칙대로 실행한다. 미실행은 미실행으로 보고한다. 원본 이미지 제작/검토와 실제 게임 적용·배포 상태를 구분한다.
+기존 전체 시트 작업은 [과거 브리프](../../../docs/briefs/rounded-02/animation-idle-handoff.md)와 `motion-lookdev.mjs`로 보존한다. 새 전체 시트 작업의 prepare는 **명시적 `--legacy-sheet`**가 있어야 한다. 과거 요청문·원본·리뷰·승인 fingerprint 및 `art-direction.mjs`/정책/native-base 조건은 바꾸지 않는다. 레거시 플래그는 신규 전체 시트 제작 승인이 아니다.
 
-프로젝트 밖의 전역 스킬·Codex 설정은 수정하지 않는다. 화면 캡처/압축 미리보기를 원본으로 받지 않는다.
+검증은 `web/`에서 `npm.cmd run test:idle-frames`, `test:motion-lookdev`, `test:art-source-registry`, `test:art-direction` 및 변경 범위의 전체/pipeline/typecheck/build를 실행한다. 미술 PASS나 실제 게임 루프 검증으로 해석하지 않는다. [NW 준비 폴더](../../../art/sprites/source-registry/rounded02-idle-frames-nw-01/README.md)에서 실제 상태와 입력 요청서를 확인한다. 프로젝트 밖 전역 설정·공통 스킬은 수정하지 않는다.

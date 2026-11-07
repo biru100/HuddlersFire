@@ -65,7 +65,7 @@ for (const p of plans) {
   save(review, decision);
   const proof = verifyArtReview(job, review, { root });
   assert.equal(proof.sourceSha256, p.design.sha256);
-  prepareMotionJob({ root, view: p.view, out: p.motionDir.split(/[\\/]/).at(-1), parentJob: job, parentReview: review });
+  prepareMotionJob({legacySheet:true, root, view: p.view, out: p.motionDir.split(/[\\/]/).at(-1), parentJob: job, parentReview: review });
   const motionJob = join(p.motionDir, 'job.json');
   receiveMotionJob(motionJob, join(root, p.motion.path), { root, sourceReference: `https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/${p.motion.path}` });
   const inspected = await inspectMotionJob(motionJob, { root });

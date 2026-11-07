@@ -1,5 +1,7 @@
 # Rounded 02 · NW/SE 독립 원화 작업 환경
 
+> **2026-11-08 Idle 제작 개편:** 새 기본 경로는 [anchor 고정·영역 잠금·프레임별 생성·마지막 조립](idle-frame-workflow.md)이다. [NW 준비 폴더](../../../art/sprites/source-registry/rounded02-idle-frames-nw-01/README.md)에 실제 승인 디자인 원본과 f2/f3/f4 요청서가 있다. 영역·neutral 용도는 확인 대기, 새 프레임은 미수신이다. 아래의 2×2 전체 시트 생성 지시는 이력이며 기본 제작 경로가 아니다.
+
 > **2026-11-08 실제 부모 연결:** GitHub 승인 원본 두 장을 새 lookdev 부모 job에 수신하고 기존 승인 문서의 평가·선택을 검증했다. [계보·Idle 기술 검토 묶음](../../reviews/rounded02-idle-v1-20261108/README.md)에 NW·SE 프레임/루프·정렬 자료와 v2 수정 요청서를 정리했다. 과거의 다른 해시 후보와 pending 리뷰는 보존한다. 새 모션은 미술 승인 대기이며 네이티브/게임/배포 작업은 하지 않는다.
 
 > **최신 인계 규칙:** ZIP이 아니라 [GitHub 원본 레지스트리](../../../art/sprites/source-registry/README.md)의 PNG 바이너리 + SHA256를 사용한다. 이 문서의 ZIP/다운로드 지시는 구형 준비 절차이며 신규 기본 경로가 아니다. 실제 GitHub 파일이 없으면 업로드 완료가 아니다.

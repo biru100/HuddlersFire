@@ -2,6 +2,10 @@
 
 2026-11-07 활성 제작 경로. 이번 개편은 원화 생성 경로와 검수 흐름의 변경이지 전체 게임 그림의 교체나 배포가 아니다. [감사 기록](reviews/2026-11-07-art-pipeline-audit.md)을 함께 본다.
 
+## 2026-11-08 · Idle은 anchor 기반 개별 프레임 제작
+
+신규 Rounded 02 Idle은 [프레임 제작 절차](briefs/rounded-02/idle-frame-workflow.md)를 우선한다. **동일 f1 원본 고정 → 신발·하체·위치·카메라 잠금과 제한 부위 플랜 → ChatGPT f2 inhale / f3 exhale / f4 return 개별 생성 → Codex 기술 검사 → 마지막 무손실 참고 시트 조립**이다. 전체 2×2 일괄 생성은 기본 경로에서 제외하고 기존 원본·검토 이력만 보존한다. NW 실제 준비는 [source-registry](../art/sprites/source-registry/rounded02-idle-frames-nw-01/README.md)에 있다. 디자인 승인과 neutral/영역 확인, 모션 선택, native/runtime·배포는 별개다. 아래 날짜가 이전인 시트 생성 설명은 역사적 흐름이다.
+
 ## 2026-11-07 · GitHub 원본 바이너리 기본 인계
 
 지금부터 신규 원화/모션/의상 레이어는 **GitHub 실제 PNG + SHA256 + 상태 문서**로 전달한다. 기존 ZIP/로컬 인계 예시는 이력으로 보존하지만 기본 경로가 아니다. [source-registry](../art/sprites/source-registry/README.md)와 `tools/art-source-registry.mjs`의 수신·검증 절차를 따른다. ChatGPT가 바이너리 직접 GitHub 업로드를 지원하면 원격 재검증까지 하고, 그 외에는 Codex가 로컬 원본 PNG를 안전하게 커밋·푸시한다. 메타데이터만 올라갔으면 원본 미업로드 상태다.

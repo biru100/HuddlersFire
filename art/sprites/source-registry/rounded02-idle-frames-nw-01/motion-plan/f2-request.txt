@@ -1,0 +1,74 @@
+HuddlersFire Rounded 02 Rev2 NW Idle f2: inhale
+
+첨부한 f1 원본과 REGION_LOCKS를 기준으로 이 프레임 하나만 제작해 주세요.
+고정: 신발 전체·발바닥/뒤꿈치/발끝 접점·무릎 아래·캐릭터 전체 위치·카메라/원근/방향. 허용 영역 밖은 원본 픽셀 그대로 유지합니다.
+허용: 확인된 작은 가슴/어깨/후드 상단/등 위/일부 머리 끝/상완 영역에서만 미세 호흡. f2 흡기, f3 호기, f4 복귀이며 모든 전환의 리듬을 고르게 유지합니다.
+f3/f4도 이전 생성본 대신 동일 f1에서 시작하세요. 전체 시트·전신 바운스·회전·리사이즈·양자화·자동 반전을 금지합니다.
+아래 JSON의 원본 해시·캔버스·플랜을 그대로 따릅니다. 원화 생성과 미술 평가는 ChatGPT, 최종 모션 선택은 사용자입니다. 정확한 고정을 달성하지 못하면 한계를 보고하세요.
+
+{
+  "workflow": "anchor-frame-by-frame",
+  "view": "nw",
+  "frame": "f2",
+  "intent": "inhale",
+  "anchor": {
+    "file": "base/frame01-anchor.png",
+    "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+    "canvas": [
+      1086,
+      1448
+    ]
+  },
+  "lockedPlanSha256": "e7a634045fc43b40104a579c05c5f243865d892d5faedcb5cfa54ea97386818b",
+  "frameIntentSha256": "02c6148a8653cdc98a45e76c3d3667c03a32f0539cf191422a2e0ea9ea071ffc",
+  "attach": [
+    "base/frame01-anchor.png",
+    "motion-plan/REGION_LOCKS.md",
+    "motion-plan/REGION_LOCKS.json",
+    "motion-plan/FRAME_INTENT.json"
+  ],
+  "output": {
+    "filename": "frame02-inhale.png",
+    "format": "single-frame RGBA PNG",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "background": "transparent",
+    "sheet": false
+  },
+  "locked": [
+    "entire shoes",
+    "soles/heels/toes contacts",
+    "legs below knees",
+    "global position",
+    "camera/perspective/view",
+    "every pixel outside explicit motion polygons"
+  ],
+  "limitedMotion": [
+    "chest",
+    "shoulders",
+    "hood upper/opening",
+    "upper back",
+    "selected hair tips",
+    "tiny upper-arm response"
+  ],
+  "rules": [
+    "Use original f1 as the only geometric anchor, never chain-edit f2 into f3.",
+    "Review the draft masks and neutral anchor in ChatGPT before generation; preserve locked pixels exactly.",
+    "Generate this frame alone; do not deliver a full 2x2 sheet, resize, mirror or quantize.",
+    "Equal duration f1→f2→f3→f4→f1; avoid a unique f2→f3 jump. Return approaches f1.",
+    "If the generator cannot preserve locked pixels, report the limitation; do not claim PASS."
+  ],
+  "roles": {
+    "artworkAndArtReview": "ChatGPT",
+    "technicalAndAssembly": "Codex",
+    "finalMotionSelection": "user"
+  },
+  "reviewState": "pending-motion-review",
+  "decision": "pending",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false
+}

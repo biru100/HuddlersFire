@@ -16,10 +16,13 @@
 - Each new image gets a new immutable path + `MANIFEST.json` + `SHA256SUMS.txt`. After a Git push, verify the **remote** PNG bytes and hash. A manifest alone is not proof of upload. Do not overwrite, crop, quantize, flip, compress or redraw.
 - Rounded 02 Rev2 NW/SE is user-selected LOOKDEV; Idle NW/SE remains pending motion review. GitHub upload does not override separate `art-review`, native-base, pixel/runtime and deployment gates. Public repository: never upload private or unapproved external content.
 
-## Current animation graphics workflow (2026-11-07)
+## Current animation graphics workflow (2026-11-08)
 - **원화·애니메이션 제작의 주도권은 ChatGPT**에 있다. 방향별/동작별 각 프레임 이미지와 의상 레이어 원화, 미술 검토 및 수정 요청도 ChatGPT 이미지 제작 대화에서 수행한다. Codex는 원본의 SHA256·알파·프레임/셀 정렬·루프·앵커·규격을 검사하고 승인 후 실제 게임에 연결한다. 기술 검사는 미술적 승인·이미지 생성이 아니다.
 - 현재 NW/SE Rounded 02 Rev2 캐릭터 **착의 디자인만** 미술 기준작으로 선정됐다. 같은 캐릭터의 **Idle 4컷 모션 시안은 아직 미승인**이다. [모션 전달 브리프](docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](.agents/skills/camp-animation-art/SKILL.md) 스킬을 사용한다.
-- 새 모션 시트는 `tools/motion-lookdev.mjs`의 독립된 reference-only 수신/검토 경로를 사용한다. 기존 `art-direction.mjs`·정책 파일이나 승인 fingerprint, `native-base` 진입 조건을 변경하지 않는다. 시트를 코드로 잘라 맞췄다고 네이티브 64×96 프레임 납품으로 주장하지 않는다. 게임 자산 교체·배포 승인은 별개다.
+- **Rounded 02 Idle 기본 경로는 anchor → 영역 잠금 → 프레임별 개별 생성 → 마지막 무손실 조립**이다. [프레임 제작 절차](docs/briefs/rounded-02/idle-frame-workflow.md)와 `tools/idle-frames.mjs`를 사용한다. f1 neutral, f2 inhale, f3 exhale, f4 return이며 모든 생성은 같은 f1을 기준으로 한다. NW부터 적용하고 SE는 독립 부모·anchor·영역 검토를 요구한다.
+- 두 신발 전체·발바닥/뒤꿈치/발끝·무릎 아래·전신 위치·카메라/원근/방향은 잠근다. 확인된 가슴/어깨/후드 상단/등 위/머리 일부 끝/상완의 작은 영역만 제한적으로 움직인다. 명시한 움직임 영역 밖은 전부 잠금이다. 위치 보정·알파 이진화·양자화로 실패를 숨기지 않는다.
+- 기존 2×2 전체 시트 일괄 생성은 신규 기본 경로에서 제외한다. `tools/motion-lookdev.mjs prepare --legacy-sheet`는 과거 시트 수신/검토 재현용으로만 남긴다. 기존 원본·리뷰·승인 fingerprint 및 `art-direction.mjs`·정책·native-base 게이트는 보존한다. 새 프레임 job은 source-registry version 3에 실제 PNG만 등록하고, 조립 시트는 파생 참고 자료로 분리한다.
+- anchor/영역 초안의 실제 ChatGPT 확인, 프레임 기술 통과, 사용자 모션 선택, native/runtime·게임 자산 교체·배포는 각각 별개다. 모션은 `pending-motion-review`, `artApproved:false`, `decision:pending`, `productionReady:false`, `runtimeVerified:false`를 유지한다. 기술 검사와 참고 시트 조립은 미술/네이티브 납품 승인이 아니다.
 
 ## Current graphics workflow
 - **활성 역할 분담(2026-11-07):** ChatGPT가 미술 생성·비평·개선, 사용자가 개별 이미지 선택, Codex가 출처·기술 검사·게임 적용 및 캡처를 맡는다. [Rounded 02 브리프](docs/briefs/nw-se-rounded-lookdev-02.md)를 우선한다. NW와 SE의 독립 원본/리뷰 없이 native-base에 진입하지 않는다. 프로세스 구현 승인은 개별 이미지 승인이나 배포 권한이 아니다.
