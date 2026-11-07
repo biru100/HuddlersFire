@@ -7,6 +7,8 @@ description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미
 
 [활성 시각 제작](../../../docs/visual-production.md), [정책](../../../art/sprites/art-direction.json), [Rounded 02 현재 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)를 먼저 읽는다. 일반 기능 수정에는 이 절차를 추가하지 않는다.
 
+현재 [Rounded 02 전달 환경](../../../docs/briefs/rounded-02/README.md)은 원본 미수신 상태다. 첨부 ZIP의 과거 시안·비교판을 독립 원화로 승격하거나 새 ChatGPT 미술 평가가 있는 것처럼 기록하지 않는다.
+
 1. **ChatGPT가 아트 디렉터**다. 실제 이미지에 근거한 silhouette / direction / pixel-language / palette / character-appeal / scene-fit 관찰과 수정 후보를 ChatGPT 제작 대화에서 정한다. Codex는 자기 미술 점수나 인위적인 PASS로 이를 대체하지 않는다.
 2. 첫 Rounded 01은 승인된 기준이 아니다. 새 후보는 같은 사람과 복장·색·idle을 고정하고 머리/몸통 균형, 발의 일관된 회전, 작은 화면 가독성을 개선한다. 기본 후보는 Rounded 02 A이며 B의 가방은 기본형 비교에 넣지 않는다.
 3. `node tools/prepare-sprite-job.mjs --art --stage lookdev --variation rounded --view nw --out lookdev-nw-rounded-02`와 별도 `--view se --out lookdev-se-rounded-02`로 **각 방향 단독 PNG**를 요청한다. 비교판/라벨/배경/여러 캐릭터를 독립된 제작 원본처럼 수신하지 않는다.

@@ -9,6 +9,8 @@ description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·
 
 **현재 활성 변경:** ChatGPT가 미술 평가를 작성하고 사용자가 NW/SE 각 이미지를 선택하며 Codex는 수신·기술 검사·조립·게임 렌더 검증만 수행한다. [Rounded 02 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)의 두 방향 요구를 우선하며, 아래의 과거 단일 NW 예시는 신규 절차를 대체하지 않는다. 비교판 이미지는 단일 PNG로 수신하지 않는다.
 
+참고 ZIP은 [수신 기록](../../../art/sprites/incoming/lookdev-handoff-v2/README.md)처럼 ZIP·내부 항목·SHA256를 보존하고 원본 PNG를 실제 디코딩해 검사한다. 실제 Rounded 02 독립 파일이 없으면 두 job의 `source/`와 미술 평가·사용자 선택은 대기로 유지한다. 비교판 잘라내기·반전·강제 축소로 원화를 채우지 않는다.
+
 **네이티브 진입 명령:** `prepare-sprite-job.mjs --art --stage native-base --previous-job NW_JOB --previous-review NW_REVIEW --companion-job SE_JOB --companion-review SE_REVIEW --out NATIVE_NAME`. 두 원본은 각각 무손실 `REFERENCE.png`(NW), `REFERENCE_SE.png`(SE)로 전달한다. `artDirectorReview` 실제 출처와 사용자 선택 증거가 모두 없으면 기술 PASS만으로 승인할 수 없다.
 
 [시각 제작](../../../docs/visual-production.md)과 `scene-spec.json.pixelQuarterview`를 먼저 읽는다. 새 미술 기준이 없거나 결과가 기각됐다면 **camp-art-direction**을 먼저 적용한다. 과거 시트의 따뜻한 색감만으로 이를 승인 원화로 간주하지 않는다.

@@ -1,5 +1,11 @@
 # 구현 검증 기록
 
+## 2026-11-07 INT-24 · PR #2 Rounded 02 ZIP 수신과 작업 환경
+
+사용자 지정 PR #2 HEAD `48be5e5`로 기존 브랜치를 fast-forward하고 ZIP 원본과 내부 참고 파일 5개를 `art/sprites/incoming/lookdev-handoff-v2/`에 바이트 그대로 보존했다. 이미지 3장의 manifest 해시·바이트·실제 크기가 일치했다. Rounded 01과 두 비교판은 모두 미승인 참고이며 새 Rounded 02 NW/SE 원본은 없다. 두 독립 lookdev job·방향별 요청문·ChatGPT 전달용 ZIP을 준비했고 source는 비워 뒀다.
+
+새 승인 계약을 반영하지 않던 PNG 통합 테스트 fixture만 수정했다. 최종 전체 **294/294**, pipeline **71/71**, 아트 **34/34**, PNG 수신 **4/4** 통과. typecheck/build/기존 Canvas render/격리 headless 검토 HTML 통과, lint 오류 0·기존 경고 4개다. 실제 원화 생성·Codex 미술 평가·네이티브 제작·게임 적용·공개 배포는 하지 않았다. [상세 검증](reviews/2026-11-07-rounded02-handoff-validation.md), [필요한 PNG와 전달 절차](briefs/rounded-02/README.md)를 따른다.
+
 ## 2026-11-07 INT-24 · 첫 착의 NW 제작 준비와 미실행 검증 보완
 
 PR #1이 이미 병합됐고 시작 main/기존 작업 브랜치 HEAD는 모두 `2deddaf`임을 확인했다. 기존 작업 브랜치에서 외부 원본의 배타적 수신·SHA256 추적, 요청 변형의 차이, 검토 HTML의 원본/작은 표시/출처·차단 안내, 실제 PNG 검사 통합과 프로젝트 로컬 스킬을 보강했다. 첫 rounded 요청서와 compact/graphic 비교용 job은 준비됐으며 새 캐릭터 원본은 없다.

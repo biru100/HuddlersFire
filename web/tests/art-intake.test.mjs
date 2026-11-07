@@ -55,8 +55,14 @@ test('native delivery is blocked by real decoded dimensions and retains its orig
   const f = fixture(t);await buildArtJob(f.file, {root: f.dir});
   const intake = read(join(f.jobDir, 'build/art-intake.json')), job = read(f.file);
   const reviewFile = join(f.jobDir, 'art-review.json');
-  save(reviewFile, {version: 1, fingerprint: intake.fingerprint, reviewerRole: 'user', reviewer: 'SYNTHETIC TEST ONLY', decision: 'approved', userDecision: {quote: 'SYNTHETIC FIXTURE APPROVAL', reference: 'automated-test-only'}, criteria: Object.fromEntries(job.policy.criteria.map(id => [id, {result: 'pass', observation: 'Synthetic fixture, not a visual decision'}])), unresolved: []});
-  const native = prepareArtJob({root: f.dir, stage: 'native-base', out: 'test-native', previousJob: f.file, previousReview: reviewFile});
+  const review = {version: 1, fingerprint: intake.fingerprint, reviewerRole: 'user', reviewer: 'SYNTHETIC TEST ONLY', artDirectorReview: {actor: 'chatgpt', reference: 'automated-test-only', summary: 'SYNTHETIC TEST REVIEW, not an artwork evaluation'}, decision: 'approved', userDecision: {quote: 'SYNTHETIC FIXTURE APPROVAL', reference: 'automated-test-only'}, criteria: Object.fromEntries(job.policy.criteria.map(id => [id, {result: 'pass', observation: 'Synthetic fixture, not a visual decision'}])), unresolved: []};
+  save(reviewFile, review);
+  const se = prepareArtJob({root: f.dir, stage: 'lookdev', variation: job.variation, view: 'se', out: 'test-lookdev-se'});
+  const seFile = join(se.directory, 'job.json'), seReview = join(se.directory, 'art-review.json');
+  receiveArtSubmission(seFile, f.original, {root: f.dir});
+  const seIntake = await buildArtJob(seFile, {root: f.dir});
+  save(seReview, {...review, fingerprint: seIntake.fingerprint});
+  const native = prepareArtJob({root: f.dir, stage: 'native-base', out: 'test-native', previousJob: f.file, previousReview: reviewFile, companionJob: seFile, companionReview: seReview});
   const file = join(native.directory, 'job.json');receiveArtSubmission(file, f.original, {root: f.dir});
   const result = await buildArtJob(file, {root: f.dir});
   assert.equal(result.status, 'blocked');assert.ok(result.blockers.includes('blocked_native_delivery:canvas'));
