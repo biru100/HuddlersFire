@@ -3,6 +3,8 @@ name: camp-art-direction
 description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미술 판단을 수행하고 Codex에서 검사 증거·요청서를 관리하도록 분담한다."
 ---
 
+후속 모션 원화(Idle·Walk·Sit)와 헤어/의상 레이어의 **미술 제작/평가 역시 ChatGPT**가 담당한다. 원본 인계 및 4컷 모션 검토는 [camp-animation-art](../camp-animation-art/SKILL.md)와 [Idle 브리프](../../../docs/briefs/rounded-02/animation-idle-handoff.md)를 따른다. Codex 기술 검사는 모션 원화 제작을 대신하지 않는다.
+
 # ChatGPT 아트 디렉션 · 원화 선택
 
 [활성 시각 제작](../../../docs/visual-production.md), [정책](../../../art/sprites/art-direction.json), [Rounded 02 현재 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)를 먼저 읽는다. 일반 기능 수정에는 이 절차를 추가하지 않는다.
