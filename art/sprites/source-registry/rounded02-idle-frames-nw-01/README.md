@@ -2,6 +2,8 @@
 
 **현재 상태: anchor만 준비됨. f2/f3/f4 미수신, 영역 확인 대기, 모션 승인 대기.**
 
+GitHub commit `9f16c868401991da588b7f4b02eacc71c57d9fa2`의 실제 anchor PNG와 job/플랜/프레임 요청 JSON 등 9개 파일을 다시 다운로드해 로컬 바이트와 SHA256 일치를 검증했다. [원격 검증 증거](REMOTE_VERIFICATION.json)는 anchor와 준비 자료의 업로드만 증명하며 f2/f3/f4 수신·모션 승인은 증명하지 않는다.
+
 - `base/frame01-anchor.png`: 기존 NW 승인 디자인 PNG를 그대로 복사했다. SHA256 `c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a`, 521850 bytes, 1086×1448 RGBA.
 - 실제 디자인 부모와 승인 fingerprint는 `job.json`에 연결했다. 디자인 승인은 유지하며 이 그림을 **neutral motion anchor로 쓸지**는 아직 ChatGPT 확인을 받지 않았다.
 - `motion-plan/REGION_LOCKS.json`과 `FRAME_INTENT.json`은 초안이다. 실제 ChatGPT 평가나 모션 사용자 선택을 만들지 않았다. `confirmation.json`은 없다.

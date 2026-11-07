@@ -24,6 +24,8 @@ NW anchor는 기존 승인 디자인 `nw-approved.png`와 **동일한 521850 byt
 
 새 NW 플랜은 DRAFT다. 사용자 디자인 선택을 neutral motion anchor/부위 플랜 확인으로 확대하지 않는다. **실제 ChatGPT 확인이 없어 confirmation.json은 없다.** f2/f3/f4가 없으므로 `awaiting_frames`, `assemblyReady:false`이며 재생 버튼도 비활성이다. 미술 평가·호흡 가독성·사용자 모션 선택은 unreviewed/pending이다.
 
+개편 commit [`9f16c86`](https://github.com/biru100/HuddlersFire/commit/9f16c868401991da588b7f4b02eacc71c57d9fa2)을 기존 PR #7 브랜치에 푸시했다. 고정 커밋의 실제 PNG와 job·플랜·세 요청 JSON 등 9개 원격 파일을 HTTP 200으로 재수신해 로컬 바이트/SHA256과 대조했다. [REMOTE_VERIFICATION.json](../../art/sprites/source-registry/rounded02-idle-frames-nw-01/REMOTE_VERIFICATION.json)에 증거를 남겼다. 이는 anchor 업로드 검증이며 새 프레임·모션·native/runtime 승인이나 배포가 아니다.
+
 신규 작업의 `artApproved`, `animationApproved`, `productionReady`, `runtimeVerified`는 모두 false, `decision:pending`, `reviewState:pending-motion-review`다. native 64×96·알파 이진화·양자화·자동 반전·게임 교체는 하지 않았다. GIF는 팔레트/반투명 변환이 필요하므로 원본 PNG 기반 HTML 루프로 대체했다.
 
 원본에는 반투명 외곽과 낮은 알파의 넓은 fringe가 있다. full bounds와 alpha≥128 core bounds를 구분한다. 발 위치도 alpha≥128 최하단 행의 **이미지 좌표 proxy**이며 측정 임계값일 뿐 원본 알파 변환이 아니다. 해부학적 발 접점/카메라/방향/미술적 모션 품질을 기술 점수로 통과시키지 않는다.
