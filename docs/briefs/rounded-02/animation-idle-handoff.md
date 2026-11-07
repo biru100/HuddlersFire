@@ -1,5 +1,7 @@
 # Rounded 02 Rev2 · ChatGPT Idle 4컷 모션 시안 전달
 
+> **GitHub-first 변경:** [Idle motion 원본 예정 경로](../../../art/sprites/source-registry/rounded02-idle-motion-01/README.md)로 원본 PNG를 직접 등록한다. ZIP 전달은 역사적 기록이며 현재 기본 경로에서 제외한다. 원격 PNG/SHA 검증이 끝나기 전에는 GitHub 업로드 완료라고 보고하지 않는다. 모션 승인/네이티브/런타임은 계속 대기다.
+
 2026-11-07 기준. **캐릭터 NW/SE 착의 디자인은 사용자 미술 기준작으로 선택 완료**, 이 문서의 **4컷 Idle 모션은 별도로 미술 미승인** 상태다.
 
 ## 누가 제작하고 누가 검증하는가

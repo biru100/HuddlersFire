@@ -5,6 +5,8 @@ description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·
 
 # 캠프 원화 수신과 스프라이트 조립
 
+**원본 우선순위:** [GitHub source registry](../../../art/sprites/source-registry/README.md)의 실제 PNG 바이너리·MANIFEST·SHA256가 일치해야 한다. `tools/art-source-registry.mjs`로 확인하고 별도 art-direction/motion job에 연결한다. ZIP 전달은 과거 이력이며, GitHub 저장 자체는 디자인/모션/네이티브/게임 검증과 별개다.
+
 ## 활성 경로
 
 **Idle·Walk·Sit 모션 원화 생성과 미술 검토는 ChatGPT가 담당한다.** Codex는 이미지의 원본 보존, 시트 구조/앵커/루프 기술 검사 및 승인 후 게임 연결만 맡는다. 기존 단독 착의 `lookdev`와 별개로 애니메이션 시안은 [모션 인계 브리프](../../../docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](../camp-animation-art/SKILL.md)를 사용한다. 모션 시트가 존재한다고 기존 native-base/pixel review 승인 게이트를 우회하지 않는다.

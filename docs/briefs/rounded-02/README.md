@@ -1,5 +1,7 @@
 # Rounded 02 · NW/SE 독립 원화 작업 환경
 
+> **최신 인계 규칙:** ZIP이 아니라 [GitHub 원본 레지스트리](../../../art/sprites/source-registry/README.md)의 PNG 바이너리 + SHA256를 사용한다. 이 문서의 ZIP/다운로드 지시는 구형 준비 절차이며 신규 기본 경로가 아니다. 실제 GitHub 파일이 없으면 업로드 완료가 아니다.
+
 > **2026-11-07 신규 애니메이션 단계:** ChatGPT가 생성한 NW/SE **각 2×2 4컷 Idle 모션 시안**은 [모션 전용 브리프](animation-idle-handoff.md)와 `tools/motion-lookdev.mjs`를 따른다. 기존 캐릭터 디자인 승인은 유효하지만 새 모션은 별도 검토 대상이다. 아래 내용은 최초 디자인 준비에 관한 이력이다.
 
 > **2026-11-07 후속:** Rev2 NW·SE의 사용자 미술 기준작 선택이 확정됐다. [승인 기록](../../reviews/2026-11-07-rounded02-rev2-art-approval.md)에 정확한 두 원본 해시, ChatGPT 평가, 실제 선택 발언과 다음 기술 게이트를 남겼다. 아래의 ‘미수신/승인 대기’는 당시 작업 준비 상태를 기록한 이력이며, 현재 Codex 작업의 실제 수신 상태를 대신하지 않는다.
