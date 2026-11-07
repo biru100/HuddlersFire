@@ -120,8 +120,10 @@ pixel review에는 기존 evidence 외에 아래 필드를 더한다. `assets`�
 ```json
 {
   "artDirection": {
-    "job": "art/sprites/runs/lookdev-nw-01/job.json",
-    "review": "art/sprites/runs/lookdev-nw-01/art-review.json",
+    "job": "art/sprites/runs/lookdev-nw-rounded-02/job.json",
+    "review": "art/sprites/runs/lookdev-nw-rounded-02/art-review.json",
+    "companionJob": "art/sprites/runs/lookdev-se-rounded-02/job.json",
+    "companionReview": "art/sprites/runs/lookdev-se-rounded-02/art-review.json",
     "assets": [{"id": "ACTUAL_ASSET_ID", "sha256": "ACTUAL_SHA256"}]
   },
   "userDecision": {"actor": "user", "quote": "실제 조립 시안 선택 발언", "reference": "대화 또는 리뷰 출처"}

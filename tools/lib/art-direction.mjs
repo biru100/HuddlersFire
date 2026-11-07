@@ -75,7 +75,7 @@ export function prepareArtJob({root = ART_ROOT, out, stage = 'lookdev', variatio
   const dir = artPath(root, 'art/sprites/runs/' + out);
   if (existsSync(dir)) throw Error('Job already exists; preserve the original and use a new name');
   mkdirSync(resolve(dir, 'source'), {recursive: true});
-  const job = {version: 1, kind: 'art-direction', stage, variation, view, ...context, parent};
+  const job = {version: 1, kind: 'art-direction', stage, variation: parent ? json(artPath(root, parent.job)).variation : variation, view, ...context, parent};
   if (parent) {
     const prior = json(artPath(root, parent.job)), priorDir = dirname(artPath(root, parent.job));
     const submission = json(resolve(priorDir, 'submission.json'));
@@ -193,6 +193,11 @@ export function verifyPixelArtApproval(job, review, {root = ART_ROOT} = {}) {
   if (!link?.job || !link?.review) throw Error('Pixel release requires artDirection.job/review, not only technical PASS');
   const proof = verifyArtReview(link.job, link.review, {root});
   if (proof.stage !== 'lookdev') throw Error('Pixel art baseline must be an approved lookdev');
+  if (!link.companionJob || !link.companionReview) throw Error('Pixel release requires an approved SE companion');
+  const nw = loadArtJob(link.job, {root}), se = loadArtJob(link.companionJob, {root});
+  if ((nw.view ?? 'nw') !== 'nw' || se.stage !== 'lookdev' || se.view !== 'se' || se.variation !== nw.variation) throw Error('Pixel release requires matching NW and SE lookdev views');
+  const seProof = verifyArtReview(link.companionJob, link.companionReview, {root});
+  if (seProof.stage !== 'lookdev') throw Error('Pixel release requires approved SE lookdev');
   if (review.userDecision?.actor !== 'user' || !text(review.userDecision.quote) || !text(review.userDecision.reference)) throw Error('User approval of the assembled pixel pilot is required');
   const entries = job.catalog.assets.filter(a => a.pilot && !a.review?.rejected);
   if (!entries.length) throw Error('No active pixel pilot');

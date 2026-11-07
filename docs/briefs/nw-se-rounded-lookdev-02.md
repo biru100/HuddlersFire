@@ -44,4 +44,4 @@ node tools/rebuild-sprites.mjs --job art/sprites/runs/lookdev-se-rounded-02/job.
 node tools/prepare-sprite-job.mjs --art --stage native-base --out native-nw-rounded-02 --previous-job art/sprites/runs/lookdev-nw-rounded-02/job.json --previous-review art/sprites/runs/lookdev-nw-rounded-02/art-review.json --companion-job art/sprites/runs/lookdev-se-rounded-02/job.json --companion-review art/sprites/runs/lookdev-se-rounded-02/art-review.json
 ```
 
-이 단계는 **NW 신체 1컷**이다. 64×96·정확한 픽셀격자·알파·앵커가 불가능하면 `blocked_native_delivery`로 남긴다. 이후 NW base+hair+top+bottom 파일럿과 캠프 실제 1배·주야간·좌석·가림 화면을 별도로 검증한다. 최종 게임 원화/배포/전체 애니메이션 완성으로 주장하지 않는다.
+이 단계는 **NW 신체 1컷**이다. 64×96·정확한 픽셀격자·알파·앵커가 불가능하면 `blocked_native_delivery`로 남긴다. 이후 NW base+hair+top+bottom 파일럿과 캠프 실제 1배·주야간·좌석·가림 화면을 별도로 검증한다. 픽셀 파일럿 리뷰의 `artDirection`에는 승인된 NW `job/review`뿐 아니라 SE `companionJob/companionReview` 링크도 필수다. 최종 게임 원화/배포/전체 애니메이션 완성으로 주장하지 않는다.

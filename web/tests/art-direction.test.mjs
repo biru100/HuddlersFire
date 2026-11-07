@@ -115,6 +115,7 @@ test('approved lookdev is byte-preserved as native reference, not resized', t =>
   assert.deepEqual(readFileSync(join(made.directory, 'REFERENCE.png')), png);
   assert.deepEqual(readFileSync(join(made.directory, 'REFERENCE_SE.png')), png);
   const j = loadArtJob(join(made.directory, 'job.json'), {root: f.root}), p = artPrompt(j);
+  assert.equal(j.variation, f.job.variation);
   assert.match(p, /64×96/);assert.match(p, /32,28/);assert.match(p, /blocked_native_delivery/);assert.match(p, /6색 제한은 폐기/);
 });
 test('large lookdev is reviewable but never production-ready', t => {
@@ -193,7 +194,9 @@ test('review page never claims a real game render and does not modify PNG', t =>
 test('pixel release needs a user decision and hashes for every active pilot', t => {
   const f = approvedLookdev(t), job = {catalog: {assets: [{id: 'test-base', pilot: {type: 'avatar'}, file: 'art/sprites/runs/test-lookdev/source/candidate.png'}]}};
   assert.throws(() => verifyPixelArtApproval(job, {}, {root: f.root}), /artDirection/);
-  const r = {artDirection: {job: f.jobFile, review: f.reviewFile, assets: [{id: 'test-base', sha256: hash(png)}]}, userDecision: {actor: 'user', quote: 'TEST fixture approval', reference: 'test-fixture'}};
+  const partial = {artDirection: {job: f.jobFile, review: f.reviewFile, assets: [{id: 'test-base', sha256: hash(png)}]}, userDecision: {actor: 'user', quote: 'TEST fixture approval', reference: 'test-fixture'}};
+  assert.throws(() => verifyPixelArtApproval(job, partial, {root: f.root}), /SE companion/);
+  const r = {artDirection: {...partial.artDirection, companionJob: f.companionJobFile, companionReview: f.companionReviewFile}, userDecision: partial.userDecision};
   assert.equal(verifyPixelArtApproval(job, r, {root: f.root}).artApproved, true);
   r.artDirection.assets[0].sha256 = '0'.repeat(64);assert.throws(() => verifyPixelArtApproval(job, r, {root: f.root}), /stale pixel asset/);
 });

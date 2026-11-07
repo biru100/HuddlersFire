@@ -18,7 +18,7 @@ description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·
 3. 실제 64×96, alpha 0/255, 의도적인 픽셀 색면, 방향과 손발이 모두 확인돼야 네이티브 원화다. 알파/크기 PASS만으로 머리 중심이나 NW 시점이 검증됐다고 쓰지 않는다. 좌우 반전, 비율 늘이기, 강제 축소, 6색 변환, 코드 도형 재작화는 금지다.
 4. 선택된 원화가 준비된 다음 기존 [제작 경로](../../../docs/sprite-authoring.md)의 catalog/`--pixel` 조립을 사용한다. 현재 캔버스·앵커는 제안이며 승인 기록과 구분한다. 먼저 base + hair 1종 + top 1종 + bottom 1종의 같은 NW idle 조합을 검토한다. 머리 2종/상의 2종 등은 이 조합 뒤에 추가한다.
 5. 누락 방향·자세·프레임을 채우지 않는다. 공통 캔버스·시간·프레임별 앵커·피부/머리/옷 마스크·앞뒤 손 가림을 확인한다. 미승인 조합은 개발 프리뷰에서만 표시하고 부족한 경우 기존 캐릭터 전체를 유지한다.
-6. 기존 pixel review CLI에는 미술 선택의 job/review와 최종 파일 해시, 실제 사용자 조립 승인 기록이 추가로 필요하다. 미술 승인만으로 실제 Canvas/UI/WebGL evidence를 생략하지 않는다. 승인 JSON은 사람 신원 인증 수단이 아니며 에이전트가 발언을 만들어 넣어서는 안 된다.
+6. 기존 pixel review CLI의 `artDirection`에는 NW `job/review`와 SE `companionJob/companionReview`, 최종 파일 해시, 실제 사용자 조립 승인 기록이 필요하다. 미술 승인만으로 실제 Canvas/UI/WebGL evidence를 생략하지 않는다. 승인 JSON은 사람 신원 인증 수단이 아니며 에이전트가 발언을 만들어 넣어서는 안 된다.
 7. 조명·좌석·가림은 [장면 기준](../../../docs/scene-composition.md)과 [조명 계약](../../../docs/lighting.md)을 사용한다. 원본의 피부색과 밤 조명 문제를 분리한다. 사진·이름·입력·채팅·라디오·놀이·전시·온라인 데이터는 보존한다.
 8. `npm.cmd run test:art-direction`, 의존성이 있는 환경의 `test:art-intake`, 관련 `test:sprites:pipeline`과 typecheck/build, 실제 렌더를 변경 범위대로 실행한다. 수신 통합 검사는 테스트 전용 작은 PNG를 사용하며 미술 제작·승인 증거가 아니다. 단위 테스트, 배경 대비 HTML, 실제 게임 렌더를 별도로 보고한다.
 
