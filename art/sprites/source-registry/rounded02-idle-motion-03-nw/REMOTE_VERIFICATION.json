@@ -1,0 +1,21 @@
+{
+  "repository": "biru100/HuddlersFire",
+  "commit": "344be0566d5e4474fe68466d65f0b6b527c748eb",
+  "verifiedAt": "2026-11-07T17:12:00.835Z",
+  "method": "Fresh HTTP download of commit-pinned GitHub raw PNG; response bytes hashed",
+  "path": "art/sprites/source-registry/rounded02-idle-motion-03-nw/original/nw-idle-4cut-v3.png",
+  "url": "https://raw.githubusercontent.com/biru100/HuddlersFire/344be0566d5e4474fe68466d65f0b6b527c748eb/art/sprites/source-registry/rounded02-idle-motion-03-nw/original/nw-idle-4cut-v3.png",
+  "httpStatus": 200,
+  "bytes": 976617,
+  "sha256": "d6bb11d78ce4d3e2e26a353ba1303e4dfc7a419d5dea7671b352c0aebb1c2ed0",
+  "verified": true,
+  "revisionLabel": "intake sequence 03; not user selection",
+  "registeredSlots": [
+    "nw"
+  ],
+  "reviewState": "pending-motion-review",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false
+}

@@ -6,6 +6,6 @@
 - SHA256 `d6bb11d78ce4d3e2e26a353ba1303e4dfc7a419d5dea7671b352c0aebb1c2ed0`.
 - [Manifest](MANIFEST.json), [SHA256SUMS](SHA256SUMS.txt), [비교·루프 리포트](../../../../docs/reviews/rounded02-idle-v3-nw-20261108/README.md).
 - 모션 pending, artApproved/animationApproved/productionReady/runtimeVerified false.
-- 원본 수신·로컬 해시 검증 완료. GitHub 업로드 완료는 push 후 실제 원격 PNG의 해시 일치로만 판정한다.
+- **NW 원본 업로드·원격 해시 검증 완료.** 커밋 `344be0566d5e4474fe68466d65f0b6b527c748eb`의 실제 GitHub PNG를 새로 내려받아 SHA256·976,617 bytes 일치를 확인했다. [검증 기록](REMOTE_VERIFICATION.json)을 따른다. 미술 승인·다른 방향의 수신·게임 적용을 의미하지 않는다.
 
 코드 재작화·리사이즈·자르기·알파/색 변환·네이티브 제작·게임 적용·배포는 하지 않았다.
