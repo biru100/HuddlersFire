@@ -36,7 +36,7 @@ Cloudflare 계정에서 운영할 Worker·D1 대상을 먼저 확인한다. 새 
 1. 배포 변경을 main에 병합하고 GitHub **Actions → Verify and deploy**의 검사 결과를 확인한다. push 자체는 배포하지 않는다.
 2. 대상 DB의 적용 이력을 확인한다. 기존 Drizzle/Sites DB가 `d1_migrations` 이력을 갖고 있다고 가정하지 않는다. 이미 SQL이 적용된 DB에서 migration을 다시 실행하지 않는다.
 3. main에서 **Run workflow**를 누른다. `apply_migrations`는 검토한 미적용 migration을 적용할 때만 선택한다. 기본은 false다.
-4. 전체 회귀·파이프라인·타입·lint·빌드가 성공하면 production 작업이 실제 대상 설정으로 다시 빌드하고 Wrangler dry run을 실행한다. 그다음 선택된 migration과 Worker 배포를 순서대로 수행한다.
+4. 검사 러너는 `tools/setup-sprite-gen.mjs`로 고정된 스프라이트 검사 도구도 설치한다. 이미지 생성·모델 다운로드에는 사용하지 않는다. 전체 회귀·파이프라인·타입·lint·빌드가 성공하면 production 작업이 실제 대상 설정으로 다시 빌드하고 Wrangler dry run을 실행한다. 그다음 선택된 migration과 Worker 배포를 순서대로 수행한다.
 5. 공개 HTML·`/api/camp/version` HTTP 응답을 확인한다. 이후 실제 Discord 로그인, 방 생성/입장, 두 브라우저 RTC·승계·라디오·자산과 새 release 식별자를 확인해야 이전 완료다. HTTP 성공만으로 게임 검증 완료를 주장하지 않는다.
 
 배포 실행은 main만 허용하며 직렬 실행한다. PR 검사는 운영 토큰을 사용하지 않는다. 실패한 테스트나 누락 설정을 통과로 처리하지 않는다. 소스 롤백도 기존 방의 release fence를 되돌리지 않도록 새 빌드로 배포한다.

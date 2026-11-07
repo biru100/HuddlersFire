@@ -30,6 +30,13 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: tools/sprite-gen.lock.json
+      - name: Install pinned sprite validation tools
+        working-directory: .
+        run: node tools/setup-sprite-gen.mjs
       - run: npm test
       - run: npm run test:sprites:pipeline
       - run: npm run typecheck

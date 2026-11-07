@@ -32,6 +32,8 @@ Dry run은 실운영 UUID가 아닌 명시적인 합성 CI UUID와 `huddlers-fir
 
 ## 운영 차단 및 남은 단계
 
+첫 GitHub Linux CI 실행 `42384333662`는 305/310으로 실패했다. 새 러너에 로컬 전용 고정 `sprite-gen` checkout/venv가 없어 기존 실도구 회귀 5개가 차단된 원인이다. 테스트를 제외하지 않고 workflow에 uv 및 기존 `tools/setup-sprite-gen.mjs` 설치 단계를 추가했다. 이 도구는 테스트 fixture의 기하 검증용이며 새 원화·네이티브 납품·이미지 모델 생성에는 사용하지 않는다. 수정 후 CI 결과는 PR의 실제 검사 실행으로 확인한다.
+
 GitHub CLI로 저장소 Secret/Variable **이름 목록**과 Environments 목록을 조회했다. 모두 비어 있다. 비밀값은 읽거나 출력하지 않았다. 따라서 실제 Cloudflare 배포·D1 migration·데이터 이전·새 공개 URL 검증·실제 Discord/RTC 검증은 수행하지 않았다. GitHub Actions Linux 실행 결과는 PR에서 별도로 확인해야 하며 이 로컬 결과와 구분한다.
 
 운영자 설정이 필요한 항목: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CAMP_WORKER_NAME`, `CAMP_D1_DATABASE_ID`, `CAMP_PUBLIC_URL`, 대상 Worker의 Discord/TURN 서버 비밀값 및 DB migration 이력. 새 호스트 검증 전 기존 사이트·DB를 삭제하지 않는다. 원화·게임 자산·미술 승인·통신 규약은 바꾸지 않았고 실제 공개 배포 완료로 보고하지 않는다.
