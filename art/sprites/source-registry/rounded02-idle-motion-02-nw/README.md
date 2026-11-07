@@ -5,7 +5,7 @@
 - [원본 PNG](original/nw-idle-4cut-v2.png): 1254×1254, 915,804 bytes.
 - SHA256 `c9779f37594fbaad5dccc25e7cde64d20172cd743d619de3f6ad2144e47e70b0`.
 - [Manifest](MANIFEST.json), [체크섬](SHA256SUMS.txt), [기술 비교·루프](../../../../docs/reviews/rounded02-idle-v2-nw-20261108/README.md).
-- 원본 수신·로컬 검증은 완료했다. 원격 업로드 완료는 push 이후 실제 GitHub PNG 재다운로드·해시 대조로만 판정한다.
+- **NW 원본 업로드·원격 바이트 검증 완료.** 커밋 `8ea406c95aadfd409a1233b216c74fb7dfd088e0`의 PNG를 GitHub raw URL에서 새로 내려받아 SHA256·915,804바이트 일치를 확인했다. [원격 검증 기록](REMOTE_VERIFICATION.json)을 따른다. SE v2 수신이나 모션 승인을 의미하지 않는다.
 - version 2 manifest는 **미승인 모션만** 방향별 수신을 허용한다. 기존 version 1 승인 디자인 NW/SE 쌍과 승인 게이트는 바꾸지 않는다.
 
 ```powershell

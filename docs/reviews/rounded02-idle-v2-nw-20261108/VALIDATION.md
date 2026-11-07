@@ -17,6 +17,7 @@
 | lint | 오류 0, 기존 경고 4개 |
 | NW v2 headless desktop/mobile | 원본 8개 이미지 로드, 네 컷 가로 배치, overflow 없음, 4→1 재생, 발중점 고정·명암 바탕, JS 오류 0 |
 | 첨부·레지스트리·motion job PNG | SHA256 일치, 무손실 보존 |
+| GitHub PNG 원격 재다운로드 | commit `8ea406c95aadfd409a1233b216c74fb7dfd088e0`, HTTP 200, SHA256·915,804 bytes 일치. [검증 기록](../../../art/sprites/source-registry/rounded02-idle-motion-02-nw/REMOTE_VERIFICATION.json) |
 | 기존 보호 원본·후보·정책·런타임 164개 | 작업 전 보존 기록과 raw SHA256 동일 |
 
 부분 테스트는 전체와 중복된다. 기존 보호 해시 비교는 v1 검토 묶음의 preservation.json을 사용했다. vinext의 라우트 분류 안내와 기존 lint 경고는 실패가 아니다. 로컬 로그는 `outputs/idle-v2-*.log`에 보존한다. GitHub CI와 원격 재다운로드 결과는 PR의 해당 실행·검증 기록과 구분한다.
