@@ -26,6 +26,6 @@ export function prepareJob({specFile=resolve(ROOT,'art/sprites/scene-spec.json')
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
   const args=process.argv.slice(2),get=key=>{const i=args.indexOf(key);if(i<0)return undefined;if(!args[i+1]||args[i+1].startsWith('--'))throw Error(key+' requires a value');return args[i+1];};
   if(args.includes('--art')&&args.includes('--pixel'))throw Error('Choose --art for new art direction or --pixel for existing asset audit');
-  if(args.includes('--art'))console.log(JSON.stringify((await import('./lib/art-direction.mjs')).prepareArtJob({out:get('--out'),stage:get('--stage'),variation:get('--variation'),previousJob:get('--previous-job'),previousReview:get('--previous-review')}),null,2));
+  if(args.includes('--art'))console.log(JSON.stringify((await import('./lib/art-direction.mjs')).prepareArtJob({out:get('--out'),stage:get('--stage'),variation:get('--variation'),view:get('--view'),previousJob:get('--previous-job'),previousReview:get('--previous-review'),companionJob:get('--companion-job'),companionReview:get('--companion-review')}),null,2));
   else console.log(args.includes('--pixel')?(await import('./lib/pixel-assets.mjs')).preparePixelJob({specFile:get('--spec'),catalogFile:get('--catalog'),out:get('--out')}):prepareJob({specFile:get('--spec'),selected:get('--assets')?.split(','),out:get('--out'),scope:get('--scope'),reviewJob:get('--review-job'),reviewFile:get('--review'),reuseFrom:get('--reuse-from')}));
 }

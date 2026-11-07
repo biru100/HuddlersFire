@@ -28,7 +28,7 @@ function context(t, stage = 'lookdev') {
   return {root, jobFile, job: {...job, stage}, dir: prepared.directory};
 }
 function userReview(job, fingerprint) {
-  return {version: 1, fingerprint, reviewer: 'synthetic test user', reviewerRole: 'user', decision: 'approved', userDecision: {quote: 'TEST FIXTURE ONLY: approve this exact candidate', reference: 'test-fixture'}, criteria: Object.fromEntries(job.policy.criteria.map(id => [id, {result: 'pass', observation: 'Synthetic fixture, not a real visual review'}])), unresolved: []};
+  return {version: 1, fingerprint, reviewer: 'synthetic test user', reviewerRole: 'user', artDirectorReview: {actor: 'chatgpt', reference: 'synthetic-test', summary: 'Synthetic test direction review only'}, decision: 'approved', userDecision: {quote: 'TEST FIXTURE ONLY: approve this exact candidate', reference: 'test-fixture'}, criteria: Object.fromEntries(job.policy.criteria.map(id => [id, {result: 'pass', observation: 'Synthetic fixture, not a real visual review'}])), unresolved: []};
 }
 function approvedLookdev(t) {
   const f = context(t), r = receipt(), m = {...metrics(), size: [1, 1], bounds: [0, 0, 1, 1], alpha: {opaque: 1, transparent: 0, soft: 0}};
@@ -37,7 +37,14 @@ function approvedLookdev(t) {
   const fingerprint = hash({job: f.job, receipt: r, metrics: m, harness});
   mkdirSync(join(f.dir, 'build'));save(join(f.dir, 'build/art-intake.json'), {fingerprint, sourceSha256: hash(png), metrics: m, ...assessArtSubmission(f.job, r, m)});
   const reviewFile = join(f.dir, 'art-review.json');save(reviewFile, userReview(f.job, fingerprint));
-  return {...f, reviewFile};
+  const companion = prepareArtJob({root: f.root, out: 'test-lookdev-se', view: 'se'});
+  const companionJobFile = join(companion.directory, 'job.json'), companionJob = read(companionJobFile);
+  writeFileSync(join(companion.directory, r.file), png);save(join(companion.directory, 'submission.json'), r);
+  const companionFingerprint = hash({job: companionJob, receipt: r, metrics: m, harness});
+  mkdirSync(join(companion.directory, 'build'));
+  save(join(companion.directory, 'build/art-intake.json'), {fingerprint: companionFingerprint, sourceSha256: hash(png), metrics: m, ...assessArtSubmission(companionJob, r, m)});
+  const companionReviewFile = join(companion.directory, 'art-review.json');save(companionReviewFile, userReview(companionJob, companionFingerprint));
+  return {...f, reviewFile, companionJobFile, companionReviewFile};
 }
 test('prepare is external-only and creates one scoped prompt, not artwork', t => {
   const f = context(t), p = artPrompt(f.job);
@@ -50,6 +57,15 @@ test('a duplicate job cannot overwrite source', t => {
   const f = context(t);assert.throws(() => prepareArtJob({root: f.root, out: 'test-lookdev'}), /already exists/);
 });
 
+test('SE lookdev can be prepared separately and invalid views are rejected', t => {
+  const f = context(t), se = prepareArtJob({root: f.root, out: 'test-se', view: 'se', variation: 'rounded'});
+  assert.match(artPrompt(read(join(se.directory, 'job.json'))), /SE 앞사선/);
+  assert.throws(() => prepareArtJob({root: f.root, out: 'test-bad-view', view: 'sw'}), /Unknown art view/);
+});
+test('native requires two approved perspectives, not only NW', t => {
+  const f = approvedLookdev(t);
+  assert.throws(() => prepareArtJob({root: f.root, out: 'test-no-se', stage: 'native-base', previousJob: f.jobFile, previousReview: f.reviewFile}), /SE companion/);
+});
 test('receive preserves downloaded bytes and unknown model, and refuses a second source', t => {
   const f = context(t), original = join(f.root, 'download.png');writeFileSync(original, png);
   const result = receiveArtSubmission(f.jobFile, original, {root: f.root, reference: 'TEST conversation reference'});
@@ -95,8 +111,9 @@ test('native output cannot be requested before a user-selected look', t => {
   const root = fixture(t);assert.throws(() => prepareArtJob({root, out: 'test-native', stage: 'native-base'}), /approved lookdev/);
 });
 test('approved lookdev is byte-preserved as native reference, not resized', t => {
-  const f = approvedLookdev(t), made = prepareArtJob({root: f.root, out: 'native-next', stage: 'native-base', previousJob: f.jobFile, previousReview: f.reviewFile});
+  const f = approvedLookdev(t), made = prepareArtJob({root: f.root, out: 'native-next', stage: 'native-base', previousJob: f.jobFile, previousReview: f.reviewFile, companionJob: f.companionJobFile, companionReview: f.companionReviewFile});
   assert.deepEqual(readFileSync(join(made.directory, 'REFERENCE.png')), png);
+  assert.deepEqual(readFileSync(join(made.directory, 'REFERENCE_SE.png')), png);
   const j = loadArtJob(join(made.directory, 'job.json'), {root: f.root}), p = artPrompt(j);
   assert.match(p, /64×96/);assert.match(p, /32,28/);assert.match(p, /blocked_native_delivery/);assert.match(p, /6색 제한은 폐기/);
 });
@@ -140,6 +157,11 @@ test('technical success alone is not human art approval', t => {
   assert.throws(() => validateArtDecision({fingerprint: 'fixture', decision: 'pass'}, job, intake), /Explicit user/);
   const r = userReview(job, 'fixture');r.reviewerRole = 'agent';assert.throws(() => validateArtDecision(r, job, intake), /Explicit user/);
 });
+test('a user selection without sourced ChatGPT review is rejected', t => {
+  const {job} = context(t), intake = {fingerprint: 'fixture', blockers: []}, r = userReview(job, 'fixture');
+  delete r.artDirectorReview;
+  assert.throws(() => validateArtDecision(r, job, intake), /ChatGPT art-direction review/);
+});
 test('each aesthetic criterion needs an observation and no unresolved issue', t => {
   const {job} = context(t), intake = {fingerprint: 'fixture', blockers: []}, r = userReview(job, 'fixture');
   r.criteria.silhouette.observation = '';assert.throws(() => validateArtDecision(r, job, intake), /criterion/);
@@ -157,7 +179,7 @@ test('policy, geometry and compiled prompt changes invalidate jobs', t => {
   save(file, policy);const specFile=join(f.root, 'art/sprites/scene-spec.json'), spec=read(specFile);spec.pixelQuarterview.avatar.head=[32,18];save(specFile,spec);assert.throws(() => loadArtJob(f.jobFile,{root:f.root}),/Stale/);spec.pixelQuarterview.avatar.head=[32,28];save(specFile,spec);writeFileSync(join(f.dir, 'CHATGPT_REQUEST.txt'), 'changed');assert.throws(() => loadArtJob(f.jobFile, {root: f.root}), /prompt changed/);
 });
 test('a changed approved reference blocks native expansion', t => {
-  const f = approvedLookdev(t), made = prepareArtJob({root: f.root, out: 'native-next', stage: 'native-base', previousJob: f.jobFile, previousReview: f.reviewFile});
+  const f = approvedLookdev(t), made = prepareArtJob({root: f.root, out: 'native-next', stage: 'native-base', previousJob: f.jobFile, previousReview: f.reviewFile, companionJob: f.companionJobFile, companionReview: f.companionReviewFile});
   writeFileSync(join(made.directory, 'REFERENCE.png'), Buffer.from('changed'));assert.throws(() => loadArtJob(join(made.directory, 'job.json'), {root: f.root}), /reference changed/);
 });
 test('project traversal and symlink escapes are rejected', t => {
