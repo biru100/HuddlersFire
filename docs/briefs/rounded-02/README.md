@@ -1,5 +1,8 @@
 # Rounded 02 · NW/SE 독립 원화 작업 환경
 
+> **2026-11-07 후속:** Rev2 NW·SE의 사용자 미술 기준작 선택이 확정됐다. [승인 기록](../../reviews/2026-11-07-rounded02-rev2-art-approval.md)에 정확한 두 원본 해시, ChatGPT 평가, 실제 선택 발언과 다음 기술 게이트를 남겼다. 아래의 ‘미수신/승인 대기’는 당시 작업 준비 상태를 기록한 이력이며, 현재 Codex 작업의 실제 수신 상태를 대신하지 않는다.
+
+
 기준: PR #2의 `art/quality-first-harness-20261107`, 확인한 HEAD `48be5e5`. [기존 Rounded 02 브리프](../nw-se-rounded-lookdev-02.md)를 이어간다. **미술 평가·원화 생성은 ChatGPT, 원본 보존·기술 검증·승인 후 게임 적용은 Codex**가 담당한다.
 
 현재 ZIP과 참고 PNG 3장은 [원본 보존 폴더](../../../art/sprites/incoming/lookdev-handoff-v2/README.md)에 있고 모두 미승인이다. 새 NW·SE 원본, 실제 ChatGPT 원본 평가, 사용자의 파일별 선택은 아직 없다. 기본 신체·네이티브 스프라이트·게임 적용·공개 배포는 진행하지 않는다.
