@@ -1,0 +1,52 @@
+name: Art pipeline review gates
+
+on:
+  push:
+    branches:
+      - art/rounded02-idle-review-20261108
+    paths:
+      - tools/art-production.mjs
+      - tools/lib/art-production-stages.mjs
+      - tools/lib/idle-*.mjs
+      - web/tests/art-production-stages.test.mjs
+      - web/package.json
+      - .github/workflows/art-pipeline-ci.yml
+  pull_request:
+    paths:
+      - tools/art-production.mjs
+      - tools/lib/art-production-stages.mjs
+      - web/tests/art-production-stages.test.mjs
+      - web/package.json
+      - .github/workflows/art-pipeline-ci.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  art-stage-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install dependencies for existing CORE03 validation
+        working-directory: web
+        run: npm ci
+      - name: Check separated stage gates and F1/mask immutability
+        working-directory: web
+        run: npm run test:art-production
+      - name: Install frozen Pillow toolchain for legacy CORE03 regression
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: tools/sprite-gen.lock.json
+      - name: Verify existing CORE03 exact-selection tests
+        run: |
+          node tools/setup-sprite-gen.mjs
+          cd web
+          npm run test:idle-frames
