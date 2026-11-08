@@ -3,10 +3,10 @@
 새 Discord 개발자 앱은 소유자의 Discord 계정에서 한 번 생성해야 합니다. 현재 웹앱은 `identify` 권한만 요청하며, Discord ID로 입장 자격을 확인하고 프로필 사진을 연결합니다. 방에 들어가려면 계정 연결이 필요하며 특정 Discord 서버 소속은 검사하지 않습니다.
 
 1. [Discord Developer Portal](https://discord.com/developers/applications)에서 **New Application**을 선택하고 이름을 `Huddlers Fire`로 지정합니다.
-2. 앱의 **OAuth2** 설정에 아래 Redirect URI를 정확히 등록하고 저장합니다.
+2. 앱의 **OAuth2** 설정에 아래 기존 사이트의 Redirect URI가 설정되어 있는지 확인합니다. 기존 Discord 앱을 새로 만들거나 OAuth 값을 초기화하지 않습니다.
 
    ```text
-   https://YOUR_WORKER_HOST/api/camp/discord/callback
+   https://huddlers-fire-camp.gywkd77.chatgpt.site/api/camp/discord/callback
    ```
 
 3. **Client ID**와 **Client Secret**을 확인합니다. Secret을 복사할 수 없으면 **Reset Secret**으로 새로 발급합니다. 봇 생성이나 서버 초대는 필요하지 않습니다.
@@ -17,7 +17,7 @@
    DISCORD_CLIENT_SECRET=발급받은_Client_Secret
    ```
 
-5. 운영 값은 대상 Cloudflare Worker의 `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` 비밀값으로 별도 등록합니다. [GitHub 배포 안내](github-deployment.md)에 따라 GitHub Actions로 배포합니다. 로컬 파일이나 GitHub 빌드 환경에만 값을 넣으면 운영 Worker에는 적용되지 않습니다. 기존 운영 주소는 새 Worker의 OAuth·DB·게임 검증이 끝날 때까지 유지합니다.
+5. 운영 값은 **기존 GPT Sites**의 Settings에서 `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`을 안전하게 확인·관리한다. 새 Cloudflare Worker나 새 Discord 앱을 만들지 않는다. 기존 사이트 주소는 과거 공개 기록의 주소이며 현재 URL과 기존 OAuth 콜백이 일치하는지 Sites Settings에서 확인한다. Secret을 채팅·Git에 붙여 넣거나 운영 값을 임의 재설정하지 않는다. [Sites 배포 안내](sites-deployment.md)를 따른다.
 
 로컬 인증까지 확인하려면 사용하는 개발 주소의 `/api/camp/discord/callback`도 Redirect URI에 추가합니다. 예: `http://127.0.0.1:5173/api/camp/discord/callback`.
 

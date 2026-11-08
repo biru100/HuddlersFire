@@ -6,15 +6,15 @@
     {
       "id": "delivery-automation",
       "branch": "automation/chat-work-delivery-20261108",
-      "state": "merged-main",
-      "next": "Main verification passed. Production remains blocked until existing Cloudflare settings and CAMP_PRODUCTION_READY are provided; see issue #9.",
+      "state": "verified-github-work-sites-target",
+      "next": "CI verifies main; Work uses existing Sites project and reviews an explicitly saved Site version before deployment.",
       "lastKnownCommit": "186b2963933a1cf6aa7f8e7413bd2be854c6be35"
     },
     {
       "id": "chat-image-handoff-no-api",
       "branch": "automation/chat-image-handoff-no-api-20261108",
-      "state": "pending-current-head-ci",
-      "next": "Review handoff code and test current PR. Chat still must actually upload the PNG; CI performs PNG checks, Work may continue after real PR event/queued task.",
+      "state": "merged-in-main",
+      "next": "Preserve actual PNG source workflow. A real source still requires actual GitHub upload and separate art approval.",
       "imageGenerationMode": "chatgpt-chat-only",
       "paidImageApi": false
     },
@@ -27,9 +27,18 @@
     },
     {
       "id": "production-connection",
-      "state": "blocked-missing-production-settings",
-      "next": "Settings names from live preflight in issue #9. Do not collect secrets in chats or retry identical failures repeatedly.",
+      "state": "superseded-cloudflare-direct-deploy",
+      "next": "No external Cloudflare account setup needed. Issue #9 is historical; existing GPT Sites publishing is managed through Sites Work.",
       "issue": 9
+    },
+    {
+      "id": "existing-sites-republish",
+      "state": "ready-for-sites-work-verification",
+      "sourceCommit": "7282314312ea8b4a309941482629e20aa19133dc",
+      "hostingProjectId": "appgprj_6ae8e9ae42708191b253341387aa287f",
+      "preserveExistingSite": true,
+      "requiresReview": true,
+      "next": "After this PR passes current-head CI, use Work/Sites on the existing site to save a review version of verified main. Compare runtime, authentication and existing database/migration compatibility. Publish only after approval and successful inspection."
     }
   ],
   "notAuthorized": [
@@ -42,5 +51,7 @@
     "inventing image generation success",
     "triggering Work events without user setup"
   ],
-  "reportOnlyOnMeaningfulChange": true
+  "reportOnlyOnMeaningfulChange": true,
+  "deploymentTarget": "existing-chatgpt-sites",
+  "noDirectCloudflareDeploy": true
 }

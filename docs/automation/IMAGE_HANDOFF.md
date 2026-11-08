@@ -79,4 +79,4 @@ Work에 표시되는 Trigger·Condition·Prompt와 필요한 권한 승인을 �
 
 ## 운영 배포는 별도
 
-이 그래픽 수신 절차는 site runtime 변경을 자동 승인하지 않는다. 승인된 사이트 코드의 main 배포 검사는 기존 자동 workflow가 담당하고, Cloudflare production 연결값 부족은 GitHub Issue #9에 유지한다. 이미지 생성 API 무료 호출로 가장하거나, 운영 DB를 임의 초기화하지 않는다.
+이 그래픽 수신 절차는 site runtime 변경을 자동 승인하지 않는다. 승인된 사이트 코드의 main 검사는 GitHub Actions가 담당한다. 운영 게시·버전 저장은 [기존 GPT Sites](../sites-deployment.md)에서 담당하며, 이전 Cloudflare 이슈 #9는 현재 운영 설정 요구가 아니다. 이미지 생성 API 무료 호출로 가장하거나, 운영 DB를 임의 초기화하지 않는다.

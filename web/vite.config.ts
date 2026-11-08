@@ -1,32 +1,41 @@
 import vinext from "vinext";
 import { defineConfig } from "vite";
 import { seedDesignPlugin } from "@seed-design/vite-plugin";
-import { fileURLToPath } from "node:url";
+import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { configureToolEnvironment } from "./scripts/tool-environment.mjs";
 import { sites } from "./scripts/vite/sites-vite-plugin";
 import { connectorPreview } from "./scripts/vite/connector-preview-plugin.mjs";
 
-const LOCAL_DATABASE_ID =
+const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
+
+const { d1, r2 } = hostingConfig;
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 const managedLinux = readExecutionProfile() === "managed-linux";
 
 const localBindingConfig = {
-  name: process.env.CAMP_WORKER_NAME || "huddlers-fire",
   main: "./worker/index.ts",
-  compatibility_date: "2026-05-15",
   compatibility_flags: ["nodejs_compat"],
-  d1_databases: [
-    {
-      binding: "DB",
-      database_name: "huddlers-fire",
-      database_id: process.env.CAMP_D1_DATABASE_ID || LOCAL_DATABASE_ID,
-      migrations_dir: fileURLToPath(new URL("./drizzle", import.meta.url)),
-    },
-  ],
+  d1_databases: d1
+    ? [
+        {
+          binding: d1,
+          database_name: "site-creator-d1",
+          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+        },
+      ]
+    : [],
+  r2_buckets: r2
+    ? [
+        {
+          binding: r2,
+          bucket_name: "site-creator-r2",
+        },
+      ]
+    : [],
 };
 
 export default defineConfig(async ({ command }) => {
@@ -63,7 +72,8 @@ export default defineConfig(async ({ command }) => {
       ...previewPlugins,
       vinext(),
       seedDesignPlugin({ colorMode: "dark-only" }),
-      ...(command === "serve" ? [sites({ mockAuth: !managedLinux }), connectorPreview()] : []),
+      sites({ mockAuth: !managedLinux }),
+      connectorPreview(),
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
         inspectorPort: false,

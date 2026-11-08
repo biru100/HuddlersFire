@@ -4,12 +4,12 @@
 - 이 프로젝트 작업 중에는 전역 규칙과 설정을 수정하지 않는다. `C:\Users\user\.codex\AGENTS.md`, 전역 Codex 설정, 사용자 공통 스킬·하네스 설정 등이 포함된다.
 - 필요한 규칙과 설정은 HuddlersFire 프로젝트 내부에만 추가하거나 변경한다.
 
-## GitHub deployment and Chat/Work automation (2026-11-08)
-- 사용자 최신 요청은 사이트 배포까지의 자동화다. [자동화 계약](docs/automation/AGENT_HANDOFF.md), [정책](docs/automation/POLICY.json), [작업 큐](docs/automation/WORK_QUEUE.json)를 먼저 읽는다. Chat/Work의 로컬 파일·대화가 실시간 공유된다고 가정하지 않고 GitHub commit·원본 SHA·리뷰·CI를 기준으로 한다.
-- 사이트 배포는 GitHub Actions의 [Verify and deploy](.github/workflows/deploy.yml)를 사용한다. GPT/Sites 도구·게시 전용 저장소·배포 아카이브는 신규 배포 경로에서 제거한다. 기존 공개 사이트와 배포 이력은 임의로 삭제하지 않는다.
-- PR과 main/art/**/automation/** push에서 검사한다. 검증된 main은 production 설정/준비 확인 후 자동 배포한다. PR/art 브랜치에는 배포 토큰을 주지 않는다. 기존 수동 전용 규칙은 대체한다. [배포 안내](docs/github-deployment.md)의 실제 Worker·D1·Discord 설정을 사용하며 GitHub Pages의 정적 클라이언트만으로 서버 기능을 완료로 처리하지 않는다.
-- 실제 배포 Secret/Variable·D1 migration 이력과 CAMP_PRODUCTION_READY 확인이 없으면 차단한다. DB migration은 자동 push에서 실행하지 않으며 검토된 수동 workflow 입력만 허용한다. 신규 유료 서비스·기존 DB/사이트 삭제는 별도 결정이다.
-- 원본 업로드·미술 선택·runtime 승인·운영 배포는 별개다. 신규 web/public 이미지는 정확한 SHA와 실제 사용자 runtime 승인 근거가 필요하다. 비밀값은 대화/Git/로그에 넣지 않는다. CAMP_AUTO_DEPLOY=false는 배포 중단 스위치다.
+## Existing ChatGPT Sites hosting, GitHub + Work (2026-11-08 latest decision)
+- 사용자는 이전 Cloudflare 직접 배포 결정을 대체하여 **기존 GPT Sites 프로젝트 재사용**을 명시했다. [Sites 배포](docs/sites-deployment.md), [Work 인계](docs/automation/AGENT_HANDOFF.md), [정책](docs/automation/POLICY.json)을 우선한다.
+- 기존 프로젝트는 `web/.openai/hosting.json`의 project_id이며 `d1: DB`, `r2: null`이다. **새 사이트/DB/URL 생성, 기존 사이트/DB 삭제/이전, 무단 migration 금지.** URL·저장 데이터·Discord 인증 설정을 보존한다.
+- GitHub Actions는 [검증 전용](.github/workflows/deploy.yml)이다. 기존 Cloudflare 계정/Worker/D1 GitHub Secrets를 설정하라고 요구하거나 Cloudflare 직접 게시를 실행하지 않는다.
+- Sites의 **버전 저장과 기존 Site에 게시**는 ChatGPT Work/Sites에서 한다. 검증된 main commit을 선택하고 원본·미술·DB 호환성을 확인한 뒤 리뷰용 버전을 먼저 저장한다. CI success/manifest 복구를 Sites 배포 성공으로 보고하지 않는다.
+- GitHub 원본·SHA·PR·Work 이벤트는 그대로 사용한다. 이미지/모션 미술 승인, 네이티브/런타임 선택, 저장된 Sites 버전 확인과 운영 게시 결과는 각각 독립적이다. 운영 Secret은 Sites Settings에서만 관리한다.
 
 ## Chat/Work artwork handoff without paid image API (2026-11-08)
 - 사용자는 기존 ChatGPT Chat 이미지 생성을 선택했다. 유료 이미지 API/토큰을 자동 호출하지 않는다. [IMAGE_HANDOFF](docs/automation/IMAGE_HANDOFF.md) 수신 계약과 `tools/art-handoff.mjs`의 PNG 검사를 사용한다.
