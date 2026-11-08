@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "stage": "lookdev",
+  "fingerprint": "bb15189ec9a54d6fc3024efefca819e3d4ce5ebad223fbc1557ca5a02f7d8877",
+  "sourceSha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2",
+  "metrics": {
+    "sha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2",
+    "bytes": 521444,
+    "size": [
+      1086,
+      1448
+    ],
+    "alpha": {
+      "opaque": 902,
+      "transparent": 1194894,
+      "soft": 376732
+    },
+    "bounds": [
+      0,
+      35,
+      1056,
+      1389
+    ],
+    "visibleColors": 26819,
+    "paletteMismatches": null,
+    "edgePixels": 3883,
+    "redFringe": 0
+  },
+  "status": "awaiting_visual_review",
+  "blockers": [],
+  "warnings": [
+    "actual_image_model_unverified"
+  ],
+  "artApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "semanticAnchorsVerified": false
+}

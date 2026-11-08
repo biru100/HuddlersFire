@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "view": "nw",
+  "canvas": [
+    1086,
+    1448
+  ],
+  "defaultRegion": "locked",
+  "status": "reviewed-by-chatgpt-for-f2-pilot-not-motion-approval",
+  "coordinateSystem": "original pixels, top-left origin; rectangles [x,y,width,height]",
+  "protectedZones": [
+    {
+      "id": "hair-whole",
+      "rect": [
+        0,
+        0,
+        1086,
+        570
+      ]
+    },
+    {
+      "id": "lower-body",
+      "rect": [
+        0,
+        940,
+        1086,
+        508
+      ]
+    },
+    {
+      "id": "shoe-screen-left",
+      "rect": [
+        330,
+        1190,
+        225,
+        170
+      ]
+    },
+    {
+      "id": "shoe-screen-right",
+      "rect": [
+        540,
+        1170,
+        180,
+        170
+      ]
+    }
+  ],
+  "motionRegions": [
+    {
+      "id": "central-hood-upper-back-interior",
+      "polygon": [
+        [
+          505,
+          590
+        ],
+        [
+          627,
+          590
+        ],
+        [
+          668,
+          620
+        ],
+        [
+          691,
+          674
+        ],
+        [
+          688,
+          729
+        ],
+        [
+          674,
+          799
+        ],
+        [
+          650,
+          829
+        ],
+        [
+          510,
+          825
+        ],
+        [
+          477,
+          792
+        ],
+        [
+          468,
+          742
+        ],
+        [
+          477,
+          689
+        ],
+        [
+          477,
+          641
+        ]
+      ],
+      "maxChangedFraction": 0.12,
+      "maxMeanRgbaError": 4,
+      "note": "Conservative connected cloth-interior envelope. Outer sleeve silhouettes, cuffs, hands and hem are excluded. Visible breathing still needs a real pilot and art review."
+    }
+  ],
+  "composition": {
+    "mode": "masked-rgba-replacement",
+    "maskSource": "frozen-motion-polygons",
+    "outsideMask": "anchor",
+    "insideMask": "generated-original",
+    "guardBandPx": 4,
+    "maxInnerEdgeChannelDelta": 12,
+    "guardSource": "anchor",
+    "note": "New opt-in plan only: generated RGBA inside eroded CORE, exact anchor RGBA in guard and outside. Disclose discarded raw differences; seam and budget checks remain."
+  },
+  "checks": {
+    "maxGlobalTranslationPx": 0,
+    "maxLockedChangedPixels": 0,
+    "maxFootChangedPixels": 0,
+    "maxTransitionRateRatio": 1.6,
+    "maxSeamRateToOtherMean": 1.25,
+    "maxEdgeMeanError": 10,
+    "minimumMotionPixels": 1
+  },
+  "limitations": [
+    "Scoped pilot plan only; no user motion approval.",
+    "Preserve and block a mismatched canvas or bad seam; no resize or alignment.",
+    "Predeclared conservative budgets are not artistic quality scores.",
+    "Whole-sheet generation, head/lower-body movement and new costume features are excluded.",
+    "Discarded raw guard/outside differences and protected derivative pixels are reported separately."
+  ]
+}

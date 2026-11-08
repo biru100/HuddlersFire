@@ -41,7 +41,8 @@ export function validateMotionMetrics(metrics){
   return {status:blockers.length?'blocked':'reference_only',blockers,warnings,motionConcept:true,frameCellsVerified:false,loopVerified:false,artApproved:false,productionReady:false,runtimeVerified:false};
 }
 
-export function prepareMotionJob({root=ART_ROOT,out,view,parentJob,parentReview}={}){
+export function prepareMotionJob({root=ART_ROOT,out,view,parentJob,parentReview,legacySheet=false}={}){
+  if(!legacySheet)throw Error('Whole-sheet generation is legacy-only. Use tools/idle-frames.mjs prepare; historical sheet intake requires --legacy-sheet.');
   if(!/^[a-z][a-z0-9-]{2,79}$/.test(out||''))throw Error('--out needs a new simple job name');
   if(!['nw','se'].includes(view))throw Error('Motion view must be nw or se');
   if(!parentJob||!parentReview)throw Error('Approved same-view lookdev parent and review required');
@@ -98,7 +99,7 @@ export function receiveMotionJob(file,source,{root=ART_ROOT,sourceReference=''}=
   return {view:job.view,sourceSha256:record.sourceSha256,originalPreserved:true,status:'awaiting_motion_inspection'};
 }
 
-export async function inspectMotionJob(file,{root=ART_ROOT}={}){
+export async function inspectMotionJob(file,{root=ART_ROOT,footSplitX}={}){
   const job=loadMotionJob(file,{root}),dir=dirname(artPath(root,file));
   const receipt=readJson(resolve(dir,'submission.json')),filename=resolve(dir,'source/candidate.png');
   const original=readFileSync(filename);
@@ -124,18 +125,24 @@ export async function inspectMotionJob(file,{root=ART_ROOT}={}){
     return `<div class="panel"><h3>Frame ${i+1}</h3><div style="position:relative;overflow:hidden;width:${cw}px;height:${ch}px"><img src="${uri}" width="${w}" height="${h}" style="position:absolute;left:${left}px;top:${top}px;max-width:none"></div></div>`;
   }).join('');
   const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Huddlers motion concept review</title><style>body{font:16px/1.5 system-ui;background:#eee7da;color:#2f251f;margin:24px}section{display:flex;flex-wrap:wrap;gap:12px}.panel{background:#d6dccb;padding:12px;max-width:100%;overflow:auto}img{image-rendering:pixelated}code{overflow-wrap:anywhere}</style><h1>${job.view.toUpperCase()} idle 4-cut motion concept</h1><p>원본 ${w}×${h} · 2×2 · cell ${cw}×${ch}. ${assessment.status}. LOOKDEV ONLY. No frames were cropped or saved as production assets. Frame position and loop not verified.</p><section>${frames}</section><p>SHA256 <code>${metrics.sha256}</code></p><p>Check feet registration, head/hood/jacket continuity, order and 4→1 seam manually in ChatGPT. This is not 64×96 native or a game-render test.</p></html>`;
-  writeFileSync(resolve(build,'motion-review.html'),html);
+  writeFileSync(resolve(build,'motion-review.html'),assessment.blockers.length?html:html.replace('<section>','<p><a href="motion-analysis.html">프레임 측정·루프·고스트 검토 열기</a></p><section>'));
+  let analysisFile=null;
+  if(!assessment.blockers.length){
+    const {writeMotionAnalysis}=await import('./lib/motion-analysis.mjs');
+    await writeMotionAnalysis({original,view:job.view,directory:build,sourceReference:receipt.sourceReference,parent:job.parent,footSplitX});
+    analysisFile=resolve(build,'motion-analysis.html');
+  }
   return {status:assessment.status,report:resolve(build,'motion-intake.json'),review:resolve(build,'motion-review.html'),
-    sourceSha256:metrics.sha256,cellSize,framesVerified:false,productionReady:false};
+    analysis:analysisFile,sourceSha256:metrics.sha256,cellSize,framesVerified:false,productionReady:false};
 }
 function arg(args,key){const i=args.indexOf(key);if(i<0)return undefined;const v=args[i+1];if(!v||v.startsWith('--'))throw Error(key+' requires a value');return v;}
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
   const [op,...args]=process.argv.slice(2);
   const job=arg(args,'--job');
   let output;
-  if(op==='prepare')output=prepareMotionJob({out:arg(args,'--out'),view:arg(args,'--view'),parentJob:arg(args,'--parent-job'),parentReview:arg(args,'--parent-review')});
+  if(op==='prepare')output=prepareMotionJob({out:arg(args,'--out'),view:arg(args,'--view'),parentJob:arg(args,'--parent-job'),parentReview:arg(args,'--parent-review'),legacySheet:args.includes('--legacy-sheet')});
   else if(op==='intake')output=receiveMotionJob(job,arg(args,'--source'),{sourceReference:arg(args,'--source-reference')??''});
-  else if(op==='inspect')output=await inspectMotionJob(job);
+  else if(op==='inspect')output=await inspectMotionJob(job,{footSplitX:arg(args,'--foot-split')===undefined?undefined:Number(arg(args,'--foot-split'))});
   else throw Error('Usage: motion-lookdev.mjs prepare|intake|inspect (see docs/briefs/rounded-02/animation-idle-handoff.md)');
   console.log(JSON.stringify(output,null,2));
 }

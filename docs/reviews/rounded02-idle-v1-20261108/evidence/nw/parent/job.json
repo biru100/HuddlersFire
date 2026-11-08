@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "kind": "art-direction",
+  "stage": "lookdev",
+  "variation": "rounded",
+  "view": "nw",
+  "policy": {
+    "version": 1,
+    "id": "pixel-art-quality-reset-20261107",
+    "generation": {
+      "surface": "chatgpt",
+      "requestedModel": "gpt-image-2.6",
+      "modelEvidence": "user-reported; verify each delivered file, not the product name",
+      "codexRole": "brief-intake-assembly-validation",
+      "allowSilentFallback": false,
+      "allowPaidApi": false
+    },
+    "defaultStage": "lookdev",
+    "approvedBaseline": null,
+    "maxConceptRoundsBeforeReassessment": 3,
+    "criteria": [
+      "silhouette",
+      "direction",
+      "pixel-language",
+      "palette",
+      "character-appeal",
+      "scene-fit"
+    ],
+    "preserve": [
+      "projection",
+      "pan-and-zoom",
+      "photos-and-identity",
+      "multiplayer",
+      "chat",
+      "radio",
+      "playground",
+      "showroom"
+    ],
+    "forbiddenOperations": [
+      "resize",
+      "quantize",
+      "dither",
+      "mirror",
+      "alpha-threshold",
+      "procedural-redraw",
+      "invent-missing-frames"
+    ],
+    "notes": [
+      "No previous sheet, native redraw or technical PASS is an approved art baseline.",
+      "Read geometry and proposed native canvas/anchors from scene-spec.json.pixelQuarterview only.",
+      "A large concept PNG can be reviewed as lookdev, never relabelled as a native sprite.",
+      "Aesthetic approval is an explicit user decision tied to exact bytes. It is not production approval.",
+      "If native output is unavailable, report blocked_native_delivery. Do not substitute code-drawn art or endless retries."
+    ],
+    "workflow": {
+      "artDirector": "chatgpt-generates-reviews-and-iterates",
+      "humanDecision": "user-approves-selected-original-hash",
+      "technicalOwner": "codex-intake-geometry-assembly-runtime-tests",
+      "lookdevViews": [
+        "nw",
+        "se"
+      ],
+      "nativeBaseRequiresApprovedViews": [
+        "nw",
+        "se"
+      ],
+      "note": "A multi-character sheet is a comparison reference, not a single original sprite. Process approval does not approve any particular candidate or deployment."
+    }
+  },
+  "contract": {
+    "projection": {
+      "tile": [
+        80,
+        40
+      ],
+      "basisX": [
+        40,
+        20
+      ],
+      "basisY": [
+        -40,
+        20
+      ],
+      "directions": {
+        "NW": [
+          -1,
+          0
+        ],
+        "NE": [
+          0,
+          -1
+        ],
+        "SW": [
+          0,
+          1
+        ],
+        "SE": [
+          1,
+          0
+        ]
+      }
+    },
+    "avatar": {
+      "canvas": [
+        64,
+        96
+      ],
+      "feet": [
+        32,
+        88
+      ],
+      "head": [
+        32,
+        28
+      ],
+      "seat": [
+        32,
+        62
+      ],
+      "states": {
+        "idle": {
+          "frames": 1,
+          "durations": [
+            1000
+          ]
+        },
+        "walk": {
+          "frames": 6,
+          "durations": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        "sit_bench": {
+          "frames": 1,
+          "durations": [
+            1000
+          ]
+        },
+        "emote": {
+          "frames": 4,
+          "durations": [
+            150,
+            150,
+            150,
+            150
+          ]
+        }
+      }
+    }
+  },
+  "policyHash": "4b2899709ec880541395b3617cf2cce12eef50d23c21737610e1fd99a6b1652b",
+  "contractHash": "c3c9e1ae1b4bd139de7830001c3a248fe919220d8e7c275747179711308ff772",
+  "parent": null
+}

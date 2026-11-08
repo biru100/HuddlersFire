@@ -1,0 +1,77 @@
+HuddlersFire NW f3 exhale — 상체 부분 원화, 미승인
+
+동일한 f1 원본에서 이 프레임 하나만 제작하세요. 곱슬머리 전체·신발·하체·전신 위치·카메라/원근/방향은 고정입니다. 초안 목 아래/어깨/후드/등 위의 연결을 먼저 미술 검토하세요. 목표 주기는 1.8~2초, 현재 제안은 475ms×4입니다.
+미술 검토가 끝난 사전 마스크의 상체 원화만 사용하며 경계 고정 띠는 f1과 정확히 같아야 합니다. Codex는 마스크 안을 원본 RGBA로 복사하고 밖을 anchor로 유지합니다. 블렌딩/페더링/재정렬/재작화는 하지 않습니다. 생성 원본과 합성 결과를 각각 보존하고 마스크 밖 제외 변경도 보고합니다. 실패를 숨기지 마세요.
+전체 시트를 생성하지 말고 원본과 같은 캔버스의 RGBA PNG 한 장을 전달하세요. 아래 JSON과 실제 f1/플랜 파일을 함께 참조하세요. 현재 수정 플랜은 미술 검토 대기이며 이 요청서 준비가 생성/모션 승인은 아닙니다.
+
+{
+  "workflow": "anchor-frame-by-frame",
+  "delivery": "upper-body-partial-on-full-original-canvas",
+  "view": "nw",
+  "frame": "f3",
+  "intent": "exhale",
+  "anchor": {
+    "file": "base/frame01-anchor.png",
+    "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+    "canvas": [
+      1086,
+      1448
+    ]
+  },
+  "lockedPlanSha256": "e5c47c485ba2c04c48cc04e8b519a3d1a2634defc8bd909cf2762af82ddb02b2",
+  "frameIntentSha256": "396ab141d5979ebcedc4481d9b3d5758bd7bda78a11c1370c49dee3152b8d329",
+  "maskSha256": "fefef5a715acfaaacd58c98a0a00b9b3e3d58cef1710791b58830d86665b4680",
+  "attach": [
+    "base/frame01-anchor.png",
+    "motion-plan/REGION_LOCKS.md",
+    "motion-plan/REGION_LOCKS.json",
+    "motion-plan/FRAME_INTENT.json"
+  ],
+  "output": {
+    "filename": "frame03-exhale.png",
+    "format": "single-frame RGBA PNG, original canvas, source only",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "background": "transparent",
+    "sheet": false
+  },
+  "locked": [
+    "entire curly hair",
+    "entire shoes and contacts",
+    "legs below knees",
+    "global position",
+    "camera/perspective/view"
+  ],
+  "limitedMotion": [
+    "continuous visible neck-below-hair / shoulders / hood / upper-back breathing region",
+    "tiny upper-arm response"
+  ],
+  "composition": {
+    "mode": "masked-rgba-replacement",
+    "maskFile": "motion-plan/COMPOSITE_MASK.bin",
+    "maskSha256": "fefef5a715acfaaacd58c98a0a00b9b3e3d58cef1710791b58830d86665b4680",
+    "guardBandPx": 4,
+    "rule": "Codex selects exact supplied RGBA inside the frozen mask and exact anchor RGBA outside; no alpha blending, feathering, resize, realignment or redraw.",
+    "sourceScope": "Partial upper-body art; source and composite are separately preserved/reviewed. Discarded source changes are disclosed."
+  },
+  "rules": [
+    "Create this frame independently from the same f1; no full 2x2 sheet.",
+    "Hair is fully locked. Keep the fixed context collar exactly equal to f1. No camera/body bounce.",
+    "Design a continuous neck/shoulder/hood/back response; do not move the head or invent an occluded chest.",
+    "Target a 1.8–2 second loop (draft 4×475ms). Avoid a unique f2→f3 jump; f4 approaches f1.",
+    "If source/guard continuity cannot be preserved, report failure. Do not claim the supplied source or composed result is approved."
+  ],
+  "roles": {
+    "artworkAndArtReview": "ChatGPT",
+    "technicalAndAssembly": "Codex",
+    "finalMotionSelection": "user"
+  },
+  "reviewState": "pending-motion-review",
+  "decision": "pending",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false
+}

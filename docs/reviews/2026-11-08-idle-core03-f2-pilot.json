@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "kind": "genuine-generated-f2-pilot-rejection",
+  "date": "2026-11-08",
+  "sourceFilename": "a_pixel_art_sprite_illustration_on_a_transparent_b.png",
+  "sourceSha256": "a63ce88ff8d5277816daa15a66f4e446fde009dfb4bed1077cee3118b9a7f923",
+  "sourceBytes": 474317,
+  "sourceFormat": "PNG",
+  "sourceMode": "RGBA",
+  "sourceDimensions": [1055,1491],
+  "expectedCanvas": [1086,1448],
+  "canvasMatches": false,
+  "anchorSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "sourceReference": "Actual image generated in this ChatGPT task on 2026-11-08; gen_id 6b4895d2-68c8-44df-91f9-4ebe2921f0c5",
+  "sourceFileId": "file_0000000034c48206a2e6f7beba6c9b8d",
+  "generationId": "6b4895d2-68c8-44df-91f9-4ebe2921f0c5",
+  "observedModel": null,
+  "operationsOnOriginal": [],
+  "alpha": {"transparent":1209332,"soft":362643,"opaque":1030},
+  "technicalStatus": "blocked",
+  "blockers": ["canvas_mismatch_no_forced_resize"],
+  "actualIntake": {
+    "tool": "tools/idle-frames.mjs intake",
+    "frame": "f2",
+    "job": "art/sprites/source-registry/rounded02-idle-frames-nw-03/job.json",
+    "exitCode": 1,
+    "error": "AssertionError: Canvas mismatch; never resize received art",
+    "actual": [1055,1491],
+    "expected": [1086,1448],
+    "registeredAsValidFrame": false
+  },
+  "artReview": {
+    "actor": "chatgpt",
+    "reference": "Actual generated f2 displayed and examined in the current task, 2026-11-08",
+    "result": "revise-required",
+    "observation": "The output materially redraws the approved curl silhouette, hood folds, arm shape, trousers and shoes and changes registration. It is not a controlled local inhale delta from the exact anchor. No composite or loop is approved."
+  },
+  "storage": {
+    "conversationOriginalPreserved": true,
+    "workingCopySha256Verified": true,
+    "githubOriginalPngUploaded": false,
+    "note": "This JSON records the real failed attempt. It is not the PNG itself. The unchanged PNG is provided in the current ChatGPT conversation; no missing remote file link or upload success is fabricated."
+  },
+  "afterAttempt": {
+    "technicalStatus": "awaiting_frames",
+    "missingFrames": ["f2","f3","f4"],
+    "assemblyReady": false,
+    "compositeCreated": false,
+    "sheetCreated": false
+  },
+  "notPerformed": ["resize","alpha-conversion","quantization","mask-adjustment-to-fit-output","runtime-replacement","deployment","f3-f4-generation-after-failed-pilot"],
+  "reviewState": "pending-motion-review",
+  "decision": "pending",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "gameExecuted": false,
+  "deployed": false
+}

@@ -2,6 +2,10 @@
 
 ## INT-24 픽셀 제작 하네스 · 실제 코드와 통합 범위
 
+NW 플랜 02는 `anchor-idle-job` version 2로 명시적 부분 원화 합성 모드를 추가하고 레지스트리 version 3는 유지한다. `tools/lib/idle-composite.mjs`가 동결 다각형 마스크/고정 경계 띠·내부 gradient·선택/제외 변화 및 보호 부위 원본/파생 차이를 계산한다. `idle-frames.mjs compose`는 실제 플랜 확인과 원본 기술 통과 후에만 `idle-png.py`의 정확한 RGBA 선택을 실행한다. generated 원본과 composites 파생 PNG/receipt를 별도로 재검증하고 마지막 assemble 입력은 합성 프레임이다. 원본 컬러/alpha를 수정하는 블렌딩·보정·재작화는 없다. 기존 job version 1의 요청문과 증거는 보존한다.
+
+2026-11-08 Rounded 02 Idle 신규 기본 경로는 `tools/idle-frames.mjs`다. source-registry version 3에 immutable anchor/프레임 PNG, 부모 지문, 부위 플랜과 프레임 intent/receipt를 보존한다. `tools/lib/idle-checks.mjs`는 기본 전영역 잠금·foot lock·하체 이동·부위 예산·전환 리듬·4→1·morph 지표를 담당한다. `tools/lib/idle-png.py`는 기존 고정 Pillow 환경에서 실제 RGBA 디코딩과 무손실 위치 배치만 하며, 원본 변환·생성·미술 승인·게임 설치는 없다. 참고 시트 조립은 네 원본/실제 플랜 확인/기술 통과 후에만 가능하다. 기존 `motion-lookdev.mjs`는 legacy sheet 검사 전용이며 prepare는 명시적 `--legacy-sheet`를 요구한다. `art-direction.mjs`·정책·승인 fingerprint와 native/pixel/runtime 게이트는 보존한다. [실행 절차](briefs/rounded-02/idle-frame-workflow.md)를 참고한다.
+
 외부 원화는 `tools/lib/art-direction.mjs`가 요청·원본 수신·기술 조사·미술 선택 계보를 소유한다. 기존 `rebuild-sprites --job ... --source ...`가 다운로드 PNG를 배타적으로 복사하고 원본명·SHA256·출처를 receipt에 남기며, 재검사는 `--source` 없이 수행한다. 실제 디코딩은 기존 `pixel-assets.mjs:inspectImage`를 재사용한다. `renderArtReview`의 원본/명암 바탕/작은 CSS 표시는 실제 게임 합성이 아니다. 규칙·스킬 참조는 `test:art-direction`, 디코딩/CLI는 `test:art-intake`, 격리 headless 레이아웃은 `test:browser:art-review`가 검사한다. 요청문과 전달 안내는 [시각 제작](visual-production.md)에서 시작한다.
 
 | 책임 | 실제 파일·함수 | 보존/확장 |

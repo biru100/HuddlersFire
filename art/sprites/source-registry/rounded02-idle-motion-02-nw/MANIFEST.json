@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "setId": "rounded02-idle-motion-02-nw",
+  "revision": 2,
+  "kind": "motion-concept",
+  "reviewState": "pending-motion-review",
+  "approvalDocument": null,
+  "artApproved": false,
+  "animationApproved": false,
+  "decision": "pending",
+  "productionReady": false,
+  "runtimeVerified": false,
+  "generation": {
+    "surface": "chatgpt",
+    "observedModel": null,
+    "modelEvidence": "unverified",
+    "sourceReference": "AgentHub 사용자 첨부 Image #1, 2026-11-08, NW Idle v2 후보; 제작 대화 URL 미제공"
+  },
+  "notes": [
+    "Only NW v2 received. No SE v2 file or substitute companion registered.",
+    "No resizing, alpha modification, quantization, mirroring or native/runtime approval."
+  ],
+  "originals": [
+    {
+      "slot": "nw",
+      "filename": "nw-idle-4cut-v2.png",
+      "path": "original/nw-idle-4cut-v2.png",
+      "sourceFilename": "4718868ec929dc8c065e9729a580f0f9.png",
+      "sha256": "c9779f37594fbaad5dccc25e7cde64d20172cd743d619de3f6ad2144e47e70b0",
+      "bytes": 915804,
+      "dimensions": [
+        1254,
+        1254
+      ]
+    }
+  ]
+}

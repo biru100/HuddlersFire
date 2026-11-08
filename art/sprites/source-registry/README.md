@@ -12,6 +12,12 @@
 
 ## 표준 구조
 
+**NW 최신 검토는 [플랜 02](rounded02-idle-frames-nw-02/README.md)**다. version 3 원본 레지스트리 안에서 job version 2의 명시적 상체 부분 원화/사전 마스크 경로를 지원한다. `generated/`는 ChatGPT 원본, `composites/`는 별도 해시·source/anchor/mask 지문이 있는 파생물이다. SHA256SUMS/MANIFEST에는 실제 원본만 등록하고 파생물을 원본으로 바꾸지 않는다. 원격 검증은 PNG와 동결 mask 바이트도 확인한다. f1 neutral 사용 가능과 수정 영역/모션 승인은 별개다.
+
+**2026-11-08 Rounded 02 Idle 신규 기본 경로:** version 3 `idle-frames`는 [anchor 기반 프레임 제작](../../../docs/briefs/rounded-02/idle-frame-workflow.md)을 저장한다. [NW 준비 폴더](rounded02-idle-frames-nw-01/README.md)처럼 `base/frame01-anchor.png`, `motion-plan/`, 실제 수신한 `generated/frame02..04.png`, 파생 참고용 `assembly/`, `review/`를 구분한다. SHA256SUMS는 실제 원본 슬롯만 포함하며 누락 프레임을 대체하지 않는다. 전체 시트 일괄 생성은 신규 기본 경로가 아니고 version 1/2 시트는 과거 수신 이력으로 유지한다. 원격 검증 대상은 `original/`뿐 아니라 version 3의 `base/`, `generated/` PNG도 포함한다. 디자인 부모 승인은 모션으로 전달되지 않는다.
+
+미승인 모션의 새 revision은 version 2 manifest로 NW 또는 SE 한 방향씩 수신할 수 있다. `revision`에 맞는 파일명을 사용하고, `artApproved:false`, `animationApproved:false`, `decision:pending`을 유지한다. 실제 받은 슬롯만 등록하며 미수신 방향을 이전 원본으로 대신 채우지 않는다. 기존 version 1 디자인/모션 manifest의 NW·SE 쌍 계약은 그대로다. [NW Idle v2 수신](rounded02-idle-motion-02-nw/README.md)을 참고한다.
+
 ```text
 art/sprites/source-registry/
   <new-asset-set-id>/
@@ -53,7 +59,7 @@ git push
 
 ## 승인 데이터와 파일 구분
 
-- GitHub `source-registry`는 **변경 불가능한 원본 파일/해시/메타데이터의 저장 장소**다. `art/sprites/runs/`의 `job.json`, `submission.json`, `art-review.json` 및 기존 네이티브/픽셀 리뷰 게이트를 대체하지 않는다.
+- GitHub `source-registry`는 **변경 불가능한 원본 파일/해시/메타데이터의 저장 장소**다. 기존 `art/sprites/runs/` 디자인/레거시 job과 승인 증거, native/pixel 게이트를 대체하지 않는다. version 3 프레임 job은 재현을 위해 자신의 `job.json`과 프레임 receipt/플랜도 이 폴더에 보존하지만 새 디자인/모션 승인을 만들지는 않는다.
 - `MANIFEST.json`의 `reviewState:"selected-lookdev"`는 문서에서 사용자 선택을 확인한 미술 기준작이라는 뜻이지 Codex의 `artApproved:true`, `productionReady:true`라는 뜻이 아니다.
 - `reviewState:"pending-motion-review"`는 디자인 부모 승인을 모션 승인으로 이어받지 않는다는 뜻이다.
 - 파일명이 바뀌어도 실제 바이트는 그대로 두며, 업데이트·수정본은 **새 setId와 새 원본**으로 등록한다. 기존 SHA와 파일을 덮어쓰지 않는다.

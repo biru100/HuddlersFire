@@ -1,5 +1,17 @@
 # 구현 검증 기록
 
+## 2026-11-08 INT-24 · NW Idle 플랜 02와 부분 원화 합성 검토
+
+사용자 전달의 f1 neutral 사용 가능을 별도 범위로 기록했다. 전체 곱슬머리 잠금·목 아래/어깨/후드/등 연결 영역·1.8~2초(초안 1900ms)·사전 마스크의 정확한 RGBA 선택을 새 플랜 02에 준비했다. 원본/합성 독립 보존·해시·변경/제외 영역·경계 띠와 내부 gradient를 검증하는 선택 모드를 추가했다. 실제 플랜은 미술 재검토 대기이며 confirm-plan·새 원화/합성은 실행하지 않았다. 기존 디자인/후보/플랜01/승인/게임 자산은 보존했다.
+
+프레임 24/24, 전체 345/345, pipeline 120/120, art-direction 34/34, typecheck/build와 격리 플랜01·02 UI 검사가 통과했다. lint 오류 0·기존 경고 4개. [상세 변경·검증·제약](reviews/2026-11-08-idle-masked-plan02-validation.md), [ChatGPT 수정 플랜 검토 입력](briefs/rounded-02/idle-masked-upper-body-02.md)을 따른다. 모션/native/runtime 승인은 pending, 게임 교체·공개 배포는 하지 않았다.
+
+## 2026-11-08 INT-24 · Idle anchor 기반 개별 프레임 제작 하네스
+
+전체 2×2 일괄 생성을 기본 경로에서 제외하고 동일 f1 고정·영역 잠금·f2/f3/f4 개별 수신·마지막 무손실 참고 조립으로 개편했다. NW 실제 승인 원본을 동일 SHA의 부모 lookdev와 연결하고 초안 영역·요청서·명암/작은 표시 검토 화면을 준비했다. f2/f3/f4·실제 ChatGPT 플랜 확인은 아직 없으므로 `awaiting_frames`, 모션은 pending이다. 기존 디자인 승인·원본·리뷰·게임 그림은 보존했다.
+
+전체 **337/337**, pipeline **112/112**, art-direction **34/34**, typecheck/build, 기존 Canvas 장면 35개와 격리 headless 검토 UI 통과. lint 오류 0·기존 경고 4개. 최초 샌드박스 CDP timeout과 Windows 테스트 디렉터리 정리 실패는 원인 수정/허용된 재실행 후 통과했으며 [상세 검증·파일 범위](reviews/2026-11-08-idle-anchor-harness.md)에 구분했다. 새 캐릭터 이미지 생성·실제 모션 미술 승인·native/runtime·게임 교체·배포는 하지 않았다.
+
 ## 2026-11-07 INT-24 · PR #2 Rounded 02 ZIP 수신과 작업 환경
 
 사용자 지정 PR #2 HEAD `48be5e5`로 기존 브랜치를 fast-forward하고 ZIP 원본과 내부 참고 파일 5개를 `art/sprites/incoming/lookdev-handoff-v2/`에 바이트 그대로 보존했다. 이미지 3장의 manifest 해시·바이트·실제 크기가 일치했다. Rounded 01과 두 비교판은 모두 미승인 참고이며 새 Rounded 02 NW/SE 원본은 없다. 두 독립 lookdev job·방향별 요청문·ChatGPT 전달용 ZIP을 준비했고 source는 비워 뒀다.

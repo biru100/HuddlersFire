@@ -1,0 +1,45 @@
+{
+  "status": "pending",
+  "artDirectorReview": {
+    "actor": "chatgpt",
+    "reference": "",
+    "summary": ""
+  },
+  "userDecision": {
+    "quote": "",
+    "reference": ""
+  },
+  "checks": {
+    "same-character-every-frame": {
+      "result": "unreviewed",
+      "observation": ""
+    },
+    "same-view-every-frame": {
+      "result": "unreviewed",
+      "observation": ""
+    },
+    "feet-registration": {
+      "result": "unreviewed",
+      "observation": ""
+    },
+    "hair-and-clothing-consistency": {
+      "result": "unreviewed",
+      "observation": ""
+    },
+    "frame-order": {
+      "result": "unreviewed",
+      "observation": ""
+    },
+    "breathing-motion-readable": {
+      "result": "unreviewed",
+      "observation": ""
+    },
+    "loop-seam-4-to-1": {
+      "result": "unreviewed",
+      "observation": ""
+    }
+  },
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false
+}

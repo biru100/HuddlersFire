@@ -1,0 +1,15 @@
+{
+  "kind": "motion-lookdev-receipt",
+  "sourceType": "chatgpt-image-generation",
+  "sourceFilename": "nw-idle-4cut-v3.png",
+  "sourceReference": "AgentHub 사용자 첨부 Image #1, 2026-11-08, 6a8e6f67a9dff7c7e61c56a959521b47.png; 제작 대화 URL 미제공",
+  "sourceSha256": "d6bb11d78ce4d3e2e26a353ba1303e4dfc7a419d5dea7671b352c0aebb1c2ed0",
+  "originalBytes": 976617,
+  "operations": [
+    "lossless-copy"
+  ],
+  "observedModel": null,
+  "observedModelStatus": "unverified",
+  "animationApproved": false,
+  "productionReady": false
+}

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "status": "draft-requires-chatgpt-review",
+  "frames": [
+    {
+      "id": "f1",
+      "intent": "neutral-anchor",
+      "durationMs": 250,
+      "instruction": "Unchanged approved design PNG proposed as neutral anchor; motion-anchor confirmation is separate."
+    },
+    {
+      "id": "f2",
+      "intent": "inhale",
+      "durationMs": 250,
+      "instruction": "Small upper torso/shoulder expansion only within confirmed regions. Start from f1."
+    },
+    {
+      "id": "f3",
+      "intent": "exhale",
+      "durationMs": 250,
+      "instruction": "Small release from inhale, close to neutral; do not force an opposite peak or an exceptional f2→f3 jump. Start from f1."
+    },
+    {
+      "id": "f4",
+      "intent": "return",
+      "durationMs": 250,
+      "instruction": "Approach the exact f1 anchor; seam 4→1 no larger than ordinary transitions. Start from f1."
+    }
+  ],
+  "rhythm": "Equal nominal durations are a draft, not proof of natural movement. Compare all four transition errors divided by duration; inspect the actual loop in ChatGPT.",
+  "sourceRule": "One independent PNG per frame. No full-sheet generation, chained redraw, camera move or global bounce."
+}

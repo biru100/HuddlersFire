@@ -3,15 +3,17 @@ name: camp-art-direction
 description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미술 판단을 수행하고 Codex에서 검사 증거·요청서를 관리하도록 분담한다."
 ---
 
-후속 모션 원화(Idle·Walk·Sit)와 헤어/의상 레이어의 **미술 제작/평가 역시 ChatGPT**가 담당한다. 원본 인계 및 4컷 모션 검토는 [camp-animation-art](../camp-animation-art/SKILL.md)와 [Idle 브리프](../../../docs/briefs/rounded-02/animation-idle-handoff.md)를 따른다. Codex 기술 검사는 모션 원화 제작을 대신하지 않는다.
+후속 모션 원화(Idle·Walk·Sit)와 헤어/의상 레이어의 **미술 제작/평가 역시 ChatGPT**가 담당한다. Rounded 02 Idle은 [camp-animation-art](../camp-animation-art/SKILL.md)와 [프레임별 제작](../../../docs/briefs/rounded-02/idle-frame-workflow.md)의 anchor 고정 → 영역 잠금 → f2/f3/f4 개별 생성 → 마지막 무손실 조립을 따른다. 전체 2×2 일괄 생성은 신규 기본 경로가 아니다. 디자인 승인·anchor/영역 확인·모션 선택은 별개이며 Codex 기술 검사는 미술 평가를 대신하지 않는다.
 
 # ChatGPT 아트 디렉션 · 원화 선택
+
+NW Idle의 f1 neutral 사용 가능은 사용자가 전달한 실제 ChatGPT 결과로 한정한다. [플랜 02](../../../docs/briefs/rounded-02/idle-masked-upper-body-02.md)의 전체 머리 잠금·상체 연결·사전 마스크·1.9초 제안은 별도 미술 검토 대상이며 확인 전 `confirm-plan`을 실행하지 않는다. 원본/합성의 매력·경계 자연스러움을 기술 선택 연산으로 승인하지 않는다.
 
 **최신 원본 전달:** [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md). ChatGPT 원화는 직접 GitHub 바이너리 업로드가 가능하면 원격 파일/해시까지 검증하고, 불가능하면 Codex가 원본 그대로 커밋한다. ZIP/로컬 다운로드 중심의 과거 지시는 이력이다. GitHub MANIFEST만으로 업로드/미술 승인을 주장하지 않는다.
 
 [활성 시각 제작](../../../docs/visual-production.md), [정책](../../../art/sprites/art-direction.json), [Rounded 02 현재 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)를 먼저 읽는다. 일반 기능 수정에는 이 절차를 추가하지 않는다.
 
-현재 [Rounded 02 전달 환경](../../../docs/briefs/rounded-02/README.md)은 원본 미수신 상태다. 첨부 ZIP의 과거 시안·비교판을 독립 원화로 승격하거나 새 ChatGPT 미술 평가가 있는 것처럼 기록하지 않는다.
+현재 [Rounded 02 전달 환경](../../../docs/briefs/rounded-02/README.md)의 최신 상태를 확인한다. 승인 원본은 GitHub 레지스트리에 보존됐고 [실제 부모 계보](../../../docs/reviews/rounded02-idle-v1-20261108/README.md)는 정확한 해시·기존 ChatGPT 평가·사용자 선택을 기존 게이트로 검증한다. 과거의 다른 해시 후보·ZIP 비교판을 이 승인으로 승격하거나 새 미술 평가가 있는 것처럼 기록하지 않는다.
 
 1. **ChatGPT가 아트 디렉터**다. 실제 이미지에 근거한 silhouette / direction / pixel-language / palette / character-appeal / scene-fit 관찰과 수정 후보를 ChatGPT 제작 대화에서 정한다. Codex는 자기 미술 점수나 인위적인 PASS로 이를 대체하지 않는다.
 2. 첫 Rounded 01은 승인된 기준이 아니다. 새 후보는 같은 사람과 복장·색·idle을 고정하고 머리/몸통 균형, 발의 일관된 회전, 작은 화면 가독성을 개선한다. 기본 후보는 Rounded 02 A이며 B의 가방은 기본형 비교에 넣지 않는다.

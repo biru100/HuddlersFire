@@ -1,0 +1,16 @@
+{
+  "actor": "chatgpt",
+  "reportedBy": "user",
+  "reference": "User message in this HuddlersFire AgentHub conversation, 2026-11-08, beginning PR #7의 anchor-first 하네스를 확인했어.",
+  "quote": "ChatGPT 미술 검토 결과, 승인된 NW 디자인 원본은 f1 neutral anchor로 사용 가능해.",
+  "scope": "f1-neutral-only",
+  "sourcePath": "art/sprites/source-registry/rounded02-rev2-lookdev/original/nw-approved.png",
+  "sourceSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "revisedRegionPlanConfirmed": false,
+  "motionApproved": false,
+  "decision": "pending",
+  "artApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "restrictionQuote": "수정된 영역 플랜을 다시 미술 검토하기 전에는 confirm-plan을 실행하지 마."
+}

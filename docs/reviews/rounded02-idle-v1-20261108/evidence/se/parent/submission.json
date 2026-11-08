@@ -1,0 +1,29 @@
+{
+  "file": "source/candidate.png",
+  "sourceType": "image-generation",
+  "surface": "chatgpt",
+  "requestedModel": "gpt-image-2.6",
+  "observedModel": null,
+  "modelEvidence": {
+    "kind": "unverified",
+    "reference": ""
+  },
+  "operations": [
+    "lossless-copy"
+  ],
+  "paletteRgb": [],
+  "frameAnchors": {
+    "feet": [
+      32,
+      88
+    ],
+    "head": [
+      32,
+      28
+    ]
+  },
+  "note": "Fill with observed facts only. Do not run scripts from incoming packages.",
+  "originalName": "se-approved.png",
+  "originalSha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2",
+  "sourceReference": "https://github.com/biru100/HuddlersFire/blob/602c28c5c897e7425cbb328bf1f7d9cdeb6b70ba/art/sprites/source-registry/rounded02-rev2-lookdev/original/se-approved.png"
+}

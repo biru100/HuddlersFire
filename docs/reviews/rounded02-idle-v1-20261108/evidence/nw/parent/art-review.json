@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "fingerprint": "28997cf1f92a45bf394bb298792be0fccf4bbf34210ab747139cb3368766406a",
+  "reviewer": "사용자 (승인 문서의 실제 선택)",
+  "reviewerRole": "user",
+  "artDirectorReview": {
+    "actor": "chatgpt",
+    "reference": "docs/reviews/2026-11-07-rounded02-rev2-art-approval.md — 2026-11-07 ChatGPT 대화 「Rounded 02 Rev2 미술 검토 결과」 및 직후 사용자 선택. 대화 URL 확인 불가; 새 평가가 아닌 문서의 기존 평가를 전사.",
+    "summary": "기존 ChatGPT 미술 평가의 LOOKDEV 수준 여섯 기준 통과를 해당 승인 해시 원본에 연결. 네이티브·게임 장면은 미검증."
+  },
+  "decision": "approved",
+  "userDecision": {
+    "quote": "일단 확정하자 나쁘지 않은 것 같아",
+    "reference": "docs/reviews/2026-11-07-rounded02-rev2-art-approval.md — 2026-11-07 ChatGPT 대화 「Rounded 02 Rev2 미술 검토 결과」 및 직후 사용자 선택. 대화 URL 확인 불가; 새 평가가 아닌 문서의 기존 평가를 전사."
+  },
+  "criteria": {
+    "silhouette": {
+      "result": "pass",
+      "observation": "NW·SE 모두 머리, 내려진 후드, 양팔, 몸통, 두 다리와 신발이 분리돼 읽힌다. 앞선 초안보다 머리·몸통 비율이 안정적이다."
+    },
+    "direction": {
+      "result": "pass",
+      "observation": "NW는 뒤통수/등/후드가 보이는 뒷사선이고 눈은 보이지 않는다. SE는 눈과 후드 전면이 보이는 앞사선이다. 실제 네이티브 단계에서 발 앞코·골반 방향의 픽셀 정합성을 재확인한다."
+    },
+    "pixel-language": {
+      "result": "pass",
+      "observation": "윤곽의 계단 표현과 색면이 비교적 통일돼 캐릭터 형태가 읽힌다. 실제 1px 논리 격자/이진 알파·64×96 납품을 증명하지는 않는다."
+    },
+    "palette": {
+      "result": "pass",
+      "observation": "밤갈색 곱슬머리, 세이지 후드티, 차콜 브라운 바지, 따뜻한 갈색 신발이 조화롭고 두 방향의 색감이 연결된다. 실제 캠프 주야간 조명 가독성은 별도 검증이다."
+    },
+    "character-appeal": {
+      "result": "pass",
+      "observation": "SE의 친근한 표정과 특징적인 곱슬머리 실루엣이 캐릭터의 인상을 만든다. NW에도 같은 헤어·후드·체형 특성이 유지된다."
+    },
+    "scene-fit": {
+      "result": "pass",
+      "observation": "포근한 HuddlersFire 캠프 콘셉트에 어울리는 착의 캐릭터 기준이다. 실제 지형·벤치 접촉·가림·주야간·UI 합성 품질은 미검증이다."
+    }
+  },
+  "unresolved": [],
+  "note": "A human art-direction decision only; native production still requires pixel/scene/feature checks.",
+  "approvalScope": "LOOKDEV_ONLY",
+  "productionReady": false,
+  "runtimeVerified": false
+}
