@@ -1,21 +1,33 @@
-# Rounded 02 Idle: execution boundary
+# Rounded 02 Idle: 실행 전 준비와 실제 차단 상태
 
-## Completed preparation
+## 현재 판단
 
-- PR-scoped anchor-first core-only composition and legacy compatibility.
-- Exact approved f1, actual parent lineage, frozen mask, plan and three single-frame requests.
-- Limited ChatGPT plan review and explicit pending motion state.
-- Fresh full tests, pipeline, frame tests, typecheck, lint and isolated build.
-- Original/derived separation and no automatic forced conversion.
+**하네스·준비 자료·기술 회귀는 준비됐지만, 실제 애니메이션은 아직 실행 직전 상태가 아니다.** 유효한 f2/f3/f4와 실제 합성·루프가 없다. 준비 문서, 테스트 fixture 또는 이미지 한 장을 애니메이션 완성으로 보고하지 않는다.
 
-[Evidence](../../reviews/2026-11-08-idle-core03-validation.md).
+| 구분 | 확인 상태 |
+| --- | --- |
+| 승인 f1 원본·부모 계보·동결 CORE | 준비됨. 실제 f1 SHA와 43422픽셀 CORE SHA를 독립 재계산해 일치 확인 |
+| CORE 합성/guard·그 밖 원본 유지 | 구현됨. 기존 plan01/02와 승인 원본은 보존 |
+| 현행 제작 스킬 | plan03을 단일 활성 경로로 정리. Codex 왕복은 필수 아님 |
+| 전체 코드 검증 | 시작 head a5662aa와 후속 188da22의 GitHub CI success 확인. 실제 앱 시작/배포와 구분 |
+| 로컬 읽기 전용 검사 | 실제 PNG 및 마스크에 대한 10개 확인 통과. 전체 프로젝트 재실행 아님 |
+| f2 단독 생성 | 시도됨. 이번 출력 1055×1491로 요구 1086×1448과 달라 차단 |
+| f3/f4·실제 composite·loop·sheet | 미완료. 실패한 f2를 확대 생산하지 않음 |
+| 사용자 모션 선택 | 미수행, pending 유지 |
+| native 64×96·runtime 자산 적용 | 미수행 |
+| main 병합·게임 실행·공개 배포 | 수행하지 않음 |
 
-## Not automatically authorized
+## 확인 가능한 근거
 
-- User's final motion selection has not been granted.
-- Native 64x96, animation runtime registration and game artwork replacement are not completed by a lookdev test.
-- Main merge, application startup, public deployment, production configuration and database migrations must not be performed by this preparation task.
+- [현재 원본/마스크의 독립 로컬 측정](../../reviews/2026-11-08-idle-core03-local-audit.md)
+- [이번 실제 f2 생성·크기 검사](../../reviews/2026-11-08-idle-core03-f2-retry.json)
+- [기존 구현과 검증 기록](../../reviews/2026-11-08-idle-core03-validation.md)
+- [188da22의 성공한 CI](https://github.com/biru100/HuddlersFire/actions/runs/42460197682)
 
-## Honest completion rule
+새 f2 실패 원본은 ChatGPT 대화와 작업 공간에 변경 없이 보존했다. 해당 바이너리의 GitHub 업로드는 아직 미완료다. 이 JSON 기록이나 SHA만으로 원본 업로드 완료라고 말하지 않는다. 이전 a63ce88f 파일럿, 57222fcc 기존 비교 후보, 이번 601601b9 원본은 서로 다른 파일이므로 혼동하지 않는다.
 
-Mark a source/frame complete only after its actual PNG exists, SHA256/canvas are checked, original bytes are retained, and the relevant review is recorded. Mark a four-frame loop complete only when all four actual inputs exist and its evidence is verified. A single generated f2, a synthetic test, or a prepared request does not complete the animation.
+## 이후에도 반드시 지킬 조건
+
+동일한 실제 f1을 편집 입력으로 사용하고, 실제 출력 PNG가 캔버스·디자인·CORE 이음새·부위 예산을 만족하는지 확인한다. 생성 경로가 그 조건을 충족하지 않으면 차단 원본과 사실만 보존한다. 강제 축소·크롭·정렬·알파 변환·양자화로 통과시키지 않는다. 유효한 f2 이후에만 f3/f4를 검사하고 실제 네 입력으로 루프를 검토한다.
+
+사용자의 최종 모션 선택은 별도로 필요하다. main 병합, 애플리케이션 시작, public/runtime 자산 교체, 운영 설정·DB migration, 공개 배포는 이번 준비 요청의 범위를 벗어난다.
