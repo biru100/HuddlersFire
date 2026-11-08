@@ -37,6 +37,12 @@ jobs:
       - name: Install dependencies for existing CORE03 validation
         working-directory: web
         run: npm ci
+      - name: Verify fresh-checkout evidence restoration and read-only commands
+        run: |
+          node tools/restore-rounded02-idle-review.mjs
+          node tools/art-production.mjs status
+          node tools/art-production.mjs audit-master
+          git diff --exit-code
       - name: Check separated stage gates and F1/mask immutability
         working-directory: web
         run: npm run test:art-production

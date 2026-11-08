@@ -6,6 +6,8 @@ The pilot is currently **awaiting a genuinely pixel-edited F2 source**. The appr
 
 ## Concrete files
 
+For a fresh Git checkout, follow the [local evidence restoration prerequisite](../../art-production-pipeline.md#fresh-checkout-prerequisite) before `status` or `audit-master`: the approved design-parent runs are intentionally not tracked. Restore existing evidence once with locked dependencies; never invent a new approval or overwrite existing runs.
+
 - Approved F1: art/sprites/source-registry/rounded02-idle-frames-nw-03/base/frame01-anchor.png
 - Frozen mask: art/sprites/source-registry/rounded02-idle-frames-nw-03/motion-plan/COMPOSITE_MASK.bin
 - Active job and 4px guard: art/sprites/source-registry/rounded02-idle-frames-nw-03/job.json

@@ -37,7 +37,17 @@ Prior failed F2 outputs, including wrong-size redraws, are **reference-only/bloc
 Active set: art/sprites/source-registry/rounded02-idle-frames-nw-03/job.json.
 The existing set and original F1/mask remain unchanged. Work on the open review branch, not main.
 
-From the repository root:
+### Fresh checkout prerequisite
+
+The tracked CORE03 job references design-review runs under ignored `art/sprites/runs/`. A fresh checkout does not contain those local runs, so `status` and `audit-master` otherwise fail with a missing parent `job.json`. Before the commands below, install the locked web dependencies (`npm ci` in `web/`), return to the repository root, and run:
+
+```sh
+node tools/restore-rounded02-idle-review.mjs
+```
+
+Run restoration only for a fresh checkout with those review runs absent. It verifies the persisted approval-document/source hashes and copies existing design and historical pending-motion evidence into local runs; it creates no new approval, plan confirmation or frame artwork. If runs already exist, verify them in place rather than deleting, overwriting or blindly restoring them again. Use the locked dependencies, not a substituted Canvas version. This preparation does not replace the pinned Pillow setup needed for full frame decoding.
+
+From the prepared repository root:
 
 1. Inspect the state:
    node tools/art-production.mjs status
