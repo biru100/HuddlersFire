@@ -13,8 +13,10 @@ For a fresh Git checkout, follow the [local evidence restoration prerequisite](.
 - Active job and 4px guard: art/sprites/source-registry/rounded02-idle-frames-nw-03/job.json
 - Source requests and intent: motion-plan/f2-request.txt, FRAME_INTENT.json and REGION_LOCKS.json in the same set
 - Editable receipt template: docs/briefs/rounded-02/f2-stage-receipt.template.json
-- Coordinator: tools/art-production.mjs (status / audit-master / check-frame / intake-frame / compose-frame / inspect / assemble-reference)
+- Coordinator: tools/art-production.mjs (audit-concept / status / audit-master / check-frame / intake-frame / compose-frame / inspect / assemble-reference)
 
 For the first F2 pilot, actually open/copy F1 in a pixel editor and edit only the existing hood/upper-back folds inside the allowed CORE. Save the exact-size RGBA PNG without any canvas changes. The file must pass the read-only check-frame gate before a source can be explicitly registered. A ChatGPT Images redraw, even in the same style, is not a substitute.
 
 **Safe scope:** all prior original files, plan01/02 history, F1 SHA256, frozen mask SHA256 and the pending motion/production flags remain unchanged; no game run, site deployment, DB change or new paid API.
+
+Low-level CORE03 intake also requires --stage-receipt and is independently guarded. Generic new-asset concepts and independently authored pixel masters can be audited with the coordinator's audit-concept and audit-master --source/--expected-sha/--canvas, without granting art approval.

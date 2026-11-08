@@ -5,7 +5,7 @@ import {readFileSync,writeFileSync,existsSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {loadIdleFrames,decodeIdlePng,receiveIdleFrame,composeIdleFrame,inspectIdleFrames,assembleIdleFrames} from './idle-frames.mjs';
-import {ACTIVE_NW_CORE03,sha256,inspectPngHeader,evaluatePixelMaster,evaluateFrameCandidate,stageOverview,ART_PENDING} from './lib/art-production-stages.mjs';
+import {ACTIVE_NW_CORE03,sha256,inspectPngHeader,evaluateConceptSource,evaluatePixelMaster,evaluateFrameCandidate,stageOverview,ART_PENDING} from './lib/art-production-stages.mjs';
 
 const ROOT=fileURLToPath(new URL('..',import.meta.url));
 function opt(args,key){const i=args.indexOf(key);if(i<0)return null;const v=args[i+1];if(!v||v.startsWith('--'))throw Error(key+' needs a value');return v;}
@@ -43,14 +43,26 @@ function phaseSource(jobFile,args){
 function main(){
   const [command,...args]=process.argv.slice(2),jobFile=opt(args,'--job')??ACTIVE_NW_CORE03;
   let output=null;
-  if(command==='status'){
+  if(command==='audit-concept'){
+    const bytes=readFileSync(resolve(requireOpt(args,'--source')));
+    output=evaluateConceptSource({sourceBytes:bytes,sourceReference:requireOpt(args,'--source-reference'),toolOrEditor:requireOpt(args,'--tool')});
+  }else if(command==='status'){
     const {job,manifest,confirmed}=loadIdleFrames(jobFile);
     output=stageOverview({job,manifest,confirmed});
   }else if(command==='audit-master'){
-    const {job,dir}=loadIdleFrames(jobFile);
-    const source=opt(args,'--source')??join(dir,'base/frame01-anchor.png');
-    const bytes=readFileSync(resolve(source));
-    output=evaluatePixelMaster({sourceBytes:bytes,expectedSha256:job.anchorSha256,canvas:job.canvas});
+    const newMaster=opt(args,'--expected-sha')||opt(args,'--canvas');
+    if(newMaster){
+      const raw=requireOpt(args,'--canvas'),canvas=raw.split(/[x×,]/).map(Number);
+      if(canvas.length!==2||canvas.some(v=>!Number.isInteger(v)||v<1))throw Error('--canvas must be WIDTHxHEIGHT');
+      const bytes=readFileSync(resolve(requireOpt(args,'--source')));
+      output=evaluatePixelMaster({sourceBytes:bytes,expectedSha256:requireOpt(args,'--expected-sha'),canvas});
+      output.designApproval='not_recorded';
+    }else{
+      const {job,dir}=loadIdleFrames(jobFile),source=opt(args,'--source')??join(dir,'base/frame01-anchor.png');
+      const bytes=readFileSync(resolve(source));
+      output=evaluatePixelMaster({sourceBytes:bytes,expectedSha256:job.anchorSha256,canvas:job.canvas});
+      output.designApproval='existing-approved-lookdev-only';
+    }
     output.originalBytesPreserved=true;
   }else if(command==='check-frame'||command==='intake-frame'){
     const assessed=phaseSource(jobFile,args);output=assessed.result;
@@ -71,7 +83,7 @@ function main(){
     output=inspectIdleFrames(jobFile);
   }else if(command==='assemble-reference'){
     output=assembleIdleFrames(jobFile);
-  }else throw Error('Usage: node tools/art-production.mjs status|audit-master|check-frame|intake-frame|compose-frame|inspect|assemble-reference [--job PATH] [--frame f2] [--source ORIGINAL.png --receipt RECEIPT.json] [--report FILE]');
+  }else throw Error('Usage: node tools/art-production.mjs audit-concept|status|audit-master|check-frame|intake-frame|compose-frame|inspect|assemble-reference [--job PATH] [--frame f2] [--source ORIGINAL.png --receipt RECEIPT.json] [--report FILE]');
   saveReport(output,opt(args,'--report'));
   process.stdout.write(JSON.stringify(output,null,2)+'\n');
   if(output.technicalStatus==='blocked')process.exitCode=2;

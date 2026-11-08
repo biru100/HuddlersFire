@@ -32,6 +32,17 @@ export function colorProfileHash(bytes){
   }
   return sha256(Buffer.concat(chunks));
 }
+export function evaluateConceptSource({sourceBytes,sourceReference,toolOrEditor}){
+  const validBytes=Buffer.isBuffer(sourceBytes)&&sourceBytes.length>0;
+  const blockers=[];
+  if(!validBytes)blockers.push('missing_original_file_bytes');
+  if(!sourceReference?.trim()||!toolOrEditor?.trim())blockers.push('missing_generation_provenance');
+  return {stage:'generation',technicalStatus:blockers.length?'blocked':'reference_only',
+    sourceSha256:validBytes?sha256(sourceBytes):null,sourceBytes:validBytes?sourceBytes.length:0,
+    sourceReference:sourceReference??null,toolOrEditor:toolOrEditor??null,blockers,
+    canBeUsedAsFrame:false,canBeUsedAsPixelMaster:false,
+    operations:['read-only-source-hash'],observedModel:'unverified',...ART_PENDING};
+}
 export function evaluatePixelMaster({sourceBytes,expectedSha256,canvas}){
   const header=inspectPngHeader(sourceBytes),actualSha256=sha256(sourceBytes),blockers=[...header.errors];
   if(!Array.isArray(canvas)||canvas.length!==2||header.canvas?.join(',')!==canvas.join(','))blockers.push('canvas_mismatch');
@@ -51,7 +62,7 @@ export function validateFrameReceipt(receipt,{job,frame,sourceSha256}){
   if(receipt.sourceSha256!==sourceSha256||!hex.test(receipt.sourceSha256||''))blockers.push('source_hash_mismatch');
   if(!receipt.sourceReference?.trim()||!receipt.editorOrTool?.trim())blockers.push('missing_provenance');
   if(receipt.planSha256!==job.planSha256||receipt.maskSha256!==job.composition?.maskSha256)blockers.push('plan_or_mask_mismatch');
-  if(receipt.canvas?.join(',')!==job.canvas.join(','))blockers.push('receipt_canvas_mismatch');
+  if(!Array.isArray(receipt.canvas)||receipt.canvas.join(',')!==job.canvas.join(','))blockers.push('receipt_canvas_mismatch');
   if(receipt.operations?.length!==1||receipt.operations[0]!==receipt.technique)blockers.push('unapproved_operations');
   if(receipt.resized===true||receipt.cropped===true||receipt.flipped===true||receipt.recolored===true||receipt.alphaConverted===true||receipt.quantized===true)blockers.push('prohibited_transformation');
   if(receipt.artApproved===true||receipt.animationApproved===true||receipt.productionReady===true||receipt.runtimeVerified===true)blockers.push('receipt_cannot_grant_approval');
@@ -63,7 +74,10 @@ export function evaluateFrameCandidate({job,plan,frame,sourceBytes,anchorBytes,s
     ...validateFrameReceipt(receipt,{job,frame,sourceSha256})];
   if(source.canvas?.join(',')!==job.canvas.join(',')||anchor.canvas?.join(',')!==job.canvas.join(','))blockers.push('canvas_mismatch');
   if(sha256(anchorBytes)!==job.anchorSha256)blockers.push('anchor_sha_mismatch');
-  if(source.valid&&anchor.valid&&colorProfileHash(sourceBytes)!==colorProfileHash(anchorBytes))blockers.push('png_color_profile_chunks_differ');
+  if(source.valid&&anchor.valid){
+    try{if(colorProfileHash(sourceBytes)!==colorProfileHash(anchorBytes))blockers.push('png_color_profile_chunks_differ');}
+    catch{blockers.push('png_chunk_structure_invalid');}
+  }
   let core=null;
   if(!blockers.length){
     if(sourcePixels?.length!==job.canvas[0]*job.canvas[1]*4||anchorPixels?.length!==sourcePixels?.length){

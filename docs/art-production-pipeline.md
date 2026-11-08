@@ -10,6 +10,18 @@ An image-generation call can return the wrong dimensions, RGB instead of RGBA, o
 
 Prior failed F2 outputs, including wrong-size redraws, are **reference-only/blocked**. Never promote, crop, resize, align, recolor, auto-flip or quantize them into valid sources.
 
+## Generic generation / pixel-master audit
+
+New artwork has a distinct concept stage. A real generated source can be hashed and documented as a *reference-only* artifact without being promoted:
+
+    node tools/art-production.mjs audit-concept --source PATH --source-reference ACTUAL_REFERENCE --tool ACTUAL_TOOL
+
+Once an artist has **independently authored** a native pixel master, verify that actual PNG without re-rendering or forced downsizing:
+
+    node tools/art-production.mjs audit-master --source PATH --expected-sha ACTUAL_SHA256 --canvas 64x96
+
+These are read-only evidence checks. They do not produce, auto-pixelize, or approve pixel artwork. New design/animation approval and the native/runtime integration remain separate; existing NW F1 skips concept and master creation.
+
 ## Two explicit tracks
 
 | Stage | New art or a new costume | Existing approved F1 → F2/F3/F4 |
@@ -65,6 +77,8 @@ From the prepared repository root:
 
 Only after F2 survives separate visual review, produce F3 and F4 independently from F1, repeat the same sequence, inspect four transitions, and optionally create the reference sheet:
    node tools/art-production.mjs assemble-reference
+
+For anchor-guard CORE03 jobs, the low-level tools/idle-frames.mjs intake also requires --stage-receipt PATH. Its original registration path now independently enforces the same frame evidence and raw-source gate, so direct calls cannot bypass the split-stage review.
 
 The stage tool performs **no image generation, pixel-art creation, remapping, resize, crop, canvas repair, flipping or RGBA conversion**. It cannot produce F2 pixels by itself. It is an audit/intake/compose coordinator. The existing pinned Pillow decoder is still required for full PNG integrity; run node tools/setup-sprite-gen.mjs in a local environment first. The cheap header gate is not itself a full PNG decode; failures at either stage block.
 

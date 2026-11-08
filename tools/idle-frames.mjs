@@ -166,6 +166,11 @@ export function confirmIdlePlan(file,{root=ART_ROOT,reference}={}){
   return {planConfirmed:true,...pending};
 }
 export function receiveIdleFrame(file,{root=ART_ROOT,frame,source,sourceReference,anchorSha256,stageReceipt}={}){
+  // Fail closed before requiring restored design parents or a Python decoder. This
+  // cheap guard is not a substitute for the full job/plan verification below.
+  const declared=read(artPath(root,file));
+  if(declared.version===2&&declared.regionComposition?.guardSource==='anchor')
+    assert.ok(stageReceipt?.trim(),'CORE03 stage receipt required; direct ungated intake is forbidden');
   const {job,dir,plan,manifest,confirmed}=loadIdleFrames(file,{root}),spec=IDLE_FRAMES.find(f=>f.id===frame&&f.id!=='f1');
   assert.ok(spec,'Receive f2, f3 or f4 only');assert.ok(confirmed,'Confirm the actual ChatGPT neutral anchor/region plan review first');
   assert.equal(anchorSha256,job.anchorSha256,'Received frame must identify this exact anchor SHA256');assert.ok(sourceReference?.trim(),'Actual generation source reference required');

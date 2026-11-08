@@ -7,7 +7,7 @@ import {createHash} from 'node:crypto';
 import {compositeMasks} from '../../tools/lib/idle-composite.mjs';
 import {receiveIdleFrame} from '../../tools/idle-frames.mjs';
 import {ACTIVE_NW_CORE03,ART_STAGES,sha256,inspectPngHeader,evaluatePixelMaster,
-  validateFrameReceipt,evaluateFrameCandidate,stageOverview} from '../../tools/lib/art-production-stages.mjs';
+  evaluateConceptSource,validateFrameReceipt,evaluateFrameCandidate,stageOverview} from '../../tools/lib/art-production-stages.mjs';
 
 const W=32,H=48;
 const plan={version:1,view:'nw',canvas:[W,H],defaultRegion:'locked',
@@ -135,4 +135,15 @@ test('real approved NW F1 and frozen core mask retain their published hashes',()
 test('CORE03 original intake itself rejects attempts to bypass the frame-stage receipt',()=>{
  const anchorSha256='c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a';
  assert.throws(()=>receiveIdleFrame(ACTIVE_NW_CORE03,{frame:'f2',source:'not-a-real-file.png',sourceReference:'synthetic bypass attempt',anchorSha256}),/CORE03 stage receipt required/);
+});
+
+test('generation source is always reference-only and never a pixel master or frame',()=>{
+ const f=fixture(),result=evaluateConceptSource({sourceBytes:f.sourceBytes,sourceReference:'synthetic source',toolOrEditor:'fixture tool'});
+ assert.equal(result.technicalStatus,'reference_only');assert.equal(result.canBeUsedAsFrame,false);assert.equal(result.canBeUsedAsPixelMaster,false);
+ assert.equal(result.sourceSha256,sha256(f.sourceBytes));
+ assert.ok(evaluateConceptSource({sourceBytes:f.sourceBytes,sourceReference:'',toolOrEditor:'fixture'}).blockers.includes('missing_generation_provenance'));
+});
+test('invalid receipt canvas type produces an explicit gate blocker, not a runtime crash',()=>{
+ const f=fixture(),r={...f.receipt,canvas:3};
+ assert.ok(validateFrameReceipt(r,{job:f.job,frame:'f2',sourceSha256:sha256(f.sourceBytes)}).includes('receipt_canvas_mismatch'));
 });

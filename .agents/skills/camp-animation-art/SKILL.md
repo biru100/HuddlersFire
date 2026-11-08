@@ -21,6 +21,8 @@ The single canonical workflow is docs/art-production-pipeline.md. The NW CORE03 
 
 ## Active commands (project root)
 
+On a clean checkout, install the locked web dependencies using npm ci (from web/) and restore existing reviewed design-parent evidence with node tools/restore-rounded02-idle-review.mjs (from the project root). This does not generate or approve new F2 art. New concept and pixel-master candidates may be checked with audit-concept and audit-master --source/--expected-sha/--canvas, but these read-only commands do not generate or approve artwork.
+
 - Read current stage status: node tools/art-production.mjs status
 - Inspect approved source metadata without altering: node tools/art-production.mjs audit-master
 - Preflight real F2 original: node tools/art-production.mjs check-frame --frame f2 --source PATH --receipt RECEIPT.json
@@ -28,6 +30,8 @@ The single canonical workflow is docs/art-production-pipeline.md. The NW CORE03 
 - Apply the frozen mask: node tools/art-production.mjs compose-frame --frame f2
 - Analyze incomplete/complete motion: node tools/art-production.mjs inspect
 - Assemble review-only sheet after all valid frames: node tools/art-production.mjs assemble-reference
+
+Even direct tools/idle-frames.mjs intake for anchor-guard core03 requires --stage-receipt. No alternate intake path may skip validation.
 
 Frame receipt example: docs/briefs/rounded-02/f2-stage-receipt.template.json.
 Run node tools/setup-sprite-gen.mjs before full PNG decoding; npm run test:art-production and npm run test:idle-frames in web/.

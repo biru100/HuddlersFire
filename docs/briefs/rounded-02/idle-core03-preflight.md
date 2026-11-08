@@ -29,3 +29,7 @@ The preparation restores existing documented design parents if absent and record
 The new core tests cover legacy compatibility, discarded source differences, unchanged guard/protected pixels, seam and region-budget blockers, single-frame request scope, and exact selection against the real approved f1 with a clearly synthetic test delta. Synthetic tests are not animation artwork.
 
 A temporary read-only CI snapshot was used for local verification because this chat container cannot resolve github.com. Temporary snapshot/preparation helpers are removed after use. No production secrets are requested. Native conversion, real loop approval, runtime and deployment remain separate gates.
+
+## New split-stage intake protection (2026-11-09)
+
+For a fresh checkout, restore the existing, hash-validated design parent locally using node tools/restore-rounded02-idle-review.mjs with the locked web dependencies installed. Do not confuse restoration of pre-existing evidence with artwork creation. CORE03 low-level intake now requires --stage-receipt PATH, and the stage-gated coordinator node tools/art-production.mjs intake-frame calls that same guarded entry point. A whole-character redraw, missing actual input evidence or wrong-size source stays blocked without resizing or cropping.
