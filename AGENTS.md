@@ -4,10 +4,12 @@
 - 이 프로젝트 작업 중에는 전역 규칙과 설정을 수정하지 않는다. `C:\Users\user\.codex\AGENTS.md`, 전역 Codex 설정, 사용자 공통 스킬·하네스 설정 등이 포함된다.
 - 필요한 규칙과 설정은 HuddlersFire 프로젝트 내부에만 추가하거나 변경한다.
 
-## GitHub deployment (2026-11-07)
+## GitHub deployment and Chat/Work automation (2026-11-08)
+- 사용자 최신 요청은 사이트 배포까지의 자동화다. [자동화 계약](docs/automation/AGENT_HANDOFF.md), [정책](docs/automation/POLICY.json), [작업 큐](docs/automation/WORK_QUEUE.json)를 먼저 읽는다. Chat/Work의 로컬 파일·대화가 실시간 공유된다고 가정하지 않고 GitHub commit·원본 SHA·리뷰·CI를 기준으로 한다.
 - 사이트 배포는 GitHub Actions의 [Verify and deploy](.github/workflows/deploy.yml)를 사용한다. GPT/Sites 도구·게시 전용 저장소·배포 아카이브는 신규 배포 경로에서 제거한다. 기존 공개 사이트와 배포 이력은 임의로 삭제하지 않는다.
-- PR/main push는 검사만 수행하며 공개 배포는 main의 수동 workflow 실행으로 한다. [배포 안내](docs/github-deployment.md)의 Cloudflare Worker·D1·Discord 설정을 사용한다. GitHub Pages에 클라이언트만 올려 서버 기능을 완료로 처리하지 않는다.
-- 실제 배포 Secret/Variable·D1 migration 이력이 없으면 차단 상태를 보고한다. 원본 업로드·게임 자산 승인·운영 배포는 별개이며 비밀값과 로컬 상태를 커밋하지 않는다.
+- PR과 main/art/**/automation/** push에서 검사한다. 검증된 main은 production 설정/준비 확인 후 자동 배포한다. PR/art 브랜치에는 배포 토큰을 주지 않는다. 기존 수동 전용 규칙은 대체한다. [배포 안내](docs/github-deployment.md)의 실제 Worker·D1·Discord 설정을 사용하며 GitHub Pages의 정적 클라이언트만으로 서버 기능을 완료로 처리하지 않는다.
+- 실제 배포 Secret/Variable·D1 migration 이력과 CAMP_PRODUCTION_READY 확인이 없으면 차단한다. DB migration은 자동 push에서 실행하지 않으며 검토된 수동 workflow 입력만 허용한다. 신규 유료 서비스·기존 DB/사이트 삭제는 별도 결정이다.
+- 원본 업로드·미술 선택·runtime 승인·운영 배포는 별개다. 신규 web/public 이미지는 정확한 SHA와 실제 사용자 runtime 승인 근거가 필요하다. 비밀값은 대화/Git/로그에 넣지 않는다. CAMP_AUTO_DEPLOY=false는 배포 중단 스위치다.
 
 ## GitHub-first artwork delivery (2026-11-07)
 
@@ -47,7 +49,7 @@
 - **camp-product-review**: [제품 의도와 구현 검토](.agents/skills/camp-product-review/SKILL.md). 제품 방향 검토 요청 또는 기능 묶음 완료 시 실제 흐름을 의도와 대조한다. 사소한 수정마다 전체 감사·인터뷰를 강제하지 않는다.
 - **camp-change-validation**: [변경·회귀·배포 검증](.agents/skills/camp-change-validation/SKILL.md). 변경 범위에 맞는 검사를 수행한다. 하네스 변경에는 `web/`의 `npm run test:art-direction`도 포함한다. 전체 빌드/렌더 미실행은 따로 기록한다.
 - AgentHub에서는 현재 세션의 질문 허용 조건·질문 블록 형식·개수 제한·턴 종료 규칙을 우선한다.
-- 계획만 요청된 작업은 문서·스킬을 포함해 파일이나 외부 상태를 변경하지 않는다. 구현 승인을 배포 권한으로 확대하지 않는다.
+- 계획만 요청된 작업은 문서·스킬을 포함해 파일이나 외부 상태를 변경하지 않는다. 구현 승인을 배포 권한으로 확대하지 않는다. 이번 명시적 사이트 자동화 요청은 검증된 배포를 허용하며 미술/DB/비용 승인은 분리한다.
 
 ## Computer-use default
 - 이 프로젝트에서는 computer-use 스킬, cua_repl / sky 등 컴퓨터 제어 도구, 데스크톱 앱 및 개인 브라우저 UI 조작을 기본적으로 사용하지 않는다.
