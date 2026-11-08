@@ -1,5 +1,17 @@
 # 구현 검증 기록
 
+## 2026-11-09 기존 Sites 릴리스 · 데이터 보존 수정과 v41 저장
+
+사용자가 새 릴리스의 방 삭제 위험에 대해 “보존 수정 계획으로 변경”을 선택하고 구현·검증을 승인했다. `5ba1566b6d5a9fdfa1de7e36f2f0b3ee7efe5fb6`에서 `fix/preserve-existing-rooms-20261109` 브랜치를 만들었다. 기존 코드에서 보존 테스트가 실패하며 방·참가자·시그널이 삭제됨을 재현했다. `activateRelease`의 방 삭제 SQL을 제거하고 최신 runtime fence 갱신·구버전 거절은 유지했다. 초대 코드를 업데이트 URL에 보존하고 초기화를 주장하던 안내 문구를 수정했다. 스키마·SQL migration·runtime artwork는 수정하지 않았다. 재접속 시 기존 TTL/퇴장 정리는 계속 적용되며 P2P 월드의 무중단/영구 보존을 뜻하지 않는다.
+
+이번 실행 검증: 전체 **311/311**, sprite pipeline **85/85**, 자동화/수신/Sites 패키지 **26/26**, typecheck, build, `check-sites-package` 통과. lint 오류 0·기존 경고 4개. 로컬 실제 API + SQLite + 모의 Discord provider + Node WebRTC 16인 통합 검증 통과(**1,524 HTTP 요청**); 정상 퇴장·비정상 종료·패킷 손실·스케줄러 지연의 방장 승계까지 확인했다. 이 실행은 운영 Discord 로그인, 브라우저 WebRTC, 실인터넷 NAT 또는 실제 Worker HTTP QA를 대신하지 않는다. 시각 자산을 바꾸지 않아 render/사용자 UI 조작은 수행하지 않았다.
+
+공식 Sites helper로 기존 프로젝트 `appgprj_6ae8e9ae42708191b253341387aa287f`의 실제 v40 소스 `c4ea90547f9feb82358f12b624ea7c76ea1828c9`를 열었다. 원본과 수정본의 `drizzle` 11개 파일, `db` 2개, `worker` 1개, `public` 66개 파일 해시가 모두 같다. 운영 `DB`의 7개 사용자 테이블 열 목록이 소스 fixture와 일치한다. 방·참가자·신호는 조회 시 비어 있었고 세션/OAuth 데이터가 존재한다. 개인 행/비밀값은 문서나 로그에 기록하지 않았다. 기존 public audience와 URL을 유지했다.
+
+같은 Sites 소스 저장소에 검증한 web 소스를 동기화하고 helper의 원격 SHA 검증/패키징을 마쳤다. **v41 저장 성공**, Sites source SHA `88e985c5ec1d1b5ecf8fe81f60e08422b4ae7faa`, version ID `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_f82e3ebdbba881918e5853e9b9d51fae`, archive SHA256 `136dded963609400c29c125d9bc8d24ad5b2f8e3f0ef22c2a44ae957c9987b0f`. 빌드 release는 `519a031a-4893-484f-92a5-8a1a821e5dac` / revision `1794163362043`이다. 저장 후 `get_site_version`으로 출처와 archive를 다시 확인했다.
+
+**게시 보류:** v41에는 배포 ID가 없다. 실제 운영은 v40의 성공 배포 `appgdep_6aee3cd698648191b9329685d6a84fd0`이며 URL은 https://huddlers-fire-camp.gywkd77.chatgpt.site/ 이다. 현재 DB 도구는 사용자 테이블만 노출해 운영 migration 적용 이력을 확인하지 못했다. Sites는 Worker 업로드 전에 pending migration을 적용할 수 있으므로, 이 이력을 확인하기 전에는 배포를 호출하지 않는다. 소스 파일/열 목록 일치나 GitHub CI 성공으로 이 조건을 대체하지 않는다. 운영 DB/비밀키/공유 설정 변경이나 신규 Site·DB 생성은 수행하지 않았다. 기존 v40의 version API도 이 조사에서는 호출하지 않았다.
+
 ## 2026-11-07 INT-24 · PR #2 Rounded 02 ZIP 수신과 작업 환경
 
 사용자 지정 PR #2 HEAD `48be5e5`로 기존 브랜치를 fast-forward하고 ZIP 원본과 내부 참고 파일 5개를 `art/sprites/incoming/lookdev-handoff-v2/`에 바이트 그대로 보존했다. 이미지 3장의 manifest 해시·바이트·실제 크기가 일치했다. Rounded 01과 두 비교판은 모두 미승인 참고이며 새 Rounded 02 NW/SE 원본은 없다. 두 독립 lookdev job·방향별 요청문·ChatGPT 전달용 ZIP을 준비했고 source는 비워 뒀다.

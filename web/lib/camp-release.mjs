@@ -8,12 +8,11 @@ export const UPDATE_EVENT = 'camp-release-updated';
 const activations=new WeakMap();
 
 export async function activateRelease(db, release) {
-  // D1 batches are transactions. Only a newer build can clear rooms; an old
-  // isolate finishing during a rollout cannot clear or reactivate newer rooms.
+  // Activation only advances the release fence. Rooms, membership and signals
+  // survive deployments; an old isolate cannot reactivate an older build.
   let seen=activations.get(db);if(!seen){seen=new Map();activations.set(db,seen);}
   const key=release.id+':'+release.revision;
   if(!seen.has(key))seen.set(key,Promise.resolve(db.batch([
-    db.prepare('DELETE FROM camp_rooms WHERE NOT EXISTS (SELECT 1 FROM camp_runtime WHERE id = 1 AND revision >= ?)').bind(release.revision),
     db.prepare(`INSERT INTO camp_runtime (id, release, revision) VALUES (1, ?, ?)
       ON CONFLICT(id) DO UPDATE SET release = excluded.release, revision = excluded.revision
       WHERE excluded.revision > camp_runtime.revision`).bind(release.id,release.revision),

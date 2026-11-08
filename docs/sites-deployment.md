@@ -25,6 +25,7 @@ Work에서 기존 HuddlersFire 사이트를 열고 다음 작업을 수행한다
 이 인계는 Work/Sites의 실 작업이 완료되기 전까지 **소스 복구/검증 단계**다. 자동화 작업의 이벤트 트리거가 새 버전 게시까지 보장하지 않는다.
 
 ## 호환성·데이터베이스
+- 2026-11-09 사용자 승인에 따라 새 릴리스 활성화는 기존 방·참가자·시그널을 삭제하지 않고 `camp_runtime` fence만 전진시킨다. 자동 새로고침·구버전 차단과 정상 TTL/퇴장 정리는 유지한다. v41 저장과 운영 migration 이력 확인의 남은 경계는 [검증 기록](validation.md)을 따른다.
 - `web/vite.config.ts`는 기존 `hosting.json`의 `d1`/`r2`를 다시 읽고 Vite의 Sites 플러그인을 빌드에 포함한다.
 - `web/scripts/vite/sites-vite-plugin.ts`는 빌드 시 `dist/.openai/hosting.json`과 `dist/.openai/drizzle`을 복사한다.
 - `tools/check-sites-package.mjs`는 복구된 ID/DB 바인딩 및 빌드의 SQL 파일 해시가 소스와 일치하는지 **읽기 전용** 검사한다.
