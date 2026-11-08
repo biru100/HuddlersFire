@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "repository": "biru100/HuddlersFire",
+  "authorizationReference": "User request in this ChatGPT conversation, 2026-11-08: 오케이 그럼 그렇게 진행해서 사이트 배포까지의 작업을 자동화해줘",
+  "runtimeArtBaseline": "87dd4968596efc98f01529c736b5099503e0f93a",
+  "automaticMainDeployAfterVerification": true,
+  "allowAutomaticArtApproval": false,
+  "allowAutomaticDatabaseMigration": false,
+  "sourceOfTruth": "GitHub commit-pinned PNGs, manifests, reviews and CI",
+  "notes": ["Deployment authorization does not approve pending Idle artwork.", "Existing runtime art at the pinned baseline is preserved. New runtime image bytes require separate actual user approval.", "Chat and Work are not assumed to share local files or a live transcript."]
+}
