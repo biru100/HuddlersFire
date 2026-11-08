@@ -56,3 +56,13 @@ jobs:
           node tools/setup-sprite-gen.mjs
           cd web
           npm run test:idle-frames
+      - name: Run full project regression tests
+        working-directory: web
+        run: |
+          npm test
+          npm run test:sprites:pipeline
+      - name: Run static checks
+        working-directory: web
+        run: |
+          npm run typecheck
+          npm run lint
