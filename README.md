@@ -1,6 +1,6 @@
 # HuddlersFire · 허들러즈 불멍
 
-**현재 배포 경로:** [GitHub Actions → Cloudflare Workers + D1](docs/github-deployment.md). GPT/Sites를 통한 신규 배포는 중단한다. GitHub 운영 설정이 아직 없어 새 호스트 배포는 대기 중이며, 아래 Sites URL·버전은 과거 공개 이력이다.
+**현재 운영 경로:** [기존 GPT Sites 프로젝트 재사용](docs/sites-deployment.md). GitHub/Work는 원본·검증·코드 PR을 담당하고, 실제 버전 저장·게시와 DB는 이전 GPT Sites 프로젝트에서 관리한다. 2026-11-07 직접 Cloudflare 배포 계획은 대체됐다. 기존 공개 사이트의 최신 게시 버전은 Sites에서 확인한다.
 
 인디게임개발자 Discord 커뮤니티 사람들이 함께 쉬고 놀기 위한 웹 기반 2D 쿼터뷰 캠프장입니다. 최대 16명이 공개방 목록·초대 링크·코드로 입장하며, 게임 상태는 방장을 중심으로 WebRTC DataChannel로 동기화합니다. 사용자 결정의 근거와 변경·충돌 절차는 [의도 기준](docs/project-intent.md), 원하는 경험과 미정 범위는 [제품 방향](docs/product-direction.md)에 정리합니다.
 

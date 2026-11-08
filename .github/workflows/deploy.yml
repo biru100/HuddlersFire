@@ -1,4 +1,4 @@
-name: Verify and deploy
+name: Verify existing ChatGPT Sites package
 
 on:
   pull_request:
@@ -6,11 +6,6 @@ on:
   push:
     branches: [main, 'art/**', 'automation/**']
   workflow_dispatch:
-    inputs:
-      apply_migrations:
-        description: Apply pending D1 migrations only after reviewing the target database history
-        type: boolean
-        default: false
 
 permissions:
   contents: read
@@ -34,10 +29,13 @@ jobs:
           cache-dependency-path: web/package-lock.json
       - name: Test automation safety gates
         working-directory: .
-        run: node --test tools/tests/autoflow.test.mjs tools/tests/art-handoff.test.mjs
+        run: node --test tools/tests/autoflow.test.mjs tools/tests/art-handoff.test.mjs tools/tests/sites-package.test.mjs
       - name: Inspect candidate ChatGPT PNG handoffs (no image API)
         working-directory: .
         run: node tools/art-handoff.mjs inspect outputs/art-handoff-report.json
+      - name: Validate previously linked Sites project
+        working-directory: .
+        run: node --input-type=module -e "import {verifyExistingSitesPackage} from './tools/check-sites-package.mjs'; console.log(verifyExistingSitesPackage(undefined, {requireBuild:false}));"
       - name: Verify raw PNG provenance and runtime-art boundary
         working-directory: .
         run: node tools/autoflow.mjs inspect outputs/autoflow-status.json
@@ -68,90 +66,19 @@ jobs:
       - run: npm run test:sprites:pipeline
       - run: npm run typecheck
       - run: npm run lint
-      - name: Build isolated CI target
+      - name: Build existing GPT Sites package, no publication
         run: npm run build
-        env:
-          CAMP_WORKER_NAME: huddlers-fire-ci
-          CAMP_D1_DATABASE_ID: 11111111-2222-4333-8444-555555555555
-      - name: Check Worker packaging without uploading
-        run: npm run deploy:check
-        env:
-          CAMP_WORKER_NAME: huddlers-fire-ci
-          CAMP_D1_DATABASE_ID: 11111111-2222-4333-8444-555555555555
-
-  deploy:
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-    needs: verify
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    environment:
-      name: production
-      url: ${{ vars.CAMP_PUBLIC_URL }}
-    concurrency:
-      group: production-deployment
-      cancel-in-progress: false
-    defaults:
-      run:
-        working-directory: web
-    env:
-      CAMP_WORKER_NAME: ${{ vars.CAMP_WORKER_NAME }}
-      CAMP_D1_DATABASE_ID: ${{ vars.CAMP_D1_DATABASE_ID }}
-      CAMP_PUBLIC_URL: ${{ vars.CAMP_PUBLIC_URL }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-      CAMP_PRODUCTION_READY: ${{ vars.CAMP_PRODUCTION_READY }}
-      CAMP_AUTO_DEPLOY: ${{ vars.CAMP_AUTO_DEPLOY }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-          cache-dependency-path: web/package-lock.json
-      - name: Check production prerequisites without exposing values
+      - name: Check linked Sites project and packaged migrations
         working-directory: .
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: node tools/autoflow.mjs config outputs/production-readiness.json
-      - uses: actions/upload-artifact@v4
+        run: node tools/check-sites-package.mjs
+      - name: Upload review-only Sites preflight result
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: huddlers-production-readiness-${{ github.run_id }}
-          path: outputs/production-readiness.json
+          name: huddlers-sites-preflight-${{ github.run_id }}
+          path: outputs/sites-package-preflight.json
           if-no-files-found: ignore
           retention-days: 14
-      - run: npm ci
-      - run: npm run build
-      - run: npm run deploy:check
-      - name: Reject stale main deployments
-        id: current
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          CURRENT="$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)"
-          if [ "$CURRENT" = "$GITHUB_SHA" ]; then
-            echo 'current=true' >> "$GITHUB_OUTPUT"
-          else
-            echo 'current=false' >> "$GITHUB_OUTPUT"
-            echo 'A newer main exists; this older build was not deployed.' >> "$GITHUB_STEP_SUMMARY"
-          fi
-      - name: Deploy verified main; never auto-migrate
-        if: steps.current.outputs.current == 'true'
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          APPLY_MIGRATIONS: ${{ github.event_name == 'workflow_dispatch' && inputs.apply_migrations || false }}
-        run: |
-          if [ "$APPLY_MIGRATIONS" = 'true' ]; then
-            npm run deploy -- --migrate
-          else
-            npm run deploy
-          fi
-      - name: Verify public HTML and API response
-        if: steps.current.outputs.current == 'true'
-        run: |
-          curl --fail --silent --show-error --retry 5 --retry-all-errors "$CAMP_PUBLIC_URL/" --output /dev/null
-          curl --fail --silent --show-error --retry 5 --retry-all-errors "$CAMP_PUBLIC_URL/api/camp/version" --output /tmp/camp-version.json
-          node --input-type=module -e "import fs from 'node:fs'; const x=JSON.parse(fs.readFileSync('/tmp/camp-version.json','utf8')); if(!x || typeof x!=='object' || Array.isArray(x) || x.error || !Object.keys(x).length) throw Error('Invalid public API response');"
-          printf '### Public HTTP checks passed\nCommit: `%s`\nURL: %s\nDiscord login, multiplayer and art approval are separate checks.\n' "$GITHUB_SHA" "$CAMP_PUBLIC_URL" >> "$GITHUB_STEP_SUMMARY"
+      - name: Publication requires the existing Sites project
+        working-directory: .
+        run: echo 'Verified source only. Sites versions are saved/reviewed and published in the existing ChatGPT Sites project, never by GitHub Actions.' >> "$GITHUB_STEP_SUMMARY"

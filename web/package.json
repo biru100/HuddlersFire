@@ -12,8 +12,6 @@
     "test:metrics": "node tests/measure-camp.mjs",
     "test:metrics:p2p": "node tests/measure-p2p-applied.mjs",
     "test:deployment": "node --test tests/deployment.test.mjs",
-    "deploy": "node scripts/deploy-cloudflare.mjs",
-    "deploy:check": "node scripts/deploy-cloudflare.mjs --dry-run",
     "typecheck": "tsc --noEmit",
     "install:ci": "node scripts/install-ci.mjs",
     "dev": "node scripts/run-framework.mjs dev",

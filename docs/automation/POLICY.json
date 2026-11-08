@@ -1,19 +1,32 @@
 {
   "version": 1,
   "repository": "biru100/HuddlersFire",
-  "authorizationReference": "User request in this ChatGPT conversation, 2026-11-08: 오케이 그럼 그렇게 진행해서 사이트 배포까지의 작업을 자동화해줘",
+  "authorizationReference": "2026-11-08 최신 사용자 결정: 기존 GPT Sites 사이트를 재사용하고 GitHub/Work/이미지 자동화는 유지한다. 2026-11-08 Cloudflare 자동 배포 요청은 이 범위에서 대체됨.",
   "runtimeArtBaseline": "87dd4968596efc98f01529c736b5099503e0f93a",
-  "automaticMainDeployAfterVerification": true,
+  "automaticMainDeployAfterVerification": false,
   "allowAutomaticArtApproval": false,
   "allowAutomaticDatabaseMigration": false,
-  "sourceOfTruth": "GitHub commit-pinned PNGs, manifests, reviews and CI",
+  "sourceOfTruth": "GitHub exact commit, source PNG SHA256 and CI; actual Sites save/deploy status comes only from Sites",
   "notes": [
     "Deployment authorization does not approve pending Idle artwork.",
     "Existing runtime art at the pinned baseline is preserved. New runtime image bytes require separate actual user approval.",
     "Chat and Work are not assumed to share local files or a live transcript.",
-    "ChatGPT image tool outputs cannot be assumed to appear automatically in GitHub or Work. Verify exact bytes after ingestion."
+    "ChatGPT image tool outputs cannot be assumed to appear automatically in GitHub or Work. Verify exact bytes after ingestion.",
+    "The original public Sites project and stored records are preserved; no migration or publication is authorized by CI success alone.",
+    "Do not request external Cloudflare account or GitHub production token for the inactive deployment path."
   ],
   "imageGenerationMode": "chatgpt-chat-only",
   "allowPaidImageApi": false,
-  "imageHandoffGuide": "docs/automation/IMAGE_HANDOFF.md"
+  "imageHandoffGuide": "docs/automation/IMAGE_HANDOFF.md",
+  "hostingTarget": "existing-chatgpt-sites",
+  "sites": {
+    "project_id": "appgprj_6ae8e9ae42708191b253341387aa287f",
+    "d1": "DB",
+    "r2": null,
+    "createNewSite": false,
+    "automaticGithubPublish": false,
+    "saveReviewVersionBeforeDeploy": true,
+    "requiresDatabaseImpactReview": true
+  },
+  "allowDirectCloudflareDeploy": false
 }
