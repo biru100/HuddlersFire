@@ -1,5 +1,19 @@
 # 구현 검증 기록
 
+## 2026-11-09 기존 Sites v41 게시 완료 · API 검증
+
+사용자의 “compute-use 쓰지마” 이후 컴퓨터/UI 제어 없이 API·CLI만 사용했다. 아래 v41 최초 저장 당시의 게시 보류 상태는 이번 결과로 대체한다. 앞서 운영 migration 원장의 직접 조회까지 필수로 둔 판단은 이번 무변경 배포에 과도했다. 기존 v40의 실제 성공 배포와 연결된 소스 `c4ea90547f9feb82358f12b624ea7c76ea1828c9`를 기준으로, v41 소스 `88e985c5ec1d1b5ecf8fe81f60e08422b4ae7faa`의 migration·DB 정의·Worker 진입점·public **80개 커밋 파일 전체가 바이트 동일**함을 다시 확인했다. SQL 5개와 journal/snapshot을 포함한 migration 11개가 그대로이며 운영 열 목록도 일치한다. 신규 migration이 없는 변경으로 게시 가능하다고 판단했다. 내부 적용 원장 자체는 API에서 직접 조회하지 못했으며, 조회했다고 주장하지 않는다. SQL을 직접 실행하거나 migration 파일/이력, DB 연결을 변경하지 않았다.
+
+PR #15가 main `9e65e08f3e049af503dd2932e0215acab9f7d4c8`에 병합됐고 [main CI 42512058680](https://github.com/biru100/HuddlersFire/actions/runs/42512058680)가 성공했다. 이 main과 로컬 검증 커밋 `2b6544e8b2a9704451e074e931dfa51176c2f799`의 tree SHA는 모두 `8a8c481dab0c5e38098038a8832838f549a583e8`이다. 기존 검증 소스와 v41에 동기화한 web 305개 파일의 불일치는 0이다.
+
+**저장 v41 = 게시 v41.** 기존 프로젝트 `appgprj_6ae8e9ae42708191b253341387aa287f`, version ID `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_f82e3ebdbba881918e5853e9b9d51fae`를 그대로 게시했다. 배포 ID `appgdep_6af0ea6bea148191978c59782e6ff174`, Sites 결과 **succeeded**, 시각 `2026-11-08T21:32:42.882345Z`(KST 11월 9일 06:32), 환경 리비전 **1**. 저장된 버전을 다시 조회해 같은 deployment ID와 소스 SHA를 확인했다. 공개 URL은 https://huddlers-fire-camp.gywkd77.chatgpt.site/ 이다. 새 사이트/DB/URL을 만들지 않았고 기존 public 접근을 유지했다.
+
+공개 HTML·`/api/camp/version`·`/api/camp/session`을 **서비스 토큰 없는 익명 HTTP 요청으로 각각 200** 확인했다. version의 release는 빌드와 동일한 `519a031a-4893-484f-92a5-8a1a821e5dac` / revision `1794163362043`이고 session은 `discordAvailable:true`다. 별도 서비스 접근 검사에서는 HTML 구조와 익명 profile null도 확인했다. 비밀값은 메모리/숨김 stdin으로만 전달했고 저장·출력하지 않았다.
+
+게시 직전/직후 `DB` 7개 테이블을 전체 페이지로 읽어 비교했다. **기존 행 누락 0**, 기존 세션 **61/61**와 OAuth 대기 **1/1**의 전체 필드가 그대로다. 제한 카운터의 기존 169개 행도 변함없고 새 행 1개가 추가됐다. `camp_runtime` 1개 행만 예상한 새 release로 전진했으며 열 목록은 모두 같다. 방·참가자·시그널은 전후 0개여서 점유 중인 실제 운영 방의 지속성은 이번 현장 비교로 검증하지 못했다. 환경 변수 항목/비밀값과 환경 리비전 1의 전후 동일성을 확인했다. 개인 행과 비밀값은 이 문서에 남기지 않는다.
+
+이전 로컬 전체 **311/311**, pipeline **85/85**, 자동화/Sites 검사 **26/26**, typecheck/build, 16명 Node RTC·방장 승계(**1,524 HTTP 요청**) 통과 근거는 유지한다. 이번 후속은 동일 소스의 게시·HTTP·운영 데이터 비교이며 전체 게임 테스트를 반복하지 않았다. 실제 Discord 사용자 로그인, 브라우저/실인터넷 NAT RTC, UI/스크린샷 검증은 미실행이다. 미승인 모션은 pending이며 공개 자산 66개를 교체하지 않았다.
+
 ## 2026-11-09 기존 Sites 릴리스 · 데이터 보존 수정과 v41 저장
 
 사용자가 새 릴리스의 방 삭제 위험에 대해 “보존 수정 계획으로 변경”을 선택하고 구현·검증을 승인했다. `5ba1566b6d5a9fdfa1de7e36f2f0b3ee7efe5fb6`에서 `fix/preserve-existing-rooms-20261109` 브랜치를 만들었다. 기존 코드에서 보존 테스트가 실패하며 방·참가자·시그널이 삭제됨을 재현했다. `activateRelease`의 방 삭제 SQL을 제거하고 최신 runtime fence 갱신·구버전 거절은 유지했다. 초대 코드를 업데이트 URL에 보존하고 초기화를 주장하던 안내 문구를 수정했다. 스키마·SQL migration·runtime artwork는 수정하지 않았다. 재접속 시 기존 TTL/퇴장 정리는 계속 적용되며 P2P 월드의 무중단/영구 보존을 뜻하지 않는다.
