@@ -6,16 +6,25 @@ import {reloadForUpdate,watchUpdates} from '../lib/camp-updates.mjs';
 import {api} from '../lib/camp-network.mjs';
 const a={id:'build-a',revision:100},b={id:'build-b',revision:200};
 const opts=release=>({headers:{[RELEASE_HEADER]:release.id},options:{release}});
-test('new release atomically clears rooms, members and signals once while retaining profiles',async()=>{
+test('new release preserves every stored row while advancing the release fence once',async()=>{
   const f=fixture(),h=await f.enrolled('Host'),g=await f.enrolled('Guest');
   try{
     const room=(await h('rooms',{op:'create'},opts(a))).value,guest=(await g('rooms',{op:'join',code:room.code},opts(a))).value;
     f.sqlite.prepare('INSERT INTO camp_signals(room,sender,recipient,payload,created) VALUES(?,?,?,?,?)').run(room.code,room.player,guest.player,'{}',Date.now());
+    const tables=['camp_rooms','camp_members','camp_signals','camp_sessions','camp_oauth_states','camp_limits'];
+    f.sqlite.prepare('INSERT INTO camp_oauth_states(id,session,expires) VALUES(?,?,?)').run('pending-oauth','existing-session',Date.now()+300_000);
+    const snapshot=()=>Object.fromEntries(tables.map(t=>[t,f.sqlite.prepare('SELECT * FROM '+t+' ORDER BY '+(t==='camp_rooms'?'code':'id')).all()]));
+    const before=snapshot();
     assert.deepEqual((await h('version',undefined,opts(b))).value.release,b);
-    for(const t of ['camp_rooms','camp_members','camp_signals'])assert.equal(f.sqlite.prepare('SELECT count(*) AS n FROM '+t).get().n,0);
+    assert.deepEqual(snapshot(),before);
     assert.equal((await h('session',undefined,opts(b))).value.profile.linked,true);
-    const next=await h('rooms',{op:'create'},opts(b));assert.equal(next.status,201);
     await Promise.all(Array.from({length:8},()=>g('version',undefined,opts(b))));
+    assert.equal((await h('room',{op:'leave',code:room.code,player:room.player},opts(a))).status,410);
+    assert.deepEqual(snapshot(),before);
+    assert.equal((await h(roomQuery(room),undefined,opts(b))).status,200);
+    const pending=await g(roomQuery(guest),undefined,opts(b));assert.equal(pending.status,200);
+    assert.equal(pending.value.signals.length,1);
+    const next=await h('rooms',{op:'create'},opts(b));assert.equal(next.status,201);
     assert.equal((await h(roomQuery(next.value),undefined,opts(b))).status,200);
   }finally{f.sqlite.close();}
 });
@@ -27,6 +36,17 @@ test('stale clients and old isolates cannot recreate or erase newer rooms',async
     assert.equal(stale.status,410);assert.equal(stale.value.code,'release-updated');assert.equal(stale.response.headers.get(RELEASE_HEADER),b.id);
     const old=await h('rooms',{op:'create'},opts(a));assert.equal(old.status,410);assert.deepEqual(old.value.release,b);
     assert.equal((await h('rooms',{op:'create'},{options:{release:b}})).status,410);
+    assert.equal((await h(roomQuery(room),undefined,opts(b))).status,200);
+  }finally{f.sqlite.close();}
+});
+test('first activation without a runtime row preserves existing room data',async()=>{
+  const f=fixture(),h=await f.enrolled('Host');
+  try{
+    const room=(await h('rooms',{op:'create'},opts(a))).value;
+    f.sqlite.prepare('DELETE FROM camp_runtime').run();
+    const before=f.sqlite.prepare('SELECT * FROM camp_rooms').all();
+    assert.deepEqual((await f.client()('version',undefined,opts(b))).value.release,b);
+    assert.deepEqual(f.sqlite.prepare('SELECT * FROM camp_rooms').all(),before);
     assert.equal((await h(roomQuery(room),undefined,opts(b))).status,200);
   }finally{f.sqlite.close();}
 });
@@ -52,9 +72,9 @@ function browser(){
   Object.assign(win,{document:doc,CustomEvent,sessionStorage:{getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v)},location:{href:'https://camp.test/?room=ABC234&keep=yes#camp',replace:url=>navigations.push(url)},setInterval:fn=>(win.interval=fn,1),clearInterval:()=>{win.interval=null;}});
   return {win,doc,values,navigations};
 }
-test('update navigation clears dead invitations, keeps other URL state and prevents loops',()=>{
+test('update navigation preserves room invitations and other URL state and prevents loops',()=>{
   const f=browser();assert.equal(reloadForUpdate(b.id,{win:f.win,now:1000}),true);
-  const u=new URL(f.navigations[0]);assert.equal(u.searchParams.has('room'),false);assert.equal(u.searchParams.get('keep'),'yes');assert.equal(u.hash,'#camp');assert.equal(u.searchParams.get('notice'),'app-updated');assert.equal(u.searchParams.get('camp-release'),b.id);
+  const u=new URL(f.navigations[0]);assert.equal(u.searchParams.get('room'),'ABC234');assert.equal(u.searchParams.get('keep'),'yes');assert.equal(u.hash,'#camp');assert.equal(u.searchParams.get('notice'),'app-updated');assert.equal(u.searchParams.get('camp-release'),b.id);
   assert.equal(reloadForUpdate(b.id,{win:f.win,now:1001}),false);delete f.win.__campReloading;
   assert.equal(reloadForUpdate(b.id,{win:f.win,now:2000}),false);assert.equal(reloadForUpdate(b.id,{win:f.win,now:62_000}),true);
 });

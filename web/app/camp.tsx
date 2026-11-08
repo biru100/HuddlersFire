@@ -113,7 +113,7 @@ export default function Camp() {
   const [infoAnchor, setInfoAnchor] = useState<{ x: number; y: number } | null>(null);
   const [actionState, setActionState] = useState({ crouching: false, carrying: false, carried: false, allowCarry: true, motion: 'grounded', weapon: 'none', fireReady: true, canFire: false, target: null as string | null });
   const {room,people,status,setStatus,connectRoom,disconnectRoom} = useCampSession({networkRef:network,
-    onUpdate:()=>{pip.close();resetInput();soloRef.current=false;setSolo(false);setRadioOpen(false);setMusic(emptyMusic());setChat([]);setToast('새 버전이 적용되어 방을 초기화하고 있어요.');},
+    onUpdate:()=>{pip.close();resetInput();soloRef.current=false;setSolo(false);setRadioOpen(false);setMusic(emptyMusic());setChat([]);setToast('새 버전을 적용하고 있어요.');},
     onUpdateFailed:()=>setError('업데이트를 불러오지 못했어요. 잠시 후 페이지를 새로고침해 주세요.'),
     onChat:setChat,onMusic:setMusic,onHost:()=>{resetInput();setToast('새 방장에게 연결하고 있어요.');},
     onCall:entry=>{if(entry.to===network.current?.player&&!seenCalls.current.has(entry.id)){seenCalls.current.add(entry.id);if(seenCalls.current.size>200)seenCalls.current.delete(seenCalls.current.values().next().value!);setUnreadCalls(previous=>[...previous,entry].slice(-20));setToast(entry.name+'님이 불렀어요.');}},
@@ -178,7 +178,7 @@ export default function Camp() {
       const notice = params.get('notice');
       if (notice) {
         if(notice==='room-ended')setError('방 연결이 종료되어 새로고침했어요. 새 방으로 입장해 주세요.');
-        else if(notice==='app-updated')setToast('새 버전으로 업데이트했어요. 방이 초기화되어 새 방으로 입장해 주세요.');
+        else if(notice==='app-updated')setToast('새 버전으로 업데이트했어요. 참여하던 방에 다시 입장해 주세요.');
         else setToast(notice === 'discord-linked' ? 'Discord 계정을 연결했어요.' : notice === 'discord-cancelled' ? 'Discord 연결을 취소했어요. Discord 계정을 연결한 뒤 참여해 주세요.' : 'Discord 연결을 준비하고 있어요.');
         params.delete('notice');params.delete('camp-release'); history.replaceState(null, '', location.pathname + (params.size ? '?' + params : '') + location.hash);
       }

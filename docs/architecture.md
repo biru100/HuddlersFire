@@ -34,9 +34,9 @@
 
 이 기능은 **버전 37·규약 v20**에 처음 공개했고 현재 INT-22의 버전 38에도 유지한다. 아래 INT-20 버전 36은 기존 시각 개선본의 공개 이력이다. 구 소스로 되돌릴 때도 새 빌드를 만들어 더 최신 revision으로 게시한다. 과거 바이너리를 그대로 다시 활성화해 배포 fence를 되돌리지 않는다.
 
-`run-framework.mjs build`가 빌드마다 UUID와 시간 순서 revision을 한 번 만들고 Vite define으로 브라우저·Worker에 동일하게 넣는다. 직접 `vite build` 대신 기존 `npm run build` 경로를 사용한다. `camp-release.mjs`는 새 `camp_runtime` 단일 행과 D1 트랜잭션으로 더 최신 빌드의 최초 활성화에서만 방을 삭제한다. FK cascade로 참가자·시그널을 함께 정리하고 로그인·프로필·OAuth·개인 설정은 보존한다. 구 Worker는 최신 revision을 되돌리거나 새 방을 삭제할 수 없다. 생성/참가 SQL도 같은 release fence를 검사한다.
+`run-framework.mjs build`가 빌드마다 UUID와 시간 순서 revision을 한 번 만들고 Vite define으로 브라우저·Worker에 동일하게 넣는다. 직접 `vite build` 대신 기존 `npm run build` 경로를 사용한다. **2026-11-09 보존 수정 승인**으로 `camp-release.mjs`는 `camp_runtime` 단일 행의 최신 revision만 전진시키며 방·참가자·시그널·로그인·프로필·OAuth를 삭제하지 않는다. runtime 행이 없는 기존 DB의 최초 활성화도 데이터를 보존한다. 구 Worker는 최신 revision을 되돌릴 수 없고 생성/참가 SQL도 같은 release fence를 검사한다. 정상 TTL·퇴장 정리와 P2P 메모리 수명은 별개이며 무중단 접속이나 영구 월드 저장을 보장하지 않는다.
 
-`/api/camp/version`과 API 응답의 `X-Camp-Release`/`X-Camp-Revision`은 캐시하지 않는다. 방의 일반 HTTP 응답에서 업데이트를 즉시 감지하며 로비·솔로도 15초마다, 창 활성화/복귀 시 확인한다. 이전 revision의 늦은 응답은 재시도하며 뒤로 업데이트하지 않는다. `useCampSession`은 업데이트를 한 번만 받아 연결을 종료하고 Camp가 입력·PIP·솔로·음악 표시를 정리한다. 초대 room 파라미터는 제거하고 캐시 우회 URL로 새 로비를 로드한다. 같은 목표 버전에 60초 안에 반복 실패하면 재탐색을 멈춰 무한 새로고침을 방지한다. 일반 네트워크 장애는 초기화/새로고침의 근거가 아니다.
+`/api/camp/version`과 API 응답의 `X-Camp-Release`/`X-Camp-Revision`은 캐시하지 않는다. 방의 일반 HTTP 응답에서 업데이트를 즉시 감지하며 로비·솔로도 15초마다, 창 활성화/복귀 시 확인한다. 이전 revision의 늦은 응답은 재시도하며 뒤로 업데이트하지 않는다. `useCampSession`은 업데이트를 한 번만 받아 leave 요청 없이 연결을 종료하고 Camp가 입력·PIP·솔로·음악 표시를 정리한다. 초대 room 파라미터를 보존하고 캐시 우회 URL로 새 로비를 로드한다. 사용자는 유효한 방에 다시 입장할 수 있다. 같은 목표 버전에 60초 안에 반복 실패하면 재탐색을 멈춰 무한 새로고침을 방지한다. 일반 네트워크 장애는 초기화/새로고침의 근거가 아니다.
 
 마이그레이션 `0004_release_reset`은 새 runtime 테이블만 만든다. 배포 시 SQL을 포함하며 이전 migration을 수동 재적용하지 않는다. 이 기능 이전의 v36 방은 기존 HTTP 410 종료 경로로 새로고침된다. 감시 코드가 없는 이전 로비/솔로 페이지는 한 번 새로고침해야 하며 이후 배포부터 자동 감지가 적용된다. 브라우저가 완전히 중지된 동안 실행을 강제할 수 없으므로 해당 탭은 복귀 시 확인한다.
 

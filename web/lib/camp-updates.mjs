@@ -15,7 +15,7 @@ export function reloadForUpdate(release,{win=globalThis.window,now=Date.now()}={
     win.sessionStorage.setItem('camp:last-update',JSON.stringify({release,at:now}));
   }catch{/* Storage may be disabled; the per-document guard still applies. */}
   win.__campReloading=true;
-  const url=new URL(win.location.href);url.searchParams.delete('room');
+  const url=new URL(win.location.href);
   url.searchParams.set('notice','app-updated');url.searchParams.set('camp-release',release);
   win.location.replace(url.href);return true;
 }

@@ -64,7 +64,7 @@ async function dispatchCampRequest(req, env, options = {}) {
   const release=options.release??CAMP_RELEASE;
   let active=release;
   const reply=(data,status=200,extra={})=>json(data,status,{[RELEASE_HEADER]:active.id,[REVISION_HEADER]:String(active.revision),...extra});
-  const updated=()=>reply({error:'새 버전이 적용되어 방을 초기화했어요. 새로고침 후 새 방으로 입장해 주세요.',code:'release-updated',release:active},410);
+  const updated=()=>reply({error:'새 버전이 적용됐어요. 새로고침 후 방에 다시 입장해 주세요.',code:'release-updated',release:active},410);
   try {
     if (req.method !== 'GET') {
       if (req.headers.get('origin') !== url.origin || req.headers.get('sec-fetch-site') === 'cross-site') fail('요청 출처를 확인할 수 없습니다.', 403);
