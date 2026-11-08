@@ -51,10 +51,16 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
       - run: npm ci
-      - uses: astral-sh/setup-uv@v6
+      # The setup-uv action downloaded a GitHub Release asset and hit HTTP 504.
+      # Use pre-cached Python 3.13 and a fixed official PyPI wheel instead.
+      - uses: actions/setup-python@v5
         with:
-          enable-cache: true
-          cache-dependency-glob: tools/sprite-gen.lock.json
+          python-version: '3.13'
+      - name: Install pinned uv from PyPI
+        working-directory: .
+        run: |
+          python -m pip install --disable-pip-version-check --only-binary=:all: --retries 5 --timeout 30 'uv==0.13.7'
+          uv --version
       - name: Install pinned sprite validation tools
         working-directory: .
         run: node tools/setup-sprite-gen.mjs
