@@ -102,7 +102,7 @@ export function inspectCandidate(root,{setId,frame,attempt}){
     let planConfirmed=false;
     if(existsSync(confirmation)){
       const conf=readJSON(confirmation);
-      planConfirmed=conf.actor==='chatgpt'&&conf.anchorSha256===job.anchorSha256&&conf.planSha256===job.planSha256&&conf.intentSha256===job.intentSha256;
+      planConfirmed=conf.actor==='chatgpt'&&conf.scope==='neutral-anchor-and-region-plan-only'&&typeof conf.reference==='string'&&conf.reference.trim().length>0&&conf.anchorSha256===job.anchorSha256&&conf.planSha256===job.planSha256&&conf.intentSha256===job.intentSha256;
       assert.ok(planConfirmed,'confirmation_does_not_match_current_plan');
     }
     return {...state,status:planConfirmed?'ready_for_explicit_intake':'awaiting_plan_confirmation',source:{sha256:png.sha256,bytes:png.bytes,dimensions:[png.width,png.height],mode:png.mode},planConfirmed,requestedFrame:frame,sourceModel:req.sourceModel??'unverified',next:planConfirmed?'Work may run the existing immutable intake; do not approve motion':'Seek actual plan confirmation before intake; keep source unchanged'};

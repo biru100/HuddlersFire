@@ -47,8 +47,20 @@ test('valid original PNG has exact RGBA provenance and awaits real plan confirma
 });
 test('matching confirmation permits technical intake but never grants motion approval',t=>{
   const f=fixture(t);
-  overwriteJSON(join(f.jdir,'motion-plan/confirmation.json'),{actor:'chatgpt',anchorSha256:f.job.anchorSha256,planSha256:f.job.planSha256,intentSha256:f.job.intentSha256});
+  overwriteJSON(join(f.jdir,'motion-plan/confirmation.json'),{actor:'chatgpt',scope:'neutral-anchor-and-region-plan-only',reference:'Actual ChatGPT plan review; verified in user conversation',anchorSha256:f.job.anchorSha256,planSha256:f.job.planSha256,intentSha256:f.job.intentSha256});
   const x=inspectInbox(f.root);assert.equal(x.readyForIntake,1);assert.equal(x.candidates[0].approval,'pending-motion-review');
+});
+test('confirmation must contain an actual plan review reference and limited scope',t=>{
+  const f=fixture(t),path=join(f.jdir,'motion-plan/confirmation.json');
+  const valid={actor:'chatgpt',scope:'neutral-anchor-and-region-plan-only',reference:'Real ChatGPT art-plan review citation',anchorSha256:f.job.anchorSha256,planSha256:f.job.planSha256,intentSha256:f.job.intentSha256};
+  overwriteJSON(path,{...valid,reference:''});
+  assert.match(inspectCandidate(f.root,f).reason,/confirmation_does_not_match_current_plan/);
+  overwriteJSON(path,{...valid,scope:'design-lookdev-only'});
+  assert.match(inspectCandidate(f.root,f).reason,/confirmation_does_not_match_current_plan/);
+  overwriteJSON(path,{...valid,reference:'   '});
+  assert.match(inspectCandidate(f.root,f).reason,/confirmation_does_not_match_current_plan/);
+  overwriteJSON(path,valid);
+  assert.equal(inspectCandidate(f.root,f).status,'ready_for_explicit_intake');
 });
 test('wrong size blocks without converting bytes',t=>{
   const f=fixture(t),wrong=png(3,3);writeFileSync(join(f.where,'original.png'),wrong);
