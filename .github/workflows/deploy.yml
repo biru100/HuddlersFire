@@ -34,7 +34,10 @@ jobs:
           cache-dependency-path: web/package-lock.json
       - name: Test automation safety gates
         working-directory: .
-        run: node --test tools/tests/autoflow.test.mjs
+        run: node --test tools/tests/autoflow.test.mjs tools/tests/art-handoff.test.mjs
+      - name: Inspect candidate ChatGPT PNG handoffs (no image API)
+        working-directory: .
+        run: node tools/art-handoff.mjs inspect outputs/art-handoff-report.json
       - name: Verify raw PNG provenance and runtime-art boundary
         working-directory: .
         run: node tools/autoflow.mjs inspect outputs/autoflow-status.json
@@ -42,7 +45,9 @@ jobs:
         if: always()
         with:
           name: huddlers-handoff-${{ github.run_id }}
-          path: outputs/autoflow-status.json
+          path: |
+            outputs/autoflow-status.json
+            outputs/art-handoff-report.json
           if-no-files-found: ignore
           retention-days: 14
       - run: npm ci

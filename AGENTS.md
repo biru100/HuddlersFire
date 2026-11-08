@@ -11,6 +11,10 @@
 - 실제 배포 Secret/Variable·D1 migration 이력과 CAMP_PRODUCTION_READY 확인이 없으면 차단한다. DB migration은 자동 push에서 실행하지 않으며 검토된 수동 workflow 입력만 허용한다. 신규 유료 서비스·기존 DB/사이트 삭제는 별도 결정이다.
 - 원본 업로드·미술 선택·runtime 승인·운영 배포는 별개다. 신규 web/public 이미지는 정확한 SHA와 실제 사용자 runtime 승인 근거가 필요하다. 비밀값은 대화/Git/로그에 넣지 않는다. CAMP_AUTO_DEPLOY=false는 배포 중단 스위치다.
 
+## Chat/Work artwork handoff without paid image API (2026-11-08)
+- 사용자는 기존 ChatGPT Chat 이미지 생성을 선택했다. 유료 이미지 API/토큰을 자동 호출하지 않는다. [IMAGE_HANDOFF](docs/automation/IMAGE_HANDOFF.md) 수신 계약과 `tools/art-handoff.mjs`의 PNG 검사를 사용한다.
+- Chat/Work의 이미지 로컬 파일이 자동 동기화된다고 주장하지 않는다. 원본은 실제 GitHub 커밋과 SHA가 있어야 수신한 것이다. GitHub Actions는 임시 inbox의 PNG/출처/프레임을 검사하되 원본을 변형하거나 미술 승인을 부여하지 않는다. Work의 PR 이벤트 작업은 Work UI에서 별도 설정이 필요하다.
+
 ## GitHub-first artwork delivery (2026-11-07)
 
 - **Default delivery:** GitHub original PNGs and exact SHA256. Stop creating ZIPs as the routine handoff. Read [source registry](art/sprites/source-registry/README.md) first.

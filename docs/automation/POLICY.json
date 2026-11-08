@@ -7,5 +7,13 @@
   "allowAutomaticArtApproval": false,
   "allowAutomaticDatabaseMigration": false,
   "sourceOfTruth": "GitHub commit-pinned PNGs, manifests, reviews and CI",
-  "notes": ["Deployment authorization does not approve pending Idle artwork.", "Existing runtime art at the pinned baseline is preserved. New runtime image bytes require separate actual user approval.", "Chat and Work are not assumed to share local files or a live transcript."]
+  "notes": [
+    "Deployment authorization does not approve pending Idle artwork.",
+    "Existing runtime art at the pinned baseline is preserved. New runtime image bytes require separate actual user approval.",
+    "Chat and Work are not assumed to share local files or a live transcript.",
+    "ChatGPT image tool outputs cannot be assumed to appear automatically in GitHub or Work. Verify exact bytes after ingestion."
+  ],
+  "imageGenerationMode": "chatgpt-chat-only",
+  "allowPaidImageApi": false,
+  "imageHandoffGuide": "docs/automation/IMAGE_HANDOFF.md"
 }
