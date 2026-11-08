@@ -1,0 +1,14 @@
+{
+  "actor": "chatgpt",
+  "reference": "docs/reviews/2026-11-08-idle-core03-plan-review.md; ChatGPT current task, 2026-11-08; production/motion approval NOT granted",
+  "scope": "neutral-anchor-and-region-plan-only",
+  "anchorSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "planSha256": "c4d73e258b017803122ebb4bd40f40392fa99f07a27a6ca3ab69f65c4dd85556",
+  "intentSha256": "7cfcfe2908ce651ef31a87cfe9f716dc7073a541764f7c63007f916d5daeb5d1",
+  "reviewState": "pending-motion-review",
+  "decision": "pending",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false
+}

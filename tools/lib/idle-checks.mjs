@@ -17,6 +17,7 @@ export function compileIdlePlan(plan){
   if(plan.composition){
     const c=plan.composition;
     assert.ok(ids.has('hair-whole'),'Masked upper-body plan must lock all hair');
+    assert.ok(c.guardSource===undefined||['generated','anchor'].includes(c.guardSource),'Unknown guard source');
     assert.ok(c.mode==='masked-rgba-replacement'&&c.maskSource==='frozen-motion-polygons'&&c.outsideMask==='anchor'&&c.insideMask==='generated-original','Only explicit exact RGBA selection is supported');
     assert.ok(Number.isInteger(c.guardBandPx)&&c.guardBandPx>=1&&c.guardBandPx<=16&&Number.isFinite(c.maxInnerEdgeChannelDelta)&&c.maxInnerEdgeChannelDelta>=0&&c.maxInnerEdgeChannelDelta<=255,'Invalid seam guard');
   }

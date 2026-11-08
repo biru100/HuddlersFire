@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "status": "reviewed-as-1900ms-pilot-hypothesis-not-motion-approved",
+  "loopTargetMs": [
+    1800,
+    2000
+  ],
+  "proposedLoopMs": 1900,
+  "frames": [
+    {
+      "id": "f1",
+      "intent": "neutral-anchor",
+      "durationMs": 475,
+      "instruction": "Exact approved NW design; unchanged neutral anchor. No new motion approval."
+    },
+    {
+      "id": "f2",
+      "intent": "inhale",
+      "durationMs": 475,
+      "instruction": "Small central hood/upper-back cloth response. Do not move head, sleeve outline, hands, legs or feet. Start from f1."
+    },
+    {
+      "id": "f3",
+      "intent": "exhale",
+      "durationMs": 475,
+      "instruction": "Gentle release from inhale toward neutral; no opposite extreme. Start independently from f1."
+    },
+    {
+      "id": "f4",
+      "intent": "return",
+      "durationMs": 475,
+      "instruction": "Approach f1 with a small 4-to-1 seam. No head/hair/shoe movement. Start from f1."
+    }
+  ],
+  "rhythm": "1900ms is an experimental timing, not a smoothness PASS. Review every transition and the actual loop.",
+  "sourceRule": "Each frame starts from the same f1. Single PNG at original canvas. Frozen CORE selects generated RGBA; guard/outside use f1. Preserve raw source and derivative separately."
+}

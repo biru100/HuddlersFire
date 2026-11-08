@@ -3,6 +3,10 @@ name: camp-animation-art
 description: "HuddlersFire 모션 원화의 ChatGPT 제작·미술 검토와 Codex의 원본·정렬·루프 검사를 분담한다. Rounded 02 Idle은 anchor 고정과 영역 잠금 후 프레임별 수신·마지막 조립을 사용한다."
 ---
 
+## Active core plan 03 (2026-11-08)
+
+[Current preflight](../../../docs/briefs/rounded-02/idle-core03-preflight.md) is the new-job workflow. ChatGPT can perform artwork, review, repository changes and deterministic tests here; Codex is optional. Frozen CORE uses generated RGBA; guard/outside use f1. Raw discarded differences remain reported. Legacy plans are preserved. No main merge, game execution, runtime art replacement or deployment in this task.
+
 # ChatGPT 애니메이션 원화와 Codex 모션 인계
 
 원화 생성·수정·미술 평가는 ChatGPT, 원본 보존·기술 검사·조립·승인 후 게임 연동은 Codex, 실제 모션 최종 선택은 사용자다. 일반 게임 로직 수정에는 이 제작 절차를 추가하지 않는다.
