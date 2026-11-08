@@ -24,7 +24,7 @@ function fixture(t,frame='f2'){
   const root=mkdtempSync(join(tmpdir(),'hf-chat-handoff-'));
   t.after(()=>rmSync(root,{recursive:true,force:true}));
   const setId='rounded02-idle-frames-nw-03',attempt='attempt-001';
-  const where=join(root,'art/sprites/incoming',setId,frame,attempt);
+  const where=join(root,'art/sprites/incoming/chat-image-handoff',setId,frame,attempt);
   const jdir=join(root,'art/sprites/source-registry',setId);
   mkdirSync(where,{recursive:true});mkdirSync(join(jdir,'base'),{recursive:true});mkdirSync(join(jdir,'motion-plan'),{recursive:true});
   const img=png(),anchor=png(2,3),anchorSha=SHA(anchor);

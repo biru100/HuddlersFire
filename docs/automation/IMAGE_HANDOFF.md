@@ -25,14 +25,14 @@
 
 반드시 실제 target job이 존재하는 **동일 브랜치**를 사용한다. Rounded02 NW plan03 job은 현재 main이 아니라 PR #7 art 브랜치에 있다.
 
-    art/sprites/incoming/<set-id>/<frame>/<attempt>/
+    art/sprites/incoming/chat-image-handoff/<set-id>/<frame>/<attempt>/
       original.png
       request.json
 
 예시:
 
-    art/sprites/incoming/rounded02-idle-frames-nw-03/f2/attempt-001/original.png
-    art/sprites/incoming/rounded02-idle-frames-nw-03/f2/attempt-001/request.json
+    art/sprites/incoming/chat-image-handoff/rounded02-idle-frames-nw-03/f2/attempt-001/original.png
+    art/sprites/incoming/chat-image-handoff/rounded02-idle-frames-nw-03/f2/attempt-001/request.json
 
 시도마다 새 attempt 경로를 만들고 원본을 덮어쓰지 않는다. 공개 저장소이므로 비공개·타인 소유 자료, 토큰, 개인정보를 올리지 않는다.
 

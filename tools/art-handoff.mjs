@@ -60,7 +60,7 @@ export function inspectPng(bytes){
 export function inspectCandidate(root,{setId,frame,attempt}){
   assert.ok(SET.test(setId)&&EXPECT[frame]&&ATTEMPT.test(attempt),'Unsupported handoff identifier');
   const key=setId+'/'+frame+'/'+attempt;
-  const directory='art/sprites/incoming/'+key;
+  const directory='art/sprites/incoming/chat-image-handoff/'+key;
   const original=checked(root,directory+'/original.png'),receipt=checked(root,directory+'/request.json');
   const jobPath=checked(root,'art/sprites/source-registry/'+setId+'/job.json');
   const state={id:key,status:'blocked',approval:'pending-motion-review',productionReady:false,runtimeVerified:false};
@@ -111,7 +111,7 @@ export function inspectCandidate(root,{setId,frame,attempt}){
   }
 }
 export function inspectInbox(root=ROOT){
-  const base=checked(root,'art/sprites/incoming'),candidates=[],issues=[];
+  const base=checked(root,'art/sprites/incoming/chat-image-handoff'),candidates=[],issues=[];
   if(!existsSync(base))return {schema:1,kind:'chatgpt-github-handoff',checked:0,blocked:0,awaitingReview:0,readyForIntake:0,candidates,issues,autoArtApproval:false};
   for(const s of readdirSync(base,{withFileTypes:true})){
     if(s.name==='README.md')continue;
