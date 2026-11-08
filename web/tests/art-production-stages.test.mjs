@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 import {deflateSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import {compositeMasks} from '../../tools/lib/idle-composite.mjs';
+import {receiveIdleFrame} from '../../tools/idle-frames.mjs';
 import {ACTIVE_NW_CORE03,ART_STAGES,sha256,inspectPngHeader,evaluatePixelMaster,
   validateFrameReceipt,evaluateFrameCandidate,stageOverview} from '../../tools/lib/art-production-stages.mjs';
 
@@ -129,4 +130,9 @@ test('real approved NW F1 and frozen core mask retain their published hashes',()
  assert.equal(createHash('sha256').update(mask).digest('hex'),'278c2b87052885e70323c3cf6e2b403a993dec31ad5168b5fa85ab814e29a93d');
  assert.deepEqual(inspectPngHeader(approved).canvas,[1086,1448]);
  assert.equal(inspectPngHeader(approved).valid,true);
+});
+
+test('CORE03 original intake itself rejects attempts to bypass the frame-stage receipt',()=>{
+ const anchorSha256='c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a';
+ assert.throws(()=>receiveIdleFrame(ACTIVE_NW_CORE03,{frame:'f2',source:'not-a-real-file.png',sourceReference:'synthetic bypass attempt',anchorSha256}),/CORE03 stage receipt required/);
 });

@@ -11,6 +11,7 @@ import {compileIdlePlan,inspectIdlePixels} from './lib/idle-checks.mjs';
 import {compositeMasks,inspectCompositeSource} from './lib/idle-composite.mjs';
 import {verifyRegistry} from './art-source-registry.mjs';
 import {coreFrameRequest,coreFrameRequestText,coreRegionNotes} from './lib/idle-core-request.mjs';
+import {evaluateFrameCandidate} from './lib/art-production-stages.mjs';
 
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const read=p=>JSON.parse(readFileSync(p,'utf8'));
@@ -149,7 +150,11 @@ export function loadIdleFrames(file,{root=ART_ROOT}={}){
   for(const frame of IDLE_FRAMES.slice(1)){
     const target=artPath(dir,frame.file),receiptFile=join(dir,'generated/'+frame.id+'-receipt.json'),registered=manifest.originals.find(e=>e.slot===frame.id);
     assert.equal(existsSync(target),Boolean(registered),'Unregistered or missing frame');assert.equal(existsSync(receiptFile),Boolean(registered),'Missing or orphan frame receipt');
-    if(registered){const receipt=read(receiptFile);assert.equal(receipt.frame,frame.id);assert.equal(receipt.anchorSha256,job.anchorSha256);assert.equal(receipt.planSha256,job.planSha256);assert.equal(receipt.sourceSha256,registered.sha256);assert.deepEqual(receipt.operations,['lossless-copy']);assert.ok(receipt.sourceReference?.trim());if(job.version===2)assert.equal(receipt.sourceScope,'upper-body-partial-on-full-original-canvas');}
+    if(registered){const receipt=read(receiptFile);assert.equal(receipt.frame,frame.id);assert.equal(receipt.anchorSha256,job.anchorSha256);assert.equal(receipt.planSha256,job.planSha256);assert.equal(receipt.sourceSha256,registered.sha256);assert.deepEqual(receipt.operations,['lossless-copy']);assert.ok(receipt.sourceReference?.trim());if(job.version===2)assert.equal(receipt.sourceScope,'upper-body-partial-on-full-original-canvas');
+      if(job.version===2&&plan.composition?.guardSource==='anchor'){
+        assert.equal(receipt.stageProof?.stage,'frame-edit','CORE03 stage-gated intake receipt required');
+        assert.match(receipt.stageProof.receiptSha256,/^[0-9a-f]{64}$/,'Missing immutable frame-stage evidence hash');
+      }}
   }
   const confirmationFile=join(dir,'motion-plan/confirmation.json');let confirmed=false;
   if(existsSync(confirmationFile)){const c=read(confirmationFile);assert.ok(c.reference?.trim()&&c.actor==='chatgpt'&&c.scope==='neutral-anchor-and-region-plan-only','Real ChatGPT plan reference required');for(const k of ['anchorSha256','planSha256','intentSha256'])assert.equal(c[k],job[k],'Stale plan confirmation');confirmed=true;}
@@ -160,14 +165,26 @@ export function confirmIdlePlan(file,{root=ART_ROOT,reference}={}){
   save(join(dir,'motion-plan/confirmation.json'),{actor:'chatgpt',reference,scope:'neutral-anchor-and-region-plan-only',anchorSha256:job.anchorSha256,planSha256:job.planSha256,intentSha256:job.intentSha256,...pending},true);
   return {planConfirmed:true,...pending};
 }
-export function receiveIdleFrame(file,{root=ART_ROOT,frame,source,sourceReference,anchorSha256}={}){
-  const {job,dir,manifest,confirmed}=loadIdleFrames(file,{root}),spec=IDLE_FRAMES.find(f=>f.id===frame&&f.id!=='f1');
+export function receiveIdleFrame(file,{root=ART_ROOT,frame,source,sourceReference,anchorSha256,stageReceipt}={}){
+  const {job,dir,plan,manifest,confirmed}=loadIdleFrames(file,{root}),spec=IDLE_FRAMES.find(f=>f.id===frame&&f.id!=='f1');
   assert.ok(spec,'Receive f2, f3 or f4 only');assert.ok(confirmed,'Confirm the actual ChatGPT neutral anchor/region plan review first');
   assert.equal(anchorSha256,job.anchorSha256,'Received frame must identify this exact anchor SHA256');assert.ok(sourceReference?.trim(),'Actual generation source reference required');
   assert.ok(!manifest.originals.some(e=>e.slot===frame),'Frame exists; use a new set for revisions');
+  const stageRequired=job.version===2&&plan.composition?.guardSource==='anchor';
+  if(stageRequired)assert.ok(stageReceipt?.trim(),'CORE03 stage receipt required; direct ungated intake is forbidden');
   const path=resolve(source),bytes=readFileSync(path),decoded=decodeIdlePng(path);assert.deepEqual(decoded.dimensions,job.canvas,'Canvas mismatch; never resize received art');
+  let stageProof=null;
+  if(stageRequired){
+    const receiptBytes=readFileSync(resolve(stageReceipt)),receipt=JSON.parse(receiptBytes.toString('utf8'));
+    assert.equal(receipt.sourceReference,sourceReference,'Actual receipt source reference differs from registered provenance');
+    const anchorFile=artPath(dir,IDLE_FRAMES[0].file);
+    const evaluated=evaluateFrameCandidate({job,plan,frame,sourceBytes:bytes,anchorBytes:readFileSync(anchorFile),
+      sourcePixels:decoded.data,anchorPixels:decodeIdlePng(anchorFile).data,receipt});
+    assert.equal(evaluated.technicalStatus,'ready_for_explicit_technical_intake','CORE03 candidate blocked: '+evaluated.blockers.join(', '));
+    stageProof={stage:'frame-edit',receiptSha256:hash(receiptBytes),technique:receipt.technique,rawSourceOutsideChanges:evaluated.sourceOutsideChanges};
+  }
   writeFileSync(artPath(dir,spec.file),bytes,{flag:'wx'});
-  save(join(dir,'generated/'+frame+'-receipt.json'),{frame,sourceFilename:basename(path),sourceReference,sourceSha256:hash(bytes),anchorSha256,planSha256:job.planSha256,operations:['lossless-copy'],observedModel:null,observedModelStatus:'unverified',...(job.version===2?{sourceScope:'upper-body-partial-on-full-original-canvas'}:{}),...pending},true);
+  save(join(dir,'generated/'+frame+'-receipt.json'),{frame,sourceFilename:basename(path),sourceReference,sourceSha256:hash(bytes),anchorSha256,planSha256:job.planSha256,operations:['lossless-copy'],observedModel:null,observedModelStatus:'unverified',...(job.version===2?{sourceScope:'upper-body-partial-on-full-original-canvas'}:{}),...(stageProof?{stageProof}:{}),...pending},true);
   manifest.originals.push(entry(frame,spec.file,basename(path),bytes,decoded.dimensions));manifest.originals.sort((a,b)=>a.slot.localeCompare(b.slot));inventory(dir,manifest);
   return {frame,sha256:hash(bytes),originalPreserved:true,...pending};
 }
@@ -278,7 +295,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
   const [op,...args]=process.argv.slice(2),job=arg(args,'--job');let result;
   if(op==='prepare')result=prepareIdleFrames({out:arg(args,'--out'),view:arg(args,'--view'),parentJob:arg(args,'--parent-job'),parentReview:arg(args,'--parent-review'),anchor:arg(args,'--anchor'),plan:arg(args,'--plan'),intent:arg(args,'--intent'),anchorReview:arg(args,'--anchor-review')});
   else if(op==='confirm-plan')result=confirmIdlePlan(job,{reference:arg(args,'--reference')});
-  else if(op==='intake')result=receiveIdleFrame(job,{frame:arg(args,'--frame'),source:arg(args,'--source'),sourceReference:arg(args,'--source-reference'),anchorSha256:arg(args,'--anchor-sha')});
+  else if(op==='intake')result=receiveIdleFrame(job,{frame:arg(args,'--frame'),source:arg(args,'--source'),sourceReference:arg(args,'--source-reference'),anchorSha256:arg(args,'--anchor-sha'),stageReceipt:arg(args,'--stage-receipt')});
   else if(op==='inspect')result=inspectIdleFrames(job);
   else if(op==='compose')result=composeIdleFrame(job,{frame:arg(args,'--frame')});
   else if(op==='assemble')result=assembleIdleFrames(job);

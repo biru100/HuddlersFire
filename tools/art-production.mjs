@@ -59,7 +59,7 @@ function main(){
       const proof=join(assessed.dir,'review/'+assessed.frame+'-stage-intake.json');
       if(existsSync(proof))throw Error('Stage intake proof already exists; no overwriting');
       const receipt=assessed.receipt;
-      const intake=receiveIdleFrame(jobFile,{frame:assessed.frame,source:assessed.sourceFile,sourceReference:receipt.sourceReference,anchorSha256:assessed.job.anchorSha256});
+      const intake=receiveIdleFrame(jobFile,{frame:assessed.frame,source:assessed.sourceFile,sourceReference:receipt.sourceReference,anchorSha256:assessed.job.anchorSha256,stageReceipt:resolve(requireOpt(args,'--receipt'))});
       writeFileSync(proof,JSON.stringify({stage:'frame-edit',technique:receipt.technique,receiptSha256:output.receiptSha256,sourceSha256:intake.sha256,
         anchorSha256:assessed.job.anchorSha256,planSha256:assessed.job.planSha256,maskSha256:assessed.job.composition.maskSha256,
         technicalGate:output,operations:['lossless-intake-only'],...ART_PENDING},null,2)+'\n',{flag:'wx'});
