@@ -1,12 +1,46 @@
 {
   "version": 1,
   "repository": "biru100/HuddlersFire",
-  "handoffContract": "GitHub commit and PNG SHA256, not live chat synchronization",
+  "handoffContract": "Actual PNG in GitHub plus source reference, SHA256, job/manifest, PR CI; no automatic live Chat transcript or image transfer",
   "tasks": [
-    {"id":"delivery-automation","branch":"automation/chat-work-delivery-20261108","state":"awaiting-current-head-ci","next":"Review automation diff, require successful verify, merge exact checked head, then inspect main production preflight."},
-    {"id":"rounded02-idle","pr":7,"lastKnownHead":"cc0a61bc9c4d1132eadc10e9d334caa7907dfb83","state":"blocked-valid-motion-source","next":"Preserve exact f1 and pending art state; obtain valid individual f2 before f3/f4. Repeated failed image generation or synthetic fixture substitution is not progress."},
-    {"id":"production-connection","state":"requires-live-preflight","next":"Read production readiness output; one-time Cloudflare/D1/Discord configuration is required if missing. Never invent credentials, target URLs or migration approval."}
+    {
+      "id": "delivery-automation",
+      "branch": "automation/chat-work-delivery-20261108",
+      "state": "merged-main",
+      "next": "Main verification passed. Production remains blocked until existing Cloudflare settings and CAMP_PRODUCTION_READY are provided; see issue #9.",
+      "lastKnownCommit": "186b2963933a1cf6aa7f8e7413bd2be854c6be35"
+    },
+    {
+      "id": "chat-image-handoff-no-api",
+      "branch": "automation/chat-image-handoff-no-api-20261108",
+      "state": "pending-current-head-ci",
+      "next": "Review handoff code and test current PR. Chat still must actually upload the PNG; CI performs PNG checks, Work may continue after real PR event/queued task.",
+      "imageGenerationMode": "chatgpt-chat-only",
+      "paidImageApi": false
+    },
+    {
+      "id": "rounded02-idle",
+      "pr": 7,
+      "lastKnownHead": "cc0a61bc9c4d1132eadc10e9d334caa7907dfb83",
+      "state": "blocked-valid-motion-source",
+      "next": "Preserve exact f1 and pending art state; obtain valid individual f2 before f3/f4. Repeated failed image generation or synthetic fixture substitution is not progress."
+    },
+    {
+      "id": "production-connection",
+      "state": "blocked-missing-production-settings",
+      "next": "Settings names from live preflight in issue #9. Do not collect secrets in chats or retry identical failures repeatedly.",
+      "issue": 9
+    }
   ],
-  "notAuthorized": ["automatic user art approval","destructive database migration","deleting existing site or database","new paid services","silent conversion of invalid PNGs"],
+  "notAuthorized": [
+    "automatic user art approval",
+    "destructive database migration",
+    "deleting existing site or database",
+    "new paid services",
+    "silent conversion of invalid PNGs",
+    "paid image API calls",
+    "inventing image generation success",
+    "triggering Work events without user setup"
+  ],
   "reportOnlyOnMeaningfulChange": true
 }

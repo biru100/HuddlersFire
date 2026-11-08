@@ -21,3 +21,7 @@ After settings are filled, a failed production job may be retried through the ex
 ## Sharing images
 
 Image generation still occurs in an image-capable Chat. The actual generated PNG must land in GitHub before the scheduled coordinator or another Work session can inspect it. No tool here is assumed to watch Chat attachments continuously or start image generation from a GitHub event. This is an explicit remaining interface boundary, not a hidden automatic transfer.
+
+## Current no-paid-API Chat image handoff
+
+User chose the existing ChatGPT Chat image generation surface, **not** the paid image API. Follow [IMAGE_HANDOFF.md](IMAGE_HANDOFF.md) when receiving a real ChatGPT-generated PNG. When a PR includes art/sprites/incoming/<set-id>/<f2|f3|f4>/<attempt>/original.png, read request.json and GitHub Actions art-handoff-report.json. If the actual source is absent, do not infer it from conversation references. Treat blocked and awaiting_plan_confirmation as distinct. Once ready_for_explicit_intake, use the existing source-registry/idle-frames tool gates on that branch, not a new drawing/model call. Never auto-approve motion. A Work GitHub PR event trigger must be separately enabled in Work by the user; the hourly coordinator remains a fallback.
