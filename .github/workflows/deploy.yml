@@ -37,6 +37,8 @@ jobs:
       - name: Install pinned sprite validation tools
         working-directory: .
         run: node tools/setup-sprite-gen.mjs
+      - name: Check split-stage art source gates
+        run: npm run test:art-production
       - run: npm test
       - run: npm run test:sprites:pipeline
       - run: npm run typecheck

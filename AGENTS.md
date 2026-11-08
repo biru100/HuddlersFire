@@ -1,5 +1,12 @@
 # HuddlersFire project instructions
 
+## Active split-stage artwork policy (2026-11-09; supersedes legacy creation defaults)
+
+- **Canonical new-art workflow:** [Generation → Pixel Master → Frame Authoring → CORE Composition → Motion Review → Native Delivery](docs/art-production-pipeline.md). Actual stage implementation: tools/art-production.mjs; current agent skill: .agents/skills/camp-animation-art/SKILL.md.
+- **Approved NW F1 CORE03:** skip generation and pixelization. Reuse its immutable 1086×1448 original; start f2 as an actual F1-based pixel edit, never an unconstrained whole-character redraw. Request text alone does not establish an edit input. Frame stages require a traceable source file, exact SHA and stage receipt; wrong size or RGB must be blocked, not repaired.
+- Concept generation is reference-only. Pixelization is intentional pixel-master authoring, not automatic shrinking/quantization. Manual pixel edits must not alter raw outside-CORE pixels; masked inpaint may have disclosed outside differences but is blocked as likely re-render if drift exceeds 1% of outside pixels. Existing CORE03 4px anchor guard, seam and region budgets remain.
+- **Scope:** this is a harness/tool change, not a new F2/F3/F4 original, user motion approval, native 64×96 production artwork, game execution, production deploy or database authorization. Keep all pending flags. Historic plan01/02 and prior scripts remain for reproducibility; any statements below advocating generating full characters for active F2 are superseded by this section.
+
 ## Project-only configuration
 - 이 프로젝트 작업 중에는 전역 규칙과 설정을 수정하지 않는다. `C:\Users\user\.codex\AGENTS.md`, 전역 Codex 설정, 사용자 공통 스킬·하네스 설정 등이 포함된다.
 - 필요한 규칙과 설정은 HuddlersFire 프로젝트 내부에만 추가하거나 변경한다.
@@ -20,7 +27,7 @@
 
 [Current preflight](docs/briefs/rounded-02/idle-core03-preflight.md) is the new-job workflow. ChatGPT can perform artwork, review, repository changes and deterministic tests here; Codex is optional. Frozen CORE uses generated RGBA; guard/outside use f1. Raw discarded differences remain reported. Legacy plans are preserved. No main merge, game execution, runtime art replacement or deployment in this task.
 
-## Current animation graphics workflow (2026-11-08)
+## Historical animation graphics workflow (2026-11-08, superseded for new F2)
 - **원화·애니메이션 제작의 주도권은 ChatGPT**에 있다. 방향별/동작별 각 프레임 이미지와 의상 레이어 원화, 미술 검토 및 수정 요청도 ChatGPT 이미지 제작 대화에서 수행한다. Codex는 원본의 SHA256·알파·프레임/셀 정렬·루프·앵커·규격을 검사하고 승인 후 실제 게임에 연결한다. 기술 검사는 미술적 승인·이미지 생성이 아니다.
 - 현재 NW/SE Rounded 02 Rev2 캐릭터 **착의 디자인만** 미술 기준작으로 선정됐다. 같은 캐릭터의 **Idle 4컷 모션 시안은 아직 미승인**이다. [모션 전달 브리프](docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](.agents/skills/camp-animation-art/SKILL.md) 스킬을 사용한다.
 - **Rounded 02 Idle 기본 경로는 anchor → 영역 잠금 → 프레임별 개별 생성 → 마지막 무손실 조립**이다. [프레임 제작 절차](docs/briefs/rounded-02/idle-frame-workflow.md)와 `tools/idle-frames.mjs`를 사용한다. f1 neutral, f2 inhale, f3 exhale, f4 return이며 모든 생성은 같은 f1을 기준으로 한다. NW부터 적용하고 SE는 독립 부모·anchor·영역 검토를 요구한다.

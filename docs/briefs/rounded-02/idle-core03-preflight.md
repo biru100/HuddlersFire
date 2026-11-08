@@ -1,5 +1,9 @@
 # NW Idle core plan 03: ChatGPT pre-execution preparation
 
+# Current route (2026-11-09)
+
+New creation/intake defaults are now in [split-stage art production](../../art-production-pipeline.md) and the [active project art skill](../../../.agents/skills/camp-animation-art/SKILL.md). This file preserves the existing CORE03 preflight and does not authorize whole-character generation, forced resizing, or runtime use. The existing approved F1 is a reusable pixel master; new F2 starts as a true F1-based pixel edit. Run node tools/art-production.mjs status, audit-master, and check-frame before any intake.
+
 ChatGPT owns this preparation and image/art review. Codex is optional. No main merge, game start, runtime artwork replacement or public deployment is part of this task.
 
 ## New explicit contract

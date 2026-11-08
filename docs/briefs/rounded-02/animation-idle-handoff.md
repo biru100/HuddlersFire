@@ -1,3 +1,7 @@
+# Updated production default (2026-11-09)
+
+The active work is governed by [the split-stage art pipeline](../../art-production-pipeline.md). This older handoff remains as the historical motion brief. Do not ask a generator to redraw the entire approved F1 for each new frame; start with a true F1-based masked pixel edit, audit the original size/format, and use CORE03 with preserved raw provenance and pending approvals.
+
 # Rounded 02 Rev2 · ChatGPT Idle 4컷 모션 시안 전달
 
 > **2026-11-08 대체된 제작 방식:** 새 Idle 제작은 [anchor 기반 프레임 절차](idle-frame-workflow.md)와 `tools/idle-frames.mjs`를 사용한다. 이 문서의 전체 2×2 생성은 과거 수신 이력이다. 기존 시트/요청문/리뷰는 보존하며 레거시 prepare에는 `--legacy-sheet`를 명시한다. 디자인 승인은 유지하고 모션은 계속 pending이다.

@@ -1,3 +1,7 @@
+# Active route update (2026-11-09)
+
+For new production work, use [the split-stage pipeline](../../art-production-pipeline.md). Existing text below documents the previous anchor-frame workflow and remains for historical reproduction; it does not authorize direct full-character generation for current F2. The approved F1 skips regeneration and new pixelization. Frame candidates must be actual pixel edits with the new stage-receipt checks, and then pass existing CORE03 composite/technical gates.
+
 # Rounded 02 Idle · anchor 기반 프레임 제작
 
 > **최신 NW 검토:** [플랜 02 — 머리 전체 잠금·연결된 상체·1.9초·부분 원화 합성](idle-masked-upper-body-02.md)을 우선한다. f1 neutral 사용 가능만 전달됐고 수정 영역은 미술 재검토 대기다. 확인 전 confirm-plan을 실행하지 않는다. 아래 플랜 01의 머리 끝 허용/250ms 및 자동 마스크 합성 금지는 당시 전체 프레임 전달 방식의 이력이다. 플랜 02의 명시적 사전 마스크 선택은 원본/파생물·제외 변경·이음새를 따로 검증하며 실패한 전체 프레임 수리를 허용하지 않는다.

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "stage": "frame-edit",
+  "frame": "f2",
+  "technique": "manual-pixel-edit",
+  "inputKind": "actual-approved-f1-png",
+  "inputSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "pixelMasterSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "sourceSha256": "REPLACE_WITH_ACTUAL_OUTPUT_SHA256",
+  "sourceReference": "REPLACE_WITH_TRACEABLE_ORIGINAL_FILE_AND_ARTIST_EVIDENCE",
+  "editorOrTool": "REPLACE_WITH_ACTUAL_PIXEL_EDITOR_OR_INPAINT_TOOL",
+  "planSha256": "c4d73e258b017803122ebb4bd40f40392fa99f07a27a6ca3ab69f65c4dd85556",
+  "maskSha256": "278c2b87052885e70323c3cf6e2b403a993dec31ad5168b5fa85ab814e29a93d",
+  "canvas": [
+    1086,
+    1448
+  ],
+  "operations": [
+    "manual-pixel-edit"
+  ],
+  "resized": false,
+  "cropped": false,
+  "flipped": false,
+  "recolored": false,
+  "alphaConverted": false,
+  "quantized": false,
+  "decision": "pending",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false
+}
