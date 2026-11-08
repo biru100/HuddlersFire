@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "repository": "biru100/HuddlersFire",
+  "handoffContract": "GitHub commit and PNG SHA256, not live chat synchronization",
+  "tasks": [
+    {"id":"delivery-automation","branch":"automation/chat-work-delivery-20261108","state":"awaiting-current-head-ci","next":"Review automation diff, require successful verify, merge exact checked head, then inspect main production preflight."},
+    {"id":"rounded02-idle","pr":7,"lastKnownHead":"cc0a61bc9c4d1132eadc10e9d334caa7907dfb83","state":"blocked-valid-motion-source","next":"Preserve exact f1 and pending art state; obtain valid individual f2 before f3/f4. Repeated failed image generation or synthetic fixture substitution is not progress."},
+    {"id":"production-connection","state":"requires-live-preflight","next":"Read production readiness output; one-time Cloudflare/D1/Discord configuration is required if missing. Never invent credentials, target URLs or migration approval."}
+  ],
+  "notAuthorized": ["automatic user art approval","destructive database migration","deleting existing site or database","new paid services","silent conversion of invalid PNGs"],
+  "reportOnlyOnMeaningfulChange": true
+}
