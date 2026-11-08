@@ -22,6 +22,21 @@ Once an artist has **independently authored** a native pixel master, verify that
 
 These are read-only evidence checks. They do not produce, auto-pixelize, or approve pixel artwork. New design/animation approval and the native/runtime integration remain separate; existing NW F1 skips concept and master creation.
 
+## Dedicated F1-pixel workaround for the blocked NW F2
+
+Since repeated ChatGPT image-generation calls returned non-compliant 1055×1491 / RGB outputs and whole-character redraws, **do not call the image generator again for this F2 pilot**. It cannot be trusted to lock the exact source canvas, alpha and unchanged character pixels. Instead use a deterministic source-pixel edit, **not a new AI image**.
+
+The isolated, review-only attempt is authored by tools/author-core03-f2-pixels.py. It:
+- validates the real approved F1 source SHA256, its original 1086×1448 RGBA pixels, and the exact 43,422-pixel frozen mask SHA256;
+- reuses a few existing hoodie RGB pixels from adjacent F1 coordinates as a 1–2px micro inhale displacement, with a 7px extra editing safety margin inside frozen CORE;
+- never changes global position, any alpha channel, pixels outside CORE, hair, face, sleeve silhouettes, hands, pants or shoes; and never crops, resizes, flips, filters the source canvas, or invents new color values;
+- records a **procedural-pixel-edit** receipt with the actual original and output SHA, real tool provenance, and explicit pending art/runtime state;
+- runs the existing CORE03 seam and change-budget gate. A passing candidate stays *unapproved art*, not a successful F2 loop or asset registration.
+
+Its GitHub Actions review-only job runs after the full art tests and may publish the original PNG and technical JSON under art/sprites/incoming/idle-core03-f2-pixel-pilot-20261109 on this review branch only, if the technical gates pass. It does **not** overwrite base/frame01-anchor.png or auto-intake into source-registry, modify runtime assets, run the game or deploy. If the pixel motion is unreadable or too mechanical at full resolution, choose an actual hand pixel edit next, not another complete character generation or an eased/relaxed gate.
+
+This narrowly scoped **pixel relocation of existing source data** is different from the prohibited practice of procedurally redrawing an entirely new character while calling it generated art. It is openly labeled a procedural candidate requiring artistic inspection, and is not a new universal image generator.
+
 ## Two explicit tracks
 
 | Stage | New art or a new costume | Existing approved F1 → F2/F3/F4 |
@@ -86,7 +101,7 @@ The stage tool performs **no image generation, pixel-art creation, remapping, re
 
 A stage receipt is independent of the repository's original manifest. Required fields:
 - version: 1, stage: frame-edit, frame: f2 (f3/f4 afterward)
-- technique: manual-pixel-edit **or** masked-inpaint
+- technique: manual-pixel-edit, masked-inpaint, or procedural-pixel-edit (explicit, original-pixel-only authoring)
 - inputKind: actual-approved-f1-png
 - inputSha256, pixelMasterSha256: exact approved F1 SHA256
 - sourceSha256: SHA256 of the **actual output file**, not a requested hash
@@ -95,7 +110,7 @@ A stage receipt is independent of the repository's original manifest. Required f
 - operations: one matching operation, no resizing/cropping/flipping/quantization/recoloring/alpha conversion
 - all approval booleans false, as they cannot be inferred from the operation
 
-For manual-pixel-edit, any changed original RGBA outside CORE blocks. For masked-inpaint, outside raw changes are disclosed but if more than **1% of outside pixels** differ, the source is blocked as likely a whole-character redraw. This is a new conservative *raw-source intake* rule and does not relax CORE03's existing seam and region-change budgets. The existing exact-selection mask still guarantees frozen derivative pixels.
+For manual-pixel-edit and procedural-pixel-edit, any changed original RGBA outside CORE blocks; procedural-pixel-edit also forbids alpha changes anywhere. For masked-inpaint, outside raw changes are disclosed but if more than **1% of outside pixels** differ, the source is blocked as likely a whole-character redraw. This is a new conservative *raw-source intake* rule and does not relax CORE03's existing seam and region-change budgets. The existing exact-selection mask still guarantees frozen derivative pixels.
 
 ## Failure / no-fabrication behavior
 

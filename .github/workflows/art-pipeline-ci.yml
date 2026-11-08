@@ -6,6 +6,7 @@ on:
       - art/rounded02-idle-review-20261108
     paths:
       - tools/art-production.mjs
+      - tools/author-core03-f2-pixels.py
       - tools/lib/art-production-stages.mjs
       - tools/lib/idle-*.mjs
       - web/tests/art-production-stages.test.mjs
@@ -66,3 +67,74 @@ jobs:
         run: |
           npm run typecheck
           npm run lint
+
+  make-f2-pixel-pilot:
+    name: Make review-only F2 from approved F1 pixels
+    if: github.event_name == 'push' && github.ref == 'refs/heads/art/rounded02-idle-review-20261108'
+    needs: art-stage-review
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Restore exact F1 evidence and pinned pixel decoder
+        run: |
+          cd web
+          npm ci
+          cd ..
+          node tools/restore-rounded02-idle-review.mjs
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: tools/sprite-gen.lock.json
+      - name: Install pinned Pillow
+        run: node tools/setup-sprite-gen.mjs
+      - name: Create a genuine source-pixel F2 candidate without image generation
+        run: |
+          mkdir -p outputs/core03-f2-pilot
+          tools/sprite-gen/.venv/bin/python tools/author-core03-f2-pixels.py \
+            --anchor art/sprites/source-registry/rounded02-idle-frames-nw-03/base/frame01-anchor.png \
+            --mask art/sprites/source-registry/rounded02-idle-frames-nw-03/motion-plan/COMPOSITE_MASK.bin \
+            --out outputs/core03-f2-pilot/frame02-inhale.png \
+            --receipt outputs/core03-f2-pilot/f2-stage-receipt.json \
+            --report outputs/core03-f2-pilot/source-pixel-report.json \
+            --source-reference "art/sprites/incoming/idle-core03-f2-pixel-pilot-20261109#source-pixel-authoring"
+      - name: Run the real CORE03 F2 candidate gate
+        run: |
+          node tools/art-production.mjs check-frame \
+            --frame f2 \
+            --source outputs/core03-f2-pilot/frame02-inhale.png \
+            --receipt outputs/core03-f2-pilot/f2-stage-receipt.json \
+            --report outputs/core03-f2-pilot/technical-check.json
+      - name: Archive original candidate and technical reports for visual review
+        uses: actions/upload-artifact@v4
+        with:
+          name: huddlers-nw-f2-source-pixel-pilot
+          path: outputs/core03-f2-pilot/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Publish source candidate only to the existing review branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          dest=art/sprites/incoming/idle-core03-f2-pixel-pilot-20261109
+          if [ -e "$dest/frame02-inhale.png" ]; then
+            echo "This attempt already exists: preserve it and do not overwrite."
+            cmp "$dest/frame02-inhale.png" outputs/core03-f2-pilot/frame02-inhale.png
+            exit 0
+          fi
+          mkdir -p "$dest"
+          cp outputs/core03-f2-pilot/frame02-inhale.png "$dest/frame02-inhale.png"
+          cp outputs/core03-f2-pilot/f2-stage-receipt.json "$dest/f2-stage-receipt.json"
+          cp outputs/core03-f2-pilot/source-pixel-report.json "$dest/source-pixel-report.json"
+          cp outputs/core03-f2-pilot/technical-check.json "$dest/technical-check.json"
+          git add -- "$dest/frame02-inhale.png" "$dest/f2-stage-receipt.json" "$dest/source-pixel-report.json" "$dest/technical-check.json"
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "art(review): add genuine F1-pixel F2 inhale pilot pending artistic approval"
+          git push origin HEAD:refs/heads/art/rounded02-idle-review-20261108

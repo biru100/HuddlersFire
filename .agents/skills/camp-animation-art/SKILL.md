@@ -7,6 +7,10 @@ description: "HuddlersFire의 생성/픽셀 마스터/프레임 분리 제작, �
 
 The single canonical workflow is docs/art-production-pipeline.md. The NW CORE03 job at art/sprites/source-registry/rounded02-idle-frames-nw-03/job.json is the current pilot. Old plan01/02 materials and their already saved binary files remain immutable history.
 
+## F2 image-generation bypass (2026-11-09)
+
+For the current NW F2 pilot, use the pinned-source pixel edit from tools/author-core03-f2-pixels.py, not another image generator full-character rerender. Only move existing hoodie RGB pixels inside the frozen CORE (and preserve all alpha). Label it `procedural-pixel-edit` and do not represent it as model-generated artwork. Gate with art-production.mjs check-frame and keep the candidate in art/sprites/incoming for visual review, separate from the approved F1 and source-registry. If the aesthetic result is poor, request genuine pixel-editor manual adjustments; no resize, crop or whole-character redraw. Historical code-redraw bans remain for inventing new character art.
+
 ## Phase selection
 
 - **New asset:** (1) concept generation → (2) *separately authored* pixel master + design approval → (3) pixel frame editing from that master → (4) masked composition and technical QA → (5) artistic animation review → (6) separately authorized native/runtime application.

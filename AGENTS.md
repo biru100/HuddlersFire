@@ -2,6 +2,9 @@
 
 ## Active split-stage artwork policy (2026-11-09; supersedes legacy creation defaults)
 
+- **F2 workaround (2026-11-09):** repeated image-model whole-character generations cannot satisfy exact F1 pixel locking. For NW CORE03 F2 only, an explicitly labeled `procedural-pixel-edit` MAY reuse source F1 hoodie RGB pixels within the frozen CORE (never alpha or outside mask) as a review-only, non-generative source-pixel edit. Track actual tool/bytes/SHA, require the existing full technical gates and user art review, and never represent it as model-generated original art. This does NOT permit arbitrary code-drawn/reimagined sprites or native delivery; see tools/author-core03-f2-pixels.py.
+
+
 - **Canonical new-art workflow:** [Generation → Pixel Master → Frame Authoring → CORE Composition → Motion Review → Native Delivery](docs/art-production-pipeline.md). Actual stage implementation: tools/art-production.mjs; current agent skill: .agents/skills/camp-animation-art/SKILL.md.
 - **Approved NW F1 CORE03:** skip generation and pixelization. Reuse its immutable 1086×1448 original; start f2 as an actual F1-based pixel edit, never an unconstrained whole-character redraw. Request text alone does not establish an edit input. Frame stages require a traceable source file, exact SHA and stage receipt; wrong size or RGB must be blocked, not repaired.
 - Concept generation is reference-only. Pixelization is intentional pixel-master authoring, not automatic shrinking/quantization. Manual pixel edits must not alter raw outside-CORE pixels; masked inpaint may have disclosed outside differences but is blocked as likely re-render if drift exceeds 1% of outside pixels. Existing CORE03 4px anchor guard, seam and region budgets remain.

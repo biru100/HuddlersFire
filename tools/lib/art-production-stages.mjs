@@ -56,7 +56,7 @@ export function validateFrameReceipt(receipt,{job,frame,sourceSha256}){
   if(!receipt||typeof receipt!=='object')return ['missing_actual_frame_edit_receipt'];
   if(receipt.version!==1||receipt.stage!=='frame-edit')blockers.push('wrong_stage');
   if(!['f2','f3','f4'].includes(frame)||receipt.frame!==frame)blockers.push('wrong_frame');
-  if(!['manual-pixel-edit','masked-inpaint'].includes(receipt.technique))blockers.push('wrong_edit_technique');
+  if(!['manual-pixel-edit','masked-inpaint','procedural-pixel-edit'].includes(receipt.technique))blockers.push('wrong_edit_technique');
   if(receipt.inputKind!=='actual-approved-f1-png')blockers.push('missing_actual_f1_input_attestation');
   if(receipt.inputSha256!==job.anchorSha256||receipt.pixelMasterSha256!==job.anchorSha256)blockers.push('wrong_input_master');
   if(receipt.sourceSha256!==sourceSha256||!hex.test(receipt.sourceSha256||''))blockers.push('source_hash_mismatch');
@@ -90,7 +90,12 @@ export function evaluateFrameCandidate({job,plan,frame,sourceBytes,anchorBytes,s
       const fraction=outside/Math.max(1,total);
       // Manual editing must be limited to CORE; masked inpainting may have small
       // outside differences, but a wholesale character redraw is never laundered by a mask.
-      const limit=receipt.technique==='manual-pixel-edit'?0:0.01;
+      if(receipt.technique==='procedural-pixel-edit'){
+        let alphaChanges=0;
+        for(let p=0;p<job.canvas[0]*job.canvas[1];p++)if(anchorPixels[p*4+3]!==sourcePixels[p*4+3])alphaChanges++;
+        if(alphaChanges)blockers.push('procedural_edit_alpha_changed');
+      }
+      const limit=receipt.technique==='masked-inpaint'?0.01:0;
       if(fraction>limit)blockers.push('raw_source_excessive_outside_drift');
       core.rawOutsideFraction=fraction;
       core.rawOutsideMaximumFraction=limit;

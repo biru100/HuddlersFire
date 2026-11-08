@@ -147,3 +147,19 @@ test('invalid receipt canvas type produces an explicit gate blocker, not a runti
  const f=fixture(),r={...f.receipt,canvas:3};
  assert.ok(validateFrameReceipt(r,{job:f.job,frame:'f2',sourceSha256:sha256(f.sourceBytes)}).includes('receipt_canvas_mismatch'));
 });
+
+test('explicit procedural source-pixel editing passes without claiming generative identity',()=>{
+ const f=fixture(),receipt={...f.receipt,technique:'procedural-pixel-edit',operations:['procedural-pixel-edit'],editorOrTool:'synthetic local source-pixel editor'};
+ const accepted=run(f,{receipt});
+ assert.equal(accepted.technicalStatus,'ready_for_explicit_technical_intake');
+ assert.equal(accepted.sourceOutsideChanges,0);
+ assert.equal(accepted.artApproved,false);
+ const drift=Buffer.from(f.s);drift[at(3,3)]+=1;
+ const driftBytes=png(drift);
+ const rejected=run(f,{sourcePixels:drift,sourceBytes:driftBytes,receipt:{...receipt,sourceSha256:sha256(driftBytes)}});
+ assert.ok(rejected.blockers.includes('raw_source_excessive_outside_drift'));
+ const alpha=Buffer.from(f.s);alpha[at(15,18)+3]--;
+ const alphaBytes=png(alpha);
+ const noAlpha=run(f,{sourcePixels:alpha,sourceBytes:alphaBytes,receipt:{...receipt,sourceSha256:sha256(alphaBytes)}});
+ assert.ok(noAlpha.blockers.includes('procedural_edit_alpha_changed'));
+});
