@@ -1,0 +1,33 @@
+name: Idle review source snapshot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/idle-review-snapshot.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Archive tracked review source only
+        run: |
+          mkdir -p /tmp/idle-preflight
+          git rev-parse HEAD > /tmp/idle-preflight/COMMIT.txt
+          git archive --format=tar HEAD tools web/tests web/lib web/scripts web/package.json web/package-lock.json art/sprites/source-registry art/sprites/art-direction.json art/sprites/scene-spec.json docs/reviews/rounded02-idle-v1-20261108/evidence docs/briefs/rounded-02 .agents/skills AGENTS.md | gzip > /tmp/idle-preflight/source.tar.gz
+          sha256sum /tmp/idle-preflight/source.tar.gz > /tmp/idle-preflight/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: idle-review-source-${{ github.event.pull_request.head.sha }}
+          path: /tmp/idle-preflight/
+          retention-days: 1
+          if-no-files-found: error
