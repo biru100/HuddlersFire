@@ -33,12 +33,30 @@
     },
     {
       "id": "existing-sites-republish",
-      "state": "ready-for-sites-work-verification",
+      "state": "one-time-user-authorized-review-and-publish",
       "sourceCommit": "7282314312ea8b4a309941482629e20aa19133dc",
       "hostingProjectId": "appgprj_6ae8e9ae42708191b253341387aa287f",
       "preserveExistingSite": true,
       "requiresReview": true,
-      "next": "After this PR passes current-head CI, use Work/Sites on the existing site to save a review version of verified main. Compare runtime, authentication and existing database/migration compatibility. Publish only after approval and successful inspection."
+      "next": "On actual Work execution, open the already-existing GPT Sites project; inspect live settings and current release; verify exact source 5ba1566 vs deployed version 38, no DB migrations, no OAuth regressions, no unapproved runtime asset change; save one review version and publish it to the same existing site only if safeguards pass. If Sites auth/tool is unavailable, stop and ask for access; never claim success from CI or this request.",
+      "approvedSourceCommit": "5ba1566b6d5a9fdfa1de7e36f2f0b3ee7efe5fb6",
+      "siteProjectId": "appgprj_6ae8e9ae42708191b253341387aa287f",
+      "siteUrl": "https://huddlers-fire-camp.gywkd77.chatgpt.site/",
+      "observedPriorReleaseId": "6cd35d15-c98f-4b9b-b0e9-e0262bf01c98",
+      "readOnlyPreflightCiRun": 42480146866,
+      "userAuthorization": {
+        "date": "2026-11-08",
+        "phrase": "어 그렇게 하자",
+        "scope": "Save a version of the exact verified source commit to the original GPT Sites project and deploy after safe verification, one time"
+      },
+      "oneTime": true,
+      "allowNewSite": false,
+      "allowNewDatabase": false,
+      "allowDatabaseWrites": false,
+      "allowImageApi": false,
+      "allowUnapprovedArt": false,
+      "versionSaved": false,
+      "published": false
     }
   ],
   "notAuthorized": [
