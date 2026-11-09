@@ -1,0 +1,219 @@
+{
+  "stage": "frame-edit",
+  "frame": "f2",
+  "technicalStatus": "ready_for_explicit_technical_intake",
+  "blockers": [],
+  "sourceSha256": "179f2fd344b45567fd267a94a3b8019c993df68c6de2dc2c87572e9ade321c22",
+  "anchorSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "maskSha256": "278c2b87052885e70323c3cf6e2b403a993dec31ad5168b5fa85ab814e29a93d",
+  "sourceCanvas": [
+    1086,
+    1448
+  ],
+  "expectedCanvas": [
+    1086,
+    1448
+  ],
+  "sourceOutsideChanges": 0,
+  "coreTechnicalReview": {
+    "kind": "masked-upper-body-technical-review",
+    "technicalStatus": "technical_checks_passed",
+    "blockers": [],
+    "sourceScope": "upper-body-partial-on-original-canvas; not a verified full-character frame",
+    "sourceInsideMask": {
+      "changedPixels": 2722,
+      "rawChangedPixels": 2722,
+      "visibleUnionPixels": 43422,
+      "changedFraction": 0.0627,
+      "meanRgbaError": 0.498
+    },
+    "guardPolicy": "anchor-guard-core-only",
+    "sourceEnvelope": {
+      "changedPixels": 2722,
+      "rawChangedPixels": 2722,
+      "visibleUnionPixels": 46372,
+      "changedFraction": 0.0587,
+      "meanRgbaError": 0.4663
+    },
+    "sourceGuardExcluded": {
+      "changedPixels": 0,
+      "rawChangedPixels": 0,
+      "visibleUnionPixels": 2950,
+      "changedFraction": 0,
+      "meanRgbaError": 0,
+      "disposition": "Preserved raw source differences; excluded by the predeclared anchor-guard contract"
+    },
+    "compositeGuard": {
+      "changedPixels": 0,
+      "rawChangedPixels": 0,
+      "visibleUnionPixels": 2950,
+      "changedFraction": 0,
+      "meanRgbaError": 0
+    },
+    "sourceRegionMeasurements": [
+      {
+        "id": "central-hood-upper-back-interior",
+        "changedPixels": 2722,
+        "rawChangedPixels": 2722,
+        "visibleUnionPixels": 46372,
+        "changedFraction": 0.0587,
+        "meanRgbaError": 0.4663
+      }
+    ],
+    "sourceOutsideMask": {
+      "changedPixels": 0,
+      "rawChangedPixels": 0,
+      "visibleUnionPixels": 342267,
+      "changedFraction": 0,
+      "meanRgbaError": 0,
+      "discardedChangeBounds": null,
+      "disposition": "Excluded by the predeclared mask; disclosed, never treated as a full-source lock PASS"
+    },
+    "generatedRegionBudgets": [
+      {
+        "id": "central-hood-upper-back-interior",
+        "changedPixels": 2722,
+        "rawChangedPixels": 2722,
+        "visibleUnionPixels": 46372,
+        "changedFraction": 0.0587,
+        "meanRgbaError": 0.4663,
+        "budgetPassed": true
+      }
+    ],
+    "changedCompositeBounds": [
+      486,
+      627,
+      154,
+      163
+    ],
+    "selectedPixels": 43422,
+    "preservedAnchorPixels": 1529106,
+    "compositeOutsideMask": {
+      "changedPixels": 0,
+      "rawChangedPixels": 0,
+      "visibleUnionPixels": 342267,
+      "changedFraction": 0,
+      "meanRgbaError": 0
+    },
+    "protectedZones": [
+      {
+        "id": "hair-whole",
+        "sourceChanges": {
+          "changedPixels": 0,
+          "rawChangedPixels": 0,
+          "visibleUnionPixels": 128288,
+          "changedFraction": 0,
+          "meanRgbaError": 0
+        },
+        "compositeChanges": {
+          "changedPixels": 0,
+          "rawChangedPixels": 0,
+          "visibleUnionPixels": 128288,
+          "changedFraction": 0,
+          "meanRgbaError": 0
+        }
+      },
+      {
+        "id": "lower-body",
+        "sourceChanges": {
+          "changedPixels": 0,
+          "rawChangedPixels": 0,
+          "visibleUnionPixels": 123996,
+          "changedFraction": 0,
+          "meanRgbaError": 0
+        },
+        "compositeChanges": {
+          "changedPixels": 0,
+          "rawChangedPixels": 0,
+          "visibleUnionPixels": 123996,
+          "changedFraction": 0,
+          "meanRgbaError": 0
+        }
+      },
+      {
+        "id": "shoe-screen-left",
+        "sourceChanges": {
+          "changedPixels": 0,
+          "rawChangedPixels": 0,
+          "visibleUnionPixels": 29148,
+          "changedFraction": 0,
+          "meanRgbaError": 0
+        },
+        "compositeChanges": {
+          "changedPixels": 0,
+          "rawChangedPixels": 0,
+          "visibleUnionPixels": 29148,
+          "changedFraction": 0,
+          "meanRgbaError": 0
+        }
+      },
+      {
+        "id": "shoe-screen-right",
+        "sourceChanges": {
+          "changedPixels": 0,
+          "rawChangedPixels": 0,
+          "visibleUnionPixels": 21550,
+          "changedFraction": 0,
+          "meanRgbaError": 0
+        },
+        "compositeChanges": {
+          "changedPixels": 0,
+          "rawChangedPixels": 0,
+          "visibleUnionPixels": 21550,
+          "changedFraction": 0,
+          "meanRgbaError": 0
+        }
+      }
+    ],
+    "boundarySeam": {
+      "guardBandPx": 4,
+      "guardBandComparison": {
+        "changedPixels": 0,
+        "rawChangedPixels": 0,
+        "visibleUnionPixels": 2950,
+        "changedFraction": 0,
+        "meanRgbaError": 0
+      },
+      "guardPixelSource": "anchor",
+      "compositeGuardComparison": {
+        "changedPixels": 0,
+        "rawChangedPixels": 0,
+        "visibleUnionPixels": 2950,
+        "changedFraction": 0,
+        "meanRgbaError": 0
+      },
+      "innerEdgeSamples": 892,
+      "maxInnerEdgeChannelDelta": 0,
+      "maximum": 12,
+      "artisticSeamQuality": "unreviewed"
+    },
+    "operations": [
+      "exact-rgba-selection"
+    ],
+    "artApproved": false,
+    "animationApproved": false,
+    "decision": "pending",
+    "reviewState": "pending-motion-review",
+    "productionReady": false,
+    "runtimeVerified": false,
+    "rawOutsideFraction": 0,
+    "rawOutsideMaximumFraction": 0
+  },
+  "provenance": "input method self-attested by editor; matching hashes verify files, not historical model behavior",
+  "operations": [
+    "read-only-source-and-anchor-assessment"
+  ],
+  "artisticQuality": "unreviewed",
+  "decision": "pending",
+  "artApproved": false,
+  "animationApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "planConfirmed": true,
+  "sourcePath": "/home/runner/work/HuddlersFire/HuddlersFire/outputs/core03-f2-pilot/frame02-inhale.png",
+  "sourceBytes": 457797,
+  "receiptSha256": "d44026d854c1933d43795ce8fc55018ea534138caa20949b6480b95a920fa347",
+  "method": "procedural-pixel-edit",
+  "originalBytesPreserved": true,
+  "passedTechGate": true
+}

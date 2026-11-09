@@ -1,0 +1,32 @@
+{
+  "kind": "source-pixel-authoring-not-image-generation",
+  "status": "new_F2_draft_awaiting_technical_and_art_review",
+  "inputF1Sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "maskSha256": "278c2b87052885e70323c3cf6e2b403a993dec31ad5168b5fa85ab814e29a93d",
+  "sourceSha256": "179f2fd344b45567fd267a94a3b8019c993df68c6de2dc2c87572e9ade321c22",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "frozenCorePixels": 43422,
+  "editedRgbaPixels": 2722,
+  "outsideCoreChangedPixels": 0,
+  "alphaChangedPixels": 0,
+  "changedBounds": [
+    486,
+    627,
+    640,
+    790
+  ],
+  "patchEditCounts": [
+    438,
+    1128,
+    1156
+  ],
+  "sourceProcess": "real F1 PNG -> existing cloth pixel relocation inside CORE -> exact-size RGBA PNG",
+  "noImageModelCalled": true,
+  "noNewColorsCreated": true,
+  "notApprovedForRuntime": true,
+  "artisticBreathingReadability": "unreviewed"
+}
