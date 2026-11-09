@@ -1,0 +1,78 @@
+name: Review-only NW anchored 16-frame idle
+
+on:
+  push:
+    branches:
+      - art/nw16-fixed-pixels-20261109
+    paths:
+      - tools/author-idle16-anchored.py
+      - .github/workflows/nw-idle16-review.yml
+      - docs/briefs/rounded-02/nw16-fixed-pixel-review.md
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  author-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install pinned image codec for derived review frames
+        run: |
+          python -m pip install --disable-pip-version-check --only-binary=:all: 'Pillow==11.3.0'
+      - name: Produce sixteen frames from immutable approved F1 and validated F2 cloth-only pixels
+        run: |
+          python tools/author-idle16-anchored.py \
+            --anchor art/sprites/source-registry/rounded02-idle-frames-nw-03/base/frame01-anchor.png \
+            --peak art/sprites/incoming/idle-core03-f2-pixel-pilot-20261109/frame02-inhale.png \
+            --mask art/sprites/source-registry/rounded02-idle-frames-nw-03/motion-plan/COMPOSITE_MASK.bin \
+            --out outputs/nw16-anchor-review
+      - name: Inspect derived playback and integrity report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from PIL import Image
+          p=Path('outputs/nw16-anchor-review')
+          r=json.loads((p/'TECHNICAL_REVIEW.json').read_text())
+          assert len(r['frames']) == 16
+          assert r['editableCorePixels'] == 43422
+          assert r['outsideCoreChangedPixels'] == 0
+          assert r['alphaChanges'] == 0
+          assert r['loopSeamPassed'] is True
+          assert r['animation']['loopMs'] == 1920
+          with Image.open(p/'preview-16frame.gif') as preview:
+              assert preview.n_frames == 16
+              assert preview.info['loop'] == 0
+          assert (p/'overview-4x4.png').exists()
+          print('PASS: 16 frames, 120ms, core outside and alpha locked, loop verified')
+          PY
+      - name: Upload exact-size frames, review-only playback and validation
+        uses: actions/upload-artifact@v4
+        with:
+          name: nw16-approved-f1-locked-review
+          path: outputs/nw16-anchor-review/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Preserve immutable review candidate on branch (never game assets or main)
+        shell: bash
+        run: |
+          set -euo pipefail
+          dest=art/sprites/incoming/nw-idle16-fixed-pixel-review-20261109
+          if [ -e "$dest/TECHNICAL_REVIEW.json" ]; then
+            cmp "$dest/TECHNICAL_REVIEW.json" outputs/nw16-anchor-review/TECHNICAL_REVIEW.json
+            echo "Existing immutable review source matched. No overwrite."
+            exit 0
+          fi
+          mkdir -p "$dest"
+          cp -a outputs/nw16-anchor-review/. "$dest/"
+          git add -- "$dest"
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "art(review): add 16 anchored breathing frames and stable-loop previews"
+          git push origin HEAD:refs/heads/art/nw16-fixed-pixels-20261109

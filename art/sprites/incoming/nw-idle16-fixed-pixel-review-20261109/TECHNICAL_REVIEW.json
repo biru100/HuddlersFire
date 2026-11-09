@@ -1,0 +1,283 @@
+{
+  "kind": "review-only-16frame-anchored-breathing",
+  "motionApproved": false,
+  "artApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "source": "approved NW F1 with previously checked F2 cloth-only candidate",
+  "method": "deterministic_f1_to_f2_cloth_interpolation",
+  "animation": {
+    "frameCount": 16,
+    "perFrameMs": 120,
+    "loopMs": 1920,
+    "frame0": "exact approved F1",
+    "frame8": "exact pilot F2",
+    "inhale": "0→8",
+    "exhale": "8→0 wrapped"
+  },
+  "anchorSha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+  "peakPilotSha256": "179f2fd344b45567fd267a94a3b8019c993df68c6de2dc2c87572e9ade321c22",
+  "frozenMaskSha256": "278c2b87052885e70323c3cf6e2b403a993dec31ad5168b5fa85ab814e29a93d",
+  "canvas": [
+    1086,
+    1448
+  ],
+  "mode": "RGBA",
+  "editableCorePixels": 43422,
+  "peakClothChangedPixels": 2722,
+  "outsideCoreChangedPixels": 0,
+  "hairChanges": 0,
+  "shoeChanges": 0,
+  "alphaChanges": 0,
+  "globalTranslationPixels": 0,
+  "perFrameChangedFromAnchor": [
+    0,
+    881,
+    2066,
+    2722,
+    2722,
+    2722,
+    2722,
+    2722,
+    2722,
+    2722,
+    2722,
+    2722,
+    2722,
+    2722,
+    2066,
+    875
+  ],
+  "adjacentChangedPixelCounts": [
+    881,
+    2066,
+    2654,
+    2487,
+    2365,
+    2641,
+    1916,
+    666,
+    924,
+    2293,
+    2517,
+    2491,
+    2282,
+    2641,
+    2066,
+    875
+  ],
+  "loopSeamPassed": true,
+  "previewIsResizedDerivativeOnly": true,
+  "hasLosslessWebpPreview": true,
+  "userArtReview": "pending",
+  "frames": [
+    {
+      "frame": 0,
+      "file": "frames/frame00.png",
+      "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+      "bytes": 521850,
+      "changedPixelsInsideCore": 0,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 1,
+      "file": "frames/frame01.png",
+      "sha256": "4721c73beda324d931c8136794dd3eafd2841480e8beaa32428fa710f02b020f",
+      "bytes": 474171,
+      "changedPixelsInsideCore": 881,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 2,
+      "file": "frames/frame02.png",
+      "sha256": "131e703fcc523db2652f33127a2efdb198124e355dfc36b7c3a658e5e91282aa",
+      "bytes": 474406,
+      "changedPixelsInsideCore": 2066,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 3,
+      "file": "frames/frame03.png",
+      "sha256": "e256e8b553b13278880c840affc13dfab6494e6ca360b5ccd892907e61ef57f4",
+      "bytes": 474420,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 4,
+      "file": "frames/frame04.png",
+      "sha256": "ae4ec24135a49257191e66e1e65a9bbdea411929c3ceb67a783528f498704802",
+      "bytes": 474598,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 5,
+      "file": "frames/frame05.png",
+      "sha256": "3a740870aa80a6a2cf238daa0225b9a6478b46a3311e7569c3faa1ac8c824fbb",
+      "bytes": 474832,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 6,
+      "file": "frames/frame06.png",
+      "sha256": "f414c279f9008795a0a406742b5599b4849c6e7ff093c0557b7f838cead85fc4",
+      "bytes": 475098,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 7,
+      "file": "frames/frame07.png",
+      "sha256": "248392119deccc7d7e4787ab0c8f3a096256e53c92d6ac069f5e65ed9d2416e9",
+      "bytes": 475091,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 8,
+      "file": "frames/frame08.png",
+      "sha256": "179f2fd344b45567fd267a94a3b8019c993df68c6de2dc2c87572e9ade321c22",
+      "bytes": 457797,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 9,
+      "file": "frames/frame09.png",
+      "sha256": "9a0265828807e0907ead99b04af0ca56607360807b3e8bc153108341c902d22c",
+      "bytes": 475114,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 10,
+      "file": "frames/frame10.png",
+      "sha256": "75893088967e16c35beaf32715512beed50314463125dd562259d5e1c4dacf01",
+      "bytes": 474994,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 11,
+      "file": "frames/frame11.png",
+      "sha256": "32f36ba10dc7b22b2cf0aaba7b55229fa80bce2048dcc6c857d790c7492e1121",
+      "bytes": 474841,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 12,
+      "file": "frames/frame12.png",
+      "sha256": "0adc23c772ac7ae7938c41d764ca74216993192daed271d5f9a1404cf41b1ecc",
+      "bytes": 474599,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 13,
+      "file": "frames/frame13.png",
+      "sha256": "e7b92b6fcdd1523bf37be14928955a3e0a0f423ff675697032605fd13eb10c8e",
+      "bytes": 474507,
+      "changedPixelsInsideCore": 2722,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 14,
+      "file": "frames/frame14.png",
+      "sha256": "513133f7ce4404febf8093cf4deb1d23e27c70969b0fb5fcfc98f32a4ee01bc6",
+      "bytes": 474405,
+      "changedPixelsInsideCore": 2066,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "frame": 15,
+      "file": "frames/frame15.png",
+      "sha256": "8831c01355880a37e2e7b27734cd6e3bbb867451c2cbe1a57ad03eddcaf4346c",
+      "bytes": 474185,
+      "changedPixelsInsideCore": 875,
+      "changedPixelsOutsideCore": 0,
+      "alphaChangedPixels": 0,
+      "canvas": [
+        1086,
+        1448
+      ]
+    }
+  ]
+}
