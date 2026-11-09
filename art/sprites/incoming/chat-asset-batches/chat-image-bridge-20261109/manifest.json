@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "kind": "chat-asset-batch",
+  "repository": "biru100/HuddlersFire",
+  "batchId": "chat-image-bridge-20261109",
+  "sourceReference": "ChatGPT Image generation gen_id 00dc00b1-6ed6-47fc-9dd4-b33e95b10e22, prior generated PNG of the same HuddlersFire NW character",
+  "observedModel": "unverified",
+  "target": "Transport and CI/Work handoff proof ONLY. Previously rejected F2 redraw; reference-only. Do NOT use in game, runtime, pixel-master, or Sites release.",
+  "artApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "assets": [
+    {
+      "id": "idle-lookdev-reference",
+      "file": "originals/idle-lookdev-reference.png",
+      "type": "reference",
+      "role": "reference",
+      "description": "Prior Chat-generated rejected F2 concept. Test only. No motion/design/runtime approval.",
+      "sha256": "918d0f2dc2c6fed827c52d346307bd2a9eb12a2d844e2bc06f6a0b4dc4e08a5f"
+    }
+  ]
+}
