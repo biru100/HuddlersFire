@@ -27,6 +27,12 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: web/package-lock.json
+      - name: Test generic multi-image Chat to Work handoff
+        working-directory: .
+        run: node --test tools/tests/chat-asset-batch.test.mjs
+      - name: Inspect real Chat resource batches without changing source pixels
+        working-directory: .
+        run: node tools/chat-asset-batch.mjs inspect outputs/chat-asset-batch-report.json
       - name: Test automation safety gates
         working-directory: .
         run: node --test tools/tests/autoflow.test.mjs tools/tests/art-handoff.test.mjs tools/tests/sites-package.test.mjs
@@ -46,6 +52,7 @@ jobs:
           path: |
             outputs/autoflow-status.json
             outputs/art-handoff-report.json
+            outputs/chat-asset-batch-report.json
           if-no-files-found: ignore
           retention-days: 14
       - run: npm ci
