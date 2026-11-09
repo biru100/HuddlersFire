@@ -17,7 +17,8 @@ jobs:
         with:
           python-version: '3.13'
       - name: Install Pillow
-        run: python -m pip install --only-binary=:all: 'Pillow==11.3.0'
+        run: |
+          python -m pip install --only-binary=:all: 'Pillow==11.3.0'
       - name: Author and verify frames without regenerated character art
         run: |
           python tools/author-idle16-anchored.py --anchor art/sprites/source-registry/rounded02-idle-frames-nw-03/base/frame01-anchor.png --peak art/sprites/incoming/idle-core03-f2-pixel-pilot-20261109/frame02-inhale.png --mask art/sprites/source-registry/rounded02-idle-frames-nw-03/motion-plan/COMPOSITE_MASK.bin --out outputs/nw16-anchor-review
