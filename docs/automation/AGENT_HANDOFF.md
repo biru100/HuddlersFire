@@ -1,5 +1,16 @@
 # HuddlersFire Work GitHub PR 이벤트 인계
 
+## User-specified operational sequence (2026-11-09)
+
+**Chat owns generation + uploading the actual image sources into GitHub. Work owns assembly/pixel processing/applying resource assets to the actual site. Work/Sites then saves a review version and publishes to the SAME existing project when approved.** This is the operating priority over the old single F2-focused development exercise.
+
+- Inputs are actual GitHub PR binary images + manifest, possibly **one multi-frame 2x2 concept sheet** rather than a strict final F2. Use [generic batch contract](../../art/sprites/incoming/chat-asset-batches/README.md) for new concept sheets and mixed assets. Preserve originals; derive production sprites and game pixel resources separately. Do not apply the NW CORE03 frozen-frame restrictions to unrelated resource concepts.
+- Existing PR opened/synchronize Work trigger is reused, no duplicate automation.
+- Work must inspect SHA, source image PNG, purpose, proposed scene, current code, game rendering and CI. Prepare a visually inspectable site version first. Runtime changes need actual user-selected art and release authorization. Do not infer approval from a raw upload or concept sheet.
+- **Binary handoff is not automatic merely because Chat generated a PNG:** current GitHub connector must actually accept the source bytes. If it cannot, report the exact block and request a one-time GitHub upload. Do not fake it with JSON.
+- Retain the original Site \`appgprj_6ae8e9ae42708191b253341387aa287f\`, existing DB binding, URL, Discord connectivity and data. Save version → verify preview → publish authorized changes, never new Site/DB or unattended schema writes.
+
+---
 **2026-11-08 최신 사용자 결정:** 기존 GPT Sites 프로젝트를 그대로 사용한다. 이전 외부 Cloudflare 직접 배포 지시는 대체됐고, 기존 이미지 생성·GitHub/Work 워크플로우는 유지한다. [Sites 운영](../sites-deployment.md).
 
 ## 트리거 및 작업 큐

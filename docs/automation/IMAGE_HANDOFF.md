@@ -1,5 +1,17 @@
 # ChatGPT 이미지 → GitHub → Work 인계
 
+## Current user-defined flow (2026-11-09)
+
+**1. Chat generates asset images → 2. the same Chat places the actual images on GitHub → 3. existing Work PR automation integrates them → 4. Work saves/publishes to the existing GPT Sites project.** This is the primary production workflow. F1/F2/CORE03 is ONE specialized asset job; do not promote that single job's final-frame restrictions into a universal requirement for all generated image resources.
+
+General batch handoff: [chat-asset-batches](../../art/sprites/incoming/chat-asset-batches/README.md). It accepts several original images or one original 2x2 motion sheet in a single PR, validates bytes at their actual generated dimensions, and leaves pixelization/sprite slicing/game integration to Work. Read-only validator: \`node tools/chat-asset-batch.mjs inspect\`. The old strict \`chat-image-handoff\` + F1 SHA + 1086x1448 route remains valid only for specifically approved CORE03 frames.
+
+**Known binary bridge limitation:** current Chat GitHub tools create text files or Git blobs from supplied base64 strings but do not directly accept a Chat-generated PNG file reference. Until direct raw bytes/base64 can actually be supplied to the connector, Chat cannot truthfully claim automatic binary upload. Prefer Chat direct upload only if it can verify real GitHub bytes; otherwise the practical fallback is one GitHub upload of each original asset by the user. The same Chat can prepare manifest/source/PR metadata, and Work processes the resulting PR. Never claim that a sourceReference, manifest or generated preview alone is a GitHub upload.
+
+Work's PR automation already exists; do not create duplicate tasks. Work uses the existing \`web/.openai/hosting.json\` project only and does not create a new Site/DB. Save a reviewable version first, publish after user-required art/release authorization and full application QA; CI PASS alone never authorizes live publishing.
+
+---
+
 2026-11-08: 사용자 결정은 **기존 ChatGPT 이미지 생성 사용, 추가 유료 API 사용 없음**이다.
 
 ## 실제로 자동화되는 부분과 남는 경계
