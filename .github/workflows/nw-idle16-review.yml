@@ -23,7 +23,8 @@ jobs:
         with:
           python-version: '3.13'
       - name: Install pinned image codec for derived review frames
-        run: python -m pip install --disable-pip-version-check --only-binary=:all: 'Pillow==11.3.0'
+        run: |
+          python -m pip install --disable-pip-version-check --only-binary=:all: 'Pillow==11.3.0'
       - name: Produce sixteen frames from immutable approved F1 and validated F2 cloth-only pixels
         run: |
           python tools/author-idle16-anchored.py \
