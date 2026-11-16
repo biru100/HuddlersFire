@@ -1,5 +1,16 @@
 # HuddlersFire Work GitHub PR 이벤트 인계
 
+## 2026-11-16 project-wide intent router (supersedes art-only interpretation)
+
+**First read** [project intent](../project-intent.md), [project harness](../harness/README.md), [intent tree](../harness/INTENT_TREE.md), [dated handoff](../harness/CURRENT.md) and [work protocol](../harness/WORK_PROTOCOL.md). The user's project-wide purpose is the quality of HuddlersFire, not generating NW Idle frames. Determine the request's experience intent and **domain** before invoking any specialized processing.
+
+- **Art PR:** preserve original bytes and provenance, user-selected design; ChatGPT concepts/key poses. As explicitly authorized 2026-11-16, Work/Codex may edit **derivative native pixel art, layers and motion** within the authorized art task. User final art approval and runtime/release gates are still separate. Only art intake requires PNG/manifest/SHA.
+- **Non-art PR:** inspect actual diff, purpose, relevant app/system tests, CI, end-user effect and safe rollback. **Do not require missing PNG, F1/F2, a CORE mask or animation approval to process gameplay, UX, network, community, booth, reliability or docs PRs.**
+- All PRs: preserve current main/PR/commit provenance; avoid duplicate Work jobs. A successful code check does not prove player experience or Sites publication. Maintain the single existing GitHub-PR Work trigger.
+- After meaningful task/decision updates, write cross-context evidence + next permitted step to the PR/issue and [CURRENT](../harness/CURRENT.md) when in scope. Do not claim automatic continuity from Chat history.
+
+The image-specific instructions below remain valid **only for image asset handoff** where not superseded by the latest user choice. No new Site/DB/Cloudflare direct release, paid image API, destructive migration or automatic art approval is authorized.
+
 ## User-specified operational sequence (2026-11-09)
 
 **Chat owns generation + uploading the actual image sources into GitHub. Work owns assembly/pixel processing/applying resource assets to the actual site. Work/Sites then saves a review version and publishes to the SAME existing project when approved.** This is the operating priority over the old single F2-focused development exercise.
