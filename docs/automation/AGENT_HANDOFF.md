@@ -1,5 +1,11 @@
 # HuddlersFire Work GitHub PR 이벤트 인계
 
+## 2026-11-16 direct Chat-authored GitHub handoff v2
+
+**Canonical Chat→GitHub PR→existing Work operating contract:** [CHAT_PR_HANDOFF.md](CHAT_PR_HANDOFF.md) and [task template](../harness/tasks/README.md). User asked to remove repeated manual Work prompt copying. Chat writes a bounded, intention-linked work order + evidence to one GitHub PR; the same existing PR opened/synchronize Work automation receives it when the provider event actually fires. A PR is **transport intent, not proof of Work execution**; confirm real Work results before reporting success. Do not create another trigger, schedule or polling loop.
+
+For any scoped PR, read actual user intent and the `[HUDDLERSFIRE HANDOFF V2]` task contract, then select a domain. No source PNG required for non-art tasks. For art, source image hashes and independent user art approvals remain required. Record exact head tests, screenshots/preview when possible, blocked approvals and the next permitted step on the PR. Do not auto-merge or auto-publish.
+
 ## 2026-11-16 project-wide intent router (supersedes art-only interpretation)
 
 **First read** [project intent](../project-intent.md), [project harness](../harness/README.md), [intent tree](../harness/INTENT_TREE.md), [dated handoff](../harness/CURRENT.md) and [work protocol](../harness/WORK_PROTOCOL.md). The user's project-wide purpose is the quality of HuddlersFire, not generating NW Idle frames. Determine the request's experience intent and **domain** before invoking any specialized processing.
