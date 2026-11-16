@@ -1,0 +1,97 @@
+{
+  "status": "review-only",
+  "task": "HF-TASK-NW-IDLE-V2",
+  "inputCommit": "eade7f67022ba87371dc1f227ff599e119a6fc0a",
+  "sourceLookdevDirectory": "art/sprites/source-registry/rounded02-rev2-lookdev",
+  "sourceLookdev": [
+    {
+      "slot": "nw",
+      "path": "original/nw-approved.png",
+      "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a"
+    },
+    {
+      "slot": "se",
+      "path": "original/se-approved.png",
+      "sha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2"
+    }
+  ],
+  "authoredMethod": "Three independently drafted native 64×96 pixel-cluster layouts. Upper outlines, face, curls, hoodie folds, sleeves, hands, pants and ground-shadow edges are authored per pose. Compared against the original lookdev for identity and the previous native candidate for palette and fixed boot pixels. Shared lower contact rows y=78–95 are reused byte-for-byte in all three PNG pixel arrays. No scaling, interpolation, random noise or deformation used to author the poses. Nearest-neighbor display-only enlargements at 2× and 4×.",
+  "groundAnchor": [
+    32,
+    88
+  ],
+  "compositeOrder": [
+    "lower",
+    "skin",
+    "hoodie",
+    "hair"
+  ],
+  "comparisonOnlyLayer": "shadow",
+  "artNotes": {
+    "neutral": "Stable rear three-quarter silhouette, curled brown hair and sage hood with relaxed folds.",
+    "inhale": "Neck and shoulder open, hood changes from hanging fold to lifted rim. Near elbow opens, waist seam uncurls and the far trouser crease tracks the raised torso. Curl tips open and shadow tucks in.",
+    "exhale": "Head leans slightly into NW as curl tips and hood fall. Cuff drops, hem settles diagonally and bent knee gathers a fold. Shadow extends toward the near side."
+  },
+  "measurements": {
+    "neutral": {
+      "changedPixelsFromNeutralByLayer": {
+        "lower": 0,
+        "skin": 0,
+        "hoodie": 0,
+        "hair": 0,
+        "shadow": 0
+      },
+      "silhouetteDeltaFromNeutral": 0
+    },
+    "inhale": {
+      "changedPixelsFromNeutralByLayer": {
+        "lower": 154,
+        "skin": 150,
+        "hoodie": 609,
+        "hair": 462,
+        "shadow": 17
+      },
+      "silhouetteDeltaFromNeutral": 182
+    },
+    "exhale": {
+      "changedPixelsFromNeutralByLayer": {
+        "lower": 138,
+        "skin": 193,
+        "hoodie": 772,
+        "hair": 618,
+        "shadow": 28
+      },
+      "silhouetteDeltaFromNeutral": 222
+    }
+  },
+  "campPreview": "Existing local CampRenderer drew all poses at one world anchor. Test replaced player and player shadow drawing only on the isolated instance; retained camp/lighting/camera. Three 290×226 crops at the renderer scale were placed side by side and encoded as WebP. Static render evidence, no browser/runtime QA.",
+  "approvals": {
+    "G1": "pending",
+    "G2": "pending",
+    "G3": "waiting-for-key-pose-approval",
+    "runtime": "pending",
+    "publication": "pending"
+  },
+  "assets": {
+    "camp-pose-comparison.webp": "11c7dba5040ca590d66210db1e4b6370322096de2bac531f0b75fe5fd223f290",
+    "exhale.png": "2137a154a3b130c67240f097ddf97c27f1924bf57e63e41494b9c20074827bf9",
+    "inhale.png": "6c1926c9780cdbe160c76de31b332cd01d377d038aa1253f8f3eda0058189d90",
+    "layer-hair-exhale.png": "c4a21f335e69a78d128c32044414913b91e52adb743e5803fed7ca5ad6ffbcd1",
+    "layer-hair-inhale.png": "38b6a41f01a0217c849829bd7fd6ec4dca05dea42bc9a969294d979f7d7f4eae",
+    "layer-hair-neutral.png": "5c48af074a2442f9ab664ba00c0b73c4f7c4792151ce985853e83a24ffa2b4bf",
+    "layer-hoodie-exhale.png": "3935733c06af78a215e12b5e41cac9be93fb45db386224a4c939747a00fbc02d",
+    "layer-hoodie-inhale.png": "ab4c65d59af30809af4f6bd8bedf41e98e52b05101ec68410fc9977e6e506f6f",
+    "layer-hoodie-neutral.png": "200615853a05d57802ffe306c62800a956737c53bb40818cfb3cc497121ddc6a",
+    "layer-lower-exhale.png": "1ecfe9283abdbc8567016dd82ddf9d0ad945900e9600ad75161fb8e5aa032c93",
+    "layer-lower-inhale.png": "57322423a669fcbad40218ff33f5dbdbcfcfa461f7bb148b899f79d21650a117",
+    "layer-lower-neutral.png": "906d3e5b5ee9a94bd1bbd23d3f098c8cf6638b46cd8d78b7ffa0fa4a7859677a",
+    "layer-shadow-exhale.png": "feb0d0db0c052e2890d0f3b82a6b933734a6971ab6f5fd70cacaf5dbb15f3683",
+    "layer-shadow-inhale.png": "a277faf5b30f1419d746098305eaa161ed96d2c1c9851dd41f4b71f213656b79",
+    "layer-shadow-neutral.png": "712375f8aa8e10c5c38332e5249f7d484acadd79f645d588376e80ad67ab44dc",
+    "layer-skin-exhale.png": "c2f61278c7a85b16801acdb8b7ba28681d73a4760f5af4d91f64a10853f671b5",
+    "layer-skin-inhale.png": "253df1c79ff9ccd0039243cc473f08a7255c2ef9680e1c6861f65a628c11d610",
+    "layer-skin-neutral.png": "3a322c216c05d3b4edbfe1a8d6797d57595a2a963e0b3a74064d43233e75e7ea",
+    "neutral.png": "fead06a9ef8639593a18601e126a6463d91861a7a658755ef7e76a65bb9e2f0e",
+    "pose-comparison.png": "14463e1ab3955ad071951e1500500e8f4c75acb6b111d1c885caf911beb1e753"
+  }
+}

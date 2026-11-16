@@ -73,3 +73,18 @@ Next authorized step:
 ```
 
 **Current task-file creation and passing GitHub CI do not prove Work ran, produced visuals, obtained user approval or completed an animation.** A separate Work event result/PR commit or comment is required to claim actual handoff execution.
+
+## 2026-11-17 KST · G1/G2 revision from user review
+
+The first pose study was returned for revision. The user observed that the
+upper-body motion read as resizing. The next comparison uses separately
+authored pixel clusters for neutral, inhale and exhale. The hair ends, neck,
+hood folds, cuffs, arms, hem, knee creases and shadow edges react together.
+Keep the foot contact pixels fixed. Compare the same three poses at 1× and 4×
+and in the isolated camp render.
+
+Current review evidence: [pose comparison](../../../art/sprites/incoming/nw-idle-v2-cluster-review-20261117/pose-comparison.png),
+[camp Canvas comparison](../../../art/sprites/incoming/nw-idle-v2-cluster-review-20261117/camp-pose-comparison.webp)
+and [provenance and checks](../../../art/sprites/incoming/nw-idle-v2-cluster-review-20261117/REVIEW.json).
+G1 and G2 await separate user decisions. The earlier study remains review
+history. G3 loop work opens after key-pose approval.
