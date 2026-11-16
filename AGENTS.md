@@ -1,5 +1,15 @@
 # HuddlersFire project instructions
 
+## Project-wide intent-first harness (2026-11-16 · latest user direction)
+
+**This repository is the harness for the entire HuddlersFire game**, not an NW Idle/sprite-production harness. The overarching purpose is a warm online camp for indie-game developers to rest, play, work together and share games. **Every task** must trace L0 product purpose → L1 player experience → L2 desired effect/quality → L3 initiative → L4 verifiable work. Do not impose art-only processes on networking, gameplay, UX, community or operations.
+
+**Starting a new Chat/Work/Codex/other-AI context:** read [user intent decisions](docs/project-intent.md), [project harness entry](docs/harness/README.md), [intent tree](docs/harness/INTENT_TREE.md), [current handoff](docs/harness/CURRENT.md), then route the task using [work protocol](docs/harness/WORK_PROTOCOL.md). Confirm exact repository HEAD, PR state and evidence instead of assuming previous chats share memory. Preserve latest user decisions across contexts by updating the canonical decision ledger and dated handoff.
+
+**Newest art delegation decision:** ChatGPT designs concepts and key poses; Work/Codex **may directly author/edit derivative native pixel assets and motion** within the user's authorized scope. Only the user can give final aesthetic approval. Approved original PNG bytes stay immutable. The 64×96 NW cute-breathing Idle is one initial subordinate pilot, not a universal frame count, shape-lock, approval gate or roadmap. Previous narrower instructions that forbid all Codex pixel editing are superseded in this limited way.
+
+Product intent and independent domain-level QA outrank the number of art files, CI successes, frames and PRs. For a domain task, use only its relevant skill. General router: [.agents/skills/huddlersfire-project-operator/SKILL.md](.agents/skills/huddlersfire-project-operator/SKILL.md). Existing site/DB/Discord preservation, no paid APIs, no automatic art approval and no unapproved live publication remain unchanged.
+
 ## Project-only configuration
 - 이 프로젝트 작업 중에는 전역 규칙과 설정을 수정하지 않는다. `C:\Users\user\.codex\AGENTS.md`, 전역 Codex 설정, 사용자 공통 스킬·하네스 설정 등이 포함된다.
 - 필요한 규칙과 설정은 HuddlersFire 프로젝트 내부에만 추가하거나 변경한다.
@@ -23,7 +33,7 @@
 - Rounded 02 Rev2 NW/SE is user-selected LOOKDEV; Idle NW/SE remains pending motion review. GitHub upload does not override separate `art-review`, native-base, pixel/runtime and deployment gates. Public repository: never upload private or unapproved external content.
 
 ## Current animation graphics workflow (2026-11-07)
-- **원화·애니메이션 제작의 주도권은 ChatGPT**에 있다. 방향별/동작별 각 프레임 이미지와 의상 레이어 원화, 미술 검토 및 수정 요청도 ChatGPT 이미지 제작 대화에서 수행한다. Codex는 원본의 SHA256·알파·프레임/셀 정렬·루프·앵커·규격을 검사하고 승인 후 실제 게임에 연결한다. 기술 검사는 미술적 승인·이미지 생성이 아니다.
+- **2026-11-16 개정:** ChatGPT는 원화 컨셉·키포즈와 미술 방향을 제시한다. Work/Codex는 허가된 개별 작업의 **원본을 변경하지 않은 파생 픽셀 아트, 모션 프레임, 레이어를 직접 제작·편집·보정**할 수 있으며 출처·정렬·루프·게임 적용을 검증한다. 최종 미술 승인은 사용자 전담이고 기술 검사만으로 완료 처리하지 않는다. 본 규칙은 **아트 도메인의 하위 스킬**에만 적용한다.
 - 현재 NW/SE Rounded 02 Rev2 캐릭터 **착의 디자인만** 미술 기준작으로 선정됐다. 같은 캐릭터의 **Idle 4컷 모션 시안은 아직 미승인**이다. [모션 전달 브리프](docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](.agents/skills/camp-animation-art/SKILL.md) 스킬을 사용한다.
 - 새 모션 시트는 `tools/motion-lookdev.mjs`의 독립된 reference-only 수신/검토 경로를 사용한다. 기존 `art-direction.mjs`·정책 파일이나 승인 fingerprint, `native-base` 진입 조건을 변경하지 않는다. 시트를 코드로 잘라 맞췄다고 네이티브 64×96 프레임 납품으로 주장하지 않는다. 게임 자산 교체·배포 승인은 별개다.
 
@@ -44,6 +54,7 @@
 - 기존 일러스트의 무손실 재현·재패킹 방법은 [기존 제작 경로](docs/sprite-authoring.md)를 보존한다. 과거 명령이 출력하는 NW 요청문은 새 미술 기준 선택을 대신하지 않는다.
 
 ## Select skills
+- **huddlersfire-project-operator**: 프로젝트 전체의 최상위 의도·작업 라우팅·컨텍스트 인계. 특정 분야의 하위 스킬보다 먼저 의도를 복원한다. [프로젝트 운영 스킬](.agents/skills/huddlersfire-project-operator/SKILL.md).
 - 프로젝트 로컬 스킬은 `.agents/skills/`에 둔다. 요청에 필요한 스킬만 선택하고, 적용 전에 해당 `SKILL.md`를 읽는다.
 - **camp-art-direction**: [미술 방향·외부 생성 요청](.agents/skills/camp-art-direction/SKILL.md). 스타일/품질 개선, 기준 캐릭터 선정, ChatGPT 이미지 요청·수신에 적용한다. 미술 승인 전에 대량 리소스를 생산하지 않는다.
 - **camp-sprite-assets**: [수신 원화·조립·스프라이트 검수](.agents/skills/camp-sprite-assets/SKILL.md). 승인된 방향을 게임용 자산으로 연결하고 실제 장면에서 확인한다. 직접 생성의 기본 경로가 아니다.
