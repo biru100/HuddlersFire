@@ -7,13 +7,11 @@ description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·
 
 **원본 우선순위:** [GitHub source registry](../../../art/sprites/source-registry/README.md)의 실제 PNG 바이너리·MANIFEST·SHA256가 일치해야 한다. `tools/art-source-registry.mjs`로 확인하고 별도 art-direction/motion job에 연결한다. ZIP 전달은 과거 이력이며, GitHub 저장 자체는 디자인/모션/네이티브/게임 검증과 별개다.
 
-## 활성 경로
+## 모션 시안, 디자인 및 네이티브 제작
 
-**Idle·Walk·Sit 모션 원화 생성과 미술 검토는 ChatGPT가 담당한다.** Codex는 이미지의 원본 보존, 시트 구조/앵커/루프 기술 검사 및 승인 후 게임 연결만 맡는다. 기존 단독 착의 `lookdev`와 별개로 애니메이션 시안은 [모션 인계 브리프](../../../docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](../camp-animation-art/SKILL.md)를 사용한다. 모션 시트가 존재한다고 기존 native-base/pixel review 승인 게이트를 우회하지 않는다.
+모션 원화와 참고 시트 수신은 [모션 인계 브리프](../../../docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](../camp-animation-art/SKILL.md)를 따른다. 시트 수신 이후에도 native-base와 pixel review 검증을 적용한다.
 
-## 활성 경로
-
-**현재 활성 변경:** ChatGPT가 미술 평가를 작성하고 사용자가 NW/SE 각 이미지를 선택하며 Codex는 수신·기술 검사·조립·게임 렌더 검증만 수행한다. [Rounded 02 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)의 두 방향 요구를 우선하며, 아래의 과거 단일 NW 예시는 신규 절차를 대체하지 않는다. 비교판 이미지는 단일 PNG로 수신하지 않는다.
+**Rounded 02 디자인·네이티브 검토:** 사용자가 원화를 선택하고, Codex는 기술 검증·조립과 허가된 파생 픽셀 제작을 맡는다. 최종 미술 승인은 사용자에게 있다. [Rounded 02 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)의 두 방향 요구를 우선하며, 아래의 과거 단일 NW 예시는 신규 절차를 대체하지 않는다. 비교판 이미지는 단일 PNG로 수신하지 않는다.
 
 참고 ZIP은 [수신 기록](../../../art/sprites/incoming/lookdev-handoff-v2/README.md)처럼 ZIP·내부 항목·SHA256를 보존하고 원본 PNG를 실제 디코딩해 검사한다. 실제 Rounded 02 독립 파일이 없으면 두 job의 `source/`와 미술 평가·사용자 선택은 대기로 유지한다. 비교판 잘라내기·반전·강제 축소로 원화를 채우지 않는다.
 
