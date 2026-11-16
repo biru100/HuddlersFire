@@ -11,29 +11,20 @@
 
 The image-specific instructions below remain valid **only for image asset handoff** where not superseded by the latest user choice. No new Site/DB/Cloudflare direct release, paid image API, destructive migration or automatic art approval is authorized.
 
-## User-specified operational sequence (2026-11-09)
+## Chat 이미지 수신
 
-**Chat owns generation + uploading the actual image sources into GitHub. Work owns assembly/pixel processing/applying resource assets to the actual site. Work/Sites then saves a review version and publishes to the SAME existing project when approved.** This is the operating priority over the old single F2-focused development exercise.
-
-- Inputs are actual GitHub PR binary images + manifest, possibly **one multi-frame 2x2 concept sheet** rather than a strict final F2. Use [generic batch contract](../../art/sprites/incoming/chat-asset-batches/README.md) for new concept sheets and mixed assets. Preserve originals; derive production sprites and game pixel resources separately. Do not apply the NW CORE03 frozen-frame restrictions to unrelated resource concepts.
-- Existing PR opened/synchronize Work trigger is reused, no duplicate automation.
-- Work must inspect SHA, source image PNG, purpose, proposed scene, current code, game rendering and CI. Prepare a visually inspectable site version first. Runtime changes need actual user-selected art and release authorization. Do not infer approval from a raw upload or concept sheet.
-- **Binary handoff is not automatic merely because Chat generated a PNG:** current GitHub connector must actually accept the source bytes. If it cannot, report the exact block and request a one-time GitHub upload. Do not fake it with JSON.
-- Retain the original Site \`appgprj_6ae8e9ae42708191b253341387aa287f\`, existing DB binding, URL, Discord connectivity and data. Save version → verify preview → publish authorized changes, never new Site/DB or unattended schema writes.
-
----
-**2026-11-08 최신 사용자 결정:** 기존 GPT Sites 프로젝트를 그대로 사용한다. 이전 외부 Cloudflare 직접 배포 지시는 대체됐고, 기존 이미지 생성·GitHub/Work 워크플로우는 유지한다. [Sites 운영](../sites-deployment.md).
+[이미지 인계](IMAGE_HANDOFF.md)는 Chat 원본의 업로드·검사·출처 기록을 정의한다. 원격 바이트·SHA256과 작업 계약을 확인한 뒤 허가된 파생 제작·검토를 진행한다. CORE03의 F1/마스크 제약은 그 작업에만 적용한다. 참조 자료와 제작 자산의 채택 상태는 구분한다.
 
 ## 트리거 및 작업 큐
-- 사용자가 설정한 Work 이벤트 작업은 `biru100/HuddlersFire`의 GitHub PR opened/synchronize를 사용한다. 기존 매시간 중복 작업은 일시중지한다.
-- 매 실행에서 latest main, PR, exact head CI, [정책](POLICY.json), [큐](WORK_QUEUE.json), [이미지 수신](IMAGE_HANDOFF.md)을 확인한다. 과거 head의 초록 체크나 Chat의 미전달 PNG를 실제 최신 원본으로 취급하지 않는다.
+- 사용자가 설정한 Work 이벤트 작업은 `biru100/HuddlersFire`의 GitHub PR opened/synchronize를 사용한다. 저장된 트리거와 범위를 유지하고 매시간 점검을 재활성화하지 않는다. 열린 PR의 최신 head를 확인한다. PR·head·원본 SHA256·작업 단계로 중복을 확인한다.
+- 매 실행에서 최신 main, PR diff, 현재 head CI, [정책](POLICY.json), [큐](WORK_QUEUE.json), [이미지 수신](IMAGE_HANDOFF.md)을 확인한다. 과거 head의 초록 체크나 Chat의 미전달 PNG를 실제 최신 원본으로 취급하지 않는다.
 - PR/source SHA·단계별 중복을 확인한다. 새 PR 생성만으로 사이트 배포를 시작하지 않는다. 동시에 동일 범위의 PR이나 Work 실행이 있으면 기존 것을 이어받는다. 무의미한 이벤트 루프를 만들지 않는다.
 
 ## 기술 안전 조건
 - 변경 파일과 코드 diff를 읽고 요구 테스트·CI를 실제 head에서 확인한다. 승인된 작업에 한해서만 조건부 PR 병합을 진행할 수 있다. 다른 사람의 무관한 PR은 임의 병합하지 않는다.
-- 승인 f1 원본을 수정하지 않는다. 새로운 PNG는 실제 원격 바이트·SHA256·manifest, 기존 job과 현재 검사 결과로만 처리한다. 파일명/설명만으로 업로드 성공을 주장하지 않는다.
+- 원본 PNG 바이트를 보존한다. 새로운 PNG는 실제 원격 바이트·SHA256·manifest, 기존 job과 현재 검사 결과로만 처리한다. 파일명/설명만으로 업로드 성공을 주장하지 않는다.
 - `blocked`, `awaiting_plan_confirmation`, `ready_for_explicit_intake`를 구별한다. 마지막 상태에서도 기존 intake/compose/inspect/assemble 및 실제 미술 검토가 필요하다.
-- 미술/모션/실제 게임 runtime 승인·네이티브 64x96 변환, 유료 이미지 API, 원화 강제 크롭/축소/변환을 하지 않는다.
+- 미술·모션의 최종 선택은 사용자 권한이다. 파생 제작은 개별 작업의 허가와 계약을 따르며, 원본의 강제 변환과 유료 이미지 API를 금지한다. 런타임 채택과 게시는 각 승인에 따른다.
 
 ## 기존 사이트에 연결
 - 빌드의 `web/.openai/hosting.json` project_id가 **기존 사이트** `appgprj_6ae8e9ae42708191b253341387aa287f`인지 확인한다. D1 binding은 `DB`, R2는 `null`이다.

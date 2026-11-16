@@ -47,7 +47,7 @@ last_verified_kst: YYYY-MM-DD
 
 - Never equate a proposed status with an approved feature. Do not mark pending gates approved because the same user approved another phase.
 - Task state and evidence must point to the **same exact head**. Stale reports never silently upgrade current code.
-- Existing machine queue [WORK_QUEUE.json](../automation/WORK_QUEUE.json) is the Work event queue; reconcile before editing it instead of creating a second automation.
+- [WORK_QUEUE.json](../automation/WORK_QUEUE.json) records Work event tasks. Confirm its recorded heads and statuses against live GitHub before using them. Use the existing automation and its saved scope.
 
 ## 3. Approval varies by risk, not by the latest project theme
 

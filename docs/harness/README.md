@@ -10,11 +10,12 @@ The NW Idle animation is the **first art-pipeline pilot**, **not the root object
 
 ## Read-first contract for any new chat, Codex session, Work run or agent
 
-1. Read [project intent](../project-intent.md): user-approved intent, decisions, supersessions, scope and explicit exclusions.
-2. Read [intent tree](INTENT_TREE.md): L0 purpose → L1 experiences → L2 outcomes/quality → L3 initiatives → L4 tasks. The tree points to product/technical records; it does not replace them.
-3. Read [current handoff](CURRENT.md): dated verified state, work in progress, unresolved decisions and next **authorized** action. Recheck GitHub main/PR/head/CI and existing Sites state before reporting current facts.
-4. Select **only the relevant domain**: [product direction](../product-direction.md), [product review](../product-review.md), [architecture](../architecture.md), [validation](../validation.md), art/asset skills, game booths, network, UI, deployment or other project-local instructions.
-5. Apply the [work protocol](WORK_PROTOCOL.md) to the task; write a purpose-linked result and handoff before exiting.
+1. Select the source ref before reading. Use the current default branch for ordinary work and the exact head for named PR reviews. If you have only a GitHub connector, open the same files at that ref. Start from [AGENTS.md](../../AGENTS.md) or this page if the environment does not load repository guidance automatically.
+2. Read [project intent](../project-intent.md): user-approved intent, decisions, supersessions, scope and explicit exclusions.
+3. Read [intent tree](INTENT_TREE.md): L0 purpose → L1 experiences → L2 outcomes/quality → L3 initiatives → L4 tasks. The tree points to product/technical records; it does not replace them.
+4. Read [current handoff](CURRENT.md): dated verified state, work in progress, unresolved decisions and next **authorized** action. Recheck GitHub main/PR/head/CI and existing Sites state before reporting current facts.
+5. Select **only the relevant domain**: [product direction](../product-direction.md), [product review](../product-review.md), [architecture](../architecture.md), [validation](../validation.md), art/asset skills, game booths, network, UI, deployment or other project-local instructions.
+6. Apply the [work protocol](WORK_PROTOCOL.md) to the task; write a purpose-linked result and handoff before exiting.
 
 **No live chat context is assumed to be shared between Chat, Work, Codex and other AI environments.** GitHub is the portable durable record; links, actual source/commit/PR IDs and user decision records must be explicit. A file, PR, or generated plan is not proof of user approval or deployment.
 

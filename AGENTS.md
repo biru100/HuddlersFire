@@ -21,29 +21,9 @@ Product intent and independent domain-level QA outrank the number of art files, 
 - Sites의 **버전 저장과 기존 Site에 게시**는 ChatGPT Work/Sites에서 한다. 검증된 main commit을 선택하고 원본·미술·DB 호환성을 확인한 뒤 리뷰용 버전을 먼저 저장한다. CI success/manifest 복구를 Sites 배포 성공으로 보고하지 않는다.
 - GitHub 원본·SHA·PR·Work 이벤트는 그대로 사용한다. 이미지/모션 미술 승인, 네이티브/런타임 선택, 저장된 Sites 버전 확인과 운영 게시 결과는 각각 독립적이다. 운영 Secret은 Sites Settings에서만 관리한다.
 
-## Chat/Work artwork handoff without paid image API (2026-11-08)
-- 사용자는 기존 ChatGPT Chat 이미지 생성을 선택했다. 유료 이미지 API/토큰을 자동 호출하지 않는다. [IMAGE_HANDOFF](docs/automation/IMAGE_HANDOFF.md) 수신 계약과 `tools/art-handoff.mjs`의 PNG 검사를 사용한다.
-- Chat/Work의 이미지 로컬 파일이 자동 동기화된다고 주장하지 않는다. 원본은 실제 GitHub 커밋과 SHA가 있어야 수신한 것이다. GitHub Actions는 임시 inbox의 PNG/출처/프레임을 검사하되 원본을 변형하거나 미술 승인을 부여하지 않는다. Work의 PR 이벤트 작업은 Work UI에서 별도 설정이 필요하다.
+## Artwork and asset work
 
-## GitHub-first artwork delivery (2026-11-07)
-
-- **Default delivery:** GitHub original PNGs and exact SHA256. Stop creating ZIPs as the routine handoff. Read [source registry](art/sprites/source-registry/README.md) first.
-- ChatGPT continues generating and reviewing character, direction, animation and layer artwork. If a connected tool can upload actual binary bytes to GitHub, upload and verify there. Otherwise Codex commits the unchanged received PNG using `tools/art-source-registry.mjs`. Do not claim to have uploaded anything if the binary path is absent.
-- Each new image gets a new immutable path + `MANIFEST.json` + `SHA256SUMS.txt`. After a Git push, verify the **remote** PNG bytes and hash. A manifest alone is not proof of upload. Do not overwrite, crop, quantize, flip, compress or redraw.
-- Rounded 02 Rev2 NW/SE is user-selected LOOKDEV; Idle NW/SE remains pending motion review. GitHub upload does not override separate `art-review`, native-base, pixel/runtime and deployment gates. Public repository: never upload private or unapproved external content.
-
-## Current animation graphics workflow (2026-11-07)
-- **2026-11-16 개정:** ChatGPT는 원화 컨셉·키포즈와 미술 방향을 제시한다. Work/Codex는 허가된 개별 작업의 **원본을 변경하지 않은 파생 픽셀 아트, 모션 프레임, 레이어를 직접 제작·편집·보정**할 수 있으며 출처·정렬·루프·게임 적용을 검증한다. 최종 미술 승인은 사용자 전담이고 기술 검사만으로 완료 처리하지 않는다. 본 규칙은 **아트 도메인의 하위 스킬**에만 적용한다.
-- 현재 NW/SE Rounded 02 Rev2 캐릭터 **착의 디자인만** 미술 기준작으로 선정됐다. 같은 캐릭터의 **Idle 4컷 모션 시안은 아직 미승인**이다. [모션 전달 브리프](docs/briefs/rounded-02/animation-idle-handoff.md)와 [camp-animation-art](.agents/skills/camp-animation-art/SKILL.md) 스킬을 사용한다.
-- 새 모션 시트는 `tools/motion-lookdev.mjs`의 독립된 reference-only 수신/검토 경로를 사용한다. 기존 `art-direction.mjs`·정책 파일이나 승인 fingerprint, `native-base` 진입 조건을 변경하지 않는다. 시트를 코드로 잘라 맞췄다고 네이티브 64×96 프레임 납품으로 주장하지 않는다. 게임 자산 교체·배포 승인은 별개다.
-
-## Current graphics workflow
-- **활성 역할 분담(2026-11-07):** ChatGPT가 미술 생성·비평·개선, 사용자가 개별 이미지 선택, Codex가 출처·기술 검사·게임 적용 및 캡처를 맡는다. [Rounded 02 브리프](docs/briefs/nw-se-rounded-lookdev-02.md)를 우선한다. NW와 SE의 독립 원본/리뷰 없이 native-base에 진입하지 않는다. 프로세스 구현 승인은 개별 이미지 승인이나 배포 권한이 아니다.
-- 신규 픽셀 제작의 활성 경로는 [시각 제작](docs/visual-production.md)과 `art/sprites/art-direction.json`이다. 과거 생성·정규화 절차보다 이 경로를 먼저 적용한다. 정확한 투영·캔버스 제안은 기존 `scene-spec.json.pixelQuarterview`에서만 읽는다.
-- 미술 원화는 사용자가 지정한 ChatGPT 이미지 제작 경로로 요청하고, Codex는 요청서·수신·조립·검수를 담당한다. 내장 imagegen이나 유료 API를 조용히 대신 호출하지 않는다. 요청 모델과 실제 확인 모델은 분리하며 관찰할 수 없으면 `unverified`다.
-- Rounded 02 Rev2 착의 디자인의 문서상 선택은 [승인 기록](docs/reviews/2026-11-07-rounded02-rev2-art-approval.md)을 따른다. 실제 로컬 원본 SHA256·유효한 리뷰와 일치해야 부모 승인으로 연결할 수 있다. 과거 시트, 6색 파생본, 코드로 그린 NW 신체를 기준작으로 자동 승격하지 않는다. 모션 승인은 별개이며 실제 캠프 검증도 별도로 수행한다.
-- `--art --stage lookdev --view nw|se`는 독립된 시점별 원화 검토, `--stage native-base`는 사용자 승인된 NW·SE 두 시안의 참조를 요구한다. `--pixel`은 기존 조립/장면 검사다. 두 경로는 동일 prepare → rebuild → render → review 명령을 사용한다. 시안 승인, 네이티브 규격 통과, 게임 장면 승인을 서로 대신하지 않는다.
-- 큰 생성물을 64×96로 강제 축소·양자화하거나 Python/SVG 도형으로 다시 그려 원화 생성 성공처럼 보고하지 않는다. 네이티브 납품이 안 되면 `blocked_native_delivery`로 보존하고 제작 방식의 결정을 분리한다.
+Use [visual production](docs/visual-production.md) for asset contracts, [image handoff](docs/automation/IMAGE_HANDOFF.md) for Chat originals, and the relevant [project skill](docs/harness/README.md) for production or review. Preserve original PNG bytes and provenance. Work/Codex may edit derivatives within the authorized task. Final art selection belongs to the user. For Rounded 02, follow the [design approval](docs/reviews/2026-11-07-rounded02-rev2-art-approval.md) and [motion handoff](docs/briefs/rounded-02/animation-idle-handoff.md) for the distinct design, motion, native and runtime gates.
 
 ## Product context
 - 신규 그래픽 목표는 INT-24의 픽셀 쿼터뷰다. 기존 원화는 승인 전까지 기본값/롤백 경로다. 부족한 방향/포즈/레이어를 자동 반전·리사이즈로 완성 처리하지 않는다.

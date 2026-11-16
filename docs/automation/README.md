@@ -4,7 +4,7 @@
 
 ## 자동화된 것
 - Chat의 실제 원본 PNG가 GitHub 수신 경로에 들어오면 파일 출처·무결성·캔버스·앵커·프레임 순서를 검사한다. 원본이 실재하지 않으면 자동 수신이라고 주장하지 않는다. [이미지 전달](IMAGE_HANDOFF.md).
-- 현재 `main`을 대상으로 새 PR/커밋이 있으면 Work PR 이벤트 작업이 실제 latest head, CI, 원본 바이트, 승인 상태를 검토한다. 기존 매시간 중복 폴링은 비활성화 상태를 유지한다.
+- 기존 Work 연결은 [이벤트와 검토 범위](AGENT_HANDOFF.md)를 따른다. 원본 바이트 검사는 이미지 수신에 적용한다. 매시간 중복 폴링은 비활성화 상태를 유지한다.
 - GitHub Actions는 모든 검사 후 **기존 GPT Sites에 연결할 빌드**의 `hosting.json`, SQL 마이그레이션과 서버 파일까지 검증한다. 배포 Secret을 PR에 전달하지 않는다.
 - `main` CI의 성공은 *정상 코드 패키지*를 의미한다. Sites version saved, production deployed, UI/Discord/WebRTC verified는 **각각 다른** 상태다.
 

@@ -6,7 +6,7 @@
 
 ## 2026-11-07 · GitHub 원본 바이너리 기본 인계
 
-지금부터 신규 원화/모션/의상 레이어는 **GitHub 실제 PNG + SHA256 + 상태 문서**로 전달한다. 기존 ZIP/로컬 인계 예시는 이력으로 보존하지만 기본 경로가 아니다. [source-registry](../art/sprites/source-registry/README.md)와 `tools/art-source-registry.mjs`의 수신·검증 절차를 따른다. ChatGPT가 바이너리 직접 GitHub 업로드를 지원하면 원격 재검증까지 하고, 그 외에는 Codex가 로컬 원본 PNG를 안전하게 커밋·푸시한다. 메타데이터만 올라갔으면 원본 미업로드 상태다.
+지금부터 신규 원화/모션/의상 레이어는 **GitHub 실제 PNG + SHA256 + 상태 문서**로 전달한다. 기존 ZIP/로컬 인계 예시는 이력으로 보존하지만 기본 경로가 아니다. [source-registry](../art/sprites/source-registry/README.md)와 `tools/art-source-registry.mjs`의 수신·검증 절차를 따른다. Chat 원본의 자동화 전달은 [이미지 인계](automation/IMAGE_HANDOFF.md)를 따른다. 별도로 승인된 수동 Codex 수신은 실제 파일을 요구한다. 메타데이터만 올라갔으면 원본 미업로드 상태다.
 
 승인된 Rounded 02 Rev2 디자인 원본 2장과 미승인 Idle 모션 2장의 예정 GitHub 경로가 마련됐다. 원격 PNG를 재조회·SHA 대조하기 전에는 업로드 완료라고 주장하지 않는다. 본 변경은 기존 art-direction/모션 미술 승인·네이티브/런타임·배포 게이트를 변경하지 않는다.
 
@@ -22,7 +22,7 @@
 
 ## 2026-11-07 · 애니메이션 원화는 ChatGPT에서 제작
 
-**캐릭터 미술 기준작 선택 후 다음 제작 주체도 ChatGPT**다. 단독 NW/SE 원화뿐 아니라 Idle·Walk·Sit 등 방향별 프레임과 헤어/옷 레이어의 그림 자체를 ChatGPT에서 만들고, 미술 평가 및 수정도 ChatGPT로 돌아온다. **Codex는** 그 PNG를 무손실 보존·디코딩하고 각 셀의 프레임 정렬·동일 인물/원근/색상/발 접점·루프를 검증한다. 그다음 실제 64×96 논리 격자, 앵커, 레이어, 게임 프레임 타이밍과 장면 합성/테스트에 집중한다.
+ChatGPT는 모션과 레이어의 원화·키포즈를 제안한다. Work/Codex는 원본을 그대로 보존하고, 허가된 파생 픽셀·프레임·레이어를 제작하거나 검증한다. 프레임 정렬, 인물·원근·색상 일관성, 발 접점, 루프, 게임 크기와 장면 합성을 확인한다. 최종 미술 선택은 사용자가 한다.
 
 [Round 02 Idle 모션 인계 브리프](briefs/rounded-02/animation-idle-handoff.md)는 두 2×2 4컷 시안을 `LOOKDEV_ONLY` 참고 원본으로 보존하는 계약이다. `tools/motion-lookdev.mjs`는 부모 NW 또는 SE 승인된 lookdev를 연결한 별도 `motion-lookdev`를 만들고 `prepare / intake / inspect`를 제공한다. 기존 `art-direction.mjs`의 승인지문/정책은 변경하지 않아 현재 승인된 착의 디자인 원화가 소급해서 무효화되지 않는다.
 

@@ -23,14 +23,9 @@ Online camp for indie-game developers to **rest, play, co-work and share games t
 
 The implementation sequence and intentionally distinct non-art pilot are in [ROADMAP](ROADMAP.md). The player-feedback/quality review method is in [PRODUCT_LOOP](PRODUCT_LOOP.md).
 
-## Active proposal, not a silently approved backlog
+## Current work and proposals
 
-**Project-harness restructuring:**
-- A: establish project-wide intent router, decision provenance, current state and context handoff contract. Do not rewrite unrelated gameplay or deploy.
-- B: align existing project-local skills (art, network/QA, game-booth, product-review) to intent-first routing without imposing global pixel gates.
-- C: build a small evidence-driven task/initiative queue linked to intent and current code; prioritize by player value, user direction and risk. Preserve existing Work automations.
-- D: use NW Idle as **one pilot** to verify the system can produce an appealing result with user-approved art and no unintended runtime change.
-- E: evaluate how the same protocol works for a non-art task (e.g. existing network/UX/booth QA), then finalize the harness.
+**Project-harness restructuring:** review PR #21 and its current checks. Use the [roadmap](ROADMAP.md) for proposed follow-ups. The next action comes from the current request, an authorized PR/issue, and its verified state. With no authorized action, report the current state without starting a roadmap item.
 
 **Art pilot:** first create a native NW base/controlled key poses, visually review at 1× and in-game, only then generate intermediate frames. The prior 7-PR art-only plan is **superseded as a global roadmap**; task-specific details can be reused after governance review.
 

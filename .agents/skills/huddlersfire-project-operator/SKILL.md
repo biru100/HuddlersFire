@@ -15,20 +15,16 @@ This is the **parent project skill**, not an animation skill. **Do not** invoke 
 4. Route to relevant project-local skill:
    - visual quality / concepts: `camp-art-direction`
    - sprite/native animation: `camp-animation-art`, `camp-sprite-assets`
-   - exhibits: `camp-add-game-booth`
+   - exhibit implementation: `camp-add-game-booth`; exhibit UX review: `camp-product-review` and the exhibit contract
    - product audit: `camp-product-review`
    - affected change/QA: `camp-change-validation`
    - other gameplay/network/platform changes: relevant code, contracts and scoped tests, **not** automatically art
 5. Do the smallest verifiable work with exact scope, actual evidence, decision/quality/technical/release gates and rollback.
 6. Update `docs/harness/CURRENT.md` and PR/issue handoff on a meaningful change; if you cannot write there, provide the exact content and link to be added. Never presume that Chat, Work, Codex or other tools share memory.
 
-## Current standing decisions (2026-11-16)
+## Decision and approval sources
 
-- User's **primary** goal is a better overall HuddlersFire experience; art work is a leaf task.
-- The NW Idle pilot should show obvious cute breathing at initially 64×96 (adjustable after game review).
-- ChatGPT is the concept/key-pose visual partner. Work/Codex may **author or correct derived pixel artwork** within explicitly authorized scope. User retains final aesthetic approval.
-- One NW Idle and a minimum layer structure only before scaling directions, movements and customization.
-- Protect existing GitHub art originals, existing ChatGPT Sites project/DB/Discord configuration and PR automation. Technical CI is not user art approval. No paid API, destructive migration or unapproved production deploy.
+Use [project intent](../../../docs/project-intent.md) for authorized direction, [CURRENT](../../../docs/harness/CURRENT.md) for the last recorded state, and [automation policy](../../../docs/automation/POLICY.json) for existing automated permissions.
 
 ## Quality-oriented reporting
 

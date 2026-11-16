@@ -13,7 +13,7 @@ description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·
 
 ## 활성 경로
 
-**현재 활성 변경:** ChatGPT가 미술 평가를 작성하고 사용자가 NW/SE 각 이미지를 선택하며 Codex는 수신·기술 검사·조립·게임 렌더 검증만 수행한다. [Rounded 02 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)의 두 방향 요구를 우선하며, 아래의 과거 단일 NW 예시는 신규 절차를 대체하지 않는다. 비교판 이미지는 단일 PNG로 수신하지 않는다.
+**Rounded 02 디자인·네이티브 검토:** 사용자가 원화를 선택하고, Codex는 기술 검증·조립과 허가된 파생 픽셀 제작을 맡는다. 최종 미술 승인은 사용자에게 있다. [Rounded 02 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)의 두 방향 요구를 우선하며, 아래의 과거 단일 NW 예시는 신규 절차를 대체하지 않는다. 비교판 이미지는 단일 PNG로 수신하지 않는다.
 
 참고 ZIP은 [수신 기록](../../../art/sprites/incoming/lookdev-handoff-v2/README.md)처럼 ZIP·내부 항목·SHA256를 보존하고 원본 PNG를 실제 디코딩해 검사한다. 실제 Rounded 02 독립 파일이 없으면 두 job의 `source/`와 미술 평가·사용자 선택은 대기로 유지한다. 비교판 잘라내기·반전·강제 축소로 원화를 채우지 않는다.
 
