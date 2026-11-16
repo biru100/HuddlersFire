@@ -1,6 +1,6 @@
 # HuddlersFire · cross-context current handoff
 
-**Prepared:** 2026-11-16 KST. **Status:** intent-first harness v2.0 **draft**, not merged to main or deployed. Re-check GitHub/Work/Sites before treating this as live status.
+**Prepared:** 2026-11-16 KST. **Status:** intent-first harness v2.0 **draft PR [#21](https://github.com/biru100/HuddlersFire/pull/21)** on branch `harness/intent-first-project-v2-20261116`, not merged to main or deployed. Re-check the **current PR head**, GitHub/Work/Sites before treating this as live status.
 
 ## Product North Star
 
