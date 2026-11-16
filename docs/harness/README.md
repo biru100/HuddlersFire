@@ -32,6 +32,8 @@ The NW Idle animation is the **first art-pipeline pilot**, **not the root object
 
 Never silently rewrite one source using assertions from another. Mark each claim **confirmed decision**, **verified observation**, **proposal**, **blocked**, **superseded**, or **unknown**.
 
+For the cross-domain rollout use [ROADMAP](ROADMAP.md); for experience-driven improvements use [PRODUCT_LOOP](PRODUCT_LOOP.md). Neither document silently authorizes new features or production changes.
+
 ## Project-wide rules
 
 - Product quality is not equivalent to technical correctness. Validate the **intended player experience** and its corresponding implementation, then integrity, regression and operations. Keep the evidence and gate types separate.
