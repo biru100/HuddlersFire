@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 1,
   "repository": "biru100/HuddlersFire",
   "handoffContract": "For all scoped work: user-intent linked GitHub PR + task, exact head/CI and actual Work run evidence. Art sources additionally require real original PNG bytes/SHA256; no automatic transcript sync.",
   "tasks": [
@@ -39,8 +39,8 @@
       "hostingProjectId": "appgprj_6ae8e9ae42708191b253341387aa287f",
       "preserveExistingSite": true,
       "requiresReview": true,
-      "next": "PR #14 and docs/validation.md record v41 publication on 2026-11-09 KST. Do not republish this historical source or treat it as a queued release. Confirm Sites live state only when necessary.",
-      "note": "Historical sourceCommit is not current deployment authorization."
+      "next": "PR #15 and docs/validation.md record v41 publication on 2026-11-09 KST. Do not republish this historical source or treat it as a queued release. Confirm Sites live state only when necessary.",
+      "note": "sourceCommit identifies the older queued candidate. The v41 release record identifies GitHub main 9e65e08f3e049af503dd2932e0215acab9f7d4c8 and Sites source 88e985c5ec1d1b5ecf8fe81f60e08422b4ae7faa."
     }
   ],
   "notAuthorized": [

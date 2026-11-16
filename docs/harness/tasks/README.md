@@ -8,7 +8,7 @@ Every task is a replaceable **L4 leaf**, never the project-wide harness. The can
 task_id: HF-TASK-...
 title: ...
 domain: art | gameplay | ux | social | exhibition | network | platform | qa | docs
-status: authorized # proposed | authorized | in_progress | blocked | review | completed | superseded
+status: proposed # proposed | authorized | in_progress | blocked | review | completed | superseded
 intent:
   root: HF-ROOT
   experiences: [HF-REST]
@@ -28,7 +28,8 @@ acceptance:
   player_visible: []
   technical: []
 approvals:
-  aesthetics: pending # pending / not_applicable / approved_by_user
+  aesthetics: not_applicable # pending / not_applicable / approved_by_user
+  product: pending
   runtime_adoption: pending
   production_publish: pending
 evidence:

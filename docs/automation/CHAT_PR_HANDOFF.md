@@ -25,7 +25,7 @@ L0 HuddlersFire purpose → relevant L1 rest/play/work/show experience → L2 ou
 
 ## Work receiver: on opened/synchronize
 
-1. Verify exact PR URL, open state, latest head, diff, authorizations and current GitHub CI. Read the handoff and project intent from that ref. If triggered by own commit, deduplicate by task + stage + head to avoid loops.
+1. Verify exact PR URL, open state, latest head, diff, authorizations and current GitHub CI. Read the handoff and project intent from that ref. Deduplicate by PR, exact head and task/stage, plus source SHA for art. For a commit Work wrote, match the recorded result head and inputs before scheduling additional work. If that stage already ran, check its CI and update the same PR evidence without committing again. Re-evaluate when scope, inputs or authorizations change.
 2. Classify domain first:
    - **Art/assets:** real original PNG bytes, provenance and SHA; derivative editing may be allowed. Art direction is ChatGPT + user approval. Use the [image-specific handoff](IMAGE_HANDOFF.md) only for assets.
    - **Gameplay, UX, social/co-working, exhibition, networking, QA, platform, documentation:** inspect relevant code/contract and test affected player experience. No PNG/F1/F2/CORE03 requirement.
