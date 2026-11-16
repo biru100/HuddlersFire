@@ -1,0 +1,89 @@
+# HuddlersFire · work routing, approval and context protocol
+
+## 1. On any request, not just art
+
+1. **Restore context** from [README](README.md), [intent tree](INTENT_TREE.md), [current handoff](CURRENT.md), exact user message and relevant domain documents. Identify what is user-approved, observed and merely suggested.
+2. **Classify intent**: L1 user experience, L2 desired effect/cross-cutting quality, L3 initiative and L4 scoped work item. If the requested task is purely maintenance, link it to affected product reliability/operability. Never invent user approval.
+3. **Choose domain** (art, gameplay, community, exhibitions, UI/UX, network, platform, QA, release) and only then load applicable leaf skill and tests.
+4. **Plan a smallest evaluable result** with constraints, affected modules, evidence, explicit user approval gates, rollback and completion signal.
+5. **Execute within permissions**; branch/PR if requested/authorized. Technical checks do not approve product appeal or user-visible changes.
+6. **Verify** actual affected experience plus appropriate tests, artifacts, and state after the change. Report exact source/CI/Sites IDs or mark unverified.
+7. **Handoff** with known state, next authorized step, blockers, user decisions needed and links. Update [CURRENT](CURRENT.md) only for meaningful changes. Never claim hidden/asynchronous continued work without a real active task.
+
+## 2. Task record template
+
+```yaml
+task_id: HF-TASK-...
+title: ...
+state: proposed # proposed | authorized | in_progress | blocked | review | approved | completed | superseded
+intent:
+  root: HF-ROOT
+  experiences: [HF-REST]
+  sub_intents: [HF-REST.PRESENCE]
+  initiative: HF-I-PRESENCE-ART
+user_decisions:
+  confirmed: []
+  pending: []
+scope:
+  in: []
+  out: []
+acceptance:
+  player_experience: []
+  technical: []
+evidence:
+  exact_commit: null
+  pr_url: null
+  ci_run: null
+  observed_artifact_urls: []
+approval:
+  art: not_applicable # pending | approved | rejected | not_applicable
+  product: pending
+  runtime: pending
+  release: pending
+blockers: []
+next_authorized_action: ...
+last_verified_kst: YYYY-MM-DD
+```
+
+- Never equate a proposed status with an approved feature. Do not mark pending gates approved because the same user approved another phase.
+- Task state and evidence must point to the **same exact head**. Stale reports never silently upgrade current code.
+- Existing machine queue [WORK_QUEUE.json](../automation/WORK_QUEUE.json) is the Work event queue; reconcile before editing it instead of creating a second automation.
+
+## 3. Approval varies by risk, not by the latest project theme
+
+| Work class | AI may do without new aesthetic approval | Requires explicit user approval |
+|---|---|---|
+| Research / audit / scoped tests | read and report, non-destructive QA | changes to user intent/priority |
+| Gameplay / UX | approved implementation, review screenshots, scope tests | new behavior or product trade-off outside approved scope |
+| Art / animation | create proposals, make derivative pixel edits within approved task scope, preview, verify | final art/motion selection, runtime adoption if not already authorized |
+| Network / data | diagnostics, compatibility tests, non-destructive fixes within approved scope | risky migrations, destructive behavior, broad compatibility change |
+| GitHub / Work / release | verify current head, source, CI, build review version where authorized | prod Sites publication, destructive DB work, new paid services or external hosts |
+
+The existing [automation policy](../automation/POLICY.json), [handoff](../automation/AGENT_HANDOFF.md) and [Sites instructions](../sites-deployment.md) remain authoritative for automation and deployment restrictions.
+
+## 4. Context handoff required after meaningful work
+
+Write a short handoff in the issue/PR and update [CURRENT](CURRENT.md) when the active initiative, meaningful decision, blocker, validated build, or next action changes:
+
+```text
+[HUDDLERSFIRE HANDOFF]
+Goal + intent path:
+Task / branch / PR / exact commit:
+Approved vs proposed decisions:
+Actual outcome and evidence:
+Verification run and limits:
+What is blocked / must not be done:
+Next authorized action and approval owner:
+Last verified (KST):
+```
+
+An AI joining from another ChatGPT chat, Work, Codex or Claude must restore this record from GitHub and **must not rely on remembered chat state alone**. If the current message conflicts with a dated document, use the most recent applicable explicit user decision and update the decision ledger with the actual evidence. Do not erase older superseded history.
+
+## 5. Safeguards against harness overfitting
+
+- Any leaf skill may be removed or replaced without affecting L0/L1 project intent.
+- Any task-specific invariant (e.g. exact CORE03 mask, 16-frame requirement, 64×96 pilot) stays with its task unless explicitly generalized and justified.
+- Inspect quality from the perspective of the affected player experience, not just bytes, asset counts or green CI.
+- Do not require pixel-art approval gates for network and UI patches, or network stress tests for a purely text-only change.
+- Stop repeating an ineffective technique. Re-scope the approach when evidence shows the same blocker, rather than manufacturing apparent progress.
+- Hold one stable shared product intent and many independent, replaceable implementation approaches.
