@@ -10,6 +10,10 @@
 6. **Verify** actual affected experience plus appropriate tests, artifacts, and state after the change. Report exact source/CI/Sites IDs or mark unverified.
 7. **Handoff** with known state, next authorized step, blockers, user decisions needed and links. Update [CURRENT](CURRENT.md) only for meaningful changes. Never claim hidden/asynchronous continued work without a real active task.
 
+## Chat-authored direct dispatch
+
+With a user-authorized task, ChatGPT may register the scope and acceptance evidence directly in the repository using one GitHub PR rather than asking the user to paste the same instruction into Work. The **existing PR opened/synchronize Work automation** may then continue, if the actual provider event fires. Follow [the canonical handoff](../automation/CHAT_PR_HANDOFF.md). PR creation is not evidence of a Work run. New artifacts, user approval and GitHub merge are distinct states. Reuse the Work event, do not create a duplicate scheduler or broaden the active user's requested scope.
+
 ## 2. Task record template
 
 ```yaml
