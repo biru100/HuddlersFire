@@ -13,7 +13,9 @@
     "Chat and Work are not assumed to share local files or a live transcript.",
     "ChatGPT image tool outputs cannot be assumed to appear automatically in GitHub or Work. Verify exact bytes after ingestion.",
     "The original public Sites project and stored records are preserved; no migration or publication is authorized by CI success alone.",
-    "Do not request external Cloudflare account or GitHub production token for the inactive deployment path."
+    "Do not request external Cloudflare account or GitHub production token for the inactive deployment path.",
+    "Chat-authored GitHub PR is a dispatch request, not proof Work ran. Do not claim Work run from PR or CI alone.",
+    "Art and non-art tasks route by player intent; no global sprite gates. User art approval, PR merge and production publish remain separate."
   ],
   "imageGenerationMode": "chatgpt-chat-only",
   "allowPaidImageApi": false,
@@ -28,5 +30,10 @@
     "saveReviewVersionBeforeDeploy": true,
     "requiresDatabaseImpactReview": true
   },
-  "allowDirectCloudflareDeploy": false
+  "allowDirectCloudflareDeploy": false,
+  "workRouting": "intent-first-chat-github-pr-work-v2",
+  "handoffContract": "docs/automation/CHAT_PR_HANDOFF.md",
+  "allowAutomaticPrMerge": false,
+  "authorizedEvent": "existing GitHub pull_request opened/synchronize; event delivery is independently verified",
+  "safetyScope": "project-wide scoped PRs, art PNG contract only for art work"
 }

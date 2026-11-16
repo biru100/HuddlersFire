@@ -1,5 +1,11 @@
 # HuddlersFire Work GitHub PR 이벤트 인계
 
+## 2026-11-16 direct Chat-authored GitHub handoff v2
+
+**Canonical Chat→GitHub PR→existing Work operating contract:** [CHAT_PR_HANDOFF.md](CHAT_PR_HANDOFF.md) and [task template](../harness/tasks/README.md). User asked to remove repeated manual Work prompt copying. Chat writes a bounded, intention-linked work order + evidence to one GitHub PR; the same existing PR opened/synchronize Work automation receives it when the provider event actually fires. A PR is **transport intent, not proof of Work execution**; confirm real Work results before reporting success. Do not create another trigger, schedule or polling loop.
+
+For any scoped PR, read actual user intent and the `[HUDDLERSFIRE HANDOFF V2]` task contract, then select a domain. No source PNG required for non-art tasks. For art, source image hashes and independent user art approvals remain required. Record exact head tests, screenshots/preview when possible, blocked approvals and the next permitted step on the PR. Do not auto-merge or auto-publish.
+
 ## 2026-11-16 project-wide intent router (supersedes art-only interpretation)
 
 **First read** [project intent](../project-intent.md), [project harness](../harness/README.md), [intent tree](../harness/INTENT_TREE.md), [dated handoff](../harness/CURRENT.md) and [work protocol](../harness/WORK_PROTOCOL.md). The user's project-wide purpose is the quality of HuddlersFire, not generating NW Idle frames. Determine the request's experience intent and **domain** before invoking any specialized processing.
@@ -21,7 +27,7 @@ The image-specific instructions below remain valid **only for image asset handof
 - PR/source SHA·단계별 중복을 확인한다. 새 PR 생성만으로 사이트 배포를 시작하지 않는다. 동시에 동일 범위의 PR이나 Work 실행이 있으면 기존 것을 이어받는다. 무의미한 이벤트 루프를 만들지 않는다.
 
 ## 기술 안전 조건
-- 변경 파일과 코드 diff를 읽고 요구 테스트·CI를 실제 head에서 확인한다. 승인된 작업에 한해서만 조건부 PR 병합을 진행할 수 있다. 다른 사람의 무관한 PR은 임의 병합하지 않는다.
+- 변경 파일과 코드 diff를 읽고 요구 테스트·CI를 실제 head에서 확인한다. 해당 PR의 병합 또는 종료에는 각각 사용자의 명시적인 현재 승인이 필요하다. 구현 승인과 CI 통과는 병합 승인을 대신하지 않는다.
 - 원본 PNG 바이트를 보존한다. 새로운 PNG는 실제 원격 바이트·SHA256·manifest, 기존 job과 현재 검사 결과로만 처리한다. 파일명/설명만으로 업로드 성공을 주장하지 않는다.
 - `blocked`, `awaiting_plan_confirmation`, `ready_for_explicit_intake`를 구별한다. 마지막 상태에서도 기존 intake/compose/inspect/assemble 및 실제 미술 검토가 필요하다.
 - 미술·모션의 최종 선택은 사용자 권한이다. 파생 제작은 개별 작업의 허가와 계약을 따르며, 원본의 강제 변환과 유료 이미지 API를 금지한다. 런타임 채택과 게시는 각 승인에 따른다.

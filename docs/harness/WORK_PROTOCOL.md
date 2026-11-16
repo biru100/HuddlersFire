@@ -10,40 +10,13 @@
 6. **Verify** actual affected experience plus appropriate tests, artifacts, and state after the change. Report exact source/CI/Sites IDs or mark unverified.
 7. **Handoff** with known state, next authorized step, blockers, user decisions needed and links. Update [CURRENT](CURRENT.md) only for meaningful changes. Never claim hidden/asynchronous continued work without a real active task.
 
+## Chat-authored direct dispatch
+
+With a user-authorized task, ChatGPT may register the scope and acceptance evidence directly in the repository using one GitHub PR rather than asking the user to paste the same instruction into Work. The **existing PR opened/synchronize Work automation** may then continue, if the actual provider event fires. Follow [the canonical handoff](../automation/CHAT_PR_HANDOFF.md). PR creation is not evidence of a Work run. New artifacts, user approval and GitHub merge are distinct states. Reuse the Work event, do not create a duplicate scheduler or broaden the active user's requested scope.
+
 ## 2. Task record template
 
-```yaml
-task_id: HF-TASK-...
-title: ...
-state: proposed # proposed | authorized | in_progress | blocked | review | approved | completed | superseded
-intent:
-  root: HF-ROOT
-  experiences: [HF-REST]
-  sub_intents: [HF-REST.PRESENCE]
-  initiative: HF-I-PRESENCE-ART
-user_decisions:
-  confirmed: []
-  pending: []
-scope:
-  in: []
-  out: []
-acceptance:
-  player_experience: []
-  technical: []
-evidence:
-  exact_commit: null
-  pr_url: null
-  ci_run: null
-  observed_artifact_urls: []
-approval:
-  art: not_applicable # pending | approved | rejected | not_applicable
-  product: pending
-  runtime: pending
-  release: pending
-blockers: []
-next_authorized_action: ...
-last_verified_kst: YYYY-MM-DD
-```
+Use the [shared task template](tasks/README.md) for the task file and summarize the same scope in its PR.
 
 - Never equate a proposed status with an approved feature. Do not mark pending gates approved because the same user approved another phase.
 - Task state and evidence must point to the **same exact head**. Stale reports never silently upgrade current code.

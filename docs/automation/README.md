@@ -1,6 +1,12 @@
-# HuddlersFire: Chat → GitHub → Work → 기존 GPT Sites
+# HuddlersFire: 프로젝트 전체 Chat → GitHub PR → Work → 검토 → 기존 GPT Sites
 
 2026-11-08 최신 결정: **기존 GPT Sites 프로젝트를 재사용한다.** 새 외부 Cloudflare 계정/Worker/D1을 만들지 않는다. 이전 GitHub 직접 배포 설계를 수정한 것이다.
+
+## 최신 범용 운영 루틴 (2026-11-16)
+
+사용자는 반복해서 Work 프롬프트를 복사하지 않는다. **ChatGPT 대화에서 의도·작업 범위·승인 경계를 정리 → 이 GitHub 저장소에 직접 Task PR 작성 → 기존 PR opened/synchronize Work 자동화가 이벤트 수신 → Work가 관련 도메인 작업·검증·PR 보고 → 사용자가 결과/미술/병합/게시를 별도 승인**하는 구조다. 실제 Work 실행은 이벤트와 Work/PR 기록으로 검증해야 하며 PR 생성 또는 CI 통과만으로 Work 인계 완료를 주장하지 않는다. [범용 인계 계약](CHAT_PR_HANDOFF.md), [프로젝트 의도](../harness/README.md).
+
+스프라이트/원본 PNG 경로는 위 범용 계약의 하위 경로다. 게임플레이·UX·네트워크·전시·운영 PR은 이미지 원본을 요구하지 않는다. **기존 자동화 ID와 이벤트 트리거를 보존**하고 중복 작업/폴링을 만들지 않는다.
 
 ## 자동화된 것
 - Chat의 실제 원본 PNG가 GitHub 수신 경로에 들어오면 파일 출처·무결성·캔버스·앵커·프레임 순서를 검사한다. 원본이 실재하지 않으면 자동 수신이라고 주장하지 않는다. [이미지 전달](IMAGE_HANDOFF.md).

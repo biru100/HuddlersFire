@@ -1,13 +1,13 @@
 {
   "version": 1,
   "repository": "biru100/HuddlersFire",
-  "handoffContract": "Actual PNG in GitHub plus source reference, SHA256, job/manifest, PR CI; no automatic live Chat transcript or image transfer",
+  "handoffContract": "For all scoped work: user-intent linked GitHub PR + task, exact head/CI and actual Work run evidence. Art sources additionally require real original PNG bytes/SHA256; no automatic transcript sync.",
   "tasks": [
     {
       "id": "delivery-automation",
       "branch": "automation/chat-work-delivery-20261108",
-      "state": "verified-github-work-sites-target",
-      "next": "CI verifies main; Work uses existing Sites project and reviews an explicitly saved Site version before deployment.",
+      "state": "historical-workflow-preserved",
+      "next": "Use the existing PR opened/synchronize Work automation and project-wide intent-first router. Confirm real event delivery and Work execution rather than inferring success from CI.",
       "lastKnownCommit": "186b2963933a1cf6aa7f8e7413bd2be854c6be35"
     },
     {
@@ -22,8 +22,9 @@
       "id": "rounded02-idle",
       "pr": 7,
       "lastKnownHead": "cc0a61bc9c4d1132eadc10e9d334caa7907dfb83",
-      "state": "blocked-valid-motion-source",
-      "next": "Preserve exact f1 and pending art state; obtain valid individual f2 before f3/f4. Repeated failed image generation or synthetic fixture substitution is not progress."
+      "state": "historical-blocked-reference",
+      "next": "Historic PR #7 F2 constraints are job-local. Do not force newer NW Idle pilot through CORE03. Native NW base and key poses require separate approved scoped task and user visual review.",
+      "note": "Prior lastKnownHead is historical, not current head."
     },
     {
       "id": "production-connection",
@@ -33,12 +34,13 @@
     },
     {
       "id": "existing-sites-republish",
-      "state": "ready-for-sites-work-verification",
+      "state": "historical-v41-published",
       "sourceCommit": "7282314312ea8b4a309941482629e20aa19133dc",
       "hostingProjectId": "appgprj_6ae8e9ae42708191b253341387aa287f",
       "preserveExistingSite": true,
       "requiresReview": true,
-      "next": "After this PR passes current-head CI, use Work/Sites on the existing site to save a review version of verified main. Compare runtime, authentication and existing database/migration compatibility. Publish only after approval and successful inspection."
+      "next": "PR #15 and docs/validation.md record v41 publication on 2026-11-09 KST. Do not republish this historical source or treat it as a queued release. Confirm Sites live state only when necessary.",
+      "note": "sourceCommit identifies the older queued candidate. The v41 release record identifies GitHub main 9e65e08f3e049af503dd2932e0215acab9f7d4c8 and Sites source 88e985c5ec1d1b5ecf8fe81f60e08422b4ae7faa."
     }
   ],
   "notAuthorized": [
@@ -49,9 +51,14 @@
     "silent conversion of invalid PNGs",
     "paid image API calls",
     "inventing image generation success",
-    "triggering Work events without user setup"
+    "triggering Work events without user setup",
+    "unauthorized PR merge or close",
+    "treating GitHub PR creation as proof of Work execution"
   ],
   "reportOnlyOnMeaningfulChange": true,
   "deploymentTarget": "existing-chatgpt-sites",
-  "noDirectCloudflareDeploy": true
+  "noDirectCloudflareDeploy": true,
+  "router": "docs/harness/WORK_PROTOCOL.md",
+  "dispatch": "docs/automation/CHAT_PR_HANDOFF.md",
+  "userIntentSource": "docs/project-intent.md"
 }

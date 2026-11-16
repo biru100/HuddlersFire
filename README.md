@@ -1,6 +1,6 @@
 # HuddlersFire · 허들러즈 불멍
 
-**프로젝트 전체 AI/Work 협업 하네스:** [프로젝트 의도 기반 진입점](docs/harness/README.md) → [목적·하위 의도·작업 트리](docs/harness/INTENT_TREE.md) → [다른 채팅에서도 이어가는 현재 인계](docs/harness/CURRENT.md). 스프라이트 NW Idle은 하위 아트 파일럿이며 게임 전체의 최상위 우선순위는 아니다. 하네스 개편은 사용자 검토 후 적용되는 초안이다.
+**프로젝트 전체 AI/Work 협업 하네스:** [프로젝트 의도 기반 진입점](docs/harness/README.md) → [목적·하위 의도·작업 트리](docs/harness/INTENT_TREE.md) → [다른 채팅에서도 이어가는 현재 인계](docs/harness/CURRENT.md). 스프라이트 NW Idle은 하위 아트 파일럿이며 게임 전체의 최상위 우선순위는 아니다. 프로젝트 전체 하네스 v2.0은 [PR #21](https://github.com/biru100/HuddlersFire/pull/21)로 main에 병합됐다. Chat→GitHub→Work 자동 인계는 [운영 계약](docs/automation/CHAT_PR_HANDOFF.md)을 따른다.
 
 **검증된 최근 배포 이력:** [2026-11-09 기존 Sites v41 게시 기록](docs/validation.md). 이는 현재 실시간 Sites 상태를 재조회했다는 뜻이 아니다. 아래 버전 29/23 설명은 당시 구현 이력이다.
 

@@ -1,6 +1,6 @@
 # HuddlersFire · cross-context current handoff
 
-**Prepared:** 2026-11-16 KST. **Status:** intent-first harness v2.0 **draft PR [#21](https://github.com/biru100/HuddlersFire/pull/21)** on branch `harness/intent-first-project-v2-20261116`, not merged to main or deployed. Re-check the **current PR head**, GitHub/Work/Sites before treating this as live status.
+**Verified/reconciled:** 2026-11-16 KST. **Harness v2.0 is merged to main** via [PR #21](https://github.com/biru100/HuddlersFire/pull/21), merge commit `fa893e1e650f4f0dfedf0dd439471ba16d3f3e6e`. The existing enabled PR-event automation `Automation_a98133b716dc8191b3f1e8d04bdaa12a` was updated to the project-wide intent-first dispatch prompt (tool reported success 2026-11-16). The matching GitHub [CHAT_PR_HANDOFF](../automation/CHAT_PR_HANDOFF.md) documentation is a **new review-branch proposal until merged**. Do not claim that an event triggered Work solely because this text exists; verify live PR head, Work run and Sites separately.
 
 ## Product North Star
 
@@ -25,7 +25,7 @@ The implementation sequence and intentionally distinct non-art pilot are in [ROA
 
 ## Current work and proposals
 
-**Project-harness restructuring:** review PR #21 and its current checks. Use the [roadmap](ROADMAP.md) for proposed follow-ups. The next action comes from the current request, an authorized PR/issue, and its verified state. With no authorized action, report the current state without starting a roadmap item.
+**Project harness:** PR #21 has merged; reusable intent-routing guidance is on main. Work dispatch is being reconciled to the same root purpose via the existing automation, not a new automation. Task selection requires the user's current request, explicit authorization, current PR head and scope. Product-level improvements are not automatically authorized by a roadmap.
 
 **Art pilot:** first create a native NW base/controlled key poses, visually review at 1× and in-game, only then generate intermediate frames. The prior 7-PR art-only plan is **superseded as a global roadmap**; task-specific details can be reused after governance review.
 
@@ -37,6 +37,10 @@ The implementation sequence and intentionally distinct non-art pilot are in [ROA
 - Do not infer user sign-off from a document, generated image, PR or green test.
 - Project-specific changes stay in this repo; the separate personal reusable AI harness is not modified by this initiative.
 
-## Next action for this draft
+## Next authorized actions and gates
 
-For PR #21, review the exact head and its checks. Merge authorization remains separate. For other tasks, use the current request and applicable approval record. The older #7 F2 entry in the Work queue describes that branch’s specialized job. It does not select the next project task or authorize the new pilot.
+1. Finish review of Chat→GitHub→Work workflow documentation and its matching automation settings. The automation prompt update is **saved**, but event delivery/Work execution needs real PR evidence.
+2. The user has authorized the initial **NW Idle native pixel pilot** as a separate task. In a new dedicated PR, inspect and reuse only verified original lookdev bytes; prepare one provisional 64×96 neutral NW base and key-pose review. No new Chat-generated PNG exists automatically, and original sources may not be replaced. Work/Codex may author derivative pixel assets; ask the user to approve the native design and actual breathing poses before generating a full loop.
+3. Keep PR merge, game runtime art adoption and existing GPT Sites production publication pending distinct permission. The old #7 F2 work queue is specialized historical context, not a default next task.
+
+The next chat/Work/Codex context must inspect exact current main and all open PRs before acting; this file is a dated handoff, not live status.
