@@ -1,0 +1,95 @@
+{
+  "status": "review-only",
+  "task": "HF-TASK-NW-IDLE-V2",
+  "authoredMethod": "Codex-authored pixel clusters and hand-specified contour coordinates on a 64×96 RGBA grid. No lookdev pixels resampled or transferred. The pose variants change the hoodie silhouette only; the hair, head and lower layers are shared.",
+  "inputCommit": "52fdf625fbac392c7c01115f277c3553077dabd9",
+  "lookdevSources": [
+    {
+      "slot": "nw",
+      "path": "original/nw-approved.png",
+      "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+      "bytes": 521850,
+      "dimensions": [
+        1086,
+        1448
+      ]
+    },
+    {
+      "slot": "se",
+      "path": "original/se-approved.png",
+      "sha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2",
+      "bytes": 521444,
+      "dimensions": [
+        1086,
+        1448
+      ]
+    }
+  ],
+  "lookdevSourceDirectory": "art/sprites/source-registry/rounded02-rev2-lookdev",
+  "canvas": [
+    64,
+    96
+  ],
+  "groundAnchor": [
+    32,
+    88
+  ],
+  "layerOrder": [
+    "lower",
+    "skin",
+    "hoodie-{pose}",
+    "hair"
+  ],
+  "poses": {
+    "neutral": {
+      "changedPixelsFromNeutral": 0,
+      "changedSilhouettePixelsFromNeutral": 0,
+      "bounds": [
+        9,
+        2,
+        56,
+        89
+      ]
+    },
+    "inhale": {
+      "changedPixelsFromNeutral": 483,
+      "changedSilhouettePixelsFromNeutral": 75,
+      "bounds": [
+        9,
+        2,
+        56,
+        89
+      ]
+    },
+    "exhale": {
+      "changedPixelsFromNeutral": 286,
+      "changedSilhouettePixelsFromNeutral": 38,
+      "bounds": [
+        9,
+        2,
+        56,
+        89
+      ]
+    }
+  },
+  "assets": {
+    "camp-canvas-neutral.webp": "c68eba1a6d6100f69c2401300f64b43ee5acf686fd66f7c85db6ff0ff9584721",
+    "exhale.png": "840f7208a166aee7fa133d0efbaa4c6b614eadbe4daa793e4e2c8f505ef8bcce",
+    "inhale.png": "8191c91143e510b1627221bcc60963aa42b126cd3d1fb665097f4042863dd6c7",
+    "layer-hair.png": "3751be7c7b171b82ef6182650737510253cffcbba95dacf8c818132504ac6ffc",
+    "layer-hoodie-exhale.png": "b12baf1f3e70167a89cdcb2c845cd915effcd1ecd7c2cc4a0fed700421183c9a",
+    "layer-hoodie-inhale.png": "780e37d2e3891417337dd7a7e98cd10573320db0f8dd6c35b506efcf40a44ab1",
+    "layer-hoodie-neutral.png": "6c272b39d73056b4cfc7d832bb433c6535333da23cbf942c098a3c9b7cbcdc00",
+    "layer-lower.png": "00e900db00c0f4835278c1fdb439297c77d91d4a17f0f70f0f255b43d63711db",
+    "layer-skin.png": "2de40c2562adc9890b937b6b3237b0fcf00683cc66925df1f086d9ffd88b3dc8",
+    "neutral.png": "918febb678ac1300b1ac93c73f1cbc85c566185265d5487afe3b95f6e216e57a",
+    "pose-comparison.png": "4c888e45ec87ffbc4a846db5a92adca82ed0a2305c9f51d11e680861d0c1bca3"
+  },
+  "lightingEvidence": "Local existing CampRenderer campsite Canvas at 820×560. One instance-local test override at the projected player anchor; neutral pose only. Screenshot evidence encoded WebP quality 91. No runtime implementation, browser session or deployment.",
+  "approvals": {
+    "G1": "pending",
+    "G2": "pending",
+    "runtime": "pending",
+    "publication": "pending"
+  }
+}
