@@ -1,12 +1,14 @@
 # HuddlersFire · Project-wide intent-first harness v2.0
 
-> **Status: proposed 2026-11-16 restructuring.** This document is an entry point, not permission to change production or user decisions. The canonical user decision ledger remains [project-intent](../project-intent.md).
+> **Status: project-wide harness v2.0 merged to main in [PR #21](https://github.com/biru100/HuddlersFire/pull/21), 2026-11-16.** It is an entry point, not permission to alter user intent, autonomously merge PRs, replace runtime art or publish. Canonical user decisions remain in [project-intent](../project-intent.md).
 
 ## Why this harness exists
 
 The harness serves **the complete HuddlersFire game and community experience**, not a sprite, frame, model, subsystem or current PR. HuddlersFire is an online camp where indie-game developers can **rest together, play, work alongside one another and share their games**. Every technique, assistant skill, test, subproject and task is subordinate to that experience.
 
 The NW Idle animation is the **first art-pipeline pilot**, **not the root objective**, a universal production recipe or the default work assigned to an agent.
+
+For Chat-authored work dispatch through the **existing** GitHub PR-event Work automation, use [Chat→GitHub→Work handoff](../automation/CHAT_PR_HANDOFF.md). Do not equate PR creation with Work execution.
 
 ## Read-first contract for any new chat, Codex session, Work run or agent
 
