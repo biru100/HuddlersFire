@@ -21,6 +21,8 @@ Online camp for indie-game developers to **rest, play, co-work and share games t
 4. Start with **64×96** native pixels, adjustable after actual game-size inspection.
 5. First finish **NW Idle one**; create basic layers first, validate on one character, do not mass-produce views/clothing.
 
+The implementation sequence and intentionally distinct non-art pilot are in [ROADMAP](ROADMAP.md). The player-feedback/quality review method is in [PRODUCT_LOOP](PRODUCT_LOOP.md).
+
 ## Active proposal, not a silently approved backlog
 
 **Project-harness restructuring:**
