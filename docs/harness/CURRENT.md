@@ -9,7 +9,7 @@ Online camp for indie-game developers to **rest, play, co-work and share games t
 ## What is known, not inferred
 
 - Repository: `biru100/HuddlersFire`, default `main`; existing GPT Sites project is `appgprj_6ae8e9ae42708191b253341387aa287f`, DB `DB`. **No new site, DB, Cloudflare direct deployment or unapproved paid image API.**
-- [Validation](../validation.md) and [PR #14](https://github.com/biru100/HuddlersFire/pull/14) document **v41 publication on 2026-11-09 KST** to the original Site, with non-destructive data checks. This is last recorded verification, **not a live check on 2026-11-16**.
+- [Validation](../validation.md) records the release from [PR #15](https://github.com/biru100/HuddlersFire/pull/15) and documents **v41 publication on 2026-11-09 KST** to the original Site, with non-destructive data checks. This is last recorded verification, **not a live check on 2026-11-16**.
 - Prior NW Idle exploration: [PR #7](https://github.com/biru100/HuddlersFire/pull/7) open and conflicted; [PR #19](https://github.com/biru100/HuddlersFire/pull/19) reference 2×2 draft; [PR #20](https://github.com/biru100/HuddlersFire/pull/20) technical 16-frame draft stacked on #7; [PR #17](https://github.com/biru100/HuddlersFire/pull/17) proves Chat PNG transfer, not art acceptance. None of these are approved NW runtime animation.
 - Product branches already described in [product direction](../product-direction.md): camp/rest, playground/play, work/status/presence, indie-game exhibits. Cross-cutting visual quality, UX/access, multiplayer reliability and release safety support all of them.
 
@@ -37,6 +37,6 @@ The implementation sequence and intentionally distinct non-art pilot are in [ROA
 - Do not infer user sign-off from a document, generated image, PR or green test.
 - Project-specific changes stay in this repo; the separate personal reusable AI harness is not modified by this initiative.
 
-## Next authorized action
+## Next action for this draft
 
-Review this **draft** with the user, reconcile the instructions and current branch after review, then commit the intended project-wide harness changes to `main` through an explicitly reviewed PR. Only then treat the new entrypoint as default for fresh contexts. Do not merge or deploy solely because this document exists.
+For PR #21, review the exact head and its checks. Merge authorization remains separate. For other tasks, use the current request and applicable approval record. The older #7 F2 entry in the Work queue describes that branch’s specialized job. It does not select the next project task or authorize the new pilot.
