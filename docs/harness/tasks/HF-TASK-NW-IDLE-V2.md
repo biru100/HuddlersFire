@@ -1,5 +1,21 @@
 # HF-TASK-NW-IDLE-V2 · Native NW Idle first art pilot
 
+> **LATEST USER OVERRIDE · 2026-11-17 KST · C0/C1 modular avatar base comes BEFORE NW Idle.**
+> User feedback: "일단 디자인 수정도 할 필요가 있어 지금 좀 매몰된 경향이 있는데 우리는 커스터마이징이 가능해야해" followed by "그래그래 진행해". User has **not** approved the old single-character NW design, breathing poses, animation, game runtime integration or PR merge. The task is now the **interchangeable avatar base design / proof**, with NW Idle suspended as a later consumer of that base.
+
+**Current authoritative design-task brief:** [Modular Avatar Base v1](../../../docs/briefs/avatar-customization-base-v1.md). It reuses existing `scene-spec.json.pixelQuarterview`, `pixel-quarterview/catalog.json`, and `docs/sprite-authoring.md` contracts rather than inventing a second global avatar system.
+
+**Effective next Work order at this PR head:**
+1. Audit actual draft avatar customization slots, render order, palette/save state, and where existing curly hair and sage hoodie are baked into the visible character. Separate observed capabilities from proposals.
+2. Make or propose one appealing **NW neutral common base**, plus 2 truly different hair shapes and 2 different top silhouettes, composing all 4 combinations on the same base. Maintain anchors, clean native pixel clusters, hair/neck/collar/waist seams, safe part occlusion and missing-part fallback. Keep current Rounded 02 as one reference preset only. Work/Codex may draw **derived** pixel assets in this authorized review task; do not overwrite originals.
+3. Show base, variants and 2×2 swap comparison at **1× and 4×**, plus optional local camp scene, and an honest failure matrix. If a convincing base cannot be authored with current tools, stop and report rather than hiding a failure under code-only passes.
+4. Obtain user **C0 modular structure** and **C1 visual/preset compatibility** decisions before making new breathing keys or inbetweens. The old G1/G2/G3 motion gates are **superseded in sequence**, not silently approved.
+5. Preserve `profilePhotoMode:'preserve'` and existing Discord photo, current runtime art, online room data and existing Site. **No** server/DB/protocol changes, paid image API, full 4-direction asset production, unapproved merge or live publication.
+
+**Work proof:** when received by the existing PR-event Work task, link current exact head, authored files, independent source hashes, 4 verified combinations and preview evidence; record clearly whether Work actually ran. This is one leaf within the global HuddlersFire intent-first harness, **not** a new project-wide priority.
+
+---
+
 **Task state:** authorized to prepare **review-only art candidates**, not to auto-approve art or adopt production assets. **Created:** 2026-11-16 KST, user explicitly requested Chat to hand this task directly via GitHub into the existing Work PR event.
 
 ## 0. Project intent, not global project direction
