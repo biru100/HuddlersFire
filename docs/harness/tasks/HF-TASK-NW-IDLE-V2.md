@@ -124,3 +124,34 @@ history. G3 loop work opens after key-pose approval.
 6. Existing safety gates remain: review-only, no automatic art approval, no merge, no runtime replacement, no Sites publication or paid image API.
 
 **Success is aesthetic:** Does this now *read like intentionally authored pixel art* and *move with a natural, not sluggish, breathing rhythm*? Green CI, color counts and SHA evidence alone do not answer either question. Include actual GIF timing/duration/frame count and exact PR head in Work evidence. Avoid changing the project-wide harness in response to this one art review.
+
+
+## 2026-11-17 · C1 design polish: keep modular base, revise bob and varsity
+
+**Latest user direction:** After reviewing the four combinations, the user agreed to continue with **the current common-body and part-swapping structure as the working design basis** and to improve the **bob hairstyle and plum varsity top** so they appear cuter and more natural. This authorizes **review-only aesthetic iteration**, NOT final C0/C1 approval of the base/presets or permission for runtime adoption, PR merge, Sites publication, or motion expansion. Preserve a genuinely reusable common avatar base rather than optimizing one combined outfit.
+
+### Keep unchanged unless a blocking seam is demonstrated
+- Same proposal for native NW canvas 64×96, body/foot anchors, common body+trousers+boots and independent `back_hair/base/bottom/top/front_hair` composition order, as recorded in the existing scene spec/catalog and [C0/C1 review](../../../art/sprites/incoming/nw-modular-base-c0-c1-review-20261117/README.md).
+- The original curls + sage hoodie pairing remains a baseline/control preset. Avoid unnecessarily rewriting its underlying body or approved source lookdev, and record all new art as **derived and review-only**.
+- Retain separate `hair` and `top` assets that can be swapped without special edits for each combination; do not hide a mismatch by baking hair into jacket, jacket into base or painting a seam in each assembled screenshot.
+
+### Specific design revisions
+1. **Bob hair:** the current graphite bob can read as a rigid helmet. Redesign its silhouette to read as soft hair at **native 1×**: individual large lock masses and a tasteful curved/irregular lower edge, selective warm/dark shade planes, a readable nape, a modest side fringe and natural layered overlap at neck. Avoid excessive thin single-pixel texture noise, hard all-around helmet contour or just recoloring existing curls. Keep the bob clearly distinguishable from curls.
+2. **Plum varsity top:** the current purple candidate looks sleeveless rather than like a jacket. Give it a recognizable, cute **long-sleeve varsity/jacket construction** with coherent near/far sleeves, cuffs, modest ribbed hem and a clear collar/front opening or seams where visible in NW. Favor deliberately grouped pixel clusters and a readable 1× silhouette; don't solve this by simply darkening exposed arms or turning the hoodie recolored plum.
+3. **Hair × clothing integration:** adjust bob back/front hair contours and the varsity top's collar layering (within their independent slots) to keep the **far collar readable**, especially in the bob/varsity combination under the existing nighttime camp lighting. Preserve ear/neck visibility and avoid scalp holes, shoulder/waist seams, sleeve-to-hand discontinuity and hair clipping. The curls/varsity, bob/hoodie, curls/hoodie combinations must also work without per-pair bespoke edits.
+4. **Pixel-art quality:** deliberate 64×96 pixel cluster composition, clear dominant shapes and limited *purposeful* light planes; no automated downscale/blur, arbitrary 6-color restriction, random noise, copy/paste stretching or misleading image-only pixel styling. Keep current warm HuddlersFire visual language.
+
+### Mandatory deliverables for user review
+- New independently swappable `bob` hair source layers and `plum varsity` top source layer(s); unchanged control sources referenced by SHA and their exact original provenance.
+- A **before / after** of the two edited assets, the **same body with all four hair × top combinations**, at **native 1×** and nearest-neighbor **4×**, with explicit names. Show the base/attachment diagram only if changed or a previous interface problem was observed.
+- A local **night-campsite preview** at one world position comparing the **bob × varsity** and at least one unchanged control. Preserve relative brightness, size and occlusion; disclose if browser/WebGL/mobile review was not run.
+- A brief 2×2 **occlusion and fit checklist** (ear/nape, far collar, sleeves/hands, waist seam, foot contact, fallback) showing actual fixes and remaining flaws, plus GitHub input/output SHA256, exact PR head and appropriate art/pixel/renderer/CI tests.
+- If satisfying the four combos requires a fundamental body/anchor redesign, **stop and explain the trade-off for C0 review**; do not silently replace the base, and do not claim "modular" based solely on four precombined flattened images.
+
+### Gates, next action and safety
+- **C0:** the user has authorized retaining the current structure **for iterative exploration only**, not production-approved architecture.
+- **C1:** final aesthetic approval for the revised common base and four combos remains **pending user visual review**. Present tangible visuals rather than only metrics.
+- **C2/G3:** new NW breathing poses, authored inbetweens, loop timing, direction/Walk/Sit expansion remain **paused** until C0/C1 sign-off; old motion images are history only.
+- **No** runtime art adoption, Site/DB/Discord/profile-photo changes, new paid API, duplicated Work workflow, automatic merge or deployment. This is an individual HuddlersFire art task under the global intent-first harness, not a change to global project purpose.
+
+**Work dispatch:** process this updated task through the existing GitHub PR synchronize event, deduplicating by latest head and stage `C1-polish-bob-varsity`. Append an actual result to this PR with evidence and identify what still needs the user's eyes. A commit or CI pass alone does not establish that Work produced the artwork.
