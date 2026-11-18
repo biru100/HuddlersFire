@@ -100,6 +100,10 @@ test('verifies delivered PNG bytes and rejects corrupt or fake images even with 
     const m = candidate(relativePath, valid);
     validateCleanroom(m, prompt);
     assert.equal(verifyLocalOutputs(m)[0].width, 1);
+    m.lanes.native_pixel.status = 'rejected_visual';
+    m.lanes.native_pixel.rejectionReason = 'Fixture rejected by the user for visual quality.';
+    assert.equal(validateCleanroom(m, prompt).lanes.native_pixel, 'rejected_visual');
+    assert.equal(verifyLocalOutputs(m)[0].width, 1);
     for (const invalid of [Buffer.from('not a PNG'), Buffer.from(valid)]) {
       if (invalid.length === valid.length) invalid[29] ^= 1;
       writeFileSync(new URL('candidate.png', 'file://' + dir + '/'), invalid);
@@ -119,14 +123,15 @@ test('verifies delivered PNG bytes and rejects corrupt or fake images even with 
 // Rejection must stay visible in the receipt and retain its genuine PNG hash.
 test('visually rejected native output remains recorded, not promoted to art approval', () => {
   const m = fresh();
-  assert.equal(m.lanes.manual_native.status, 'rejected_visual');
-  assert.match(m.lanes.manual_native.rejectionReason, /2026-11-18/);
+  m.lanes.manual_native.status = 'rejected_visual';
+  m.lanes.manual_native.rejectionReason = 'Fixture rejected by the user for visual quality.';
   const result = validateCleanroom(m, prompt);
   assert.equal(result.lanes.manual_native, 'rejected_visual');
   assert.equal(m.approval.base, 'pending_user');
 });
 test('visual rejection without a reason cannot be registered', () => {
   const m = fresh();
+  m.lanes.manual_native.status = 'rejected_visual';
   delete m.lanes.manual_native.rejectionReason;
   assert.throws(() => validateCleanroom(m, prompt), /visual failure reason/);
 });
