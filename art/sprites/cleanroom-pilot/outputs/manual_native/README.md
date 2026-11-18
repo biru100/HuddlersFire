@@ -29,3 +29,15 @@ PNG 64×96 was saved with PNG lossless optimize; pixel values are identical to t
 Ask user to compare A/B at **1× first**, then 4× nearest-neighbor in the current Chat output; choose **aesthetic direction and desired native canvas**, or reject both. If user approves one direction for continued exploration, produce **clean native editable part layers** in GitHub, a hair × top swap matrix, then motion key poses for Idle/Carry/Throw. Do not infer design approval from PR, SHA or CI success.
 
 Preserve existing live art, Discord photo behavior, 2:1 projection, room state and current users. Do not merge or deploy this PR without separate user authorization.
+
+## Work receipt and visual review · 2026-11-18 KST
+
+[Native 1× and nearest-neighbor 4× comparison](compare-1x-4x.png) was derived only from the two new candidate PNGs. Comparison PNG SHA256 is recorded below. Both originals were fetched from GitHub and independently decoded. Their SHA256 and Git blob IDs match the table above. A uses binary alpha and 24 opaque colors; B uses binary alpha and 25 opaque colors. Palette counts describe these files and are not acceptance criteria.
+
+At native size, both faces and separate hands/boots are readable. B has room for a jacket pocket, collar and clearer sleeve planes. A has a simpler jacket shape. Face highlights and the jacket's larger shaded planes still need user aesthetic judgment. Neither flat composite establishes editable part independence or suitability for carry/throw poses.
+
+The README's independent-drawing and no-historical-reference statements are the submitting author's provenance declarations. Work verified the delivered bytes and file properties. The creation script and editable layers are absent from this branch, so independent redraw, per-layer recomposition and creative input history cannot be reproduced from GitHub alone.
+
+This receipt is at G0 review. The two files provide an art-direction/grid choice. User selection precedes new interchangeable parts and motion. Browser/WebGL, campsite fit, crowd readability and actual gameplay motion have not been tested for these candidates.
+
+Comparison PNG SHA256: `c4322e2a414ad5549864eb519a284afe6f964415cd75c365824c8560c1bca073`.
