@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "taskId": "HF-ART-CLEANROOM-20261118",
+  "mode": "text-only-cleanroom",
+  "promptFile": "docs/briefs/cleanroom-pixel-generation-20261118.txt",
+  "pastImageInputs": [],
+  "referenceImages": [],
+  "paletteImages": [],
+  "imageToImage": false,
+  "externalPaidGenerationAllowed": false,
+  "approvedNativeCanvas": null,
+  "approval": {
+    "concept": "pending_user",
+    "base": "pending_user",
+    "modular": "pending_user",
+    "motion": "pending_user",
+    "runtime": "pending_user",
+    "publish": "pending_user"
+  },
+  "lanes": {
+    "native_pixel": {
+      "status": "not_run",
+      "provider": "Scenario/Retro Diffusion Plus (candidate, not connected)",
+      "actualModelId": null,
+      "sourceImages": [],
+      "output": null,
+      "costUsd": null
+    },
+    "generic_aligned": {
+      "status": "not_run",
+      "provider": "Text-only general generator + optional pixel alignment",
+      "actualModelId": null,
+      "sourceImages": [],
+      "output": null,
+      "costUsd": null
+    },
+    "manual_native": {
+      "status": "not_run",
+      "provider": "Work/Codex native-pixel authorship (evaluate capability)",
+      "actualModelId": null,
+      "sourceImages": [],
+      "output": null,
+      "costUsd": null
+    }
+  }
+}
