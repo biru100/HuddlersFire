@@ -7,6 +7,8 @@ description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미
 
 # ChatGPT 아트 디렉션 · 원화 선택
 
+> **LATEST SCOPED OVERRIDE · 2026-11-18:** If the task requests a NEW HuddlersFire visual language or clean-room pixel art, start from [camp-pixel-cleanroom](../camp-pixel-cleanroom/SKILL.md), [pipeline](../../../docs/art/pixel-ai-pipeline-v3.md), and the positive-only text brief. **DO NOT read or supply any previous PNG, Rounded 02 reference, old screenshots, derived palettes, image records or prior generated candidates as creative/model inputs.** The historical prerequisites below apply only to explicitly continuing that separate old-art revision, not to the clean-room project. Current user permits Work/Codex to author derived/native pixels in authorized scope, with user final art approval. No external paid model without specific authorization.
+
 **최신 원본 전달:** [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md). ChatGPT 원화는 직접 GitHub 바이너리 업로드가 가능하면 원격 파일/해시까지 검증하고, 불가능하면 Codex가 원본 그대로 커밋한다. ZIP/로컬 다운로드 중심의 과거 지시는 이력이다. GitHub MANIFEST만으로 업로드/미술 승인을 주장하지 않는다.
 
 [활성 시각 제작](../../../docs/visual-production.md), [정책](../../../art/sprites/art-direction.json), [Rounded 02 현재 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)를 먼저 읽는다. 일반 기능 수정에는 이 절차를 추가하지 않는다.
