@@ -1,5 +1,11 @@
 # HuddlersFire project instructions
 
+## 2026-11-18 · New clean-room pixel art experiment (latest user instruction, ART DOMAIN ONLY)
+
+The whole game still follows [project intent](docs/project-intent.md). For NEW visual direction, use the scoped [pixel AI pipeline v3](docs/art/pixel-ai-pipeline-v3.md), positive-only [creative prompt](docs/briefs/cleanroom-pixel-generation-20261118.txt), and [camp-pixel-cleanroom](.agents/skills/camp-pixel-cleanroom/SKILL.md). **Do not feed, open or condition on any older PNG, past image, screenshot, lookdev, palette, prior art hash, art model-training record or prior generated candidate** when producing the new clean-room design. Historical archives stay intact for rollback. Old styleReference / Rounded-02 / CORE03 tasks are past *separate scopes* and must not be auto-loaded into this new design.
+
+Current exploratory product art target: casual true pixel art, approx 2–2.5-head body proportions, modular hair/clothing, balanced all-map B social-quarterview on the existing 2:1 world projection. One native character concept first, **64×96 versus 48×64 as unapproved trial candidates**, evaluate three independent lanes only when provider capabilities and cost are confirmed. Retro Diffusion Plus is proposed, NOT connected or approved for paid generation. No automatic art approval, merge, runtime replacement or production publish. Non-art tasks do not inherit any pixel-specific gate.
+
 ## Project-wide intent-first harness (2026-11-16 · latest user direction)
 
 **This repository is the harness for the entire HuddlersFire game**, not an NW Idle/sprite-production harness. The overarching purpose is a warm online camp for indie-game developers to rest, play, work together and share games. **Every task** must trace L0 product purpose → L1 player experience → L2 desired effect/quality → L3 initiative → L4 verifiable work. Do not impose art-only processes on networking, gameplay, UX, community or operations.
