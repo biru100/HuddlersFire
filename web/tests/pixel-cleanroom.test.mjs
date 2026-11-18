@@ -36,3 +36,8 @@ test('rejects silent art approval', () => {
   const m = fresh(); m.approval.base = 'approved';
   assert.throws(() => validateCleanroom(m, prompt), /self-approve/);
 });
+
+test('rejects hidden historical image reference fields', () => {
+  const m = fresh(); m.lanes.native_pixel.styleReference = 'some-old-image.png';
+  assert.throws(() => validateCleanroom(m, prompt), /unexpected field/);
+});
