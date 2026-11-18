@@ -10,11 +10,11 @@ import { inspectBatchPng } from './chat-asset-batch.mjs';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const GATES = ['concept','base','modular','motion','runtime','publish'];
 const LANES = ['native_pixel', 'generic_aligned', 'manual_native'];
-const ALLOWED_STATES = new Set(['not_run', 'blocked_provider_unavailable', 'review_candidate']);
+const ALLOWED_STATES = new Set(['not_run', 'blocked_provider_unavailable', 'review_candidate', 'rejected_visual']);
 const BAD_PROMPT = /https?:\/\/|\b(?:rounded[ _-]?0?[12]|core03|source[ _-]?registry|lookdev|nw[ _-]?idle|prior[ _-]?png|previous[ _-]?sprite)\b|\.(?:png|jpe?g|webp|gif)(?:\b|$)/i;
 const SHA256 = /^[a-f0-9]{64}$/i;
 const TOP_KEYS = ['schemaVersion','taskId','mode','promptFile','pastImageInputs','referenceImages','paletteImages','imageToImage','externalPaidGenerationAllowed','approvedNativeCanvas','approval','lanes'];
-const LANE_KEYS = ['status','provider','actualModelId','sourceImages','output','costUsd'];
+const LANE_KEYS = ['status','provider','actualModelId','sourceImages','output','costUsd','rejectionReason'];
 const OUTPUT_KEYS = ['path','sha256','provenance','usageRights'];
 function onlyKeys(object, allowed, label) {
   check(object && typeof object === 'object' && !Array.isArray(object), 'invalid ' + label);
@@ -64,6 +64,8 @@ export function validateCleanroom(manifest, prompt) {
     check(info && typeof info === 'object', 'missing lane ' + lane);
     onlyKeys(info, LANE_KEYS, lane);
     check(ALLOWED_STATES.has(info.status), 'unsupported lane status ' + lane);
+    if (info.status === 'rejected_visual') check(typeof info.rejectionReason === 'string' && info.rejectionReason.trim().length >= 25, 'rejected candidate must record visual failure reason: ' + lane);
+    if (info.status !== 'rejected_visual') check(info.rejectionReason === undefined, 'rejection reason only valid for rejected_visual: ' + lane);
     zeroImages(info.sourceImages, lane + '.sourceImages');
     check(typeof info.provider === 'string' && info.provider.length > 0, 'missing provider description');
     if (info.status === 'not_run' || info.status === 'blocked_provider_unavailable') {
@@ -99,7 +101,7 @@ export function verifyLocalOutputs(manifest) {
   const checks = [];
   for (const lane of LANES) {
     const info = manifest.lanes[lane];
-    if (info.status !== 'review_candidate') continue;
+    if (info.status !== 'review_candidate' && info.status !== 'rejected_visual') continue;
     const file = safeRelativePath(info.output.path);
     check(existsSync(file), 'missing actual file: ' + info.output.path);
     const bytes = readFileSync(file);
