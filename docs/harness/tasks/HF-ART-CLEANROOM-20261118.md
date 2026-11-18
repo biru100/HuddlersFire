@@ -30,3 +30,23 @@
 - User's clean-room constraint survives a new chat/Work context and is not overridden by older "use styleReference" directions.
 - Provider availability/price is observed rather than assumed.
 - A clean-room benchmark is ready. Actual output remains explicitly marked unrun/blocked unless real PNG evidence exists.
+
+## Work intake and capability audit · 2026-11-18 KST
+
+The source work order was inspected at `f8498160f9754d35b1898fd0531a761bd134f38f`. The current common prompt SHA256 is `b45408f769e3c175f05d877dfb413eb3ec10c8d54da63e327c32ef0a13eca644`. Each available lane must start from that same file, and each native grid trial requires its own drawing.
+
+| Lane | Observed availability and status |
+| --- | --- |
+| Native model | No callable Retro Diffusion/Scenario connector in this Work environment. Blocked. Account access, cost and output rights have not been verified. |
+| General generator plus alignment | A general image tool is exposed, but this task authorizes tool auditing and local preflight. No local Pixel Snapper executable was found. The complete lane remains blocked. No image model invocation occurred. |
+| Direct native drawing | GIMP, ImageMagick, Pillow and NumPy are installed. Aseprite, LibreSprite, Krita and Pixel Snapper were absent from PATH. The current inherited conversation already contains previous project artwork. A new design drawn in this context cannot establish the requested fresh creative context, so this lane remains not_run. |
+
+Scenario's official model documentation still specifies 48×48 for walking_and_idle and four_angle_walking. Its Pixel Snapper documentation describes grid alignment and color quantization, with MIT licensing and free commercial/hobby use. A local installation/version or the actual usage rights of model outputs have not been established. No provider account, license purchase or paid call was attempted. Model generation cost remains null because every lane is unrun.
+
+Official capability references checked on 2026-11-18:
+- https://docs.scenario.com/get-started/generation/third-party-model-generation/third-party-model-generation-retro-diffusion
+- https://help.scenario.com/articles/1753861053-pixel-snapper-the-essentials
+
+The validator now checks the exact six approval keys, canonical lane paths and absence of symlinks. Candidate files reuse the existing PNG intake inspector for static non-interlaced RGB8/RGBA8 PNG, including CRC and scanline validation. Other PNG encodings require a supported decoder before their delivery can be verified. The validator remains a declared-input and file check. It cannot establish that a provider received only the declared inputs, authenticate authorship, or detect undisclosed historical style references.
+
+Next authorized creative step is one independent text-only candidate in a fresh context with no old image history, using the supplied brief and recording actual authorship, rights and cost. After genuine 1×/4× images exist, the user chooses G0 art direction and native grid. No visual gate has been approved.

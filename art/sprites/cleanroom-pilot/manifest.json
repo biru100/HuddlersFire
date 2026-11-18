@@ -19,7 +19,7 @@
   },
   "lanes": {
     "native_pixel": {
-      "status": "not_run",
+      "status": "blocked_provider_unavailable",
       "provider": "Scenario/Retro Diffusion Plus (candidate, not connected)",
       "actualModelId": null,
       "sourceImages": [],
@@ -27,7 +27,7 @@
       "costUsd": null
     },
     "generic_aligned": {
-      "status": "not_run",
+      "status": "blocked_provider_unavailable",
       "provider": "Text-only general generator + optional pixel alignment",
       "actualModelId": null,
       "sourceImages": [],

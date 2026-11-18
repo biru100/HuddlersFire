@@ -40,3 +40,7 @@ The implementation sequence and intentionally distinct non-art pilot are in [ROA
 ## Next action for this draft
 
 For PR #21, review the exact head and its checks. Merge authorization remains separate. For other tasks, use the current request and applicable approval record. The older #7 F2 entry in the Work queue describes that branch’s specialized job. It does not select the next project task or authorize the new pilot.
+
+## Scoped art update · 2026-11-18 KST
+
+[PR #24](https://github.com/biru100/HuddlersFire/pull/24) introduces the user-authorized clean-room art pilot. Its [task record](tasks/HF-ART-CLEANROOM-20261118.md) and [pipeline](../art/pixel-ai-pipeline-v3.md) supersede the old-avatar-first sequence for this new design. Current work is preflight verification and tool audit. Native-model and general-model/alignment lanes are blocked by unavailable providers/tools. Manual drawing remains unrun because this inherited context includes earlier artwork. All art/runtime/release gates remain pending. Restore the exact current PR head and its durable Work handoff for technical results. A fresh text-only creative context is the next permitted art step.

@@ -1,11 +1,14 @@
 // Clean-room generation manifest: technical provenance guard, NOT a visual quality score.
-// No image decoding, external service calls, or side effects other than printing a receipt.
-import { readFileSync, existsSync } from 'node:fs';
-import { resolve, relative, dirname, sep } from 'node:path';
+// Reuses the static RGB/RGBA8 PNG intake check for delivered candidates. No external calls.
+import { readFileSync, existsSync, lstatSync } from 'node:fs';
+import { resolve, relative, dirname, sep, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 
+import { inspectBatchPng } from './chat-asset-batch.mjs';
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const GATES = ['concept','base','modular','motion','runtime','publish'];
 const LANES = ['native_pixel', 'generic_aligned', 'manual_native'];
 const ALLOWED_STATES = new Set(['not_run', 'blocked_provider_unavailable', 'review_candidate']);
 const BAD_PROMPT = /https?:\/\/|\b(?:rounded[ _-]?0?[12]|core03|source[ _-]?registry|lookdev|nw[ _-]?idle|prior[ _-]?png|previous[ _-]?sprite)\b|\.(?:png|jpe?g|webp|gif)(?:\b|$)/i;
@@ -27,6 +30,11 @@ function safeRelativePath(path) {
   const absolute = resolve(ROOT, path);
   const rel = relative(ROOT, absolute);
   check(rel && !rel.startsWith('..' + sep) && rel !== '..' && !rel.startsWith(sep), 'path escapes repository');
+  let current = ROOT;
+  for (const segment of rel.split(sep)) {
+    current = join(current, segment);
+    check(!existsSync(current) || !lstatSync(current).isSymbolicLink(), 'symlink in file path');
+  }
   return absolute;
 }
 function zeroImages(value, label) {
@@ -48,7 +56,8 @@ export function validateCleanroom(manifest, prompt) {
   check(typeof prompt === 'string' && prompt.length > 100, 'missing positive-only prompt');
   check(!BAD_PROMPT.test(prompt), 'creative prompt contains an old-image reference or URL');
   check(manifest.promptFile === 'docs/briefs/cleanroom-pixel-generation-20261118.txt', 'use approved positive-only prompt file');
-  const keys = Object.keys(manifest.lanes || {}).sort();
+  onlyKeys(manifest.lanes, LANES, 'lanes');
+  const keys = Object.keys(manifest.lanes).sort();
   check(JSON.stringify(keys) === JSON.stringify([...LANES].sort()), 'expected exactly three comparison lanes');
   for (const lane of LANES) {
     const info = manifest.lanes[lane];
@@ -64,17 +73,19 @@ export function validateCleanroom(manifest, prompt) {
       onlyKeys(info.output, OUTPUT_KEYS, lane + '.output');
       const p = info.output.path;
       check(typeof p === 'string' && p.startsWith('art/sprites/cleanroom-pilot/outputs/' + lane + '/') && /\.png$/i.test(p), 'output must be a lane-isolated PNG for ' + lane);
-      safeRelativePath(p);
+      check(relative(ROOT, safeRelativePath(p)).split(sep).join('/') === p, 'output path must be canonical');
+      check(info.actualModelId === null || (typeof info.actualModelId === 'string' && info.actualModelId.trim()), 'invalid actual model ID');
       check(SHA256.test(info.output.sha256), 'output sha256 missing for ' + lane);
       check(typeof info.output.provenance === 'string' && info.output.provenance.trim(), 'provenance missing for ' + lane);
       check(Number.isFinite(info.costUsd) && info.costUsd >= 0, 'actual cost unknown for ' + lane);
       check(typeof info.output.usageRights === 'string' && info.output.usageRights.trim(), 'usage permission evidence missing for ' + lane);
     }
   }
-  for (const [gate, state] of Object.entries(manifest.approval || {})) {
+  onlyKeys(manifest.approval, GATES, 'approval');
+  check(GATES.every(gate => Object.hasOwn(manifest.approval, gate)), 'expected six pending approval gates');
+  for (const [gate, state] of Object.entries(manifest.approval)) {
     check(state === 'pending_user', 'this comparison manifest cannot self-approve ' + gate);
   }
-  check(Object.keys(manifest.approval || {}).length === 6, 'expected six pending approval gates');
   return {
     taskId: manifest.taskId,
     sourceMode: manifest.mode,
@@ -91,9 +102,11 @@ export function verifyLocalOutputs(manifest) {
     if (info.status !== 'review_candidate') continue;
     const file = safeRelativePath(info.output.path);
     check(existsSync(file), 'missing actual file: ' + info.output.path);
-    const actual = createHash('sha256').update(readFileSync(file)).digest('hex');
+    const bytes = readFileSync(file);
+    const actual = createHash('sha256').update(bytes).digest('hex');
     check(actual === info.output.sha256.toLowerCase(), 'output digest mismatch: ' + lane);
-    checks.push({ lane, path: info.output.path, sha256: actual });
+    const png = inspectBatchPng(bytes);
+    checks.push({ lane, path: info.output.path, sha256: actual, width: png.width, height: png.height, color: png.color });
   }
   return checks;
 }
