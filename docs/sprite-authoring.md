@@ -1,5 +1,7 @@
 # 장면 명세에서 파일럿 검토까지
 
+> **2026-11-18 CLEAN-ROOM OVERRIDE FOR NEW CONCEPT:** New user-approved art exploration follows [Pixel AI Pipeline v3](art/pixel-ai-pipeline-v3.md) and [positive-only prompt](briefs/cleanroom-pixel-generation-20261118.txt). Existing `styleReference`, old pixel package/normalization PNG, Rounded 02, old palette and old candidate art are **NOT allowed creative inputs** and must not be opened for the new-generation task. The old styleReference process below is historical and applies only to older explicitly requested reconstruction. **No accidental fallback to old PNGs.** The current scene spec/catalog are read for numeric technical contracts only, not for artist reference. First test fresh 64×96 and independently made 48×64 native concepts; no mandatory 6-color or resize. Actual art and runtime adoption remain gated.
+
 ## INT-24 픽셀 리소스의 재사용 경로
 
 ### 제작 요청을 먼저 규격화 (2026-11-07 사용자 피드백 반영)
