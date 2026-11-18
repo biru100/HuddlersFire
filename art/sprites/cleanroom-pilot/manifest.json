@@ -35,12 +35,17 @@
       "costUsd": null
     },
     "manual_native": {
-      "status": "not_run",
-      "provider": "Work/Codex native-pixel authorship (evaluate capability)",
+      "status": "review_candidate",
+      "provider": "ChatGPT local native-pixel PIL authorship (independent drawings, no old image input)",
       "actualModelId": null,
       "sourceImages": [],
-      "output": null,
-      "costUsd": null
+      "output": {
+        "path": "art/sprites/cleanroom-pilot/outputs/manual_native/candidate-48x64.png",
+        "sha256": "01a83569ea5708d5a9aa512ac3f8b8f379dab4c7be1496e49c6fbfd05a0a5f13",
+        "provenance": "Directly authored integer-pixel layers on a 48x64 transparent grid from 2026-11-18 positive-only text brief. Original creation locally via PIL. No old HuddlersFire PNG/visual reference. Native 64x96 companion is separately authored and recorded in outputs/manual_native/README.md.",
+        "usageRights": "User-directed original concept output; review-only, user approval pending; no external provider license required"
+      },
+      "costUsd": 0
     }
   }
 }
