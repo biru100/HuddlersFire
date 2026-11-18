@@ -5,6 +5,8 @@ description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·
 
 # 캠프 원화 수신과 스프라이트 조립
 
+> **2026-11-18 fresh art path:** The new [pixel clean-room pilot](../../../docs/art/pixel-ai-pipeline-v3.md) must not load, pass into a model, or visually reuse any historic PNG/lookdev/sprite or previous palette. Its positive-only text brief is the only initial creative input. Existing registry and catalog remain production/provenance infrastructure but historical approved art is **not** an auto-reference for NEW concept generation. Do not treat code-only pixel sketches, RGB interpolation, grid snapping or a resized screenshot as approved artwork. Work may create derivative native pixels within task scope. Reuse the renderer only for **new post-generation in-game reviews**.
+
 **원본 우선순위:** [GitHub source registry](../../../art/sprites/source-registry/README.md)의 실제 PNG 바이너리·MANIFEST·SHA256가 일치해야 한다. `tools/art-source-registry.mjs`로 확인하고 별도 art-direction/motion job에 연결한다. ZIP 전달은 과거 이력이며, GitHub 저장 자체는 디자인/모션/네이티브/게임 검증과 별개다.
 
 ## 모션 시안, 디자인 및 네이티브 제작
