@@ -1,0 +1,9 @@
+Project: HuddlersFire, a welcoming online social camp where indie-game developers rest, play, work alongside friends, and share their games.
+
+Generate a NEW, ORIGINAL true pixel-art game avatar CONCEPT, not a whole illustrative screenshot. Friendly and casual; clear playful expression; approximately 2 to 2.5 heads tall. A simple charming head and body with hands and feet that read clearly at actual gameplay scale. Warm inviting character presence without visual clutter, gradient airbrushing, mixed-resolution pixels, soft anti-aliased edges, random pixel noise, or overly intricate highlights.
+
+Avatar construction must anticipate modular customization: a neutral underlying body, independently swappable hairstyle, independently swappable top, separate bottom, optional accessories. Design must remain attractive across different headwear and outfit silhouettes. Show one native front-three-quarter standing character concept on a blank plain background, with grounded feet and clean 1-pixel-outline/cluster hierarchy. Do not attach a specific hairstyle or an oversized hoodie permanently to the common body.
+
+Gameplay considerations: the same character must later walk in four directions, sit on benches, jump, carry another player above the head, and throw that player with clear arm/hand poses. Readability is more important than fine surface texture. Camera concept is a balanced three-quarter view with a 2:1 diagonal ground convention; preserve spatial readability for up to sixteen players. Start with one static pose only, not a whole animation or atlas.
+
+Output is a design candidate, not an approved game sprite. Produce small native pixel clusters and coherent limited-but-not-forced color ramps. Evaluate a 64x96 logical canvas and an alternative 48x64 logical canvas separately; do not upscale or downscale one and claim it is a second native design.
