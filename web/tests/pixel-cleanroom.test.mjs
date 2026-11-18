@@ -114,3 +114,19 @@ test('verifies delivered PNG bytes and rejects corrupt or fake images even with 
     rmSync(dir, {recursive:true,force:true});
   }
 });
+
+// A technically valid native sprite may be aesthetically rejected by the user.
+// Rejection must stay visible in the receipt and retain its genuine PNG hash.
+test('visually rejected native output remains recorded, not promoted to art approval', () => {
+  const m = fresh();
+  assert.equal(m.lanes.manual_native.status, 'rejected_visual');
+  assert.match(m.lanes.manual_native.rejectionReason, /2026-11-18/);
+  const result = validateCleanroom(m, prompt);
+  assert.equal(result.lanes.manual_native, 'rejected_visual');
+  assert.equal(m.approval.base, 'pending_user');
+});
+test('visual rejection without a reason cannot be registered', () => {
+  const m = fresh();
+  delete m.lanes.manual_native.rejectionReason;
+  assert.throws(() => validateCleanroom(m, prompt), /visual failure reason/);
+});
