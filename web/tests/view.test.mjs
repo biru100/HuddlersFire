@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createCanvas } from '@napi-rs/canvas';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { spawnPlayer } from '../lib/camp-world.mjs';
+import { RADIO } from '../lib/camp-maps.mjs';
 import {sceneCamera,freeCamera,panCamera,zoomCameraAt} from '../lib/camp-camera.mjs';
 
 test('radio bubbles have no connector and disappear offscreen while player chat keeps its connector',()=>{
@@ -11,6 +12,53 @@ test('radio bubbles have no connector and disappear offscreen while player chat 
  const music={current:{title:'노래',name:'친구'},playing:true};CampRenderer.prototype.bubbles.call(r,[],1,music);assert.equal(strokes,0);assert.ok(r.bubbleAreas.some(b=>b.id==='__radio__'));
  CampRenderer.prototype.bubbles.call(r,[{id:'friend',x:0,y:0,bubble:'hello',bubbleUntil:2000}],1,music);assert.equal(strokes,1);
  r.camera.x=-1000;CampRenderer.prototype.bubbles.call(r,[],1,music);assert.equal(r.bubbleAreas.length,0);
+});
+
+test('crowded mobile chat keeps the newest speakers, faces and touchable names visible', () => {
+  const globals = ['window','ResizeObserver','requestAnimationFrame','cancelAnimationFrame'];
+  const saved = globals.map(key => globalThis[key]);
+  globalThis.window = {devicePixelRatio:2, matchMedia:()=>({matches:true})};
+  globalThis.ResizeObserver = class {observe() {} disconnect() {}};
+  globalThis.requestAnimationFrame = ()=>1;
+  globalThis.cancelAnimationFrame = ()=>{};
+  let renderer;
+  try {
+    const width = 390, height = 520;
+    const canvas = createCanvas(width, height);
+    canvas.getBoundingClientRect = ()=>({width,height,left:0,top:0});
+    const players = Array.from({length:16}, (_,i) => ({
+      ...spawnPlayer(i), id:String(i), name:'친구 '+(i+1),
+      x:RADIO.x - .8 + (i%4)*.12, y:RADIO.y + Math.floor(i/4)*.12,
+      bubble:'잠시 쉬었다가 함께 작업해요.', bubbleUntil:6000+i*100,
+    }));
+    const occlusions = [{x:4,y:10,width:210,height:55}, {x:246,y:320,width:140,height:172}];
+    const scene = {players, self:'0', now:5000, occlusions, music:{current:{title:'신청곡',name:'친구'}, playing:true}};
+    renderer = new CampRenderer(canvas, ()=>scene);
+    for (const followSelf of [false,true]) {
+      scene.followSelf = followSelf;
+      renderer.draw(5000);
+      assert.deepEqual(renderer.bubbleAreas.map(b=>b.id), ['15','14']);
+      const protectedAreas = [...occlusions];
+      for (const id of ['0','15','14']) {
+        const {head, label} = renderer.hitAreas.find(area=>area.id===id);
+        assert.ok(label.width > 0, 'Speaker and self names must be drawn');
+        assert.equal(renderer.pickPlayer(label.x+label.width/2, label.y+label.height/2, true), id);
+        protectedAreas.push(label, {x:head.x-head.radius,y:head.y-head.radius,width:head.radius*2,height:head.radius*2});
+      }
+      for (const b of renderer.bubbleAreas) {
+        assert.equal(b.compact, true);
+        assert.ok(protectedAreas.every(o => b.x+b.width <= o.x || o.x+o.width <= b.x ||
+          b.y+b.height <= o.y || o.y+o.height <= b.y), 'Speech covers a face, name, control or another bubble');
+        protectedAreas.push(b);
+      }
+    }
+    for (const p of players) p.bubbleUntil = 0;
+    renderer.draw(5000);
+    assert.deepEqual(renderer.bubbleAreas.map(b=>b.id), ['__radio__']);
+  } finally {
+    renderer?.destroy();
+    globals.forEach((key,i) => { if (saved[i] === undefined) delete globalThis[key]; else globalThis[key] = saved[i]; });
+  }
 });
 
 test('mobile following preserves readable people; overview fits tall stacks without overriding a chosen follow zoom',()=>{

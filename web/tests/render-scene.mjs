@@ -72,9 +72,20 @@ for (const [name, width, height] of [['camp-chat-radio', 1050, 824], ['camp-chat
   const players = Array.from({ length: 16 }, (_, i) => ({ id: String(i), name: `친구 ${i + 1}`, color: COLORS[i % COLORS.length],
     ...spawnPlayer(i), x: RADIO.x - .8 + (i % 4) * .12, y: RADIO.y + Math.floor(i / 4) * .12,
     bubble: `${i + 1}번째 이야기! 함께 듣는 밤에 반가워요.`, bubbleUntil: 6000 + i * 100 }));
-  const renderer = createRenderer(canvas, () => ({ players, self: '0', now: 5000,
-    music: { current: { title: '별이 빛나는 밤에 함께 듣는 긴 제목의 노래', videoId: 'abcdefghijk', name: '허들러' }, playing: true } }));
-  renderer.draw(5000); writeFileSync('outputs/' + name + '.png', canvas.toBuffer('image/png')); renderer.destroy();
+  const scene = {players, self:'0', now:5000, followSelf:false,
+    music:{current:{title:'별이 빛나는 밤에 함께 듣는 긴 제목의 노래', videoId:'abcdefghijk', name:'허들러'}, playing:true}};
+  const renderer = createRenderer(canvas, () => scene);
+  renderer.draw(5000);
+  writeFileSync('outputs/' + name + '.png', canvas.toBuffer('image/png'));
+  if (width === 390) {
+    scene.followSelf = true;
+    renderer.draw(5000);
+    writeFileSync('outputs/camp-chat-radio-mobile-follow.png', canvas.toBuffer('image/png'));
+    for (const player of players) player.bubbleUntil = 0;
+    renderer.draw(5000);
+    writeFileSync('outputs/camp-radio-only-mobile.png', canvas.toBuffer('image/png'));
+  }
+  renderer.destroy();
   console.log(`PASS ${name}: 16 nearby speech bubbles and radio interaction, ${width}x${height}`);
 }
 for (const [name, width, height, reduced] of [['camp-actions', 1050, 824, false], ['camp-actions-mobile', 390, 520, false], ['camp-actions-reduced', 1050, 824, true]]) {
