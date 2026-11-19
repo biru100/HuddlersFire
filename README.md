@@ -1,8 +1,8 @@
 # HuddlersFire · 허들러즈 불멍
 
-**프로젝트 전체 AI/Work 협업 하네스:** [프로젝트 의도 기반 진입점](docs/harness/README.md) → [목적·하위 의도·작업 트리](docs/harness/INTENT_TREE.md) → [다른 채팅에서도 이어가는 현재 인계](docs/harness/CURRENT.md). 스프라이트 NW Idle은 하위 아트 파일럿이며 게임 전체의 최상위 우선순위는 아니다. 하네스 개편은 사용자 검토 후 적용되는 초안이다.
+프로젝트의 휴식·놀이·작업 동석·게임 전시 목표와 작업 절차는 [하네스 진입점](docs/harness/README.md), [의도 트리](docs/harness/INTENT_TREE.md), [현재 인계](docs/harness/CURRENT.md)에서 확인할 수 있습니다.
 
-**검증된 최근 배포 이력:** [2026-11-09 기존 Sites v41 게시 기록](docs/validation.md). 이는 현재 실시간 Sites 상태를 재조회했다는 뜻이 아니다. 아래 버전 29/23 설명은 당시 구현 이력이다.
+**2026-11-20 확인 기준** 공개 사이트는 **v42**, 최신 저장본은 **v44**입니다. GitHub `main`은 `ae37b2e`입니다. 작업 브랜치 `fix/mobile-camp-readability`는 후속 그래픽 `f8540b3` 위에 모바일 대화 표시를 개선했습니다. v43·v44에는 게시 ID가 없으며 최종 미감과 운영 적용은 별도 검토 대상입니다. [공개 사이트](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [검증 기록](docs/validation.md)
 
 **현재 운영 경로:** [기존 GPT Sites 프로젝트 재사용](docs/sites-deployment.md). GitHub/Work는 원본·검증·코드 PR을 담당하고, 실제 버전 저장·게시와 DB는 이전 GPT Sites 프로젝트에서 관리한다. 2026-11-07 직접 Cloudflare 배포 계획은 대체됐다. 기존 공개 사이트의 최신 게시 버전은 Sites에서 확인한다.
 

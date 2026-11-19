@@ -2,11 +2,18 @@
 import { getMap } from '../lib/camp-maps.mjs';
 import { validPosition } from '../lib/camp-world.mjs';
 export const observeField = `(()=>{
+  // The renderer translates to each projected world point before painting its object.
+  // Reading that translation keeps the walking fixture independent of camera mode and HUD size.
+  const points=new WeakMap(),translate=CanvasRenderingContext2D.prototype.translate;
+  CanvasRenderingContext2D.prototype.translate=function(x,y){
+    if(this.canvas.hasAttribute('data-camp-input'))points.set(this,[x,y]);
+    return translate.call(this,x,y);
+  };
   const ellipse=CanvasRenderingContext2D.prototype.ellipse;
   CanvasRenderingContext2D.prototype.ellipse=function(...args){
-    if(args[2]===19&&args[3]===10&&this.lineWidth===1&&(this.strokeStyle==='#cfcfcf55'||String(this.strokeStyle).startsWith('rgba(207, 207, 207,')||this.strokeStyle==='#b5542980'||String(this.strokeStyle).startsWith('rgba(181, 84, 41,'))){
-      const m=this.getTransform(),r=this.canvas.getBoundingClientRect(),dpr=this.canvas.width/r.width,s=m.a/dpr;
-      window.__fieldPosition={x:(m.e/dpr-r.width*.51)/(80*s)+(m.f/dpr-r.height*.56)/(40*s),y:(m.f/dpr-r.height*.56)/(40*s)-(m.e/dpr-r.width*.51)/(80*s)};
+    if(points.has(this)&&args[2]===19&&args[3]===10&&this.lineWidth===1&&(this.strokeStyle==='#cfcfcf55'||String(this.strokeStyle).startsWith('rgba(207, 207, 207,')||this.strokeStyle==='#b5542980'||String(this.strokeStyle).startsWith('rgba(181, 84, 41,'))){
+      const [px,py]=points.get(this);
+      window.__fieldPosition={x:px/80+py/40,y:py/40-px/80};
     }
     return ellipse.apply(this,args);
   };
