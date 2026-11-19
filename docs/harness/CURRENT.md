@@ -1,5 +1,23 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · 모바일 밀집 대화와 현재 게시 상태
+
+| 대상 | 확인한 상태 |
+| --- | --- |
+| GitHub main | `ae37b2e`에 PR #26의 캠퍼·의상·불가 벤치가 들어 있다. |
+| 작업 브랜치 | `fix/mobile-camp-readability`의 게임 코드 `0f9b659`는 후속 그래픽 `f8540b3`을 포함한다. 세 맵과 참가자 초상화에 같은 캠퍼 디자인을 사용하며, 모바일에서는 최근 대화와 이름표를 함께 읽고 선택할 수 있다. [수정 전](../reviews/2026-11-20-mobile-chat-before.png) · [수정 후](../reviews/2026-11-20-mobile-chat-after.png) |
+| 기존 Sites | v42의 게시 성공을 확인했다. v43·v44는 저장됐으며 조회 당시 두 버전 모두 게시 ID가 없었다. 저장본 v44와 그래픽 브랜치의 소스 일치 여부는 미확인이다. |
+
+다음 결정은 검증한 작업 브랜치의 main 병합 여부와 운영 게시 여부다. 아래 날짜별 기록은 각 작업 당시의 상태와 근거를 보존한다. [검증 기록](../validation.md)
+
+## 2026-11-20 · Camper-led art and portraits
+
+The current camper anchors the landscape materials, shelters, interactive props, benches, fire animation, item effects and UI portraits. The [release record](../reviews/2026-11-20-camper-style.md) includes the scene captures and build command.
+
+## 2026-11-20 · Three landscapes, camp shadows and character faces
+
+The follow-up release uses illustrated terrain and scenery on all three maps, matches ground shadows to the light and removes Discord portraits from the character painter and lobby preview. The original source images, processing scripts, three-map render command and shipped asset hashes are in the [landscape release record](../reviews/2026-11-20-landscape-release.md).
+
 ## 2026-11-20 · Runtime camp artwork
 
 The user requested the complete camp-art revision and publication to the existing Site. The release adds a direction-aware camper, selectable hair and clothing, seated and moving poses, timber benches and fire-circle ground. For current evidence run the [production scene capture](../art/scene-first-review.md). See the [390px view from the production renderer](../reviews/2026-11-20-camp-live-mobile.png). The earlier dated receipts below describe review-time state. Site publication is tracked separately by its saved version and deployment result.
@@ -8,7 +26,9 @@ The user requested the complete camp-art revision and publication to the existin
 
 The active art task is the [scene-first workflow](../art/scene-first-review.md). Inspect the [current candidate, evidence and limits](../../art/sprites/scene-reviews/camp-circle-se/README.md) at actual mobile and desktop scale. The candidate is pending user selection. Character customization and Idle follow selection. Both earlier rejected canvas sizes now have verified file receipts. The older entries below record their respective dates.
 
-**Prepared:** 2026-11-16 KST. **Status:** intent-first harness v2.0 **draft PR [#21](https://github.com/biru100/HuddlersFire/pull/21)** on branch `harness/intent-first-project-v2-20261116`, not merged to main or deployed. Re-check the **current PR head**, GitHub/Work/Sites before treating this as live status.
+### 2026-11-16 하네스 초안 당시 기록
+
+아래의 초안 상태와 제안은 당시 브랜치 기준이다. [PR #21](https://github.com/biru100/HuddlersFire/pull/21)은 이후 main에 병합됐다.
 
 ## Product North Star
 

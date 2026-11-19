@@ -219,6 +219,22 @@ test('crowded speech bubbles stay within the viewport without overlap and priori
   }
   assert.equal(candidates[0].id, '0');
 });
+test('a narrow mobile gap fits one line of chat before the radio and cannot overlap controls', () => {
+  const bounds = {left:12, right:378, top:12, bottom:508};
+  const bubble = {id:'friend', until:3000, anchorX:190, anchorY:160, width:164, height:85};
+  const radio = {...bubble, id:'__radio__', until:Number.MAX_SAFE_INTEGER};
+  const options = {mobile:true, limit:2, obstacles:[
+    {x:0, y:0, width:390, height:152}, {x:0, y:196, width:390, height:324},
+    {x:200, y:152, width:190, height:44},
+  ]};
+  const boxes = layoutBubbles([radio, bubble], bounds, options);
+  assert.deepEqual(boxes.map(b=>b.id), ['friend']);
+  assert.equal(boxes[0].compact, true);
+  assert.equal(boxes[0].y, 160);
+  assert.ok(boxes[0].x + boxes[0].width <= 192);
+  assert.equal(layoutBubbles([radio], bounds, options)[0].id, '__radio__');
+  assert.deepEqual(layoutBubbles([bubble], bounds, {...options, obstacles:[{x:0,y:0,width:390,height:520}]}), []);
+});
 test('only supported HTTPS YouTube URLs become video IDs', () => {
   for (const url of ['https://youtu.be/abcdefghijk?t=1', 'https://www.youtube.com/watch?v=abcdefghijk', 'https://m.youtube.com/shorts/abcdefghijk']) assert.equal(parseYouTubeUrl(url), 'abcdefghijk');
   for (const url of ['javascript:alert(1)', 'https://youtube.com.evil.test/watch?v=abcdefghijk', 'https://user@youtube.com/watch?v=abcdefghijk', 'https://youtu.be/a', 'http://youtube.com/watch?v=abcdefghijk', 'https://youtube.com/playlist?list=x']) assert.equal(parseYouTubeUrl(url), null);

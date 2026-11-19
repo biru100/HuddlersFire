@@ -1,7 +1,7 @@
 'use client';
 import { useCampSettings } from './use-camp-settings';
 import { characterColor } from '@/lib/camp-appearance.mjs';
-import { Avatar } from '@/seed-design/ui/avatar';
+import CharacterPreview from './character-preview';
 import { Badge } from '@/seed-design/ui/badge';
 import { ActionButton as Button } from '@/seed-design/ui/action-button';
 import { Dialog } from '@/seed-design/ui/dialog';
@@ -9,7 +9,7 @@ import { PRESENCE_LABELS } from '@/lib/camp-presence.mjs';
 import type { Presence } from '@/lib/camp-types';
 
 export type PlayerInfoView = Presence & {
-  id: string; name: string; color: string; avatar: string | null; isSelf: boolean; isHost: boolean;
+  id: string; name: string; color: string; hairStyle:number; topStyle:number; isSelf: boolean; isHost: boolean;
   connected: boolean; allowCarry: boolean | null; activity: string; weapon: string;
 };
 type Props = { canHide?:boolean; hidden?:boolean; onHidden?:(id:string)=>void; player: PlayerInfoView | null; anchor: { x: number; y: number } | null; onClose: () => void; onCloseFocus: () => void; onCall:(id:string)=>void; container?:HTMLElement };
@@ -23,7 +23,7 @@ export default function PlayerInfoPanel({ player, onClose, onCloseFocus, onCall,
       <Dialog.Description>지금 이 모닥불에서 함께하는 플레이어예요.</Dialog.Description>
       {player && <>
         <div className="player-info-heading">
-          <Avatar size="64" src={player.avatar||undefined} fallback={Array.from(player.name)[0]}/>
+          <CharacterPreview {...player} portraitSize={64}/>
           <div><strong>{player.name}</strong><div className="player-info-badges">{player.isSelf && <Badge tone="neutral">나</Badge>}{player.isHost && <Badge tone="neutral">방장</Badge>}<Badge tone="neutral">{player.connected ? '연결됨' : '연결 대기'}</Badge></div></div>
         </div>
         <p>{PRESENCE_LABELS[player.presence as keyof typeof PRESENCE_LABELS]}{player.statusText&&` · ${player.statusText}`}</p><p>{player.workText}</p>

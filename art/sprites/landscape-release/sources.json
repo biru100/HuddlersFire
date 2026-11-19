@@ -1,0 +1,34 @@
+{
+  "generator": "ImageGen",
+  "briefs": "briefs.json",
+  "originals": {
+    "distant": {
+      "file": "distant.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 1347478,
+      "sha256": "9fc4cca9332850ac9f3eeef05c92507ceb626d5cd0d028ec02f706c260458b05"
+    },
+    "camp": {
+      "file": "camp.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 3248209,
+      "sha256": "5e91f982e01b2620a4a0736ab1a56eaeb175d728d479d019175d8d1c46ac5a19"
+    },
+    "playground": {
+      "file": "playground.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2077245,
+      "sha256": "3e997c3b8e927e260e02882eeb625dce946c1ba180e33e905dd3fda743e5a29c"
+    },
+    "showroom": {
+      "file": "showroom.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2995763,
+      "sha256": "c5d3e8df470dadd1178e4744484f7bfe50e4852b442a32ffd3e7103361233ae0"
+    }
+  }
+}

@@ -4,16 +4,48 @@ import {camperSheetId} from './camp-camper-render.mjs';
 import {drawCharacter,characterPose} from './camp-character.mjs';
 import {pixelPropDisplay} from './camp-pixel.mjs';
 import {clearingBench, drawClearingBench} from './camp-clearing-art.mjs';
+// The two open-air maps share the upper-left daylight painted into their scenery.
+const DAYLIGHT={kind:'sun',intensity:1};
+const DAYLIGHT_CASTERS=[DAYLIGHT];
+function groundLights(map,lights){return map==='playground'||map==='showroom'?DAYLIGHT_CASTERS:lights;}
+
 export function shadowProfile(item,assets=defaultSpriteAssets){
-  const key=item.type==='bench'?(Math.abs(Math.sin(item.angle||0))<.5?'bench-ne':'bench-nw'):item.type==='garden'?item.variant:item.type==='fire'?'firewood':item.type;
+  const key=item.type==='bench'?(Math.abs(Math.sin(item.angle||0))<.5?'bench-ne':'bench-nw'):item.type==='garden'?item.variant:item.type==='fire'?'firewood':item.type==='gameBooth'?'game-booth':item.type;
   const row=assets.manifest.materials?.surfaces[key];if(!row)return null;const scale=item.scale||1;
   return {rx:row.footprint[0]*scale,ry:row.footprint[1]*scale,height:row.height*scale,angle:row.axis||0};
 }
 export function castVector(item,light){
-  const dx=item.x-light.x,dy=item.y-light.y,distance=Math.hypot(dx,dy),height=Math.max(0,(item.z||0)+(item.height??1));if(distance<.05||distance>=light.radius||height<=0)return null;
-  // Soft area-light art direction: finite, short shadows, retaining the actual alpha silhouette.
-  const length=Math.min(.95,height*distance/Math.max(.2,light.height+height)*.42),ratio=length/distance;
-  return {x:(dx-dy)*40*ratio,y:(dx+dy)*20*ratio,alpha:Math.max(0,1-distance/light.radius)*Math.min(.48,(light.intensity??1)*.48)};
+  const height=Math.max(0,(item.z||0)+(item.height??1));
+  if(!height)return null;
+  if(light.kind==='sun'){
+    const rise=Math.min(240,height*40);
+    return {x:rise*.63,y:rise*.31,alpha:.34};
+  }
+  const dx=item.x-light.x,dy=item.y-light.y,distance=Math.hypot(dx,dy);
+  if(distance<.05||distance>=light.radius)return null;
+  // A low, broad emitter lengthens a silhouette near its feet; the ambient night
+  // light takes over before the projection can stretch across the whole map.
+  const length=Math.min(2.35,height*distance/(Math.max(.15,light.height)+height*.62)*.70);
+  const reach=1-distance/light.radius;
+  return {x:(dx-dy)*40*length/distance,y:(dx+dy)*20*length/distance,
+    alpha:.47*(light.intensity??1)*reach*reach*(3-2*reach)};
+}
+
+function incident(item,light){
+  const reach=Math.max(0,1-Math.hypot(item.x-light.x,item.y-light.y)/light.radius);
+  // Bin only the fill energy, so flame flicker can modulate opacity on the
+  // existing texture without a new static map raster every frame.
+  return reach**2*Math.max(0,Math.round((light.intensity??1)*8)/8);
+}
+function shadowShare(item,light,lights){
+  if(lights.length<2)return 1;
+  const own=incident(item,light);
+  let total=own;
+  for(const other of lights)if(other!==light)total+=incident(item,other);
+  return total>0?own/total:0;
+}
+function geometryKey(light){
+  return light.kind==='sun'?'sun':[light.x,light.y,light.height,Number(light.radius.toFixed(1))];
 }
 export function lightVisibility(receiver,light,casters){
   if(!receiver)return 1;const dx=receiver.x-light.x,dy=receiver.y-light.y,length=dx*dx+dy*dy;if(length<.01)return 1;
@@ -35,13 +67,29 @@ export class GroundShadows{
     const data=c.getImageData(0,0,sw,sh).data;let left=sw,right=-1,top=sh,bottom=-1,baseline=-Infinity;const edges=new Int16Array(sw);edges.fill(-1);
     for(let y=0;y<sh;y++)for(let x=0;x<sw;x++){const alpha=data[(y*sw+x)*4+3];if(alpha>16){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}if(alpha>128){baseline=Math.max(baseline,y/rasterScale-originY-slope*(x/rasterScale-originX));edges[x]=y;}}
     if(right<0)return null;baseline=ground??baseline;
-    const pad=Math.ceil(4*rasterScale),x=(left-pad)/rasterScale-originX,y=(top-pad)/rasterScale-originY,w=right-left+1+pad*2,h=bottom-top+1+pad*2,image=createSpriteSurface(this.ctx,w,h),m=image.getContext('2d');
-    m.shadowColor='#000';m.shadowBlur=1.5*rasterScale;m.drawImage(source,left,top,right-left+1,bottom-top+1,pad,pad,right-left+1,bottom-top+1);m.globalCompositeOperation='source-in';m.fillStyle='#000';m.fillRect(0,0,w,h);
+    const relief=Math.max(8,baseline-(top/rasterScale-originY)+Math.abs(slope)*(right-left)/2/rasterScale);
+    const blur=Math.min(6,Math.max(2.5,relief*.042)),pad=Math.ceil((blur*2+1)*rasterScale);
+    const x=(left-pad)/rasterScale-originX,y=(top-pad)/rasterScale-originY;
+    const w=right-left+1+pad*2,h=bottom-top+1+pad*2,image=createSpriteSurface(this.ctx,w,h),m=image.getContext('2d');
+    m.drawImage(source,left,top,right-left+1,bottom-top+1,pad,pad,right-left+1,bottom-top+1);
+    m.globalCompositeOperation='source-in';m.fillStyle='#000';m.fillRect(0,0,w,h);
+    const diffuse=createSpriteSurface(this.ctx,w,h),soft=diffuse.getContext('2d');
+    soft.filter='blur('+blur*rasterScale+'px)';soft.drawImage(image,0,0);
+    const near=m.getImageData(0,0,w,h),far=soft.getImageData(0,0,w,h);
+    // Mix sharp alpha at the caster's feet into a larger, lighter penumbra at
+    // its crown. This is baked per silhouette, shared by Canvas and WebGL.
+    for(let py=0;py<h;py++)for(let px=0;px<w;px++){
+      const i=(py*w+px)*4+3,where=Math.min(1,Math.max(0,(baseline+slope*(x+px/rasterScale)-y-py/rasterScale)/relief));
+      const spread=.17+.79*where;
+      near.data[i]=(near.data[i]*(1-spread)+far.data[i]*spread)*(1-.42*where);
+      far.data[i]*=1-.42*where;
+    }
+    m.putImageData(near,0,0);soft.putImageData(far,0,0);
     const contacts=[];let start=null,end=null;
     const flush=()=>{if(start!==null){const center=(start+end)/2/rasterScale-originX;contacts.push({x:center,y:slope*center+baseline+1,rx:Math.max(2,(end-start+3)/2/rasterScale),ry:2});}start=end=null;};
     for(let px=left;px<=right+1;px++){const edge=edges[px],near=edge>=0&&Math.abs(slope*(px/rasterScale-originX)+baseline-(edge/rasterScale-originY))<3;if(near){if(start===null)start=px;end=px;}else flush();}
-    const softened=createSpriteSurface(this.ctx,w,h),soft=softened.getContext('2d');soft.filter='blur('+2*rasterScale+'px)';soft.drawImage(image,0,0);
-    const result={key,image:softened,x,y,width:w/rasterScale,height:h/rasterScale,slope,baseline,relief:Math.max(8,baseline-(top/rasterScale-originY)+Math.abs(slope)*(right-left)/2/rasterScale),contacts};this.masks.set(key,result);while(this.masks.size>256)this.masks.delete(this.masks.keys().next().value);return result;
+    const result={key,image,diffuse,x,y,width:w/rasterScale,height:h/rasterScale,slope,baseline,relief,contacts};
+    this.masks.set(key,result);while(this.masks.size>256)this.masks.delete(this.masks.keys().next().value);return result;
   }
   propMask(item,theme='color'){
     const bench=clearingBench(this.assets,item,theme,this.mapId,this.pixelMode);
@@ -61,28 +109,88 @@ export class GroundShadows{
     const key=JSON.stringify(['player',!!release,theme,player.hairStyle,player.topStyle,player.visualDirection,pose.artFrame,pose.state,pose.index,pose.lower.state,pose.lower.index,pose.mirror,player.renderDirection,player.renderSeat,player.weapon,pose.weaponSide,display.x,display.y]);
     return this.mask(key,c=>{c.translate(display.x,display.y);drawCharacter(c,player,{time,now,reduced,emote,blankHead:true,shadowOnly:true,theme,assets:this.assets});},{ground:0,width:160,height:192,originX:80,originY:160,rasterScale:.5});
   }
-  project(c,mask,item,light){
-    const z=Math.max(0,item.z||0),vector=castVector({...item,height:mask.relief/40},{...light,intensity:1});if(!vector||vector.alpha<.002)return;
-    const kx=vector.x/(mask.relief+z*40),ky=vector.y/(mask.relief+z*40),b=mask.baseline+z*40;
-    c.save();c.globalAlpha*=vector.alpha/(1+z*.4);c.transform(1+kx*mask.slope,mask.slope*(1+ky),-kx,-ky,kx*b,mask.baseline+ky*b);c.drawImage(mask.image,mask.x,mask.y,mask.width,mask.height);c.restore();
+  project(c,mask,item,light,share=1){
+    const z=Math.max(0,item.z||0),shape=shadowProfile(item,this.assets);
+    // Low, broad props occupy many vertical sprite pixels from isometric depth.
+    // Use their measured height so a trampoline does not cast a fence-sized shadow.
+    const height=Math.min(mask.relief/40,shape?.height??Infinity);
+    const vector=castVector({...item,height},{...light,intensity:1});
+    if(!vector||share*vector.alpha<.002)return;
+    const rise=mask.relief+z*40,kx=vector.x/rise,ky=vector.y/rise,b=mask.baseline+z*40;
+    c.save();c.globalAlpha*=share*vector.alpha/(1+z*.74);
+    // Looking along the edge of an upright sprite can collapse the affine
+    // projection to a line. Its thickness on the ground is still visible.
+    if(Math.abs(vector.y)<7&&Math.abs(vector.x)>5){
+      const offset=z*40/rise,length=Math.hypot(vector.x,vector.y);
+      this.blob(c,vector.x*(.5+offset*.5),mask.baseline+vector.y*(.5+offset*.5),
+        Math.max(4,length*(1-offset)*.56),Math.min(6,mask.width*.12),Math.atan2(vector.y,vector.x),(1-Math.abs(vector.y)/7)*.7);
+    }
+    c.transform(1+kx*mask.slope,mask.slope*(1+ky),-kx,-ky,kx*b,mask.baseline+ky*b);
+    c.drawImage(z>.3?mask.diffuse:mask.image,mask.x,mask.y,mask.width,mask.height);c.restore();
   }
   layer(){const surface=createSpriteSurface(this.ctx,1050,600),c=surface.getContext('2d');c.scale(.5,.5);c.translate(1050,580);return {surface,c};}
   static(objects,lights,map,theme){
     const candidates=objects.filter(o=>o.type!=='player').map(item=>({item,mask:this.propMask(item,theme)})),rows=candidates.filter(r=>r.mask),key=map+theme+(this.pixelMode||'off')+JSON.stringify(candidates.map(r=>[r.item.type,r.item.id,r.item.x,r.item.y,r.item.scale,r.item.angle,r.item.variant,r.mask?.key]));
-    if(this.cache?.key!==key){const {surface,c}=this.layer();for(const {item,mask}of rows){const x=(item.x-item.y)*40,y=(item.x+item.y)*20;for(const foot of mask.contacts)this.blob(c,x+foot.x,y+foot.y,foot.rx+1,foot.ry,0,theme==='dark'?.55:.5);}this.cache={key,surface,layers:new Map()};}
+    if(this.cache?.key!==key){
+      const {surface,c}=this.layer();
+      for(const {item,mask}of rows){
+        const x=(item.x-item.y)*40,y=(item.x+item.y)*20,shape=shadowProfile(item,this.assets);
+        // Broad ground contact is deliberately faint. The solid feet and
+        // supports supply the darkest contact, including separate bench legs.
+        if(shape)this.blob(c,x,y,shape.rx*1.12,shape.ry*1.08,shape.angle,.19);
+        for(const foot of mask.contacts)this.blob(c,x+foot.x,y+foot.y,foot.rx+2,foot.ry+1,0,.58);
+      }
+      this.cache={key,surface,layers:new Map()};
+    }
     const c=this.ctx;this.activeLayers=[];c.drawImage(this.cache.surface,-1050,-580,2100,1200);
-    for(const light of lights){const lightKey=JSON.stringify([light.x,light.y,light.height,Number(light.radius.toFixed(1))]);let layer=this.cache.layers.get(lightKey);if(!layer){layer=this.layer();for(const {item,mask}of rows){layer.c.save();layer.c.translate((item.x-item.y)*40,(item.x+item.y)*20);this.project(layer.c,mask,item,light);layer.c.restore();}this.cache.layers.set(lightKey,layer);while(this.cache.layers.size>6)this.cache.layers.delete(this.cache.layers.keys().next().value);}this.activeLayers.push(layer);c.save();c.globalAlpha*=light.intensity;c.drawImage(layer.surface,-1050,-580,2100,1200);c.restore();}
+    const sources=groundLights(map,lights);
+    const fillKey=sources.length>1?JSON.stringify(sources.map(l=>[geometryKey(l),Math.round((l.intensity??1)*8)])):'';
+    for(const light of sources){
+      const lightKey=JSON.stringify(geometryKey(light))+fillKey;let layer=this.cache.layers.get(lightKey);
+      if(!layer){
+        layer=this.layer();
+        for(const {item,mask}of rows){
+          layer.c.save();layer.c.translate((item.x-item.y)*40,(item.x+item.y)*20);
+          this.project(layer.c,mask,item,light,shadowShare(item,light,sources));layer.c.restore();
+        }
+        this.cache.layers.set(lightKey,layer);while(this.cache.layers.size>6)this.cache.layers.delete(this.cache.layers.keys().next().value);
+      }
+      this.activeLayers.push(layer);c.save();c.globalAlpha*=light.intensity??1;c.drawImage(layer.surface,-1050,-580,2100,1200);c.restore();
+    }
   }
   player(p,lights,options){
-    if(['falling','respawning'].includes(p.motion))return;const mask=this.playerMask(p,options);if(!mask)return;const c=this.ctx,z=Math.max(0,p.z||0);c.save();c.translate((p.x-p.y)*40,(p.x+p.y)*20);
-    if(!p.carriedBy&&!p.seatId)this.blob(c,0,2,Math.max(7,12-z),Math.max(2.5,4-z*.3),0,.6/(1+z*.6));
-    for(const light of lights){c.save();c.globalAlpha*=light.intensity;this.project(c,mask,p,light);c.restore();}c.restore();
+    if(['falling','respawning'].includes(p.motion))return;
+    const mask=this.playerMask(p,options);if(!mask)return;
+    const c=this.ctx,z=Math.max(0,p.z||0);
+    c.save();c.translate((p.x-p.y)*40,(p.x+p.y)*20);
+    if(!p.carriedBy&&!p.seatId){
+      // Airborne ambient occlusion spreads and disappears as the feet lift.
+      this.blob(c,0,1,13+Math.min(z,3)*2,4+Math.min(z,3)*.9,0,.41/(1+z*2.8)**2);
+      if(z<.25)for(const foot of mask.contacts)this.blob(c,foot.x,foot.y,foot.rx+1,2.4,0,.63*(1-z/.25));
+    }
+    for(const light of lights){
+      c.save();c.globalAlpha*=light.intensity??1;this.project(c,mask,p,light,shadowShare(p,light,lights));c.restore();
+    }
+    c.restore();
+  }
+  football(ball,lights,theme){
+    const c=this.ctx,mask=this.mask('football/'+theme,ctx=>this.assets.drawSprite(ctx,'football',{y:-8,width:17,anchorY:.5,theme}),{ground:0,width:40,height:40,originX:20,originY:28});
+    if(!mask)return;
+    c.save();c.translate((ball.x-ball.y)*40,(ball.x+ball.y)*20);
+    this.blob(c,0,0,8,2.8,0,.56);
+    for(const light of lights)this.project(c,mask,ball,light,shadowShare(ball,light,lights)*(light.intensity??1));
+    c.restore();
   }
   draw(objects,lights,{map,edge,theme,...options}){
     const c=this.ctx;this.lastLights=lights;c.save();c.setObject?.({type:'ground-shadow'});
     if(c.clipGround)c.clipGround(edge);else{c.transform(1,.5,-1,.5,0,0);c.beginPath();c.roundRect(-edge*40,-edge*40,edge*80,edge*80,80);c.clip();c.transform(.5,-.5,1,1,0,0);}
     this.static(objects.filter(o=>!['player','football','projectile','weaponEffect'].includes(o.type)),lights,map,theme);
-    for(const item of objects)if(item.type==='player')this.player(item,lights,{...options,theme});c.restore();
+    const sources=groundLights(map,lights);
+    for(const item of objects){
+      if(item.type==='player')this.player(item,sources,{...options,theme});
+      else if(item.type==='football')this.football(item,sources,theme);
+    }
+    c.restore();
   }
   destroy(){this.cache=null;this.texture=null;this.masks.clear();}
 }

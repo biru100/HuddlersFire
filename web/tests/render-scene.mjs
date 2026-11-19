@@ -8,7 +8,6 @@ import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { COLORS, EMOTES, TRAMPOLINES, RADIO, spawnPlayer, applyPlayerAction } from '../lib/camp-world.mjs';
 import { drawCharacter } from '../lib/camp-character.mjs';
-import { avatarFixtures } from './character-fixtures.mjs';
 globalThis.window = { devicePixelRatio: 1, matchMedia: () => ({ matches: true }) };
 globalThis.ResizeObserver = class { observe() {} disconnect() {} };
 globalThis.requestAnimationFrame = () => 1;
@@ -51,15 +50,11 @@ for(const [name,mapId,width,height,followSelf,x,y]of [
   writeFileSync('outputs/'+name+'.png',canvas.toBuffer('image/png'));renderer.destroy();
   console.log('PASS '+name+': expanded terrain, map-specific portals/booths and camera');
 }
-const profiles = await Promise.all(avatarFixtures().map(async fixture => ({ ...fixture, loaded: await loadImage(fixture.image.toBuffer('image/png')) })));
 function createRenderer(canvas, getScene) {
-  const renderer = new CampRenderer(canvas, () => {
+  return new CampRenderer(canvas, () => {
     const scene = getScene();
-    return { ...scene, players: scene.players.map((p, i) => ({ ...p, avatar: i % 5 < 4 ? profiles[i % 5].url : 'https://cdn.discordapp.com/avatars/5/def.png?size=64' })) };
+    return { ...scene, players: scene.players.map((p,i) => ({ hairStyle:i%2, topStyle:(i>>1)%2, ...p })) };
   });
-  for (const profile of profiles) renderer.avatars.entries.set(profile.url, { image: profile.loaded, failed: false });
-  renderer.avatars.entries.set('https://cdn.discordapp.com/avatars/5/def.png?size=64', { image: new Image(), failed: true });
-  return renderer;
 }
 for (const [name, width, height, count] of [['camp-desktop', 1050, 824, 16], ['camp-mobile', 390, 520, 1]]) {
   const canvas = createCanvas(width, height);
@@ -77,9 +72,20 @@ for (const [name, width, height] of [['camp-chat-radio', 1050, 824], ['camp-chat
   const players = Array.from({ length: 16 }, (_, i) => ({ id: String(i), name: `친구 ${i + 1}`, color: COLORS[i % COLORS.length],
     ...spawnPlayer(i), x: RADIO.x - .8 + (i % 4) * .12, y: RADIO.y + Math.floor(i / 4) * .12,
     bubble: `${i + 1}번째 이야기! 함께 듣는 밤에 반가워요.`, bubbleUntil: 6000 + i * 100 }));
-  const renderer = createRenderer(canvas, () => ({ players, self: '0', now: 5000,
-    music: { current: { title: '별이 빛나는 밤에 함께 듣는 긴 제목의 노래', videoId: 'abcdefghijk', name: '허들러' }, playing: true } }));
-  renderer.draw(5000); writeFileSync('outputs/' + name + '.png', canvas.toBuffer('image/png')); renderer.destroy();
+  const scene = {players, self:'0', now:5000, followSelf:false,
+    music:{current:{title:'별이 빛나는 밤에 함께 듣는 긴 제목의 노래', videoId:'abcdefghijk', name:'허들러'}, playing:true}};
+  const renderer = createRenderer(canvas, () => scene);
+  renderer.draw(5000);
+  writeFileSync('outputs/' + name + '.png', canvas.toBuffer('image/png'));
+  if (width === 390) {
+    scene.followSelf = true;
+    renderer.draw(5000);
+    writeFileSync('outputs/camp-chat-radio-mobile-follow.png', canvas.toBuffer('image/png'));
+    for (const player of players) player.bubbleUntil = 0;
+    renderer.draw(5000);
+    writeFileSync('outputs/camp-radio-only-mobile.png', canvas.toBuffer('image/png'));
+  }
+  renderer.destroy();
   console.log(`PASS ${name}: 16 nearby speech bubbles and radio interaction, ${width}x${height}`);
 }
 for (const [name, width, height, reduced] of [['camp-actions', 1050, 824, false], ['camp-actions-mobile', 390, 520, false], ['camp-actions-reduced', 1050, 824, true]]) {
@@ -137,32 +143,32 @@ for (const [name, width, height, count] of [['camp-chain', 1050, 824, 6], ['camp
 // Larger reference sheet plus native desktop/mobile scales, all using the production drawing function.
 const sheet = createCanvas(1200, 730), sc = sheet.getContext('2d');
 sc.fillStyle = '#18251f'; sc.fillRect(0, 0, sheet.width, sheet.height);
-sc.fillStyle = '#e8e8d7'; sc.font = 'bold 22px "Malgun Gothic", sans-serif'; sc.fillText('캐릭터 · 프로필 사진과 동작', 26, 36);
+sc.fillStyle = '#e8e8d7'; sc.font = 'bold 22px "Malgun Gothic", sans-serif'; sc.fillText('캐릭터 · 헤어와 의상별 동작', 26, 36);
 const poses = [
   ['서기', {}], ['걷기', { moving: true }], ['앉기', { sitting: true }], ['쪼그리기', { crouching: true }],
   ['친구 들기', { carrying: 'friend' }], ['인사', {}, 'wave'], ['하트', {}, 'heart'], ['박수', {}, 'clap'], ['춤', {}, 'dance'],
 ];
-for (let row = 0; row < 5; row++) {
+for (let row = 0; row < 4; row++) {
   sc.fillStyle = '#aab79d'; sc.font = '12px "Malgun Gothic", sans-serif';
-  sc.fillText(['기본 얼굴', '인물형 픽스처', '그림 프로필', '로고 프로필', '투명 프로필'][row], 26, 72 + row * 112);
+  sc.fillText(['기본 조합', '헤어 2 · 의상 1', '헤어 1 · 의상 2', '헤어 2 · 의상 2'][row], 26, 72 + row * 112);
   poses.forEach(([label, state, emote], column) => {
     const x = 175 + column * 116, y = 144 + row * 112;
     sc.save(); sc.translate(x, y); sc.scale(1.15, 1.15);
-    drawCharacter(sc, { color: COLORS[column % COLORS.length], ...state }, { avatar: row ? profiles[row - 1].loaded : null, time: 5.13, reduced: false, emote });
+    drawCharacter(sc, { color: COLORS[column % COLORS.length], hairStyle:row%2, topStyle:Math.floor(row/2), ...state }, { time: 5.13, reduced: false, emote });
     sc.restore(); sc.fillStyle = '#aab79d'; sc.font = '11px "Malgun Gothic", sans-serif'; sc.textAlign = 'center'; sc.fillText(label, x, y + 23); sc.textAlign = 'left';
   });
 }
 sc.fillStyle = '#aab79d'; sc.font = '12px "Malgun Gothic", sans-serif'; sc.fillText('두 테마', 26, 657);
 for (const [i, theme] of ['color', 'dark'].entries()) {
-  sc.save(); sc.translate(180 + i * 125, 697); drawCharacter(sc, { color: COLORS[0] }, { theme, blankHead: true }); sc.restore();
+  sc.save(); sc.translate(180 + i * 125, 697); drawCharacter(sc, { color: COLORS[0] }, { theme }); sc.restore();
   sc.fillText(theme === 'color' ? '컬러' : '다크', 145 + i * 125, 721);
 }
 sc.fillText('실제 배율 · 데스크톱 / 모바일', 460, 657);
 for (const [i, scale] of [.965, .358].entries()) {
-  sc.save(); sc.translate(745 + i * 120, 697); sc.scale(scale, scale); drawCharacter(sc, { color: COLORS[1] }, { avatar: profiles[0].loaded }); sc.restore();
+  sc.save(); sc.translate(745 + i * 120, 697); sc.scale(scale, scale); drawCharacter(sc, { color: COLORS[1] }, {}); sc.restore();
 }
 writeFileSync('outputs/character-profiles.png', sheet.toBuffer('image/png'));
-console.log('PASS character-profiles: all postures, four profile fixtures, six colors, two themes and native scales');
+console.log('PASS character-profiles: all postures, wardrobe combinations, six colors, two themes and native scales');
 await import('./render-character-detail.mjs');
 
 for (const [name,width,height,zoom,followSelf] of [['camp-presence',1050,824,1,false],['camp-pip',560,480,1.5,true],['camp-zoom-mobile',390,520,2,true]]) {

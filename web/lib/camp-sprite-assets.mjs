@@ -30,6 +30,8 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
       if(map==='camp'||map==='playground') ids.push('sand'+suffix);
       if(data.files['field-camper-v2'+suffix]) ids.push('field-camper-v2'+suffix);
       if(map==='camp' && data.files['camp-clearing-art'+suffix]) ids.push('camp-clearing-art'+suffix, 'normal-camp-clearing-art');
+      if(data.files['landscape-'+map]) ids.push('landscape-'+map);
+      if(data.files['camp-scenery'+suffix]) ids.push('camp-scenery'+suffix);
       ids.push(...(data.previewFiles||[]));
       return [...new Set([...ids,...ids.map(id=>data.materials?.sheets[id]).filter(Boolean)])];
     },

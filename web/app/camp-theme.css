@@ -1,25 +1,25 @@
 /* Color is the default; browser preference is applied before first paint. */
 :root {
   color-scheme:light;
-  --camp-bg:#faf6ef;
+  --camp-bg:#f6ebd9;
   --camp-surface:var(--seed-color-bg-layer-default);
   --camp-raised:var(--seed-color-bg-layer-floating);
-  --camp-line:#ded8ce;
-  --camp-muted:#69645c;
-  --camp-field-bg:#f1eadc;
-  --camp-kbd-bg:#29261f08;
-  --camp-overlay:#fffdf7ed;
-  --camp-accent:#b74722;
-  --seed-color-bg-layer-default:#fffdf8;
-  --seed-color-bg-layer-floating:#ffffff;
-  --seed-color-bg-brand-solid:#b74722;
-  --seed-color-bg-brand-solid-pressed:#963719;
-  --seed-color-bg-brand-weak:#fff0e4;
-  --seed-color-bg-brand-weak-pressed:#f8dfc9;
-  --seed-color-fg-brand:#a64020;
+  --camp-line:#cdb89e;
+  --camp-muted:#695347;
+  --camp-field-bg:#e9d6b7;
+  --camp-kbd-bg:#62433712;
+  --camp-overlay:#fff5e7ef;
+  --camp-accent:#286b61;
+  --seed-color-bg-layer-default:#fff8ec;
+  --seed-color-bg-layer-floating:#fff9f0;
+  --seed-color-bg-brand-solid:#286b61;
+  --seed-color-bg-brand-solid-pressed:#23574f;
+  --seed-color-bg-brand-weak:#dcebe0;
+  --seed-color-bg-brand-weak-pressed:#c6dfd2;
+  --seed-color-fg-brand:#275e56;
   --seed-color-fg-on-brand:#ffffff;
-  --seed-color-stroke-brand-solid:#b74722;
-  --seed-color-stroke-focus-ring:#b74722;
+  --seed-color-stroke-brand-solid:#286b61;
+  --seed-color-stroke-focus-ring:#286b61;
 }
 /* SEED neutral theme. Component dimensions, typography and interaction recipes stay upstream. */
 :root[data-camp-theme="dark"] {
@@ -69,3 +69,7 @@
   --seed-color-bg-critical-weak:#262626;
   --seed-color-fg-on-critical:#111111;
 }
+
+.camper-portrait { display:inline-grid; flex:none; place-items:center; overflow:hidden; border-radius:28%; background:var(--seed-color-bg-brand-weak); border:1px solid var(--camp-line); }
+.camper-portrait canvas { display:block; width:100%; height:100%; image-rendering:pixelated; }
+.sprite-art { image-rendering:pixelated; }

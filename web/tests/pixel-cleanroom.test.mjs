@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync, mkdirSync, mkdtempSync, writeFileSync, symlinkSync, rmSync } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
+import { basename, join } from 'node:path';
 import { deflateSync, crc32 } from 'node:zlib';
 import { validateCleanroom, verifyLocalOutputs, verifySceneReview } from '../../tools/verify-pixel-cleanroom.mjs';
 
@@ -93,10 +94,14 @@ test('verifies delivered PNG bytes and rejects corrupt or fake images even with 
   const parent = new URL('../../art/sprites/cleanroom-pilot/outputs/native_pixel/', import.meta.url);
   mkdirSync(parent, {recursive:true});
   const dir = mkdtempSync(new URL('test-', parent));
-  const relativePath = 'art/sprites/cleanroom-pilot/outputs/native_pixel/' + dir.split('/').at(-1) + '/candidate.png';
+  const receiptDir = 'art/sprites/cleanroom-pilot/outputs/native_pixel/' + basename(dir);
+  const source = join(dir, 'source');
+  const file = join(source, 'candidate.png');
+  const relativePath = receiptDir + '/source/candidate.png';
   try {
     const valid = pngFixture();
-    writeFileSync(new URL('candidate.png', 'file://' + dir + '/'), valid);
+    mkdirSync(source);
+    writeFileSync(file, valid);
     const m = candidate(relativePath, valid);
     validateCleanroom(m, prompt);
     assert.equal(verifyLocalOutputs(m)[0].width, 1);
@@ -106,13 +111,17 @@ test('verifies delivered PNG bytes and rejects corrupt or fake images even with 
     assert.equal(verifyLocalOutputs(m)[0].width, 1);
     for (const invalid of [Buffer.from('not a PNG'), Buffer.from(valid)]) {
       if (invalid.length === valid.length) invalid[29] ^= 1;
-      writeFileSync(new URL('candidate.png', 'file://' + dir + '/'), invalid);
+      writeFileSync(file, invalid);
       assert.throws(() => verifyLocalOutputs(candidate(relativePath, invalid)));
     }
-    const linked = dir + '/linked.png';
-    symlinkSync(dir + '/candidate.png', linked);
-    assert.throws(() => validateCleanroom(candidate(relativePath.replace('candidate.png','linked.png'), valid), prompt), /symlink/);
-    rmSync(dir + '/candidate.png');
+    // Windows directory junctions exercise linked path components without elevated privileges.
+    symlinkSync(source, join(dir, 'linked'), process.platform === 'win32' ? 'junction' : 'dir');
+    assert.throws(() => validateCleanroom(candidate(receiptDir + '/linked/candidate.png', valid), prompt), /symlink/);
+    if (process.platform !== 'win32') {
+      symlinkSync(file, join(dir, 'linked.png'));
+      assert.throws(() => validateCleanroom(candidate(receiptDir + '/linked.png', valid), prompt), /symlink/);
+    }
+    rmSync(file);
     assert.throws(() => verifyLocalOutputs(m), /missing actual file/);
   } finally {
     rmSync(dir, {recursive:true,force:true});
