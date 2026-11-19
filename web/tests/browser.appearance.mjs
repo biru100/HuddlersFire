@@ -36,10 +36,11 @@ try{
     await evaluate(`localStorage.setItem('huddlers-fire-settings',JSON.stringify({effectsVolume:.35,musicVolume:28,musicMuted:true,allowCarry:false,...JSON.parse(localStorage.getItem('huddlers-fire-settings')||'{}'),theme:'color'}))`);
     await send('Page.navigate',{url:origin},sessionId);
     await until(()=>evaluate(`!!document.querySelector('#nickname')`),'Lobby unavailable');
-    await until(()=>evaluate(`!!document.querySelector('.solo-button')&&!document.querySelector('.solo-button').disabled`),'Linked entry not ready');
+    await until(()=>evaluate(`!!document.querySelector('.solo-button:not(:disabled):not([aria-disabled="true"])')`),'Linked entry not ready');
     await until(()=>evaluate(`!document.querySelector('.scene-status')`),'Scene assets did not finish loading');
     await delay(300);
-    const shot=async label=>{const s=await send('Page.captureScreenshot',{format:'png'},sessionId),bytes=Buffer.from(s.data,'base64');writeFileSync('outputs/seed-'+label+'-'+name+'.png',bytes);
+    const shot=async label=>{const s=await send('Page.captureScreenshot',{format:'png'},sessionId),bytes=Buffer.from(s.data,'base64');const mode=await evaluate('document.documentElement.dataset.campTheme');
+      writeFileSync('outputs/ui-'+label+'-'+name+'-'+mode+'.png',bytes);
       if(previewDir&&['room','field'].includes(label)){
         const identity=await evaluate(`fetch('/__sprite-preview/identity').then(r=>r.json())`),built=readJSON(inside(previewDir,'build/preview.json'));
         assert.equal(identity.fingerprint,built.fingerprint);assert.equal(identity.manifestHash,built.manifestHash);
@@ -62,7 +63,23 @@ try{
     await until(()=>evaluate(`!!document.querySelector('.in-camp')`),'Solo unavailable');
     await delay(300);await shot('field');
     if(mobile)assert.ok(await evaluate(`(()=>{const f=document.querySelector('.fire-seat-tools')?.getBoundingClientRect(),t=document.querySelector('.touch-controls')?.getBoundingClientRect();return !f||!t||f.left>=t.right||f.right<=t.left||f.top>=t.bottom||f.bottom<=t.top;})()`),'Fire controls must not cover mobile movement');
-    if(mobile)await evaluate(`document.querySelector('.camp-panel-dock button').click()`);
+    if (mobile) {
+      const controls = await evaluate(`[...document.querySelectorAll('.touch-controls button, .touch-actions button')].map(button => {
+        const style = getComputedStyle(button);
+        return [style.color, style.backgroundColor].map(value => value.match(/[\\d.]+/g).map(Number));
+      })`);
+      const luminance = rgb => rgb.slice(0,3).map(channel => {
+        const value = channel / 255;
+        return value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4;
+      }).reduce((sum, channel, index) => sum + channel * [.2126, .7152, .0722][index], 0);
+      assert.equal(controls.length, 7);
+      for (const [foreground, background] of controls) {
+        assert.equal(background[3] ?? 1, 1, 'Touch controls need a solid surface over the field');
+        const [darker, lighter] = [luminance(foreground), luminance(background)].sort((a,b) => a-b);
+        assert.ok((lighter + .05) / (darker + .05) >= 4.5, 'Touch labels must stay legible over the field');
+      }
+      await evaluate(`document.querySelector('.camp-panel-dock button').click()`);
+    }
     await delay(300);await shot('room');
     assert.ok(await evaluate(`document.documentElement.scrollWidth<=innerWidth&&[...document.querySelectorAll('.camp-panel-tabs button')].every(e=>{const r=e.getBoundingClientRect();return r.width>=44&&r.height>=36;})`),'Panel tabs must stay readable at both viewport sizes');
     assert.ok(await evaluate(`(()=>{const e=document.querySelector('.chat-panel form'),r=e.getBoundingClientRect(),footer=document.querySelector('.camp-panel-footer').getBoundingClientRect();return r.bottom<=footer.top&&footer.top-r.bottom<50&&e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));})()`),'Chat composer must remain visible at the bottom of the panel');
@@ -107,14 +124,23 @@ try{
     await shot('field-dark');
     await send('Page.reload',{},sessionId);
     await until(()=>evaluate(`!!document.querySelector('#nickname')`),'Reloaded lobby missing');
-    await until(()=>evaluate(`!!document.querySelector('.solo-button')&&!document.querySelector('.solo-button').disabled`),'Reload hydration incomplete');
+    await until(()=>evaluate(`!!document.querySelector('.solo-button:not(:disabled):not([aria-disabled="true"])')`),'Reload hydration incomplete');
     assert.equal(await evaluate(`document.documentElement.dataset.campTheme`),'dark');
     await evaluate(`document.querySelector('[aria-label="설정 열기"]').click()`);
     await until(()=>evaluate(`!!document.querySelector('.theme-options input[value="dark"]')?.checked`),'Saved radio selection missing');
     await evaluate(`document.querySelector('[aria-label="설정 닫기"]').click()`);
     console.log('PASS: '+name+' theme switching, storage, reload, Canvas/drafts, tabs, modal focus and screenshots');
   }
+  for (const [notice, message] of [['discord-linked', 'Discord 계정을 연결했어요.'], ['discord-failed', 'Discord 연결을 마치지 못했어요.']]) {
+    await send('Page.navigate', {url: origin+'/discord-complete?notice='+notice}, sessionId);
+    await until(()=>evaluate(`document.querySelector('.discord-result [role="status"]')?.textContent.includes(${JSON.stringify(message)})`), 'Discord completion message missing');
+    assert.ok(await evaluate(`[...document.querySelectorAll('.discord-result button')].some(e=>e.textContent.includes('이 창 닫기')) && document.querySelector('.discord-result a')?.pathname === '/'`));
+  }
+  console.log('PASS: Discord completion and failure routes show their status and return controls');
   assert.deepEqual(errors,[]);
+}catch (error) {
+  if(errors.length) console.error(errors);
+  throw error;
 }finally{
   if(socket?.readyState===WebSocket.OPEN){await send('Browser.close').catch(()=>{});socket.close();}
   await delay(500);browser.kill();

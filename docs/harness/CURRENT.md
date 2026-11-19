@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · 플레이어 UI와 검증 하네스의 Astryx 전환
+
+기준 커밋 `f69d22d`에서 로비·입장·필드 조작·다섯 개 패널·전시 소개·설정·Discord 결과와 PIP의 UI를 Astryx 0.7.16으로 전환했다. SEED와 shadcn의 실행 파일·설정·의존성을 정리했다. 하네스는 한글 입력, 읽던 위치, 테마, 키보드 포커스, 모바일 버튼 대비와 게임·라디오 연결을 검사한다. 최종 결과는 작업 폴더의 로컬 빌드이며 운영 게시 전이다. [전후 화면](../reviews/2026-11-20-astryx-ui.md) · [검증 기록](../validation.md#astryx-ui)
+
 ## 2026-11-20 · 세 맵 그래픽과 모바일 대화 v45 게시
 
 사용자의 병합·게시 요청으로 [PR #27](https://github.com/biru100/HuddlersFire/pull/27)을 `main`의 `a9e1c83`에 병합했다. 06:59 KST에 기존 [HuddlersFire](https://huddlers-fire-camp.gywkd77.chatgpt.site/)에 v45가 게시됐다. 공개 릴리스와 세 맵의 그래픽이 해당 빌드와 일치한다. [운영 검증 기록](../validation.md#sites-v45)

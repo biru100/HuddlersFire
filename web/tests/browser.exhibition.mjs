@@ -41,7 +41,7 @@ try{
   for(const [name,width,height,mobile]of [['desktop',1280,900,false],['mobile',390,844,true]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile},sessionId);
     await send('Page.navigate',{url:origin},sessionId);
-    await until(()=>evaluate(`!!document.querySelector('.solo-button')&&!document.querySelector('.solo-button').disabled`),'Linked lobby unavailable');
+    await until(()=>evaluate(`!!document.querySelector('.solo-button:not(:disabled):not([aria-disabled="true"])')`),'Linked lobby unavailable');
     await evaluate(`document.querySelector('.solo-button').click()`);
     await until(()=>evaluate(`!!document.querySelector('.in-camp')`),'Solo did not enter');
     assert.equal(await evaluate(`!!document.querySelector('.map-travel button')`),false,'Unrestricted travel returned');
@@ -77,8 +77,8 @@ try{
     assert.ok(await evaluate(`(()=>{const f=document.querySelector('.game-trailer iframe'),r=f?.getBoundingClientRect();window.__trailerFrame=f;return !!f&&f.src===${JSON.stringify(trailer.embed)}&&!new URL(f.src).searchParams.has('autoplay')&&r.width>=200&&r.height>=200;})()`),'Main trailer missing or too small');
     assert.deepEqual(await radioState(),radioBefore,'Opening an exhibit changed shared playback or personal mute');
     assert.equal(await evaluate(`document.querySelector('.game-trailer a').href`),trailer.url);
-    assert.deepEqual(await evaluate(`[...document.querySelectorAll('.game-socials a,.game-socials button')].map(e=>({label:e.getAttribute('aria-label'),url:e.getAttribute('href'),disabled:e.tagName==='BUTTON'&&e.disabled&&e.getAttribute('aria-disabled')==='true'}))`),socials.map(s=>({label:s.label+(s.url?' 계정 열기':' 계정 미등록'),url:s.url,disabled:!s.url})));
-    assert.deepEqual(await evaluate(`[...document.querySelectorAll('.game-links a')].map(a=>({label:a.textContent.replace(' ↗',''),url:a.href}))`),game.links);
+    assert.deepEqual(await evaluate(`[...document.querySelectorAll('.game-socials a,.game-socials button')].map(e=>({label:e.getAttribute('aria-label'),url:e.getAttribute('href'),disabled:e.tagName==='BUTTON'&&e.matches(':disabled,[aria-disabled="true"]')}))`),socials.map(s=>({label:s.label+(s.url?' 계정 열기':' 계정 미등록'),url:s.url,disabled:!s.url})));
+    assert.deepEqual(await evaluate(`[...document.querySelectorAll('.game-links a')].map(a=>({label:a.getAttribute('aria-label') || a.textContent.replace('↗','').trim(),url:a.href}))`),game.links);
     await until(()=>evaluate(`(()=>{const d=document.querySelector('.game-info-popup'),r=d.getBoundingClientRect();return d.contains(document.activeElement)&&r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight&&d.scrollWidth<=d.clientWidth+1;})()`),'Modal focus or responsive bounds failed');
     if(mobile)assert.ok(await evaluate(`(()=>{const d=document.querySelector('.game-info-popup').getBoundingClientRect(),p=document.querySelector('.music-dock').getBoundingClientRect();return d.bottom+5<=p.top&&p.bottom<=innerHeight;})()`),'Radio overlaps the mobile introduction');
     assert.ok(await evaluate(`[...document.querySelectorAll('.game-links a')].every(a=>a.target==='_blank'&&a.rel.includes('noopener')&&a.href.startsWith('https://'))`));
@@ -101,6 +101,9 @@ try{
     console.log('PASS: '+name+' physical portal walking/return, booth E/touch, official images, links, modal focus/input lock and responsive layout');
   }
   assert.deepEqual(errors,[]);console.log('PASS: no browser runtime exceptions; isolated loopback headless only');
+}catch (error) {
+  if(errors.length) console.error(errors);
+  throw error;
 }finally{
   if(socket?.readyState===WebSocket.OPEN){await send('Browser.close').catch(()=>{});socket.close();}
   await delay(500);browser.kill();

@@ -2,11 +2,11 @@
 import { applyTheme } from '@/lib/camp-theme.mjs';
 import CampNotice from '@/components/camp/camp-notice';
 import SpriteArt from '@/components/camp/sprite-art';
-import { Text } from '@seed-design/react';
-import { Badge } from '@/seed-design/ui/badge';
+import { Text } from '@astryxdesign/core/Text';
+import { Badge } from '@astryxdesign/core/Badge';
 import PeoplePanel from '@/components/camp/people-panel';
-import { ActionButton as Button } from '@/seed-design/ui/action-button';
-import { Dialog } from '@/seed-design/ui/dialog';
+import { Button } from '@astryxdesign/core/Button';
+import { CampDialog } from '@/components/camp/camp-dialog';
 
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import Link from 'next/link';
@@ -571,41 +571,41 @@ export default function Camp() {
   }
   const playing=active&&mapId===PLAY_MAP,showing=active&&mapId===SHOW_MAP;
   const world = (<section className="world" aria-label={showing?'허들러즈 게임 전시장':playing?'숲속 놀이터':'불멍 캠프장'}>
-        {(assetStatus.loading||assetStatus.failed.length>0)&&<div className="scene-status" role="status">{assetStatus.failed.length>0?<><span>풍경을 불러오지 못했어요.</span><Button size="small" onClick={()=>void rendererRef.current?.retryAssets()}>다시 불러오기</Button></>:<span>캠프에 불을 밝히고 있어요…</span>}</div>}
+        {(assetStatus.loading||assetStatus.failed.length>0)&&<div className="scene-status" role="status">{assetStatus.failed.length>0?<><span>풍경을 불러오지 못했어요.</span><Button size="sm" onClick={()=>void rendererRef.current?.retryAssets()} label="다시 불러오기"/></>:<span>캠프에 불을 밝히고 있어요…</span>}</div>}
         <canvas data-camp-input data-camera-mode={cameraMode} ref={canvas} tabIndex={0} aria-label={`쿼터뷰 캠프장. 배율 ${Math.round(zoom*100)}%. 마우스로 끌어서 시점 이동, 휠로 확대·축소. WASD 이동, Shift 달리기, Space 점프와 내려오기, E 가까운 포탈·부스 상호작용 또는 앉기, C 웅크리기, Q 감정표현, 놀이터에서 F 친구 들기·던지기, 1 총, 2 눈뭉치, 3 폭탄, 0 맨손, J 또는 우클릭으로 사용, R 어디서든 라디오 열기, Enter 채팅. 플레이어를 눌러 정보를 확인하세요.`} />
-        <div className="world-heading"><Badge tone="neutral" variant="weak">{active?(showing?'게임 전시장':playing?'놀이터':'불멍'):'A PLACE TO GATHER'}</Badge><Text as="h2" textStyle="t7Bold">{active?(showing?'만드는 즐거움을 나누는 곳':playing?'마음껏, 함께 놀아요':'잠시 쉬어 가도 좋아요'):'우리들의 작은 쉼터'}</Text></div>
+        <div className="world-heading"><Badge label={active?(showing?'게임 전시장':playing?'놀이터':'불멍'):'A PLACE TO GATHER'}/><Text as="h2" weight="bold">{active?(showing?'만드는 즐거움을 나누는 곳':playing?'마음껏, 함께 놀아요':'잠시 쉬어 가도 좋아요'):'우리들의 작은 쉼터'}</Text></div>
         {active && <div className="session-chip"><span className="live-dot" />{solo ? '나만의 산책' : `${connected}명과 함께`}<span className="chip-divider" />{String(Math.floor(elapsed / 60)).padStart(2, '0')}:{String(elapsed % 60).padStart(2, '0')}</div>}
         {active&&<div className="work-chip"><strong>{PRESENCE_LABELS[myPresence.presence as keyof typeof PRESENCE_LABELS]}</strong><span>내 작업 {workTime}</span></div>}
         {active&&<div className="map-travel"><span aria-live="polite">{mapName(mapId)} · {Object.values(mapsById).filter(id=>id===mapId).length || 1}명</span><small>{mapId===CAMP_MAP?'△ 놀이터 · □ 전시장':'○ 불멍으로'}</small></div>}
-        {active&&nearInteraction&&<Button className="world-interact" disabled={mapBusy} onClick={interactOrSit}>{mapBusy?'이동 중…':nearInteraction.type==='portal'?`${nearInteraction.label} 포탈 타기`:`${nearInteraction.label} 소개 보기`} <kbd>E</kbd></Button>}
+        {active&&nearInteraction&&<Button className="world-interact" isDisabled={mapBusy} onClick={interactOrSit} label={mapBusy?'이동 중…':nearInteraction.type==='portal'?`${nearInteraction.label} 포탈 타기`:`${nearInteraction.label} 소개 보기`}>{mapBusy?'이동 중…':nearInteraction.type==='portal'?`${nearInteraction.label} 포탈 타기`:`${nearInteraction.label} 소개 보기`} <kbd>E</kbd></Button>}
         {active&&mapId===CAMP_MAP&&<div className={'fire-seat-tools'+(seatId?' is-seated':'')}><span>{seatId?'불 곁에서 · ':'모닥불 · '}{fireFuel>150?'활활':fireFuel>30?'따뜻함':'잔불'} · Lv.{Math.min(5,1+Math.floor(fireProgress.xp/3))}</span>
           {seatId&&<details className="fire-seat-more"><summary>불 모습 바꾸기</summary><FireProgress {...fireProgress} change={style=>runAction('fire-style',{style})}/></details>}
-          {seatId?<><Button disabled={!stokeReady||fireFuel>=239} onClick={()=>void runAction('add-firewood')}>{!stokeReady?`다음 장작 ${stokeWaitLabel(stokeWait)}`:fireFuel>=239?'불이 충분히 타고 있어요':'장작 넣기'}</Button><Button onClick={toggleSit}>일어나기 <kbd>E</kbd></Button><small>장작 +1 XP · 인당 10분에 한 번<br/>사람 탭에서 친구를 내 화면에서 숨길 수 있어요.</small></>:nearSeatId?<Button onClick={()=>void sitOnSeat(nearSeatId)}>통나무에 앉기 <kbd>E</kbd></Button>:<small>통나무 가까이에서 E로 앉아 보세요.</small>}</div>}
-        {active && nearRadio && <Button className="radio-interact" onClick={openRadio}>라디오 설정 <kbd>R</kbd></Button>}
+          {seatId?<><Button isDisabled={!stokeReady||fireFuel>=239} onClick={()=>void runAction('add-firewood')} label={!stokeReady?`다음 장작 ${stokeWaitLabel(stokeWait)}`:fireFuel>=239?'불이 충분히 타고 있어요':'장작 넣기'}/><Button onClick={toggleSit} label="일어나기">일어나기 <kbd>E</kbd></Button><small>장작 +1 XP · 인당 10분에 한 번<br/>사람 탭에서 친구를 내 화면에서 숨길 수 있어요.</small></>:nearSeatId?<Button onClick={()=>void sitOnSeat(nearSeatId)} label="통나무에 앉기">통나무에 앉기 <kbd>E</kbd></Button>:<small>통나무 가까이에서 E로 앉아 보세요.</small>}</div>}
+        {active && nearRadio && <Button className="radio-interact" onClick={openRadio} label="라디오 설정">라디오 설정 <kbd>R</kbd></Button>}
         <div className="world-bottom"><div className="movement-guide"><span className="keys"><kbd>W</kbd><span><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span></span><span>이동</span><kbd>Shift</kbd><span>달리기</span><kbd>Space</kbd><span>점프</span><kbd>E</kbd><span>상호작용 · 앉기</span></div><span className="world-caption">{active ? '친구를 누르면 정보를 볼 수 있어요.' : '어디에 앉아도, 좋은 자리.'}</span></div>
-        {active && <div className="touch-controls" aria-label="이동 버튼">{[['KeyW', '↑'], ['KeyA', '←'], ['KeyS', '↓'], ['KeyD', '→']].map(([key, label]) => <Button key={key} aria-label={`${label} 이동`} onPointerDown={e => { e.preventDefault(); e.currentTarget.setPointerCapture(e.pointerId); keys.current.add(key); sittingRef.current = false; setSitting(false); updateInput(); }} onPointerUp={() => keys.current.delete(key)} onPointerCancel={() => keys.current.delete(key)} onLostPointerCapture={() => keys.current.delete(key)}>{label}</Button>)}</div>}
-        {active && <div className="touch-actions" aria-label="이동 동작"><Button variant={runMode?'neutralSolid':'neutralWeak'} aria-pressed={runMode} onPointerDown={e => e.preventDefault()} onClick={toggleRun}>{runMode ? '달리기 켜짐' : '달리기'}</Button><Button disabled={actionState.motion !== 'grounded' && !actionState.carried} onPointerDown={e => e.preventDefault()} onClick={jumpOrEscape}>{actionState.carried ? '내려오기' : '점프'}</Button><Button variant={sitting?'neutralSolid':'neutralWeak'} aria-pressed={sitting} onPointerDown={e => e.preventDefault()} onClick={toggleSit}>{sitting ? '일어나기' : '앉기'}</Button></div>}
-        {active && playing && actionState.weapon !== 'none' && <Button className="touch-fire" disabled={!actionState.canFire || !actionState.fireReady} onPointerDown={e => e.preventDefault()} onClick={() => fireWeapon()}>{actionState.fireReady ? '사용' : '대기'}</Button>}
+        {active && <div className="touch-controls" aria-label="이동 버튼">{[['KeyW', '↑'], ['KeyA', '←'], ['KeyS', '↓'], ['KeyD', '→']].map(([key, label]) => <Button key={key} onPointerDown={e => { e.preventDefault(); e.currentTarget.setPointerCapture(e.pointerId); keys.current.add(key); sittingRef.current = false; setSitting(false); updateInput(); }} onPointerUp={() => keys.current.delete(key)} onPointerCancel={() => keys.current.delete(key)} onLostPointerCapture={() => keys.current.delete(key)} label={`${label} 이동`}>{label}</Button>)}</div>}
+        {active && <div className="touch-actions" aria-label="이동 동작"><Button variant={runMode?'primary':'secondary'} aria-pressed={runMode} onPointerDown={e => e.preventDefault()} onClick={toggleRun} label={runMode ? '달리기 켜짐' : '달리기'}/><Button isDisabled={actionState.motion !== 'grounded' && !actionState.carried} onPointerDown={e => e.preventDefault()} onClick={jumpOrEscape} label={actionState.carried ? '내려오기' : '점프'}/><Button variant={sitting?'primary':'secondary'} aria-pressed={sitting} onPointerDown={e => e.preventDefault()} onClick={toggleSit} label={sitting ? '일어나기' : '앉기'}/></div>}
+        {active && playing && actionState.weapon !== 'none' && <Button className="touch-fire" isDisabled={!actionState.canFire || !actionState.fireReady} onPointerDown={e => e.preventDefault()} onClick={() => fireWeapon()} label={actionState.fireReady ? '사용' : '대기'}/>}
         {active&&mapId===CAMP_MAP&&(effectsStatus!=='playing'||!volume)&&<aside className="effects-notice" aria-label="모닥불 소리"><EffectsStatus compact volume={volume} status={effectsStatus} onVolume={v=>void changeVolume(v)}/></aside>}
         {active&&<div className="field-tools">
-          {pip.pipWindow?<Button onClick={pip.close}>원래 화면으로</Button>:<Button variant="neutralWeak" aria-pressed={fieldOnly} onClick={()=>{setFieldOnly(v=>!v);closePanel();}}>{fieldOnly?'기본 화면':'필드 보기'}</Button>}
+          {pip.pipWindow?<Button onClick={pip.close} label="원래 화면으로"/>:<Button variant="secondary" aria-pressed={fieldOnly} onClick={()=>{setFieldOnly(v=>!v);closePanel();}} label={fieldOnly?'기본 화면':'필드 보기'}/>}
           <details className="field-view-menu"><summary>보기</summary><div>
-            <Button variant={followSelf?'neutralSolid':'neutralWeak'} aria-pressed={followSelf} onClick={e=>{setCameraMode('follow');e.currentTarget.closest('details')?.removeAttribute('open');}}>내 캐릭터 따라가기</Button>
-            <Button onClick={e=>{setZoom(1);setCameraMode('overview');e.currentTarget.closest('details')?.removeAttribute('open');}}>전체 보기</Button>
+            <Button variant={followSelf?'primary':'secondary'} aria-pressed={followSelf} onClick={e=>{setCameraMode('follow');e.currentTarget.closest('details')?.removeAttribute('open');}} label="내 캐릭터 따라가기"/>
+            <Button onClick={e=>{setZoom(1);setCameraMode('overview');e.currentTarget.closest('details')?.removeAttribute('open');}} label="전체 보기"/>
             <small>{cameraMode==='free'?'자유 시점 · 끌어서 이동':'마우스로 끌면 자유 시점으로 바뀌어요.'}</small>
-            {!pip.pipWindow&&<Button disabled={!pip.supported||pip.busy} title={pip.supported?'다른 창 위에 띄우기':'이 브라우저에서는 필드 보기를 이용해 주세요'} onClick={e=>{e.currentTarget.closest('details')?.removeAttribute('open');resetInput();closePlayerInfo();void pip.open().catch(e=>setToast(e.message));}}>작은 창 · PIP</Button>}
+            {!pip.pipWindow&&<Button isDisabled={!pip.supported||pip.busy} tooltip={pip.supported?'다른 창 위에 띄우기':'이 브라우저에서는 필드 보기를 이용해 주세요'} onClick={e=>{e.currentTarget.closest('details')?.removeAttribute('open');resetInput();closePlayerInfo();void pip.open().catch(e=>setToast(e.message));}} label="작은 창 · PIP"/>}
           </div></details>
         </div>}
-        {active&&pip.pipWindow&&<details className="pip-people"><summary>함께 있는 사람 {solo?1:people.length}명</summary>{(solo?[soloPlayer.current]:people).map(p=><Button key={p.id} onClick={e=>{const r=e.currentTarget.getBoundingClientRect();openPlayerInfo(p.id,r.left,r.top);}}>{p.name} · {mapName(mapsById[p.id])}{p.id===room?.host?' · 방장':''}</Button>)}</details>}
-        {active&&unreadCalls.length>0&&<div className="call-notice" role="status"><strong>{unreadCalls.at(-1)?.name}님이 불렀어요 · {unreadCalls.length}건</strong><Button onClick={()=>{setUnreadCalls([]);if(pip.pipWindow)pip.close();showPanel('chat',true);}}>확인 · 채팅에서 기록 보기</Button></div>}
+        {active&&pip.pipWindow&&<details className="pip-people"><summary>함께 있는 사람 {solo?1:people.length}명</summary>{(solo?[soloPlayer.current]:people).map(p=><Button key={p.id} onClick={e=>{const r=e.currentTarget.getBoundingClientRect();openPlayerInfo(p.id,r.left,r.top);}} label={`${p.name} · ${mapName(mapsById[p.id])}${p.id===room?.host?' · 방장':''}`}/>)}</details>}
+        {active&&unreadCalls.length>0&&<div className="call-notice" role="status"><strong>{unreadCalls.at(-1)?.name}님이 불렀어요 · {unreadCalls.length}건</strong><Button onClick={()=>{setUnreadCalls([]);if(pip.pipWindow)pip.close();showPanel('chat',true);}} label="확인 · 채팅에서 기록 보기"/></div>}
         {pip.pipWindow&&<CampNotice message={toast}/>}
       </section>);
 
   return <main className={'camp-app' + (active && fieldOnly ? ' field-only' : '') + (compactPanel ? ' compact-panel-open' : '') + (active ? ' in-camp' : '') + (active ? ' has-player' : '')} onPointerDownCapture={resumeEffectsSound} onKeyDownCapture={resumeEffectsSound}>
     <header className="topbar">
       <Link className="brand" href="/" aria-label="허들러즈 불멍 홈"><span className="brand-mark"><SpriteArt name="amber"/></span><span>huddlers <strong>fire</strong></span></Link>
-      <div className="top-note"><Badge tone="neutral" variant="weak">{active?mapName(mapId):'함께하는 작은 시간'}</Badge></div>
-      <div className="header-actions"><Button className="help-button" onClick={() => setHelp(true)}><span>이용 안내</span><span className="question-mark">?</span></Button><Button className="settings-button" aria-label="설정 열기" onClick={() => { resetInput(); setEmotes(false); setSettingsOpen(true); }}><Settings size={18} /><span>설정</span></Button></div>
+      <div className="top-note"><Badge label={active?mapName(mapId):'함께하는 작은 시간'}/></div>
+      <div className="header-actions"><Button className="help-button" onClick={() => setHelp(true)} label="이용 안내" endContent={<span aria-hidden="true" className="question-mark">?</span>}/><Button className="settings-button" onClick={() => { resetInput(); setEmotes(false); setSettingsOpen(true); }} icon={<Settings size={18}/>} label="설정 열기">설정</Button></div>
     </header>
 
     <div className="camp-layout">
@@ -619,30 +619,30 @@ export default function Camp() {
           status={solo ? '느긋하게 한 바퀴 걸어 보세요.' : status}
           tab={panelTab} onTab={showPanel} onClose={closePanel} peopleCount={solo ? 1 : people.length}
           invite={room && <>
-            <Button variant="neutralSolid" size="large" className="primary-button" onClick={()=>copy(true)}><Link2 size={15}/> 초대 링크 복사</Button>
+            <Button variant="primary" size="lg" className="primary-button" onClick={()=>copy(true)} icon={<Link2 size={15}/>} label="초대 링크 복사"/>
             <span className="field-label">참가 코드</span>
-            <Button className="room-code" onClick={() => copy()} aria-label={`참가 코드 ${room.code} 복사`}><strong>{room.code}</strong>{copied ? <Check size={17} /> : <Copy size={17} />}</Button>
+            <Button className="room-code" onClick={() => copy()} label={`참가 코드 ${room.code} 복사`}><strong>{room.code}</strong>{copied ? <Check size={17} /> : <Copy size={17} />}</Button>
           </>}
           presence={<PresenceEditor value={myPresence} workTime={workTime} expanded={panelTab==='status'} onFocus={resetInput} save={async value=>{await sendCommand('presence',value);resetInput();}}/>}
           people={<PeoplePanel people={solo?[{...profile,hairStyle,topStyle,id:'solo',name:profile.name||'허들러'}]:people.map(p=>({...p,...wardrobeById[p.id]}))} self={solo?'solo':room?.player} host={room?.host} maps={mapsById} presence={presenceById} hidden={hiddenIds} open={openPlayerInfo}/>}
           radio={<MusicPanel inline open={false} onOpenChange={()=>{}} onCloseFocus={()=>canvas.current?.focus()} music={music} isHost={solo||isHost} command={sendCommand} muted={settings.musicMuted} onMuted={musicMuted=>setSettings(s=>({...s,musicMuted}))} sound={{effectsVolume:volume,effectsStatus,musicVolume:settings.musicVolume,onEffectsVolume:v=>void changeVolume(v),onMusicVolume:musicVolume=>setSettings(s=>({...s,musicVolume}))}}/>}
           play={<>
-            <Button className={'sit-button ' + (sitting ? 'is-sitting' : '')} onClick={toggleSit}><span>{sitting ? '다시 천천히 걷기' : mapId===CAMP_MAP ? '여기에 앉아 불멍하기' : '여기에 앉아 쉬기'}</span></Button>
+            <Button className={'sit-button ' + (sitting ? 'is-sitting' : '')} onClick={toggleSit} label={sitting ? '다시 천천히 걷기' : mapId===CAMP_MAP ? '여기에 앉아 불멍하기' : '여기에 앉아 쉬기'}><span>{sitting ? '다시 천천히 걷기' : mapId===CAMP_MAP ? '여기에 앉아 불멍하기' : '여기에 앉아 쉬기'}</span></Button>
             {mapId===CAMP_MAP&&<><FireProgress {...fireProgress} change={style=>runAction('fire-style',{style})}/><p className="micro-copy">함께 장작을 넣어 불을 키워요. 1회 +1 XP · 인당 10분에 한 번</p></>}
-            {seatId&&<Button variant="neutralSolid" size="large" className="primary-button" disabled={!stokeReady||fireFuel>=239} onClick={()=>void runAction('add-firewood')}>{!stokeReady?`다음 장작 ${stokeWaitLabel(stokeWait)}`:fireFuel>=239?'불이 충분히 타고 있어요':'장작 넣기'}</Button>}
+            {seatId&&<Button variant="primary" size="lg" className="primary-button" isDisabled={!stokeReady||fireFuel>=239} onClick={()=>void runAction('add-firewood')} label={!stokeReady?`다음 장작 ${stokeWaitLabel(stokeWait)}`:fireFuel>=239?'불이 충분히 타고 있어요':'장작 넣기'}/>}
             <ActionBar {...actionState} playing={playing} runMode={runMode} onRun={toggleRun} onJump={jumpOrEscape} emotesOpen={emotesOpen} onCrouch={setCrouch} onEmotes={setEmotes} onEmote={chooseEmote} onLift={lift} />
             <WeaponBar playing={playing} weapon={actionState.weapon} ready={actionState.fireReady} canFire={actionState.canFire} equip={equipWeapon} fire={() => fireWeapon()} />
           </>}
           chat={<ChatPanel entries={chat} send={text => sendCommand('chat', { text })} onFocus={resetInput} onClose={closePanel} visible={panelVisible&&panelTab==='chat'} focusRequest={chatFocusRequest}/>}
           footer={<>
-            {room && !isHost && <Button className="solo-button" onClick={() => network.current?.retry()}><RotateCw size={13} /> 다시 연결</Button>}
-            <Button className="leave-button" onClick={() => room && isHost ? setLeaveConfirm(true) : leave()}><LogOut size={15} />{solo ? '함께하기로 돌아가기' : '모닥불 떠나기'}</Button>
+            {room && !isHost && <Button className="solo-button" onClick={() => network.current?.retry()} icon={<RotateCw size={13}/>} label="다시 연결"/>}
+            <Button className="leave-button" onClick={() => room && isHost ? setLeaveConfirm(true) : leave()} icon={<LogOut size={15}/>} label={solo ? '함께하기로 돌아가기' : '모닥불 떠나기'}/>
           </>}
         />}
       </aside>
     </div>
     {active&&!pip.pipWindow&&<nav className="camp-panel-dock" aria-label="캠프 빠른 메뉴">
-      {CAMP_PANELS.map(([id,label])=><Button key={id} aria-expanded={compactPanel&&panelTab===id} aria-controls={`camp-page-${id}`} onClick={()=>compactPanel&&panelTab===id?closePanel():showPanel(id,id==='chat')}>{label}{id==='chat'&&unreadCalls.length>0&&<span aria-label="미확인 호출"> · {unreadCalls.length}</span>}</Button>)}
+      {CAMP_PANELS.map(([id,label])=><Button key={id} aria-expanded={compactPanel&&panelTab===id} aria-controls={`camp-page-${id}`} onClick={()=>compactPanel&&panelTab===id?closePanel():showPanel(id,id==='chat')} label={label}>{label}{id==='chat'&&unreadCalls.length>0&&<span aria-label="미확인 호출"> · {unreadCalls.length}</span>}</Button>)}
     </nav>}
     <CampNotice message={toast}/>
     <PlayerInfoPanel canHide={!!seatId} hidden={!!selectedInfo&&hiddenIds.includes(selectedInfo.id)} onHidden={toggleHidden} container={pip.pipWindow?.document.body} onCall={id=>void runAction('call',{target:id})} player={selectedInfo} anchor={infoAnchor} onClose={closePlayerInfo} onCloseFocus={() => canvas.current?.focus()} />
@@ -653,13 +653,11 @@ export default function Camp() {
       linked={profile.linked} discordAvailable={discordAvailable} discordBusy={discordBusy} discordMessage={discordMessage} onDiscord={() => void (profile.linked ? unlink() : linkDiscord())} onCancelDiscord={() => { cancelDiscord(); setDiscordMessage(DISCORD_MESSAGES['discord-cancelled']); }} />
     {active && <MusicPanel open={radioOpen} onOpenChange={setRadioOpen} onCloseFocus={() => canvas.current?.focus()} sound={{effectsVolume:volume,effectsStatus,musicVolume:settings.musicVolume,onEffectsVolume:v=>void changeVolume(v),onMusicVolume:musicVolume=>setSettings(s=>({...s,musicVolume}))}} music={music} isHost={solo || isHost} command={sendCommand} muted={settings.musicMuted} onMuted={musicMuted => setSettings(s => ({ ...s, musicMuted }))} />}
     {active && <MusicPlayer music={music} isHost={solo || isHost} hostNow={() => network.current?.hostNow() ?? performance.now()} command={sendCommand} muted={settings.musicMuted} volume={settings.musicVolume} onMuted={musicMuted => setSettings(s => ({ ...s, musicMuted }))} modalOpen={modalOpen} suspended={()=>!!network.current?.migrating} />}
-    <Dialog.Root open={help||leaveConfirm} onOpenChange={open=>{if(!open){setHelp(false);setLeaveConfirm(false);}}}><Dialog.Portal>
-      <Dialog.Overlay className="modal-backdrop"/>
-      <Dialog.Content className="modal" onCloseAutoFocus={e=>{e.preventDefault();canvas.current?.focus();}}>
-        <Button className="modal-close" aria-label="닫기" autoFocus onClick={() => { setHelp(false); setLeaveConfirm(false); }}><X size={20} /></Button>
-        <Flame className="modal-flame" size={30} /><Dialog.Title>{leaveConfirm ? '모닥불을 마칠까요?' : '쉬어 가는 방법'}</Dialog.Title>
-        <Dialog.Description className="micro-copy">{leaveConfirm?'방을 떠나기 전에 확인해 주세요.':'함께 쉬고 놀 때 필요한 조작이에요.'}</Dialog.Description>
-        {leaveConfirm ? <><p>연결된 친구가 남아 있으면 다음 방장에게 모닥불을 이어줘요. 모두 떠나면 방이 종료됩니다.</p><Button variant="neutralSolid" size="large" className="primary-button" onClick={leave}>모닥불 떠나기</Button><Button className="solo-button" onClick={() => setLeaveConfirm(false)}>조금 더 머물기</Button></> : <>
+    <CampDialog open={help||leaveConfirm} onOpenChange={open=>{if(!open){setHelp(false);setLeaveConfirm(false);}}} label="캠프 안내" className="modal" onCloseFocus={()=>{canvas.current?.focus();}}>
+        <Button className="modal-close" onClick={() => { setHelp(false); setLeaveConfirm(false); }} label="닫기"><X size={20} /></Button>
+        <Flame className="modal-flame" size={30} /><h2>{leaveConfirm ? '모닥불을 마칠까요?' : '쉬어 가는 방법'}</h2>
+        <p className="micro-copy">{leaveConfirm?'방을 떠나기 전에 확인해 주세요.':'함께 쉬고 놀 때 필요한 조작이에요.'}</p>
+        {leaveConfirm ? <><p>연결된 친구가 남아 있으면 다음 방장에게 모닥불을 이어줘요. 모두 떠나면 방이 종료됩니다.</p><Button variant="primary" size="lg" className="primary-button" onClick={leave} label="모닥불 떠나기"/><Button className="solo-button" onClick={() => setLeaveConfirm(false)} label="조금 더 머물기"/></> : <>
           <p>공개 목록에서 모닥불을 고르거나 초대 링크로 들어오세요. 새 방은 공개방 또는 목록에 없는 초대방으로 만들 수 있어요. 최대 16명이 함께할 수 있어요.</p>
           <div className="help-row"><kbd>마우스 휠</kbd><span>필드 위에서 위로 확대 · 아래로 축소</span></div>
           {[['W A S D', '화면 기준으로 걷기'], ['Shift', '이동하며 달리기'], ['Space', '점프 · 들린 상태에서 내려오기'], ['E', '가까운 포탈·게임 부스 상호작용 · 앉기 · 일어서기'], ['C', '누르는 동안 웅크리기'], ['Q / 1~6', '감정표현 열기 · 선택'], ['F', '가까운 친구 들기 · 이동한 방향으로 던지기'], ['0 / 1 / 2 / 3', '맨손 · 총 · 눈뭉치 · 폭탄 선택'], ['J / 우클릭', '마우스 방향으로 사용 · 맞으면 통통 밀려나요'], ['모바일 사용', '장난감을 고른 뒤 사용 버튼 · 마지막 이동 방향'], ['R', '어디서든 라디오 열기'], ['클릭 / 터치', '캐릭터 또는 참가자 목록에서 정보 보기'], ['Enter / Esc', '채팅 입력 · 캠프장으로 돌아가기']].map(([key, label]) => <div className="help-row" key={key}><kbd>{key}</kbd><span>{label}</span></div>)}
@@ -668,9 +666,8 @@ export default function Camp() {
           <p>라디오는 첫 신청곡부터 자동으로 시작하고 다음 곡도 순서대로 이어져요. 어디서든 R키나 라디오 탭에서 신청하고, 플레이어나 설정에서 나만 음소거할 수 있어요. 방장은 전체 일시정지·재개·다음 곡을 관리하며 일시정지 중에는 신청해도 그대로 기다립니다.</p>
           <p>친구를 들고 있는 사람도 들 수 있어요. 날아가거나 트램펄린을 타는 친구도 손이 닿으면 F로 잡을 수 있어요. Space로 자신과 위쪽 친구들을 함께 분리해요.</p>
           <p className="micro-copy">방장이 나가면 입장 순서대로 다음 친구가 이어받아요. 갑자기 연결이 끊기면 잠시 기다린 뒤 자동으로 다시 연결합니다.</p>
-          <Button variant="neutralSolid" size="large" className="primary-button" onClick={() => setHelp(false)}>알겠어요, 쉬러 갈게요</Button>
+          <Button variant="primary" size="lg" className="primary-button" onClick={() => setHelp(false)} label="알겠어요, 쉬러 갈게요"/>
         </>}
-      </Dialog.Content>
-    </Dialog.Portal></Dialog.Root>
+      </CampDialog>
   </main>;
 }

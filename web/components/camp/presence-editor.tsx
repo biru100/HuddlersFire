@@ -1,6 +1,7 @@
 'use client';
-import { ActionButton as Button } from '@/seed-design/ui/action-button';
-import { Input, Toggle } from '@/components/camp/form-controls';
+import { Button } from '@astryxdesign/core/Button';
+import { CampTextInput } from './camp-text-input';
+import { Switch } from '@astryxdesign/core/Switch';
 import { useState } from 'react';
 import type { Presence } from '@/lib/camp-types';
 import { PRESENCE_LABELS } from '@/lib/camp-presence.mjs';
@@ -24,16 +25,16 @@ export default function PresenceEditor({value,save,onFocus,workTime,expanded=fal
   }
   return <section className="presence-editor" aria-label="내 작업과 상태">
     <div className="presence-time"><strong>내 작업 시간</strong><output>{workTime}</output><small>이번 입장 · 작업 중일 때 누적</small></div>
-    <div className="presence-quick" aria-label="내 상태 선택">{Object.entries(PRESENCE_LABELS).map(([key,label])=><Button key={key} variant={value.presence===key?'neutralSolid':'neutralWeak'} disabled={busy} aria-pressed={value.presence===key} onFocus={onFocus} onClick={()=>void commit({...value,presence:key},true)}>{label}</Button>)}</div>
+    <div className="presence-quick" aria-label="내 상태 선택">{Object.entries(PRESENCE_LABELS).map(([key,label])=><Button key={key} variant={value.presence===key?'primary':'secondary'} isDisabled={busy} aria-pressed={value.presence===key} onFocus={onFocus} onClick={()=>void commit({...value,presence:key},true)} label={label}/>)}</div>
     <div hidden={!expanded}>
     <form onFocus={onFocus} onSubmit={e=>{e.preventDefault();void commit(editing);}}>
       <p className="micro-copy">위 상태 버튼은 바로 반영돼요. 아래 메모는 저장하면 친구들에게 보여요.</p>
-      <label>상태 한마디<Input aria-label="상태 한마디" maxLength={40} value={editing.statusText} disabled={busy} placeholder="오후에는 대화 가능해요" onChange={e=>setDraft({statusText:e.target.value,workText:editing.workText,allowCall:editing.allowCall})}/></label>
-      <label>지금 하는 작업<Input aria-label="지금 하는 작업" maxLength={80} value={editing.workText} disabled={busy} placeholder="보스 패턴 구현 중" onChange={e=>setDraft({statusText:editing.statusText,workText:e.target.value,allowCall:editing.allowCall})}/></label>
-      <Toggle checked={editing.allowCall} disabled={busy} onChange={allowCall=>setDraft({statusText:editing.statusText,workText:editing.workText,allowCall})}>친구의 호출 받기</Toggle>
+      <CampTextInput label="상태 한마디" maxLength={40} value={editing.statusText} isDisabled={busy} placeholder="오후에는 대화 가능해요" onChange={statusText=>setDraft({statusText,workText:editing.workText,allowCall:editing.allowCall})}/>
+      <CampTextInput label="지금 하는 작업" maxLength={80} value={editing.workText} isDisabled={busy} placeholder="보스 패턴 구현 중" onChange={workText=>setDraft({statusText:editing.statusText,workText,allowCall:editing.allowCall})}/>
+      <Switch label="친구의 호출 받기" value={editing.allowCall} isDisabled={busy} onChange={allowCall=>setDraft({statusText:editing.statusText,workText:editing.workText,allowCall})}/>
       <p className="micro-copy">한마디는 머리 위에 짧게, 작업 내용은 사람 탭과 플레이어 정보에 보여요. 상태는 놀이를 제한하지 않아요.</p>
       <span className="presence-draft-state" role="status">{dirty?'저장하지 않은 변경이 있어요.':'메모가 저장되어 있어요.'}</span>
-      <Button type="submit" disabled={busy||!dirty}>{busy?'저장 중…':'메모 저장하기'}</Button>
+      <Button type="submit" isDisabled={busy||!dirty} label={busy?'저장 중…':'메모 저장하기'}/>
     </form>
     </div><p className="presence-feedback" role="status">{message}</p>
   </section>;

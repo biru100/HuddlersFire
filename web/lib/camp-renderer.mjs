@@ -143,8 +143,8 @@ export class CampRenderer extends CampArtwork {
       c.save();c.setTransform(this.dpr,0,0,this.dpr,0,0);c.globalAlpha=plate.alpha;c.font=`500 ${this.nameFontSize}px "Malgun Gothic",sans-serif`;c.textAlign='center';
       const night=this.sceneLighting?.night;
       const dark=this.uiTheme==='dark';
-      c.fillStyle=self?(dark?'#dedede':'#e5be82'):dark?'#202020e8':night?'#17281ee8':'#fbf4e0ed';c.beginPath();c.roundRect(box.x,box.y,w,h,5);c.fill();
-      c.fillStyle=self?(dark?'#202020':'#352c20'):dark?'#ededed':night?'#ede9dc':'#37442e';c.fillText(label,box.x+w/2,box.y+this.nameFontSize+2);c.restore();
+      c.fillStyle=self?(dark?'#dedede':'#ffdab2'):dark?'#202020e8':night?'#17281ee8':'#fff8ecf5';c.beginPath();c.roundRect(box.x,box.y,w,h,5);c.fill();
+      c.fillStyle=self?(dark?'#202020':'#352c20'):dark?'#ededed':night?'#ede9dc':'#392c23';c.fillText(label,box.x+w/2,box.y+this.nameFontSize+2);c.restore();
     }
   }
   bubbles(players, scale, music, occlusions = []) {
@@ -186,16 +186,18 @@ export class CampRenderer extends CampArtwork {
     }
     const boxes = layoutBubbles(candidates, bounds, {mobile, obstacles, limit: mobile ? 2 : 4});
     this.bubbleAreas = boxes;
-    c.strokeStyle = '#e2e2e299'; c.lineWidth = 1;
+    const dark = this.uiTheme === 'dark';
+    const ink = dark ? '#f4f4f4' : '#392c23';
+    c.strokeStyle = dark ? '#eeeeee99' : '#73543a99'; c.lineWidth = 1;
     for (const b of boxes) {
       if(b.id==='__radio__')continue;
       c.beginPath(); c.moveTo(b.anchorX, b.anchorY); c.lineTo(b.x + b.width / 2, b.y + b.height); c.stroke();
     }
     c.textAlign = 'left';
     for (const b of boxes) {
-      c.fillStyle = '#e2e2e2f5'; c.beginPath(); c.roundRect(b.x, b.y, b.width, b.height, 8); c.fill();
+      c.fillStyle = dark ? '#202020f5' : '#fff8ecf5'; c.beginPath(); c.roundRect(b.x, b.y, b.width, b.height, 8); c.fill();
       if (b.compact) {
-        c.fillStyle = '#373737'; c.font = '12px "Malgun Gothic", sans-serif';
+        c.fillStyle = ink; c.font = '12px "Malgun Gothic", sans-serif';
         const full = b.name + ' · ' + b.lines.join('');
         let text = full;
         if (c.measureText(full).width > b.width - 24) {
@@ -209,8 +211,8 @@ export class CampRenderer extends CampArtwork {
         c.fillText(text, b.x + 12, b.y + 18);
         continue;
       }
-      c.fillStyle = '#5c5c5c'; c.font = 'bold 10px "Malgun Gothic", sans-serif'; c.fillText(b.name, b.x + 12, b.y + 16, 140);
-      c.fillStyle = '#373737'; c.font = '12px "Malgun Gothic", sans-serif';
+      c.fillStyle = dark ? '#d0d0d0' : '#705440'; c.font = 'bold 10px "Malgun Gothic", sans-serif'; c.fillText(b.name, b.x + 12, b.y + 16, 140);
+      c.fillStyle = ink; c.font = '12px "Malgun Gothic", sans-serif';
       b.lines.forEach((line, i) => c.fillText(line, b.x + 12, b.y + 32 + i * 17));
     }
   }

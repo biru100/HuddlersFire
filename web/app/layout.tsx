@@ -1,3 +1,4 @@
+import CampThemeProvider from '@/components/camp/camp-theme-provider';
 import type { Metadata } from "next";
 import "./globals.css";
 import { themeBootstrap } from '@/lib/camp-theme.mjs';
@@ -19,9 +20,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" data-camp-theme="color" data-seed-color-mode="light-only" data-seed-user-color-scheme="light" suppressHydrationWarning>
+    <html lang="ko" data-camp-theme="color" data-theme="light" data-astryx-theme="neutral" suppressHydrationWarning>
       <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }}/></head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased"><CampThemeProvider>{children}</CampThemeProvider></body>
     </html>
   );
 }

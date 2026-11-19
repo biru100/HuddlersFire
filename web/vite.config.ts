@@ -1,6 +1,5 @@
 import vinext from "vinext";
 import { defineConfig } from "vite";
-import { seedDesignPlugin } from "@seed-design/vite-plugin";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { configureToolEnvironment } from "./scripts/tool-environment.mjs";
@@ -71,7 +70,6 @@ export default defineConfig(async ({ command }) => {
     plugins: [
       ...previewPlugins,
       vinext(),
-      seedDesignPlugin({ colorMode: "dark-only" }),
       sites({ mockAuth: !managedLinux }),
       connectorPreview(),
       cloudflare({

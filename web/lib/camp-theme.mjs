@@ -6,8 +6,8 @@ export function applyTheme(doc, value) {
   const theme = value === 'dark' ? 'dark' : 'color';
   const root = doc.documentElement;
   root.dataset.campTheme = theme;
-  root.dataset.seedColorMode = theme === 'dark' ? 'dark-only' : 'light-only';
-  root.dataset.seedUserColorScheme = theme === 'dark' ? 'dark' : 'light';
+  root.dataset.astryxTheme = 'neutral';
+  root.dataset.theme = theme === 'dark' ? 'dark' : 'light';
 }
 
 export const themeBootstrap = `(${applyTheme.toString()})(document,(()=>{try{return JSON.parse(localStorage.getItem('huddlers-fire-settings'))?.theme}catch{return 'color'}})());`;

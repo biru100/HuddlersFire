@@ -1,5 +1,5 @@
 import { LinkIcon } from "lucide-react";
-import { ActionButton as Button } from "@/seed-design/ui/action-button";
+import { Button } from '@astryxdesign/core/Button';
 import { connectorErrorRecovery } from "@/lib/connector-errors.mjs";
 
 /** Render in the affected feature, leaving the rest of the Site usable. */
@@ -20,16 +20,10 @@ export function ConnectorError({
     >
       <p className="break-words">{recovery.message}</p>
       {recovery.action && (
-        <Button
-          asChild
-          variant="neutralOutline"
-          className="h-auto min-h-9 max-w-full whitespace-normal text-left"
-        >
-          <a href={recovery.action.href} target="_top">
+        <Button variant="secondary" className="h-auto min-h-9 max-w-full whitespace-normal text-left" href={recovery.action.href} target="_top" label={recovery.action.label}>
             <LinkIcon aria-hidden="true" />
             <span className="min-w-0 break-words">{recovery.action.label}</span>
-          </a>
-        </Button>
+          </Button>
       )}
     </div>
   );

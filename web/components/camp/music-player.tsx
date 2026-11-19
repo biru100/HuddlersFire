@@ -1,5 +1,5 @@
 'use client';
-import { ActionButton as Button } from '@/seed-design/ui/action-button';
+import { Button } from '@astryxdesign/core/Button';
 import { useEffect, useRef, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { createPortal } from 'react-dom';
@@ -79,11 +79,11 @@ export default function MusicPlayer({ music, isHost, hostNow, command, muted, vo
     };
   }, [mount, retry]);
   const dock=<aside className={'music-dock'+(!music.current&&!pip.pipWindow?' is-empty':'')} aria-label="내 YouTube 플레이어" inert={modalOpen&&!pip.pipWindow}>
-    <div className="music-dock-heading"><span title={music.current?.title || music.current?.videoId}>{music.current?.title || music.current?.videoId || '신청곡을 기다리고 있어요'}</span><Button onClick={() => onMuted(!muted)} aria-pressed={muted} aria-label={muted ? '내 라디오 음소거 해제' : '내 라디오 음소거'} title={muted ? '내 라디오 음소거 해제' : '내 라디오 음소거'}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</Button></div>
+    <div className="music-dock-heading"><span title={music.current?.title || music.current?.videoId}>{music.current?.title || music.current?.videoId || '신청곡을 기다리고 있어요'}</span><Button onClick={() => onMuted(!muted)} aria-pressed={muted} tooltip={muted ? '내 라디오 음소거 해제' : '내 라디오 음소거'} label={muted ? '내 라디오 음소거 해제' : '내 라디오 음소거'}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</Button></div>
     <div className="youtube-viewport" ref={setMount} />
-    <div className={'music-window-tools'+(pip.supported?'':' pip-unavailable')}><Button disabled={!pip.supported||pip.busy} onClick={()=>{if(pip.pipWindow)pip.close();else void pip.open().catch(e=>setError(e.message));}}>{pip.pipWindow?'원래 화면으로':'YouTube 작은 창'}</Button></div>
-    {blocked && <Button className="player-retry" onClick={() => { controller.current?.resume(); }}>눌러서 재생 허용</Button>}
-    {error && <div className="player-message" role="status">{error}<Button onClick={() => setRetry(v => v + 1)}>다시 연결</Button></div>}
+    <div className={'music-window-tools'+(pip.supported?'':' pip-unavailable')}><Button isDisabled={!pip.supported||pip.busy} onClick={()=>{if(pip.pipWindow)pip.close();else void pip.open().catch(e=>setError(e.message));}} label={pip.pipWindow?'원래 화면으로':'YouTube 작은 창'}/></div>
+    {blocked && <Button className="player-retry" onClick={() => { controller.current?.resume(); }} label="눌러서 재생 허용"/>}
+    {error && <div className="player-message" role="status">{error}<Button onClick={() => setRetry(v => v + 1)} label="다시 연결"/></div>}
   </aside>;
   return pip.pipWindow?createPortal(dock,pip.pipWindow.document.body):dock;
 }

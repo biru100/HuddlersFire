@@ -1,5 +1,9 @@
 # HuddlersFire 구조와 유지보수 기준
 
+## 현재 플레이어 UI · Astryx
+
+React 컴포넌트는 @astryxdesign/core의 기능별 진입점에서 가져온다. app/globals.css에서 배포된 스타일을 불러오고 app/camp-theme.css에서 Neutral의 의미별 색상 토큰을 조정한다. camp-theme.mjs가 저장된 모드를 첫 렌더와 두 PIP 문서에 적용한다. CampPanel은 한 콘텐츠 트리를 사이드바와 비모달 BottomSheet 사이에서 이동해 탭의 초안과 스크롤을 보존한다. CampDialog는 네이티브 모달과 해당 게임 창의 포커스 복귀를 연결한다. 이전 SEED 관련 절은 과거 릴리스의 설계를 기록한다.
+
 2026-11-20 현재 로비와 필드의 캐릭터는 헤어와 의상 스프라이트를 사용한다. 참가자 목록과 정보창도 같은 캠퍼 그리기 함수에 헤어·상의·톤을 전달한다. Discord 연결은 계정 인증을 맡는다. 아래의 사진 머리 구현 기록은 이전 배포에 해당한다.
 
 

@@ -47,4 +47,4 @@
 
 새 bitmap으로 전송량·렌더 비용은 증가했다. 준비된 이미지의 CPU 비교이며 최초 네트워크 로드, 브라우저 GPU FPS, 모바일 실기기 메모리/성능을 증명하지 않는다. Node loopback 입력→관찰 장비 변경은 p50 68ms / p95 83ms였고 렌더는 제외한다. 실제 외부 NAT·Discord 동의·YouTube 스트리밍/음향·실물 터치 키보드·커뮤니티 미감 선호는 별도 확인 범위다. 짧은 생성 pose loop의 프레임과 화면을 확인했으며 보간/골격 애니메이션 품질로 표현하지 않는다.
 
-주요 이미지: `web/outputs/seed-lobby-desktop.png`, `seed-room-mobile.png`, `showroom-booth.png`, `sprite-frames-1.png`, `sprite-frames-2.png`, `sprite-combined-poses.png`, `camp-chain-16.png`. 제작 지침·툴/앱 경계는 [자산 계약](sprite-assets.md), 로컬 스킬은 [camp-sprite-assets](../.agents/skills/camp-sprite-assets/SKILL.md)에 있다.
+주요 이미지: `web/outputs/ui-lobby-desktop-color.png`, `ui-room-mobile-color.png`, `showroom-booth.png`, `sprite-frames-1.png`, `sprite-frames-2.png`, `sprite-combined-poses.png`, `camp-chain-16.png`. 제작 지침·툴/앱 경계는 [자산 계약](sprite-assets.md), 로컬 스킬은 [camp-sprite-assets](../.agents/skills/camp-sprite-assets/SKILL.md)에 있다.

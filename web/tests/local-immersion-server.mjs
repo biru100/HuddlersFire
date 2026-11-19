@@ -5,7 +5,12 @@ import { createHash, randomUUID } from 'node:crypto';
 import { fixture } from './api-fixture.mjs';
 import { handleCampRequest } from '../lib/camp-api.mjs';
 const port=Number(process.env.CAMP_QA_PORT||5192),origin='http://127.0.0.1:'+port;
-let upstream=process.env.CAMP_QA_UPSTREAM||'http://127.0.0.1:5191',release={id:'development',revision:0};const f=fixture();
+let upstream=process.env.CAMP_QA_UPSTREAM||'http://127.0.0.1:5191';
+let release=JSON.parse(process.env.CAMP_BUILD_RELEASE||'{"id":"development","revision":0}');
+if (typeof release?.id !== 'string' || !release.id || !Number.isSafeInteger(release.revision) || release.revision < 0) {
+  throw new Error('CAMP_BUILD_RELEASE must contain the id and revision printed by the build.');
+}
+const f=fixture();
 const env={DB:f.DB,DISCORD_CLIENT_ID:'qa-local-client',DISCORD_CLIENT_SECRET:'qa-local-secret'};
 let avatarPng=null;
 if(process.env.CAMP_QA_AVATAR==='1'){

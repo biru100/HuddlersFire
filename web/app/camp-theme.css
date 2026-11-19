@@ -1,75 +1,30 @@
-/* Color is the default; browser preference is applied before first paint. */
-:root {
-  color-scheme:light;
-  --camp-bg:#f6ebd9;
-  --camp-surface:var(--seed-color-bg-layer-default);
-  --camp-raised:var(--seed-color-bg-layer-floating);
-  --camp-line:#cdb89e;
-  --camp-muted:#695347;
-  --camp-field-bg:#e9d6b7;
-  --camp-kbd-bg:#62433712;
-  --camp-overlay:#fff5e7ef;
-  --camp-accent:#286b61;
-  --seed-color-bg-layer-default:#fff8ec;
-  --seed-color-bg-layer-floating:#fff9f0;
-  --seed-color-bg-brand-solid:#286b61;
-  --seed-color-bg-brand-solid-pressed:#23574f;
-  --seed-color-bg-brand-weak:#dcebe0;
-  --seed-color-bg-brand-weak-pressed:#c6dfd2;
-  --seed-color-fg-brand:#275e56;
-  --seed-color-fg-on-brand:#ffffff;
-  --seed-color-stroke-brand-solid:#286b61;
-  --seed-color-stroke-focus-ring:#286b61;
+/* Set the same semantic colors on the document, provider and any portal roots. */
+[data-astryx-theme="neutral"] {
+  --camp-bg: light-dark(#f6ebd9, #111111);
+  --camp-surface: light-dark(#fff8ec, #191919);
+  --camp-raised: light-dark(#fffaf2, #222222);
+  --camp-line: light-dark(#cfb89c, #494949);
+  --camp-muted: light-dark(#695347, #c3c3c3);
+  --camp-field-bg: light-dark(#e9d6b7, #191919);
+  --camp-kbd-bg: light-dark(#62433712, #ffffff16);
+  --camp-overlay: light-dark(#fff5e7f0, #171717f2);
+  --camp-accent: light-dark(#9e411d, #ffc194);
+  --color-background-body: var(--camp-bg);
+  --color-background-surface: var(--camp-surface);
+  --color-background-card: var(--camp-surface);
+  --color-background-popover: var(--camp-raised);
+  --color-background-muted: light-dark(#f3e6d4, #303030);
+  --color-accent: var(--camp-accent);
+  --color-accent-muted: light-dark(#f8ddc9, #432e21);
+  --color-on-accent: light-dark(#fff, #302017);
+  --color-text-accent: var(--camp-accent);
+  --color-text-primary: light-dark(#392c23, #f4f4f4);
+  --color-text-secondary: var(--camp-muted);
+  --color-border: var(--camp-line);
+  --font-family-body: Arial, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
 }
-/* SEED neutral theme. Component dimensions, typography and interaction recipes stay upstream. */
-:root[data-camp-theme="dark"] {
-  color-scheme:dark;
-  --camp-field-bg:#0c0c0c;
-  --camp-kbd-bg:#ffffff0d;
-  --camp-overlay:#171717ed;
-  --camp-accent:#eeeeee;
-  --seed-color-bg-layer-default:#171717;
-  --seed-color-bg-layer-floating:#202020;
-  --camp-bg:#0c0c0c;
-  --camp-surface:var(--seed-color-bg-layer-default);
-  --camp-raised:var(--seed-color-bg-layer-floating);
-  --camp-line:var(--seed-color-stroke-neutral-muted);
-  --camp-muted:var(--seed-color-fg-neutral-muted);
-  --seed-color-palette-gray-00:#000000;
-  --seed-color-palette-gray-100:#171717;
-  --seed-color-palette-gray-200:#202020;
-  --seed-color-palette-gray-300:#2e2e2e;
-  --seed-color-palette-gray-400:#3d3d3d;
-  --seed-color-palette-gray-500:#606060;
-  --seed-color-palette-gray-600:#8b8b8b;
-  --seed-color-palette-gray-700:#b3b3b3;
-  --seed-color-palette-gray-800:#dedede;
-  --seed-color-palette-gray-900:#eaeaea;
-  --seed-color-palette-gray-1000:#f4f4f4;
-  --seed-color-palette-gray-alpha-100:#ffffff1b;
-  --seed-color-palette-gray-alpha-200:#ffffff25;
-  --seed-color-palette-gray-alpha-300:#ffffff35;
-  --seed-color-palette-gray-alpha-400:#ffffff46;
-  --seed-color-palette-gray-alpha-500:#ffffff6a;
-  --seed-color-palette-gray-alpha-600:#ffffff94;
-  --seed-color-palette-gray-alpha-700:#ffffffba;
-  --seed-color-palette-gray-alpha-800:#ffffffe3;
-  --seed-color-palette-gray-alpha-900:#ffffffec;
-  --seed-color-palette-gray-alpha-1000:#fffffff5;
-  --seed-color-bg-brand-solid:#f4f4f4;
-  --seed-color-bg-brand-solid-pressed:#dedede;
-  --seed-color-bg-brand-weak:#262626;
-  --seed-color-bg-brand-weak-pressed:#383838;
-  --seed-color-fg-brand:#f4f4f4;
-  --seed-color-fg-on-brand:#111111;
-  --seed-color-stroke-brand-solid:#dedede;
-  --seed-color-stroke-focus-ring:#f4f4f4;
-  --seed-color-fg-critical:#f4f4f4;
-  --seed-color-bg-critical-solid:#f4f4f4;
-  --seed-color-bg-critical-weak:#262626;
-  --seed-color-fg-on-critical:#111111;
-}
-
-.camper-portrait { display:inline-grid; flex:none; place-items:center; overflow:hidden; border-radius:28%; background:var(--seed-color-bg-brand-weak); border:1px solid var(--camp-line); }
+:root[data-camp-theme="color"], :root[data-camp-theme="color"] > body > [data-astryx-theme] { color-scheme: light; }
+:root[data-camp-theme="dark"], :root[data-camp-theme="dark"] > body > [data-astryx-theme] { color-scheme: dark; }
+.camper-portrait { display:inline-grid; flex:none; place-items:center; overflow:hidden; border-radius:28%; background:var(--color-accent-muted); border:1px solid var(--camp-line); }
 .camper-portrait canvas { display:block; width:100%; height:100%; image-rendering:pixelated; }
 .sprite-art { image-rendering:pixelated; }

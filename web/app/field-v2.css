@@ -13,6 +13,16 @@
 .music-dock.is-empty .music-dock-heading { margin-bottom:0; }
 .music-dock.is-empty .youtube-viewport { height:0; min-height:0; overflow:hidden; }
 .music-dock.is-empty .music-window-tools { display:none; }
+/* Controls drawn over the map need an opaque surface in either theme. */
+.world :is(.touch-controls button, .touch-actions button, .touch-fire, .world-interact, .radio-interact) {
+  background-color:var(--camp-raised);
+  color:var(--color-text-primary);
+  border:1px solid var(--camp-line);
+}
+.world :is(.touch-controls button:active, .touch-actions button[aria-pressed="true"], .touch-fire:active) {
+  background-color:var(--camp-accent);
+  color:var(--color-on-accent);
+}
 /* Scene exposure is independent of the personal UI theme. */
 .world:has([data-camp-lighting="night"]) :is(.session-chip,.work-chip,.map-travel,.map-travel small) { color:#d4dce1; text-shadow:0 1px 3px #000; }
 .world:has([data-camp-lighting="night"]) .work-chip strong { color:#f0f0ec; }
@@ -52,7 +62,7 @@ body:has(.world [data-camp-lighting="night"]) .music-dock.is-empty button { colo
 .world [data-camp-input][data-dragging="true"] { cursor:grabbing; }
 .person-presence,.person-presence>span { display:block; white-space:normal; overflow-wrap:anywhere; }
 .person-work { margin-top:4px; }
-.presence-draft-state { display:block; font-size:12px; color:var(--seed-color-fg-neutral-muted); }
+.presence-draft-state { display:block; font-size:12px; color:var(--camp-muted); }
 .effects-status { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:12px; }
 .effects-status.is-compact { flex-direction:column; align-items:stretch; gap:5px; }
 .effects-notice { position:absolute; right:12px; top:92px; z-index:4; max-width:195px; padding:8px 10px; border-radius:12px; color:#eee; background:#252525ed; }

@@ -35,6 +35,10 @@ Never silently rewrite one source using assertions from another. Mark each claim
 
 For the cross-domain rollout use [ROADMAP](ROADMAP.md); for experience-driven improvements use [PRODUCT_LOOP](PRODUCT_LOOP.md). Neither document silently authorizes new features or production changes.
 
+## 플레이어 UI 작업
+
+공식 Astryx 컴포넌트와 캠프 테마를 적용한다. 현재 UI 계약은 [구조 문서](../architecture.md), 검증 절차는 [변경 검증 스킬](../../.agents/skills/camp-change-validation/SKILL.md)을 따른다. 다음 작업에는 [검증 기록](../validation.md)의 데스크톱·모바일 비교와 확인한 사용자 흐름을 인계한다.
+
 ## Project-wide rules
 
 - Product quality is not equivalent to technical correctness. Validate the **intended player experience** and its corresponding implementation, then integrity, regression and operations. Keep the evidence and gate types separate.
