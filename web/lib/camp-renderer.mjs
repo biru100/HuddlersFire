@@ -197,7 +197,7 @@ export class CampRenderer extends CampArtwork {
     if(this.canvas.dataset)this.canvas.dataset.campPixelMode=this.assets.manifest.pixelQuarterview?this.pixelMode:'off';
     this.sceneLighting=sceneLighting(mapId,this.theme);c.setLighting?.(null);c.setObject?.(null);c.setMaterial?.(null);
     const lightingMode=this.sceneLighting.night?'night':'day';if(this.canvas.dataset&&this.canvas.dataset.campLighting!==lightingMode)this.canvas.dataset.campLighting=lightingMode;
-    const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),avatar:scene.avatar,sitting:true}]).map(p=>this.displayPlayer(p));
+    const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),avatar:scene.avatar,hairStyle:scene.hairStyle,topStyle:scene.topStyle,sitting:true}]).map(p=>this.displayPlayer(p));
     const recording=this.webgl?.status==='ready'&&this.ctx.recording;if(recording)this.ctx.recording.begin();
     this.background(w,h);
     this.focusMix=this.reduced?Number(focused):(this.focusMix||0)+(Number(focused)-(this.focusMix||0))*.12;

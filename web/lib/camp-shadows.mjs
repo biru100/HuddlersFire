@@ -1,7 +1,9 @@
 import {createSpriteSurface,defaultSpriteAssets} from './camp-sprite-assets.mjs';
 import {playerDisplay,propDisplay} from './camp-scene-contract.mjs';
+import {camperSheetId} from './camp-camper-render.mjs';
 import {drawCharacter,characterPose} from './camp-character.mjs';
 import {pixelPropDisplay} from './camp-pixel.mjs';
+import {clearingBench, drawClearingBench} from './camp-clearing-art.mjs';
 export function shadowProfile(item,assets=defaultSpriteAssets){
   const key=item.type==='bench'?(Math.abs(Math.sin(item.angle||0))<.5?'bench-ne':'bench-nw'):item.type==='garden'?item.variant:item.type==='fire'?'firewood':item.type;
   const row=assets.manifest.materials?.surfaces[key];if(!row)return null;const scale=item.scale||1;
@@ -39,9 +41,14 @@ export class GroundShadows{
     const flush=()=>{if(start!==null){const center=(start+end)/2/rasterScale-originX;contacts.push({x:center,y:slope*center+baseline+1,rx:Math.max(2,(end-start+3)/2/rasterScale),ry:2});}start=end=null;};
     for(let px=left;px<=right+1;px++){const edge=edges[px],near=edge>=0&&Math.abs(slope*(px/rasterScale-originX)+baseline-(edge/rasterScale-originY))<3;if(near){if(start===null)start=px;end=px;}else flush();}
     const softened=createSpriteSurface(this.ctx,w,h),soft=softened.getContext('2d');soft.filter='blur('+2*rasterScale+'px)';soft.drawImage(image,0,0);
-    const result={image:softened,x,y,width:w/rasterScale,height:h/rasterScale,slope,baseline,relief:Math.max(8,baseline-(top/rasterScale-originY)+Math.abs(slope)*(right-left)/2/rasterScale),contacts};this.masks.set(key,result);while(this.masks.size>256)this.masks.delete(this.masks.keys().next().value);return result;
+    const result={key,image:softened,x,y,width:w/rasterScale,height:h/rasterScale,slope,baseline,relief:Math.max(8,baseline-(top/rasterScale-originY)+Math.abs(slope)*(right-left)/2/rasterScale),contacts};this.masks.set(key,result);while(this.masks.size>256)this.masks.delete(this.masks.keys().next().value);return result;
   }
   propMask(item,theme='color'){
+    const bench=clearingBench(this.assets,item,theme,this.mapId,this.pixelMode);
+    if (bench) {
+      const key=JSON.stringify(['clearing-bench',theme,bench.sx,bench.sy,bench.x,bench.y]);
+      return this.mask(key,c=>drawClearingBench(c,bench,null),{slope:bench.direction==='ne'?-.5:.5});
+    }
     const d=pixelPropDisplay(this.assets,item,this.mapId,this.pixelMode)||propDisplay(item,this.assets);if(!d||!this.assets.getSprite(d.frame.sheet+(theme==='dark'&&!d.frame.ungraded?'-dark':'')))return null;
     const slope=d.direction==='ne'?-.5:d.direction==='nw'?.5:0;
     const width=Math.max(240,Math.ceil(d.width+48)),height=Math.max(256,Math.ceil(d.width*d.frame.h/d.frame.w+48));
@@ -49,8 +56,9 @@ export class GroundShadows{
   }
   playerMask(p,{time=0,now=time*1000,reduced=true,theme='color'}={}){
     const display=playerDisplay({...p,z:0},this.assets),player={...display.player,color:null},emote=player.emoteUntil>now?player.emote:null,pose=characterPose(player,time,reduced,emote,now,this.assets);
-    if(!this.assets.getSprite(pose.sheet||this.assets.characterSheet(0,theme)))return null;
-    const key=JSON.stringify(['player',theme,pose.state,pose.index,pose.lower.state,pose.lower.index,pose.mirror,player.renderDirection,player.renderSeat,player.weapon,pose.weaponSide,display.x,display.y]);
+    const releaseId=camperSheetId(theme),release=this.assets.manifest.files?.[releaseId]&&this.assets.getSprite(releaseId);
+    if(!release&&!this.assets.getSprite(pose.sheet||this.assets.characterSheet(0,theme)))return null;
+    const key=JSON.stringify(['player',!!release,theme,player.hairStyle,player.topStyle,player.visualDirection,pose.artFrame,pose.state,pose.index,pose.lower.state,pose.lower.index,pose.mirror,player.renderDirection,player.renderSeat,player.weapon,pose.weaponSide,display.x,display.y]);
     return this.mask(key,c=>{c.translate(display.x,display.y);drawCharacter(c,player,{time,now,reduced,emote,blankHead:true,shadowOnly:true,theme,assets:this.assets});},{ground:0,width:160,height:192,originX:80,originY:160,rasterScale:.5});
   }
   project(c,mask,item,light){
@@ -60,7 +68,7 @@ export class GroundShadows{
   }
   layer(){const surface=createSpriteSurface(this.ctx,1050,600),c=surface.getContext('2d');c.scale(.5,.5);c.translate(1050,580);return {surface,c};}
   static(objects,lights,map,theme){
-    const candidates=objects.filter(o=>o.type!=='player').map(item=>({item,mask:this.propMask(item,theme)})),rows=candidates.filter(r=>r.mask),key=map+theme+(this.pixelMode||'off')+JSON.stringify(candidates.map(r=>[r.item.type,r.item.id,r.item.x,r.item.y,r.item.scale,r.item.angle,r.item.variant,!!r.mask]));
+    const candidates=objects.filter(o=>o.type!=='player').map(item=>({item,mask:this.propMask(item,theme)})),rows=candidates.filter(r=>r.mask),key=map+theme+(this.pixelMode||'off')+JSON.stringify(candidates.map(r=>[r.item.type,r.item.id,r.item.x,r.item.y,r.item.scale,r.item.angle,r.item.variant,r.mask?.key]));
     if(this.cache?.key!==key){const {surface,c}=this.layer();for(const {item,mask}of rows){const x=(item.x-item.y)*40,y=(item.x+item.y)*20;for(const foot of mask.contacts)this.blob(c,x+foot.x,y+foot.y,foot.rx+1,foot.ry,0,theme==='dark'?.55:.5);}this.cache={key,surface,layers:new Map()};}
     const c=this.ctx;this.activeLayers=[];c.drawImage(this.cache.surface,-1050,-580,2100,1200);
     for(const light of lights){const lightKey=JSON.stringify([light.x,light.y,light.height,Number(light.radius.toFixed(1))]);let layer=this.cache.layers.get(lightKey);if(!layer){layer=this.layer();for(const {item,mask}of rows){layer.c.save();layer.c.translate((item.x-item.y)*40,(item.x+item.y)*20);this.project(layer.c,mask,item,light);layer.c.restore();}this.cache.layers.set(lightKey,layer);while(this.cache.layers.size>6)this.cache.layers.delete(this.cache.layers.keys().next().value);}this.activeLayers.push(layer);c.save();c.globalAlpha*=light.intensity;c.drawImage(layer.surface,-1050,-580,2100,1200);c.restore();}

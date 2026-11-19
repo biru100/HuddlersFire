@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · Runtime camp artwork
+
+The user requested the complete camp-art revision and publication to the existing Site. The release adds a direction-aware camper, selectable hair and clothing, seated and moving poses, timber benches and fire-circle ground. For current evidence run the [production scene capture](../art/scene-first-review.md). See the [390px view from the production renderer](../reviews/2026-11-20-camp-live-mobile.png). The earlier dated receipts below describe review-time state. Site publication is tracked separately by its saved version and deployment result.
+
 ## 2026-11-20 · First camp scene review
 
 The active art task is the [scene-first workflow](../art/scene-first-review.md). Inspect the [current candidate, evidence and limits](../../art/sprites/scene-reviews/camp-circle-se/README.md) at actual mobile and desktop scale. The candidate is pending user selection. Character customization and Idle follow selection. Both earlier rejected canvas sizes now have verified file receipts. The older entries below record their respective dates.

@@ -11,12 +11,12 @@ test('new profiles start with quiet effects while existing explicit zero and leg
 
 test('theme migration preserves audio and consent; invalid themes fall back to color', () => {
   const legacy = { effectsVolume:.7, musicVolume:28, musicMuted:true, allowCarry:false };
-  assert.deepEqual(normalizeSettings(legacy), { ...legacy, theme:'color' });
+  assert.deepEqual(normalizeSettings(legacy), {...DEFAULT_SETTINGS, ...legacy, theme:'color'});
   for (const theme of [null, 'system', {}, 12]) assert.equal(normalizeSettings({theme}).theme, 'color');
   let raw = JSON.stringify(legacy);
   const storage = { getItem:()=>raw, setItem:(_,value)=>{raw=value;} };
   saveSettings(storage, {...readSettings(storage),theme:'dark'});
-  assert.deepEqual(readSettings(storage), {...legacy,theme:'dark'});
+  assert.deepEqual(readSettings(storage), {...DEFAULT_SETTINGS,...legacy,theme:'dark'});
 });
 
 test('bootstrap restores saved theme before React, including unavailable or malformed storage', () => {

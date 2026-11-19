@@ -2,6 +2,10 @@
 
 플레이어가 모닥불에 다가올 때 누구의 얼굴인지, 어디에 앉을 수 있는지, 무엇이 바닥인지 기본 카메라에서 구별할 수 있어야 한다. 첫 단위는 남동향 캐릭터 한 명, 2인 벤치 하나, 벤치 밑 바닥 한 구역이다. [첫 결과와 전후 비교](../../art/sprites/scene-reviews/camp-circle-se/README.md)
 
+## 게임에 반영한 뒤의 확인
+
+검토 영수증은 제출 당시 원본·기준 화면을 고정한다. `npm run art:review:camp`는 그 시점의 스프라이트를 사용한다. 현재 게임에 들어간 모습을 확인하려면 `web/`에서 `npm run test:render`를 실행해 `outputs/camp-art-live-desktop.png`와 `outputs/camp-art-live-mobile.png`를 연다. 두 화면은 일반 플레이와 동일한 렌더러·착석 계산·아트 로딩 경로로 그린다. 다른 머리와 상의를 입은 두 사람이 같은 모닥불에서 서 있고 앉아 있다.
+
 ## 생성과 수정
 
 1. 작업별로 `art/sprites/scene-reviews/<job>/`를 만든다. `briefs/camper.txt`, `bench.txt`, `ground.txt`를 독립적으로 작성한다. 같은 2:1 투영, 주광 방향, 명암의 우선순위를 글로 공유한다. 캠퍼는 얼굴·앞머리가 차지할 픽셀 수와 턱 아래부터 발바닥까지의 길이를 명시한다. 벤치는 앉는 면과 지지대가 보이게, 바닥은 발보다 명암 차이가 작게 요청한다.

@@ -1,3 +1,5 @@
+import {readWardrobeRoster} from '../lib/camp-wardrobe.mjs';
+import {readSettings, saveSettings, normalizeSettings} from '../lib/camp-settings.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createCanvas } from '@napi-rs/canvas';
@@ -48,4 +50,24 @@ test('character slots remain consistent across the lobby, field and dark mode',(
   assert.deepEqual(COLORS.map(c=>characterColor(c,'color')),CHARACTER_COLORS);
   assert.deepEqual(COLORS.map(c=>characterColor(c,'dark')),COLORS);
   assert.equal(characterColor('#89b6a5','color'),'#89b6a5');
+});
+
+
+test('wardrobe choices round-trip independently of each other, tones and audio preferences',()=>{
+  let saved = JSON.stringify({theme:'dark',musicMuted:true});
+  const storage = {getItem:()=>saved,setItem:(_,value)=>{saved=value;}};
+  assert.equal(readSettings(storage).hairStyle,0);
+  assert.equal(normalizeSettings({hairStyle:'1',topStyle:99}).topStyle,0);
+  for (const hairStyle of [0,1]) for (const topStyle of [0,1]) {
+    const options={...readSettings(storage),hairStyle,topStyle};
+    saveSettings(storage,options);
+    assert.deepEqual(readSettings(storage),options);
+    assert.equal(options.theme,'dark');
+    assert.equal(options.musicMuted,true);
+    const rows=[['camper',{hairStyle,topStyle}]];
+    assert.deepEqual([...readWardrobeRoster(rows)],rows);
+  }
+  for (const invalid of [[['a',{hairStyle:'1',topStyle:0}]], [['a',null]], new Array(17).fill(['a',{hairStyle:0,topStyle:1}])]) {
+    assert.equal(readWardrobeRoster(invalid),null);
+  }
 });

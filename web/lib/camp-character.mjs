@@ -1,6 +1,7 @@
 import { toneIndex, TONE_MARKS } from './camp-appearance.mjs';
 import { characterAnimation } from './camp-sprite-animation.mjs';
 import { defaultSpriteAssets,createSpriteSurface } from './camp-sprite-assets.mjs';
+import {camperPlan,camperGeometry,camperSheetId,paintCamper} from './camp-camper-render.mjs';
 import {avatarTextureUrl} from './camp-avatar-proxy.mjs';
 const avatarUrl = value => typeof value === 'string' && /^https:\/\/cdn\.discordapp\.com\/avatars\/\d{1,24}\/(?:a_)?[a-f0-9]+\.png(?:\?size=\d+)?$/.test(value);
 
@@ -29,7 +30,10 @@ export class AvatarImages {
     this.entries.clear();
   }
 }
-export const characterPose=characterAnimation;
+export function characterPose(p,time=0,reduced=true,emote=null,now=time*1000,assets=defaultSpriteAssets) {
+  const pose=characterAnimation(p,time,reduced,emote,now,assets);
+  return assets.manifest.files?.[camperSheetId('color')] ? camperGeometry(pose,camperPlan(p,pose,time,reduced)) : pose;
+}
 const headSurfaces=new Map();
 function face(c,theme,emote,blank,direction){
   c.fillStyle=theme==='dark'?'#f4f4f4':'#fff0cf';c.beginPath();c.arc(0,0,16,0,Math.PI*2);c.fill();
@@ -51,8 +55,16 @@ function body(ctx,image,frame,scale,mirror,clip=null,origin=frame.feet){
   ctx.drawImage(image,frame.x,frame.y,frame.w,frame.h,-origin.x*scale,-origin.y*scale,frame.w*scale,frame.h*scale);ctx.restore();
 }
 export function drawCharacter(ctx,p,{time=0,now=time*1000,reduced=true,emote=null,avatar=null,blankHead=false,shadowOnly=false,theme='color',assets=defaultSpriteAssets}={}){
-  const pose=characterAnimation(p,time,reduced,emote,now,assets),slot=toneIndex(p.color),image=assets.getSprite(pose.sheet||assets.characterSheet(slot,theme)),{frame,scale,mirror}=pose;
+  const originalPose=characterAnimation(p,time,reduced,emote,now,assets),slot=toneIndex(p.color);
+  const sheetId=camperSheetId(theme);
+  const camper=assets.manifest.files?.[sheetId]&&assets.getSprite(sheetId);
+  const plan=camper&&camperPlan(p,originalPose,time,reduced);
+  const pose=plan?camperGeometry(originalPose,plan):originalPose;
+  const image=camper?null:assets.getSprite(pose.sheet||assets.characterSheet(slot,theme)),{frame,scale,mirror}=pose;
+  const w=avatar?.naturalWidth||avatar?.width,h=avatar?.naturalHeight||avatar?.height;
+  const photo=!!(avatar&&w>0&&h>0);
   ctx.save();
+  if(camper)paintCamper(ctx,camper,plan,slot,theme,shadowOnly||(!photo&&!blankHead));
   if(image){
     if(pose.combine){const lower=pose.lower.frame,ls=17/lower.head.radius;
       const lowerImage=assets.getSprite(pose.lower.sheet||assets.characterSheet(slot,theme)),split=(lower.waist-pose.lowerOrigin.y)*ls;
@@ -64,9 +76,9 @@ export function drawCharacter(ctx,p,{time=0,now=time*1000,reduced=true,emote=nul
     }else body(ctx,image,frame,scale,mirror,null,pose.origin);
   }
   // Avatar stays in screen orientation, independently of body facing.
+  if(!camper||(!shadowOnly&&(photo||blankHead))){
   ctx.save();ctx.translate(pose.headX*mirror,pose.headY);
   ctx.save();ctx.setMaterial?.({lighting:'lit'});ctx.fillStyle=theme==='dark'?'#9c9c9c':'#d4b88b';ctx.beginPath();ctx.roundRect(-6,12,12,10,3);ctx.fill();ctx.restore();
-  const w=avatar?.naturalWidth||avatar?.width,h=avatar?.naturalHeight||avatar?.height;
   if(ctx.lightingProfile?.night&&!(avatar&&w>0&&h>0)){
     const head=nightHead(ctx,theme,emote,blankHead,pose.direction);ctx.setMaterial({lighting:'lit',normalImage:head.normal,strength:.5,ambientLift:theme==='dark'?[.12,.12,.12]:[.18,.12,.04]});ctx.drawImage(head.image,-18,-18,36,36);
   }else{
@@ -75,6 +87,7 @@ export function drawCharacter(ctx,p,{time=0,now=time*1000,reduced=true,emote=nul
   else face(ctx,theme,emote,blankHead,pose.direction);
   }
   ctx.restore();
+  }
   // Redraw only isolated hands which can cross in front of the portrait.
   if(image)for(const hand of frame.hands){if(hand.y>frame.head.y+frame.head.radius)continue;ctx.save();ctx.scale(mirror,1);ctx.drawImage(image,frame.x+hand.x,frame.y+hand.y,hand.w,hand.h,(hand.x-pose.origin.x)*scale,(hand.y-pose.origin.y)*scale,hand.w*scale,hand.h*scale);ctx.restore();}
   if(pose.weaponSide)assets.drawSprite(ctx,p.weapon,{x:pose.weaponSide*16,y:-15,width:p.weapon==='gun'?22:13,theme,flip:pose.weaponSide<0});

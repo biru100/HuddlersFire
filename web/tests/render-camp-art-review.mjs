@@ -3,6 +3,8 @@ import { createCanvas, loadImage, Image, GlobalFonts } from '@napi-rs/canvas';
 import { existsSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
+import { SPRITE_MANIFEST as baselineManifest } from '../lib/camp-sprite-manifest.mjs';
+import { createSpriteContext } from '../lib/camp-sprite-assets.mjs';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { drawCharacter } from '../lib/camp-character.mjs';
 import { CAMP_BENCHES, CAMP_SEATS } from '../lib/camp-maps.mjs';
@@ -24,6 +26,13 @@ globalThis.ResizeObserver = class { observe() {} disconnect() {} };
 globalThis.requestAnimationFrame = () => 1;
 globalThis.cancelAnimationFrame = () => {};
 globalThis.Image = Image;
+
+// The first art receipt pins the original comparison, including its before frame.
+const baselineAssets = createSpriteContext(baselineManifest, {
+  cacheLimit:64,
+  loader:url=>loadImage(fileURLToPath(new URL('../public'+url,import.meta.url)))
+});
+await baselineAssets.preloadSprites(baselineAssets.sceneSpriteIds('color','camp'));
 
 const originals = {}, game = {};
 for (const role of ['camper', 'bench', 'ground']) {
@@ -81,7 +90,7 @@ function reviewCamper(c, player, opts) {
 }
 class CandidateRenderer extends CampRenderer {
   constructor(canvas) {
-    super(canvas, () => scene, {characterPainter:reviewCamper});
+    super(canvas, () => scene, {assets:baselineAssets,characterPainter:reviewCamper});
     const lights = this.groundLights.draw.bind(this.groundLights);
     this.groundLights.draw = (c, ...args) => {
       const [px, py] = this.project(bench.x, bench.y);
@@ -102,7 +111,7 @@ for (const [device, width, height] of [['desktop',1050,824], ['mobile',390,520]]
   for (const version of ['before', 'candidate']) {
     const canvas = createCanvas(width, height);
     canvas.getBoundingClientRect = () => ({width,height});
-    const renderer = version === 'candidate' ? new CandidateRenderer(canvas) : new CampRenderer(canvas, () => scene);
+    const renderer = version === 'candidate' ? new CandidateRenderer(canvas) : new CampRenderer(canvas, () => scene, {assets:baselineAssets});
     await renderer.ready;
     renderer.draw(scene.now);
     if (renderer.camera.mode !== 'follow' || !renderer.hitAreas.some(p => p.id === hero.id)) throw Error('Missing follow camera or camper');

@@ -84,7 +84,7 @@ export default function Camp() {
   const touchRunRef = useRef(false), selectedPlayerRef = useRef<string | null>(null);
   const crouchRef = useRef(false), emotesRef = useRef(false), lockedRef = useRef(false), soloPose = useRef('standing');
   const soloPlayer = useRef({ id: 'solo', name: '허들러', color: COLORS[0], ...spawnPlayer() });
-  const scene = useRef({ name: '허들러', color: COLORS[0], avatar: null as string | null });
+  const scene = useRef({ name: '허들러', color: COLORS[0], avatar: null as string | null, hairStyle:0, topStyle:0 });
   const soloWorld = useRef(new Map([['solo', soloPlayer.current]]));
   const soloLedger = useRef(new CommandLedger()), soloMusic = useRef(emptyMusic()), soloChat = useRef<ChatEntry[]>([]);
   const [profile, setProfile] = useState<Profile>({ name: '', color: COLORS[0], avatar: null, linked: false });
@@ -92,6 +92,7 @@ export default function Camp() {
   const [discordBusy, setDiscordBusy] = useState(false), [discordMessage, setDiscordMessage] = useState('');
   const discordPopup = useRef<Window | null>(null), discordPoll = useRef<number | null>(null);
   const [settings, setSettings] = useCampSettings();
+  const {hairStyle,topStyle} = settings;
   const themeRef = useRef(settings.theme);
   useEffect(() => { themeRef.current = getSettingsSnapshot().theme; applyTheme(document, themeRef.current); }, [settings.theme]);
   const [settingsOpen, setSettingsOpen] = useState(false), [carryBusy, setCarryBusy] = useState(false);
@@ -186,9 +187,9 @@ export default function Camp() {
     return () => { cancelled = true; };
   }, []);
   useEffect(() => {
-    scene.current = { name: profile.name || '허들러', color: profile.color, avatar: profile.avatar };
-    Object.assign(soloPlayer.current, { name: profile.name || '허들러', color: profile.color, avatar: profile.avatar });
-  }, [profile]);
+    scene.current = { name: profile.name || '허들러', color: profile.color, avatar: profile.avatar, hairStyle, topStyle };
+    Object.assign(soloPlayer.current, scene.current);
+  }, [profile,hairStyle,topStyle]);
   useEffect(() => {
     if (!canvas.current) return;
     const renderer = new CampRenderer(canvas.current, () => ({ ...scene.current, ...view.current, theme:'color',uiTheme:themeRef.current, onAssets:setAssetStatus,
@@ -305,7 +306,7 @@ export default function Camp() {
       if (!window.RTCPeerConnection) throw new Error('이 브라우저에서는 함께하기를 지원하지 않아요. 최신 Chrome 또는 Edge를 사용해 주세요.');
       const p = await saveProfile();
       sittingRef.current=false;crouchRef.current=false;setSitting(false);setElapsed(0);setWorkTime('00:00:00');setChat([]);setMusic(emptyMusic());
-      await connectRoom(mode,p,selectedCode,settings.allowCarry,creation);
+      await connectRoom(mode,{...p,hairStyle,topStyle},selectedCode,settings.allowCarry,creation);
       seenCalls.current.clear();setUnreadCalls([]);setMyPresence(presenceDefaults());
       canvas.current?.focus();
     } catch (e) { setError(e instanceof Error ? e.message : '입장하지 못했어요.'); }
