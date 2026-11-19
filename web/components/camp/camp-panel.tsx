@@ -10,7 +10,7 @@ const subscribeCompact=(notify:()=>void)=>{const q=window.matchMedia(compactQuer
 export const useCompactCamp=()=>useSyncExternalStore(subscribeCompact,()=>window.matchMedia(compactQuery).matches,()=>false);
 export const CAMP_PANELS=[['chat','대화'],['people','사람'],['status','내 상태'],['play','놀이'],['radio','라디오']] as const;
 export type CampPanelTab=typeof CAMP_PANELS[number][0];
-type Props={title:string;status:string;tab:CampPanelTab;onTab:(tab:CampPanelTab)=>void;onClose:()=>void;peopleCount:number;invite?:ReactNode;presence:ReactNode;people:ReactNode;chat:ReactNode;play:ReactNode;radio:ReactNode;footer:ReactNode;open:boolean;floating:boolean};
+type Props={unreadCalls:number;title:string;status:string;tab:CampPanelTab;onTab:(tab:CampPanelTab)=>void;onClose:()=>void;peopleCount:number;invite?:ReactNode;presence:ReactNode;people:ReactNode;chat:ReactNode;play:ReactNode;radio:ReactNode;footer:ReactNode;open:boolean;floating:boolean};
 export default function CampPanel(p:Props){
   const [expanded,setExpanded]=useState(false);
   // Move one subtree between the sidebar and sheet so drafts survive viewport changes.
@@ -28,7 +28,7 @@ export default function CampPanel(p:Props){
         <header className="camp-panel-heading"><div><h2>{p.title}</h2><Text as="p" size="sm" color="secondary" role="status">{p.status}</Text></div><div className="camp-panel-size">{p.floating&&<Button size="sm" variant="ghost" aria-pressed={expanded} onClick={()=>setExpanded(value=>!value)} label="패널 높이 조절">{expanded?'작게':'크게'}</Button>}<Button size="sm" variant="ghost" className="panel-close" onClick={p.onClose} label="필드로"/></div></header>
         <div className="camp-tabs">
           <TabList role="tablist" className="camp-panel-tabs" aria-label="캠프 패널" value={p.tab} onChange={value=>p.onTab(value as CampPanelTab)} layout="fill">
-            {CAMP_PANELS.map(([id,label])=><Tab key={id} id={`camp-tab-${id}`} value={id} label={label} panelId={`camp-page-${id}`} endContent={id==='people'?p.peopleCount:undefined}/>)}
+            {CAMP_PANELS.map(([id,label])=><Tab key={id} id={`camp-tab-${id}`} value={id} label={label} panelId={`camp-page-${id}`} endContent={id==='people'?p.peopleCount:id==='chat'&&p.unreadCalls>0?<span aria-label={`미확인 호출 ${p.unreadCalls}건`}>{p.unreadCalls}</span>:undefined}/>)}
           </TabList>
           <div className="camp-panel-scroll">{CAMP_PANELS.map(([id])=><div key={id} role="tabpanel" hidden={p.tab!==id} className="camp-panel-page" id={`camp-page-${id}`} aria-labelledby={`camp-tab-${id}`}>{pages[id]}</div>)}</div>
         </div>

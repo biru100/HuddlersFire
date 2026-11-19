@@ -6,6 +6,8 @@ import { Skeleton } from '@astryxdesign/core/Skeleton';
 import { List, ListItem } from '@astryxdesign/core/List';
 import { EmptyState } from '@astryxdesign/core/EmptyState';
 import { Badge } from '@astryxdesign/core/Badge';
+import { RotateCw } from 'lucide-react';
+import SpriteArt from './sprite-art';
 import { api } from '@/lib/camp-network.mjs';
 type PublicRoom = { code:string; title:string; count:number; capacity:number; state:'open'|'full'|'recovering' };
 export default function RoomList({busy,join}:{busy:boolean;join:(code:string)=>void}) {
@@ -23,9 +25,8 @@ export default function RoomList({busy,join}:{busy:boolean;join:(code:string)=>v
     return()=>{cancelled=true;clearInterval(timer);};
   },[offset,refresh]);
   return <section className="public-rooms" aria-label="공개 모닥불">
-    <div className="panel-title"><strong>열려 있는 모닥불</strong><Button type="button" onClick={()=>{setLoading(true);setRefresh(v=>v+1);}} isDisabled={loading} label="새로고침"/></div>
-    <p className="micro-copy">방을 골라 바로 함께해요. Discord 계정을 연결하면 참여할 수 있어요.</p>
-    {error?<Text as="p" role="alert">{error}</Text>:loading?<div role="status" aria-label="모닥불을 찾고 있어요"><Skeleton height={64}/></div>:!rooms.length?<EmptyState isCompact title="첫 모닥불을 피워 볼까요?" description="아직 열린 방이 없어요. 친구들을 초대해 보세요."/>:<List>{rooms.map(r=><ListItem className="public-room" key={r.code} label={r.title} description={`${r.count}/${r.capacity}명 · ${r.state==='open'?'함께 쉬는 중':r.state==='full'?'가득 참':'연결 복구 중'}`} endContent={<Badge label="참여"/>} isDisabled={busy||r.state!=='open'} onClick={()=>join(r.code)}/>)}</List>}
+    <div className="section-heading"><Text as="h2" type="display-3">열려 있는 모닥불</Text><Button type="button" size="sm" variant="ghost" icon={<RotateCw size={14}/>} onClick={()=>{setLoading(true);setRefresh(v=>v+1);}} isDisabled={loading} label="새로고침"/></div>
+    {error?<Text as="p" role="alert">{error}</Text>:loading?<div role="status" aria-label="모닥불을 찾고 있어요"><Skeleton height={64}/></div>:!rooms.length?<EmptyState className="room-list-empty" icon={<SpriteArt name="tent"/>} title="아직 열린 방이 없어요" description="방을 만들면 최대 16명이 함께 모일 수 있어요."/>:<List>{rooms.map(r=><ListItem className="public-room" key={r.code} label={r.title} description={`${r.count}/${r.capacity}명 · ${r.state==='open'?'함께 쉬는 중':r.state==='full'?'가득 참':'연결 복구 중'}`} endContent={<Badge label="참여"/>} isDisabled={busy||r.state!=='open'} onClick={()=>join(r.code)}/>)}</List>}
     {(offset>0||next!==null)&&<div className="room-pages"><Button isDisabled={offset===0||busy} onClick={()=>{setLoading(true);setOffset(Math.max(0,offset-20));}} label="이전"/><Button isDisabled={next===null||busy} onClick={()=>{if(next!==null){setLoading(true);setOffset(next);}}} label="다음"/></div>}
   </section>;
 }

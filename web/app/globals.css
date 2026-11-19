@@ -6,6 +6,7 @@
 @import "@astryxdesign/theme-neutral/theme.css";
 @import "./camp-theme.css";
 @import "./camp-layout.css";
+@import "./camp-lobby.css";
 @import "./field-v2.css";
 
 @layer base {

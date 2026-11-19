@@ -2,7 +2,6 @@
 import { applyTheme } from '@/lib/camp-theme.mjs';
 import CampNotice from '@/components/camp/camp-notice';
 import SpriteArt from '@/components/camp/sprite-art';
-import { Text } from '@astryxdesign/core/Text';
 import { Badge } from '@astryxdesign/core/Badge';
 import PeoplePanel from '@/components/camp/people-panel';
 import { Button } from '@astryxdesign/core/Button';
@@ -22,7 +21,7 @@ import { WorkClock, formatDuration } from '@/lib/camp-work-clock.mjs';
 import { startCampTicker } from '@/lib/camp-scheduler.mjs';
 import type { Presence, MapId } from '@/lib/camp-types';
 import { CAMP_MAP, PLAY_MAP, SHOW_MAP, MAP_TRAVEL_COOLDOWN, mapName, canPlay, nearbyInteraction } from '@/lib/camp-maps.mjs';
-import { Flame, Settings, LogOut, Copy, Check, X, RotateCw, Link2 } from 'lucide-react';
+import { Flame, CircleHelp, Settings, LogOut, Copy, Check, X, RotateCw, Link2 } from 'lucide-react';
 import { CampRenderer, CampAudio } from '@/lib/camp-renderer.mjs';
 import { CampNetwork, api } from '@/lib/camp-network.mjs';
 import { COLORS, direction, spawnPlayer, simulateWorld, applyPlayerAction, carryTarget, canUseRadio } from '@/lib/camp-world.mjs';
@@ -573,7 +572,7 @@ export default function Camp() {
   const world = (<section className="world" aria-label={showing?'허들러즈 게임 전시장':playing?'숲속 놀이터':'불멍 캠프장'}>
         {(assetStatus.loading||assetStatus.failed.length>0)&&<div className="scene-status" role="status">{assetStatus.failed.length>0?<><span>풍경을 불러오지 못했어요.</span><Button size="sm" onClick={()=>void rendererRef.current?.retryAssets()} label="다시 불러오기"/></>:<span>캠프에 불을 밝히고 있어요…</span>}</div>}
         <canvas data-camp-input data-camera-mode={cameraMode} ref={canvas} tabIndex={0} aria-label={`쿼터뷰 캠프장. 배율 ${Math.round(zoom*100)}%. 마우스로 끌어서 시점 이동, 휠로 확대·축소. WASD 이동, Shift 달리기, Space 점프와 내려오기, E 가까운 포탈·부스 상호작용 또는 앉기, C 웅크리기, Q 감정표현, 놀이터에서 F 친구 들기·던지기, 1 총, 2 눈뭉치, 3 폭탄, 0 맨손, J 또는 우클릭으로 사용, R 어디서든 라디오 열기, Enter 채팅. 플레이어를 눌러 정보를 확인하세요.`} />
-        <div className="world-heading"><Badge label={active?(showing?'게임 전시장':playing?'놀이터':'불멍'):'A PLACE TO GATHER'}/><Text as="h2" weight="bold">{active?(showing?'만드는 즐거움을 나누는 곳':playing?'마음껏, 함께 놀아요':'잠시 쉬어 가도 좋아요'):'우리들의 작은 쉼터'}</Text></div>
+        {active&&<div className="world-heading"><Badge label={mapName(mapId)}/></div>}
         {active && <div className="session-chip"><span className="live-dot" />{solo ? '나만의 산책' : `${connected}명과 함께`}<span className="chip-divider" />{String(Math.floor(elapsed / 60)).padStart(2, '0')}:{String(elapsed % 60).padStart(2, '0')}</div>}
         {active&&<div className="work-chip"><strong>{PRESENCE_LABELS[myPresence.presence as keyof typeof PRESENCE_LABELS]}</strong><span>내 작업 {workTime}</span></div>}
         {active&&<div className="map-travel"><span aria-live="polite">{mapName(mapId)} · {Object.values(mapsById).filter(id=>id===mapId).length || 1}명</span><small>{mapId===CAMP_MAP?'△ 놀이터 · □ 전시장':'○ 불멍으로'}</small></div>}
@@ -604,8 +603,7 @@ export default function Camp() {
   return <main className={'camp-app' + (active && fieldOnly ? ' field-only' : '') + (compactPanel ? ' compact-panel-open' : '') + (active ? ' in-camp' : '') + (active ? ' has-player' : '')} onPointerDownCapture={resumeEffectsSound} onKeyDownCapture={resumeEffectsSound}>
     <header className="topbar">
       <Link className="brand" href="/" aria-label="허들러즈 불멍 홈"><span className="brand-mark"><SpriteArt name="amber"/></span><span>huddlers <strong>fire</strong></span></Link>
-      <div className="top-note"><Badge label={active?mapName(mapId):'함께하는 작은 시간'}/></div>
-      <div className="header-actions"><Button className="help-button" onClick={() => setHelp(true)} label="이용 안내" endContent={<span aria-hidden="true" className="question-mark">?</span>}/><Button className="settings-button" onClick={() => { resetInput(); setEmotes(false); setSettingsOpen(true); }} icon={<Settings size={18}/>} label="설정 열기">설정</Button></div>
+      <div className="header-actions"><Button variant="ghost" icon={<CircleHelp size={16}/>} className="help-button" onClick={() => setHelp(true)} label="이용 안내"/><Button variant="ghost" className="settings-button" onClick={() => { resetInput(); setEmotes(false); setSettingsOpen(true); }} icon={<Settings size={18}/>} label="설정 열기">설정</Button></div>
     </header>
 
     <div className="camp-layout">
@@ -614,7 +612,7 @@ export default function Camp() {
       <aside className={active?"sidebar":"lobby"}>
         {!active ? <>
           <CampLobby profile={profile} setProfile={setProfile} code={code} setCode={setCode} busy={busy} ready={ready} error={error} enter={enter} enterSolo={enterSolo} onDiscord={()=>void linkDiscord()} discordAvailable={discordAvailable} discordBusy={discordBusy} discordMessage={discordMessage} />
-        </> : <CampPanel open={compactPanel} floating={compactScreen||fieldOnly}
+        </> : <CampPanel unreadCalls={unreadCalls.length} open={compactPanel} floating={compactScreen||fieldOnly}
           title={solo ? '혼자여도 좋은 밤' : room?.title || '우리의 모닥불'}
           status={solo ? '느긋하게 한 바퀴 걸어 보세요.' : status}
           tab={panelTab} onTab={showPanel} onClose={closePanel} peopleCount={solo ? 1 : people.length}
@@ -641,8 +639,8 @@ export default function Camp() {
         />}
       </aside>
     </div>
-    {active&&!pip.pipWindow&&<nav className="camp-panel-dock" aria-label="캠프 빠른 메뉴">
-      {CAMP_PANELS.map(([id,label])=><Button key={id} aria-expanded={compactPanel&&panelTab===id} aria-controls={`camp-page-${id}`} onClick={()=>compactPanel&&panelTab===id?closePanel():showPanel(id,id==='chat')} label={label}>{label}{id==='chat'&&unreadCalls.length>0&&<span aria-label="미확인 호출"> · {unreadCalls.length}</span>}</Button>)}
+    {active&&!pip.pipWindow&&<nav hidden={compactPanel} className="camp-panel-dock" aria-label="캠프 빠른 메뉴">
+      {CAMP_PANELS.map(([id,label])=><Button key={id} aria-expanded={false} aria-controls={`camp-page-${id}`} onClick={()=>showPanel(id,id==='chat')} label={label}>{label}{id==='chat'&&unreadCalls.length>0&&<span aria-label="미확인 호출"> · {unreadCalls.length}</span>}</Button>)}
     </nav>}
     <CampNotice message={toast}/>
     <PlayerInfoPanel canHide={!!seatId} hidden={!!selectedInfo&&hiddenIds.includes(selectedInfo.id)} onHidden={toggleHidden} container={pip.pipWindow?.document.body} onCall={id=>void runAction('call',{target:id})} player={selectedInfo} anchor={infoAnchor} onClose={closePlayerInfo} onCloseFocus={() => canvas.current?.focus()} />

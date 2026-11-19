@@ -1,0 +1,122 @@
+/* Keep the live Canvas mounted in the same place when the player enters a room. */
+.camp-app:not(.in-camp) {
+  --lobby-width: 1176px;
+  --lobby-gutter: clamp(16px, 4vw, 52px);
+  --lobby-night: #152322;
+}
+.camp-app:not(.in-camp) .topbar {
+  max-width: calc(var(--lobby-width) + 2 * var(--lobby-gutter));
+  margin-inline: auto;
+  padding-inline: var(--lobby-gutter);
+}
+.camp-app:not(.in-camp) .camp-layout {
+  max-width: calc(var(--lobby-width) + 2 * var(--lobby-gutter));
+  margin-inline: auto;
+  padding: 4px var(--lobby-gutter) 42px;
+  height: auto;
+  display: grid;
+  grid-template: "welcome" auto "rooms" auto / minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+  isolation: isolate;
+}
+.lobby, .lobby-content { display: contents; }
+.camp-app:not(.in-camp) .camp-layout::before {
+  content: "";
+  grid-area: welcome;
+  border-radius: 20px;
+  background: var(--lobby-night);
+}
+.camp-app:not(.in-camp) .world {
+  grid-area: welcome;
+  justify-self: end;
+  width: 67%;
+  border-radius: 0 20px 20px 0;
+}
+.camp-app:not(.in-camp) .world::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--lobby-night), transparent 36%);
+}
+.camp-app:not(.in-camp) .world-bottom { display: none; }
+.lobby-heading {
+  grid-area: welcome;
+  align-self: center;
+  position: relative;
+  padding: clamp(32px, 4.3vw, 60px);
+  pointer-events: none;
+}
+.lobby-intro { max-width: 46%; }
+.lobby-intro h1 {
+  color: #fffaf1;
+  font-size: clamp(36px, 4.25vw, 62px);
+  line-height: 1.12;
+  letter-spacing: -.06em;
+  word-break: keep-all;
+}
+.lobby-intro h1 span { color: #ffbd84; }
+.lobby-lede { display: block; color: #d4dfd9; margin-block: 18px 24px; line-height: 1.6; word-break: keep-all; }
+.entry-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.lobby-intro button { pointer-events: auto; }
+.entry-actions button { min-height: 42px; padding-inline: 18px; }
+.entry-actions button:first-child {
+  --color-accent: #ffbd84;
+  --color-on-accent: #302013;
+  border-color: transparent;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+.entry-actions button + button { color: #f2f5ef; background: #2b3a37; }
+.entry-actions button:first-child:enabled:not([aria-disabled="true"]):hover { background: #ffd2a6; }
+.entry-actions button + button:enabled:not([aria-disabled="true"]):hover { background: #3a4b47; }
+.entry-actions button:is(:disabled, [aria-disabled="true"]) { opacity: .6; }
+.lobby-intro .solo-button { margin-block-start: 8px; padding-inline: 2px; color: #d4dfd9; }
+.lobby-intro .entry-note { display: block; margin-block-start: 14px; color: #cad4cf; }
+.lobby-grid { grid-area: rooms; display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr); gap: clamp(28px, 4.6vw, 66px); align-items: start; }
+.lobby-grid h2 { font-weight: 700; font-size: clamp(21px, 2vw, 27px); letter-spacing: -.045em; line-height: 1.25; }
+.lobby-rooms, .lobby-profile { min-width: 0; }
+.lobby-profile { border-inline-start: 1px solid var(--camp-line); padding-inline-start: clamp(24px, 3vw, 42px); display: grid; gap: 12px; }
+.public-rooms { display: grid; gap: 14px; }
+.room-list-empty {
+  border: 1px solid var(--camp-line);
+  border-radius: 14px;
+  background: var(--camp-surface);
+  min-height: 160px;
+  justify-content: center;
+}
+.room-list-empty .sprite-art { width: 66px; height: 52px; }
+.profile-preview { gap: 10px; }
+.profile-preview .character-preview { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 16px; background: var(--color-accent-muted); }
+.profile-preview canvas { width: 74px; height: 62px; max-width: none; }
+.lobby-wardrobe { border-block-start: 1px solid var(--camp-line); }
+.lobby-wardrobe summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; cursor: pointer; font-weight: 600; }
+.lobby-wardrobe summary::-webkit-details-marker { display: none; }
+.lobby-wardrobe[open] summary svg { transform: rotate(180deg); }
+.wardrobe-fields { display: grid; gap: 14px; }
+.tone-options { display: flex; gap: 6px; flex-wrap: wrap; }
+.tone-options button { padding-inline: 10px; }
+.tone-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--camp-line); margin-inline-end: 4px; }
+.invite-arrival, .room-pages { display: flex; align-items: center; gap: 8px; margin-block-start: 12px; }
+@media (max-width: 760px) {
+  .camp-app:not(.in-camp) { --lobby-gutter: 14px; }
+  .camp-app:not(.in-camp) .world {
+    width: 100%;
+    height: 210px;
+    align-self: start;
+    border-radius: 20px 20px 0 0;
+  }
+  .camp-app:not(.in-camp) .world::after { background: linear-gradient(0deg, var(--lobby-night) 23%, transparent 50%); }
+  .lobby-heading { padding: 182px 20px 20px; }
+  .lobby-intro { max-width: none; }
+  .lobby-intro h1 { font-size: clamp(30px, 7vw, 40px); }
+  .lobby-intro h1 br { display: none; }
+  .lobby-intro h1 span { display: inline-block; margin-inline-start: .18em; }
+  .lobby-lede { margin-block: 8px 16px; }
+  .lobby-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .lobby-profile { border-inline-start: 0; border-block-start: 1px solid var(--camp-line); padding: 20px 0 0; }
+  .room-list-empty { min-height: 130px; }
+}
+@media (forced-colors: active) {
+  .entry-actions button, .lobby-wardrobe summary { border: 1px solid ButtonText; }
+}

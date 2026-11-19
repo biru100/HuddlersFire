@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · 로비 입장과 모바일 대화 수정본
+
+v46 디자인 피드백을 반영해 로비 첫 화면에 연결·입장을 배치하고, 모바일 대화 시트의 중복 탐색을 정리했다. 작업 폴더에서 검증한 수정본이며 공개 버전은 v46이다. [화면 비교](../product-review.md) · [검증 기록](../validation.md#astryx-lobby-review)
+
 ## 2026-11-20 · Astryx UI v46 운영 게시
 
 08:19 KST에 기존 공개 사이트에 v46을 게시했다. GitHub `main`의 `44cd6c2`에서 Astryx UI를 배포하고 v45의 세 맵 그래픽을 사용했다. 공개 로비의 Astryx CSS와 버전 API가 배포 빌드와 일치한다. [게임 열기](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [운영 검증](../validation.md#sites-v46)

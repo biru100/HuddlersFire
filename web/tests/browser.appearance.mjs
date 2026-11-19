@@ -29,6 +29,18 @@ try{
   await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]},sessionId);
   await send('Page.navigate',{url:origin},sessionId);
   await until(()=>evaluate(`!!document.querySelector('#nickname')`),'Lobby did not load');
+  const visibleEntry = selector => evaluate(`(() => {
+    const button = document.querySelector(${JSON.stringify(selector)});
+    if (!button) return false;
+    const rect = button.getBoundingClientRect();
+    return rect.top >= 0 && rect.bottom <= innerHeight && button.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
+  })()`);
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true},sessionId);
+  await until(()=>visibleEntry('.entry-actions button:not(:disabled):not([aria-disabled="true"])'),'New visitors must see the Discord connection action on their first screen');
+  assert.equal(await evaluate(`document.querySelector('.entry-actions button').textContent.trim()`),'Discord 연결하기');
+  await until(()=>evaluate(`!document.querySelector('.scene-status')`),'Guest camp preview did not finish loading');
+  const guestLobby=await send('Page.captureScreenshot',{format:'png'},sessionId);
+  writeFileSync('outputs/ui-lobby-guest-mobile-color.png',Buffer.from(guestLobby.data,'base64'));
   await evaluate(`fetch('/api/camp/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'전시장 검증'})}).then(()=>fetch('/__test/discord-connect',{method:'POST'}))`);
 
   for(const [name,width,height,mobile]of [['desktop',1280,900,false],['mobile',390,844,true]]){
@@ -51,6 +63,10 @@ try{
       }
     };
     await shot('lobby');
+    assert.ok(await visibleEntry('.entry-actions button'), 'Room entry must be visible before scrolling past customization');
+    await evaluate(`document.querySelector('.lobby-wardrobe summary').click()`);
+    assert.ok(await evaluate(`document.querySelector('.tone-options button').getClientRects().length > 0`));
+    await evaluate(`document.querySelector('.lobby-wardrobe summary').click();window.scrollTo(0,0)`);
     for(const entry of ['방 만들기','코드로 참여']){
       await evaluate(`[...document.querySelectorAll('.entry-actions button')].find(e=>e.textContent.includes(${JSON.stringify(entry)})).click()`);
       await until(()=>evaluate(`!!document.querySelector('.entry-dialog')`),'Entry dialog unavailable');
@@ -81,6 +97,7 @@ try{
       await evaluate(`document.querySelector('.camp-panel-dock button').click()`);
     }
     await delay(300);await shot('room');
+    if(mobile)assert.ok(await evaluate(`!document.querySelector('.camp-panel-dock').getClientRects().length && document.querySelector('#camp-tab-chat').getClientRects().length > 0`),'The open chat sheet should present only one navigation row');
     assert.ok(await evaluate(`document.documentElement.scrollWidth<=innerWidth&&[...document.querySelectorAll('.camp-panel-tabs button')].every(e=>{const r=e.getBoundingClientRect();return r.width>=44&&r.height>=36;})`),'Panel tabs must stay readable at both viewport sizes');
     assert.ok(await evaluate(`(()=>{const e=document.querySelector('.chat-panel form'),r=e.getBoundingClientRect(),footer=document.querySelector('.camp-panel-footer').getBoundingClientRect();return r.bottom<=footer.top&&footer.top-r.bottom<50&&e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));})()`),'Chat composer must remain visible at the bottom of the panel');
     await evaluate(`(()=>{const e=document.querySelector('input[aria-label="채팅 메시지"]');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,'이어 쓰는 초안');e.dispatchEvent(new Event('input',{bubbles:true}));})()`);

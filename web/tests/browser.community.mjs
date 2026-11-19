@@ -60,10 +60,10 @@ try {
   await send('Page.addScriptToEvaluateOnNewDocument',{source:`window.__campAudioFetchReleased=false;const fetchAudio=window.fetch;window.fetch=async(...args)=>{const r=await fetchAudio(...args);if(String(args[0])==='/audio/campfire.ogg'&&!window.__campAudioFetchReleased)await new Promise(done=>{window.__campReleaseAudio=()=>{window.__campAudioFetchReleased=true;done();};});return r;};`},sessionId);
   await send('Page.navigate',{url:origin},sessionId);
   await until(()=>evaluate(`!!document.querySelector('#nickname')&&!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Discord 연결하기'))`),'Discord gate absent');
-  assert.ok(await evaluate(`[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='방 만들기').matches(':disabled,[aria-disabled="true"]')`));
+  assert.ok(await evaluate(`![...document.querySelectorAll('.entry-actions button')].some(b=>['방 만들기','코드로 참여','이 방에 참여'].includes(b.textContent.trim()))`));
   await evaluate(`fetch('/api/camp/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'브라우저 검증'})}).then(()=>fetch('/__test/discord-connect',{method:'POST'}))`);
   await send('Page.navigate',{url:origin},sessionId);
-  await until(()=>evaluate(`!!document.querySelector('#nickname')&&![...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='방 만들기')?.matches(':disabled,[aria-disabled="true"]')`),'Linked lobby not ready');
+  await until(()=>evaluate(`!!document.querySelector('#nickname')&&[...document.querySelectorAll('button')].some(b=>b.textContent.trim()==='방 만들기'&&!b.matches(':disabled,[aria-disabled="true"]'))`),'Linked lobby not ready');
   await fill('#nickname','브라우저 검증');await click('방 만들기');await until(()=>evaluate(`!!document.querySelector('.entry-dialog')`),'Create dialog absent');await fill('.entry-dialog input','작업 동석 검증');await click('모닥불 시작하기');
   await until(()=>evaluate(`!!document.querySelector('.in-camp')&&!!document.querySelector('.presence-editor')`),'Room not entered');
   await until(()=>evaluate(`window.__campWorkers.length>=2&&window.__campWorkers.every(w=>w.ticks>2&&!w.failed)`),'Bundled camp workers did not run');
@@ -401,7 +401,7 @@ try {
   await walkTo('camp',CAMP_BENCHES[3]);
   await evaluate(`document.querySelector('.camp-panel-dock button').click()`);
   await until(()=>evaluate(`document.querySelector('.camp-panel').getClientRects().length>0`),'Mobile dock did not open chat');
-  await until(()=>evaluate(`(()=>{const e=document.querySelector('.camp-panel-dock button'),r=e.getBoundingClientRect();return e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));})()`),'Radio covers mobile navigation');
+  await until(()=>evaluate(`(()=>{const e=document.querySelector('#camp-tab-chat'),r=e.getBoundingClientRect();return !document.querySelector('.camp-panel-dock').getClientRects().length && e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));})()`),'Open sheet tabs must be reachable without a duplicate navigation row');
   assert.equal(await evaluate(`document.querySelector('input[aria-label="채팅 메시지"]').value`),'돌아와서 이어 쓸 초안');
   await panelTab('status');await panelTab('chat');
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:480,deviceScaleFactor:1,mobile:true},sessionId);
@@ -432,7 +432,7 @@ try {
   await evaluate(`document.querySelector('.modal .primary-button').click()`);await until(()=>evaluate(`!!document.querySelector('.public-rooms')`),'Did not return to lobby');
   assert.equal((await evaluate(`fetch('/api/camp/rooms').then(r=>r.json())`)).rooms.some(r=>r.code===code),false);
   await send('Page.navigate',{url:origin},sessionId);
-  await until(()=>evaluate(`!!document.querySelector('#nickname')&&![...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='방 만들기')?.matches(':disabled,[aria-disabled="true"]')`),'Reloaded linked lobby not ready');
+  await until(()=>evaluate(`!!document.querySelector('#nickname')&&[...document.querySelectorAll('button')].some(b=>b.textContent.trim()==='방 만들기'&&!b.matches(':disabled,[aria-disabled="true"]'))`),'Reloaded linked lobby not ready');
   await evaluate(`document.querySelector('button[aria-label="설정 열기"]').click()`);
   await until(()=>evaluate(`!!document.querySelector('.settings-popup')`),'Reloaded settings absent');
   assert.equal(await evaluate(`document.querySelector('.settings-popup [data-volume-label="효과음 음량"] [role="slider"]').getAttribute('aria-valuenow')`),'40','Saved effects value must survive reload');

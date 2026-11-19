@@ -1,10 +1,10 @@
 /* Set the same semantic colors on the document, provider and any portal roots. */
 [data-astryx-theme="neutral"] {
-  --camp-bg: light-dark(#f6ebd9, #111111);
-  --camp-surface: light-dark(#fff8ec, #191919);
+  --camp-bg: light-dark(#f8f6f1, #111111);
+  --camp-surface: light-dark(#fffdf8, #191919);
   --camp-raised: light-dark(#fffaf2, #222222);
-  --camp-line: light-dark(#cfb89c, #494949);
-  --camp-muted: light-dark(#695347, #c3c3c3);
+  --camp-line: light-dark(#d9d6ca, #494949);
+  --camp-muted: light-dark(#625d51, #c3c3c3);
   --camp-field-bg: light-dark(#e9d6b7, #191919);
   --camp-kbd-bg: light-dark(#62433712, #ffffff16);
   --camp-overlay: light-dark(#fff5e7f0, #171717f2);

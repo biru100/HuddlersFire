@@ -1,4 +1,5 @@
 'use client';
+import SpriteArt from './sprite-art';
 import { EmptyState } from '@astryxdesign/core/EmptyState';
 import { Banner } from '@astryxdesign/core/Banner';
 import { Button } from '@astryxdesign/core/Button';
@@ -29,7 +30,7 @@ export default function ChatPanel({ entries, send, onFocus, onClose, visible=tru
   return <section className="chat-panel" aria-label="모닥불 채팅">
     <div className="panel-title"><strong>모닥불 이야기</strong><span>방 안의 모두에게 <kbd>Enter</kbd></span></div>
     <div ref={log} className="chat-log" role="log" aria-live="polite" aria-relevant="additions text" onScroll={e => { if(!visible)return;const node=e.currentTarget;scrollPosition.current=node.scrollTop;following.current=node.scrollHeight-node.clientHeight-node.scrollTop<32;const atEnd=following.current;setReading(previous=>previous.following===atEnd&&(!atEnd||previous.readId===entries.at(-1)?.id)?previous:{following:atEnd,readId:atEnd?entries.at(-1)?.id:previous.readId}); }}>
-      {!entries.length && <EmptyState isCompact title="첫 이야기를 기다려요" description="친구들에게 가볍게 인사해 보세요."/>}
+      {!entries.length && <EmptyState className="chat-empty" icon={<SpriteArt name="amber"/>} title="아직 대화가 없어요" description="첫 인사를 남겨 보세요."/>}
       {entries.map((entry,i,list) => {
         const date=new Date(entry.createdAt), previous=list[i-1];
         const label=date.toLocaleDateString('ko-KR');
