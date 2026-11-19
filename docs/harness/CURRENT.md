@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · Astryx UI v46 운영 게시
+
+08:19 KST에 기존 공개 사이트에 v46을 게시했다. GitHub `main`의 `44cd6c2`에서 Astryx UI를 배포하고 v45의 세 맵 그래픽을 사용했다. 공개 로비의 Astryx CSS와 버전 API가 배포 빌드와 일치한다. [게임 열기](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [운영 검증](../validation.md#sites-v46)
+
 ## 2026-11-20 · 플레이어 UI와 검증 하네스의 Astryx 전환
 
 기준 커밋 `f69d22d`에서 로비·입장·필드 조작·다섯 개 패널·전시 소개·설정·Discord 결과와 PIP의 UI를 Astryx 0.7.16으로 전환했다. SEED와 shadcn의 실행 파일·설정·의존성을 정리했다. 하네스는 한글 입력, 읽던 위치, 테마, 키보드 포커스, 모바일 버튼 대비와 게임·라디오 연결을 검사한다. 최종 결과는 작업 폴더의 로컬 빌드이며 운영 게시 전이다. [전후 화면](../reviews/2026-11-20-astryx-ui.md) · [검증 기록](../validation.md#astryx-ui)

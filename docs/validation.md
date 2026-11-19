@@ -1,5 +1,19 @@
 # 구현 검증 기록
 
+<a id="sites-v46"></a>
+
+## 2026-11-20 · 기존 Sites에 Astryx UI v46 게시
+
+사용자의 배포 요청을 받아 기존 공개 [HuddlersFire](https://huddlers-fire-camp.gywkd77.chatgpt.site/)에 08:19:13 KST에 v46을 게시했다. GitHub `main` 커밋 `44cd6c2887605932c70547187c8228ff7598cb32`와 Sites 소스 `2e58873ad91f56af73b0a417ebbcb39f15189c96`의 웹 파일 327개는 내용과 파일 모드가 일치했다. [GitHub 검증 실행](https://github.com/biru100/HuddlersFire/actions/runs/44636100185)
+
+| 확인 항목 | 결과 |
+| --- | --- |
+| Sites | 공개 버전 v45에 이어 v46 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_ce0f54931c448191958e302048c80267`을 저장했다. 배포 ID `appgdep_6aff83e13d388191a3cac38d25f10d0a`의 최종 상태는 `succeeded`다. |
+| 공개 UI·API | 로비와 Discord 결과 페이지에서 Astryx Neutral 테마를 확인했다. 로비 CSS가 빌드와 바이트 단위로 일치했고 버전 API가 빌드 릴리스 `13521332-882f-4ff1-aef6-7424a7087517`, 리비전 `1795130241725`를 반환했다. 익명 세션·방 목록은 HTTP 200, Discord 연결 가능 상태는 `true`였다. |
+| 배경·DB | v45와 동일한 세 맵 이미지를 공개 서버에서 내려받아 빌드 해시와 대조했다. 기존 D1 `DB`에는 게시 전후 같은 테이블 7개가 있었고 마이그레이션 파일 11개가 기존 소스와 일치했다. |
+
+실제 Discord 계정 인증과 원격 사용자 간 RTC 연결은 공개 점검 범위 밖이다. 입력·채팅·PIP의 로컬 브라우저 검사는 [UI 검증](#astryx-ui)에 기록했다.
+
 <a id="astryx-ui"></a>
 
 ## 2026-11-20 · Astryx 플레이어 UI
