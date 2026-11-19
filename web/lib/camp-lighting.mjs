@@ -2,7 +2,7 @@ import {fireStrength,flareAt,emptyFire} from './camp-fire.mjs';
 export const LIGHTING_LIMITS=Object.freeze({lights:3,maxDpr:2,shadowScale:.5,normalStrength:.42});
 const FIRE_COLORS={amber:[1,.57,.2],jade:[.4,1,.63],violet:[.75,.48,1],gold:[1,.8,.33],blue:[.4,.67,1]};
 const DAY=Object.freeze({night:false,ambient:[1,1,1],gain:0});
-const NIGHT=Object.freeze({night:true,ambient:[.19,.23,.31],gain:2.8});
+const NIGHT=Object.freeze({night:true,ambient:[.28,.29,.37],gain:2.8});
 const NIGHT_DARK=Object.freeze({night:true,ambient:[.25,.25,.25],gain:2.8});
 export const sceneLighting=(map,theme='color')=>map==='camp'?(theme==='dark'?NIGHT_DARK:NIGHT):DAY;
 // World coordinates and height are independent of camera zoom, screen size and DPR.

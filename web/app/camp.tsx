@@ -62,6 +62,7 @@ export default function Camp() {
   const [myPresence,setMyPresence]=useState<Presence>(presenceDefaults());
   const workClock=useRef(new WorkClock()), soloBall=useRef(emptyBall());
   const [workTime,setWorkTime]=useState('00:00:00');
+  const [wardrobeById,setWardrobeById]=useState<Record<string,{hairStyle:number;topStyle:number}>>({});
   const [presenceById,setPresenceById]=useState<Record<string,Presence>>({});
   const [mapId,setMapId]=useState<MapId>('camp'), [mapBusy,setMapBusy]=useState(false);
   const [nearInteraction,setNearInteraction]=useState<ReturnType<typeof nearbyInteraction>>(null),[gameId,setGameId]=useState<string|null>(null);
@@ -84,7 +85,7 @@ export default function Camp() {
   const touchRunRef = useRef(false), selectedPlayerRef = useRef<string | null>(null);
   const crouchRef = useRef(false), emotesRef = useRef(false), lockedRef = useRef(false), soloPose = useRef('standing');
   const soloPlayer = useRef({ id: 'solo', name: '허들러', color: COLORS[0], ...spawnPlayer() });
-  const scene = useRef({ name: '허들러', color: COLORS[0], avatar: null as string | null, hairStyle:0, topStyle:0 });
+  const scene = useRef({ name: '허들러', color: COLORS[0], hairStyle:0, topStyle:0 });
   const soloWorld = useRef(new Map([['solo', soloPlayer.current]]));
   const soloLedger = useRef(new CommandLedger()), soloMusic = useRef(emptyMusic()), soloChat = useRef<ChatEntry[]>([]);
   const [profile, setProfile] = useState<Profile>({ name: '', color: COLORS[0], avatar: null, linked: false });
@@ -187,7 +188,7 @@ export default function Camp() {
     return () => { cancelled = true; };
   }, []);
   useEffect(() => {
-    scene.current = { name: profile.name || '허들러', color: profile.color, avatar: profile.avatar, hairStyle, topStyle };
+    scene.current = { name: profile.name || '허들러', color: profile.color, hairStyle, topStyle };
     Object.assign(soloPlayer.current, scene.current);
   }, [profile,hairStyle,topStyle]);
   useEffect(() => {
@@ -239,9 +240,12 @@ export default function Camp() {
         occlusions.current=[...doc.querySelectorAll<HTMLElement>('.field-tools,.map-travel,.work-chip,.session-chip,.effects-notice,.fire-seat-tools,.music-dock,.touch-actions,.touch-controls')].filter(e=>e.getClientRects().length&&doc.defaultView?.getComputedStyle(e).visibility!=='hidden').map(e=>{const r=e.getBoundingClientRect();return{x:r.x-base.x,y:r.y-base.y,width:r.width,height:r.height,kind:e.classList.contains('music-dock')?'music':'hud'};});
       }
       const n = network.current;
-      const statuses=Object.fromEntries((n?[...n.players.values()]:[soloPlayer.current]).map(p=>[p.id,presenceOf(p)]));
+      const campers=n?[...n.players.values()]:[soloPlayer.current];
+      const outfits=Object.fromEntries(campers.map(p=>[p.id,{hairStyle:p.hairStyle??0,topStyle:p.topStyle??0}]));
+      setWardrobeById(previous=>JSON.stringify(previous)===JSON.stringify(outfits)?previous:outfits);
+      const statuses=Object.fromEntries(campers.map(p=>[p.id,presenceOf(p)]));
       setPresenceById(previous=>JSON.stringify(previous)===JSON.stringify(statuses)?previous:statuses);
-      const locations=Object.fromEntries((n?[...n.players.values()]:[soloPlayer.current]).map(p=>[p.id,p.mapId]));
+      const locations=Object.fromEntries(campers.map(p=>[p.id,p.mapId]));
       setMapsById(previous=>JSON.stringify(previous)===JSON.stringify(locations)?previous:locations);
       if (n) setConnected([...n.players.values()].filter(p => p.connected).length);
       effectRefreshPlayer();
@@ -306,7 +310,7 @@ export default function Camp() {
       if (!window.RTCPeerConnection) throw new Error('이 브라우저에서는 함께하기를 지원하지 않아요. 최신 Chrome 또는 Edge를 사용해 주세요.');
       const p = await saveProfile();
       sittingRef.current=false;crouchRef.current=false;setSitting(false);setElapsed(0);setWorkTime('00:00:00');setChat([]);setMusic(emptyMusic());
-      await connectRoom(mode,{...p,hairStyle,topStyle},selectedCode,settings.allowCarry,creation);
+      await connectRoom(mode,{name:p.name,color:p.color,hairStyle,topStyle},selectedCode,settings.allowCarry,creation);
       seenCalls.current.clear();setUnreadCalls([]);setMyPresence(presenceDefaults());
       canvas.current?.focus();
     } catch (e) { setError(e instanceof Error ? e.message : '입장하지 못했어요.'); }
@@ -343,8 +347,6 @@ export default function Camp() {
       const data = await api('session');
       if (data.profile) {
         setProfile(data.profile);
-        const n = network.current, self = n?.players.get(n.player);
-        if (self) self.avatar = data.profile.avatar;
       }
       const key = Object.hasOwn(DISCORD_MESSAGES, notice) ? notice as keyof typeof DISCORD_MESSAGES : 'discord-failed';
       const message = data.profile?.linked && key === 'discord-cancelled' ? DISCORD_MESSAGES['discord-linked'] : DISCORD_MESSAGES[key];
@@ -373,8 +375,7 @@ export default function Camp() {
     setDiscordBusy(true);
     try {
       await api('discord/unlink', {}); setProfile(p => ({ ...p, avatar: null, linked: false }));
-      const n = network.current, self = n?.players.get(n.player); if (self) self.avatar = null;
-      setDiscordMessage('Discord 사진 연결을 해제했어요.'); setToast('Discord 사진 연결을 해제했어요.');
+      setDiscordMessage('Discord 계정 연결을 해제했어요.'); setToast('Discord 계정 연결을 해제했어요.');
     } catch { setDiscordMessage('연결을 해제하지 못했어요. 다시 시도해 주세요.'); }
     finally { setDiscordBusy(false); }
   }
@@ -623,7 +624,7 @@ export default function Camp() {
             <Button className="room-code" onClick={() => copy()} aria-label={`참가 코드 ${room.code} 복사`}><strong>{room.code}</strong>{copied ? <Check size={17} /> : <Copy size={17} />}</Button>
           </>}
           presence={<PresenceEditor value={myPresence} workTime={workTime} expanded={panelTab==='status'} onFocus={resetInput} save={async value=>{await sendCommand('presence',value);resetInput();}}/>}
-          people={<PeoplePanel people={solo?[{...profile,id:'solo',name:profile.name||'허들러'}]:people} self={solo?'solo':room?.player} host={room?.host} maps={mapsById} presence={presenceById} hidden={hiddenIds} open={openPlayerInfo}/>}
+          people={<PeoplePanel people={solo?[{...profile,hairStyle,topStyle,id:'solo',name:profile.name||'허들러'}]:people.map(p=>({...p,...wardrobeById[p.id]}))} self={solo?'solo':room?.player} host={room?.host} maps={mapsById} presence={presenceById} hidden={hiddenIds} open={openPlayerInfo}/>}
           radio={<MusicPanel inline open={false} onOpenChange={()=>{}} onCloseFocus={()=>canvas.current?.focus()} music={music} isHost={solo||isHost} command={sendCommand} muted={settings.musicMuted} onMuted={musicMuted=>setSettings(s=>({...s,musicMuted}))} sound={{effectsVolume:volume,effectsStatus,musicVolume:settings.musicVolume,onEffectsVolume:v=>void changeVolume(v),onMusicVolume:musicVolume=>setSettings(s=>({...s,musicVolume}))}}/>}
           play={<>
             <Button className={'sit-button ' + (sitting ? 'is-sitting' : '')} onClick={toggleSit}><span>{sitting ? '다시 천천히 걷기' : mapId===CAMP_MAP ? '여기에 앉아 불멍하기' : '여기에 앉아 쉬기'}</span></Button>

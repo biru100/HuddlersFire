@@ -38,7 +38,7 @@ export function playerActivity(p, now) {
 }
 
 export function playerInfo(p, selfId, hostId, now) {
-  return { ...presenceOf(p), id: p.id, name: p.name || '허들러', color: p.color || '#e5a76d', avatar: p.avatar || null,
+  return { ...presenceOf(p), id: p.id, name: p.name || '허들러', color: p.color || '#e5a76d', hairStyle: p.hairStyle ?? 0, topStyle: p.topStyle ?? 0,
     isSelf: p.id === selfId, isHost: p.id === hostId, connected: p.connected !== false,
     allowCarry: typeof p.allowCarry === 'boolean' ? p.allowCarry : null, activity: playerActivity(p, now), weapon: weaponName(p.weapon) };
 }

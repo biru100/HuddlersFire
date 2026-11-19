@@ -1,3 +1,4 @@
+import {landscapeFor} from './camp-landscape.mjs';
 import { CampArtwork } from './camp-artwork.mjs';
 import { sceneDecorations } from './camp-scene-layout.mjs';
 import { defaultSpriteAssets } from './camp-sprite-assets.mjs';
@@ -7,7 +8,7 @@ import { isSeated, CAMP_SEATS } from './camp-seats.mjs';
 import { visiblePlayers, fireConversation } from './camp-focus.mjs';
 import { RADIO, EMOTES, spawnPlayer, canUseRadio } from './camp-world.mjs';
 import { layoutBubbles } from './camp-bubbles.mjs';
-import { AvatarImages, drawCharacter, characterPose } from './camp-character.mjs';
+import { drawCharacter, characterPose } from './camp-character.mjs';
 import { pickPlayer } from './camp-player-info.mjs';
 import { CAMP_MAP, PLAY_MAP, getMap, nearbyInteraction } from './camp-maps.mjs';
 import {GroundShadows,lightVisibility} from './camp-shadows.mjs';
@@ -24,7 +25,7 @@ export class CampRenderer extends CampArtwork {
     super();
     this.assets=assets;
     this.characterPainter=characterPainter;
-    this.canvas = canvas; this.ctx = createDrawContext(canvas.getContext('2d'),{dpr:()=>this.dpr||1}); this.getScene = getScene; this.avatars = new AvatarImages(); this.hitAreas = [];this.exhibitImages=new Map();
+    this.canvas = canvas; this.ctx = createDrawContext(canvas.getContext('2d'),{dpr:()=>this.dpr||1}); this.getScene = getScene; this.hitAreas = [];this.exhibitImages=new Map();
     this.groundShadows=new GroundShadows(this.ctx,{assets});this.groundLights=new GroundLightSprites(this.ctx);if(canvas.dataset){canvas.dataset.campInput='';canvas.dataset.campRenderer='canvas';}
     this.win = canvas.ownerDocument?.defaultView || window;
     this.raf = this.win.requestAnimationFrame?.bind(this.win) || requestAnimationFrame;
@@ -109,7 +110,7 @@ export class CampRenderer extends CampArtwork {
     if (p.selected) { c.strokeStyle = this.ink('#c8c8c8','#386f98'); c.lineWidth = 1.5; c.beginPath(); c.ellipse(0, 3, 23, 12, 0, 0, Math.PI * 2); c.stroke(); }
     c.setMaterial?.(null);const display=playerDisplay(p,this.assets);c.translate(display.x,display.y);p=display.player;
     if (p.motion === 'falling') c.globalAlpha *= Math.max(.1, 1 + p.z / 15);
-    this.characterPainter(c, p, { time, now: this.sceneTime, reduced: this.reduced, emote: emote?.id, avatar: this.avatars.get(p.avatar), theme: this.theme,assets:this.assets });
+    this.characterPainter(c, p, { time, now: this.sceneTime, reduced: this.reduced, emote: emote?.id, theme: this.theme,assets:this.assets });
     c.font = '500 11px "Malgun Gothic", sans-serif'; c.textAlign = 'center';
     const label = (p.name || '허들러') + (self ? ' · 나' : ''), w = c.measureText(label).width + 18;
     const pose = characterPose(p, time, this.reduced, emote?.id, this.sceneTime,this.assets);
@@ -197,8 +198,9 @@ export class CampRenderer extends CampArtwork {
     if(this.canvas.dataset)this.canvas.dataset.campPixelMode=this.assets.manifest.pixelQuarterview?this.pixelMode:'off';
     this.sceneLighting=sceneLighting(mapId,this.theme);c.setLighting?.(null);c.setObject?.(null);c.setMaterial?.(null);
     const lightingMode=this.sceneLighting.night?'night':'day';if(this.canvas.dataset&&this.canvas.dataset.campLighting!==lightingMode)this.canvas.dataset.campLighting=lightingMode;
-    const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),avatar:scene.avatar,hairStyle:scene.hairStyle,topStyle:scene.topStyle,sitting:true}]).map(p=>this.displayPlayer(p));
+    const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),hairStyle:scene.hairStyle,topStyle:scene.topStyle,sitting:true}]).map(p=>this.displayPlayer(p));
     const recording=this.webgl?.status==='ready'&&this.ctx.recording;if(recording)this.ctx.recording.begin();
+    this.landscape = landscapeFor(c,this.assets,mapId,this.theme,this.pixelMode);
     this.background(w,h);
     this.focusMix=this.reduced?Number(focused):(this.focusMix||0)+(Number(focused)-(this.focusMix||0))*.12;
     this.camera=sceneCamera({width:w,height:h,players,self,follow:!!scene.followSelf,mode:scene.cameraMode,freeView:scene.freeView,zoom:scene.zoom||1,edge:map.bounds.edge,occlusions:scene.occlusions});
@@ -298,7 +300,7 @@ export class CampRenderer extends CampArtwork {
       c.fillStyle = color;c.fillText(text,box.x+6,box.y+15);
     }
   }
-  destroy() { this.stopped = true; this.unsubscribeSprites?.();this.groundCache=null;this.ctx.clearLighting?.();this.groundShadows.destroy();this.groundLights.destroy();this.webgl?.destroy();this.cancelFrame(this.frame);if(this.resizeFrame)this.cancelFrame(this.resizeFrame);this.observer.disconnect(); this.avatars.dispose();for(const {image}of this.exhibitImages.values())image.onload=image.onerror=null;this.exhibitImages.clear(); }
+  destroy() { this.stopped = true; this.unsubscribeSprites?.();this.groundCache=null;this.ctx.clearLighting?.();this.groundShadows.destroy();this.groundLights.destroy();this.webgl?.destroy();this.cancelFrame(this.frame);if(this.resizeFrame)this.cancelFrame(this.resizeFrame);this.observer.disconnect(); for(const {image}of this.exhibitImages.values())image.onload=image.onerror=null;this.exhibitImages.clear(); }
 }
 
 export { CampAudio } from './camp-audio.mjs';

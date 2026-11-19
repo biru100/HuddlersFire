@@ -3,6 +3,7 @@ import { portalMark } from './camp-appearance.mjs';
 import { gameById, exhibitCover } from './camp-games.mjs';
 import { defaultSpriteAssets, createSpriteSurface } from './camp-sprite-assets.mjs';
 import { benchBinding,propDisplay } from './camp-scene-contract.mjs';
+import {drawHorizon, landscapeNormals, paintLandscape} from './camp-landscape.mjs';
 import {paintGroundSurface} from './camp-canvas-renderer.mjs';
 import {pixelPropDisplay} from './camp-pixel.mjs';
 import {clearingSheet, clearingNormals, clearingBench, drawClearingBench, paintCampClearing} from './camp-clearing-art.mjs';
@@ -17,22 +18,44 @@ export class CampArtwork {
   round(x,y,w,h,r,fill,stroke){const c=this.ctx;c.beginPath();c.roundRect(x,y,w,h,r);c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=1.2;c.stroke();}}
   line(points,color=this.fieldInk.line,width=1){const c=this.ctx;c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';c.stroke();}
   caption(text,y=28,size=11){const c=this.ctx;c.textAlign='center';c.font=`600 ${size}px "Malgun Gothic",sans-serif`;c.fillStyle=this.ink('#ededed','#514530');c.strokeStyle=this.ink('#191919cc','#fff9e6cc');c.lineWidth=4;c.strokeText(text,0,y);c.fillText(text,0,y);}
-  background(w,h){const c=this.ctx,g=c.createLinearGradient(0,0,0,h),night=this.sceneLighting?.night;g.addColorStop(0,night?this.ink('#111111','#0c1422'):this.ink('#171717','#ede5d1'));g.addColorStop(1,night?this.ink('#1b1b1b','#1b2935'):this.ink('#101010','#f9f2e2'));c.fillStyle=g;c.fillRect(0,0,w,h);}
-  ground(edge,mapId){
-    const suffix=this.theme==='dark'?'-dark':'',base=this.sprites.getSprite((mapId==='showroom'?'stone':'grass')+suffix),sand=mapId==='showroom'?null:this.sprites.getSprite('sand'+suffix);
-    if(!base||(mapId!=='showroom'&&!sand))return;
-    const materials=this.webgl?.status==='ready'?this.sprites.manifest.materials:null,normalBase=this.sprites.getSprite(materials?.sheets[(mapId==='showroom'?'stone':'grass')+suffix]),normalSand=mapId==='showroom'?null:this.sprites.getSprite(materials?.sheets['sand'+suffix]);
-    const clearing = mapId === 'camp' && this.pixelMode !== 'candidates' && clearingSheet(this.sprites,this.theme);
-    const detailNormals = clearing && normalBase && clearingNormals(this.sprites);
-    const key=mapId+suffix+edge+Boolean(normalBase)+Boolean(normalSand)+Boolean(clearing)+Boolean(detailNormals);
-    if(this.groundCache?.key!==key){
-      const surface=createSpriteSurface(this.ctx,2100,1200);paintGroundSurface(surface,{base,sand,mapId,edge,dark:this.theme==='dark'});let normal=null;
-      if(normalBase&&(mapId==='showroom'||normalSand)){normal=createSpriteSurface(this.ctx,1050,600);paintGroundSurface(normal,{base:normalBase,sand:normalSand,mapId,edge,normal:true});}
-      if (clearing) paintCampClearing(surface,clearing);
-      if (normal && detailNormals) paintCampClearing(normal,detailNormals);
-      this.groundCache={key,surface,normal};
+  background(w,h){
+    if (this.landscape) {
+      drawHorizon(this.ctx,this.landscape,w,h);
+      return;
     }
-    this.ctx.save();this.ctx.setMaterial?.({lighting:'lit',ground:true,...(this.groundCache.normal?{normalImage:this.groundCache.normal,normalizedSurface:true,strength:materials.terrain[mapId==='showroom'?'stone':'grass']}:{strength:0})});this.ctx.drawImage(this.groundCache.surface,-1050,-580);this.ctx.restore();
+    const c=this.ctx,g=c.createLinearGradient(0,0,0,h),night=this.sceneLighting?.night;g.addColorStop(0,night?this.ink('#111111','#0c1422'):this.ink('#171717','#ede5d1'));g.addColorStop(1,night?this.ink('#1b1b1b','#1b2935'):this.ink('#101010','#f9f2e2'));c.fillStyle=g;c.fillRect(0,0,w,h);}
+  ground(edge,mapId){
+    const dark = this.theme === 'dark', suffix = dark ? '-dark' : '';
+    const terrain = mapId === 'showroom' ? 'stone' : 'grass';
+    const materials = this.webgl?.status === 'ready' ? this.sprites.manifest.materials : null;
+    const atlas = this.landscape;
+    const base = atlas || this.sprites.getSprite(terrain+suffix);
+    const sand = !atlas && terrain === 'grass' && this.sprites.getSprite('sand'+suffix);
+    if (!base || (!atlas && terrain === 'grass' && !sand)) return;
+    const normalBase = materials && (atlas ? landscapeNormals(this.ctx,atlas) : this.sprites.getSprite(materials.sheets[terrain+suffix]));
+    const normalSand = materials && sand && this.sprites.getSprite(materials.sheets['sand'+suffix]);
+    const clearing = !atlas && mapId === 'camp' && this.pixelMode !== 'candidates' && clearingSheet(this.sprites,this.theme);
+    const detailNormals = clearing && normalBase && clearingNormals(this.sprites);
+    const key = [mapId,edge,suffix,!!atlas,!!normalBase,!!normalSand,!!clearing,!!detailNormals].join('/');
+    if (this.groundCache?.key !== key) {
+      const surface = createSpriteSurface(this.ctx,2100,1200);
+      if (atlas) paintLandscape(surface,{atlas,mapId,edge,dark});
+      else paintGroundSurface(surface,{base,sand,mapId,edge,dark});
+      if (clearing) paintCampClearing(surface,clearing);
+      let normal = null;
+      if (normalBase && (atlas || terrain === 'stone' || normalSand)) {
+        normal = createSpriteSurface(this.ctx,1050,600);
+        if (atlas) paintLandscape(normal,{atlas:normalBase,mapId,edge,normal:true});
+        else paintGroundSurface(normal,{base:normalBase,sand:normalSand,mapId,edge,normal:true});
+        if (detailNormals) paintCampClearing(normal,detailNormals);
+      }
+      this.groundCache = {key,surface,normal};
+    }
+    const {surface,normal} = this.groundCache;
+    this.ctx.save();
+    this.ctx.setMaterial?.({lighting:'lit',ground:true,normalImage:normal,normalizedSurface:!!normal,strength:normal ? materials.terrain[terrain] : 0});
+    this.ctx.drawImage(surface,-1050,-580);
+    this.ctx.restore();
     if(this.groundLights)this.groundLights.draw(this.ctx,this.lights||[],this.sceneLighting);
     else if(mapId==='camp'){
       const c=this.ctx,level=this.fireLevel??.6;c.save();c.scale(1,.5);const g=c.createRadialGradient(0,0,10,0,0,210+level*80);

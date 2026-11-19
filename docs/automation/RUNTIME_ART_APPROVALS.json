@@ -40,6 +40,186 @@
         "quote": "일단 전체 수정 후 배포해줘",
         "reference": "2026-11-20 KST HuddlersFire conversation, user reply immediately after the PR #25 scene-art review; PR #26."
       }
+    },
+    {
+      "path": "web/public/sprites/landscape-camp.b660513b72dc.png",
+      "sha256": "b660513b72dc6e890790a221756ab23e5baaa327c77b7ec0a3a79a79e7afb362",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-landscape-release.md",
+      "userDecision": {
+        "quote": "일단 얼굴 프로필교체되는 기능은 삭제하고 배경 그래픽도 전체 개선해줘 진행하는 김에 그림자도 적절히 자연스럽게 보이도록 수정해줘",
+        "reference": "2026-11-20 KST HuddlersFire, follow-up to “일단 전체 수정 후 배포해줘”; continued by “이거 멈춘작업 마저 재개해줘”."
+      }
+    },
+    {
+      "path": "web/public/sprites/landscape-playground.3dbcefa5e1f8.png",
+      "sha256": "3dbcefa5e1f8430973a91326a48fddb9fbef6f2876c673bbb3d4fac9b790ffa5",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-landscape-release.md",
+      "userDecision": {
+        "quote": "일단 얼굴 프로필교체되는 기능은 삭제하고 배경 그래픽도 전체 개선해줘 진행하는 김에 그림자도 적절히 자연스럽게 보이도록 수정해줘",
+        "reference": "2026-11-20 KST HuddlersFire, follow-up to “일단 전체 수정 후 배포해줘”; continued by “이거 멈춘작업 마저 재개해줘”."
+      }
+    },
+    {
+      "path": "web/public/sprites/landscape-showroom.f43544da62eb.png",
+      "sha256": "f43544da62ebf1d1d9cfee3722ec00bd300c04c2052b0485643a36299e0e95f7",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-landscape-release.md",
+      "userDecision": {
+        "quote": "일단 얼굴 프로필교체되는 기능은 삭제하고 배경 그래픽도 전체 개선해줘 진행하는 김에 그림자도 적절히 자연스럽게 보이도록 수정해줘",
+        "reference": "2026-11-20 KST HuddlersFire, follow-up to “일단 전체 수정 후 배포해줘”; continued by “이거 멈춘작업 마저 재개해줘”."
+      }
+    },
+    {
+      "path": "web/public/sprites/camp-scenery.1b6ecbbbfc19.png",
+      "sha256": "1b6ecbbbfc19232a5216c71d19e4579728753530db11d93e70d70376f55fdf68",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-landscape-release.md",
+      "userDecision": {
+        "quote": "일단 얼굴 프로필교체되는 기능은 삭제하고 배경 그래픽도 전체 개선해줘 진행하는 김에 그림자도 적절히 자연스럽게 보이도록 수정해줘",
+        "reference": "2026-11-20 KST HuddlersFire, follow-up to “일단 전체 수정 후 배포해줘”; continued by “이거 멈춘작업 마저 재개해줘”."
+      }
+    },
+    {
+      "path": "web/public/sprites/camp-scenery-dark.ffafc1b61dd2.png",
+      "sha256": "ffafc1b61dd2046f3436b27126687783ee1e74f7119b2046c1630c62fb367d78",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-landscape-release.md",
+      "userDecision": {
+        "quote": "일단 얼굴 프로필교체되는 기능은 삭제하고 배경 그래픽도 전체 개선해줘 진행하는 김에 그림자도 적절히 자연스럽게 보이도록 수정해줘",
+        "reference": "2026-11-20 KST HuddlersFire, follow-up to “일단 전체 수정 후 배포해줘”; continued by “이거 멈춘작업 마저 재개해줘”."
+      }
+    },
+    {
+      "path": "web/public/sprites/normal-camp-scenery.fc2760df91d5.png",
+      "sha256": "fc2760df91d5149055770295b46e8a83b9c7eee1c1513ee12ff2f5494afac0a5",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-landscape-release.md",
+      "userDecision": {
+        "quote": "일단 얼굴 프로필교체되는 기능은 삭제하고 배경 그래픽도 전체 개선해줘 진행하는 김에 그림자도 적절히 자연스럽게 보이도록 수정해줘",
+        "reference": "2026-11-20 KST HuddlersFire, follow-up to “일단 전체 수정 후 배포해줘”; continued by “이거 멈춘작업 마저 재개해줘”."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-scenery.10becb8fbb0a.png",
+      "sha256": "10becb8fbb0ae222765c17f9b943f6cc899851d961ebd981e644b117b047825e",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-scenery-dark.85bde86b65cb.png",
+      "sha256": "85bde86b65cbb455c53e32bc16219ad6cf0dd3df76eb2f679a584fca4a126da5",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-normal-camp-scenery.4f4e39449ba9.png",
+      "sha256": "4f4e39449ba97cf68df066dd08406eeab9b2343995276a74bcfd89c98bb4b9ab",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-clearing-art.49fee2a71003.png",
+      "sha256": "49fee2a71003e96f0e1cd4d889fd2ab4ebfea798135b72d3e57d49139e146547",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-clearing-art-dark.f0e3a7564455.png",
+      "sha256": "f0e3a7564455e84aba44b7aa35a41e5b9f625dc4ad5d0afb49dcf133085b0a83",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-normal-camp-clearing-art.fe01f32ee5d8.png",
+      "sha256": "fe01f32ee5d843d6a1ffb0db4d1a1ef92cd82306a21a4860faf8e6a6be2f0a93",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-effects.d3769364f5d6.png",
+      "sha256": "d3769364f5d6ec1e3bb8e4e573b148899195af07d47bb7f6e139ba7d09959b66",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-effects-dark.1a310703019d.png",
+      "sha256": "1a310703019df953a9b9804242445ba192b99fc3ae382ac9e18c823a17f13e1d",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-landscape-camp.bc2360257c1e.png",
+      "sha256": "bc2360257c1ea905cba66190ccf04b9e71021b04513f3450b7c8d27280355169",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-landscape-playground.ce00014941f2.png",
+      "sha256": "ce00014941f2fa56891d37697be72c6aceb4abb25280914c7edb0ced3f7d7465",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-landscape-showroom.72d5e3607756.png",
+      "sha256": "72d5e3607756d65d02d2e766564a6e019fd7fd4ab06f493d21af06cd9b8fd0d8",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-icon.d8096d3facdf.png",
+      "sha256": "d8096d3facdfeacbf12c2f22965c277785710a983b0a00bb603a20c94d86f104",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-camper-style.md",
+      "userDecision": {
+        "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
+        "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
+      }
     }
   ],
   "note": "Each entry records the scope of an explicit user request to ship artwork, bound to the delivered bytes."

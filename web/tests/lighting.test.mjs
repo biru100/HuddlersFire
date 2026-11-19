@@ -90,3 +90,40 @@ test('ground shadow clipping keeps the same rounded isometric boundary at DPR an
 test('a fresh dark scene builds masks from its loaded dark sheets without requesting colour assets',async()=>{
   await defaultSpriteAssets.preloadSprites(['environment-dark',defaultSpriteAssets.characterSheet(0,'dark')]);const requested=[],assets={...defaultSpriteAssets,getSprite(id){requested.push(id);return defaultSpriteAssets.getSprite(id);}},s=new GroundShadows(createCanvas(100,100).getContext('2d'),{assets});assert.ok(s.propMask({type:'tree'},'dark'));assert.ok(s.playerMask({x:0,y:0},{theme:'dark'}));assert.ok(requested.length>=2&&requested.every(id=>id.includes('-dark')));
 });
+test('daylight projects real map props toward the lower right in both open-air maps',()=>{
+  const shadows=new GroundShadows(createCanvas(120,100).getContext('2d'));
+  const prop={type:'portal',x:0,y:0};
+  for(const map of ['playground','showroom']){
+    shadows.static([prop],[],map,'color');assert.equal(shadows.activeLayers.length,1);
+    const {c}=shadows.activeLayers[0],data=c.getImageData(450,250,160,100).data;
+    let alpha=0,x=0,y=0;
+    for(let i=3;i<data.length;i+=4){const a=data[i],index=(i-3)/4;alpha+=a;x+=a*(index%160+450);y+=a*(Math.floor(index/160)+250);}
+    assert.ok(alpha>1000&&x/alpha>525&&y/alpha>290,'A visible prop cast must extend away from the upper-left daylight');
+  }
+  shadows.static([prop],[],'camp','color');assert.equal(shadows.activeLayers.length,0);
+});
+test('two lights on the same spot fill each other’s shadows without doubling the darkness',()=>{
+  const canvas=createCanvas(220,160),ctx=canvas.getContext('2d'),shadows=new GroundShadows(ctx);
+  const player={type:'player',x:0,y:0},lamp={x:-1,y:-1,height:.8,radius:8,intensity:1,kind:'lantern'};
+  ctx.translate(110,70);
+  const draw=lights=>{
+    ctx.clearRect(-110,-70,220,160);shadows.player(player,lights,{});
+    const pixels=ctx.getImageData(0,75,220,80).data;let sum=0;
+    for(let i=3;i<pixels.length;i+=4)sum+=pixels[i];
+    return sum;
+  };
+  const single=draw([lamp]),pair=draw([lamp,{...lamp}]);
+  assert.ok(single>1000);assert.ok(pair>single*.85&&pair<single*1.06);
+});
+test('a jumping or carried camper loses the sharp ground contact below their feet',()=>{
+  const canvas=createCanvas(180,150),ctx=canvas.getContext('2d'),shadows=new GroundShadows(ctx);
+  ctx.translate(90,60);
+  const contact=player=>{
+    ctx.clearRect(-90,-60,180,150);shadows.player({type:'player',x:0,y:0,...player},[],{});
+    return ctx.getImageData(90,61,1,1).data[3];
+  };
+  const planted=contact({z:0});
+  assert.ok(planted>35);assert.ok(contact({z:1.5,motion:'airborne'})<planted*.15);
+  assert.equal(contact({z:1,carriedBy:'other'}),0);
+  assert.equal(contact({z:.18,sitting:true,seatId:'log-0-0'}),0);
+});

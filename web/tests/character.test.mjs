@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spriteManifest } from '../lib/camp-sprite-assets.mjs';
 import { createCanvas } from '@napi-rs/canvas';
-import { AvatarImages, drawCharacter } from '../lib/camp-character.mjs';
+import { drawCharacter } from '../lib/camp-character.mjs';
 import { pickPlayer, playerInfo } from '../lib/camp-player-info.mjs';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { spawnPlayer } from '../lib/camp-world.mjs';
@@ -15,53 +15,20 @@ function render(p = {}, avatar = null, options = {}) {
 }
 const pixel = (c, x, y) => [...c.getImageData(x, y, 1, 1).data];
 
-test('profile images are center-cropped without stretching for both wide and tall sources', () => {
-  for (const [w, h] of [[300, 100], [100, 300]]) {
-    const avatar = createCanvas(w, h), a = avatar.getContext('2d');
-    a.fillStyle = '#ff0000'; a.fillRect(0, 0, w, h);
-    a.fillStyle = '#00cc44'; a.fillRect((w - 100) / 2, (h - 100) / 2, 100, 100);
-    const { c,pose } = render({}, avatar),x=64+pose.headX,y=104+pose.headY;
-    for (const dx of [-9,0,9]) assert.deepEqual(pixel(c, Math.round(x+dx),Math.round(y)), [0, 204, 68, 255]);
-    assert.equal(pixel(c, Math.round(x-17),Math.round(y-17))[3], 0, 'photo must stay inside the circular head');
-  }
-});
-
-test('postures keep the same circular photo size and facing never mirrors the original', () => {
-  const avatar = createCanvas(64, 64), a = avatar.getContext('2d');
-  a.fillStyle = '#ff0000'; a.fillRect(0, 0, 32, 64); a.fillStyle = '#0000ff'; a.fillRect(32, 0, 32, 64);
-  for (const p of [{}, { sitting: true }, { crouching: true }]) {
-    const left = render({ ...p, facing: -1 }, avatar), right = render({ ...p, facing: 1 }, avatar);
-    for(const item of [left,right]){const x=64+item.pose.headX*item.pose.mirror,y=104+item.pose.headY;assert.deepEqual(pixel(item.c,Math.round(x-7),Math.round(y)),[255,0,0,255]);assert.deepEqual(pixel(item.c,Math.round(x+7),Math.round(y)),[0,0,255,255]);}
-    const { data, width, height } = left.c.getImageData(0, 0, 128, 128), points = [];
-    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
-      const i = (y * width + x) * 4;
-      if ((data[i] === 255 && data[i + 1] === 0 && data[i + 2] === 0) || (data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 255)) points.push([x, y]);
+test('account portraits never change the pixels of a dressed field character', () => {
+  const photo = createCanvas(80, 40);
+  const ink = photo.getContext('2d');
+  ink.fillStyle = '#ff00b4'; ink.fillRect(0, 0, 80, 40);
+  for (const theme of ['color', 'dark']) {
+    for (const state of [{}, {sitting:true}, {crouching:true}, {moving:true,facing:-1}, {facing:1}]) {
+      const player = {...state,hairStyle:1,topStyle:2};
+      const unlinked = render(player, null, {theme});
+      const linked = render({...player,avatar:'https://cdn.discordapp.com/avatars/1/abc.png'}, photo, {theme});
+      assert.deepEqual(linked.canvas.toBuffer('image/png'), unlinked.canvas.toBuffer('image/png'));
+      const {headX, headY, mirror} = linked.pose;
+      assert.ok(pixel(linked.c, Math.round(64 + headX*mirror), Math.round(104 + headY))[3] > 0);
     }
-    const spanX = Math.max(...points.map(v => v[0])) - Math.min(...points.map(v => v[0]));
-    const spanY = Math.max(...points.map(v => v[1])) - Math.min(...points.map(v => v[1]));
-    assert.ok(Math.abs(spanX - spanY) <= 1, 'posture must not squash a square profile');
   }
-});
-
-test('transparent profile pixels use the neutral head backing without fallback eyes', () => {
-  const transparent = createCanvas(64, 64), withAvatar = render({}, transparent), fallback = render();
-  assert.deepEqual(pixel(withAvatar.c,Math.round(60+withAvatar.pose.headX),Math.round(104+withAvatar.pose.headY)), [255, 240, 207, 255]);
-  assert.notDeepEqual(withAvatar.canvas.toBuffer('image/png'), fallback.canvas.toBuffer('image/png'));
-});
-
-test('avatar loading and failure use fallback, cache requests, and reject untrusted URLs', () => {
-  let created = 0, changed = 0;
-  class FakeImage { constructor() { created++; this.complete = false; this.naturalWidth = 0; this.naturalHeight = 0; } }
-  const cache = new AvatarImages(() => changed++, FakeImage), url = 'https://cdn.discordapp.com/avatars/1/abc.png?size=64';
-  assert.equal(cache.get('https://example.com/photo.png'), null); assert.equal(created, 0);
-  assert.equal(cache.get(url), null); assert.equal(cache.get(url), null); assert.equal(created, 1);
-  const image = cache.entries.get(url).image;
-  image.onerror(); assert.equal(cache.get(url), null); assert.equal(created, 1); assert.equal(changed, 1);
-  const next = url.replace('/abc.', '/def.'); cache.get(next);
-  const loaded = cache.entries.get(next).image;
-  Object.assign(loaded, { complete: true, naturalWidth: 64, naturalHeight: 64 }); loaded.onload();
-  assert.equal(cache.get(next), loaded); assert.equal(changed, 2);
-  cache.dispose(); assert.equal(loaded.onload, null); assert.equal(cache.entries.size, 0);
 });
 
 test('reduced motion freezes breathing, walking and every expressive gesture', () => {

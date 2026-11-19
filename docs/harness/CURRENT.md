@@ -1,5 +1,13 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · Camper-led art and portraits
+
+The current camper anchors the landscape materials, shelters, interactive props, benches, fire animation, item effects and UI portraits. The [release record](../reviews/2026-11-20-camper-style.md) includes the scene captures and build command.
+
+## 2026-11-20 · Three landscapes, camp shadows and character faces
+
+The follow-up release uses illustrated terrain and scenery on all three maps, matches ground shadows to the light and removes Discord portraits from the character painter and lobby preview. The original source images, processing scripts, three-map render command and shipped asset hashes are in the [landscape release record](../reviews/2026-11-20-landscape-release.md).
+
 ## 2026-11-20 · Runtime camp artwork
 
 The user requested the complete camp-art revision and publication to the existing Site. The release adds a direction-aware camper, selectable hair and clothing, seated and moving poses, timber benches and fire-circle ground. For current evidence run the [production scene capture](../art/scene-first-review.md). See the [390px view from the production renderer](../reviews/2026-11-20-camp-live-mobile.png). The earlier dated receipts below describe review-time state. Site publication is tracked separately by its saved version and deployment result.

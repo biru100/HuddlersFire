@@ -33,7 +33,7 @@ export default function SettingsPanel(p: Props) {
       </fieldset>
       <fieldset><legend>친구와 함께</legend><List><ListSwitchItem title="친구가 나를 들어올려도 좋아요" detail="들린 상태에서 끄면 바로 내려와요." checked={p.allowCarry} disabled={p.carryBusy} onCheckedChange={p.onAllowCarry}/></List></fieldset>
       <fieldset><legend>Discord</legend><p>{p.linked ? 'Discord 계정이 연결되어 있어요. 연결 해제는 방을 떠난 뒤 할 수 있어요.' : '입장하려면 Discord 계정을 연결해 주세요.'}</p>
-        <Button className="discord-button" disabled={(p.inRoom&&p.linked) || p.discordBusy || (!p.discordAvailable && !p.linked)} onClick={p.onDiscord}>{p.discordBusy ? 'Discord 연결 확인 중…' : p.linked ? '프로필 연결 해제' : p.discordAvailable ? 'Discord 계정 연결' : 'Discord 연결 준비 중'}</Button>
+        <Button className="discord-button" disabled={(p.inRoom&&p.linked) || p.discordBusy || (!p.discordAvailable && !p.linked)} onClick={p.onDiscord}>{p.discordBusy ? 'Discord 연결 확인 중…' : p.linked ? 'Discord 계정 연결 해제' : p.discordAvailable ? 'Discord 계정 연결' : 'Discord 연결 준비 중'}</Button>
         {p.discordBusy && <Button onClick={p.onCancelDiscord}>연결 취소</Button>}
         {p.discordMessage && <p role="status">{p.discordMessage}</p>}
       </fieldset>

@@ -37,7 +37,7 @@ export default function CampLobby(p:Props) {
       <section className="lobby-profile surface" aria-label="입장 준비">
         <div className="section-heading"><Text as="h2" textStyle="t6Bold">오늘의 나</Text><span className="step-number">01</span></div>
         <HStack gap="x4" align="center" className="profile-preview">
-          <CharacterPreview color={p.profile.color} avatar={p.profile.avatar} hairStyle={hairStyle} topStyle={topStyle}/>
+          <CharacterPreview color={p.profile.color} hairStyle={hairStyle} topStyle={topStyle}/>
           <VStack gap="x1"><Text textStyle="t5Bold">{p.profile.name||'오늘의 허들러'}</Text><Text textStyle="t3Regular" color="fg.neutralMuted">{p.profile.linked?'Discord 연결됨':'Discord로 함께할 준비를 해요'}</Text></VStack>
         </HStack>
         {!p.profile.linked&&<VStack gap="x3"><Button variant="brandSolid" size="large" loading={p.discordBusy} disabled={!p.discordAvailable||!p.ready} onClick={p.onDiscord}>Discord 연결하기 <ArrowUpRight size={18}/></Button>{p.discordMessage&&<Text as="p" role="status" textStyle="t3Regular">{p.discordMessage}</Text>}</VStack>}
