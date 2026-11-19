@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "taskId": "HF-ART-CLEANROOM-20261118",
+  "mode": "text-only-cleanroom",
+  "promptFile": "docs/briefs/cleanroom-pixel-generation-20261118.txt",
+  "pastImageInputs": [],
+  "referenceImages": [],
+  "paletteImages": [],
+  "imageToImage": false,
+  "externalPaidGenerationAllowed": false,
+  "approvedNativeCanvas": null,
+  "approval": {
+    "concept": "pending_user",
+    "base": "pending_user",
+    "modular": "pending_user",
+    "motion": "pending_user",
+    "runtime": "pending_user",
+    "publish": "pending_user"
+  },
+  "lanes": {
+    "native_pixel": {
+      "status": "blocked_provider_unavailable",
+      "provider": "Scenario/Retro Diffusion Plus (candidate, not connected)",
+      "actualModelId": null,
+      "sourceImages": [],
+      "output": null,
+      "costUsd": null
+    },
+    "generic_aligned": {
+      "status": "blocked_provider_unavailable",
+      "provider": "Text-only general generator + optional pixel alignment",
+      "actualModelId": null,
+      "sourceImages": [],
+      "output": null,
+      "costUsd": null
+    },
+    "manual_native": {
+      "status": "rejected_visual",
+      "provider": "ChatGPT local native-pixel PIL authorship (independent drawings, no old image input)",
+      "actualModelId": null,
+      "sourceImages": [],
+      "output": {
+        "path": "art/sprites/cleanroom-pilot/outputs/manual_native/candidate-48x64.png",
+        "sha256": "01a83569ea5708d5a9aa512ac3f8b8f379dab4c7be1496e49c6fbfd05a0a5f13",
+        "provenance": "Directly authored integer-pixel layers on a 48x64 transparent grid from 2026-11-18 positive-only text brief. Original creation locally via PIL. No old HuddlersFire PNG/visual reference. Native 64x96 companion is separately authored and recorded in outputs/manual_native/README.md.",
+        "usageRights": "User-directed original concept output; review-only, user approval pending; no external provider license required"
+      },
+      "costUsd": 0,
+      "rejectionReason": "2026-11-18 user feedback: both 48×64 and 64×96 manually drawn native characters differ drastically from the desired cute casual pixel-art concept. Overly geometric, flat shading and poor face/character appeal; technically grid-aligned but artistically not suitable. Do NOT use as style references or develop modular parts/motion from these candidates.",
+      "companionOutputs": [
+        {
+          "path": "art/sprites/cleanroom-pilot/outputs/manual_native/candidate-64x96.png",
+          "sha256": "e2e738d2d9d8c3082afab28b1553f91dd21d6c1a46c0cba2564ccb0d8bee9cbd",
+          "provenance": "Independently authored 64×96 drawing from the 2026-11-18 text brief; rejected with its companion.",
+          "usageRights": "User-directed original concept output; review-only, user approval pending; no external provider license required"
+        }
+      ]
+    }
+  }
+}

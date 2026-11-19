@@ -31,7 +31,9 @@ test('files match content hashes and fit the explicit 10 MB transfer/6 MB scene 
     const bytes=readFileSync(new URL('../public'+file.url,import.meta.url));
     assert.equal(bytes.length,file.bytes);assert.ok(file.url.includes(createHash('sha256').update(bytes).digest('hex').slice(0,12)));
   }
-  assert.ok(Object.values(m.files).reduce((n,f)=>n+f.bytes,0)<10_000_000);
+  // Theme aliases can derive both palettes from one physical download.
+  const downloads=new Map(Object.values(m.files).map(f=>[f.url,f.bytes]));
+  assert.ok([...downloads.values()].reduce((n,bytes)=>n+bytes,0)<10_000_000);
   for(const theme of ['color','dark'])for(const map of ['camp','playground','showroom'])assert.ok(sceneSpriteIds(theme,map).reduce((n,id)=>n+m.files[id].bytes,0)<6_000_000);
 });
 test('animated effects loop with a fixed root and reduced motion freezes the first image',async()=>{

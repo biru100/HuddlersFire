@@ -1,5 +1,13 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · Runtime camp artwork
+
+The user requested the complete camp-art revision and publication to the existing Site. The release adds a direction-aware camper, selectable hair and clothing, seated and moving poses, timber benches and fire-circle ground. For current evidence run the [production scene capture](../art/scene-first-review.md). See the [390px view from the production renderer](../reviews/2026-11-20-camp-live-mobile.png). The earlier dated receipts below describe review-time state. Site publication is tracked separately by its saved version and deployment result.
+
+## 2026-11-20 · First camp scene review
+
+The active art task is the [scene-first workflow](../art/scene-first-review.md). Inspect the [current candidate, evidence and limits](../../art/sprites/scene-reviews/camp-circle-se/README.md) at actual mobile and desktop scale. The candidate is pending user selection. Character customization and Idle follow selection. Both earlier rejected canvas sizes now have verified file receipts. The older entries below record their respective dates.
+
 **Prepared:** 2026-11-16 KST. **Status:** intent-first harness v2.0 **draft PR [#21](https://github.com/biru100/HuddlersFire/pull/21)** on branch `harness/intent-first-project-v2-20261116`, not merged to main or deployed. Re-check the **current PR head**, GitHub/Work/Sites before treating this as live status.
 
 ## Product North Star
@@ -40,3 +48,7 @@ The implementation sequence and intentionally distinct non-art pilot are in [ROA
 ## Next action for this draft
 
 For PR #21, review the exact head and its checks. Merge authorization remains separate. For other tasks, use the current request and applicable approval record. The older #7 F2 entry in the Work queue describes that branch’s specialized job. It does not select the next project task or authorize the new pilot.
+
+## Scoped art update · 2026-11-18 KST
+
+[PR #24](https://github.com/biru100/HuddlersFire/pull/24) introduces the user-authorized clean-room art pilot. Its [task record](tasks/HF-ART-CLEANROOM-20261118.md) and [pipeline](../art/pixel-ai-pipeline-v3.md) supersede the old-avatar-first sequence for this new design. Preflight verification and tool audit are recorded. Native-model and general-model/alignment lanes remain blocked by unavailable providers/tools. Two new manual-native PNG candidates (48×64 and 64×96) were subsequently submitted on PR #24 and verified from GitHub. Both were visually rejected by the user on 2026-11-18 because they differ substantially from the desired concept. The manual_native receipt records rejected_visual; both files are preserved as rejected history. The submitting author declares text-only independent drawings. Editable layers and the creation script have not been committed, so that creative process cannot yet be reproduced from GitHub. All art/runtime/release gates remain pending. Restore the exact current PR head and its durable Work handoff for technical results. The next art step is a new text-only concept proposal addressing the failed proportions, shading and character appeal. These rejected candidates cannot serve as references or as a basis for parts or animation. No replacement candidate or new provider invocation is authorized by this status update.

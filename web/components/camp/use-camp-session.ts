@@ -20,7 +20,7 @@ export function useCampSession(options: Options) {
     setRoom(null);setPeople([]);setStatus('');latest.current.onUpdate();
     if(!reloadForUpdate(release))latest.current.onUpdateFailed();
   }}),[networkRef]);
-  async function connectRoom(mode:'create'|'join', profile:{name:string;color:string;avatar:string|null}, code:string, allowCarry:boolean, creation?:{title:string;visibility:string}) {
+  async function connectRoom(mode:'create'|'join', profile:{name:string;color:string;avatar:string|null;hairStyle:number;topStyle:number}, code:string, allowCarry:boolean, creation?:{title:string;visibility:string}) {
     const token = ++generation.current;
     const info = await api('rooms',{op:mode,...(mode==='join'?{code:code.trim().toUpperCase()}:creation)});
     if(token!==generation.current){await api('room',{op:'leave',code:info.code,player:info.player}).catch(()=>{});throw new Error('입장이 취소됐어요. 다시 시도해 주세요.');}

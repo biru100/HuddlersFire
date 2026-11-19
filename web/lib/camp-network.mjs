@@ -1,3 +1,4 @@
+import { normalizeWardrobe, readWardrobeRoster } from './camp-wardrobe.mjs';
 import { leaveSeat } from './camp-seats.mjs';
 import { emptyFire } from './camp-fire.mjs';
 import { PeerTransport } from './camp-peer-transport.mjs';
@@ -48,6 +49,8 @@ export class CampNetwork {
     this.lifecycle = runtime.lifecycle || globalThis.window;
     this.beacon = runtime.beacon || (payload => globalThis.navigator?.sendBeacon?.('/api/camp/room?release='+encodeURIComponent(CAMP_RELEASE.id), new Blob([payload], { type: 'application/json' })));
     this.allowCarry = runtime.allowCarry !== false;
+    this.wardrobe = normalizeWardrobe(profile);
+    this.wardrobes = new Map([[this.player,this.wardrobe]]);
     this.players = new Map([[this.player, { ...profile, id: this.player, ...spawnPlayer(), allowCarry: this.allowCarry, connected: this.isHost }]]);
     this.members = [];
     this.peers = new Map();
@@ -234,7 +237,7 @@ export class CampNetwork {
       const member = this.members.find(m => m.id === state.id);
       if (!member) continue;
       present.add(state.id);
-      const old = this.players.get(state.id), next = { ...member, ...state };
+      const old = this.players.get(state.id), next = { ...member, ...state, ...this.wardrobes?.get(state.id) };
       if (old) {
         const changedMap = old.mapRevision !== state.mapRevision || old.mapId !== state.mapId;
         const reset = changedMap || old.respawns !== state.respawns || old.seatId !== state.seatId || old.motion !== state.motion || old.carriedBy !== state.carriedBy || Math.hypot(old.x - state.x, old.y - state.y) > 1;
@@ -251,7 +254,7 @@ export class CampNetwork {
     if (peer.control) peer.control.close();
     peer.control = channel; channel.bufferedAmountLowThreshold = 32_000;
     channel.onbufferedamountlow = () => this.flush(peer);
-    channel.onopen = () => this.reliable(peer, { t: 'hello', allowCarry: this.allowCarry });
+    channel.onopen = () => this.reliable(peer, { t: 'hello', allowCarry: this.allowCarry, wardrobe:this.wardrobe });
     channel.onclose = () => {
       if (this.closed || this.peers.get(peer.id) !== peer || peer.control !== channel) return;
       peer.ready = false;
@@ -272,7 +275,10 @@ export class CampNetwork {
               const member = this.members.find(m => m.id === peer.id);
               if (!member) return;
               if (!this.players.has(peer.id)) this.players.set(peer.id, { ...member, ...spawnPlayer(this.members.findIndex(m => m.id === peer.id)) });
-              this.players.get(peer.id).connected = true;
+              const outfit = normalizeWardrobe(message.wardrobe);
+              this.wardrobes.set(peer.id, outfit);
+              Object.assign(this.players.get(peer.id),outfit,{connected:true});
+              this.broadcastControl({t:'wardrobes', entries:[...this.wardrobes]});
               applyPlayerAction(this.players, peer.id, { kind: 'allow-carry', allow: message.allowCarry !== false }, this.hostNow());
               this.syncRoom(peer);
             } else { this.poseSent = null; this.reliable(peer, { t: 'clock', sent: performance.now() }); }
@@ -302,6 +308,14 @@ export class CampNetwork {
             if (pending) {
               clearTimeout(pending.timer); this.pending.delete(message.id);
               if (message.ok) pending.resolve(message); else pending.reject(new Error(message.error || '요청이 거절됐어요.'));
+            }
+          } else if (message.t === 'wardrobes') {
+            const roster = readWardrobeRoster(message.entries);
+            if (!roster) return;
+            this.wardrobes = roster;
+            for (const [id, outfit] of roster) {
+              const player = this.players.get(id);
+              if (player) Object.assign(player, outfit);
             }
           } else if (message.t === 'clock' && Number.isFinite(message.sent) && Number.isFinite(message.now)) this.clockOffset = message.now - (message.sent + performance.now()) / 2;
           else if (message.t === 'state') this.receiveWorld(message);
@@ -339,6 +353,7 @@ export class CampNetwork {
       if (data.epoch > this.epoch || data.host !== this.host) this.changeHost(data.host, data.epoch);
       if (this.isHost && this.migrating && this.members.every(m => m.active === 0 || m.id === this.player || m.id === this.previousHost)) this.resumeSimulation();
       const ids = new Set(data.members.map(m => m.id));
+      if (this.isHost) for (const id of this.wardrobes.keys()) if (!ids.has(id)) this.wardrobes.delete(id);
       for (const [id, peer] of this.peers) if (!ids.has(id)) { this.closePeer(peer); this.peers.delete(id); }
       for (const id of this.players.keys()) if (!ids.has(id)) { releaseCarry(this.players, this.players.get(id), true); this.players.delete(id); this.inputs.delete(id); this.ledger.forget(id); }
       for (const member of data.members) {
@@ -403,9 +418,12 @@ export class CampNetwork {
         }
         else { this.weapons = readWeapons(snapshot.weapons) || emptyWeapons(); this.players = new Map(snapshot.players.filter(p => this.members.some(m => m.id === p.id)).map(p => [p.id, { ...p, connected: true }])); }
       }
+      this.wardrobes ||= new Map();
+      this.wardrobes.set(this.player,normalizeWardrobe(this.wardrobe));
       for (const member of this.members) {
         if (!this.players.has(member.id)) this.players.set(member.id, { ...member, ...spawnPlayer(this.members.indexOf(member)), connected: true });
         else Object.assign(this.players.get(member.id), { name: member.name, color: member.color, avatar: member.avatar, connected: member.active !== 0 || member.id === this.player });
+        Object.assign(this.players.get(member.id), this.wardrobes.get(member.id));
       }
       const former = this.players.get(this.previousHost); if (former) {former.connected = false;if(former.seatId){leaveSeat(former);former.sitting=false;}}
       if (this.members.every(m => m.active === 0 || m.id === this.player || m.id === this.previousHost)) this.resumeSimulation();

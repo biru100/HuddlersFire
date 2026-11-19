@@ -45,18 +45,23 @@ try {
   const profile = (await hostRequest('session', { name: 'QA Host' })).profile;
   info = await hostRequest('rooms', { op: 'create', title: '공개방 통합 검증', visibility: 'public' });
   assert.ok((await hostRequest('rooms')).rooms.some(r=>r.code===info.code&&r.title==='공개방 통합 검증'));
-  const host = new CampNetwork(info, profile, {}, { request: hostRequest, PeerConnection: LocalPeer, beacon: () => false });
+  const host = new CampNetwork(info, {...profile,hairStyle:1,topStyle:0}, {}, { request: hostRequest, PeerConnection: LocalPeer, beacon: () => false });
   instances.push(host);
   for (let i = 1; i <= 15; i++) {
     const request = client(), p = (await request('session', { name: 'QA ' + i })).profile;
     const room = await request('rooms', { op: 'join', code: info.code });
-    instances.push(new CampNetwork(room, p, {}, { request, PeerConnection: LocalPeer, beacon: () => false, allowCarry: i !== 1 }));
+    instances.push(new CampNetwork(room, {...p,hairStyle:i%2,topStyle:i%3===0?1:0}, {}, { request, PeerConnection: LocalPeer, beacon: () => false, allowCarry: i !== 1 }));
   }
   console.log('PASS: host and 15 separately authenticated guests joined over HTTP.');
   await until(() => host.players.size === 16 && [...host.peers.values()].every(p => p.channel?.readyState === 'open'), '16 players did not connect');
   console.log('PASS: 15 real WebRTC DataChannels opened.');
   await until(() => instances.every(n => n.players.size === 16), 'All peers did not receive the complete state');
   console.log('PASS: all 16 clients received the complete P2P world state.');
+  const outfitMatches = (observer,target,index) => {
+    const p=observer.players.get(target.player);
+    return p?.hairStyle===(index===0?1:index%2) && p?.topStyle===(index>0&&index%3===0?1:0);
+  };
+  await until(()=>instances.every(n=>instances.every((target,i)=>outfitMatches(n,target,i))), 'Initial 16-player wardrobe roster differs');
   const isolated = instances[15], originalReliable = host.reliable.bind(host), originalSend = host.send.bind(host);
   const originalReceive = isolated.receiveWorld.bind(isolated);
   // Drop packets already queued in SCTP as well as new sends during this outage.
@@ -323,6 +328,7 @@ try {
   await guest.command('music-control', { op: 'pause' });
   await assert.rejects(() => observer.command('music-control', { op: 'play' }), /방장/);
   await until(() => survivors.every(n => !n.music.playing), 'New host music permission did not propagate', 5000);
+  await until(()=>survivors.every(n=>survivors.every(target=>outfitMatches(n,target,instances.indexOf(target)))), 'A wardrobe changed during host recovery');
   console.log('PASS: normal host departure preserved room, code, chain, chat and music; 14 WebRTC peers reconnected to the first successor.');
   guest.destroy(false); // Simulate a crashed browser: no leave beacon or heartbeat.
   const afterCrash = instances.slice(2);

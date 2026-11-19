@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { spriteManifest } from '../lib/camp-sprite-assets.mjs';
 import { createCanvas } from '@napi-rs/canvas';
 import { AvatarImages, drawCharacter } from '../lib/camp-character.mjs';
 import { pickPlayer, playerInfo } from '../lib/camp-player-info.mjs';
@@ -128,4 +130,19 @@ test('player information reports current activity without returning internal ses
   info = playerInfo({ ...p, motion: 'airborne', vz: -1 }, 'b', 'b', 500); assert.equal(info.activity, '내려오는 중');
   assert.equal(playerInfo({ ...p, sitting: true }, 'b', 'b', 500).activity, '앉아서 불멍 중');
   assert.equal(playerInfo({ ...p, connected: false }, 'b', 'b', 500).connected, false);
+});
+
+test('production camper retains four distinct facings and independent outfit parts', {skip:!spriteManifest.files['field-camper-v2']}, () => {
+  const draw = (args,opts={}) => createHash('sha256').update(render({id:'',color:'#606060',...args},null,opts).canvas.toBuffer('image/png')).digest('hex');
+  const looks = new Set(), facings = ['front-right','back-right','back-left','front-left'];
+  for(const visualDirection of facings){
+    for(const hairStyle of [0,1]) for(const topStyle of [0,1]){
+      looks.add(draw({visualDirection,hairStyle,topStyle}));
+    }
+    assert.notEqual(draw({visualDirection}),draw({visualDirection,sitting:true}));
+  }
+  assert.equal(looks.size,16);
+  const firstStep=draw({visualDirection:'front-right',moving:true},{time:.16,reduced:false});
+  assert.notEqual(firstStep,draw({visualDirection:'front-right',moving:true},{time:.66,reduced:false}));
+  assert.notEqual(draw({visualDirection:'front-right'},{time:0,reduced:false}),draw({visualDirection:'front-right'},{time:1.1,reduced:false}));
 });

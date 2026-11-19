@@ -1,8 +1,9 @@
-import { SPRITE_MANIFEST as manifest } from './camp-sprite-manifest.mjs';
+import { withCampArt } from './camp-art-release.mjs';
+import { SPRITE_MANIFEST as originalManifest } from './camp-sprite-manifest.mjs';
 import {spriteImageMetadata,spriteMaterial} from './camp-materials.mjs';
 import {snapPixelOrigin} from './camp-pixel.mjs';
 let canvasFactory=null;
-export { manifest as spriteManifest };
+export const spriteManifest = withCampArt(originalManifest);
 export function setSpriteCanvasFactory(value){canvasFactory=value;}
 export function createSpriteSurface(ctx,w,h){if(canvasFactory)return canvasFactory(w,h);const doc=ctx.canvas.ownerDocument||globalThis.document;if(doc){const canvas=doc.createElement('canvas');canvas.width=w;canvas.height=h;return canvas;}if(globalThis.OffscreenCanvas)return new globalThis.OffscreenCanvas(w,h);return new ctx.canvas.constructor(w,h);}
 function browserLoad(url){return new Promise((resolve,reject)=>{const ImageType=globalThis.Image;if(!ImageType){reject(Error('Image decoder unavailable'));return;}const image=new ImageType();image.onload=()=>{image.onload=image.onerror=null;resolve(image);};image.onerror=()=>{image.onload=image.onerror=null;reject(Error('Sprite image could not be loaded'));};image.src=url;});}
@@ -11,7 +12,7 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
   const entries=new Map(),listeners=new Set();let loader=initialLoader,cacheLimit=Math.max(initialLimit,data.preview?.pixelQuarterview?32:0),clock=0;
   const notify=()=>{for(const listener of listeners)listener();};
   const api={manifest:data,
-    setSpriteLoader(value,options={}){loader=value;cacheLimit=options.cacheLimit||16;entries.clear();},
+    setSpriteLoader(value,options={}){loader=value;cacheLimit=options.cacheLimit||initialLimit;entries.clear();},
     subscribeSprites(listener){listeners.add(listener);return()=>listeners.delete(listener);},
     loadSprite(id){
       if(!data.files[id])return Promise.resolve(null);
@@ -23,7 +24,15 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
     preloadSprites(ids){return Promise.all(ids.map(api.loadSprite));},
     spriteStatus(ids){return {loading:ids.some(id=>!entries.get(id)?.image&&!entries.get(id)?.error),failed:ids.filter(id=>entries.get(id)?.error)};},
     retrySprites(ids){for(const id of ids)if(entries.get(id)?.error)entries.delete(id);return api.preloadSprites(ids);},
-    sceneSpriteIds(theme='color',map='camp'){const dark=theme==='dark',suffix=dark?'-dark':'';const ids=[...data.character[dark?'darkVariants':'variants'],'environment'+suffix,'effects'+suffix,(map==='showroom'?'stone':'grass')+suffix,...(map==='camp'||map==='playground'?['sand'+suffix]:[]),...(data.previewFiles||[])];return [...new Set([...ids,...ids.map(id=>data.materials?.sheets[id]).filter(Boolean)])];},
+    sceneSpriteIds(theme='color', map='camp'){
+      const dark=theme==='dark', suffix=dark?'-dark':'';
+      const ids=[...data.character[dark?'darkVariants':'variants'], 'environment'+suffix, 'effects'+suffix, (map==='showroom'?'stone':'grass')+suffix];
+      if(map==='camp'||map==='playground') ids.push('sand'+suffix);
+      if(data.files['field-camper-v2'+suffix]) ids.push('field-camper-v2'+suffix);
+      if(map==='camp' && data.files['camp-clearing-art'+suffix]) ids.push('camp-clearing-art'+suffix, 'normal-camp-clearing-art');
+      ids.push(...(data.previewFiles||[]));
+      return [...new Set([...ids,...ids.map(id=>data.materials?.sheets[id]).filter(Boolean)])];
+    },
     characterSheet(slot,theme='color'){return data.character[theme==='dark'?'darkVariants':'variants'][Math.max(0,Math.min(5,slot|0))];},
     spriteFrame(id,direction){const base=data.sprites[id];if(direction){if(base?.direction===direction&&!base.directions)return base;const variant=base?.directions?.[direction];if(!variant)throw Error('Missing sprite direction: '+id+'/'+direction);return data.sprites[variant];}return base;},
     drawSprite(ctx,id,{x=0,y=0,width=64,height=null,anchorX=null,anchorY=null,theme='color',flip=false,direction=null,layer=null,elapsed=0,reduced=false}={}){
@@ -37,5 +46,5 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
     },
   };return api;
 }
-export const defaultSpriteAssets=createSpriteContext(manifest);
+export const defaultSpriteAssets=createSpriteContext(spriteManifest,{cacheLimit:24});
 export const {setSpriteLoader,subscribeSprites,loadSprite,getSprite,preloadSprites,spriteStatus,retrySprites,sceneSpriteIds,characterSheet,drawSprite}=defaultSpriteAssets;

@@ -5,6 +5,7 @@ import { defaultSpriteAssets, createSpriteSurface } from './camp-sprite-assets.m
 import { benchBinding,propDisplay } from './camp-scene-contract.mjs';
 import {paintGroundSurface} from './camp-canvas-renderer.mjs';
 import {pixelPropDisplay} from './camp-pixel.mjs';
+import {clearingSheet, clearingNormals, clearingBench, drawClearingBench, paintCampClearing} from './camp-clearing-art.mjs';
 export const FIELD_INK=Object.freeze({background:'#111111',floor:'#343434',edge:'#222222',line:'#555555',muted:'#aaaaaa',paper:'#eeeeee',white:'#ffffff'});
 const COLOR_FIELD_INK=Object.freeze({background:'#f1ead9',floor:'#a9b67a',edge:'#7d8651',line:'#87975c',muted:'#655e48',paper:'#fff8e6',white:'#fffdf4'});
 export class CampArtwork {
@@ -21,10 +22,14 @@ export class CampArtwork {
     const suffix=this.theme==='dark'?'-dark':'',base=this.sprites.getSprite((mapId==='showroom'?'stone':'grass')+suffix),sand=mapId==='showroom'?null:this.sprites.getSprite('sand'+suffix);
     if(!base||(mapId!=='showroom'&&!sand))return;
     const materials=this.webgl?.status==='ready'?this.sprites.manifest.materials:null,normalBase=this.sprites.getSprite(materials?.sheets[(mapId==='showroom'?'stone':'grass')+suffix]),normalSand=mapId==='showroom'?null:this.sprites.getSprite(materials?.sheets['sand'+suffix]);
-    const key=mapId+suffix+edge+Boolean(normalBase)+Boolean(normalSand);
+    const clearing = mapId === 'camp' && this.pixelMode !== 'candidates' && clearingSheet(this.sprites,this.theme);
+    const detailNormals = clearing && normalBase && clearingNormals(this.sprites);
+    const key=mapId+suffix+edge+Boolean(normalBase)+Boolean(normalSand)+Boolean(clearing)+Boolean(detailNormals);
     if(this.groundCache?.key!==key){
       const surface=createSpriteSurface(this.ctx,2100,1200);paintGroundSurface(surface,{base,sand,mapId,edge,dark:this.theme==='dark'});let normal=null;
       if(normalBase&&(mapId==='showroom'||normalSand)){normal=createSpriteSurface(this.ctx,1050,600);paintGroundSurface(normal,{base:normalBase,sand:normalSand,mapId,edge,normal:true});}
+      if (clearing) paintCampClearing(surface,clearing);
+      if (normal && detailNormals) paintCampClearing(normal,detailNormals);
       this.groundCache={key,surface,normal};
     }
     this.ctx.save();this.ctx.setMaterial?.({lighting:'lit',ground:true,...(this.groundCache.normal?{normalImage:this.groundCache.normal,normalizedSurface:true,strength:materials.terrain[mapId==='showroom'?'stone':'grass']}:{strength:0})});this.ctx.drawImage(this.groundCache.surface,-1050,-580);this.ctx.restore();
@@ -38,7 +43,14 @@ export class CampArtwork {
   tree(item){this.shadow(30,12);this.prop(item);}
   tent(item){this.shadow(55,21);this.prop(item);}
   log(){this.shadow(37,11);this.sprite('bench',{width:90,y:6});}
-  bench(item){const frame=benchBinding(this.sprites,item);if(frame){this.shadow(39,10);this.prop(item);return;}this.ctx.save();const angle=item.angle||0;this.ctx.scale(Math.cos(angle)<0?-1:1,1);this.log();this.ctx.restore();}
+  bench(item){
+    const candidate=clearingBench(this.sprites,item,this.theme,this.mapId,this.pixelMode);
+    if (candidate) {
+      this.shadow(39,10);
+      drawClearingBench(this.ctx,candidate,this.webgl?.status === 'ready' ? clearingNormals(this.sprites) : null);
+      return;
+    }
+    const frame=benchBinding(this.sprites,item);if(frame){this.shadow(39,10);this.prop(item);return;}this.ctx.save();const angle=item.angle||0;this.ctx.scale(Math.cos(angle)<0?-1:1,1);this.log();this.ctx.restore();}
   lantern(item){this.shadow(10,4);this.prop(item);}
   sign(item){this.prop(item);this.caption('HUDDLERS',-35,8);}
   fence(item){this.prop(item);}

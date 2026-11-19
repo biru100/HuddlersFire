@@ -1,10 +1,10 @@
 import { emptyFire, FIRE_STYLES } from '../lib/camp-fire.mjs';
-import { CAMP_SEATS } from '../lib/camp-seats.mjs';
+import { CAMP_SEATS, takeSeat } from '../lib/camp-seats.mjs';
 import { getMap } from '../lib/camp-maps.mjs';
 import { EXHIBITED_GAMES,exhibitCover } from '../lib/camp-games.mjs';
 // Render our own Canvas drawing code to PNG without launching or controlling a browser.
-import { createCanvas, Image, loadImage } from '@napi-rs/canvas';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { createCanvas, Image, loadImage, GlobalFonts } from '@napi-rs/canvas';
+import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { COLORS, EMOTES, TRAMPOLINES, RADIO, spawnPlayer, applyPlayerAction } from '../lib/camp-world.mjs';
 import { drawCharacter } from '../lib/camp-character.mjs';
@@ -15,6 +15,27 @@ globalThis.requestAnimationFrame = () => 1;
 globalThis.cancelAnimationFrame = () => {};
 globalThis.Image = Image;
 mkdirSync('outputs', { recursive: true });
+const koreanFont=process.env.CAMP_REVIEW_KOREAN_FONT || '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc';
+if (!GlobalFonts.has('Malgun Gothic') && existsSync(koreanFont)) GlobalFonts.registerFromPath(koreanFont,'Malgun Gothic');
+// Use the production painter, seat contacts, atlas loader and default follow camera.
+for(const [name,width,height] of [['camp-art-live-desktop',1050,824],['camp-art-live-mobile',390,520]]) {
+  const canvas=createCanvas(width,height);
+  canvas.getBoundingClientRect=()=>({width,height});
+  const camper=(id,name,x,y,color,hairStyle,topStyle)=>({...spawnPlayer(0),id,name,x,y,color,hairStyle,topStyle,connected:true});
+  const seat=CAMP_SEATS.find(s=>s.bench==='log-7');
+  const hero=camper('self','Myo',-.45,-2.05,COLORS[0],0,0);
+  const guest=camper('guest','Sol',seat.x,seat.y,COLORS[2],1,1);
+  const players=[hero,guest], room=new Map(players.map(p=>[p.id,p]));
+  const error=takeSeat(room,guest,seat.id);
+  if(error)throw Error(error);
+  const scene={players,self:hero.id,mapId:'camp',followSelf:true,cameraMode:'follow',zoom:1,now:5000,theme:'color'};
+  const renderer=new CampRenderer(canvas,()=>scene);
+  await renderer.ready;
+  renderer.draw(5000);
+  if(renderer.hitAreas.length!==2 || renderer.seatAreas.length!==CAMP_SEATS.length)throw Error('Live art scene lost a player or a seat');
+  writeFileSync('outputs/'+name+'.png',canvas.toBuffer('image/png'));
+  renderer.destroy();
+}
 for(const [name,mapId,width,height,followSelf,x,y]of [
   ['expanded-camp','camp',1050,824,false,0,2],['expanded-playground','playground',1050,824,false,0,2],
   ['showroom-overview','showroom',1050,824,false,0,0],['showroom-booth','showroom',1050,824,true,0,-.5],

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync,mkdtempSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {createCanvas} from '@napi-rs/canvas';
-import {spriteManifest} from '../lib/camp-sprite-assets.mjs';
+import {SPRITE_MANIFEST as spriteManifest} from '../lib/camp-sprite-manifest.mjs';
 import {ROOT,inside,readJSON,writeJSON,hash} from '../../tools/lib/sprite-spec.mjs';
 import {buildMaterialMaps,installMaterialMaps} from '../../tools/lib/material-assets.mjs';
 import {materialCases,materialFingerprint,verifyMaterialReview} from '../../tools/lib/material-review.mjs';

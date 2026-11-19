@@ -15,9 +15,14 @@ import CharacterPreview from './character-preview';
 import RoomList from './room-list';
 import SpriteArt from './sprite-art';
 export type Profile = { name:string;color:string;avatar:string|null;linked:boolean };
+const wardrobeOptions = [
+  {key:'hairStyle', label:'헤어', choices:['밤색 단발','묶은 머리']},
+  {key:'topStyle', label:'상의', choices:['필드 재킷','캠프 후디']},
+] as const;
 type Props = {onDiscord:()=>void;discordAvailable:boolean;discordBusy:boolean;discordMessage:string;profile:Profile;setProfile:Dispatch<SetStateAction<Profile>>;code:string;setCode:(value:string)=>void;busy:boolean;ready:boolean;error:string;enter:(mode:'create'|'join',code?:string,creation?:{title:string;visibility:string})=>Promise<void>;enterSolo:()=>void};
 export default function CampLobby(p:Props) {
-  const [{theme}] = useCampSettings();
+  const [settings,setSettings] = useCampSettings();
+  const {theme,hairStyle,topStyle} = settings;
   const [title,setTitle]=useState('우리의 모닥불'),[visibility,setVisibility]=useState('public');
   const [entry,setEntry]=useState<'create'|'join'|null>(null);
   const blocked=p.busy||!p.ready||!p.profile.linked;
@@ -32,13 +37,20 @@ export default function CampLobby(p:Props) {
       <section className="lobby-profile surface" aria-label="입장 준비">
         <div className="section-heading"><Text as="h2" textStyle="t6Bold">오늘의 나</Text><span className="step-number">01</span></div>
         <HStack gap="x4" align="center" className="profile-preview">
-          <CharacterPreview color={p.profile.color} avatar={p.profile.avatar}/>
+          <CharacterPreview color={p.profile.color} avatar={p.profile.avatar} hairStyle={hairStyle} topStyle={topStyle}/>
           <VStack gap="x1"><Text textStyle="t5Bold">{p.profile.name||'오늘의 허들러'}</Text><Text textStyle="t3Regular" color="fg.neutralMuted">{p.profile.linked?'Discord 연결됨':'Discord로 함께할 준비를 해요'}</Text></VStack>
         </HStack>
         {!p.profile.linked&&<VStack gap="x3"><Button variant="brandSolid" size="large" loading={p.discordBusy} disabled={!p.discordAvailable||!p.ready} onClick={p.onDiscord}>Discord 연결하기 <ArrowUpRight size={18}/></Button>{p.discordMessage&&<Text as="p" role="status" textStyle="t3Regular">{p.discordMessage}</Text>}</VStack>}
         <TextField label="닉네임" value={p.profile.name} disabled={p.busy}>
           <TextFieldInput id="nickname" aria-label="닉네임" maxLength={16} placeholder="어떤 이름으로 만날까요?" autoComplete="nickname" onChange={e=>p.setProfile(v=>({...v,name:e.target.value}))}/>
         </TextField>
+        {wardrobeOptions.map(({key,label,choices}) => <VStack gap="x2" key={key}>
+          <Text textStyle="t4Medium">{label}</Text>
+          <div className="tone-options" role="group" aria-label={label}>
+            {choices.map((name,i) => <Button key={name} size="small" variant={settings[key]===i?'neutralSolid':'neutralWeak'} aria-pressed={settings[key]===i} disabled={p.busy}
+              onClick={()=>setSettings(current=>({...current,[key]:i}))}>{name}</Button>)}
+          </div>
+        </VStack>)}
         <VStack gap="x3"><Text textStyle="t4Medium">캐릭터 톤</Text><div className="tone-options" role="group" aria-label="캐릭터 톤">{COLORS.map((color:string,i:number)=><Button key={color} size="small" variant={p.profile.color===color?'neutralSolid':'neutralWeak'} aria-label={(theme==='dark'?TONE_LABELS:COLOR_LABELS)[i]+' · '+TONE_MARKS[i]} aria-pressed={p.profile.color===color} onClick={()=>p.setProfile(v=>({...v,color}))} disabled={p.busy}><span className="tone-swatch" style={{background:characterColor(color,theme)}}/>{p.profile.color===color?<Check size={14}/>:TONE_MARKS[i]}</Button>)}</div></VStack>
         <Button className="solo-button" variant="ghost" disabled={blocked} onClick={p.enterSolo}>먼저 혼자 둘러보기 <ArrowRight size={16}/></Button>
       </section>
