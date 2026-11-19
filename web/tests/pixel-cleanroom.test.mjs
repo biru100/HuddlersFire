@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, mkdirSync, mkdtempSync, writeFileSync, symlinkSync, rmSync } from 'node:fs';
-import { createHash } from 'node:crypto';
+import { readFileSync, readdirSync, existsSync, mkdirSync, mkdtempSync, writeFileSync, symlinkSync, rmSync } from 'node:fs';
+import { createHash, randomUUID } from 'node:crypto';
 import { deflateSync, crc32 } from 'node:zlib';
-import { validateCleanroom, verifyLocalOutputs } from '../../tools/verify-pixel-cleanroom.mjs';
+import { validateCleanroom, verifyLocalOutputs, verifySceneReview } from '../../tools/verify-pixel-cleanroom.mjs';
 
 const base = new URL('../../art/sprites/cleanroom-pilot/manifest.json', import.meta.url);
 const promptFile = new URL('../../docs/briefs/cleanroom-pixel-generation-20261118.txt', import.meta.url);
@@ -134,4 +134,63 @@ test('visual rejection without a reason cannot be registered', () => {
   m.lanes.manual_native.status = 'rejected_visual';
   delete m.lanes.manual_native.rejectionReason;
   assert.throws(() => validateCleanroom(m, prompt), /visual failure reason/);
+});
+
+const scenePath = 'art/sprites/scene-reviews/camp-circle-se/manifest.json';
+const sceneUrl = new URL('../../' + scenePath, import.meta.url);
+const sceneReceipt = () => JSON.parse(readFileSync(sceneUrl));
+
+test('both historical sizes retain independently verified receipts', () => {
+  const m = fresh();
+  assert.deepEqual(verifyLocalOutputs(m).filter(r => r.lane === 'manual_native').map(r => [r.width,r.height]), [[48,64],[64,96]]);
+  m.lanes.manual_native.companionOutputs[0].sha256 = '0'.repeat(64);
+  assert.throws(() => verifyLocalOutputs(m), /digest mismatch/);
+});
+test('scene job verifies each original, derived image, layer, scene and recipe', () => {
+  const m = sceneReceipt();
+  assert.equal(verifySceneReview(m, scenePath).files, 15);
+  delete m.files['review/mobile-candidate.png'];
+  assert.throws(() => verifySceneReview(m, scenePath), /missing or mismatched digest/);
+});
+test('every submitted scene job verifies from its own manifest', () => {
+  const parent = new URL('../',sceneUrl);
+  for (const dir of readdirSync(parent,{withFileTypes:true}).filter(item => item.isDirectory())) {
+    const url = new URL(dir.name+'/manifest.json',parent);
+    if (existsSync(url)) {
+      const m = JSON.parse(readFileSync(url));
+      assert.equal(verifySceneReview(m,scenePath.replace('camp-circle-se',dir.name)).job,dir.name);
+    }
+  }
+});
+test('scene preflight rejects image conditioning, swapped briefs, cross-job paths and approval', () => {
+  const run = (m, path=scenePath) => verifySceneReview(m,path,'preflight');
+  const m = sceneReceipt();
+  assert.throws(() => run({...m, referenceImages:['old']}), /must be empty/);
+  assert.throws(() => run({...m, paletteUrl:'x'}), /unexpected field/);
+  assert.throws(() => run({...m, externalPaidGenerationAllowed:true}), /paid API/);
+  assert.throws(() => run({...m, approval:{...m.approval,base:'approved'}}), /self-approve/);
+  assert.throws(() => run({...m, briefs:{...m.briefs,bench:m.briefs.ground}}), /brief digest/);
+  assert.throws(() => run(m, scenePath.replace(m.job, 'other-job')), /own job/);
+});
+test('a fresh job can preflight before generating any images', () => {
+  const m = sceneReceipt(), slug = 'test-' + randomUUID();
+  const dir = new URL('../'+slug+'/',sceneUrl);
+  mkdirSync(new URL('briefs/',dir), {recursive:true});
+  try {
+    m.job = slug; m.files = {};
+    for (const role of Object.keys(m.briefs)) writeFileSync(new URL('briefs/'+role+'.txt',dir), readFileSync(new URL('briefs/'+role+'.txt',sceneUrl)));
+    const path = scenePath.replace('camp-circle-se', slug);
+    assert.equal(verifySceneReview(m,path,'preflight').job, slug);
+    assert.throws(() => verifySceneReview(m,path), /ENOENT/);
+  } finally { rmSync(dir, {recursive:true,force:true}); }
+});
+test('editable camper layers reconstruct the delivered logical sprite pixel-for-pixel', async () => {
+  const {createCanvas,loadImage} = await import('@napi-rs/canvas');
+  const spec = JSON.parse(readFileSync(new URL('recipe.json',sceneUrl))).camper;
+  const canvas = createCanvas(...spec.canvas), c = canvas.getContext('2d');
+  const open = name => loadImage(readFileSync(new URL(name,sceneUrl)));
+  for (const region of spec.regions) c.drawImage(await open('layers/'+region.name+'.png'),0,0);
+  const rebuilt = c.getImageData(0,0,...spec.canvas).data;
+  c.clearRect(0,0,...spec.canvas); c.drawImage(await open('game/camper.png'),0,0);
+  assert.deepEqual(rebuilt, c.getImageData(0,0,...spec.canvas).data);
 });

@@ -46,7 +46,15 @@
         "usageRights": "User-directed original concept output; review-only, user approval pending; no external provider license required"
       },
       "costUsd": 0,
-      "rejectionReason": "2026-11-18 user feedback: both 48×64 and 64×96 manually drawn native characters differ drastically from the desired cute casual pixel-art concept. Overly geometric, flat shading and poor face/character appeal; technically grid-aligned but artistically not suitable. Do NOT use as style references or develop modular parts/motion from these candidates."
+      "rejectionReason": "2026-11-18 user feedback: both 48×64 and 64×96 manually drawn native characters differ drastically from the desired cute casual pixel-art concept. Overly geometric, flat shading and poor face/character appeal; technically grid-aligned but artistically not suitable. Do NOT use as style references or develop modular parts/motion from these candidates.",
+      "companionOutputs": [
+        {
+          "path": "art/sprites/cleanroom-pilot/outputs/manual_native/candidate-64x96.png",
+          "sha256": "e2e738d2d9d8c3082afab28b1553f91dd21d6c1a46c0cba2564ccb0d8bee9cbd",
+          "provenance": "Independently authored 64×96 drawing from the 2026-11-18 text brief; rejected with its companion.",
+          "usageRights": "User-directed original concept output; review-only, user approval pending; no external provider license required"
+        }
+      ]
     }
   }
 }

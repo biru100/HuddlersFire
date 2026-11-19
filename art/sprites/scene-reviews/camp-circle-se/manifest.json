@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "job": "camp-circle-se",
+  "mode": "text-only-cleanroom",
+  "referenceImages": [],
+  "pastImageInputs": [],
+  "paletteImages": [],
+  "imageToImage": false,
+  "externalPaidGenerationAllowed": false,
+  "provider": "ChatGPT built-in image generation, separate text-only requests",
+  "actualModelId": null,
+  "usageRights": "User-directed original generation for internal HuddlersFire concept review.",
+  "approval": {
+    "concept": "pending_user",
+    "base": "pending_user",
+    "modular": "pending_user",
+    "motion": "pending_user",
+    "runtime": "pending_user",
+    "publish": "pending_user"
+  },
+  "briefs": {
+    "camper": "219d1d282f0606bceba38854cdfb7d2454601456af6287c87faa57b1580e02d4",
+    "bench": "4607aec94cba027cd1610143bda3384646fd9ac0a761792eaba1f6821a762ec4",
+    "ground": "6aa55c4daf71917c7eee6910b37bdc3f8e43f326ddb542f518aff32b74e3a6c7"
+  },
+  "files": {
+    "recipe.json": "df5baca020674df121ce62c8169fd2cb91280d8c6775b2472803d4fab80816aa",
+    "originals/camper.png": "c0713171c2fca0c5bb0e1d77b89a874a3016aad007dcf2e7fcb236e08ea5d624",
+    "game/camper.png": "3420d7925a0f54228c15d64006e77e52682fbd32de6bdb8d632a373816fd4150",
+    "layers/lower.png": "aaa3ca17cf778b53762c922033fdbe60c4efea4e486ad1c5fd2fc90478783c61",
+    "layers/jacket.png": "381adf280f300d1b96b7e890af94656c04ea851a1fb8ab6c1faa434354cbe955",
+    "layers/head.png": "bef3f85e8433b093588d8668608d676943365bf76a6d4c2b0c457a4b156b2628",
+    "originals/bench.png": "b92a7f78181135bdf65047ec4c1eec0ef917d4b2caa0941090311a9c83c49b1c",
+    "game/bench.png": "7e7a67e49311ff26335bf2d99a9947448264f815de6fa02645424f10a98e971d",
+    "originals/ground.png": "ff8713bbc5e092c9f09ced45a1bd189979895d6c0ac3273f27b647a8c9e0bdc1",
+    "game/ground.png": "2a97a1bb0f8038aa4bd873e3c57bca91d503c61e32d2b1088579df5ccf1fe029",
+    "review/desktop-before.png": "974e713550ad9c6f2135248e13f9e938038bd71623538c3ca11eb9b25cd0b479",
+    "review/desktop-candidate.png": "b14deb78d70848dbf86f42d691b6d094637463afac5a9bd27f6c903cf3e94e72",
+    "review/mobile-before.png": "f6981c663fd7d614673ff12f55f3c6566dabe4a85c3438cdf5cb8123ac721a3a",
+    "review/mobile-candidate.png": "eb7e5927b0f6180c2de2c628deb6ae8a11ca31522370ec8d68a57bce127a928c",
+    "review/board.png": "c11c115adad11ad3878705486d1fb84a62ba7d672f058f333af6f928f0d9680e"
+  }
+}
