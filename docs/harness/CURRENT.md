@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · 세 맵 그래픽과 모바일 대화 v45 게시
+
+사용자의 병합·게시 요청으로 [PR #27](https://github.com/biru100/HuddlersFire/pull/27)을 `main`의 `a9e1c83`에 병합했다. 06:59 KST에 기존 [HuddlersFire](https://huddlers-fire-camp.gywkd77.chatgpt.site/)에 v45가 게시됐다. 공개 릴리스와 세 맵의 그래픽이 해당 빌드와 일치한다. [운영 검증 기록](../validation.md#sites-v45)
+
 ## 2026-11-20 · 모바일 밀집 대화와 현재 게시 상태
 
 | 대상 | 확인한 상태 |
@@ -8,7 +12,7 @@
 | 작업 브랜치 | `fix/mobile-camp-readability`의 게임 코드 `0f9b659`는 후속 그래픽 `f8540b3`을 포함한다. 세 맵과 참가자 초상화에 같은 캠퍼 디자인을 사용하며, 모바일에서는 최근 대화와 이름표를 함께 읽고 선택할 수 있다. [수정 전](../reviews/2026-11-20-mobile-chat-before.png) · [수정 후](../reviews/2026-11-20-mobile-chat-after.png) |
 | 기존 Sites | v42의 게시 성공을 확인했다. v43·v44는 저장됐으며 조회 당시 두 버전 모두 게시 ID가 없었다. 저장본 v44와 그래픽 브랜치의 소스 일치 여부는 미확인이다. |
 
-다음 결정은 검증한 작업 브랜치의 main 병합 여부와 운영 게시 여부다. 아래 날짜별 기록은 각 작업 당시의 상태와 근거를 보존한다. [검증 기록](../validation.md)
+위 표는 PR #27 병합 전 상태를 기록한 것이다. [검증 기록](../validation.md)
 
 ## 2026-11-20 · Camper-led art and portraits
 

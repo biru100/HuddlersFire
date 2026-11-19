@@ -1,5 +1,17 @@
 # 구현 검증 기록
 
+<a id="sites-v45"></a>
+
+## 2026-11-20 · 기존 Sites v45 게시
+
+[PR #27](https://github.com/biru100/HuddlersFire/pull/27)의 [PR 검증](https://github.com/biru100/HuddlersFire/actions/runs/44623358671)과 병합 커밋 `a9e1c83dd4851309dd90d2fdfea76f774d48c34a`의 [main 검증](https://github.com/biru100/HuddlersFire/actions/runs/44623785965)이 통과했다. 게시한 Sites 소스 `53e062c09914c0c9e77b4765258003f370f52bdf`와 병합 커밋의 웹 파일 346개가 모두 바이트 단위로 일치했다.
+
+| 항목 | 운영 확인 결과 |
+| --- | --- |
+| 저장 및 게시 | 기존 public 사이트에 저장한 v45 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_ccbbc1bd45108191a502400d87b39637`의 배포 `appgdep_6aff714c328081918a33c0d6de7bcc23`가 06:59:55 KST에 성공했다. 이전 운영 버전은 v42다. |
+| 공개 응답 | [게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/), 버전, 익명 세션, 방 목록이 각각 HTTP 200을 반환했다. 공개 릴리스 `915ff947-2599-431f-b9ff-7db53f21448b`와 리비전 `1795125467355`가 새 빌드와 일치했다. 캠프·놀이터·전시장 배경 PNG도 공개 응답과 빌드의 바이트가 같았다. |
+| DB·로그인 | 기존 `DB`의 테이블 7개를 게시 전후에 확인했다. 패키지의 마이그레이션 파일 11개가 v42와 동일했다. 익명 세션에서 Discord 로그인 활성 상태를 확인했다. 실제 계정 로그인과 원격 사용자 간 RTC 연결은 이번 공개 점검에서 수행하지 않았다. |
+
 ## 2026-11-20 · 모바일 밀집 대화, 캠퍼 외형과 Windows 검사
 
 검증한 게임 커밋은 `0f9b659`이다. 기존 그래픽 커밋 `f8540b3`에 모바일 필드 대화 배치를 적용했다. [변경 내역](https://github.com/biru100/HuddlersFire/commit/0f9b659e7ea5d537e2a45e4685874a68da976e6c)
