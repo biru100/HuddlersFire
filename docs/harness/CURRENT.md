@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · 로비 입장과 모바일 대화 v47 운영 게시
+
+08:37 KST에 기존 공개 사이트에 v47을 게시했다. 최종 빌드에서 첫 방문자의 Discord 연결 버튼, 연결 후 방 입장, 모바일 대화 탭과 초안 유지를 확인했다. [게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [운영 검증](../validation.md#sites-v47)
+
 ## 2026-11-20 · 로비 입장과 모바일 대화 수정본
 
 v46 디자인 피드백을 반영해 로비 첫 화면에 연결·입장을 배치하고, 모바일 대화 시트의 중복 탐색을 정리했다. 작업 폴더에서 검증한 수정본이며 공개 버전은 v46이다. [화면 비교](../product-review.md) · [검증 기록](../validation.md#astryx-lobby-review)

@@ -1,5 +1,13 @@
 # 구현 검증 기록
 
+<a id="sites-v47"></a>
+
+## 2026-11-20 · 로비 입장과 모바일 대화 v47 운영 게시
+
+- 기존 Sites에 v47을 저장하고 08:37 KST에 운영 게시 성공을 확인했다. 앱 소스 `8c057f4d8efb24ca93e7b96e53a69c182e48b6cd`, Sites 소스 `245ae0b2e05dfa2ae7c7fbfd79f4e44077eb413e`, 배포 `appgdep_6aff883045d4819194d80f75aa08f903`. [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [GitHub 검증](https://github.com/biru100/HuddlersFire/actions/runs/44638738381)
+- 공개 로비, Discord 연결 결과 화면, 공개 방 목록이 HTTP 200을 반환했다. 운영 세션은 Discord 연결 가능 상태였고, 로비 HTML에서 연결 버튼과 캐릭터 꾸미기를 확인했다. 운영 빌드 ID `2bac2bdf-a10b-443b-9191-5154a21587c6`와 리비전 `1795131280059`가 일치했다. 스크립트·스타일 25개와 운영 배경 3개의 바이트가 게시 패키지와 일치했다. 게시 전후 DB 바인딩과 테이블 목록 7개도 일치했다.
+- 최종 패키지의 Chromium 테스트에서 1280×900과 390×844 로비, 첫 화면의 Discord 연결 버튼, 연결 상태에서 방 만들기와 코드 입장, 모바일 대화 탭과 초안 유지를 확인했다. 세 맵에는 v46 운영 배경을 사용했다.
+
 <a id="astryx-lobby-review"></a>
 
 ## 2026-11-20 · 로비 입장과 모바일 대화 재검토
