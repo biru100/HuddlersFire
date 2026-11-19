@@ -37,7 +37,8 @@
     "test:browser:art-review": "node tests/browser.art-review.mjs",
     "test:motion-lookdev": "node --test tests/motion-lookdev.test.mjs",
     "test:art-source-registry": "node --test tests/art-source-registry.test.mjs",
-    "test:pixel:cleanroom": "node --test tests/pixel-cleanroom.test.mjs"
+    "test:pixel:cleanroom": "node --test tests/pixel-cleanroom.test.mjs",
+    "art:review:camp": "node --import ./tests/sprite-fixture.mjs tests/render-camp-art-review.mjs"
   },
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^1.33.0",

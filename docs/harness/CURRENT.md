@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · First camp scene review
+
+The active art task is the [scene-first workflow](../art/scene-first-review.md). Inspect the [current candidate, evidence and limits](../../art/sprites/scene-reviews/camp-circle-se/README.md) at actual mobile and desktop scale. The candidate is pending user selection. Character customization and Idle follow selection. Both earlier rejected canvas sizes now have verified file receipts. The older entries below record their respective dates.
+
 **Prepared:** 2026-11-16 KST. **Status:** intent-first harness v2.0 **draft PR [#21](https://github.com/biru100/HuddlersFire/pull/21)** on branch `harness/intent-first-project-v2-20261116`, not merged to main or deployed. Re-check the **current PR head**, GitHub/Work/Sites before treating this as live status.
 
 ## Product North Star

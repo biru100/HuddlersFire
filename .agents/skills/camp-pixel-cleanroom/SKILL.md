@@ -7,6 +7,10 @@ description: "Use for HuddlersFire's NEW true-pixel-art direction, native pixel 
 
 **Parent:** project-wide HuddlersFire intent-first harness, NOT a new root policy. Purpose: more appealing, consistently hand-authored-looking true pixel art for a social camp with movement, carry/throw, customization, rest, co-working, and exhibitions.
 
+## Active workflow · 2026-11-20
+
+Use the [scene-first workflow](../../../docs/art/scene-first-review.md) for the current character-and-camp assignment. Use each job’s three fresh text briefs, verify its own receipt, and review one actual-size scene on both viewports. The dated steps below apply to the separate 2026-11-18 three-lane job.
+
 ## Critical current user decision · 2026-11-18
 
 **ZERO historical PNG/image-record references in NEW concept generation.** Do not open old HuddlersFire source-registry image bytes, source palettes, prior character PNGs, screenshots, lookdev boards, rendered sprite frames, old model image input, old prompt styles or extracted image colors. This rule remains even if historical material was previously approved. Keep old bytes unchanged and independently archived. Model pretraining itself cannot be erased or claimed to be excluded.

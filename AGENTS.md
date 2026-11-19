@@ -1,5 +1,9 @@
 # HuddlersFire project instructions
 
+## 2026-11-20 · Scene-first art review
+
+For new character and camp-quality work start with the [scene-first art workflow](docs/art/scene-first-review.md). Submit a fresh text-only standing camper, a bench and one ground patch together in matched desktop/mobile follow-camera frames. Record the original, editable derivatives and vote separately on aesthetics and runtime. The 2026-11-18 section below documents its earlier three-lane pilot.
+
 ## 2026-11-18 · New clean-room pixel art experiment (latest user instruction, ART DOMAIN ONLY)
 
 The whole game still follows [project intent](docs/project-intent.md). For NEW visual direction, use the scoped [pixel AI pipeline v3](docs/art/pixel-ai-pipeline-v3.md), positive-only [creative prompt](docs/briefs/cleanroom-pixel-generation-20261118.txt), and [camp-pixel-cleanroom](.agents/skills/camp-pixel-cleanroom/SKILL.md). **Do not feed, open or condition on any older PNG, past image, screenshot, lookdev, palette, prior art hash, art model-training record or prior generated candidate** when producing the new clean-room design. Historical archives stay intact for rollback. Old styleReference / Rounded-02 / CORE03 tasks are past *separate scopes* and must not be auto-loaded into this new design.
