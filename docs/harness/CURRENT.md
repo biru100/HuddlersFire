@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-21 · 기존 Sites에 v49 게시
+
+고해상도 걷기·달리기, 머리와 상의 교차 착용, 모닥불 캠프의 이동 경계와 세 맵 환경을 공개했다. 운영 로비, 방 목록, 빌드 ID와 이미지 11개의 해시가 일치했다. [게임 열기](https://huddlers-fire-camp.gywkd77.chatgpt.site) · [배포 기록](../validation.md#sites-v49)
+
 ## 2026-11-21 · 고해상도 걷기 운영 적용 승인
 
 사용자가 교차 착용·고해상도 보행·캠프 경계·환경 수정을 모두 적용하고 게시하도록 승인했다. 실제 게임 렌더러는 네 방향의 걷기와 달리기에서 192×240 머리와 옷을 독립적으로 선택한다. [적용 대상 파일](../reviews/2026-11-21-walk-runtime-release.md)
