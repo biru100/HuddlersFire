@@ -70,7 +70,43 @@ jobs:
         working-directory: .
         run: node tools/setup-sprite-gen.mjs
       - run: npm test
-      - run: npm run test:sprites:pipeline
+      - name: Compare affected art against the previous revision on the same runner
+        id: art-review
+        working-directory: .
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE: ${{ github.event.before }}
+        run: |
+          base="${PR_BASE:-$PUSH_BASE}"
+          if ! git rev-parse --verify --quiet "${base:-missing}^{commit}" > /dev/null; then base=$(git rev-parse HEAD^); fi
+          art_paths=(web/lib/camp-{art*,camera,canvas-renderer,character,clearing*,draw-context,games,landscape,lighting*,maps,materials,pixel*,prop*,renderer,scene*,seats,shadows,sprite*,style*,webgl*}.mjs
+            web/lib/camp-camper-art.mjs web/public/sprites web/public/games 'web/tests/current-art*'
+            web/tests/render-landscapes.mjs web/tests/browser.grounding.mjs 'web/tests/lighting-preview*'
+            tools/lib/review-png.mjs tools/build-camper-style.py 'tools/camp_*.py' art/sprites/camper-style-release)
+          if git diff --quiet "$base" HEAD -- "${art_paths[@]}"; then exit 0; fi
+          echo "capturing=true" >> "$GITHUB_OUTPUT"
+          original="$RUNNER_TEMP/art-before"
+          mkdir -p "$original"
+          git archive "$base" web tools art/sprites/camper-style-release | tar -x -C "$original"
+          # Share the capture procedure. Each side loads its own release code, originals and public assets.
+          cp web/tests/{current-art-{review,evidence,scenes},render-landscapes,sprite-fixture}.mjs "$original/web/tests/"
+          cp tools/lib/review-png.mjs "$original/tools/lib/"
+          if cmp -s web/package-lock.json "$original/web/package-lock.json"; then
+            ln -s "$GITHUB_WORKSPACE/web/node_modules" "$original/web/node_modules"
+          else
+            npm ci --prefix "$original/web"
+          fi
+          node "$original/web/tests/current-art-review.mjs" before ci
+          mkdir -p web/outputs/current-art/ci
+          cp -R "$original/web/outputs/current-art/ci/before" web/outputs/current-art/ci/
+          node web/tests/current-art-review.mjs after ci
+          node web/tests/current-art-review.mjs compare ci
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.art-review.outputs.capturing == 'true'
+        with:
+          name: current-art-comparison-${{ github.run_id }}
+          path: web/outputs/current-art/ci
+          retention-days: 14
       - run: npm run typecheck
       - run: npm run lint
       - name: Build existing GPT Sites package, no publication

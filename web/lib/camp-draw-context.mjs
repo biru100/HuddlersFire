@@ -65,7 +65,7 @@ export function createDrawContext(native,{dpr=()=>1}={}){
     drawImage(image,...args){
       const width=image.naturalWidth||image.width,height=image.naturalHeight||image.height;let source,dest;
       if(args.length===2){source=[0,0,width,height];dest=[...args,width,height];}else if(args.length===4){source=[0,0,width,height];dest=args;}else if(args.length===8){source=args.slice(0,4);dest=args.slice(4);}else throw Error('Unsupported image draw');
-      if(!active){if(lighting?.profile.night&&lightingRole(material,object,image)==='lit'){const [x,y,w,h]=dest,tint=tintAt(x+w/2,y+h/2,material?.ground);native.drawImage(tintedFrame(image,source,tint),...dest);}else native.drawImage(image,...args);return;}
+      if(!active){if(lighting?.profile.night&&lightingRole(material,object,image)==='lit'){const [x,y,w,h]=dest,tint=tintAt(material?.sampleX??x+w/2,material?.sampleY??y+h/2,material?.ground);native.drawImage(tintedFrame(image,source,tint),...dest);}else native.drawImage(image,...args);return;}
       commands.push({type:'image',image,source,dest,matrix:matrix(),alpha:styles.globalAlpha,clips:screenClips(clips),material:material?{...material}:null,object});
     },
     fillText(text,x,y,maxWidth){if(active)commands.push({...paint('text'),text:String(text),x,y,maxWidth,font:styles.font,align:styles.textAlign,baseline:styles.textBaseline});else if(material?.lighting==='lit')paintNative('fillText',text,x,y,...(maxWidth===undefined?[]:[maxWidth]));else if(maxWidth===undefined)native.fillText(text,x,y);else native.fillText(text,x,y,maxWidth);},

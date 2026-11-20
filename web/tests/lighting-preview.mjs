@@ -1,9 +1,14 @@
 import {CampRenderer} from '../lib/camp-renderer.mjs';
 import {createSpriteContext} from '../lib/camp-sprite-assets.mjs';
+import {withCampArt} from '../lib/camp-art-release.mjs';
 import {spawnPlayer,COLORS} from '../lib/camp-world.mjs';
 import {CAMP_SEATS} from '../lib/camp-seats.mjs';
 import {emptyFire} from '../lib/camp-fire.mjs';
-const data=await fetch('/__material-preview/manifest').then(r=>r.json()),assets=createSpriteContext(data,{cacheLimit:48}),params=new URLSearchParams(location.search);
+const params=new URLSearchParams(location.search);
+const data=params.get('art')==='release'
+  ? withCampArt((await import('../lib/camp-sprite-manifest.mjs?current-release')).SPRITE_MANIFEST)
+  : await fetch('/__material-preview/manifest').then(r=>r.json());
+const assets=createSpriteContext(data,{cacheLimit:48});
 const scene={theme:params.get('theme')||'color',mapId:params.get('map')||'camp',now:5000,self:'0',zoom:params.get('view')==='close'?1.8:1.1,fire:emptyFire(),players:[]};
 function populate(kind='seats'){
   scene.players=Array.from({length:16},(_,i)=>{const seat=CAMP_SEATS[i],p={...spawnPlayer(i),id:String(i),name:'허들러 '+(i+1),color:COLORS[i%6],mapId:scene.mapId,avatar:i===0?'https://cdn.discordapp.com/avatars/1/abc.png?size=64':null};

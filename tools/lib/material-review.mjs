@@ -2,6 +2,7 @@ import {readFileSync,existsSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {ROOT,hash,readJSON,inside,runtimeHash} from './sprite-spec.mjs';
 import {materialSpecFile,baseArtworkHash} from './material-assets.mjs';
+import {reviewPng} from './review-png.mjs';
 export function materialCases(scope='full',manifest=null){
   const prototype=[{id:'camp-color',kind:'webgl'},{id:'camp-close',kind:'webgl'},{id:'normal-left',kind:'webgl'},{id:'normal-right',kind:'webgl'},{id:'normals-off',kind:'webgl',normals:false}];
   if(scope==='prototype')return prototype.map(c=>({...c,width:1050,height:824}));if(scope!=='full')throw Error('Unknown material review scope');
@@ -26,7 +27,7 @@ export function verifyMaterialReview(dir,reviewFile,{scope='full'}={}){
   for(const required of requiredCases){
     const proof=evidence.cases.find(c=>c.id===required.id),observation=review.cases.find(c=>c.id===required.id);
     if(!proof||proof.kind!==required.kind||proof.width!==required.width||proof.height!==required.height||!observation||observation.result!=='pass'||!observation.observation?.trim())throw Error('Missing or differently sized material case '+required.id);
-    const bytes=readFileSync(inside(root,proof.file));if(bytes.length<24||bytes.subarray(0,8).toString('hex')!=='89504e470d0a1a0a'||hash(bytes)!==proof.sha256||bytes.readUInt32BE(16)!==proof.width||bytes.readUInt32BE(20)!==proof.height)throw Error('Changed material screenshot '+required.id);
+    if(reviewPng(inside(root,proof.file),proof.width,proof.height)!==proof.sha256)throw Error('Changed material screenshot '+required.id);
     if(['webgl','ui'].includes(required.kind)&&(proof.backend!=='webgl'||(required.normals===false?proof.normalDraws!==0:!proof.normalDraws)))throw Error('WebGL material proof required '+required.id);
     if(required.kind==='canvas'&&proof.backend!=='canvas')throw Error('Canvas fallback proof required '+required.id);
     if(['normal-left','normal-right','lantern-only'].includes(required.id)&&(!proof.lightingCoherent||!Number.isInteger(proof.shadowDigest)||!proof.lights?.length))throw Error('Coherent world-light/shadow proof required '+required.id);

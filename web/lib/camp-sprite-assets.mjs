@@ -2,6 +2,7 @@ import { withCampArt } from './camp-art-release.mjs';
 import { SPRITE_MANIFEST as originalManifest } from './camp-sprite-manifest.mjs';
 import {spriteImageMetadata,spriteMaterial} from './camp-materials.mjs';
 import {snapPixelOrigin} from './camp-pixel.mjs';
+import {drawFrameRegions} from './camp-prop-geometry.mjs';
 let canvasFactory=null;
 export const spriteManifest = withCampArt(originalManifest);
 export function setSpriteCanvasFactory(value){canvasFactory=value;}
@@ -31,20 +32,22 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
       if(data.files['field-camper-v2'+suffix]) ids.push('field-camper-v2'+suffix);
       if(map==='camp' && data.files['camp-clearing-art'+suffix]) ids.push('camp-clearing-art'+suffix, 'normal-camp-clearing-art');
       if(data.files['landscape-'+map]) ids.push('landscape-'+map);
+      const horizon='horizon-'+map;
+      if(data.files[horizon]) ids.push(data.files[horizon+suffix]?horizon+suffix:horizon);
       if(data.files['camp-scenery'+suffix]) ids.push('camp-scenery'+suffix);
       ids.push(...(data.previewFiles||[]));
       return [...new Set([...ids,...ids.map(id=>data.materials?.sheets[id]).filter(Boolean)])];
     },
     characterSheet(slot,theme='color'){return data.character[theme==='dark'?'darkVariants':'variants'][Math.max(0,Math.min(5,slot|0))];},
     spriteFrame(id,direction){const base=data.sprites[id];if(direction){if(base?.direction===direction&&!base.directions)return base;const variant=base?.directions?.[direction];if(!variant)throw Error('Missing sprite direction: '+id+'/'+direction);return data.sprites[variant];}return base;},
-    drawSprite(ctx,id,{x=0,y=0,width=64,height=null,anchorX=null,anchorY=null,theme='color',flip=false,direction=null,layer=null,elapsed=0,reduced=false}={}){
+    drawSprite(ctx,id,{x=0,y=0,width=64,height=null,anchorX=null,anchorY=null,theme='color',flip=false,direction=null,layer=null,regions=null,elapsed=0,reduced=false}={}){
       let frame=api.spriteFrame(id,direction);if(!frame)return false;
       if(frame.animation){const row=frame.animation,total=row.durations.reduce((n,v)=>n+v,0);let time=reduced?0:row.loop?((elapsed%total)+total)%total:Math.min(total-1,Math.max(0,elapsed)),index=0;while(index<row.frames.length-1&&time>=row.durations[index])time-=row.durations[index++];frame=row.frames[index];}
       const sheet=frame.sheet+(theme==='dark'&&!frame.ungraded?'-dark':''),image=api.getSprite(sheet);if(!image)return false;
       if(layer&&frame.depth!==layer)return false;
       const h=height??width*frame.h/frame.w,ground=frame.contacts?.ground;
       const ax=anchorX??(ground?ground.x/frame.w:.5),ay=anchorY??(ground?ground.y/frame.h:1);
-      ctx.save();ctx.setMaterial?.(spriteMaterial(api,sheet,id,direction));ctx.translate(x,y);if(frame.sampling==='nearest'){ctx.imageSmoothingEnabled=false;snapPixelOrigin(ctx);}if(flip)ctx.scale(-1,1);ctx.drawImage(image,frame.x,frame.y,frame.w,frame.h,-width*ax,-h*ay,width,h);ctx.restore();return true;
+      ctx.save();ctx.setMaterial?.(spriteMaterial(api,sheet,id,direction));ctx.translate(x,y);if(frame.sampling==='nearest'){ctx.imageSmoothingEnabled=false;snapPixelOrigin(ctx);}if(flip)ctx.scale(-1,1);drawFrameRegions(ctx,image,frame.x,frame.y,frame.w,frame.h,-width*ax,-h*ay,width,h,regions);ctx.restore();return true;
     },
   };return api;
 }

@@ -54,6 +54,14 @@ test('height-aware shadow projection stays finite near the light and high carry 
   for(const z of [0,1,24]){const s=castVector({x:2,y:1,z,height:1},light);assert.ok([s.x,s.y,s.alpha].every(Number.isFinite));assert.ok(Math.hypot(s.x,s.y)<170);assert.ok(s.alpha>0&&s.alpha<=.48);}
   assert.notEqual(shadowProfile({type:'bench',angle:0}).angle,shadowProfile({type:'bench',angle:Math.PI/2}).angle);assert.equal(shadowProfile({type:'tree',scale:2}).height,shadowProfile({type:'tree'}).height*2);
 });
+test('a raised receiver shortens the cast and contact stays on the sunlit support',()=>{
+  const spring={x:1,y:2,z:.5,height:.7},sun={kind:'sun'};
+  const floor=castVector(spring,sun),deck=castVector(spring,sun,.5);
+  assert.ok(deck.x>0 && deck.y>0 && deck.x<floor.x && deck.y<floor.y);
+  assert.equal(castVector({...spring,height:0},sun,.5),null);
+  const lamp={x:0,y:0,height:2,radius:7,intensity:1};
+  assert.ok(castVector(spring,lamp,.5).y<castVector(spring,lamp).y);
+});
 test('static shadow geometry is cached across player movement and brightness flicker',()=>{
   const ctx=createCanvas(200,200).getContext('2d'),shadows=new GroundShadows(ctx),objects=[{type:'tree',x:2,y:2}],lights=[{x:0,y:0,height:.8,radius:8,intensity:.8,kind:'fire'}];shadows.static(objects,lights,'camp','color');const first=shadows.cache.surface;
   lights[0].intensity=1;shadows.static(objects,lights,'camp','color');assert.equal(shadows.cache.surface,first);objects[0].x++;shadows.static(objects,lights,'camp','color');assert.notEqual(shadows.cache.surface,first);shadows.destroy();assert.equal(shadows.cache,null);

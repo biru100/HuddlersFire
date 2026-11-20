@@ -1,0 +1,90 @@
+{
+  "before": "7db21ba4934c1b2db14e8196de79f0f85a768969113391fe0c727447f6a239fc",
+  "after": "4f470c69d4f4d420d8ea04f79cadd02b65f4029d9f7266238b9f860cc043e0d1",
+  "aesthetics": "pending_user",
+  "maps": {
+    "camp": {
+      "affected": [
+        "bench"
+      ],
+      "unchanged": [
+        "garden",
+        "tree",
+        "tent",
+        "lantern",
+        "portal",
+        "radio",
+        "fire",
+        "horizon",
+        "terrain"
+      ],
+      "evidence": [
+        "camp-mobile",
+        "mobile-webgl-seat-nw",
+        "desktop-canvas-seat-ne",
+        "desktop-webgl-seat-exit"
+      ],
+      "observations": [
+        "기본 모바일 화면에서 빈 좌판과 앉은 캠퍼 아래의 좌판이 함께 보인다. 두 사람이 앉은 장면에서도 앉은 위치 아래로 다리 사이의 빈틈이 남는다.",
+        "16개 좌석의 중심은 그려진 목재 위에 있고 각 벤치의 네 발에는 별도 접점이 있다."
+      ],
+      "unresolved": [
+        "모닥불 바깥쪽의 어두운 벤치에서 앞선과 나뭇결의 대비가 캐릭터에 어울리는지는 사용자 미술 검토 대상이다."
+      ]
+    },
+    "playground": {
+      "affected": [
+        "fence",
+        "shade"
+      ],
+      "unchanged": [
+        "garden",
+        "crate",
+        "sign",
+        "portal",
+        "trampoline",
+        "terrain",
+        "horizon",
+        "football"
+      ],
+      "evidence": [
+        "playground-mobile",
+        "mobile-webgl-shade-between",
+        "desktop-webgl-shade-back",
+        "mobile-canvas-shade-front"
+      ],
+      "observations": [
+        "차양 뒤로 상·하 가로대가 모서리를 지나 양쪽으로 이어지고 그 사이에 풀색 바닥이 보인다. 다섯 구간이 기둥 일곱 개를 공유한다.",
+        "차양 아래에서는 앞 기둥과 천 끝이 캠퍼의 머리 일부를 덮고, 앞쪽 잔디에 선 다른 캠퍼는 전신이 보인다."
+      ],
+      "unresolved": [
+        "차양 앞 기둥과 매듭이 캠퍼의 얼굴을 덮는 폭은 미술 선택으로 남긴다."
+      ]
+    },
+    "showroom": {
+      "affected": [
+        "shade"
+      ],
+      "unchanged": [
+        "garden",
+        "lantern",
+        "tree",
+        "portal",
+        "gameBooth",
+        "terrain",
+        "horizon"
+      ],
+      "evidence": [
+        "showroom-mobile",
+        "mobile-webgl-booth-front",
+        "mobile-canvas-booth-between"
+      ],
+      "observations": [
+        "공유 차양 도면은 전시장에도 적용된다. 대표 모바일 화면 오른쪽 위에 차양 일부가 보이며 앞쪽 부스에서는 실제 PARRUITS! 표지와 캠퍼 얼굴이 구분된다."
+      ],
+      "unresolved": [
+        "모바일 부스 화면에서 차양 전체는 프레임 밖이다. 차양 접촉과 가림을 가까이서 확인한 장면은 놀이터에서 촬영했다."
+      ]
+    }
+  }
+}

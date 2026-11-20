@@ -2,7 +2,7 @@
 
 ## 2026-11-20 · Scene-first art review
 
-For new character and camp-quality work start with the [scene-first art workflow](docs/art/scene-first-review.md). Submit a fresh text-only standing camper, a bench and one ground patch together in matched desktop/mobile follow-camera frames. Record the original, editable derivatives and vote separately on aesthetics and runtime. The 2026-11-18 section below documents its earlier three-lane pilot.
+Choose the task in the [scene-first art workflow](docs/art/scene-first-review.md). For revisions around the current camper, capture the shipped local art before editing and pair it with the same playable scenes afterwards. For a new visual direction, submit a fresh text-only standing camper, bench and ground patch together. Use a historical receipt to reproduce that submission only. Record aesthetic selection and runtime verification separately.
 
 ## 2026-11-18 · New clean-room pixel art experiment (latest user instruction, ART DOMAIN ONLY)
 

@@ -14,13 +14,14 @@ export class CampArtwork {
   ink(dark,color){return this.theme==='dark'?dark:color;}
   get fieldInk(){return this.theme==='dark'?FIELD_INK:COLOR_FIELD_INK;}
   sprite(id,options={}){return this.sprites.drawSprite(this.ctx,id,{theme:this.theme,...options});}
-  prop(item){const display=pixelPropDisplay(this.sprites,item,this.mapId,this.pixelMode)||propDisplay(item,this.sprites);return display&&this.sprite(display.id,display);}
+  prop(item){const display=pixelPropDisplay(this.sprites,item,this.mapId,this.pixelMode)||propDisplay(item,this.sprites);return display&&this.sprite(display.id,{...display,regions:display.profile?.[item.drawPart]});}
   round(x,y,w,h,r,fill,stroke){const c=this.ctx;c.beginPath();c.roundRect(x,y,w,h,r);c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=1.2;c.stroke();}}
   line(points,color=this.fieldInk.line,width=1){const c=this.ctx;c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';c.stroke();}
   caption(text,y=28,size=11){const c=this.ctx;c.textAlign='center';c.font=`600 ${size}px "Malgun Gothic",sans-serif`;c.fillStyle=this.ink('#ededed','#514530');c.strokeStyle=this.ink('#191919cc','#fff9e6cc');c.lineWidth=4;c.strokeText(text,0,y);c.fillText(text,0,y);}
   background(w,h){
-    if (this.landscape) {
-      drawHorizon(this.ctx,this.landscape,w,h);
+    const horizon=this.horizon || (this.landscape?.height>this.landscape?.width && this.landscape);
+    if (horizon) {
+      drawHorizon(this.ctx,horizon,w,h,this.camera);
       return;
     }
     const c=this.ctx,g=c.createLinearGradient(0,0,0,h),night=this.sceneLighting?.night;g.addColorStop(0,night?this.ink('#111111','#0c1422'):this.ink('#171717','#ede5d1'));g.addColorStop(1,night?this.ink('#1b1b1b','#1b2935'):this.ink('#101010','#f9f2e2'));c.fillStyle=g;c.fillRect(0,0,w,h);}
@@ -39,13 +40,13 @@ export class CampArtwork {
     const key = [mapId,edge,suffix,!!atlas,!!normalBase,!!normalSand,!!clearing,!!detailNormals].join('/');
     if (this.groundCache?.key !== key) {
       const surface = createSpriteSurface(this.ctx,2100,1200);
-      if (atlas) paintLandscape(surface,{atlas,mapId,edge,dark});
+      if (atlas) paintLandscape(surface,{atlas,edge});
       else paintGroundSurface(surface,{base,sand,mapId,edge,dark});
       if (clearing) paintCampClearing(surface,clearing);
       let normal = null;
       if (normalBase && (atlas || terrain === 'stone' || normalSand)) {
         normal = createSpriteSurface(this.ctx,1050,600);
-        if (atlas) paintLandscape(normal,{atlas:normalBase,mapId,edge,normal:true});
+        if (atlas) paintLandscape(normal,{atlas:normalBase,edge});
         else paintGroundSurface(normal,{base:normalBase,sand:normalSand,mapId,edge,normal:true});
         if (detailNormals) paintCampClearing(normal,detailNormals);
       }
@@ -87,16 +88,33 @@ export class CampArtwork {
     this.sprite(this.fireAppearance||'amber',{width:75,y:3,elapsed:t*1000,reduced:this.reduced});c.restore();
     if(!this.reduced)for(let i=0;i<3;i++){const life=(t*.23+i/3)%1;c.save();c.globalAlpha=1-life;this.sprite('spark',{x:Math.sin(t+i*2)*16,y:-50-life*35,width:3+life*2});c.restore();}
   }
-  trampoline(item){this.shadow(40,15);this.prop(item);this.caption('트램펄린',32);}
+  trampoline(item){
+    this.shadow(40,15);this.prop(item);
+    if(item.drawPart==='back')return;
+    if(this.springRiders?.length){
+      const d=propDisplay(item,this.sprites);
+      if(d?.profile?.mat)this.groundShadows.onSpring(item,d,this.springRiders,this.lights,{
+        theme:this.theme,time:this.frameTime,now:this.sceneTime,reduced:this.reduced});
+    }
+    this.caption('트램펄린',32);
+  }
   radio(item){this.shadow(26,9);this.prop(item);if(item.available)this.line([[-30,9],[30,9]],this.ink('#eeeeee','#c77e37'),2);this.caption('라디오',27);}
   portal(item){
     this.shadow(35,10);this.prop(item);
     this.caption(portalMark(item.destination)+' '+item.label,-113,11);if(item.available)this.caption('E · 이동',24);
   }
   gameBooth(item){
-    const c=this.ctx,game=gameById(item.gameId),image=this.exhibitImage(exhibitCover(game)),frame=this.sprites.spriteFrame('gameBooth'),width=180;this.shadow(62,16);this.prop(item);
-    if(image&&frame){const slot=frame.poster||{x:.15,y:.15,w:.7,h:.42},h=width*frame.h/frame.w,ground=frame.contacts?.ground||{x:frame.w*.5,y:frame.h},x=-width*ground.x/frame.w+width*slot.x,y=9-h*ground.y/frame.h+h*slot.y,w=width*slot.w,sh=h*slot.h,iw=image.naturalWidth||image.width,ih=image.naturalHeight||image.height,sw=Math.min(iw,ih*w/sh),sourceH=sw*sh/w;c.save();c.beginPath();c.roundRect(x,y,w,sh,3);c.clip();c.drawImage(image,(iw-sw)/2,(ih-sourceH)/2,sw,sourceH,x,y,w,sh);c.restore();}
-    this.caption(game?.title||item.label,-150,12);if(item.available)this.caption('E · 게임 소개 보기',26);
+    const c=this.ctx,game=gameById(item.gameId),display=propDisplay({...item,type:'gameBooth'},this.sprites);
+    this.shadow(62,16);this.prop(item);
+    const image=item.drawPart!=='front'&&this.exhibitImage(exhibitCover(game));
+    if(image&&display){
+      const {frame,width}=display,slot=frame.poster||{x:.15,y:.15,w:.7,h:.42},h=width*frame.h/frame.w;
+      const x=width*(slot.x-(display.anchorX??(frame.contacts?.ground?frame.contacts.ground.x/frame.w:.5)));
+      const y=display.y+h*(slot.y-(display.anchorY??(frame.contacts?.ground?frame.contacts.ground.y/frame.h:1)));
+      const w=width*slot.w,sh=h*slot.h,iw=image.naturalWidth||image.width,ih=image.naturalHeight||image.height,sw=Math.min(iw,ih*w/sh),sourceH=sw*sh/w;
+      c.save();c.setMaterial?.({lighting:'protected'});c.beginPath();c.roundRect(x,y,w,sh,3);c.clip();c.drawImage(image,(iw-sw)/2,(ih-sourceH)/2,sw,sourceH,x,y,w,sh);c.restore();
+    }
+    if(item.drawPart!=='back'){this.caption(game?.title||item.label,-150,12);if(item.available)this.caption('E · 게임 소개 보기',26);}
   }
   projectile(shot){
     const c=this.ctx;if(shot.weapon==='bomb'){const r=WEAPONS.find(w=>w.id==='bomb').blast*40;c.save();c.setLineDash([4,5]);c.strokeStyle=this.ink('#ffffff80','#b75b2d99');c.lineWidth=1.5;c.beginPath();c.ellipse(0,0,r,r*.5,0,0,Math.PI*2);c.stroke();c.restore();}

@@ -1,3 +1,5 @@
+import {DAY_SUN,viewLightDirection} from './camp-lighting.mjs';
+const sunlight=viewLightDirection(DAY_SUN.x,DAY_SUN.y,DAY_SUN.height).map(n=>n.toFixed(4)).join(',');
 export const LIGHT_VERTEX=`
 precision highp float;
 in vec2 aPosition;
@@ -81,7 +83,7 @@ void main(){
   vec4 surface=texture(uNormalTexture,vUV);vec3 normal=surface.rgb*2.0-1.0;normal.xy*=uMirror;normal=normalize(normal);
   if(surface.a<0.001){finalColor=base*uAlpha*coverage;return;}
   float strength=uStrength*surface.a;
-  float key=dot(normal,normalize(vec3(-0.4,0.55,0.8)));
+  float key=dot(normal,normalize(vec3(${sunlight})));
   vec3 illumination=vec3(1.0+(key-0.75)*0.2*strength);
   illumination+=strength*0.85*(lightTerm(uLight0,uLightColor0,normal)*uVisibility.x+lightTerm(uLight1,uLightColor1,normal)*uVisibility.y+lightTerm(uLight2,uLightColor2,normal)*uVisibility.z);
   finalColor=vec4(base.rgb*illumination,base.a)*uAlpha*coverage;

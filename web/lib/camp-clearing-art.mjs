@@ -1,12 +1,11 @@
 import {CAMP_BENCHES} from './camp-maps.mjs';
-import {benchBinding, seatOffset} from './camp-scene-contract.mjs';
+import {benchBinding, clearingGeometry} from './camp-scene-contract.mjs';
+import {drawFrameRegions} from './camp-prop-geometry.mjs';
 export {CAMP_CLEARING_FILES} from './camp-clearing-files.mjs';
 
 const COLOR_ID = 'camp-clearing-art';
 const NORMAL_ID = 'normal-camp-clearing-art';
-const BENCH_WIDTH = 110;
-const BENCH_HEIGHT = 68;
-const SEAT = {nw:{x:55,y:24}, ne:{x:55,y:22}};
+export const legacyBenchSize = [110,68];
 
 export function clearingSheet(assets, theme) {
   const id = COLOR_ID + (theme === 'dark' ? '-dark' : '');
@@ -19,20 +18,21 @@ export function clearingBench(assets, item, theme, map, pixelMode) {
   if (map !== 'camp' || item.type !== 'bench' || pixelMode === 'candidates') return null;
   const sheet = clearingSheet(assets, theme);
   if (!sheet) return null;
-  const frame = benchBinding(assets,item), seat = SEAT[frame?.direction];
-  if (!seat) return null;
-  const contact = seatOffset(frame);
+  const frame = benchBinding(assets,item), profile=clearingGeometry(assets,frame,theme,pixelMode);
+  if (!profile) return null;
+  const [width,height]=profile.frameSize??legacyBenchSize;
   return {
-    sheet, dark:theme === 'dark', direction:frame.direction,
-    sx:frame.direction === 'ne' ? BENCH_WIDTH : 0, sy:item.variant === 'weathered' ? BENCH_HEIGHT : 0,
-    x:contact.x-seat.x, y:contact.y-seat.y,
+    sheet, width,height,dark:theme === 'dark', direction:frame.direction,
+    sx:frame.direction === 'ne' ? width : 0, sy:item.variant === 'weathered' ? height : 0,
+    x:-profile.origin[0], y:-profile.origin[1], profile, regions:profile[item.drawPart],
   };
 }
 export function drawClearingBench(c, bench, normal) {
+  const {width,height}=bench;
   c.save();
   c.imageSmoothingEnabled = false;
-  c.setMaterial?.({lighting:'lit', normalImage:normal, strength:.34, ambientLift:bench.dark ? [.035,.035,.035] : [.04,.035,.028]});
-  c.drawImage(bench.sheet,bench.sx,bench.sy,BENCH_WIDTH,BENCH_HEIGHT,bench.x,bench.y,BENCH_WIDTH,BENCH_HEIGHT);
+  c.setMaterial?.({lighting:'lit', normalImage:normal, strength:.34, sampleX:bench.x+width/2, sampleY:bench.y+height/2, ambientLift:bench.dark ? [.035,.035,.035] : [.04,.035,.028]});
+  drawFrameRegions(c,bench.sheet,bench.sx,bench.sy,width,height,bench.x,bench.y,width,height,bench.regions);
   c.restore();
 }
 

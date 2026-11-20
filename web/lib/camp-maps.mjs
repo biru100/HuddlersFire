@@ -38,7 +38,7 @@ export const SCENERY = [
   {type:'lantern',x:4.8,y:2.1,r:.2},
 ];
 const playScenery = [
-  ...[[-9,-5],[-9,-7],[-9,-9],[-7,-9],[-5,-9]].map(([x,y])=>({type:'fence',x,y,r:.18})),
+  ...[[-9,-5],[-9,-7],[-9,-9],[-7,-9],[-5,-9]].map(([x,y])=>({type:'fence',variant:x===-9&&y===-9?'corner':'run',x,y,r:.18})),
   {type:'shade',x:-6.3,y:-5.2,r:.65},
   {type:'crate',x:7,y:-5,r:.4},
   {type:'sign',x:6,y:5,r:.3},

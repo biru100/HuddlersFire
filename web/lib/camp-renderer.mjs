@@ -1,8 +1,9 @@
 import {landscapeFor} from './camp-landscape.mjs';
+import {legacyBenchSize} from './camp-clearing-art.mjs';
 import { CampArtwork } from './camp-artwork.mjs';
 import { sceneDecorations } from './camp-scene-layout.mjs';
 import { defaultSpriteAssets } from './camp-sprite-assets.mjs';
-import { playerDisplay,propDisplay } from './camp-scene-contract.mjs';
+import { playerDisplay,propDisplay,benchBinding,clearingGeometry } from './camp-scene-contract.mjs';
 import { emptyFire, fireStrength, flareAt } from './camp-fire.mjs';
 import { isSeated, CAMP_SEATS } from './camp-seats.mjs';
 import { visiblePlayers, fireConversation } from './camp-focus.mjs';
@@ -13,7 +14,7 @@ import { pickPlayer } from './camp-player-info.mjs';
 import { CAMP_MAP, PLAY_MAP, getMap, nearbyInteraction } from './camp-maps.mjs';
 import {GroundShadows,lightVisibility} from './camp-shadows.mjs';
 import {sceneLights,sceneLighting} from './camp-lighting.mjs';
-import {projectWorld,sortSceneObjects} from './camp-scene-frame.mjs';
+import {projectWorld,facilityDrawOrder} from './camp-scene-frame.mjs';
 import {createDrawContext} from './camp-draw-context.mjs';
 import {GroundLightSprites} from './camp-canvas-renderer.mjs';
 import {sceneCamera} from './camp-camera.mjs';
@@ -51,6 +52,15 @@ export class CampRenderer extends CampArtwork {
     if(player.moving&&Math.hypot(player.vx||0,player.vy||0)>.02){const sx=player.vx-player.vy,sy=player.vx+player.vy;direction=(sy<-.01?'back':'front')+'-'+(sx<0?'left':'right');this.motionDirections.set(player.id,direction);}
     if(this.motionDirections.size>64){const active=new Set(this.getScene().players?.map(p=>p.id));for(const id of this.motionDirections.keys())if(!active.has(id))this.motionDirections.delete(id);}
     return {...player,visualDirection:direction};
+  }
+  facilityLayout(item){
+    if(item.type==='bench'){
+      const profile=clearingGeometry(this.assets,benchBinding(this.assets,item),this.theme,this.pixelMode);
+      return profile&&{profile,width:(profile.frameSize??legacyBenchSize)[0],scale:1};
+    }
+    if(!['shade','trampoline','gameBooth'].includes(item.type))return null;
+    const d=pixelPropDisplay(this.assets,item,this.mapId,this.pixelMode)||propDisplay(item,this.assets);
+    return d?.profile&&{profile:d.profile,width:d.width,scale:d.width/d.frame.w};
   }
   resize() {
     const rect = this.canvas.getBoundingClientRect(); this.width = rect.width; this.height = rect.height;
@@ -100,15 +110,26 @@ export class CampRenderer extends CampArtwork {
     }
     return !entry.failed&&entry.image.complete&&(entry.image.naturalWidth||entry.image.width)>0?entry.image:null;
   }
-  player(p, self, time) {
-    if (p.motion === 'respawning') return;
-    const c = this.ctx;
-    const emote = p.emoteUntil > this.sceneTime ? EMOTES.find(e => e.id === p.emote) : null;
+  playerIndicator(p,self){
+    if(p.motion==='respawning'||!(p.targeted||p.selected||self))return;
+    const c=this.ctx;
+    c.save();c.translate(...projectWorld(p.x,p.y));
     c.setMaterial?.({lighting:'protected'});
     if (p.targeted) { c.strokeStyle = this.ink('#cfcfcf','#b55429'); c.lineWidth = 2; c.beginPath(); c.ellipse(0, 3, 20, 11, 0, 0, Math.PI * 2); c.stroke(); }
     if (self) { c.strokeStyle = this.ink('#cfcfcf55','#b5542980'); c.lineWidth = 1; c.beginPath(); c.ellipse(0, 3, 19, 10, 0, 0, Math.PI * 2); c.stroke(); }
     if (p.selected) { c.strokeStyle = this.ink('#c8c8c8','#386f98'); c.lineWidth = 1.5; c.beginPath(); c.ellipse(0, 3, 23, 12, 0, 0, Math.PI * 2); c.stroke(); }
-    c.setMaterial?.(null);const display=playerDisplay(p,this.assets);c.translate(display.x,display.y);p=display.player;
+    c.restore();
+  }
+  player(p, self, time) {
+    if (p.motion === 'respawning') return;
+    const c = this.ctx;
+    const emote = p.emoteUntil > this.sceneTime ? EMOTES.find(e => e.id === p.emote) : null;
+    const display=playerDisplay(p,this.assets,this.theme,this.pixelMode);
+    if(display.player.renderSeat){
+      c.setMaterial?.({lighting:'protected'});
+      this.groundShadows.blob(c,display.x,display.y+1,14,4,display.seatDirection==='ne'?-.43:.43,.72);
+    }
+    c.setMaterial?.(null);c.translate(display.x,display.y);p=display.player;
     if (p.motion === 'falling') c.globalAlpha *= Math.max(.1, 1 + p.z / 15);
     this.characterPainter(c, p, { time, now: this.sceneTime, reduced: this.reduced, emote: emote?.id, theme: this.theme,assets:this.assets });
     c.font = '500 11px "Malgun Gothic", sans-serif'; c.textAlign = 'center';
@@ -220,6 +241,7 @@ export class CampRenderer extends CampArtwork {
     if (this.stopped) return;
     const interval=this.lastFrameMs===undefined?0:ms-this.lastFrameMs;this.lastFrameMs=ms;
     const c = this.ctx, w = this.width, h = this.height, t = ms / 1000;
+    this.frameTime=t;
     c.setTransform(this.dpr, 0, 0, this.dpr, 0, 0); c.clearRect(0, 0, w, h);
     const scene=this.getScene(),all=scene.players||[],self=all.find(p=>p.id===scene.self);
     this.ensureSprites(scene);
@@ -232,37 +254,53 @@ export class CampRenderer extends CampArtwork {
     this.sceneLighting=sceneLighting(mapId,this.theme);c.setLighting?.(null);c.setObject?.(null);c.setMaterial?.(null);
     const lightingMode=this.sceneLighting.night?'night':'day';if(this.canvas.dataset&&this.canvas.dataset.campLighting!==lightingMode)this.canvas.dataset.campLighting=lightingMode;
     const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),hairStyle:scene.hairStyle,topStyle:scene.topStyle,sitting:true}]).map(p=>this.displayPlayer(p));
+    this.springRiders=[];
+    for(const spring of map.trampolines){
+      const layout=this.facilityLayout(spring);
+      if(!layout)continue;
+      for(const p of players){
+        const distance=Math.hypot(p.x-spring.x,p.y-spring.y);
+        const weight=Math.min(1,Math.max(0,(spring.r+.12-distance)/.24));
+        if(weight&&p.z>=0){
+          p.springId=spring.id;p.springLift=layout.profile.rise*layout.scale/40*weight;p.z+=p.springLift;
+          this.springRiders.push(p);
+          const front=Math.max(...layout.profile.feet.map(([,y])=>y));
+          p.drawDepth=Math.max(p.x+p.y,spring.x+spring.y+.05+(front-layout.profile.origin[1])*layout.scale/20);
+        }
+      }
+    }
     const recording=this.webgl?.status==='ready'&&this.ctx.recording;if(recording)this.ctx.recording.begin();
     this.landscape = landscapeFor(c,this.assets,mapId,this.theme,this.pixelMode);
+    this.horizon = landscapeFor(c,this.assets,mapId,this.theme,this.pixelMode,'horizon');
+    this.camera=sceneCamera({width:w,height:h,players,self,follow:!!scene.followSelf,mode:scene.cameraMode,freeView:scene.freeView,zoom:scene.zoom||1,edge:map.bounds.edge,occlusions:scene.occlusions});
     this.background(w,h);
     this.focusMix=this.reduced?Number(focused):(this.focusMix||0)+(Number(focused)-(this.focusMix||0))*.12;
-    this.camera=sceneCamera({width:w,height:h,players,self,follow:!!scene.followSelf,mode:scene.cameraMode,freeView:scene.freeView,zoom:scene.zoom||1,edge:map.bounds.edge,occlusions:scene.occlusions});
     const {scale,x:originX,y:originY}=this.camera;
     this.sceneTime=scene.now??performance.now();this.fireLevel=fireStrength(scene.fire||emptyFire(),this.sceneTime);this.fireFlare=flareAt(scene.fire||emptyFire(),this.sceneTime);this.fireAppearance=scene.fire?.style||'amber';
     const lights=sceneLights({...scene,now:this.sceneTime,selfPosition:self,viewport:{width:w,height:h}},map,this.camera,this.reduced,this.lightSources);
     this.lights=this.webgl?.quality.level===0?lights.slice(0,1):lights;
     const visibility=new WeakMap();c.setLighting?.({profile:this.sceneLighting,camera:this.camera,lights:this.lights,visibility:object=>{if(!object)return [];let row=visibility.get(object);if(!row){row=this.lights.map(light=>lightVisibility(object,light,this.shadowCasters||[]));visibility.set(object,row);}return row;}});
-    this.seatAreas=map.fire?CAMP_SEATS.map(s=>{const [x,y]=this.project(s.x,s.y);return{id:s.id,x:originX+x*scale,y:originY+(y-8)*scale,radius:18*scale};}):[];
+    this.seatAreas=map.fire?CAMP_SEATS.map(s=>{const [x,y]=this.project(s.x,s.y),seat=playerDisplay({seatId:s.id},this.assets,this.theme,this.pixelMode);return{id:s.id,x:originX+(x+seat.x)*scale,y:originY+(y+seat.y)*scale,radius:18*scale};}):[];
     c.save(); c.translate(originX, originY); c.scale(scale, scale);
     this.ground(map.bounds.edge,mapId);
     this.hitAreas = [];this.nameplates=[];
     this.sceneTime = scene.now ?? performance.now();
     const near=nearbyInteraction(self);
-    const objects = sortSceneObjects([...sceneDecorations(mapId),...map.scenery.map(o => ({ ...o })), ...map.portals.map(o=>({...o,available:near?.id===o.id})),...map.booths.map(o=>({...o,available:near?.id===o.id})),...map.trampolines, ...(playing && scene.ball ? [{ ...scene.ball, type: 'football' }] : []),
+    const objects = [...sceneDecorations(mapId),...map.scenery.map(o => ({ ...o })), ...map.portals.map(o=>({...o,available:near?.id===o.id})),...map.booths.map(o=>({...o,available:near?.id===o.id})),...map.trampolines, ...(playing && scene.ball ? [{ ...scene.ball, type: 'football' }] : []),
       ...(map.radio ? [{ ...map.radio, available: canUseRadio(players.find(p => p.id === scene.self)) }] : []), ...(map.fire ? [{ type: 'fire', x: 0, y: 0 }] : []),
       ...players.map(p => ({ ...p, type: 'player', targeted: p.id === scene.targetId, selected: p.id === scene.selectedId })),
       ...(playing ? scene.weapons?.projectiles || [] : []).filter(p => p.expiresAt > this.sceneTime).map(p => {
         const age = this.reduced ? 0 : Math.max(0, Math.min(.1, (this.sceneTime - (scene.weapons.at ?? this.sceneTime)) / 1000));
         return { ...p, x: p.x + p.vx * age, y: p.y + p.vy * age, z: Math.max(0, p.z + p.vz * age - (p.weapon === 'gun' ? 0 : 4 * age * age)), type: 'projectile' };
-      }), ...(playing ? scene.weapons?.effects || [] : []).map(e => ({ ...e, type: 'weaponEffect' }))]
-      ,this.assets);
+      }), ...(playing ? scene.weapons?.effects || [] : []).map(e => ({ ...e, type: 'weaponEffect' }))];
     this.groundShadows.pixelMode=this.pixelMode;this.groundShadows.mapId=mapId;
     this.shadowCasters=objects;this.groundShadows.draw(objects,this.lights,{map:mapId,edge:map.bounds.edge,theme:this.theme,time:t,now:this.sceneTime,reduced:this.reduced});
-    for (const item of objects) {
+    for(const item of objects)if(item.type==='player')this.playerIndicator(item,item.id===scene.self);
+    for (const item of facilityDrawOrder(objects,this.assets,item=>this.facilityLayout(item))) {
       const [px, py] = this.project(item.x, item.y);
       const screenX=originX+px*scale,screenY=originY+(py-(item.z||0)*40)*scale;
       if(screenX< -220*scale||screenX>w+220*scale||screenY< -80*scale||screenY>h+240*scale)continue;
-      c.save(); c.translate(px, py);c.setObject?.(item);
+      c.save(); c.translate(px, py);c.setObject?.(item.caster??item);
       if(['tree','tent'].includes(item.type)){
         const d=pixelPropDisplay(this.assets,item,mapId,this.pixelMode)||propDisplay(item,this.assets),height=d?d.width*d.frame.h/d.frame.w:125,anchor=d?.frame.contacts?.ground?.x/d?.frame.w||.5;
         if(players.some(p=>{const [x,y]=this.project(p.x,p.y),head=y-(p.z||0)*40-45;return x>px-(d?.width||130)*anchor&&x<px+(d?.width||130)*(1-anchor)&&y<py+8&&head>py-height;}))c.globalAlpha=.4;

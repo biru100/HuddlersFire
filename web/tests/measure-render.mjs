@@ -20,10 +20,14 @@ for (const mapId of ['camp','playground','showroom']) for(const theme of ['color
   await renderer.ready;
   const readyMs=performance.now()-started;
   for(let i=0;i<30;i++)renderer.draw(5000+i*16);
+  const shadows=renderer.groundShadows;
+  let shadowLayersBuilt=0;
+  const allocateLayer=shadows.layer.bind(shadows);
+  shadows.layer=()=>{shadowLayersBuilt++;return allocateLayer();};
   const samples=[];
   for(let i=0;i<180;i++){const start=performance.now();scene.now=6000+i*16;renderer.draw(scene.now);samples.push(performance.now()-start);}
   samples.sort((a,b)=>a-b);
-  rows.push({mapId,theme,readyMs,medianMs:samples[90],p95Ms:samples[171],maxMs:samples.at(-1)});
+  rows.push({mapId,theme,readyMs,medianMs:samples[90],p95Ms:samples[171],maxMs:samples.at(-1),shadowLayersBuilt});
   renderer.destroy();
 }
 mkdirSync('outputs',{recursive:true});

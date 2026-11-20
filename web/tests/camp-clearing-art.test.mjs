@@ -2,10 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createCanvas} from '@napi-rs/canvas';
 import {defaultSpriteAssets as assets} from '../lib/camp-sprite-assets.mjs';
-import {benchBinding,seatOffset} from '../lib/camp-scene-contract.mjs';
+import {playerDisplay} from '../lib/camp-scene-contract.mjs';
 import {CAMP_BENCHES,CAMP_SEATS} from '../lib/camp-seats.mjs';
 import {GroundShadows} from '../lib/camp-shadows.mjs';
 import {clearingBench, clearingSheet, drawClearingBench, paintCampClearing} from '../lib/camp-clearing-art.mjs';
+
+function assertSeatOnTimber(c,seat,item,context){
+  const anchor=playerDisplay({seatId:seat.id},context);
+  const dx=seat.x-item.x,dy=seat.y-item.y;
+  const [r,g,b,a]=c.getImageData(Math.round(90+anchor.x+(dx-dy)*40),Math.round(90+anchor.y+(dx+dy)*20),1,1).data;
+  assert.ok(a>=250 && r>g && g>b,'seat centre must rest on timber for '+seat.id);
+}
 
 test('all sixteen camp seat contacts land on the illustrated planks and cast their own silhouettes',async()=>{
   await assets.preloadSprites(assets.sceneSpriteIds('color','camp'));
@@ -14,20 +21,31 @@ test('all sixteen camp seat contacts land on the illustrated planks and cast the
     const bench=clearingBench(assets,item,'color','camp','off');
     assert.equal(bench.direction,assets.manifest.bindings[item.id]);
     c.clearRect(0,0,180,150); c.save(); c.translate(90,90); drawClearingBench(c,bench,null); c.restore();
-    const anchor=seatOffset(benchBinding(assets,item));
     for (const seat of CAMP_SEATS.filter(seat=>seat.bench===item.id)) {
-      const dx=seat.x-item.x,dy=seat.y-item.y;
-      const [r,g,b,a]=c.getImageData(Math.round(90+anchor.x+(dx-dy)*40),Math.round(90+anchor.y+(dx+dy)*20),1,1).data;
-      assert.ok(a>=250 && r>g && g>b,'both seat centres must rest on timber for '+item.id);
+      assertSeatOnTimber(c,seat,item,assets);
     }
     const mask=shadows.propMask(item);
     assert.match(mask.key,/clearing-bench/);
     assert.equal(mask.slope,bench.direction==='ne'?-.5:.5);
-    assert.ok(mask.contacts.length>0);
+    assert.equal(mask.contacts.length,4);
+    for(const foot of mask.contacts){
+      assert.equal(c.getImageData(90+foot.x,90+foot.y,1,1).data[3],255,'shadow touches a painted foot on '+item.id);
+    }
   }
   shadows.destroy();
   assert.equal(clearingBench(assets,CAMP_BENCHES[0],'color','showroom','off'), null);
   assert.equal(clearingBench(assets,CAMP_BENCHES[0],'color','camp','candidates'), null);
+});
+test('a displaced seat is rejected even with the same native pixel scale',async()=>{
+  await assets.preloadSprites(assets.sceneSpriteIds('color','camp'));
+  const seat=CAMP_SEATS[0],item=CAMP_BENCHES.find(b=>b.id===seat.bench);
+  const bench=clearingBench(assets,item,'color','camp','off');
+  const c=createCanvas(180,150).getContext('2d');
+  c.save();c.translate(90,90);drawClearingBench(c,bench,null);c.restore();
+  assertSeatOnTimber(c,seat,item,assets);
+  const manifest=structuredClone(assets.manifest);
+  manifest.files['camp-clearing-art'].benchGeometry[bench.direction].seat[1]-=36;
+  assert.throws(()=>assertSeatOnTimber(c,seat,item,{...assets,manifest}),/seat centre/);
 });
 test('camp clearing stays local and supplies distinct surface textures beneath each bench', async()=>{
   await assets.preloadSprites(['camp-clearing-art','camp-clearing-art-dark']);
