@@ -1,5 +1,16 @@
 # 구현 검증 기록
 
+<a id="sites-v48"></a>
+
+## 2026-11-20 · 캠프·놀이터·전시장 환경 v48 운영 게시
+
+기존 공개 사이트에 v48을 저장하고 13:14:36 KST에 게시했다. GitHub `af6890384eb9121b4b9b2315803a7110ac15932f`의 전체 검증이 통과했다. 해당 커밋의 웹 소스 351개와 Sites 소스 `25fb61412785d632742fe00a4f4ebdd2263718a0`의 내용과 Git 파일 모드를 대조했다. [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [GitHub 검증](https://github.com/biru100/HuddlersFire/actions/runs/44672538406)
+
+- **Sites** — 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_650dac3c9b788191a42388752b01cc76`, 배포 `appgdep_6affc91efd448191aa32b26ec8758f9d`, 결과 `succeeded`. 운영 환경 리비전은 1이다.
+- **공개 화면과 자산** — 로비와 Discord 연결 결과 화면이 HTTP 200을 반환했다. 운영 서버에서 받은 환경 이미지 17개의 SHA-256이 승인 기록과 일치했고, 로비 스크립트와 스타일 25개도 빌드와 일치했다. [승인된 파일 목록](reviews/2026-11-20-terrain-runtime-release.md)
+- **버전과 연결** — 버전 API가 빌드 ID `1d7dcb75-44ec-47c9-993b-dc3d68fdc9a4`, 리비전 `1795147958683`을 반환했다. 익명 세션과 공개 방 목록이 HTTP 200을 반환했고 Discord 연결 가능 상태를 확인했다. 실제 계정 로그인과 원격 사용자 간 플레이는 이번 공개 점검 범위 밖이다.
+- **DB** — 마이그레이션 파일 11개는 기존 Sites 소스와 내용이 같고, 게시 전후 D1 바인딩 `DB`와 테이블 7개의 이름이 일치했다.
+
 <a id="terrain-release-candidate"></a>
 
 ## 2026-11-20 · 세 맵 배포 후보

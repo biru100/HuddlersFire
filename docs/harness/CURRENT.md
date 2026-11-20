@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-20 · 세 맵 환경 v48 운영 게시
+
+13:14 KST에 기존 공개 사이트에 캠프·놀이터·전시장의 지형, 소품, 착석과 그림자 수정을 게시했다. 공개 서버에서 승인된 환경 이미지 17개의 SHA-256과 로비·빌드 버전·공개 방 목록 응답을 확인했다. [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [검증 기록](../validation.md#sites-v48)
+
 ## 2026-11-20 · 세 맵 수정본 운영 사용 승인
 
 사용자가 `8f3289a`의 이미지 17개를 “현재 모습으로 게시”하도록 승인했다. 검토한 이미지의 SHA-256을 배포 후보와 대조했다. [운영 사용 기록](../reviews/2026-11-20-terrain-runtime-release.md) · [검증과 비교 화면](../validation.md#terrain-release-candidate)
