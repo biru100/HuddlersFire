@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "kind": "chat-asset-batch",
+  "repository": "biru100/HuddlersFire",
+  "batchId": "nw-idle-breathing-lookdev-20261109",
+  "sourceReference": "Actual ChatGPT image generation gen_id ad147c4d-fe30-4560-9e79-09b40ea7003e (2026-11-09); original generated PNG SHA256 62203b399d87cb8b09cadc6cac74f69c11520082a3f759dd6e65af714d5c547f",
+  "observedModel": "unverified",
+  "target": "HuddlersFire NW idle 4-panel breathing LOOKDEV study, not production sprites. Work may make review preview only; no direct runtime/pixel-master registration, no site publish.",
+  "artApproved": false,
+  "productionReady": false,
+  "runtimeVerified": false,
+  "assets": [
+    {
+      "id": "nw-idle-4frame-study",
+      "file": "originals/nw-idle-4frame-study.png",
+      "type": "animation-sheet",
+      "role": "reference",
+      "originalFilename": "a_clean_high_detail_infographic_implementation.png",
+      "description": "One Chat-generated 2x2 NW idle breathing concept sheet, candidate for motion reference only. Requires art critique, panel segmentation, background/motion consistency QA; not approved.",
+      "sha256": "62203b399d87cb8b09cadc6cac74f69c11520082a3f759dd6e65af714d5c547f",
+      "layout": {
+        "columns": 2,
+        "rows": 2,
+        "frameOrder": [
+          "neutral",
+          "inhale",
+          "exhale",
+          "return"
+        ]
+      }
+    }
+  ]
+}
