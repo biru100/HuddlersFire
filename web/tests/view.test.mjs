@@ -91,6 +91,18 @@ test('display movement direction persists after stopping and never rewrites shar
  const stopped=CampRenderer.prototype.displayPlayer.call(display,{...p,moving:false,vx:0,vy:0});assert.equal(stopped.visualDirection,'back-left');
 });
 
+test('normal walking follows actual distance and four travel directions with zero impulse',()=>{
+ const p={id:'walker',mapId:'camp',mapRevision:0,respawns:0,x:4,y:3,motion:'grounded',moving:true,vx:0,vy:0,aimX:1,aimY:0,facing:1};
+ const display={getScene:()=>({players:[p]})},sample=()=>CampRenderer.prototype.displayPlayer.call(display,p);
+ let last=sample();
+ for(const [dx,dy,dir] of [[0,-.1,'back-right'],[-.1,0,'back-left'],[0,.1,'front-left'],[.1,0,'front-right']]){
+   p.x+=dx;p.y+=dy;const next=sample();
+   assert.equal(next.visualDirection,dir);assert.notEqual(next.walkCycle,last.walkCycle);
+   assert.equal(sample().walkCycle,next.walkCycle);last=next;
+ }
+ p.x+=3;assert.equal(sample().walkCycle,.25);
+});
+
 test('zoom and following preserve hit testing and inverse aiming across sizes and window ownership',()=>{
   const saved={window:globalThis.window,ResizeObserver:globalThis.ResizeObserver,requestAnimationFrame:globalThis.requestAnimationFrame,cancelAnimationFrame:globalThis.cancelAnimationFrame};
   let scheduled=0,cancelled=0;

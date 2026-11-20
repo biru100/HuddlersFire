@@ -122,13 +122,34 @@ test('expanded corners stay walkable, replicate and recover along with showroom 
   assert.ok(readBall({...emptyBall(),x:11}));assert.equal(readBall({...emptyBall(),x:15}),null);
   const weapons={...emptyWeapons(),projectiles:[{id:'shot',owner:'a',weapon:'gun',x:11.5,y:0,z:1,vx:12,vy:0,vz:0,bornAt:0,expiresAt:550}]};assert.ok(readWeapons(weapons));
 });
-test('all three maps fall at the expanded edge and keep their current map on respawn',()=>{
-  for(const mapId of [CAMP_MAP,PLAY_MAP,SHOW_MAP]) {
+test('playground and showroom fall at the expanded edge and respawn on the same map',()=>{
+  for(const mapId of [PLAY_MAP,SHOW_MAP]) {
     const p=member(mapId),players=new Map([['a',p]]);Object.assign(p,{x:0,y:9});
     simulateWorld(players,new Map(),.1,100);assert.equal(p.motion,'grounded');
     p.y=12.1;simulateWorld(players,new Map(),.1,200);assert.equal(p.motion,'falling');
     for(let i=1;i<=25;i++)simulateWorld(players,new Map(),.1,200+i*100);
     assert.equal(p.mapId,mapId);assert.equal(p.motion,'grounded');assert.ok(validPlayerState(p));
+  }
+});
+test('camp stops at each hedge, slides along it and lands inside every corner',()=>{
+  const limit=getMap(CAMP_MAP).bounds.walk;
+  for(const axis of ['x','y'])for(const sign of [-1,1]){
+    const other=axis==='x'?'y':'x', p=member(), players=new Map([[p.id,p]]);
+    Object.assign(p,{[axis]:sign*(limit-.08),[other]:1});
+    const input={dx:0,dy:0,running:true,sitting:false,['d'+axis]:sign};
+    const inputs=new Map([[p.id,input]]);
+    simulateWorld(players,inputs,.3,300);
+    assert.equal(p[axis],sign*limit);assert.equal(p.moving,false);assert.equal(p.running,false);
+    for(const tangent of [-1,1]){
+      p[other]=tangent*(limit-.25);p.motion='airborne';p.z=.5;p.vz=1;
+      input['d'+other]=tangent*Math.SQRT1_2;input['d'+axis]=sign*Math.SQRT1_2;
+      simulateWorld(players,inputs,.05,350);assert.equal(p.moving,true);
+      simulateWorld(players,inputs,1,1350);
+      assert.equal(p[other],tangent*limit);assert.equal(p[axis],sign*limit);
+      assert.equal(p.motion,'grounded');assert.equal(p.respawns,0);assert.ok(validPlayerState(p));
+    }
+    p[axis]=sign*12.1;simulateWorld(players,new Map(),.1,1500);
+    assert.equal(p[axis],sign*limit);assert.equal(p.motion,'grounded');
   }
 });
 test('showroom enforces the playground-only toy and carry contract at authority and snapshot boundaries',()=>{

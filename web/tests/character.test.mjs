@@ -113,3 +113,66 @@ test('production camper retains four distinct facings and independent outfit par
   assert.notEqual(firstStep,draw({visualDirection:'front-right',moving:true},{time:.66,reduced:false}));
   assert.notEqual(draw({visualDirection:'front-right'},{time:0,reduced:false}),draw({visualDirection:'front-right'},{time:1.1,reduced:false}));
 });
+
+test('both outfits walk in eight different poses on a stable foot origin in all four directions', () => {
+  for(const visualDirection of ['front-right','back-right','back-left','front-left']){
+    for(const topStyle of [0,1]){
+      const frames=new Set(), anchors=new Set(), neckHeights=[];
+      for(let step=0;step<8;step++){
+        const {canvas,pose}=render({visualDirection,topStyle,moving:true,walkCycle:step/8},null,{reduced:false});
+        frames.add(createHash('sha256').update(canvas.toBuffer('image/png')).digest('hex'));
+        anchors.add(pose.origin.y);
+        neckHeights.push(pose.headY);
+      }
+      assert.equal(frames.size,8);
+      assert.equal(anchors.size,1);
+      assert.ok(Math.max(...neckHeights)-Math.min(...neckHeights)<=1);
+    }
+  }
+});
+
+test('the field paints the high-resolution garment and head at game size on every walking step', () => {
+  const canvas=createCanvas(240,300),ctx=canvas.getContext('2d');
+  const draw=ctx.drawImage.bind(ctx),layers=[];
+  ctx.drawImage=(image,...args)=>{
+    layers.push([image.width,image.height,...args.slice(-2)]);
+    return draw(image,...args);
+  };
+  ctx.scale(3,3);
+  ctx.translate(40,75);
+  for(const visualDirection of ['front-right','back-right','back-left','front-left']){
+    for(let step=0;step<8;step++){
+      layers.length=0;
+      drawCharacter(ctx,{moving:true,running:step%2===1,walkCycle:step/8,visualDirection,hairStyle:1,topStyle:0},{reduced:false});
+      assert.deepEqual(layers,[[192,240,64,80],[192,240,64,80]]);
+    }
+  }
+  layers.length=0;
+  drawCharacter(ctx,{moving:true},{reduced:true});
+  assert.ok(layers.length>0&&layers.every(([w,h])=>w===64&&h===80));
+});
+
+test('changing the garment preserves the head and changing the hairstyle preserves the body and footing', () => {
+  for(const visualDirection of ['front-right','back-right','back-left','front-left']){
+    for(const state of [{},{sitting:true},{sitting:true,renderSeat:true},
+      ...Array.from({length:8},(_,i)=>({moving:true,walkCycle:i/8,running:i%2===1}))]){
+      const choices=[];
+      for(const hairStyle of [0,1])for(const topStyle of [0,1]){
+        const {c,pose}=render({visualDirection,hairStyle,topStyle,...state},null,{time:1.1,reduced:false});
+        const origin=104-pose.origin.y;
+        const face=c.getImageData(32,origin+6,64,24).data;
+        const body=c.getImageData(32,origin+49,64,27).data;
+        assert.ok(face.some((v,i)=>i%4===3&&v));
+        assert.ok(body.some((v,i)=>i%4===3&&v));
+        choices.push({face,body,origin:pose.origin,feet:pose.feet,headY:pose.headY});
+      }
+      for(const a of choices){
+        assert.deepEqual(a.origin,choices[0].origin);
+        assert.deepEqual(a.feet,choices[0].feet);
+        assert.equal(a.headY,choices[0].headY);
+      }
+      for(const [a,b] of [[0,1],[2,3]])assert.deepEqual(choices[a].face,choices[b].face);
+      for(const [a,b] of [[0,2],[1,3]])assert.deepEqual(choices[a].body,choices[b].body);
+    }
+  }
+});

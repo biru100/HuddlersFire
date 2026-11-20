@@ -102,6 +102,33 @@ def forest_floor_details(image, world, worn, rng):
         pen.line((u-1,v,u+2,v-1),fill=light,width=2)
 
 
+def camp_hedgerow(image, bounds, rng):
+    """Low banks of moss and leaf clusters rooted on the actual walk limit."""
+    pen = ImageDraw.Draw(image)
+    inset = round((bounds['edge']-bounds['walk'])*SIZE/(2*bounds['edge']))
+    for side in range(4):
+        def point(along, across):
+            a,b=along,inset+across
+            return [(a,b),(SIZE-1-b,a),(SIZE-1-a,SIZE-1-b),(b,SIZE-1-a)][side]
+        along=0
+        while along<SIZE:
+            width=int(rng.integers(18,36))
+            depth=int(rng.integers(6,17))
+            # Leafy lobes spill onto the grass, with the root line at the stop.
+            hull=[(-3,0),(2,-7),(width//3,-10),(width-4,-9),(width+3,-2),
+                  (width,5),(width*2//3,depth),(width//2,depth-3),(5,depth-2)]
+            pen.polygon([point(along+a,b+3) for a,b in hull],fill=(59,57,37))
+            pen.polygon([point(along+a,b) for a,b in hull],fill=(83,91,51))
+            for u in range(3,width-2,6):
+                v=int(rng.integers(0,depth-2))
+                pen.polygon([point(along+u-3,v-3),point(along+u,v-5),
+                             point(along+u+5,v-3),point(along+u+4,v+2),
+                             point(along+u,v+3)],fill=(109,121,66))
+                pen.line([point(along+u-2,v-3),point(along+u+1,v-5),
+                          point(along+u+4,v-4)],fill=(136,140,83),width=2)
+            along+=width-1
+
+
 def floor_image(name, world, ground, rng):
     py, px = np.indices((SIZE, SIZE))
     edge = world['bounds']['edge']
@@ -111,13 +138,14 @@ def floor_image(name, world, ground, rng):
     noise = broad*.66 + fine*.28
     route = np.minimum.reduce([route_distance(x,y,r) for r in world['routes']])
     grass = material(panel(ground, int(name!='camp'), 0), px, py, 139, 18, SIZE/640)
-    grass = mix(grass, grass.mean(axis=(0,1)), .31) + (broad*17)[...,None]
+    grass = mix(grass, grass.mean(axis=(0,1)), .43) + (broad*14)[...,None]
     earth = material(panel(ground,1,1), px, py, 167, 9, SIZE/640)
     earth = mix(earth, earth.mean(axis=(0,1)), .23)
     outer = edge-np.maximum(abs(x),abs(y))
     if name == 'showroom':
-        stone = material(panel(ground,0,1), px, py, 92, density=SIZE/640)
-        stone = mix(stone, np.array([184.,164.,138.]), .55)
+        # Larger flagstones and quieter joints leave the booth illustration readable at 1x.
+        stone = material(panel(ground,0,1), px, py, 142, density=SIZE/640)
+        stone = mix(stone, np.array([178.,163.,140.]), .70)
         # A lighter limestone aisle branches towards the two actual booth fronts.
         lane = np.clip((.56-route)*5, 0, 1)
         paving = mix(stone, stone*np.array([1.075,1.035,.98]), lane)
@@ -165,6 +193,7 @@ def floor_image(name, world, ground, rng):
         scatter_leaves(image, (wear<.88) & ((abs(worn)<1.1) | (outer<2.3)), 440, rng, name=='playground')
     if name=='camp':
         forest_floor_details(image, world, worn, rng)
+        camp_hedgerow(image, world['bounds'], np.random.default_rng(4811))
     alpha = Image.fromarray(np.uint8(bank>.10)*255)
     image.putalpha(alpha)
     return image

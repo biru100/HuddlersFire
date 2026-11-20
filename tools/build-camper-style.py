@@ -5,7 +5,7 @@ from io import BytesIO
 import json
 from pathlib import Path
 from camp_landscapes import build_landscapes
-from camp_prop_details import BENCH_SIZE, bench_profile, bench_tile, joined_fence, refine_material, scenery_profile
+from camp_prop_details import BENCH_SIZE, bench_profile, bench_tile, camp_material_colors, joined_fence, refine_material, scenery_profile
 
 import numpy as np
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps
@@ -40,7 +40,9 @@ def save(key, image, *, landscape=False):
     # Pillow/zlib versions can encode identical pixels differently. Retain the
     # registered immutable file when rebuilding leaves its decoded pixels intact.
     entry = previous_files.get(key)
-    if entry:
+    lossless_webp = key in ('camp-scenery', 'camp-scenery-dark')
+    suffix = 'webp' if landscape or lossless_webp else 'png'
+    if entry and entry['url'].endswith('.' + suffix):
         path = PUBLIC / Path(entry['url']).name
         if path.is_file() and sha256(path.read_bytes()).hexdigest() == entry['sha256']:
             with Image.open(path) as previous:
@@ -51,11 +53,12 @@ def save(key, image, *, landscape=False):
     if landscape:
         # The near floor carries small leaf and grout marks even under the camper's feet.
         image.save(buf, format='WEBP', quality=92 if key.startswith('landscape-') else 82, method=6)
+    elif lossless_webp:
+        image.save(buf, format='WEBP', lossless=True, exact=True, method=6)
     else:
         image.save(buf, format='PNG', optimize=True)
     raw = buf.getvalue()
     digest = sha256(raw).hexdigest()
-    suffix = 'webp' if landscape else 'png'
     name = f'camper-style-{key}.{digest[:12]}.{suffix}'
     output = PUBLIC/name
     if not output.is_file() or output.read_bytes()!=raw:
@@ -203,7 +206,7 @@ for sheet,name,box,reference,foot,x,y,w,h in rows:
     if name.startswith('fence-'):
         tile = joined_fence(tile,profile)
         foot = [v/n for v,n in zip(profile['origin'],reference)]
-    tile = refine_material(tile,name)
+    tile = camp_material_colors(refine_material(tile,name),name)
     # Reserve a palette for small props so petals and lantern glass keep their accents.
     alpha = tile.getchannel('A')
     tile = tile.convert('RGB').quantize(colors=120,dither=Image.Dither.NONE).convert('RGBA')

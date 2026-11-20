@@ -156,7 +156,8 @@ export class GroundShadows{
     const display=playerDisplay({...p,z:0},this.assets,theme,this.pixelMode),player={...display.player,color:null},emote=player.emoteUntil>now?player.emote:null,pose=characterPose(player,time,reduced,emote,now,this.assets);
     const releaseId=camperSheetId(theme),release=this.assets.manifest.files?.[releaseId]&&this.assets.getSprite(releaseId);
     if(!release&&!this.assets.getSprite(pose.sheet||this.assets.characterSheet(0,theme)))return null;
-    const key=JSON.stringify(['player',!!release,theme,player.hairStyle,player.topStyle,player.visualDirection,pose.artFrame,pose.state,pose.index,pose.lower.state,pose.lower.index,pose.mirror,player.renderDirection,player.renderSeat,player.weapon,pose.weaponSide,display.x,display.y]);
+    const detailed=release&&!reduced&&['walk','run'].includes(pose.lower.state)&&!!this.assets.getSprite('field-camper-walk');
+    const key=JSON.stringify(['player',!!release,!!detailed,theme,player.hairStyle,player.topStyle,player.visualDirection,pose.artFrame,pose.state,pose.index,pose.lower.state,pose.lower.index,pose.mirror,player.renderDirection,player.renderSeat,player.weapon,pose.weaponSide,display.x,display.y]);
     return this.mask(key,c=>{c.translate(display.x,player.renderSeat?0:display.y);drawCharacter(c,player,{time,now,reduced,emote,blankHead:true,shadowOnly:true,theme,assets:this.assets});},{ground:0,width:160,height:192,originX:80,originY:160,rasterScale:.5});
   }
   project(c,mask,item,light,share=1,receiverZ=0){

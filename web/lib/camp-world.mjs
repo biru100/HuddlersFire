@@ -40,15 +40,26 @@ export function sanitizeInput(value) {
   return { dx: value.dx / length, dy: value.dy / length, sitting: value.sitting, running: value.running === true };
 }
 export function movePlayer(player, input, dt, allowFall = false) {
+  const map=getMap(player.mapId), limit=map.bounds.walk;
+  const insideBorder=value=>Math.min(limit,Math.max(-limit,value));
+  // A recovered v48 player can be in the narrow strip beyond the new hedge.
+  if(map.solidBorder && (player.motion==='grounded'||player.motion==='airborne')){
+    player.x=insideBorder(player.x); player.y=insideBorder(player.y);
+  }
+  player.moving=false;
   if(player.seatId && input && (input.dx || input.dy)) {leaveSeat(player);player.sitting=false;}
   player.running = !!input && input.running === true && !!(input.dx || input.dy) && !player.sitting && !player.crouching && !player.carriedBy && !player.thrown && ['grounded', 'airborne'].includes(player.motion);
   if (!input || player.sitting || player.carriedBy || player.thrown || ['falling', 'respawning'].includes(player.motion)) return;
   const step = SPEED * (player.crouching ? .4 : player.running ? RUN_MULTIPLIER : 1) * Math.max(0, Math.min(.1, dt));
-  const x = player.x + input.dx * step, y = player.y + input.dy * step;
+  const oldX=player.x, oldY=player.y;
+  let x = oldX + input.dx * step, y = oldY + input.dy * step;
+  if(map.solidBorder){x=insideBorder(x);y=insideBorder(y);}
   const valid = (x, y) => allowFall ? clearOfObstacles(x, y, 0, player.mapId) : validPosition(x, y, player.mapId);
   if (valid(x, y)) { player.x = x; player.y = y; }
   else if (valid(x, player.y)) player.x = x;
   else if (valid(player.x, y)) player.y = y;
+  player.moving=player.x!==oldX || player.y!==oldY;
+  if(!player.moving) player.running=false;
   if (input.dx || input.dy) {
     player.facing = input.dx - input.dy >= 0 ? 1 : -1;
     const length = Math.hypot(input.dx, input.dy);
@@ -159,7 +170,7 @@ export function applyPlayerAction(players, id, action, now, weapons = null, fire
 export function simulateWorld(players, inputs, elapsed, now, weapons = null, ball = null) {
   let remaining = Math.max(0, Math.min(1, elapsed));
   const end = now;
-  while (remaining > 0) {
+  while (remaining > 1e-9) {
     const dt = Math.min(1 / 60, remaining); remaining -= dt;
     now = end - remaining * 1000;
     for (const p of players.values()) {
@@ -182,10 +193,9 @@ export function simulateWorld(players, inputs, elapsed, now, weapons = null, bal
         p.motion = 'airborne'; p.vz = JUMP_SPEED; p.z = .01; p.jumpAt = -1;
       }
       const input = inputs.get(p.id);
-      p.moving = !!input && !!(input.dx || input.dy) && !p.sitting;
+      movePlayer(p, input, dt, true);
       if (p.moving) p.emote = null;
       if (p.emoteUntil < now) p.emote = null;
-      movePlayer(p, input, dt, true);
       if (p.thrown) {
         const x = p.x + p.vx * dt, y = p.y + p.vy * dt;
         if (clearOfObstacles(x, y, 0, p.mapId)) { p.x = x; p.y = y; }

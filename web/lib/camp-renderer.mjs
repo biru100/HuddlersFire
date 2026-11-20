@@ -48,10 +48,28 @@ export class CampRenderer extends CampArtwork {
   ensureSprites(scene){const map=scene.mapId||scene.players?.find(p=>p.id===scene.self)?.mapId||'camp';const key=(scene.theme||'color')+':'+map;if(key===this.spriteKey)return;this.spriteKey=key;this.assetIds=this.assets.sceneSpriteIds(scene.theme,map);this.ready=this.assets.preloadSprites(this.assetIds).then(()=>this.reportAssets());this.reportAssets();}
   retryAssets(){this.ready=this.assets.retrySprites(this.assetIds).then(()=>this.reportAssets());this.reportAssets();return this.ready;}
   displayPlayer(player){
-    this.motionDirections??=new Map();let direction=this.motionDirections.get(player.id)||'front-'+(player.facing===-1?'left':'right');
-    if(player.moving&&Math.hypot(player.vx||0,player.vy||0)>.02){const sx=player.vx-player.vy,sy=player.vx+player.vy;direction=(sy<-.01?'back':'front')+'-'+(sx<0?'left':'right');this.motionDirections.set(player.id,direction);}
-    if(this.motionDirections.size>64){const active=new Set(this.getScene().players?.map(p=>p.id));for(const id of this.motionDirections.keys())if(!active.has(id))this.motionDirections.delete(id);}
-    return {...player,visualDirection:direction};
+    this.walkTracks??=new Map();
+    const last=this.walkTracks.get(player.id);
+    const sameVisit=last&&last.mapId===player.mapId&&last.revision===player.mapRevision&&last.respawns===player.respawns;
+    const dx=sameVisit?player.x-last.x:0,dy=sameVisit?player.y-last.y:0;
+    const distance=Math.hypot(dx,dy);
+    let direction=sameVisit?last.direction:'front-'+(player.facing===-1?'left':'right');
+    let cycle=.25;
+    if(player.moving&&(player.motion??'grounded')==='grounded'){
+      const continuous=sameVisit&&distance<1;
+      cycle=continuous?((last.cycle+distance/(player.running?1.12:.84))%1):.25;
+      const mx=continuous&&distance>.00001?dx:player.aimX??player.vx??0;
+      const my=continuous&&distance>.00001?dy:player.aimY??player.vy??0;
+      if(!continuous||distance>.00001){
+        const sx=mx-my,sy=mx+my;
+        const horizontal=Math.abs(sx)<.00001?direction.split('-')[1]:sx<0?'left':'right';
+        const vertical=Math.abs(sy)<.00001?direction.split('-')[0]:sy<0?'back':'front';
+        direction=vertical+'-'+horizontal;
+      }
+    }
+    this.walkTracks.set(player.id,{x:player.x,y:player.y,mapId:player.mapId,revision:player.mapRevision,respawns:player.respawns,direction,cycle});
+    if(this.walkTracks.size>64){const active=new Set(this.getScene().players?.map(p=>p.id));for(const id of this.walkTracks.keys())if(!active.has(id))this.walkTracks.delete(id);}
+    return {...player,visualDirection:direction,walkCycle:cycle};
   }
   facilityLayout(item){
     if(item.type==='bench'){

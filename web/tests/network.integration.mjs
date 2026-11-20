@@ -118,6 +118,18 @@ try {
   await until(()=>host.hostNow()-(host.ledger.last.get(instances[11].player+':change-map')??-Infinity)>=500,'Travel cooldown did not clear',5000);
   await travel(instances[11],'camp');
   await until(()=>host.hostNow()-(host.ledger.last.get(instances[11].player+':change-map')??-Infinity)>=500,'Travel cooldown did not clear',5000);
+  const edgeGuest=instances[1], edgeObserver=instances[2], edgeActor=host.players.get(edgeGuest.player);
+  const limit=getMap('camp').bounds.walk;
+  Object.assign(edgeActor,{x:limit-.25,y:0});
+  host.publishWorld(true);
+  await until(()=>Math.abs(edgeGuest.players.get(edgeGuest.player).x-edgeActor.x)<.01,'Camp approach did not replicate',5000);
+  edgeGuest.setInput({dx:1,dy:0,running:true,sitting:false});
+  await until(()=>[host,edgeGuest,edgeObserver].every(n=>{
+    const p=n.players.get(edgeGuest.player);
+    return p.motion==='grounded'&&!p.moving&&Math.abs(p.x-limit)<.01;
+  }),'Camp border did not stop authority, prediction and observer',5000);
+  edgeGuest.setInput({dx:0,dy:0,sitting:false});
+  console.log('PASS: running into the camp hedge stops on host, guest and observer.');
   for(const [index,n] of instances.entries()) if(index!==14) await travel(n,'playground');
   // Move away from the arrival portal before the movement/sitting probes below.
   const arrivalGuest=host.players.get(instances[1].player);Object.assign(arrivalGuest,{x:0,y:2});host.publishWorld(true);

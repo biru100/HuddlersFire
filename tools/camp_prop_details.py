@@ -83,7 +83,8 @@ def bench_tile(source, direction, weathered):
         outline=[(-39,v0),(39,v0),(40,v0+1),(40,v1-1),(39,v1),(-39,v1),(-40,v1-1),(-40,v0+1)]
         mask = Image.new('L',tile.size)
         ImageDraw.Draw(mask).polygon([point(u,v,0) for u,v in outline],fill=255)
-        plank = np.uint8(grain*.65 + np.array(wood(level))*.35)
+        # The plane catching the fire is warmer and lighter than the shoe-height apron.
+        plank = np.uint8(np.clip(grain*.39 + np.array(wood(level))*.61 + [12,10,4],0,255))
         tile.paste(Image.fromarray(plank),mask=mask)
         stroke([(-38,v1,0),(36,v1,0)],.83)
         stroke([(-38,v0,0),(38,v0,0)],.42 if v0==1 else .63)
@@ -216,3 +217,32 @@ def refine_material(tile, name):
     refined = Image.fromarray(np.uint8(color+np.maximum(nearby-color,0)*weight[...,None]))
     refined.putalpha(alpha)
     return refined
+
+
+def camp_material_colors(tile, name):
+    """Reserve the brightest creams for faces, lamp glass and exhibit covers."""
+    color = np.asarray(tile.convert('RGB'),dtype=float)
+    light = color @ [.30,.58,.12]
+    red, green, blue = color.transpose(2,0,1)
+    # Timber adopts the warm brown of camper boots. Muted grain and a soft
+    # shoulder on the brightest planks keep awning trim from reading as neon.
+    wood = np.clip((red-green-5)/30,0,1)*np.clip((green-blue)/18,0,1)
+    highlight = np.clip((light-104)/96,0,1)
+    amount = .24 if name.startswith(('shade','fence','gameBooth')) else .14
+    toned = color + wood[...,None]*((light[...,None]-color)*amount
+            + [1,4,4] - highlight[...,None]*[35,29,22])
+    # Give the broad canvas folds a shared teal and keep their coloured seams.
+    if name in ('shade','tent','gameBooth','trampoline'):
+        cloth = np.clip((green-red+4)/23,0,1)*np.clip((blue-red+6)/24,0,1)
+        teal = light[...,None]*[.64,1.10,1.03]+[3,1,0]
+        toned += (teal-toned)*cloth[...,None]*.40
+        cream = np.clip((light-155)/65,0,1)
+        toned -= cream[...,None]*[24,25,23]
+    if name.startswith('tree'):
+        foliage = np.clip((green-red+2)/25,0,1)
+        toned += foliage[...,None]*((light[...,None]-toned)*.14+[3,0,1])
+    if name=='lantern':
+        toned = np.where((light>145)[...,None],color,toned)
+    result=Image.fromarray(np.uint8(np.clip(toned,0,255)))
+    result.putalpha(tile.getchannel('A'))
+    return result

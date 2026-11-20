@@ -1,7 +1,7 @@
 import { toneIndex, TONE_MARKS } from './camp-appearance.mjs';
 import { characterAnimation } from './camp-sprite-animation.mjs';
 import { defaultSpriteAssets,createSpriteSurface } from './camp-sprite-assets.mjs';
-import {camperPlan,camperGeometry,camperSheetId,paintCamper} from './camp-camper-render.mjs';
+import {camperPlan,camperGeometry,camperSheetId,paintCamper,walkingSheet} from './camp-camper-render.mjs';
 export function characterPose(p,time=0,reduced=true,emote=null,now=time*1000,assets=defaultSpriteAssets) {
   const pose=characterAnimation(p,time,reduced,emote,now,assets);
   return assets.manifest.files?.[camperSheetId('color')] ? camperGeometry(pose,camperPlan(p,pose,time,reduced)) : pose;
@@ -34,7 +34,7 @@ export function drawCharacter(ctx,p,{time=0,now=time*1000,reduced=true,emote=nul
   const pose=plan?camperGeometry(originalPose,plan):originalPose;
   const image=camper?null:assets.getSprite(pose.sheet||assets.characterSheet(slot,theme)),{frame,scale,mirror}=pose;
   ctx.save();
-  if(camper)paintCamper(ctx,camper,plan,slot,theme,shadowOnly||!blankHead);
+  if(camper)paintCamper(ctx,camper,plan,slot,theme,shadowOnly||!blankHead,walkingSheet(assets,plan));
   if(image){
     if(pose.combine){const lower=pose.lower.frame,ls=17/lower.head.radius;
       const lowerImage=assets.getSprite(pose.lower.sheet||assets.characterSheet(slot,theme)),split=(lower.waist-pose.lowerOrigin.y)*ls;
