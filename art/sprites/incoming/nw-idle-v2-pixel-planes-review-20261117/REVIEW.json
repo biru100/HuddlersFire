@@ -1,0 +1,121 @@
+{
+  "status": "review-only",
+  "task": "HF-TASK-NW-IDLE-V2",
+  "inputCommit": "af925fbd6e727ec8f8a25ad14b9e03d9004eb013",
+  "previousPoseCommit": "23f422d48f85e1d36c64d641a9ccb7d60a546e49",
+  "originalDirectory": "art/sprites/source-registry/rounded02-rev2-lookdev",
+  "originals": [
+    {
+      "slot": "nw",
+      "path": "original/nw-approved.png",
+      "sha256": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a"
+    },
+    {
+      "slot": "se",
+      "path": "original/se-approved.png",
+      "sha256": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2"
+    }
+  ],
+  "artMethod": "Intentional native pixel clusters. Redrafted the crown, separate curl planes and hoodie light masses per pose. Kept prior pose-specific outer contours, linked sleeve and lower-body response, and fixed boot/contact pixels. No lookdev resampling. Nearest-neighbor display only.",
+  "compositeOrder": [
+    "lower",
+    "skin",
+    "hoodie",
+    "hair"
+  ],
+  "footAnchor": [
+    32,
+    88
+  ],
+  "componentDiagnostic": {
+    "neutral": {
+      "previous": {
+        "components": 186,
+        "oneOrTwoPixelComponents": 104
+      },
+      "revised": {
+        "components": 149,
+        "oneOrTwoPixelComponents": 74
+      }
+    },
+    "inhale": {
+      "previous": {
+        "components": 197,
+        "oneOrTwoPixelComponents": 111
+      },
+      "revised": {
+        "components": 175,
+        "oneOrTwoPixelComponents": 97
+      }
+    },
+    "exhale": {
+      "previous": {
+        "components": 207,
+        "oneOrTwoPixelComponents": 117
+      },
+      "revised": {
+        "components": 172,
+        "oneOrTwoPixelComponents": 89
+      }
+    }
+  },
+  "metricLimit": "4-connected flat RGBA components are a descriptive diagnostic, not an art approval criterion.",
+  "timingDiagnostics": {
+    "previous": {
+      "holdsMs": [
+        550,
+        480,
+        380,
+        480
+      ],
+      "durationMs": 1890,
+      "displayFrames": 4,
+      "distinctPoseDrawings": 3,
+      "source": "previous 64×96 poses"
+    },
+    "shorter-holds": {
+      "holdsMs": [
+        280,
+        300,
+        220,
+        300
+      ],
+      "durationMs": 1100,
+      "displayFrames": 4,
+      "distinctPoseDrawings": 3,
+      "source": "previous 64×96 poses"
+    }
+  },
+  "campEvidence": "Existing local CampRenderer. Isolated candidate and shadow override, fixed camera and world anchor, previous and revised still poses. Cropped for comparison and WebP encoded at quality 89. No browser or production evidence.",
+  "approvals": {
+    "G1": "pending",
+    "G2": "pending",
+    "G3": "not-started",
+    "runtime": "pending",
+    "release": "pending"
+  },
+  "assets": {
+    "camp-previous-vs-revised.webp": "68eb181d714821f1b4bf64fbbb70f77a439c25e37f560e58337cb4d376459c52",
+    "exhale.png": "0593e56362098f5ea49e84dc04cc8df4fa94f6820671a69eccb5aa2badc6323f",
+    "inhale.png": "65528bc44dbe9264180da475692996cc8290a8c54d2d6d32fa6cf4e18e5b39eb",
+    "layer-hair-exhale.png": "495cb6352b551adce83ea2951057ebd8cd10159dc6c76806d5e5d7e0beb44677",
+    "layer-hair-inhale.png": "e85bda36c4a26389015bbfacc9ebbd0bdaffab385b4fb392f0ff5214b0f8a12a",
+    "layer-hair-neutral.png": "787c7390be4c6673d7a2aecf137c171cd63113d110e2205f034e4f97197656e1",
+    "layer-hoodie-exhale.png": "c805379d9e1ff4c2fa3431d22b2cd32252839a22704cf616e4df8f66b7b429d6",
+    "layer-hoodie-inhale.png": "2c7e1170e81d0a286251f2ecb67d56941f9e4ffca8638bf8e2688df285751008",
+    "layer-hoodie-neutral.png": "65ea544667998d01ec69436773cb09c307a4598dab8b1983ec18b51a8dd11c74",
+    "layer-lower-exhale.png": "1ecfe9283abdbc8567016dd82ddf9d0ad945900e9600ad75161fb8e5aa032c93",
+    "layer-lower-inhale.png": "57322423a669fcbad40218ff33f5dbdbcfcfa461f7bb148b899f79d21650a117",
+    "layer-lower-neutral.png": "906d3e5b5ee9a94bd1bbd23d3f098c8cf6638b46cd8d78b7ffa0fa4a7859677a",
+    "layer-shadow-exhale.png": "feb0d0db0c052e2890d0f3b82a6b933734a6971ab6f5fd70cacaf5dbb15f3683",
+    "layer-shadow-inhale.png": "a277faf5b30f1419d746098305eaa161ed96d2c1c9851dd41f4b71f213656b79",
+    "layer-shadow-neutral.png": "712375f8aa8e10c5c38332e5249f7d484acadd79f645d588376e80ad67ab44dc",
+    "layer-skin-exhale.png": "c2f61278c7a85b16801acdb8b7ba28681d73a4760f5af4d91f64a10853f671b5",
+    "layer-skin-inhale.png": "253df1c79ff9ccd0039243cc473f08a7255c2ef9680e1c6861f65a628c11d610",
+    "layer-skin-neutral.png": "3a322c216c05d3b4edbfe1a8d6797d57595a2a963e0b3a74064d43233e75e7ea",
+    "neutral.png": "7c31da644d85fc48fb29c876e2d8c7f32f11ab3c4e9370f15a41ba5e641758ce",
+    "previous-vs-revised.png": "9391805bda78fb76933ccefb3f28a42dfa5f6b750fef3b6a61e050c3f8f4c531",
+    "timing-previous.gif": "ad4f37da9a11021e6103bb5994cdb1aaba05832f8c713d1d27a29d452992efac",
+    "timing-shorter-holds.gif": "1001f34ea836d4214326ca9f209618adb69ca79e517f7ec864fc6520d33cb0e9"
+  }
+}

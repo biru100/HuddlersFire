@@ -1,0 +1,59 @@
+{
+  "status": "review-only",
+  "task": "HF-TASK-NW-IDLE-V2 / modular C0-C1",
+  "inputCommit": "250c26cd3aae57229136e08e3aebaab5b49c5577",
+  "originalReferenceSha256": {
+    "art/sprites/source-registry/rounded02-rev2-lookdev/original/nw-approved.png": "c1d4bde7cb49cdba5a5221c7d967eb475593780779122279b350d317e2e3b95a",
+    "art/sprites/source-registry/rounded02-rev2-lookdev/original/se-approved.png": "c1a19f22ee27fb911d4b1701f3fae913ce93b18d57382c70ef14efe8f3c580e2"
+  },
+  "previousNeutralSha256": "7c31da644d85fc48fb29c876e2d8c7f32f11ab3c4e9370f15a41ba5e641758ce",
+  "authorship": "Work-authored contours and color clusters drawn directly at 64x96. Rounded 02 originals are visual references only. No source resizing or pixel extraction. Proof sheets use nearest-neighbor display scaling. Camp panel is a local Canvas capture encoded as WebP.",
+  "contract": "art/sprites/scene-spec.json.pixelQuarterview.avatar",
+  "canvas": [
+    64,
+    96
+  ],
+  "anchors": {
+    "feet": [
+      32,
+      88
+    ],
+    "head": [
+      32,
+      28
+    ],
+    "seat": [
+      32,
+      62
+    ]
+  },
+  "compositeOrder": [
+    "back_hair",
+    "base",
+    "bottom",
+    "top",
+    "front_hair"
+  ],
+  "sourceImagesGeneratedThisRun": false,
+  "approvals": {
+    "C0": "pending-user",
+    "C1": "pending-user"
+  },
+  "artifactSha256": {
+    "attachment-map-4x.png": "0d4ba531a7ee623f642a3a01db1e12c0755f9b46464ed180668c90fc5f028e25",
+    "bob-hoodie.png": "2442e98fea0c42e3d9fe711f24c070ab48fa5447fd4b3957fd73465de0607edd",
+    "bob-varsity.png": "d646fa2a303f1cc25b5cdd7f3e7f2f6b72771424586b9a1ebcfa4a5c66805979",
+    "camp-night.webp": "ca7776a51a2bb41ed2f48b633602655499448b756c9391f77ea195a6e75c7ee5",
+    "compare-1x-2x-4x.png": "e1bedefa3ccc14f3e88d0156653567f1ec714fd8f0e7648e2644c1790b9c6c2a",
+    "curls-hoodie.png": "ea1dbfc2bd5ddb43edd0660755a14101e30a5c1b7d830950f5345be9b157aeb7",
+    "curls-varsity.png": "8303358c55395aa9a37ff58558a08bee3c774911540543d096f65374920797c2",
+    "layer-back-hair-bob.png": "9d7eb9903d391c7f5cfa2773d347a891b5a21231ea50edc0e98e52eba5c27885",
+    "layer-back-hair-curls.png": "f5fe34f28ea0ebce1765f5b31b44d691f356e8e75d179e82569e0b075c052ea0",
+    "layer-base.png": "def13f12e79f2320c65516c0163441484b3eaddf7edd5b48206e5413dde60b90",
+    "layer-bottom-field-trousers.png": "f4baa5926924d64d3651b58bc1e0501378f2bce59d65b1ec361c4b8ceeffe00d",
+    "layer-front-hair-bob.png": "c6925165bd457f325e636eb6b15a29f69e6f541079209255729a1525b9b18dd9",
+    "layer-front-hair-curls.png": "23859f058df0b1e97d79b6caceb1dd438fb8972016cfcecc20e2fdd44a19b480",
+    "layer-top-plum-varsity.png": "7603397ff247631cb01f46753e3393364b650adb612028b2053b7fcec09f9bf1",
+    "layer-top-sage-hoodie.png": "3169fc9437ccbfaa866c542193e31fd52fe237505520005f7b93cf50fb843c59"
+  }
+}
