@@ -220,6 +220,176 @@
         "quote": "일단 프로필 얼굴 교체 되는 거 지워주고 모든 그래픽들의 톤앤매너를 캐릭터 기준으로 변경해줘",
         "reference": "2026-11-20 KST HuddlersFire graphic revision, confirmed by “엉 진행해줘” after the requested changes and release workflow were described."
       }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-clearing-art-dark.53a720a5cb44.png",
+      "sha256": "53a720a5cb4478d5b198c8ef753fd7931cd7f45490d5baf5e5fad95e26970e13",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-clearing-art.03da53737cc1.png",
+      "sha256": "03da53737cc19e52dd8a3ad5b53d181a98973a1e24785108eadf58afdb70faf7",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-scenery-dark.ef183bf8089c.png",
+      "sha256": "ef183bf8089c8dc65797844dd42e73da642fb71d9c979d80c7f907e43b750598",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-camp-scenery.ba89ecb3d87d.png",
+      "sha256": "ba89ecb3d87d14fd5adfa14f55bd8aae1077658846170386a2d00abf04096a51",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-effects-dark.3edf795ca0ba.png",
+      "sha256": "3edf795ca0ba0a22b494a8a7a859a778c92a291a4331c3db3dea0ab9b5599e1e",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-effects.65ba3d477791.png",
+      "sha256": "65ba3d4777916500237be767bca0cf81856c4594c0b73e9a6d0f808aae00a9b9",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-horizon-camp-dark.c1d07f2848c0.webp",
+      "sha256": "c1d07f2848c0a4b3791141e2ce576287fd70aa51dc841535635e62e12c3a98ea",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-horizon-camp.74b0c509e2d0.webp",
+      "sha256": "74b0c509e2d055b086413c628ef4e53f0f9933d9248f9a2334f6fdebecbf000c",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-horizon-playground-dark.d5f1251ae5f6.webp",
+      "sha256": "d5f1251ae5f687ce80dd9e3205414a1f9df9a6dbb2471dc0d2abc953b3e9acfe",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-horizon-playground.d30e053151bb.webp",
+      "sha256": "d30e053151bbaec4da5d588dae4edb57b7cc33e86603afa0785432623f331794",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-horizon-showroom-dark.e53cfb63e8ff.webp",
+      "sha256": "e53cfb63e8ffd5abebead859dccf1f7460c3bea3018c5053673396776b4e3f32",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-horizon-showroom.8356b6e7118d.webp",
+      "sha256": "8356b6e7118d61bb5d3188668c4bfceaa363ab94e421bb10d320f0f8608aa7ff",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-landscape-camp.bdde8fc001ee.webp",
+      "sha256": "bdde8fc001eef883c851ba6dbd4f3bfb04c16b913c3d38aed09bd4f579f261f3",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-landscape-playground.ec6ce824a8ba.webp",
+      "sha256": "ec6ce824a8ba6e8b10b38feb9880033072c2c7bed16daf67bb67ed352a51582e",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-landscape-showroom.dce4aa345987.webp",
+      "sha256": "dce4aa3459878735e5d77a0bbdaf406d0aa83faac6ac006c928dbe18e6421ac4",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-normal-camp-clearing-art.aa2a35c3f529.png",
+      "sha256": "aa2a35c3f529ffb7b29272238407c97bf43684b4b93729dce7deeb839f226d7d",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-style-normal-camp-scenery.1c0be5141a42.png",
+      "sha256": "1c0be5141a42830cdd10a6a19809e771ba7530377ebe4aa875dfc120e6a41447",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-20-terrain-runtime-release.md",
+      "userDecision": {
+        "quote": "현재 모습으로 게시",
+        "reference": "2026-11-20 AgentHub · 현재 세 맵에서 사용하는 새 이미지 17개를 그대로 운영 사이트에 적용할까요?"
+      }
     }
   ],
   "note": "Each entry records the scope of an explicit user request to ship artwork, bound to the delivered bytes."

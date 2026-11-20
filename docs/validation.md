@@ -1,5 +1,13 @@
 # 구현 검증 기록
 
+<a id="terrain-release-candidate"></a>
+
+## 2026-11-20 · 세 맵 배포 후보
+
+앱 소스 `8f3289a052a25ab450753bfd85ab06625ab57529`의 추적 파일에서 배포 후보를 빌드했다. 로컬 웹 테스트 352개와 타입 검사가 통과했고, 54쌍의 장면 기록이 현재 게임과 일치했다. 빌드의 고유 스프라이트 44개와 마이그레이션 파일 11개가 소스와 일치한다. [캠프·놀이터·전시장 전후 비교](reviews/2026-11-20-prop-detail.webp)
+
+기존 공개 Sites 프로젝트는 v47, D1 바인딩은 `DB`, 테이블은 7개다. 새 버전 저장과 게시 전 단계에서 GitHub 검사가 `missing_explicit_runtime_art_approval`을 반환했다. 대상은 현재 등록된 지형·원경 9개, 소품·효과·법선 이미지 8개다. 렌더러가 사용하지 않는 중간 이미지 15개는 배포 후보에서 제외했다. [GitHub 검증 결과](https://github.com/biru100/HuddlersFire/actions/runs/44671645936)
+
 <a id="current-art-harness"></a>
 
 ## 2026-11-20 · 현행 캠퍼와 환경 아트 하네스
