@@ -4,6 +4,7 @@ import {withCampArt} from '../lib/camp-art-release.mjs';
 import {spawnPlayer,COLORS} from '../lib/camp-world.mjs';
 import {CAMP_SEATS} from '../lib/camp-seats.mjs';
 import {emptyFire} from '../lib/camp-fire.mjs';
+import {showCamperMotion} from './camper-motion-preview.mjs';
 const params=new URLSearchParams(location.search);
 const data=params.get('art')==='release'
   ? withCampArt((await import('../lib/camp-sprite-manifest.mjs?current-release')).SPRITE_MANIFEST)
@@ -26,4 +27,5 @@ window.lightingReview={renderer,scene,assets,populate,async set(values){Object.a
   const image=assets.getSprite(data.character.variants[0]);for(const [i,row]of rows.slice(page*18,page*18+18).entries()){const x=40+i%6*165,y=30+Math.floor(i/6)*245,f=row.frame;c.drawImage(image,f.x,f.y,f.w,f.h,x,y,144,144);c.font='14px sans-serif';c.fillStyle='#514530';c.fillText(row.name+'/'+row.index,x,y+168);}
   return renderer.webgl.render(c.recording.end(),{width:renderer.width,height:renderer.height,dpr:renderer.dpr,now:5000,lights:[{screen:[350,50,180],screenRadius:1100,color:[1,.72,.4],intensity:.85}]});
 },sample(count=180){const rows=[];for(let i=0;i<30+count;i++){scene.now=5000+i*16;const start=performance.now();renderer.draw(scene.now);if(i>=30)rows.push(performance.now()-start);}rows.sort((a,b)=>a-b);return {median:rows[Math.floor(rows.length*.5)],p95:rows[Math.floor(rows.length*.95)],max:rows.at(-1),...renderer.webgl?.metrics};}};
+window.lightingReview.showCamperMotion=(scene,light)=>showCamperMotion(window.lightingReview,scene,light);
 window.lightingReady=true;

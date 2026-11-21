@@ -108,7 +108,7 @@ function spritePart(ctx,sheet,part,styleId,layer,slot,theme,detailed=false) {
     }
     c.putImageData(frame,0,0);
   }
-  const result={image:tile,normal};
+  const result={image:tile,normal,cell:[col,row]};
   cache.set(key,result);
   if(cache.size>(detailed?144:400))cache.delete(cache.keys().next().value);
   return result;
@@ -138,7 +138,8 @@ export function paintCamper(ctx,sheet,plan,slot,theme,withHead,walkSheet) {
     ctx.save();
     ctx.imageSmoothingEnabled=filter!=='nearest';
     ctx.setMaterial?.({lighting:'lit',normalImage:tile.normal,normalizedSurface:true,
-      camperFilter:filter,strength:isHead?.38:.3,ambientLift:light});
+      camperFilter:filter,strength:isHead?.38:.3,ambientLift:light,
+      camperLayer:layer,camperCell:tile.cell,normalKind:'procedural'});
     if(part.group===4&&plan.left)ctx.scale(-1,1);
     if(top||bottom!==height){
       ctx.beginPath();ctx.rect(-center,top-plan.anchor+offset,width,bottom-top);ctx.clip();

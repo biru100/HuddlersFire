@@ -7,6 +7,8 @@ import { drawCharacter } from '../lib/camp-character.mjs';
 import { pickPlayer, playerInfo } from '../lib/camp-player-info.mjs';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { spawnPlayer } from '../lib/camp-world.mjs';
+import { inspectCamperMotion, isMotionBaseline, motionBaseline, verifyMotionBaseline,
+  assertCamperMotion } from '../scripts/camper-motion-audit.mjs';
 
 function render(p = {}, avatar = null, options = {}) {
   const canvas = createCanvas(128, 128), c = canvas.getContext('2d');
@@ -14,6 +16,22 @@ function render(p = {}, avatar = null, options = {}) {
   return { canvas, c,pose };
 }
 const pixel = (c, x, y) => [...c.getImageData(x, y, 1, 1).data];
+
+test('the selected field sprites report v50 gaps or meet the full motion specification', {skip:!!process.env.CAMP_TEST_MANIFEST}, async () => {
+  const report=await inspectCamperMotion();
+  if(!isMotionBaseline(report)){
+    assertCamperMotion(report);
+    return;
+  }
+  verifyMotionBaseline(report,motionBaseline);
+  const has=(id,kind)=>report.issues.some(issue=>issue.id===id&&issue.kind===kind);
+  assert.ok(has('jump.rise/front-right/0/0','color-shared-phase'));
+  assert.ok(has('walk.step-2/front-right/0/0','normal-shared-phase'));
+  assert.ok(has('walk.step-1/front-right/1/0','normal-shared-outfit'));
+  assert.ok(has('emote.wave/back-right/0/0','color-shared-direction'));
+  assert.throws(()=>assertCamperMotion(report,['jump']),/jump\.rise\/color-shared-phase/);
+  assert.throws(()=>verifyMotionBaseline({...report,issues:report.issues.slice(1)},motionBaseline),/differs from the recorded baseline/);
+});
 
 test('account portraits never change the pixels of a dressed field character', () => {
   const photo = createCanvas(80, 40);

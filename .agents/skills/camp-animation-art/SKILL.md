@@ -9,6 +9,8 @@ description: "HuddlersFire 캐릭터 Idle·Walk·Sit 원화와 키포즈, 파생
 
 기준 서기 후보와 같은 세션에서 Codex 내장 이미지 생성 도구로 Idle·Walk·Sit 및 제스처 키를 만든다. 기준 얼굴·헤어, 네 방향, 64×80 기본 셀과 192×240 보행 몸통·다리, 목·발 접점을 [캠퍼 규격](../../../art/sprites/field-camper-v2/README.md)에서 가져온다. 원본 바이트·요청문·SHA-256을 보존한 뒤 작업 범위에서 네이티브 파츠와 프레임을 파생한다. 실제 로비와 필드에서 같은 인물인지, 접지·가림·보행 루프와 앉고 일어나는 접점이 자연스러운지 확인한다. 최종 미술 선택은 사용자에게 있다.
 
+현행 캠퍼의 동작을 제작하기 전에 [동작 명세](../../../art/sprites/field-camper-v2/camper-motion-spec.json)에서 영향받는 방향·단계·역할을 고른다. 점프는 준비·상승·하강·착지, 들기와 던지기는 행동 주체와 상대의 화면을 각각 본다. 승인된 공유는 적용할 프레임과 결정 근거를 기록한다. 제작한 후보를 게임에 연결한 범위와 전용 동작을 갖춘 범위는 [장면 검토 절차](../../../docs/art/scene-first-review.md#캠퍼-동작과-노멀-검수)에서 확인한다.
+
 > **2026-11-18 new-design scope:** The new pixel-art pilot [clean-room pipeline](../../../docs/art/pixel-ai-pipeline-v3.md) precedes character animations. Do **not** automatically load old F1/F2, CORE03, Rounded 02 PNGs, old palettes or historical idle sprites as generation/conditioning inputs. Any older animation-specific source prerequisites below are historical and only apply if the user explicitly resumes that older experiment. Await user-selected NEW modular avatar, then prototype key poses for Idle/Carry/Throw separately with 1× visual approval. Retro Diffusion Animation walk/idle outputs 48×48 and cannot automatically replace 64×96 native art. Never claim generated frames are player-approved.
 
 > **2026-11-16 적용 범위 변경:** 이 스킬은 HuddlersFire 전체 하네스의 **하위 아트 작업**일 뿐이다. 최상위 의도는 [프로젝트 운영 하네스](../../../docs/harness/README.md)와 [의도 트리](../../../docs/harness/INTENT_TREE.md)를 먼저 본다. 사용자 결정에 따라 ChatGPT가 컨셉·키포즈를 만들고, Work/Codex가 **명시적으로 허가된 범위 내에서 파생 픽셀·레이어·모션을 직접 제작·편집·보정**할 수 있다. 이전의 Codex 미술 편집 전면 금지 규칙은 이 범위에서 대체된다. 사용자가 최종 미술을 승인하며 원본 PNG는 수정하지 않는다. NW Idle 및 CORE03는 전역 기준이 아니다.

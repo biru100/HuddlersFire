@@ -9,7 +9,65 @@ import {CAMPER_PART_FILES} from '../lib/camp-camper-part-files.mjs';
 import {CAMPER_SOLES} from '../lib/camp-camper-art.mjs';
 import {camperDraftInputs,readCamperInputs} from '../scripts/camper-harness-inputs.mjs';
 import {camperAtlasIds,compileCamperParts,headRecipe} from '../scripts/build-shared-camper-head.mjs';
-import {validateCamperPair} from './camper-scale-evidence.mjs';
+import {motionLightCases,motionSceneCases,validateCamperPair,verifyMotionProof} from './camper-scale-evidence.mjs';
+import {auditCamperMotion,motionPhases,motionSpec} from '../scripts/camper-motion-audit.mjs';
+
+test('motion audit detects missing directions, repeated artwork and shared normals in distinct cells',()=>{
+  const phases=motionPhases(),observed=[];
+  for(const phase of phases.values())for(const direction of phase.directions)
+    for(const outfit of [0,1])for(const hair of [0,1]){
+      const parts=['body','face','hair'].map(layer=>{
+        const key=[phase.id,direction,outfit,hair,layer].join('/');
+        return {layer,color:key,normal:'normal/'+key,normalKind:'authored',maskMatches:true,cell:[0,0]};
+      });
+      observed.push({phase:phase.id,direction,outfit,hair,parts});
+    }
+  const at=(phase,direction='front-right')=>observed.find(row=>row.phase===phase&&row.direction===direction&&row.outfit===0&&row.hair===0);
+  for(const row of observed){
+    const mix=phases.get(row.phase).mixWith;
+    if(mix){
+      const lower=observed.find(ref=>ref.phase===mix&&ref.direction===row.direction&&ref.outfit===row.outfit&&ref.hair===row.hair);
+      row.parts[0].clipped=true;
+      row.parts.unshift({...lower.parts[0],clipped:true});
+    }
+  }
+  assert.deepEqual(auditCamperMotion(observed).issues,[]);
+  const shared=at('jump.prepare').parts[0];
+  for(const phase of ['jump.rise','jump.fall','jump.land']){
+    const row=at(phase);
+    row.parts[0]={...shared,cell:[1,2]};
+  }
+  const first=at('walk.step-1').parts[0],second=at('walk.step-2').parts[0];
+  second.normal=first.normal;
+  second.maskMatches=false;
+  observed.splice(observed.indexOf(at('sit.hold','back-left')),1);
+  const issues=auditCamperMotion(observed).issues;
+  const has=(id,kind)=>issues.some(issue=>issue.id===id&&issue.kind===kind);
+  assert.ok(has('sit.hold/back-left/0/0','missing-case'));
+  for(const phase of ['jump.rise','jump.fall','jump.land'])
+    assert.ok(has(phase+'/front-right/0/0','color-shared-phase'));
+  assert.ok(has('walk.step-2/front-right/0/0','normal-shared-phase'));
+  assert.ok(has('walk.step-2/front-right/0/0','normal-mask'));
+  const spec=structuredClone(motionSpec);
+  spec.sharing.exceptions.push({channel:'color',a:'jump.prepare/front-right/0/0',
+    b:'jump.rise/front-right/0/0',reason:'Shared only in this test',approval:'test fixture'});
+  const reviewed=auditCamperMotion(observed,spec).issues;
+  assert.ok(!reviewed.some(row=>row.id==='jump.rise/front-right/0/0'&&row.kind==='color-shared-phase'));
+  assert.ok(reviewed.some(row=>row.id==='jump.rise/front-right/0/0'&&row.kind==='normal-shared-phase'));
+});
+
+test('camper lighting proof needs actual per-layer bindings and a visible shader response',()=>{
+  const proof=Object.fromEntries([...motionSceneCases,...motionLightCases].map((id,i)=>[id,{
+    backend:'webgl',parts:['body','face','hair'].map(layer=>({layer,bound:true,strength:id===motionLightCases[2]?0:.3})),
+    visible:100,changed:10,pixelHash:i,
+  }]));
+  verifyMotionProof(proof);
+  proof[motionLightCases[0]].parts[0].bound=false;
+  assert.throws(()=>verifyMotionProof(proof),/Missing camper normal bindings/);
+  proof[motionLightCases[0]].parts[0].bound=true;
+  proof[motionLightCases[0]].changed=0;
+  assert.throws(()=>verifyMotionProof(proof),/Missing rendered normal response/);
+});
 
 test('decoded camper candidate fits the same size, collar and material contract across both atlases',async()=>{
   const {buffers,manifest}=readCamperIntermediate();

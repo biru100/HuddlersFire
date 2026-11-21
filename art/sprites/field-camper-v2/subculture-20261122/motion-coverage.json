@@ -1,0 +1,11 @@
+{
+  "release": "v50",
+  "candidate": "06e18f43001ddf30d230a34c88af8bfea12d6d3c9d1a86916065dc100ee2d03f",
+  "spec": "cbd3190ee46ca547894d4ba7bf1b8776e1de9f2b88e31bfcdea47bf4c305684e",
+  "atlases": [
+    "c94358ad19abcc7edf010240b309969a8c6b68e2e3ef8660c59dab79b89fa382",
+    "9104fd145a07333ed4aa26eb8750e5452008b6006e7952e9df62acc8bca801ac"
+  ],
+  "cases": 744,
+  "issuesHash": "1a3f2dfd84bdb855facf15203e31ba0cd52fee982c58e7a68f8b6c00b806d764"
+}

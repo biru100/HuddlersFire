@@ -1,10 +1,20 @@
 # 구현 검증 기록
 
+<a id="camper-motion-coverage"></a>
+
+## 2026-11-22 · 캠퍼 동작과 노멀 검수
+
+v50의 두 아틀라스를 재현하고 실제 캐릭터 그리기 경로를 744개 동작·방향·착용 조건에서 검사했다. 달리기의 보행 프레임 공유, 점프 단계와 들린 사람의 공중 포즈 공유, 남동향 제스처 반전, 고해상도 보행 몸통의 노멀 재사용을 보고한다. 모션 검사에서 누락 방향, 별도 칸의 중복 색상, 반복 노멀과 어긋난 마스크, WebGL의 누락 바인딩을 거절하는 회귀 검사를 추가했다. [동작 명세](../art/sprites/field-camper-v2/camper-motion-spec.json) · [v50 기준선](../art/sprites/field-camper-v2/subculture-20261122/motion-coverage.json)
+
+Canvas 47개 장면과 격리 Chromium WebGL 23개 장면을 렌더했다. WebGL에서 보행 몸통·얼굴·헤어의 노멀 바인딩, 진단광 좌우 변경, 같은 광원에서 노멀 유무에 따른 캐릭터 픽셀 차이를 확인했다. 대표 착석·던지기·야간 보행 화면을 열어 봤다. 로컬 전체 회귀 376개, 아트 방향 34개, 타입 검사와 앱 빌드를 통과했다. [검수 절차](art/scene-first-review.md#캠퍼-동작과-노멀-검수)
+
+v50 파일을 별도 후보로 올린 루프백 테스트에서 로비 착용과 필드 배율·동작을 거쳐 Canvas 48쌍과 브라우저 65쌍의 전후 화면 및 영수증을 대조했다. 같은 v50 자산은 `sprites:camper -- --check`에서 재현됐고 `coverage --full`에서는 전용 프레임과 노멀의 미비가 표시됐다.
+
 <a id="sites-v50"></a>
 
 ## 2026-11-22 · 서브컬처 도트 캠퍼 v50 게시
 
-기존 공개 사이트에 v50을 게시했다. 로비와 필드에서 단발·묶은 머리와 재킷·후디를 교차 착용하고, 네 방향의 서기·착석·호흡·깜빡임·보행·제스처를 새 아틀라스로 그린다. 보행 몸통 파일은 128,560바이트이고 방향별 공통 머리와 헤어를 재사용한다. [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [승인한 파일](reviews/2026-11-22-subculture-runtime-release.md)
+기존 공개 사이트에 v50을 게시했다. 로비와 필드에서 단발·묶은 머리와 재킷·후디를 교차 착용하고, 네 방향의 서기·착석·호흡·깜빡임·보행을 새 아틀라스에서 고른다. 제스처는 남동향 키와 반전·공유 포즈를 사용한다. 보행 몸통 파일은 128,560바이트이고 방향별 공통 머리와 헤어를 재사용한다. [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [승인한 파일](reviews/2026-11-22-subculture-runtime-release.md)
 
 - GitHub `d81a71b09b5b7d182590ce414a9c88c20b11b6d8`의 웹 소스 388개와 Sites 소스 `d29dd690c35d118f23a175cb0dfa47cc1b0f8390`의 Git 파일 내용·모드가 일치했다. 전체 회귀 373개, 타입 검사, 아틀라스 재현, Canvas 장면 렌더와 앱 빌드가 통과했다. [GitHub 검증](https://github.com/biru100/HuddlersFire/actions/runs/44956803921)
 - 격리 Chromium에서는 PC·모바일·125% DPI마다 네 착용 조합의 얼굴 보호 픽셀 95개가 일치했다. 실제 필드에서 WebGL 75%·100%·300% 보행, Canvas 폴백과 초상화를 검증했다.

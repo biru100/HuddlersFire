@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "actions": {
+    "idle": {
+      "phases": {
+        "stand": {},
+        "inhale": {"time": 1.1, "distinctFrom": ["idle.stand"]},
+        "blink": {"time": 2.48, "layer": "face", "directions": ["front-right", "front-left"], "distinctFrom": ["idle.stand"]}
+      }
+    },
+    "sit": {
+      "phases": {
+        "enter": {"seat": true, "distinctFrom": ["idle.stand", "sit.hold"]},
+        "hold": {"seat": true, "distinctFrom": ["idle.stand"]},
+        "exit": {"distinctFrom": ["idle.stand", "sit.hold", "sit.enter"]}
+      }
+    },
+    "walk": {"steps": "walkSteps"},
+    "run": {"steps": "walkSteps", "player": {"running": true}, "distinctFrom": "walk"},
+    "crouch": {
+      "phases": {
+        "hold": {"player": {"crouching": true}, "distinctFrom": ["idle.stand"]}
+      }
+    },
+    "jump": {
+      "phases": {
+        "prepare": {"player": {"jumpAt": 995}, "distinctFrom": ["idle.stand"]},
+        "rise": {"player": {"motion": "airborne", "z": 0.8, "vz": 4}, "distinctFrom": ["jump.prepare"]},
+        "fall": {"player": {"motion": "airborne", "z": 0.8, "vz": -4}, "distinctFrom": ["jump.prepare", "jump.rise"]},
+        "land": {"player": {"landedAt": 995}, "distinctFrom": ["jump.prepare", "jump.rise", "jump.fall"]}
+      }
+    },
+    "carry": {
+      "phases": {
+        "holder": {"player": {"carrying": "partner"}, "distinctFrom": ["idle.stand"]},
+        "passenger": {"player": {"carriedBy": "partner", "motion": "carried", "z": 1.3}, "distinctFrom": ["jump.rise", "carry.holder"]}
+      }
+    },
+    "throw": {
+      "phases": {
+        "release": {"distinctFrom": ["idle.stand", "carry.holder"]},
+        "passenger": {"player": {"motion": "airborne", "thrown": true, "z": 1.3, "vz": 4}, "distinctFrom": ["jump.rise", "carry.passenger"]}
+      }
+    },
+    "fall": {
+      "phases": {
+        "edge": {"player": {"motion": "falling", "z": -0.4, "vz": -3}, "distinctFrom": ["jump.fall"]}
+      }
+    },
+    "weapon": {
+      "phases": {
+        "gun-aim": {"player": {"weapon": "gun"}, "distinctFrom": ["idle.stand"]},
+        "gun-fire": {"player": {"weapon": "gun", "shotAt": 995}, "distinctFrom": ["weapon.gun-aim"]},
+        "snowball-aim": {"player": {"weapon": "snowball"}, "distinctFrom": ["idle.stand"]},
+        "snowball-throw": {"player": {"weapon": "snowball", "shotAt": 995}, "distinctFrom": ["weapon.snowball-aim"]},
+        "bomb-aim": {"player": {"weapon": "bomb"}, "distinctFrom": ["idle.stand"]},
+        "bomb-throw": {"player": {"weapon": "bomb", "shotAt": 995}, "distinctFrom": ["weapon.bomb-aim"]}
+      }
+    },
+    "hit": {
+      "phases": {
+        "impact": {"player": {"hitAt": 980}, "distinctFrom": ["idle.stand", "emote.surprise"]}
+      }
+    },
+    "emote": {
+      "phases": {
+        "wave": {"emote": "wave", "time": 0.1, "distinctFrom": ["idle.stand"]},
+        "heart": {"emote": "heart", "time": 0.1, "distinctFrom": ["idle.stand", "emote.clap"]},
+        "clap": {"emote": "clap", "time": 0.1, "distinctFrom": ["idle.stand"]},
+        "dance": {"emote": "dance", "time": 0.1, "distinctFrom": ["idle.stand"]},
+        "laugh": {"emote": "laugh", "time": 0.1, "distinctFrom": ["idle.stand", "emote.dance"]},
+        "surprise": {"emote": "surprise", "time": 0.1, "distinctFrom": ["idle.stand"]},
+        "seated-wave": {"emote": "wave", "time": 0.1, "seat": true, "mixWith": "sit.hold", "distinctFrom": ["sit.hold"]},
+        "walking-wave": {"emote": "wave", "time": 0.1, "player": {"moving": true, "walkCycle": 0.25}, "mixWith": "walk.step-3", "distinctFrom": ["walk.step-3"]}
+      }
+    }
+  },
+  "normalLayers": ["body", "face", "hair"],
+  "sharing": {
+    "commonLayers": ["face", "hair"],
+    "exceptions": []
+  },
+  "sceneCases": ["sit.enter", "sit.hold", "sit.exit", "jump.prepare", "jump.rise", "jump.fall", "jump.land", "carry.holder", "throw.release", "throw.passenger"]
+}

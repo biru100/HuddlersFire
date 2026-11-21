@@ -325,6 +325,19 @@ if(process.argv[1]&&pathToFileURL(process.argv[1]).href===import.meta.url){
   writeFileSync(new URL('audit.json',job),toJson({bodies:candidate.audit,heads:candidate.heads}));
   writeFileSync(new URL('manifest.json',job),toJson(candidate.manifest));
   if(mode==='--install'){
+    const {assertCamperMotion,inspectCamperMotion,isMotionBaseline,motionBaseline,verifyMotionBaseline}
+      =await import('./camper-motion-audit.mjs');
+    const {readCamperCandidate}=await import('./camper-review-assets.mjs');
+    const jobName='subculture-full';
+    const motion=await inspectCamperMotion(readCamperCandidate(jobName));
+    if(candidate.manifest.id===motionBaseline.candidate&&isMotionBaseline(motion)){
+      verifyMotionBaseline(motion,motionBaseline);
+    }else{
+      assertCamperMotion(motion);
+      const {verifyCamperPair}=await import('../tests/camper-scale-evidence.mjs');
+      if(!verifyCamperPair(jobName,'canvas')||!verifyCamperPair(jobName,'browser'))
+        throw Error('Full camper installation requires Canvas and WebGL review evidence');
+    }
     for(const [i,id] of ids.entries())writeFileSync(new URL('public'+candidate.files[id].url,web),candidate.buffers[i]);
     writeFileSync(new URL('release.json',art),toJson(candidate.manifest));
     writeFileSync(new URL('lib/camp-camper-part-files.mjs',web),

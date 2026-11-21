@@ -7,6 +7,8 @@ description: "HuddlersFire의 원화 PNG, 픽셀 레이어, 아틀라스, 장면
 
 현행 캠퍼 원화는 [camp-art-direction](../camp-art-direction/SKILL.md)에 따라 Codex에서 제작할 수 있다. 생성한 원본 PNG와 요청문·해시를 보존하고, 네이티브 파츠는 별도 파생본으로 기록한다. [캠퍼 재생성 하네스](../../../art/sprites/field-camper-v2/README.md)에서 공통 머리·헤어, 네 착용 조합, 로비와 필드를 검증한다. 서기 기준 후보와 전체 동작 납품, 최종 미술 선택, 게임 채택은 각각 기록한다.
 
+현행 캠퍼 후보는 [동작과 노멀 검수](../../../docs/art/scene-first-review.md#캠퍼-동작과-노멀-검수)에 따라 실제 렌더러가 선택한 컬러 프레임과 노멀을 대조한다. 전용 노멀은 해당 파츠의 표면과 투명 윤곽을 따른다. 공통 얼굴·헤어는 몸통 동작 사이에 재사용할 수 있다. 방향 반전이나 동작 간 공유가 필요하면 명세에 대상과 사용자 결정 근거를 남긴다.
+
 > **2026-11-18 fresh art path:** The new [pixel clean-room pilot](../../../docs/art/pixel-ai-pipeline-v3.md) must not load, pass into a model, or visually reuse any historic PNG/lookdev/sprite or previous palette. Its positive-only text brief is the only initial creative input. Existing registry and catalog remain production/provenance infrastructure but historical approved art is **not** an auto-reference for NEW concept generation. Do not treat code-only pixel sketches, RGB interpolation, grid snapping or a resized screenshot as approved artwork. Work may create derivative native pixels within task scope. Reuse the renderer only for **new post-generation in-game reviews**.
 
 **원본 우선순위:** [GitHub source registry](../../../art/sprites/source-registry/README.md)의 실제 PNG 바이너리·MANIFEST·SHA256가 일치해야 한다. `tools/art-source-registry.mjs`로 확인하고 별도 art-direction/motion job에 연결한다. ZIP 전달은 과거 이력이며, GitHub 저장 자체는 디자인/모션/네이티브/게임 검증과 별개다.
