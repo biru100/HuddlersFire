@@ -29,7 +29,9 @@ test('the selected field sprites report v50 gaps or meet the full motion specifi
   assert.ok(has('walk.step-2/front-right/0/0','normal-shared-phase'));
   assert.ok(has('walk.step-1/front-right/1/0','normal-shared-outfit'));
   assert.ok(has('emote.wave/back-right/0/0','color-shared-direction'));
-  assert.throws(()=>assertCamperMotion(report,['jump']),/jump\.rise\/color-shared-phase/);
+  // The structured assertion above checks jump.rise; the CLI summary is bounded
+  // and may omit that phase after earlier alphabetically sorted findings.
+  assert.throws(()=>assertCamperMotion(report,['jump']),/Incomplete camper motion:/);
   assert.throws(()=>verifyMotionBaseline({...report,issues:report.issues.slice(1)},motionBaseline),/differs from the recorded baseline/);
 });
 
