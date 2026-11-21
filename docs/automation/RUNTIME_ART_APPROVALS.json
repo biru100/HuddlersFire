@@ -2,6 +2,26 @@
   "version": 1,
   "assets": [
     {
+      "path": "web/public/sprites/field-camper-v2-parts.c94358ad19ab.webp",
+      "sha256": "c94358ad19abcc7edf010240b309969a8c6b68e2e3ef8660c59dab79b89fa382",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-22-subculture-runtime-release.md",
+      "userDecision": {
+        "quote": "그래 일단 전체 적용 후 배포해줘",
+        "reference": "2026-11-22 AgentHub 사용자 요청, 서브컬처 도트 캠퍼 전체 적용과 게시"
+      }
+    },
+    {
+      "path": "web/public/sprites/field-camper-walk-parts.9104fd145a07.webp",
+      "sha256": "9104fd145a07333ed4aa26eb8750e5452008b6006e7952e9df62acc8bca801ac",
+      "state": "runtime-approved",
+      "approvalDocument": "docs/reviews/2026-11-22-subculture-runtime-release.md",
+      "userDecision": {
+        "quote": "그래 일단 전체 적용 후 배포해줘",
+        "reference": "2026-11-22 AgentHub 사용자 요청, 서브컬처 도트 캠퍼 전체 적용과 게시"
+      }
+    },
+    {
       "path": "web/public/sprites/field-camper-v2.8de5cbfcf0be.webp",
       "sha256": "8de5cbfcf0be4a6872e785aac665b18cedae1c122e5190b342835699fa8c37a8",
       "state": "runtime-approved",
