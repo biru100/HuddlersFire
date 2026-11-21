@@ -1,4 +1,4 @@
 interface:
   display_name: "캠프 미술 방향"
-  short_description: "ChatGPT 원화 제작과 미술 승인, 네이티브 납품을 분리"
-  default_prompt: "Use $camp-art-direction to review HuddlersFire artwork and prepare one external ChatGPT art request without substituting local image generation."
+  short_description: "Codex로 캠프 원화와 키포즈를 제작하고 실제 장면에서 검토"
+  default_prompt: "Use $camp-art-direction to create and review a HuddlersFire camper sprite candidate in Codex."

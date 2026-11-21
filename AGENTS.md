@@ -1,5 +1,9 @@
 # HuddlersFire project instructions
 
+## 2026-11-22 · Direct sprite authoring in Codex
+
+For the current camper regeneration, Codex can generate concepts, key poses, and sprite candidates with its built-in image tool, then author or refine derivative native pixels in the same session. Save exact image outputs and provenance before processing. Validate native layers and playable scenes separately. Only the user can select final artwork. Apply the separate clean-room input rules when the user requests a new visual direction.
+
 ## 2026-11-20 · Scene-first art review
 
 Choose the task in the [scene-first art workflow](docs/art/scene-first-review.md). For revisions around the current camper, capture the shipped local art before editing and pair it with the same playable scenes afterwards. For a new visual direction, submit a fresh text-only standing camper, bench and ground patch together. Use a historical receipt to reproduce that submission only. Record aesthetic selection and runtime verification separately.
@@ -16,7 +20,7 @@ Current exploratory product art target: casual true pixel art, approx 2–2.5-he
 
 **Starting a new Chat/Work/Codex/other-AI context:** read [user intent decisions](docs/project-intent.md), [project harness entry](docs/harness/README.md), [intent tree](docs/harness/INTENT_TREE.md), [current handoff](docs/harness/CURRENT.md), then route the task using [work protocol](docs/harness/WORK_PROTOCOL.md). Confirm exact repository HEAD, PR state and evidence instead of assuming previous chats share memory. Preserve latest user decisions across contexts by updating the canonical decision ledger and dated handoff.
 
-**Newest art delegation decision:** ChatGPT designs concepts and key poses; Work/Codex **may directly author/edit derivative native pixel assets and motion** within the user's authorized scope. Only the user can give final aesthetic approval. Approved original PNG bytes stay immutable. The 64×96 NW cute-breathing Idle is one initial subordinate pilot, not a universal frame count, shape-lock, approval gate or roadmap. Previous narrower instructions that forbid all Codex pixel editing are superseded in this limited way.
+**Art delegation:** Follow the latest art authoring decision above for the current camper. Work/Codex may directly author and edit derivative native pixel assets and motion within the authorized scope. Approved original PNG bytes stay immutable. The 64×96 NW cute-breathing Idle remains an earlier pilot.
 
 Product intent and independent domain-level QA outrank the number of art files, CI successes, frames and PRs. For a domain task, use only its relevant skill. General router: [.agents/skills/huddlersfire-project-operator/SKILL.md](.agents/skills/huddlersfire-project-operator/SKILL.md). Existing site/DB/Discord preservation, no paid APIs, no automatic art approval and no unapproved live publication remain unchanged.
 
@@ -46,7 +50,7 @@ Use [visual production](docs/visual-production.md) for asset contracts, [image h
 ## Select skills
 - **huddlersfire-project-operator**: 프로젝트 전체의 최상위 의도·작업 라우팅·컨텍스트 인계. 특정 분야의 하위 스킬보다 먼저 의도를 복원한다. [프로젝트 운영 스킬](.agents/skills/huddlersfire-project-operator/SKILL.md).
 - 프로젝트 로컬 스킬은 `.agents/skills/`에 둔다. 요청에 필요한 스킬만 선택하고, 적용 전에 해당 `SKILL.md`를 읽는다.
-- **camp-art-direction**: [미술 방향·외부 생성 요청](.agents/skills/camp-art-direction/SKILL.md). 스타일/품질 개선, 기준 캐릭터 선정, ChatGPT 이미지 요청·수신에 적용한다. 미술 승인 전에 대량 리소스를 생산하지 않는다.
+- **camp-art-direction**: [미술 방향·원화 제작](.agents/skills/camp-art-direction/SKILL.md). 스타일과 가독성, 기준 캐릭터 제작·비교, 사용자 미술 선택에 적용한다.
 - **camp-sprite-assets**: [수신 원화·조립·스프라이트 검수](.agents/skills/camp-sprite-assets/SKILL.md). 승인된 방향을 게임용 자산으로 연결하고 실제 장면에서 확인한다. 직접 생성의 기본 경로가 아니다.
 - **plan-interview**: 계획만 요청하거나 `/plan`, `./plan`, `$plan-interview`, 명시적인 요구사항 인터뷰를 요청할 때 공통 `plan-interview` 스킬을 적용한다. 프로젝트 의도·기존 사용자 답과 현재 세션의 질문 규칙을 함께 따른다. 프로젝트 전용 `camp-plan-interview`는 사용자의 요청으로 제거했다.
 - 일반 구현·단순 질문·명령 사용법 설명·문자열 인용에는 계획 인터뷰를 자동으로 추가하지 않는다.

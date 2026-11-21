@@ -1,6 +1,6 @@
 import {DAY_SUN,viewLightDirection} from './camp-lighting.mjs';
 const sunlight=viewLightDirection(DAY_SUN.x,DAY_SUN.y,DAY_SUN.height).map(n=>n.toFixed(4)).join(',');
-export const LIGHT_VERTEX=`
+export const LIGHT_VERTEX=`#version 300 es
 precision highp float;
 in vec2 aPosition;
 in vec2 aUV;
@@ -9,7 +9,7 @@ out vec2 vUV;
 out vec2 vScreen;
 void main(){vUV=aUV;vScreen=aPosition;gl_Position=vec4(aPosition/uViewport*vec2(2.0,-2.0)+vec2(-1.0,1.0),0.0,1.0);}
 `;
-export const LIGHT_FRAGMENT=`
+export const LIGHT_FRAGMENT=`#version 300 es
 precision highp float;
 in vec2 vUV;
 in vec2 vScreen;
@@ -18,6 +18,7 @@ uniform sampler2D uNormalTexture;
 uniform float uAlpha;
 uniform float uStrength;
 uniform float uNight;
+uniform float uCamperFilter;
 uniform vec3 uAmbient;
 uniform vec3 uAmbientLift;
 uniform float uPointGain;
@@ -65,8 +66,20 @@ vec3 nightTerm(vec4 light,vec4 color,vec3 point,vec3 normal){
   direction/=max(0.001,length(direction));
   return color.rgb*color.a*attenuation*attenuation*(0.18+0.82*max(0.0,dot(normal,direction)));
 }
+vec4 sampleColor(){
+  if(uCamperFilter<0.5)return texture(uColorTexture,vUV);
+  vec2 size=vec2(textureSize(uColorTexture,0));
+  vec2 texel=vUV*size;
+  if(uCamperFilter<1.5)return texture(uColorTexture,(floor(texel)+0.5)/size);
+  // Keep the interior of each source texel solid. Only a screen pixel
+  // overlapping a texel boundary receives a mix of the two colours.
+  vec2 boundary=floor(texel+0.5);
+  vec2 footprint=max(fwidth(texel),vec2(0.00001));
+  vec2 offset=clamp((texel-boundary)/footprint,vec2(-0.5),vec2(0.5));
+  return texture(uColorTexture,(boundary+offset)/size);
+}
 void main(){
-  vec4 base=texture(uColorTexture,vUV);if(base.a<0.001)discard;
+  vec4 base=sampleColor();if(base.a<0.001)discard;
   float coverage=insideClip(uClip0,uClipMeta0)*insideClip(uClip1,uClipMeta1)*insideClip(uClip2,uClipMeta2)*insideClip(uClip3,uClipMeta3);
   if(coverage<0.001)discard;
   if(uNight>0.5){

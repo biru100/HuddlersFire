@@ -1,5 +1,37 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-22 · 선택된 캠퍼 얼굴로 네 방향과 모션 후보 제작
+
+사용자가 남동향 수정본을 선택하고 귀여움과 예쁨이 읽히는 서브컬처 도트 표현을 요청했다. `subculture-20261122`에 원본과 요청문 9건, 네 방향·네 조합·두 의상의 모션 키, 몸통 전용 보행 64프레임의 표시용 합성을 보관했다. 16개 착용 조합의 공통 얼굴 픽셀과 8프레임 반복 파일을 검사했다. 후속 작업은 착석·표정·제스처의 얼굴/앞손 분리, 하네스용 입력 13장 검증 및 로비·필드에서의 실제 접지·배율·루프 확인이다. [원본과 검토본](../../art/sprites/field-camper-v2/subculture-20261122/manifest.json) · [검증](../validation.md#camper-subculture-lookdev)
+
+## 2026-11-22 · 첫 후보 기각과 남동향 서기 수정
+
+사용자가 첫 후보의 미술 품질 저하를 지적하고 수정을 선택했다. 현행 남동향 원화를 직접 참조한 수정 후보의 원본과 요청문을 저장했다. 눈 하이라이트, 둥근 앞머리, 짧은 상체·다리, 칼라를 1배·3배와 같은 캠프 위치에서 비교했다. 사용자 미술 선택 전 단계이며 나머지 방향·파츠·동작은 이 선택을 기준으로 제작한다. [수정 비교](../../art/sprites/field-camper-v2/lookdev-reference-20261122/standing-comparison.png) · [검증](../validation.md#camper-reference-standing)
+
+## 2026-11-22 · Codex 직접 제작과 첫 서기 후보
+
+사용자 결정에 따라 현행 캠퍼 재생성의 원화와 키포즈를 Codex에서 직접 제작하는 경로로 프로젝트 스킬을 갱신했다. `main`의 로컬 기준 `a5fda8d` 위 작업본에서 네 방향 서기와 공통 머리·두 헤어·두 의상의 원본을 보관하고, 1배·2배 착용표와 같은 캠프 위치의 전후 화면을 만들었다. 첫 서기 기준의 사용자 선택 후 네이티브 파츠, 후속 동작과 아틀라스를 완성한다. 구형 제작·렌더링 경로는 로컬 교체 검증 후 정리한다. [착용 비교](../../art/sprites/field-camper-v2/lookdev-codex-20261122/parts-wardrobe-review.png) · [검증](../validation.md#camper-codex-standing)
+
+## 2026-11-22 · 보행 몸통 전용 아틀라스와 새 원화 수신 준비
+
+`camper-regeneration-v2`에 PNG 13장 입력 목록, 원화 요청서와 현재 캠퍼의 기준 화면을 준비했다. 현행 마스터로 만든 기술 검증용 보행판은 `e3582fc152e8`이며 새 작업에서 고해상도 머리 마스터 3장을 요구하지 않는다. [제작 규격](../../art/sprites/field-camper-v2/README.md) · [검증](../validation.md#camper-body-only-walk)
+
+## 2026-11-21 · 캠퍼 전체 재생성 하네스
+
+모닥불에서 서로를 알아볼 수 있도록 현행 캠퍼의 얼굴·체격·색·접점을 검사하는 제작 흐름을 `sprites:camper`로 묶었다. 최종 후보는 원본 해시와 함께 작업 폴더에 저장하고, 실제 렌더러에서 같은 파일로 검수한다. 기존 마스터는 기본판 `87cc24a01622`와 보행판 `b98c3dcd5c87`를 재현했다. 전체 재생성용 원화 제출과 미술 선택은 대기 중이다. [작업 시작](../../art/sprites/field-camper-v2/README.md#전체-재생성-작업-시작) · [검증](../validation.md#camper-regeneration-harness)
+
+## 2026-11-21 · 캠퍼 확대·축소와 정지·보행 전환
+
+`a5fda8d` 이후 로컬 작업본에서 로비와 초상화는 실제 화면 픽셀 크기에 그린다. 필드는 배율에 맞게 픽셀 경계와 축소를 처리하며, 정지와 걸음에서 같은 방향의 공통 얼굴·헤어를 사용한다. 양쪽 헤어의 내부 명암을 손질한 기본 아틀라스는 `87cc24a01622`다. 이전 기본판 `edad7e0132ce`와 보행판 `b98c3dcd5c87`로 비교할 수 있다. 최종 미술 선택과 운영 게시는 대기 중이다. [검증](../validation.md#camper-scales) · [검토 절차](../art/scene-first-review.md)
+
+## 2026-11-21 · 같은 머리에 얹는 두 헤어
+
+로컬 게임은 `a5fda8d` 이후 작업본의 단발·묶은 머리를 분리된 파츠로 사용한다. 캐릭터 꾸미기, 초상화, 필드와 그림자가 공통 머리를 사용한다. PC·모바일 브라우저 로비에서 네 착용 조합의 얼굴 보호 영역 102픽셀이 일치했다. 3개 맵의 같은 시점 전후 화면도 검증했다. 운영 게시와 최종 미술 선택은 대기 중이다. [검증](../validation.md#shared-camper-head) · [착용표](../../art/sprites/field-camper-v2/shared-head/wardrobe.png)
+
+## 2026-11-21 · 캠퍼 색·크기 규격 및 재생성 검토본
+
+`main`의 `a5fda8d`에서 보행 원화별 머리 폭과 재질색 편차를 재현했다. 같은 얼굴·의상을 알아볼 수 있도록 현행 원본 열 장에서 후보 두 장을 재생성했다. 네 조합, 네 방향, PC·모바일 세 맵의 Canvas 전후를 로컬 검증했다. 후보 미술 선택과 운영 채택은 대기 중이다. [착용 비교](../../art/sprites/field-camper-v2/consistency/wardrobe-comparison.png) · [검증](../validation.md#camper-consistency)
+
 ## 2026-11-21 · 기존 Sites에 v49 게시
 
 고해상도 걷기·달리기, 머리와 상의 교차 착용, 모닥불 캠프의 이동 경계와 세 맵 환경을 공개했다. 운영 로비, 방 목록, 빌드 ID와 이미지 11개의 해시가 일치했다. [게임 열기](https://huddlers-fire-camp.gywkd77.chatgpt.site) · [배포 기록](../validation.md#sites-v49)

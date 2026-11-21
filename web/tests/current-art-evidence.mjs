@@ -11,9 +11,9 @@ import {actionCases,reviewMaps,reviewSizes} from './current-art-scenes.mjs';
 const fileHash=path=>hash(readFileSync(inside(ROOT,path)));
 const codeHash=path=>hash(readFileSync(inside(ROOT,path),'utf8').replaceAll('\r\n','\n'));
 
-export function releaseIdentity(){
+export function releaseIdentity(manifest=spriteManifest){
   const files={};
-  for(const {url,sha256} of Object.values(spriteManifest.files)){
+  for(const {url,sha256} of Object.values(manifest.files)){
     const digest=fileHash('web/public'+url);
     if(sha256!==digest)throw Error('Changed release sprite: '+url);
     files[url]=digest;
@@ -25,7 +25,7 @@ export function releaseIdentity(){
     if(fileHash(sourceDir+name)!==entry.sha256)throw Error('Changed original: '+name);
   }
   const modules=readdirSync(resolve(ROOT,'web/lib')).filter(name=>name.startsWith('camp-')&&name.endsWith('.mjs')).sort();
-  return {manifest:hash(spriteManifest),files,sources:hash(sources),
+  return {manifest:hash(manifest),files,sources:hash(sources),
     runtime:hash(modules.map(name=>[name,codeHash('web/lib/'+name)])),
     recipe:hash(['build-camper-style.py','camp_prop_details.py','camp_landscapes.py'].map(name=>
       existsSync(resolve(ROOT,'tools',name))?codeHash('tools/'+name):null))};

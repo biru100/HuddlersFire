@@ -6,7 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "test": "node --import ./tests/sprite-fixture.mjs --test --test-concurrency=4 tests/release.test.mjs tests/camp.test.mjs tests/features.test.mjs tests/playback.test.mjs tests/character.test.mjs tests/weapons.test.mjs tests/carry-handoff.test.mjs tests/architecture.test.mjs tests/input.test.mjs tests/wire.test.mjs tests/community.test.mjs tests/view.test.mjs tests/playground.test.mjs tests/maps.test.mjs tests/immersion.test.mjs tests/exhibition.test.mjs tests/appearance.test.mjs tests/theme.test.mjs tests/sprites.test.mjs tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/lighting.test.mjs tests/materials.test.mjs tests/avatar-proxy.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs tests/pixel-cleanroom.test.mjs tests/camp-clearing-art.test.mjs tests/camp-scenery.test.mjs tests/current-art-evidence.test.mjs tests/art-direction.test.mjs tests/art-intake.test.mjs tests/motion-lookdev.test.mjs tests/art-source-registry.test.mjs tests/deployment.test.mjs",
+    "test": "node --import ./tests/sprite-fixture.mjs --test --test-concurrency=4 tests/release.test.mjs tests/camp.test.mjs tests/features.test.mjs tests/playback.test.mjs tests/character.test.mjs tests/weapons.test.mjs tests/carry-handoff.test.mjs tests/architecture.test.mjs tests/input.test.mjs tests/wire.test.mjs tests/community.test.mjs tests/view.test.mjs tests/playground.test.mjs tests/maps.test.mjs tests/immersion.test.mjs tests/exhibition.test.mjs tests/appearance.test.mjs tests/theme.test.mjs tests/sprites.test.mjs tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/lighting.test.mjs tests/materials.test.mjs tests/avatar-proxy.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs tests/pixel-cleanroom.test.mjs tests/camp-clearing-art.test.mjs tests/camp-scenery.test.mjs tests/current-art-evidence.test.mjs tests/camper-consistency.test.mjs tests/camper-head.test.mjs tests/art-direction.test.mjs tests/art-intake.test.mjs tests/motion-lookdev.test.mjs tests/art-source-registry.test.mjs tests/deployment.test.mjs",
     "test:network": "node tests/network.integration.mjs",
     "test:render": "node --import ./tests/sprite-fixture.mjs tests/render-scene.mjs",
     "test:terrain": "node --import ./tests/sprite-fixture.mjs --test tests/camp-scenery.test.mjs && node --import ./tests/sprite-fixture.mjs tests/render-landscapes.mjs --quick",
@@ -26,7 +26,12 @@
     "test:qa-server": "node tests/local-immersion-server.mjs",
     "test:render:metrics": "node --import ./tests/sprite-fixture.mjs tests/measure-render.mjs outputs/sprite-render-after.json",
     "sprites:build": "node ../tools/rebuild-sprites.mjs",
-    "test:sprites:pipeline": "node --import ./tests/sprite-fixture.mjs --test tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/materials.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs tests/pixel-cleanroom.test.mjs tests/camp-clearing-art.test.mjs tests/camp-scenery.test.mjs tests/current-art-evidence.test.mjs tests/art-direction.test.mjs tests/art-intake.test.mjs tests/motion-lookdev.test.mjs tests/art-source-registry.test.mjs",
+    "sprites:camper": "node scripts/camper-harness.mjs",
+    "art:review:camper": "node scripts/review-camper-consistency.mjs",
+    "art:review:head": "node scripts/review-camper-head.mjs",
+    "art:review:camper-scales": "node --import ./tests/sprite-fixture.mjs tests/render-camper-scales.mjs",
+    "test:browser:camper-head": "node tests/browser.camper-head.mjs",
+    "test:sprites:pipeline": "node --import ./tests/sprite-fixture.mjs --test tests/sprite-pipeline.test.mjs tests/scene-composition.test.mjs tests/materials.test.mjs tests/material-review.test.mjs tests/pixel-pipeline.test.mjs tests/pixel-cleanroom.test.mjs tests/camp-clearing-art.test.mjs tests/camp-scenery.test.mjs tests/current-art-evidence.test.mjs tests/camper-consistency.test.mjs tests/camper-head.test.mjs tests/art-direction.test.mjs tests/art-intake.test.mjs tests/motion-lookdev.test.mjs tests/art-source-registry.test.mjs",
     "test:render:preview": "node tests/render-scene-preview.mjs",
     "test:browser:lighting": "node tests/browser.lighting.mjs",
     "materials:build": "node ../tools/build-material-maps.mjs",

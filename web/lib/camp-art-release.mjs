@@ -1,5 +1,5 @@
 // Install current art at the production boundary; authoring jobs supply their own manifest.
-import { CAMPER_ART_FILES } from './camp-camper-art.mjs';
+import { CAMPER_PART_FILES } from './camp-camper-part-files.mjs';
 import { STYLE_FILES, STYLE_FRAMES } from './camp-style-files.mjs';
 
 export function withCampArt(manifest) {
@@ -11,7 +11,7 @@ export function withCampArt(manifest) {
   sprites['game-booth'] = sprites.gameBooth;
   return {
     ...manifest, sprites,
-    files: {...manifest.files,...CAMPER_ART_FILES,...STYLE_FILES},
+    files: {...manifest.files,...CAMPER_PART_FILES,...STYLE_FILES},
     materials: {...manifest.materials, sheets: {...manifest.materials.sheets,
       'camp-scenery':'normal-camp-scenery','camp-scenery-dark':'normal-camp-scenery'}},
   };

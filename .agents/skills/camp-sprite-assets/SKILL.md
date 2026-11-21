@@ -1,9 +1,11 @@
 ---
 name: camp-sprite-assets
-description: "HuddlersFire의 수신 이미지·픽셀 레이어·아틀라스·장면 합성을 검증하거나 승인된 자산을 연결할 때 사용한다. 신규 원화는 ChatGPT 외부 제작 경로로 요청하며 Codex 내장 생성으로 대체하지 않는다."
+description: "HuddlersFire의 원화 PNG, 픽셀 레이어, 아틀라스, 장면 합성을 검사하고 사용자 선택을 받은 자산을 연결할 때 사용한다."
 ---
 
 # 캠프 원화 수신과 스프라이트 조립
+
+현행 캠퍼 원화는 [camp-art-direction](../camp-art-direction/SKILL.md)에 따라 Codex에서 제작할 수 있다. 생성한 원본 PNG와 요청문·해시를 보존하고, 네이티브 파츠는 별도 파생본으로 기록한다. [캠퍼 재생성 하네스](../../../art/sprites/field-camper-v2/README.md)에서 공통 머리·헤어, 네 착용 조합, 로비와 필드를 검증한다. 서기 기준 후보와 전체 동작 납품, 최종 미술 선택, 게임 채택은 각각 기록한다.
 
 > **2026-11-18 fresh art path:** The new [pixel clean-room pilot](../../../docs/art/pixel-ai-pipeline-v3.md) must not load, pass into a model, or visually reuse any historic PNG/lookdev/sprite or previous palette. Its positive-only text brief is the only initial creative input. Existing registry and catalog remain production/provenance infrastructure but historical approved art is **not** an auto-reference for NEW concept generation. Do not treat code-only pixel sketches, RGB interpolation, grid snapping or a resized screenshot as approved artwork. Work may create derivative native pixels within task scope. Reuse the renderer only for **new post-generation in-game reviews**.
 

@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "date": "2026-11-22",
+  "job": "camper-regeneration-v2",
+  "stage": "turnaround-and-motion-lookdev",
+  "tool": "codex-imagegen",
+  "modelVersion": null,
+  "parent": "../lookdev-reference-20261122/manifest.json",
+  "parentDesignSelected": true,
+  "finalArtSelection": "user-approved-for-production",
+  "runtimeAdoption": "user-approved-for-production",
+  "userDecision": "그래 일단 전체 적용 후 배포해줘",
+  "originals": [
+    {
+      "file": "standing-original.png",
+      "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414",
+      "size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        2,
+        2
+      ],
+      "prompt": "standing-prompt.txt",
+      "promptSha256": "bc42718f7d481598e9530b1b0bcc36352dbb73d7100a42569737c5f8c7ba5b47",
+      "references": [
+        {
+          "file": "../lookdev-reference-20261122/standing-se-original.png",
+          "sha256": "1578f1baa2ea5923903cd936a69723c5c1901fa8a54df08f63eb229e7f8f3969"
+        }
+      ]
+    },
+    {
+      "file": "motion-original.png",
+      "sha256": "5e097536deff7c7c810f0ce4763fe94db99486d144d7f60e242c1905ee81c84a",
+      "size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        4,
+        3
+      ],
+      "prompt": "motion-prompt.txt",
+      "promptSha256": "6d3aa2d5b6263adb1d480446061c70ba63f09a527d20aaf324d5c3fcdaf0de89",
+      "references": [
+        {
+          "file": "standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        }
+      ]
+    },
+    {
+      "file": "wardrobe-original.png",
+      "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708",
+      "size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        2,
+        2
+      ],
+      "prompt": "wardrobe-prompt.txt",
+      "promptSha256": "5501afd386081b7b5bfe573dad4ff7ecc0af3ef9d5acf20c2b5ed316543b085e",
+      "references": [
+        {
+          "file": "standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        }
+      ]
+    },
+    {
+      "file": "walk-jacket-original.png",
+      "sha256": "3a5b340fbcee602ab8c39227e276c5366403b47dae9a68c8f2793151b72e764b",
+      "size": [
+        1774,
+        887
+      ],
+      "grid": [
+        8,
+        4
+      ],
+      "prompt": "walk-jacket-prompt.txt",
+      "promptSha256": "d4f53740aa45c4ca5987e1a9b2f0add26363d465eb5ac18c41b696e434b76cc7",
+      "references": [
+        {
+          "file": "standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        },
+        {
+          "file": "../walk-detail/pose-guide.png",
+          "sha256": "135786bc97eafda1ce9e3b0ee7baa04d4e589c9cb4075dfeab5cceee82891176"
+        }
+      ]
+    },
+    {
+      "file": "gesture-original.png",
+      "sha256": "d76fb409d928880ede8421608450d3dc474d53d8a641a5aaeda10ce1e60953cd",
+      "size": [
+        1774,
+        887
+      ],
+      "grid": [
+        4,
+        2
+      ],
+      "prompt": "gesture-prompt.txt",
+      "promptSha256": "81de828c87ee5072fa6f21cfd522871b727e2a9cda837622af4b41528536f435",
+      "references": [
+        {
+          "file": "standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        }
+      ]
+    },
+    {
+      "file": "walk-hoodie-original.png",
+      "sha256": "da860910a457a39bed4baf7b726da475a9074d73cd6e216a0d7f2ef56bd3a27b",
+      "size": [
+        1774,
+        887
+      ],
+      "grid": [
+        8,
+        4
+      ],
+      "prompt": "walk-hoodie-prompt.txt",
+      "promptSha256": "af557bebc2b6cd4674016e9e4fbf469ad227374f8757309fb037e11c54b80539",
+      "references": [
+        {
+          "file": "walk-jacket-original.png",
+          "sha256": "3a5b340fbcee602ab8c39227e276c5366403b47dae9a68c8f2793151b72e764b"
+        },
+        {
+          "file": "wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        }
+      ]
+    },
+    {
+      "file": "motion-hoodie-original.png",
+      "sha256": "40703b00531f670464818ea251b17b13664f6a109a1e8a14797313d050144006",
+      "size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        4,
+        3
+      ],
+      "prompt": "motion-hoodie-prompt.txt",
+      "promptSha256": "9701b4ca90bbc46e50893f4672d5e79d58ed74832aa2c693968f0ff14d355549",
+      "references": [
+        {
+          "file": "motion-original.png",
+          "sha256": "5e097536deff7c7c810f0ce4763fe94db99486d144d7f60e242c1905ee81c84a"
+        },
+        {
+          "file": "wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        }
+      ]
+    },
+    {
+      "file": "gesture-hoodie-original.png",
+      "sha256": "cce686295d9935194ec40ad0f683542520c636fb17a7303d5d8629e231a877ff",
+      "size": [
+        1774,
+        887
+      ],
+      "grid": [
+        4,
+        2
+      ],
+      "prompt": "gesture-hoodie-prompt.txt",
+      "promptSha256": "c6173361f389c344303d10077a852344c021abf13609ef2d9a2b01898e049ec3",
+      "references": [
+        {
+          "file": "gesture-original.png",
+          "sha256": "d76fb409d928880ede8421608450d3dc474d53d8a641a5aaeda10ce1e60953cd"
+        },
+        {
+          "file": "wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        }
+      ]
+    },
+    {
+      "file": "idle-original.png",
+      "sha256": "e13411ecfcc01b4552942ddc69e26513d8e41cc9710ad0f6d179318b0f1a2645",
+      "size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        4,
+        4
+      ],
+      "prompt": "idle-prompt.txt",
+      "promptSha256": "3cd615973ef65b1a89323e1e9ba10af497b62f17aee96631d8a3ce5a43c78bce",
+      "references": [
+        {
+          "file": "standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        },
+        {
+          "file": "wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        }
+      ]
+    }
+  ],
+  "review": [
+    {
+      "file": "wardrobe-motion-review.png",
+      "sha256": "1a333e38cc1da64d67fc4c97c619e78bd96829d417a046ed44a8d8497bda8c66"
+    },
+    {
+      "file": "standing-preview-layers.png",
+      "sha256": "a1e65674fefb829003b01110438091963b3979adf58503b7242121fe434d5d0a"
+    },
+    {
+      "file": "camp-review.png",
+      "sha256": "a9c638ef2aa78ecc962890ee4db19f839aab69c06dc5f2978ed9388be8d10ccd"
+    },
+    {
+      "file": "atlas-scale-review.png",
+      "sha256": "4a9f07015bf229937eb2d02f81f7b15f080ad1abf2b0808ad43f9ba493d33442"
+    },
+    {
+      "file": "idle-review.png",
+      "sha256": "4a243b4275f3b3b3e34167794ba6b09e4dd2880b87871f4639f8f635aefd03f8"
+    },
+    {
+      "file": "gesture-review.png",
+      "sha256": "dc5e9a25c2ad96328997940d162015086b6e552c3ce9363cdf78ada37a92d153"
+    },
+    {
+      "file": "gesture-hoodie-review.png",
+      "sha256": "381f80af9fa4a267b066499426b104f63b49612b0f05ae4330121cfc0cedb19d"
+    },
+    {
+      "file": "walk-review.png",
+      "sha256": "3d7e9c186ee72554c6b02135637fd2416fa79e8efd64c70a88cf98a70f2fa31a"
+    },
+    {
+      "file": "walk-hoodie-review.png",
+      "sha256": "0b1c67f8e8d003134151f312974535595aed47c36e763dc4e23dad67abe31bcc"
+    },
+    {
+      "file": "walk-loop-review.webp",
+      "sha256": "a472fcc11e6003ef5f7e21287fab97d73866cd2f0a36b52d35751af7100a9e5d"
+    },
+    {
+      "file": "measurements.json",
+      "sha256": "57777618ae92392f1944af63750330a04f7752c0536be5c09598131cdbd76a85"
+    }
+  ]
+}

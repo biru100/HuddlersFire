@@ -1,17 +1,23 @@
 ---
 name: camp-art-direction
-description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미술 판단을 수행하고 Codex에서 검사 증거·요청서를 관리하도록 분담한다."
+description: "HuddlersFire 원화와 키포즈 제작, 아트 후보 비교, 실제 장면 검토와 사용자 미술 선택에 사용한다."
 ---
 
-후속 모션 원화(Idle·Walk·Sit)와 헤어/의상 레이어의 **미술 제작/평가 역시 ChatGPT**가 담당한다. 원본 인계 및 4컷 모션 검토는 [camp-animation-art](../camp-animation-art/SKILL.md)와 [Idle 브리프](../../../docs/briefs/rounded-02/animation-idle-handoff.md)를 따른다. Codex 기술 검사는 모션 원화 제작을 대신하지 않는다.
+# 캠프 원화 제작과 미술 선택
 
-# ChatGPT 아트 디렉션 · 원화 선택
+## 현행 캠퍼 재생성
+
+Codex의 내장 이미지 생성 도구로 현재 세션에서 기준 원화·키포즈·레이어 후보를 제작한다. [캠퍼 제작 규격](../../../art/sprites/field-camper-v2/README.md)과 작업 브리프에서 네 방향, 같은 얼굴·접점, 색과 화면 크기를 가져온다. 첫 서기 후보를 실제 크기로 검토한 뒤 후속 동작을 제작하며, 자세와 레이어 납품은 [camp-animation-art](../camp-animation-art/SKILL.md)와 [camp-sprite-assets](../camp-sprite-assets/SKILL.md)를 따른다.
+
+원본 PNG 바이트와 SHA-256, 실제 요청문, 도구, 참조 이미지 여부를 보존한다. 표시되지 않은 모델 이름은 미확인으로 기록한다. 큰 생성 시트는 원화 후보로 보관한다. 네이티브 픽셀은 편집한 파생본으로 등록하고 그리드·알파·접점·장면을 검증한다. 최종 미술 선택과 런타임 채택은 사용자가 확인한다. 추가 비용이 발생하는 API는 별도 승인 범위다.
 
 현재 게임의 캠퍼에 나무 의자·울타리·차양 등 환경을 맞추는 요청은 [현행 장면 전후 검토](../../../docs/art/scene-first-review.md)를 따른다. 수정 전후의 같은 플레이 장면을 먼저 확보하고, 표시 배율·원화의 선·목재 부재·이음새·접지 및 가림을 구분해 관찰한다. 신규 텍스트 원화는 아래 클린룸 경로, 과거 제출의 재현은 해당 시점의 영수증 경로를 사용한다.
 
 > **LATEST SCOPED OVERRIDE · 2026-11-18:** If the task requests a NEW HuddlersFire visual language or clean-room pixel art, start from [camp-pixel-cleanroom](../camp-pixel-cleanroom/SKILL.md), [pipeline](../../../docs/art/pixel-ai-pipeline-v3.md), and the positive-only text brief. **DO NOT read or supply any previous PNG, Rounded 02 reference, old screenshots, derived palettes, image records or prior generated candidates as creative/model inputs.** The historical prerequisites below apply only to explicitly continuing that separate old-art revision, not to the clean-room project. Current user permits Work/Codex to author derived/native pixels in authorized scope, with user final art approval. No external paid model without specific authorization.
 
-**최신 원본 전달:** [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md). ChatGPT 원화는 직접 GitHub 바이너리 업로드가 가능하면 원격 파일/해시까지 검증하고, 불가능하면 Codex가 원본 그대로 커밋한다. ZIP/로컬 다운로드 중심의 과거 지시는 이력이다. GitHub MANIFEST만으로 업로드/미술 승인을 주장하지 않는다.
+## Rounded 02 보존된 제작 절차
+
+Rounded 02를 명시적으로 이어갈 때 아래 원본과 [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md)를 사용한다. 원격 등록을 요청받으면 실제 파일과 해시를 대조한다.
 
 [활성 시각 제작](../../../docs/visual-production.md), [정책](../../../art/sprites/art-direction.json), [Rounded 02 현재 브리프](../../../docs/briefs/nw-se-rounded-lookdev-02.md)를 먼저 읽는다. 일반 기능 수정에는 이 절차를 추가하지 않는다.
 
@@ -26,4 +32,4 @@ description: "HuddlersFire 시각 퀄리티 개선 시 ChatGPT에서 원화·미
 7. NW·SE가 모두 사용자 승인된 뒤에만 `--stage native-base --previous-job ... --previous-review ... --companion-job ... --companion-review ...`을 호출한다. 후속 스프라이트 조립은 **camp-sprite-assets**에 넘긴다.
 8. 세 번의 디자인 수정을 해도 매력이 없으면 같은 프롬프트 반복 대신 제약/해상도/제작 방식의 원인을 제시한다. 원화와 기술 증거, 사용자 선택, 게임 배포의 상태를 따로 보고한다.
 
-Codex 내장 imagegen이나 유료 API·자동 리사이즈·좌우 반전·코드로 재작화하여 원본을 대체하지 않는다. 요청 기능이 없으면 요청서만 제공한다. 전역 에이전트 설정·공통 스킬을 수정하지 않는다.
+보존된 Rounded 02 원본의 출처와 승인 기록을 따른다. 원본 PNG는 새 파생본과 별도로 보존한다.

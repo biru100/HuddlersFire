@@ -1,0 +1,42 @@
+{
+  "recipe": "afc4e08538236167a9fa627863cdba70c500c684ae191c59e7083464ddd7fbcf",
+  "sources": {
+    "field-camper-v2": "8a9e8cbc85a2373bce2d1d83a1c4833ad73dfa143ad54d0cbd60dd5bac40f0df",
+    "masters/face-native.png": "40470d81b90b488dff9cf182f0371ff781ccac6bbd6bd436b8cd8c9f937c4fd2",
+    "masters/bob-native.png": "783881f83949594cd47da986b66e0e517953c0d5849e923cb76ed09693c6826b",
+    "masters/bun-native.png": "dea35d931619e49e457135dee0652e95e8a910f21c3feeee0ae5968baae7d3cc",
+    "field-camper-walk": "785630e87774f4076937b138937f9c56eadeb026f2de6d5ad7660ddea97cf161",
+    "masters/face-walk.png": "2c79a6feca11f67e9c9ab40b1a111b7ca71beb1ddc525d51db0762bf7b1fe4ef",
+    "masters/bob-walk.png": "79e58b4899307d25048916cc803f73f9f42cb4c278b7e7b04161b2ea979f8a2f",
+    "masters/bun-walk.png": "0efff0694e56ed6bb90d403bbf45f35a9ae3c752b0e2fbf3e899bb94bb3ec73c"
+  },
+  "files": {
+    "field-camper-v2": {
+      "url": "/sprites/field-camper-v2-parts.87cc24a01622.webp",
+      "width": 1024,
+      "height": 1280,
+      "sampling": "nearest",
+      "bytes": 158554,
+      "sha256": "87cc24a0162249e6c3ce4df2ecd4954255ad7ed8c9e33d990a75b567b320b857",
+      "headLayers": "shared-face-v1"
+    },
+    "field-camper-walk": {
+      "url": "/sprites/field-camper-walk-parts.b98c3dcd5c87.webp",
+      "width": 3072,
+      "height": 1200,
+      "sampling": "linear",
+      "bytes": 272294,
+      "sha256": "b98c3dcd5c8732e9eea23367cabcd803613135e76d678319fab38ea78f2d4fb1",
+      "headLayers": "shared-face-v1"
+    },
+    "field-camper-v2-dark": {
+      "url": "/sprites/field-camper-v2-parts.87cc24a01622.webp",
+      "width": 1024,
+      "height": 1280,
+      "sampling": "nearest",
+      "bytes": 158554,
+      "sha256": "87cc24a0162249e6c3ce4df2ecd4954255ad7ed8c9e33d990a75b567b320b857",
+      "headLayers": "shared-face-v1"
+    }
+  }
+}

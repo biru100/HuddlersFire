@@ -1,0 +1,61 @@
+{
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "renders": "Display-only preview",
+  "directions": [
+    {
+      "direction": "front-right",
+      "sourceBounds": [
+        511,
+        12,
+        709,
+        417
+      ],
+      "opaque": 448,
+      "partial": 60710,
+      "previewScale": 0.16049382716049382,
+      "sole": 71
+    },
+    {
+      "direction": "back-right",
+      "sourceBounds": [
+        1067,
+        12,
+        1251,
+        417
+      ],
+      "opaque": 519,
+      "partial": 58235,
+      "previewScale": 0.16049382716049382,
+      "sole": 69
+    },
+    {
+      "direction": "back-left",
+      "sourceBounds": [
+        528,
+        458,
+        709,
+        862
+      ],
+      "opaque": 564,
+      "partial": 57474,
+      "previewScale": 0.1608910891089109,
+      "sole": 69
+    },
+    {
+      "direction": "front-left",
+      "sourceBounds": [
+        1064,
+        458,
+        1263,
+        862
+      ],
+      "opaque": 508,
+      "partial": 60188,
+      "previewScale": 0.1608910891089109,
+      "sole": 71
+    }
+  ]
+}

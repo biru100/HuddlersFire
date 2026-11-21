@@ -1,0 +1,68 @@
+{
+  "sourceSize": [
+    1216,
+    1293
+  ],
+  "source": {
+    "bounds": [
+      281,
+      153,
+      634,
+      979
+    ],
+    "partial": 396556
+  },
+  "foot": [
+    435,
+    955,
+    354,
+    177
+  ],
+  "display": {
+    "direction": "front-right",
+    "tile": [
+      64,
+      80
+    ],
+    "anchor": 71,
+    "fit": [
+      10,
+      5,
+      42.741573033707866,
+      66
+    ],
+    "filter": "nearest",
+    "current": [
+      12,
+      5,
+      41,
+      66
+    ],
+    "first": [
+      13,
+      3,
+      37,
+      68
+    ],
+    "revision": [
+      10,
+      5,
+      43,
+      66
+    ]
+  },
+  "scene": {
+    "map": "camp",
+    "size": [
+      390,
+      520
+    ],
+    "dpr": 1,
+    "zoom": 1,
+    "position": [
+      -0.45,
+      -2.05
+    ],
+    "stage": "canvas display preview"
+  }
+}

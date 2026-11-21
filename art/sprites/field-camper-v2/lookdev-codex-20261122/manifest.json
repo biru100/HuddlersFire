@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "date": "2026-11-22",
+  "job": "camper-regeneration-v2",
+  "stage": "standing-lookdev",
+  "userSelection": "rejected",
+  "userDecision": "서기 후보 수정, 아니 이전보다 훨씬 못생겨졌잖아 어떻게 된거야",
+  "revision": "../lookdev-reference-20261122/manifest.json",
+  "tool": "codex-imagegen",
+  "modelVersion": null,
+  "originals": [
+    {
+      "file": "standing-original.png",
+      "sha256": "62e9a3fa73b51667ec1339652163d6c4d4587d16f84a03e4c09049a33cec7a40",
+      "size": [1774, 887],
+      "prompt": "standing-prompt.txt",
+      "promptSha256": "06e4b4a28b14d1d42340e0b64586a1a1211ae5314a341bdc567afdb7bfaf7abb",
+      "references": [],
+      "content": "Standing character in four quarter views"
+    },
+    {
+      "file": "parts-original.png",
+      "sha256": "bdca64600ef2adaa01cc6402da3a87366379832049677d94bee08427b5069a07",
+      "size": [1774, 887],
+      "prompt": "parts-prompt.txt",
+      "promptSha256": "c9d078660c2b76a1207f2f1ebcab0ff2574ea296ce76bf12017057153dbe64aa",
+      "references": ["standing-original.png"],
+      "content": "Shared head and four interchangeable hair and outfit rows in four quarter views"
+    }
+  ],
+  "review": {
+    "standing": "standing-review.png",
+    "standingMeasurements": "standing-measurements.json",
+    "wardrobe": "parts-wardrobe-review.png",
+    "wardrobeMeasurements": "parts-measurements.json",
+    "camp": "standing-camp-review.png"
+  }
+}

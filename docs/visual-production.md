@@ -1,10 +1,14 @@
 # HuddlersFire 시각 제작: 좋은 기준 한 컷부터
 
+## 2026-11-22 · 현행 캠퍼 원화 제작
+
+현행 캠퍼의 기준 디자인·서기·후속 모션 원화는 Codex 세션에서 내장 이미지 도구로 제작할 수 있다. 같은 세션에서 원본·실제 요청문·해시를 보존하고, 허가된 파생 픽셀을 만든 뒤 로비와 실제 필드를 검수한다. 사용자 미술 선택 및 런타임 채택은 각각 기록한다. [캠퍼 제작 규격](../art/sprites/field-camper-v2/README.md) · [현행 미술 스킬](../.agents/skills/camp-art-direction/SKILL.md)
+
 > **New art direction, 2026-11-18:** For new AI/pixel concepts read [Pixel AI Pipeline v3](art/pixel-ai-pipeline-v3.md), not the historical Rounded 02 source briefs below. The user explicitly forbids **all prior PNG/image records from the new creative generation context**. Historical art source registry and SHA checks remain for preservation only; don't open those sources when generating new designs. Use the current positive-only prompt; don't automatically select older art, old palette, or produce a fake native pixel asset by downscaling a full-screen image. No new paid service without separate permission.
 
 > **2026-11-16 사용자 결정에 따른 상위 범위:** 본 문서는 HuddlersFire의 **시각/스프라이트 하위 제작 경로**이며 프로젝트 전체 AI 하네스가 아니다. 제품 의도와 작업 우선순위는 [전역 하네스](harness/README.md), [의도 트리](harness/INTENT_TREE.md), [사용자 결정](project-intent.md)을 따른다. ChatGPT는 디자인·키포즈를 제시하고, Work/Codex는 명시적으로 허가된 파생 픽셀·레이어·모션을 직접 제작·편집·보정할 수 있다. **사용자가 최종 미술 승인**을 한다. 이하 11월 7일의 Codex 원화 편집 금지는 해당 범위에서 대체된 이력이다. 64×96 NW Idle은 첫 파일럿이지 다른 작업의 전역 필수 과정이 아니다.
 
-2026-11-07 활성 제작 경로. 이번 개편은 원화 생성 경로와 검수 흐름의 변경이지 전체 게임 그림의 교체나 배포가 아니다. [감사 기록](reviews/2026-11-07-art-pipeline-audit.md)을 함께 본다.
+이하 2026-11-07 제작 절차는 Rounded 02의 보존 기록이다. [감사 기록](reviews/2026-11-07-art-pipeline-audit.md)을 함께 본다.
 
 ## 2026-11-07 · GitHub 원본 바이너리 기본 인계
 

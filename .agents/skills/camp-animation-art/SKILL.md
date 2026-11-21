@@ -1,15 +1,21 @@
 ---
 name: camp-animation-art
-description: "HuddlersFire 캐릭터 Idle/Walk/Sit 등 모션 원화를 ChatGPT 원화와 키포즈에서 출발해 원본을 보존하고, 허가된 파생 픽셀·레이어·모션 제작 또는 게임 검토를 수행할 때 사용한다."
+description: "HuddlersFire 캐릭터 Idle·Walk·Sit 원화와 키포즈, 파생 픽셀·레이어 제작 및 실제 게임 검토에 사용한다."
 ---
 
-# ChatGPT 애니메이션 원화와 Codex 모션 인계
+# 캠프 애니메이션 원화와 모션 검토
+
+## 현행 캠퍼 재생성
+
+기준 서기 후보와 같은 세션에서 Codex 내장 이미지 생성 도구로 Idle·Walk·Sit 및 제스처 키를 만든다. 기준 얼굴·헤어, 네 방향, 64×80 기본 셀과 192×240 보행 몸통·다리, 목·발 접점을 [캠퍼 규격](../../../art/sprites/field-camper-v2/README.md)에서 가져온다. 원본 바이트·요청문·SHA-256을 보존한 뒤 작업 범위에서 네이티브 파츠와 프레임을 파생한다. 실제 로비와 필드에서 같은 인물인지, 접지·가림·보행 루프와 앉고 일어나는 접점이 자연스러운지 확인한다. 최종 미술 선택은 사용자에게 있다.
 
 > **2026-11-18 new-design scope:** The new pixel-art pilot [clean-room pipeline](../../../docs/art/pixel-ai-pipeline-v3.md) precedes character animations. Do **not** automatically load old F1/F2, CORE03, Rounded 02 PNGs, old palettes or historical idle sprites as generation/conditioning inputs. Any older animation-specific source prerequisites below are historical and only apply if the user explicitly resumes that older experiment. Await user-selected NEW modular avatar, then prototype key poses for Idle/Carry/Throw separately with 1× visual approval. Retro Diffusion Animation walk/idle outputs 48×48 and cannot automatically replace 64×96 native art. Never claim generated frames are player-approved.
 
 > **2026-11-16 적용 범위 변경:** 이 스킬은 HuddlersFire 전체 하네스의 **하위 아트 작업**일 뿐이다. 최상위 의도는 [프로젝트 운영 하네스](../../../docs/harness/README.md)와 [의도 트리](../../../docs/harness/INTENT_TREE.md)를 먼저 본다. 사용자 결정에 따라 ChatGPT가 컨셉·키포즈를 만들고, Work/Codex가 **명시적으로 허가된 범위 내에서 파생 픽셀·레이어·모션을 직접 제작·편집·보정**할 수 있다. 이전의 Codex 미술 편집 전면 금지 규칙은 이 범위에서 대체된다. 사용자가 최종 미술을 승인하며 원본 PNG는 수정하지 않는다. NW Idle 및 CORE03는 전역 기준이 아니다.
 
-**최신 원본 전달:** [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md). ChatGPT 제작 모션/레이어 PNG는 직접 GitHub 바이너리 업로드와 원격 해시 검증이 가능하면 그렇게 처리한다. Work 자동화의 전송 경계는 [이미지 인계](../../../docs/automation/IMAGE_HANDOFF.md)를 따른다. ZIP을 재생성하거나 기본으로 요구하지 않는다. 이미지 수정본은 새 파일과 새 해시로 등록한다.
+## Rounded 02 보존된 모션 절차
+
+원격 원본 등록을 요청받으면 [GitHub-first 레지스트리](../../../art/sprites/source-registry/README.md)에서 실제 바이트와 해시를 대조한다. 이미지 수정본은 새 파일과 새 해시로 등록한다.
 
 [활성 시각 제작](../../../docs/visual-production.md), [Rounded 02 모션 인계](../../../docs/briefs/rounded-02/animation-idle-handoff.md), [캐릭터 디자인 승인](../../../docs/reviews/2026-11-07-rounded02-rev2-art-approval.md)을 먼저 읽는다. 게임 로직이나 단순 기능 수정에는 이 스킬을 호출하지 않는다.
 

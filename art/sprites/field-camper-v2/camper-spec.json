@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "cell": [64, 80],
+  "walkCell": [192, 240],
+  "walkSteps": 8,
+  "neckX": 32,
+  "neck": 40,
+  "directions": ["front-right", "back-right", "back-left", "front-left"],
+  "poses": {
+    "stance": ["stand", "sit"],
+    "stride": ["stride", "counter-step"],
+    "gesture": ["wave", "carry", "clap", "aim", "jump", "crouch", "hit", "dance"],
+    "breath": ["inhale", "blink"]
+  },
+  "nativeSheets": ["turnaround", "wardrobe", "stride", "stride-hood", "gestures", "gestures-hood", "breath", "breath-hood"],
+  "sourceCalibration": {
+    "headHeights": [[217], [218], [217], [218], [207, 208, 209, 208, 200, 201, 207, 203], [217, 213, 212, 216, 210, 224, 210, 212], [217], [218]],
+    "walkMattes": [184, 139]
+  },
+  "headSpan": [[38, 37, 37, 38], [34, 33, 33, 34]],
+  "crownToNeck": [35, 37],
+  "standingSoles": [71, 69, 69, 71],
+  "swatches": {
+    "hair": [110, 55, 45],
+    "skin": [240, 180, 155],
+    "jacket": [100, 95, 60],
+    "hoodie": [60, 78, 75],
+    "trousers": [72, 88, 86],
+    "boots": [98, 53, 43]
+  },
+  "tolerance": {"span": 1.5, "crown": 1.5, "sole": 1, "materialChannel": 15}
+}

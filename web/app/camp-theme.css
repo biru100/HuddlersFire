@@ -26,5 +26,5 @@
 :root[data-camp-theme="color"], :root[data-camp-theme="color"] > body > [data-astryx-theme] { color-scheme: light; }
 :root[data-camp-theme="dark"], :root[data-camp-theme="dark"] > body > [data-astryx-theme] { color-scheme: dark; }
 .camper-portrait { display:inline-grid; flex:none; place-items:center; overflow:hidden; border-radius:28%; background:var(--color-accent-muted); border:1px solid var(--camp-line); }
-.camper-portrait canvas { display:block; width:100%; height:100%; image-rendering:pixelated; }
+.camper-portrait canvas { display:block; width:100%; height:100%; }
 .sprite-art { image-rendering:pixelated; }

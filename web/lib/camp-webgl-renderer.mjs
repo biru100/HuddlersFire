@@ -21,15 +21,24 @@ export class CampWebGLRenderer{
     this.restored=()=>{if(this.destroyed)return;this.status='ready';this.checkErrors=true;this.canvas.style.display='';this.onStatus('webgl','context-restored');};
     this.canvas.addEventListener('webglcontextlost',this.lost);this.canvas.addEventListener('webglcontextrestored',this.restored);this.status='ready';this.onStatus('webgl');return this;
   }
-  texture(image,numerical=false){
+  texture(image,numerical=false,camperFilter=null){
     if(!image)return Texture.WHITE;
-    let row=this.textures.get(image);if(!row){const [width,height]=dims(image),meta=spriteImageMetadata.get(image),sampling=meta?.assets.manifest.files[meta.id]?.sampling,Source=image.getContext?CanvasSource:ImageSource,source=new Source({resource:image,alphaMode:numerical?'no-premultiply-alpha':'premultiply-alpha-on-upload',autoGenerateMipmaps:false,scaleMode:sampling==='nearest'?'nearest':'linear'});row=new Texture({source});this.textures.set(image,row);this.metrics.textureBytes+=width*height*4;this.metrics.uploads++;}
+    let row=this.textures.get(image);
+    if(!row){
+      const [width,height]=dims(image),meta=spriteImageMetadata.get(image);
+      const sampling=camperFilter?'linear':meta?.assets.manifest.files[meta.id]?.sampling;
+      const Source=image.getContext?CanvasSource:ImageSource;
+      const source=new Source({resource:image,alphaMode:numerical?'no-premultiply-alpha':'premultiply-alpha-on-upload',
+        autoGenerateMipmaps:false,scaleMode:sampling==='nearest'?'nearest':'linear'});
+      row=new Texture({source});this.textures.set(image,row);this.metrics.textureBytes+=width*height*4;this.metrics.uploads++;
+    }
     this.textureUse.set(image,this.metrics.frames);return row;
   }
   imageMesh(index){
     let row=this.pool[index];if(row?.kind==='mesh')return row;
     if(row)this.disposeRow(row);
     const uniforms={uAlpha:{value:1,type:'f32'},uStrength:{value:0,type:'f32'},uNight:{value:0,type:'f32'},uAmbientLift:{value:new Float32Array(3),type:'vec3<f32>'},uReceiver:{value:zero(),type:'vec4<f32>'},uMirror:{value:new Float32Array([1,1]),type:'vec2<f32>'},uVisibility:{value:new Float32Array([1,1,1]),type:'vec3<f32>'}};
+    uniforms.uCamperFilter={value:0,type:'f32'};
     for(let i=0;i<4;i++){uniforms['uClip'+i]={value:zero(),type:'vec4<f32>'};uniforms['uClipMeta'+i]={value:zero(),type:'vec4<f32>'};}
     const shader=new Shader({glProgram:this.program,resources:{uColorTexture:Texture.WHITE.source,uNormalTexture:Texture.WHITE.source,materialUniforms:uniforms,frameUniforms:this.frameUniforms}});
     const geometry=new MeshGeometry({positions:new Float32Array(8),uvs:new Float32Array(8),indices:new Uint32Array([0,1,2,0,2,3])}),node=new Mesh({geometry,shader});
@@ -38,13 +47,14 @@ export class CampWebGLRenderer{
   image(command,index,width,height,lights){
     const source=spriteImageMetadata.get(command.image),material=command.material||source&&spriteMaterial(source.assets,source.id),candidate=material?.normalImage||(material&&source?.assets.getSprite(material.normalId)),normal=validateNormalPair(command.image,candidate)||(material?.normalizedSurface&&candidate&&dims(command.image)[0]*dims(candidate)[1]===dims(command.image)[1]*dims(candidate)[0])?candidate:null;
     const night=this.profile?.night&&lightingRole(material,command.object,command.image)==='lit';
-    if(!night&&(!normal||!this.options.normals||!material.strength)&&!command.clips.length)return this.sprite(command,index);
+    if(!material?.camperFilter&&!night&&(!normal||!this.options.normals||!material.strength)&&!command.clips.length)return this.sprite(command,index);
     const row=this.imageMesh(index),{node,geometry,shader}=row,m=command.matrix,[x,y,w,h]=command.dest,[sx,sy,sw,sh]=command.source,[iw,ih]=dims(command.image);
     geometry.positions.set([...transformPoint(m,x,y),...transformPoint(m,x+w,y),...transformPoint(m,x+w,y+h),...transformPoint(m,x,y+h)]);
     geometry.uvs.set([sx/iw,sy/ih,(sx+sw)/iw,sy/ih,(sx+sw)/iw,(sy+sh)/ih,sx/iw,(sy+sh)/ih]);geometry.getBuffer('aPosition').update();geometry.getBuffer('aUV').update();
-    shader.resources.uColorTexture=this.texture(command.image).source;
+    shader.resources.uColorTexture=this.texture(command.image,false,material?.camperFilter).source;
     shader.resources.uNormalTexture=this.texture(normal,true).source;
     const u=shader.resources.materialUniforms.uniforms;u.uAlpha=command.alpha;u.uStrength=this.options.normals&&normal?material.strength:0;if(u.uStrength)this.metrics.normalDraws++;u.uMirror.set([Math.sign(m.a)||1,Math.sign(m.d)||1]);
+    u.uCamperFilter=material?.camperFilter==='nearest'?1:material?.camperFilter==='edge'?2:0;
     u.uNight=Number(!!night);u.uAmbientLift.set(material?.ambientLift||[0,0,0]);const receiver=command.object;u.uReceiver.set(receiver?[receiver.x||0,receiver.y||0,receiver.z||0,1]:[0,0,0,0]);
     const visibility=(night||u.uStrength)?this.visibilityFor(command.object,lights):null;
     for(let i=0;i<3;i++)u.uVisibility[i]=visibility?.[i]??1;

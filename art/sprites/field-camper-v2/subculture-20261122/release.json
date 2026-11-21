@@ -1,0 +1,45 @@
+{
+  "version": 3,
+  "sources": {
+    "standing-original.png": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414",
+    "motion-original.png": "5e097536deff7c7c810f0ce4763fe94db99486d144d7f60e242c1905ee81c84a",
+    "wardrobe-original.png": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708",
+    "walk-jacket-original.png": "3a5b340fbcee602ab8c39227e276c5366403b47dae9a68c8f2793151b72e764b",
+    "gesture-original.png": "d76fb409d928880ede8421608450d3dc474d53d8a641a5aaeda10ce1e60953cd",
+    "walk-hoodie-original.png": "da860910a457a39bed4baf7b726da475a9074d73cd6e216a0d7f2ef56bd3a27b",
+    "motion-hoodie-original.png": "40703b00531f670464818ea251b17b13664f6a109a1e8a14797313d050144006",
+    "gesture-hoodie-original.png": "cce686295d9935194ec40ad0f683542520c636fb17a7303d5d8629e231a877ff",
+    "idle-original.png": "e13411ecfcc01b4552942ddc69e26513d8e41cc9710ad0f6d179318b0f1a2645"
+  },
+  "recipe": "ae27a9ce3feb1f01d27b4b6152c01194ee48a2bd23591c203836378880564295",
+  "files": {
+    "field-camper-v2": {
+      "url": "/sprites/field-camper-v2-parts.c94358ad19ab.webp",
+      "width": 1024,
+      "height": 1280,
+      "sampling": "nearest",
+      "bytes": 197182,
+      "sha256": "c94358ad19abcc7edf010240b309969a8c6b68e2e3ef8660c59dab79b89fa382",
+      "headLayers": "shared-face-v1"
+    },
+    "field-camper-walk": {
+      "url": "/sprites/field-camper-walk-parts.9104fd145a07.webp",
+      "width": 3072,
+      "height": 960,
+      "sampling": "linear",
+      "bytes": 128560,
+      "sha256": "9104fd145a07333ed4aa26eb8750e5452008b6006e7952e9df62acc8bca801ac",
+      "bodyOnly": true
+    },
+    "field-camper-v2-dark": {
+      "url": "/sprites/field-camper-v2-parts.c94358ad19ab.webp",
+      "width": 1024,
+      "height": 1280,
+      "sampling": "nearest",
+      "bytes": 197182,
+      "sha256": "c94358ad19abcc7edf010240b309969a8c6b68e2e3ef8660c59dab79b89fa382",
+      "headLayers": "shared-face-v1"
+    }
+  },
+  "id": "06e18f43001ddf30d230a34c88af8bfea12d6d3c9d1a86916065dc100ee2d03f"
+}

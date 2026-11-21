@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "date": "2026-11-22",
+  "job": "camper-regeneration-v2",
+  "stage": "standing-lookdev",
+  "direction": "front-right",
+  "userSelection": "selected-as-design-reference",
+  "userDecision": "수정 후보로 진행, 이거 조금 더 트렌디한 서브컬쳐 도트 느낌으로 가져가면 좋겠어 사람들이 귀여움과 예쁨을 잘 느낄 수 있게 수정 후보도 좋은 것 같아",
+  "followUp": "../subculture-20261122/manifest.json",
+  "tool": "codex-imagegen",
+  "modelVersion": null,
+  "supersedesForReview": "../lookdev-codex-20261122/manifest.json",
+  "original": {
+    "file": "standing-se-original.png",
+    "sha256": "1578f1baa2ea5923903cd936a69723c5c1901fa8a54df08f63eb229e7f8f3969",
+    "size": [1216, 1293],
+    "prompt": "standing-se-prompt.txt",
+    "promptSha256": "1d5dd5034ca395901ce4be0f05e5859f72d1f94a5c8b9a638f2108be398b86ac",
+    "reference": "reference-se.png"
+  },
+  "reference": {
+    "file": "reference-se.png",
+    "sha256": "4fa67bce1f4729e95be43e4bac45ab249aa6097caf9302b983a0bdbde82232dd",
+    "role": "edit-target crop of current camper art",
+    "source": "../turnaround.png",
+    "sourceSha256": "747cf232ab01335b1694d6e6410639cb26f5a536e61720ba7aa5d7b3f6a9c47b",
+    "crop": [118, 0, 289, 440],
+    "placement": [111, 52],
+    "size": [512, 544]
+  },
+  "review": {
+    "standing": "standing-comparison.png",
+    "camp": "camp-comparison.png",
+    "measurements": "measurements.json"
+  }
+}

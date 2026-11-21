@@ -5,6 +5,9 @@
 | 요청 | 비교 기준 | 실행 경로 |
 | --- | --- | --- |
 | 현재 캠퍼에 환경·그림자 맞추기 | 현재 작업본이 게임에서 로드하는 자산, 실제 좌석·조명·맵 배치 | 아래의 `art:review:current` |
+| 현재 캠퍼 전체 재생성·색·크기 수정 | 같은 방향·자세·개인 색에서 헤어 2종 × 상의 2종, 실제 표시 크기 | [캠퍼 재생성 작업](../../art/sprites/field-camper-v2/README.md#전체-재생성-작업-시작) |
+| 머리·헤어 분리 및 착용 수정 | 공통 머리만, 각 헤어만, 같은 얼굴에 얹은 두 결과, 기존 자세·앞손·목 | [머리 파츠 제작·검사](../../art/sprites/field-camper-v2/README.md#공통-머리와-교체형-헤어), `art:review:head`와 로컬 게임의 전후 장면 |
+| 캠퍼 확대·축소 | 최소·기본·최대 줌의 정지→보행→정지, PC·모바일과 소수 화면 배율, 로비·필드의 눈·헤어 경계·목 접점 | `sprites:camper -- review <작업명> before` → `after` → `compare`, 브라우저까지 확인할 때는 `before`와 `after`에 `--browser` 추가 |
 | 새 캐릭터·시각 방향 만들기 | 텍스트로 요청한 새 캠퍼·벤치·바닥, 같은 투영과 조명 | 아래 ‘생성과 수정’ 및 [클린룸 규약](pixel-ai-pipeline-v3.md) |
 | 지난 제출 재현 | 해당 시점에 저장한 원본·레시피·영수증 | `art:review:camp` 및 [첫 제출](../../art/sprites/scene-reviews/camp-circle-se/README.md) |
 
@@ -27,7 +30,19 @@ PC 900×640과 모바일 390×520에서 기본 추적 카메라·줌 1·DPR 1·�
 
 `comparison.html`은 원래 크기의 전후 화면과 변경 픽셀 수를 보여 준다. `receipt.json`에는 자산 SHA-256, 카메라·인물 상태, 실제 배치 목록이 있다. 맵별로 영향받은 종류(`affected`)와 이번 변경 밖의 종류(`unchanged`), 해당 장면 ID(`evidence`), 보이는 점(`observations`)과 남은 점(`unresolved`)을 적는다. 예를 들어 차양 앞 기둥이 얼굴을 가린다면 어느 맵·위치에서 어느 부분을 덮는지 적는다. `verify`는 현재 자산과 캡처의 일치 및 관찰의 범위를 확인한다. 사용자 미술 판단은 `pending_user`로 남는다.
 
-## 게임에 반영한 뒤의 확인
+## 캠퍼 전체 재생성 후보 검수
+
+현행 캠퍼의 원화 후보는 같은 Codex 세션에서 내장 이미지 도구로 제작할 수 있다. 생성 원본 PNG와 프롬프트를 보존하고 실제 표시 크기의 서기 후보를 먼저 비교한다. 네이티브 파생본과 실전 아틀라스는 작업별로 해시를 등록한다. [원화 제작 스킬](../../.agents/skills/camp-art-direction/SKILL.md)
+
+현행 캠퍼 인상을 유지하는 재생성은 기존 원화의 같은 방향을 직접 기준으로 잡는다. 실제 크기로 눈매와 눈 하이라이트, 앞머리 곡선, 머리·몸 비율, 칼라와 부츠가 이어지는지 먼저 본다. 서기 후보가 이 특징을 잃으면 후보를 수정하고 다른 방향과 동작을 늘리기 전에 같은 배율·캠프 위치에서 다시 비교한다. [남동향 수정 검토](../../art/sprites/field-camper-v2/lookdev-reference-20261122/standing-comparison.png)
+
+`sprites:camper -- review <작업명> before`는 현행 아틀라스에서 기준 화면을 저장한다. `build` 이후 `review <작업명> after`는 같은 Canvas 장면에 최종 후보 WebP를 넣고 파츠별 이미지와 네 조합 착용표를 만든다. PC·모바일·125% 화면에서 필드 줌 75%·100%·300%의 정지→보행→정지를 비교한다. 두 단계의 화면은 작업 폴더의 `review/`에 들어간다. `compare`는 전후 비교판을 만들며 `verify`는 명세·원본·최종 WebP·기준 화면·후보 화면의 해시를 대조한다. 새 후보를 빌드하면 기존 `after`의 검증이 실패하므로 해당 단계부터 다시 촬영한다.
+
+실제 브라우저에서 입어볼 때는 같은 로컬 빌드와 루프백 QA 서버를 준비하고 `CAMP_TEST_URL`을 지정한다. `review`의 `before`와 `after`를 모두 `--browser`로 실행한다. 대조 화면은 기존 빌드의 자산을 쓰며 후보 화면에서만 격리된 Chromium의 아틀라스 요청에 최종 후보 바이트를 전달한다. 로비에서 네 조합을 바꾸고, 솔로 캠프에서 줌·보행과 Canvas 폴백을 확인한다. `compare`의 `Browser evidence pending`은 브라우저 증거가 아직 없다는 뜻이다. 기술 검수 후 미술은 사용자가 선택한다.
+
+세 맵의 배치도 함께 보고 싶으면 `art:review:current -- before <작업명>`으로 기존 장면을 찍고 `art:review:current -- after <작업명> --camper-candidate`를 실행한다. 이 명령은 동일한 이름의 최종 후보를 로드한다. `compare`와 관찰 기록을 완료한 뒤 `verify`로 해당 장면을 다시 확인한다.
+
+## 보존된 제출과 현재 화면
 
 기존 제출을 재현하는 `npm run art:review:camp`는 제출 당시 스프라이트를 사용한다. 현재 모닥불 주변을 한 번 살펴보려면 `web/`에서 `npm run test:render`를 실행해 `outputs/camp-art-live-desktop.png`와 `outputs/camp-art-live-mobile.png`를 연다. 현재 작업본의 수정 전후를 증거로 남길 때는 위의 `art:review:current`를 사용한다.
 

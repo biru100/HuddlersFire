@@ -2,6 +2,8 @@ import {CAMPER_SOLES} from './camp-camper-art.mjs';
 import {spriteImageMetadata} from './camp-materials.mjs';
 import {animationOffset} from './camp-sprite-animation.mjs';
 import {createSpriteSurface} from './camp-sprite-assets.mjs';
+import {camperPartCell,camperStrideRise} from './camp-camper-parts.mjs';
+import {camperDisplay,camperFilter,camperImage} from './camp-camper-sampling.mjs';
 
 const width=64, height=80, center=32;
 const directions=['front-right','back-right','back-left','front-left'];
@@ -52,19 +54,21 @@ export function walkingSheet(assets,plan){
 }
 
 // Cache only requested parts. Changing wardrobe or theme never creates a player-specific GPU texture.
-function spritePart(ctx,sheet,part,styleId,isHead,slot,theme,detailed=false) {
+function camperFile(image){
+  const meta=spriteImageMetadata.get(image);
+  return meta?.assets.manifest.files[meta.id];
+}
+const hasHeadLayers=image=>camperFile(image)?.headLayers==='shared-face-v1';
+const bodyOnlyWalk=image=>camperFile(image)?.bodyOnly===true;
+
+function spritePart(ctx,sheet,part,styleId,layer,slot,theme,detailed=false) {
+  const isHead=layer!=='body';
   let cache=partsByImage.get(sheet);
   if(!cache){cache=new Map();partsByImage.set(sheet,cache);}
-  const key=[part.group,part.index,styleId,isHead,slot,theme].join('/');
+  const [col,row]=camperPartCell(part,layer,styleId,detailed,hasHeadLayers(sheet)||bodyOnlyWalk(sheet));
+  const key=[col,row,layer,slot,theme].join('/');
   if(cache.has(key)) return cache.get(key);
-  const walking=part.group===walkGroup;
   const density=detailed?3:1, w=width*density, h=height*density;
-  let col=walking?8+Math.floor(part.index/4):(isHead?0:4)+part.index%4;
-  let row=walking?styleId*4+part.index%4:(part.group+styleId)*2+Math.floor(part.index/4);
-  if(detailed){
-    col=styleId*8+Math.floor(part.index/4);
-    row=(isHead?0:4)+part.index%4;
-  }
   const tile=createSpriteSurface(ctx,w,h),c=tile.getContext('2d');
   c.drawImage(sheet,col*w,row*h,w,h,0,0,w,h);
   // WebGL must use the parent sheet's sampling when drawing a cached part.
@@ -72,7 +76,7 @@ function spritePart(ctx,sheet,part,styleId,isHead,slot,theme,detailed=false) {
   if(meta)spriteImageMetadata.set(tile,meta);
   let normals=normalsByImage.get(sheet);
   if(!normals){normals=new Map();normalsByImage.set(sheet,normals);}
-  const normalKey=detailed?isHead:[part.group,part.index,styleId,isHead].join('/');
+  const normalKey=detailed?isHead:[part.group,part.index,styleId,layer].join('/');
   let normal=normals.get(normalKey);
   if(!normal){
     normal=createSpriteSurface(ctx,w,h);
@@ -118,13 +122,23 @@ export function camperGeometry(pose,plan) {
 }
 
 export function paintCamper(ctx,sheet,plan,slot,theme,withHead,walkSheet) {
-  const drawPart=(part,isHead,top=0,bottom=height,offset=0)=>{
+  const usingWalkArt=!!walkSheet&&plan.lower.group===walkGroup;
+  const sharedWalkHead=usingWalkArt&&hasHeadLayers(sheet)&&(hasHeadLayers(walkSheet)||bodyOnlyWalk(walkSheet));
+  ctx.save();
+  const screenScale=camperDisplay(ctx,usingWalkArt&&!sharedWalkHead?3:1);
+  const recording=ctx.recording?.active;
+  const drawPart=(part,layer,top=0,bottom=height,offset=0)=>{
     const detailed=!!walkSheet&&part.group===walkGroup;
-    const moving=isHead?plan.hairStyle:plan.topStyle;
-    const {image,normal}=spritePart(ctx,detailed?walkSheet:sheet,part,moving,isHead,isHead?0:slot,theme,detailed);
+    const density=detailed?3:1;
+    const isHead=layer!=='body';
+    const styleId=layer==='face'?0:isHead?plan.hairStyle:plan.topStyle;
+    const tile=spritePart(ctx,detailed?walkSheet:sheet,part,styleId,layer,isHead?0:slot,theme,detailed);
+    const filter=camperFilter(screenScale,density);
+    const image=camperImage(ctx,tile,filter,screenScale/density,recording);
     ctx.save();
-    ctx.imageSmoothingEnabled=detailed;
-    ctx.setMaterial?.({lighting:'lit',normalImage:normal,strength:isHead?.38:.3,ambientLift:light});
+    ctx.imageSmoothingEnabled=filter!=='nearest';
+    ctx.setMaterial?.({lighting:'lit',normalImage:tile.normal,normalizedSurface:true,
+      camperFilter:filter,strength:isHead?.38:.3,ambientLift:light});
     if(part.group===4&&plan.left)ctx.scale(-1,1);
     if(top||bottom!==height){
       ctx.beginPath();ctx.rect(-center,top-plan.anchor+offset,width,bottom-top);ctx.clip();
@@ -132,18 +146,31 @@ export function paintCamper(ctx,sheet,plan,slot,theme,withHead,walkSheet) {
     ctx.drawImage(image,-center,-plan.anchor+offset,width,height);
     ctx.restore();
   };
-  ctx.save();ctx.imageSmoothingEnabled=false;
+  const drawHead=(part,offset)=>{
+    const image=walkSheet&&part.group===walkGroup?walkSheet:sheet;
+    if(hasHeadLayers(image)){
+      if(part.group===walkGroup)offset+=camperStrideRise[Math.floor(part.index/4)];
+      drawPart(part,'face',0,height,offset);
+    }
+    // Historical sheets store their entire head in the hairstyle's cell.
+    drawPart(part,'hair',0,height,offset);
+  };
   const light=theme==='dark'?[.14,.14,.14]:[.16,.15,.14];
   const foregroundHands=plan.upper.group===4;
   // Each painted step already includes the rise and fall of the head.
   const paintedWalk=walkSheet&&plan.upper.group===walkGroup;
   const bob=paintedWalk?0:plan.bob;
-  if(withHead&&foregroundHands) drawPart(plan.head,true,0,height,plan.bob);
+  if(withHead&&foregroundHands) drawHead(plan.head,plan.bob);
   const split=56;
   if(plan.lower!==plan.upper||bob){
-    drawPart(plan.lower,false,split,height);
-    drawPart(plan.upper,false,0,split+1,bob);
-  }else drawPart(plan.upper,false);
-  if(withHead&&!foregroundHands) drawPart(paintedWalk?plan.upper:plan.head,true,0,height,bob);
+    drawPart(plan.lower,'body',split,height);
+    drawPart(plan.upper,'body',0,split+1,bob);
+  }else drawPart(plan.upper,'body');
+  if(withHead&&!foregroundHands){
+    // Locomotion retains the standing face and hairstyle. Follow the painted
+    // stride with the same displacement for both parts.
+    if(paintedWalk&&sharedWalkHead)drawHead(plan.head,camperStrideRise[plan.phase]);
+    else drawHead(paintedWalk?plan.upper:plan.head,bob);
+  }
   ctx.restore();
 }

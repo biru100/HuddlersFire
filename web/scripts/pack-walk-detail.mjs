@@ -2,16 +2,18 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile,writeFile} from 'node:fs/promises';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import sharp from 'sharp';
 import {createCanvas} from '@napi-rs/canvas';
 import {separateCamper} from './camper-collar.mjs';
+import {contract} from './camper-consistency.mjs';
+import {camperStrideRise} from '../lib/camp-camper-parts.mjs';
 
 const folder = new URL('../../art/sprites/field-camper-v2/walk-detail/', import.meta.url);
 const pathFor = name => fileURLToPath(new URL(name, folder));
-const cols = 8, rows = 4, cellW = 192, cellH = 240;
-const weightShift = [0, 3, 0, -2, 0, 3, 0, -2];
-const sharedFeet = [];
+const cols=contract.walkSteps, rows=contract.directions.length;
+const [cellW,cellH]=contract.walkCell;
+const weightShift=camperStrideRise.map(rise=>rise*3);
 
 function asCanvas(pixels) {
   const cv=createCanvas(cellW,cellH), c=cv.getContext('2d'), frame=c.createImageData(cellW,cellH);
@@ -69,45 +71,61 @@ function register(data, w, h, matte, phase) {
   return tile;
 }
 
-for (const [outfit,matte,sourceHash] of [
-  ['jacket',184,'ae8181b88d30f3b08b33ae0243f3ba7965728ec58e2f47d68f1b71bb39cfa195'],
-  ['hoodie',139,'344c127c02be2b3eeb5fec789c11a2d0acffb5e60660bfadc59cbcfef237d830'],
-]) {
-  const input = await readFile(pathFor(outfit+'-drawing.png'));
-  assert.equal(createHash('sha256').update(input).digest('hex'),sourceHash);
-  const {width,height} = await sharp(input).metadata();
-  const tiles = [];
-  const headAtlas=createCanvas(cellW*cols,cellH*rows), topAtlas=createCanvas(cellW*cols,cellH*rows);
-  const referenceSpans=[];
-  for (let row = 0; row < rows; row++) for (let col = 0; col < cols; col++) {
-    const left = Math.round(width*col/cols), top = Math.round(height*row/rows);
-    const w = Math.round(width*(col+1)/cols)-left, h = Math.round(height*(row+1)/rows)-top;
-    const data = await sharp(input).extract({left,top,width:w,height:h}).ensureAlpha().raw().toBuffer();
-    const tile=register(data,w,h,matte,col);
-    tiles.push({input:tile,raw:{width:cellW,height:cellH,channels:4},left:col*cellW,top:row*cellH});
-    const front=row===0||row===3, hoodie=outfit==='hoodie';
-    const neck=(hoodie?(front?115:109):(front?107:104))+weightShift[col];
-    const {head,body,socket,socketX}=separateCamper(tile,cellW,cellH,{hoodie,neck,unit:3});
-    const span=headSpan(head,socket);
-    if(col===0)referenceSpans[row]=span;
-    const scale=referenceSpans[row]/span;
-    const targetY=(front?108:105)+weightShift[col];
-    const targetX=cellW/2;
-    let foot=cellH-1;
-    while(foot>socket && !body.subarray(foot*cellW*4,(foot+1)*cellW*4).some((v,i)=>i%4===3&&v>128))foot--;
-    if(!hoodie)sharedFeet[row*cols+col]=foot;
-    const legScale=(sharedFeet[row*cols+col]-targetY)/(foot-socket);
-    for(const [atlas,pixels,sx,sy] of [[headAtlas,head,scale,scale],[topAtlas,body,1,legScale]]){
-      const c=atlas.getContext('2d'),x=col*cellW,y=row*cellH;
-      c.save();c.beginPath();c.rect(x,y,cellW,cellH);c.clip();
-      c.drawImage(asCanvas(pixels),x+targetX-socketX*sx,y+targetY-socket*sy,cellW*sx,cellH*sy);
-      c.restore();
+export const walkSources = [
+  ['jacket',contract.sourceCalibration.walkMattes[0],'ae8181b88d30f3b08b33ae0243f3ba7965728ec58e2f47d68f1b71bb39cfa195'],
+  ['hoodie',contract.sourceCalibration.walkMattes[1],'344c127c02be2b3eeb5fec789c11a2d0acffb5e60660bfadc59cbcfef237d830'],
+];
+
+export async function buildWalkLayers({writeLegacySheets=false,readInput,calibration=contract.sourceCalibration}={}) {
+  const sharedFeet = [], layers = {};
+  for (const [index,[outfit,,sourceHash]] of walkSources.entries()) {
+    const name=outfit+'-drawing.png',matte=calibration.walkMattes[index];
+    const input=readInput?readInput('walk-detail/'+name):await readFile(pathFor(name));
+    if(!readInput)assert.equal(createHash('sha256').update(input).digest('hex'),sourceHash);
+    const {width,height} = await sharp(input).metadata();
+    const tiles = [];
+    const headAtlas=createCanvas(cellW*cols,cellH*rows), topAtlas=createCanvas(cellW*cols,cellH*rows);
+    const referenceSpans=[];
+    for (let row = 0; row < rows; row++) for (let col = 0; col < cols; col++) {
+      const left = Math.round(width*col/cols), top = Math.round(height*row/rows);
+      const w = Math.round(width*(col+1)/cols)-left, h = Math.round(height*(row+1)/rows)-top;
+      const data = await sharp(input).extract({left,top,width:w,height:h}).ensureAlpha().raw().toBuffer();
+      let tile;
+      try{tile=register(data,w,h,matte,col);}
+      catch(error){throw Error(`${name}/${contract.directions[row]}/step-${col+1}: ${error.message}`,{cause:error});}
+      if(writeLegacySheets)tiles.push({input:tile,raw:{width:cellW,height:cellH,channels:4},left:col*cellW,top:row*cellH});
+      const front=row===0||row===3, hoodie=outfit==='hoodie';
+      const neck=(hoodie?(front?115:109):(front?107:104))+weightShift[col];
+      const {head,body,socket,socketX}=separateCamper(tile,cellW,cellH,{hoodie,neck,unit:3});
+      const span=headSpan(head,socket);
+      if(col===0)referenceSpans[row]=span;
+      const scale=referenceSpans[row]/span;
+      const targetY=(front?108:105)+weightShift[col];
+      const targetX=cellW/2;
+      let foot=cellH-1;
+      while(foot>socket && !body.subarray(foot*cellW*4,(foot+1)*cellW*4).some((v,i)=>i%4===3&&v>128))foot--;
+      if(!hoodie)sharedFeet[row*cols+col]=foot;
+      const legScale=(sharedFeet[row*cols+col]-targetY)/(foot-socket);
+      for(const [atlas,pixels,sx,sy] of [[headAtlas,head,scale,scale],[topAtlas,body,1,legScale]]){
+        const c=atlas.getContext('2d'),x=col*cellW,y=row*cellH;
+        c.save();c.beginPath();c.rect(x,y,cellW,cellH);c.clip();
+        c.drawImage(asCanvas(pixels),x+targetX-socketX*sx,y+targetY-socket*sy,cellW*sx,cellH*sy);
+        c.restore();
+      }
     }
+    const headName='head-'+(outfit==='jacket'?'bob':'bun');
+    layers[headName]=headAtlas;
+    layers['top-'+outfit]=topAtlas;
+    if(!writeLegacySheets)continue;
+    const sheet = await sharp({create:{width:cellW*cols,height:cellH*rows,channels:4,background:'#00000000'}})
+      .composite(tiles).png().toBuffer();
+    await writeFile(pathFor('walk-'+outfit+'.png'),sheet);
+    await sharp(sheet).resize(cellW*cols/3,cellH*rows/3,{kernel:'lanczos3'}).png().toFile(pathFor('walk-'+outfit+'-64x80.png'));
+    await writeFile(pathFor(headName+'.png'),headAtlas.toBuffer('image/png'));
+    await writeFile(pathFor('top-'+outfit+'.png'),topAtlas.toBuffer('image/png'));
   }
-  const sheet = await sharp({create:{width:cellW*cols,height:cellH*rows,channels:4,background:'#00000000'}})
-    .composite(tiles).png().toBuffer();
-  await writeFile(pathFor('walk-'+outfit+'.png'),sheet);
-  await sharp(sheet).resize(cellW*cols/3,cellH*rows/3,{kernel:'lanczos3'}).png().toFile(pathFor('walk-'+outfit+'-64x80.png'));
-  await writeFile(pathFor('head-'+(outfit==='jacket'?'bob':'bun')+'.png'),headAtlas.toBuffer('image/png'));
-  await writeFile(pathFor('top-'+outfit+'.png'),topAtlas.toBuffer('image/png'));
+  return layers;
 }
+
+if(process.argv[1] && pathToFileURL(process.argv[1]).href===import.meta.url)
+  await buildWalkLayers({writeLegacySheets:true});

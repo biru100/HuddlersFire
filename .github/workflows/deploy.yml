@@ -70,6 +70,8 @@ jobs:
         working-directory: .
         run: node tools/setup-sprite-gen.mjs
       - run: npm test
+      - name: Reproduce and verify the registered camper atlases
+        run: npm run sprites:camper -- --check
       - name: Compare affected art against the previous revision on the same runner
         id: art-review
         working-directory: .
@@ -80,7 +82,8 @@ jobs:
           base="${PR_BASE:-$PUSH_BASE}"
           if ! git rev-parse --verify --quiet "${base:-missing}^{commit}" > /dev/null; then base=$(git rev-parse HEAD^); fi
           art_paths=(web/lib/camp-{art*,camera,canvas-renderer,character,clearing*,draw-context,games,landscape,lighting*,maps,materials,pixel*,prop*,renderer,scene*,seats,shadows,sprite*,style*,webgl*}.mjs
-            web/lib/camp-camper-art.mjs web/public/sprites web/public/games 'web/tests/current-art*'
+            'web/lib/camp-camper*.mjs' art/sprites/field-camper-v2/shared-head/{masters,recipe.json} web/public/sprites web/public/games 'web/tests/current-art*'
+            web/components/camp/character-preview.tsx web/app/camp-{lobby,theme}.css
             web/tests/render-landscapes.mjs web/tests/browser.grounding.mjs 'web/tests/lighting-preview*'
             tools/lib/review-png.mjs tools/build-camper-style.py 'tools/camp_*.py' art/sprites/camper-style-release)
           if git diff --quiet "$base" HEAD -- "${art_paths[@]}"; then exit 0; fi

@@ -131,7 +131,7 @@ test('both outfits walk in eight different poses on a stable foot origin in all 
   }
 });
 
-test('the field paints the high-resolution garment and head at game size on every walking step', () => {
+test('every walking step uses the detailed garment and the shared standing head at game size', () => {
   const canvas=createCanvas(240,300),ctx=canvas.getContext('2d');
   const draw=ctx.drawImage.bind(ctx),layers=[];
   ctx.drawImage=(image,...args)=>{
@@ -144,7 +144,10 @@ test('the field paints the high-resolution garment and head at game size on ever
     for(let step=0;step<8;step++){
       layers.length=0;
       drawCharacter(ctx,{moving:true,running:step%2===1,walkCycle:step/8,visualDirection,hairStyle:1,topStyle:0},{reduced:false});
-      assert.deepEqual(layers,[[192,240,64,80],[192,240,64,80]]);
+      const detailed=[192,240,64,80], native=[64,80,64,80];
+      const walking=spriteManifest.files['field-camper-walk'];
+      assert.deepEqual(layers,walking.headLayers||walking.bodyOnly?
+        [detailed,native,native]:[detailed,detailed]);
     }
   }
   layers.length=0;

@@ -1,5 +1,5 @@
 import {execFileSync} from 'node:child_process';
-import {existsSync,mkdirSync,mkdtempSync,renameSync,rmSync,writeFileSync} from 'node:fs';
+import {existsSync,mkdirSync,mkdtempSync,readFileSync,renameSync,rmSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {loadImage,createCanvas} from '@napi-rs/canvas';
 import {ROOT,hash,readJSON,writeJSON,inside} from '../../tools/lib/sprite-spec.mjs';
@@ -8,8 +8,8 @@ import {releaseIdentity,sceneInventory,captureProtocol,verifySnapshot,compareSna
 
 const [action,job,...options]=process.argv.slice(2);
 if(!['before','after','compare','verify'].includes(action)||!/^[a-z0-9][a-z0-9-]{0,79}$/.test(job||'')||
-   options.some(v=>v!=='--browser'))
-  throw Error('Usage: art:review:current -- before|after|compare|verify job [--browser]');
+   options.some(v=>v!=='--browser'&&!(v==='--camper-candidate'&&action==='after')))
+  throw Error('Usage: art:review:current -- before|after|compare|verify job [--browser] [after: --camper-candidate]');
 if(process.env.CAMP_TEST_MANIFEST||process.env.CAMP_PREVIEW_JOB)throw Error('Current-release captures require the shipped manifest');
 const web=resolve(ROOT,'web'),dir=inside(ROOT,'web/outputs/current-art/'+job);
 mkdirSync(dir,{recursive:true});
@@ -20,20 +20,36 @@ const readSnapshot=path=>{
 const before=action==='before'?null:readSnapshot(baseline);
 const browser=before?.browser??options.includes('--browser');
 if(options.includes('--browser')&&!browser)throw Error('Baseline does not contain browser captures');
-const release=releaseIdentity(),protocol=captureProtocol(browser);
+const recordedCandidate=['compare','verify'].includes(action)?readSnapshot(inside(dir,'after')).release.camperCandidate:null;
+const staged=options.includes('--camper-candidate') || !!recordedCandidate;
+if(staged&&browser)throw Error('Staged camper capture uses the offline Canvas renderer');
+const candidateTools=staged?await import('../scripts/camper-review-assets.mjs'):null;
+const finalJob=staged&&(!recordedCandidate||recordedCandidate.id)?
+  process.env.CAMP_CAMPER_JOB??(existsSync(inside(candidateTools.camperJobPath(job),'manifest.json'))?job:'current'):null;
+function identity(){
+  const release=releaseIdentity();
+  if(staged){
+    release.camperCandidate=(finalJob?candidateTools.readCamperCandidate(finalJob):candidateTools.readCamperIntermediate()).manifest;
+    release.camperPreview=hash(['camper-review-fixture','camper-review-assets'].map(name=>
+      readFileSync(inside(web,'scripts/'+name+'.mjs'),'utf8').replaceAll('\r\n','\n')));
+  }
+  return release;
+}
+const release=identity(),protocol=captureProtocol(browser);
 if(action==='before'||action==='after'){
   const dest=inside(dir,action);
   if(existsSync(dest))throw Error('Capture already exists. Use a new job: '+dest);
   if(before && before.protocol!==protocol)throw Error('Baseline uses a different capture protocol');
   const stage=mkdtempSync(inside(dir,'.capture-'));
   try{
-    const run=args=>execFileSync(process.execPath,args,{cwd:web,stdio:'inherit',env:{...process.env,CAMP_ART_CAPTURE_DIR:stage}});
-    run(['--import','./tests/sprite-fixture.mjs','tests/render-landscapes.mjs','--quick']);
+    const run=args=>execFileSync(process.execPath,args,{cwd:web,stdio:'inherit',env:{...process.env,CAMP_ART_CAPTURE_DIR:stage,
+      ...(finalJob&&{CAMP_CAMPER_JOB:finalJob})}});
+    run(['--import',staged?'./scripts/camper-review-fixture.mjs':'./tests/sprite-fixture.mjs','tests/render-landscapes.mjs','--quick']);
     if(browser)run(['tests/browser.grounding.mjs']);
     const states=readJSON(inside(stage,'scenes.json'));
     if(browser)states.push(...readJSON(inside(stage,'actions.json')));
     const cases=states.map(state=>({...state,png:reviewPng(inside(stage,state.id+'.png'),state.width,state.height)}));
-    if(hash(releaseIdentity())!==hash(release)||captureProtocol(browser)!==protocol)throw Error('Inputs changed during capture');
+    if(hash(identity())!==hash(release)||captureProtocol(browser)!==protocol)throw Error('Inputs changed during capture');
     const payload={version:1,phase:action,browser,protocol,release,inventory:sceneInventory(),cases,
       ...(before?{baseline:before.digest}:{})};
     const receipt={...payload,digest:hash(payload)};

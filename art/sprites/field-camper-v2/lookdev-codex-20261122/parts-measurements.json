@@ -1,0 +1,431 @@
+{
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "placements": [
+    {
+      "direction": "front-right",
+      "face": {
+        "source": [
+          260,
+          18,
+          119,
+          119
+        ],
+        "preview": [
+          18,
+          14,
+          28,
+          26
+        ]
+      },
+      "hair": [
+        {
+          "source": [
+            228,
+            164,
+            177,
+            146
+          ],
+          "preview": [
+            12.57191780821918,
+            3,
+            37.582191780821915,
+            31
+          ]
+        },
+        {
+          "source": [
+            221,
+            347,
+            184,
+            141
+          ],
+          "preview": [
+            8.946808510638299,
+            1,
+            43.06382978723404,
+            33
+          ]
+        }
+      ],
+      "outfit": [
+        {
+          "source": [
+            257,
+            512,
+            121,
+            168
+          ],
+          "preview": [
+            19.351190476190474,
+            37,
+            24.488095238095237,
+            34
+          ]
+        },
+        {
+          "source": [
+            257,
+            701,
+            122,
+            171
+          ],
+          "preview": [
+            19.57309941520468,
+            37,
+            24.257309941520468,
+            34
+          ]
+        }
+      ]
+    },
+    {
+      "direction": "back-right",
+      "face": {
+        "source": [
+          628,
+          18,
+          121,
+          119
+        ],
+        "preview": [
+          18,
+          14,
+          27,
+          26
+        ]
+      },
+      "hair": [
+        {
+          "source": [
+            599,
+            164,
+            158,
+            148
+          ],
+          "preview": [
+            11.54391891891892,
+            5,
+            35.229729729729726,
+            33
+          ]
+        },
+        {
+          "source": [
+            603,
+            347,
+            157,
+            141
+          ],
+          "preview": [
+            10.882978723404257,
+            3,
+            37.85815602836879,
+            34
+          ]
+        }
+      ],
+      "outfit": [
+        {
+          "source": [
+            626,
+            512,
+            122,
+            168
+          ],
+          "preview": [
+            19.595238095238095,
+            37,
+            23.238095238095237,
+            32
+          ]
+        },
+        {
+          "source": [
+            626,
+            701,
+            123,
+            171
+          ],
+          "preview": [
+            19.804093567251464,
+            37,
+            23.017543859649123,
+            32
+          ]
+        }
+      ]
+    },
+    {
+      "direction": "back-left",
+      "face": {
+        "source": [
+          1017,
+          18,
+          123,
+          119
+        ],
+        "preview": [
+          19,
+          14,
+          26,
+          26
+        ]
+      },
+      "hair": [
+        {
+          "source": [
+            993,
+            164,
+            163,
+            148
+          ],
+          "preview": [
+            12.93581081081081,
+            5,
+            36.3445945945946,
+            33
+          ]
+        },
+        {
+          "source": [
+            996,
+            348,
+            157,
+            140
+          ],
+          "preview": [
+            11.964285714285715,
+            3,
+            38.128571428571426,
+            34
+          ]
+        }
+      ],
+      "outfit": [
+        {
+          "source": [
+            1009,
+            512,
+            126,
+            168
+          ],
+          "preview": [
+            18.761904761904763,
+            37,
+            24,
+            32
+          ]
+        },
+        {
+          "source": [
+            1009,
+            701,
+            126,
+            171
+          ],
+          "preview": [
+            18.994152046783626,
+            37,
+            23.57894736842105,
+            32
+          ]
+        }
+      ]
+    },
+    {
+      "direction": "front-left",
+      "face": {
+        "source": [
+          1391,
+          18,
+          120,
+          119
+        ],
+        "preview": [
+          18,
+          14,
+          28,
+          26
+        ]
+      },
+      "hair": [
+        {
+          "source": [
+            1360,
+            164,
+            178,
+            146
+          ],
+          "preview": [
+            13.678082191780824,
+            3,
+            37.794520547945204,
+            31
+          ]
+        },
+        {
+          "source": [
+            1360,
+            348,
+            186,
+            140
+          ],
+          "preview": [
+            13.850000000000001,
+            1,
+            41.18571428571428,
+            31
+          ]
+        }
+      ],
+      "outfit": [
+        {
+          "source": [
+            1385,
+            512,
+            122,
+            168
+          ],
+          "preview": [
+            18.642857142857142,
+            37,
+            24.69047619047619,
+            34
+          ]
+        },
+        {
+          "source": [
+            1385,
+            702,
+            122,
+            170
+          ],
+          "preview": [
+            18.799999999999997,
+            37,
+            24.400000000000002,
+            34
+          ]
+        }
+      ]
+    }
+  ],
+  "occlusions": [
+    {
+      "direction": "front-right",
+      "hair": 0,
+      "body": 0,
+      "protectedPixels": 122,
+      "covered": 1
+    },
+    {
+      "direction": "back-right",
+      "hair": 0,
+      "body": 0,
+      "protectedPixels": 0,
+      "covered": 0
+    },
+    {
+      "direction": "back-left",
+      "hair": 0,
+      "body": 0,
+      "protectedPixels": 0,
+      "covered": 0
+    },
+    {
+      "direction": "front-left",
+      "hair": 0,
+      "body": 0,
+      "protectedPixels": 124,
+      "covered": 2
+    },
+    {
+      "direction": "front-right",
+      "hair": 1,
+      "body": 0,
+      "protectedPixels": 122,
+      "covered": 0
+    },
+    {
+      "direction": "back-right",
+      "hair": 1,
+      "body": 0,
+      "protectedPixels": 0,
+      "covered": 0
+    },
+    {
+      "direction": "back-left",
+      "hair": 1,
+      "body": 0,
+      "protectedPixels": 0,
+      "covered": 0
+    },
+    {
+      "direction": "front-left",
+      "hair": 1,
+      "body": 0,
+      "protectedPixels": 124,
+      "covered": 1
+    },
+    {
+      "direction": "front-right",
+      "hair": 0,
+      "body": 1,
+      "protectedPixels": 122,
+      "covered": 1
+    },
+    {
+      "direction": "back-right",
+      "hair": 0,
+      "body": 1,
+      "protectedPixels": 0,
+      "covered": 0
+    },
+    {
+      "direction": "back-left",
+      "hair": 0,
+      "body": 1,
+      "protectedPixels": 0,
+      "covered": 0
+    },
+    {
+      "direction": "front-left",
+      "hair": 0,
+      "body": 1,
+      "protectedPixels": 124,
+      "covered": 2
+    },
+    {
+      "direction": "front-right",
+      "hair": 1,
+      "body": 1,
+      "protectedPixels": 122,
+      "covered": 0
+    },
+    {
+      "direction": "back-right",
+      "hair": 1,
+      "body": 1,
+      "protectedPixels": 0,
+      "covered": 0
+    },
+    {
+      "direction": "back-left",
+      "hair": 1,
+      "body": 1,
+      "protectedPixels": 0,
+      "covered": 0
+    },
+    {
+      "direction": "front-left",
+      "hair": 1,
+      "body": 1,
+      "protectedPixels": 124,
+      "covered": 1
+    }
+  ],
+  "stage": "scaled-composition-preview"
+}
