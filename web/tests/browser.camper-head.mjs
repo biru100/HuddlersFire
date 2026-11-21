@@ -10,6 +10,7 @@ import {readCamperCandidate} from '../scripts/camper-review-assets.mjs';
 import {objectDigest} from '../scripts/camper-harness-inputs.mjs';
 import {browserFormats,camperZooms,camperReviewRoot,camperCaptureIdentity,writeCamperCapture} from './camper-scale-evidence.mjs';
 import {subcultureHeadRecipe} from '../scripts/compile-subculture-camper.mjs';
+import {captureCamperMotion} from './browser.camper-motion.mjs';
 
 const origin=process.env.CAMP_TEST_URL || 'http://127.0.0.1:5192';
 if(!['127.0.0.1','localhost'].includes(new URL(origin).hostname))throw Error('Loopback only');
@@ -205,8 +206,9 @@ try{
     console.log(format+': WebGL at 75%, 100%, 300% camera zoom');
   }
   if(candidate)assert.equal(served.size,2,'Both validated candidate atlases must reach the application');
+  const motionProof=job?await captureCamperMotion(browser,capture,candidate):undefined;
   assert.deepEqual(browser.errors,[]);
-  if(job)writeCamperCapture(out,{job,kind:'browser',phase,identity,build});
+  if(job)writeCamperCapture(out,{job,kind:'browser',phase,identity,build,motionProof});
 }catch(error){
   console.error(await browser.evaluate(`({lobby:!!document.querySelector('#nickname'),solo:document.querySelector('.solo-button')?.outerHTML,dpr:devicePixelRatio,
     preview:[...document.querySelectorAll('.character-preview canvas')].map(c=>[c.width,c.height,c.clientWidth,c.clientHeight]),

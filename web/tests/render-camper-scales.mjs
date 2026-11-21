@@ -5,8 +5,10 @@ import {drawCharacter} from '../lib/camp-character.mjs';
 import {COLORS, spawnPlayer} from '../lib/camp-world.mjs';
 import {spriteManifest} from '../lib/camp-sprite-assets.mjs';
 import {readCamperCandidate} from '../scripts/camper-review-assets.mjs';
+import {camperMotionScene,motionPhases,motionSpec} from '../scripts/camper-motion-audit.mjs';
 import {inside} from '../../tools/lib/sprite-spec.mjs';
 import {camperReviewRoot,canvasFormats,browserFormats,camperZooms,camperPoses,fieldCases,browserPortraitCases,
+  motionFormats,motionSceneCases,motionLightCases,
   camperCaptureIdentity,writeCamperCapture,verifyCamperPair} from './camper-scale-evidence.mjs';
 
 const [phase] = process.argv.slice(2);
@@ -26,7 +28,7 @@ if(job&&['compare','verify'].includes(phase)){
 }
 
 if (phase==='compare') {
-  const plain = ['subpixel-grid',...samples];
+  const plain = ['subpixel-grid',...samples,...motionSceneCases];
   const rows = [];
   const cell = path => existsSync(`${root}/${path}`)?`<a href="${path}"><img src="${path}" alt="" loading="lazy"></a>`:'—';
   const add = (name,before,after) => rows.push(`<tr><th scope="row">${name}</th><td>${cell(before)}</td><td>${cell(after)}</td></tr>`);
@@ -40,7 +42,7 @@ if (phase==='compare') {
     const name = `${format}-lobby-${top}-${hair}`;
     add(name,`browser-before/${name}.png`,`browser-after/${name}.png`);
   }
-  for (const name of [...samples, 'desktop-125-max-canvas', ...browserPortraitCases]) {
+  for (const name of [...samples,'desktop-125-max-canvas',...browserPortraitCases,...motionSceneCases,...motionLightCases]) {
     add(`Chromium ${name}`,`browser-before/${name}.png`,`browser-after/${name}.png`);
   }
   writeFileSync(`${root}/comparison.html`, `<!doctype html><html lang="ko"><meta charset="utf-8">
@@ -97,6 +99,25 @@ for (const [name,width,height,dpr] of canvasFormats) {
   renderer.destroy();
 }
 
+const phases=motionPhases();
+for(const [format,width,height,dpr] of canvasFormats){
+  if(!motionFormats.includes(format))continue;
+  window.devicePixelRatio=dpr;
+  const canvas=createCanvas(width*dpr,height*dpr);
+  canvas.getBoundingClientRect=()=>({width,height});
+  let scene=camperMotionScene(phases.get(motionSpec.sceneCases[0]));
+  const renderer=new CampRenderer(canvas,()=>scene);
+  try{
+    for(const id of motionSpec.sceneCases){
+      scene=camperMotionScene(phases.get(id));
+      renderer.draw(scene.now);
+      await renderer.ready;
+      renderer.draw(scene.now);
+      save(canvas,format+'-motion-'+id);
+    }
+  }finally{renderer.destroy();}
+}
+
 // Show the same physical-output size at four subpixel positions without scene lighting.
 // This exposes blinking one-pixel features and padding artifacts that a single shot can hide.
 const sampleScales = [.35,.65,.8,1,1.25,1.5,2,3];
@@ -122,4 +143,4 @@ for (const scale of sampleScales) {
 }
 save(grid, 'subpixel-grid');
 if(job)writeCamperCapture(output,{job,kind:'canvas',phase,identity});
-console.log(`${output}: 27 game frames and subpixel comparison grid`);
+console.log(`${output}: ${samples.length+motionSceneCases.length} game frames and subpixel comparison grid`);

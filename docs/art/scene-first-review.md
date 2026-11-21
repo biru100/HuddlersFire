@@ -42,6 +42,24 @@ PC 900×640과 모바일 390×520에서 기본 추적 카메라·줌 1·DPR 1·�
 
 세 맵의 배치도 함께 보고 싶으면 `art:review:current -- before <작업명>`으로 기존 장면을 찍고 `art:review:current -- after <작업명> --camper-candidate`를 실행한다. 이 명령은 동일한 이름의 최종 후보를 로드한다. `compare`와 관찰 기록을 완료한 뒤 `verify`로 해당 장면을 다시 확인한다.
 
+### 캠퍼 동작과 노멀 검수
+
+[동작 명세](../../art/sprites/field-camper-v2/camper-motion-spec.json)에 동작별 방향, 실제 필드 상태, 비교할 단계, 공통 파츠를 기록한다. 깜빡임은 눈이 보이는 두 방향에서 확인한다. 앉고 일어나는 중간 키와 던지는 사람의 릴리스처럼 기존 표시 상태에서 표현되지 않는 단계는 공유 포즈로 드러난다. 새 단계가 게임에 연결되면 명세의 입력을 해당 게임 상태에 맞춰 갱신한다. 포즈나 재질을 의도적으로 공유할 경우 대상 행동·방향·상의·헤어와 결정 근거를 예외에 기록한다.
+
+아래 명령은 `web/`에서 실행한다.
+
+```sh
+npm run sprites:camper -- coverage
+npm run sprites:camper -- coverage <작업명> --json
+npm run sprites:camper -- coverage <작업명> --actions sit,jump
+npm run sprites:camper -- verify <작업명> --full
+```
+
+- `coverage`는 렌더러의 그리기 명령에서 실제 컬러·노멀 픽셀, 레이어, 방향과 반전을 조사한다. `--json`은 공유·누락의 단계와 비교 대상을 출력한다. `--actions`는 선택한 동작의 필수 조건을 검사하고 다른 결과도 보고한다. `coverage --full`은 모든 동작의 픽셀·재질 검사를 실행한다.
+- `verify --full`은 같은 후보의 재질 검사와 Canvas·WebGL 장면 쌍을 요구한다. `review ... before/after --browser`에서 PC·모바일 착석 전환, 점프·착지, 들기와 던지기 화면을 추가로 저장한다. WebGL의 보행 몸통·얼굴·헤어에 바인딩된 노멀과 셰이더 강도를 확인하고, 같은 광원에서 노멀 유무에 따른 캐릭터 픽셀 차이와 좌우 광원 반응을 기록한다. 증거에는 명세와 런타임 소스, 아틀라스와 화면 해시를 묶는다.
+- `node tests/browser.camper-motion.mjs`는 현행 아틀라스의 동작·조명만 격리 브라우저에서 확인한다. Canvas의 접지·가림과 WebGL의 표면 반응을 화면에서 검토하고, 미술 선택은 사용자 결정으로 기록한다.
+- `--check`는 v50의 두 승인 파일을 재현하고 [확인된 공유와 누락의 기준선](../../art/sprites/field-camper-v2/subculture-20261122/motion-coverage.json)을 대조한다. v50의 기존 파일 복구 경로가 이 기준선을 사용한다. 서브컬처 컴파일러의 새 후보 설치는 전체 동작 검사와 같은 후보의 장면 증거를 요구한다.
+
 ## 보존된 제출과 현재 화면
 
 기존 제출을 재현하는 `npm run art:review:camp`는 제출 당시 스프라이트를 사용한다. 현재 모닥불 주변을 한 번 살펴보려면 `web/`에서 `npm run test:render`를 실행해 `outputs/camp-art-live-desktop.png`와 `outputs/camp-art-live-mobile.png`를 연다. 현재 작업본의 수정 전후를 증거로 남길 때는 위의 `art:review:current`를 사용한다.

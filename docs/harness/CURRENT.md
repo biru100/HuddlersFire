@@ -1,8 +1,12 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-22 · 캠퍼 동작별 프레임과 노멀 검증
+
+승인된 하네스 변경으로 실제 캐릭터의 컬러와 노멀을 744개 동작·방향·착용 조건에서 검사한다. v50 재현 검사는 두 아틀라스와 알려진 동작 제약을 대조한다. 새 후보는 필요한 프레임과 재질, 같은 아틀라스의 Canvas·WebGL 검증을 갖춰야 전체 동작으로 판정한다. [동작 명세](../../art/sprites/field-camper-v2/camper-motion-spec.json) · [검수 절차](../art/scene-first-review.md#캠퍼-동작과-노멀-검수) · [로컬 검증](../validation.md#camper-motion-coverage)
+
 ## 2026-11-22 · 새 캠퍼 전체 교체와 기존 Sites v50 게시
 
-사용자 승인에 따라 새 네 방향과 두 헤어·두 의상의 전체 동작을 적용하고 공개 사이트에 v50을 게시했다. [GitHub 검증](https://github.com/biru100/HuddlersFire/actions/runs/44956803921)이 통과했고 공개 빌드 ID와 두 아틀라스의 SHA-256을 확인했다. 기존 공개 범위와 D1 바인딩 및 테이블 구성을 확인했다. [게시 기록](../validation.md#sites-v50) · [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/)
+사용자가 고른 새 캠퍼의 두 아틀라스를 연결해 공개 사이트에 v50을 게시했다. 서기·착석·보행은 네 방향에 연결됐다. 제스처는 남동향 키와 반전·공유 포즈를 사용한다. 달리기는 보행 프레임을, 점프 단계와 들려 있는 사람은 같은 공중 키를 사용한다. [GitHub 검증](https://github.com/biru100/HuddlersFire/actions/runs/44956803921)이 통과했고 공개 빌드 ID와 두 아틀라스의 SHA-256을 확인했다. [게시 기록](../validation.md#sites-v50) · [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/)
 
 ## 2026-11-22 · 선택된 캠퍼 얼굴로 네 방향과 모션 후보 제작
 

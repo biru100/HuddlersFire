@@ -10,6 +10,9 @@ import {compileCamperBase} from './build-camper-art.mjs';
 import {camperAtlasIds,compileCamperParts,headRecipe} from './build-shared-camper-head.mjs';
 import {inspectCamperAtlases} from './camper-consistency.mjs';
 import {verifySubcultureCamper} from './compile-subculture-camper.mjs';
+import {readCamperCandidate} from './camper-review-assets.mjs';
+import {assertCamperMotion,inspectCamperMotion,isMotionBaseline,motionBaseline,printMotionReport,
+  verifyMotionBaseline} from './camper-motion-audit.mjs';
 import {camperBrief,camperDraftInputs,camperInputNames,camperJobPath,contractDigest,currentCamperInputs,digest,
   objectDigest,readCamperInputs} from './camper-harness-inputs.mjs';
 
@@ -99,18 +102,43 @@ function review(job,phase,browser){
     ...(!headless&&phase!=='verify'&&phase!=='compare'?['--import',phase==='after'?'./scripts/camper-review-fixture.mjs':'./tests/sprite-fixture.mjs']:[]),
     script,...(headless?[]:[phase]),
   ],{cwd:web,stdio:'inherit',env});
-  if(!existsSync(inside(candidate,inputFilename)))throw Error('Prepare the camper job first');
+  if(!existsSync(inside(candidate,inputFilename))&&!existsSync(inside(candidate,'manifest.json')))
+    throw Error('Prepare or compile the camper job first');
   run('tests/render-camper-scales.mjs');
   if(phase==='after')execFileSync(process.execPath,['scripts/review-camper-head.mjs'],{cwd:web,stdio:'inherit',env});
   if(browser&&['before','after'].includes(phase))run('tests/browser.camper-head.mjs',true);
 }
 
+async function coverage({job,scope,asJson=false,registered=false}={}){
+  const report=await inspectCamperMotion(job?readCamperCandidate(job):undefined);
+  if(asJson)console.log(JSON.stringify(report,null,2));
+  else printMotionReport(report);
+  const baseline=isMotionBaseline(report);
+  if(baseline)verifyMotionBaseline(report,motionBaseline);
+  if(baseline&&!asJson)console.log('v50 baseline reproduced; known gaps remain open');
+  if(scope||registered&&!baseline)assertCamperMotion(report,scope??'full');
+  if(scope&&!asJson)console.log('Camper motion frame and normal checks passed for '+scope);
+}
+
+function motionScope(options){
+  if(!options.length)return undefined;
+  if(options.length===1&&options[0]==='--full')return 'full';
+  if(options.length===2&&options[0]==='--actions')return options[1].split(',');
+  throw Error('Expected --full or --actions ACTION,ACTION');
+}
+
 async function main(args){
+  if(args[0]==='coverage'){
+    const options=args.slice(1).filter(arg=>arg!=='--json');
+    const job=options[0]&&!options[0].startsWith('--')?options.shift():undefined;
+    return coverage({job,scope:motionScope(options),asJson:args.includes('--json')});
+  }
   if(args.length===1&&args[0]==='--check'){
     if(CAMPER_PART_FILES['field-camper-walk'].bodyOnly){
       const result=await verifySubcultureCamper(CAMPER_PART_FILES);
       console.log(`${result.audit.results.length} body and collar cases; ${result.heads.length} shared head cases`);
       console.log('Reproduced registered camper: '+camperAtlasIds.map(id=>CAMPER_PART_FILES[id].url.split('/').at(-1)).join(', '));
+      await coverage({registered:true});
       return;
     }
     const result=await compile(currentCamperInputs(1),web);
@@ -134,16 +162,27 @@ async function main(args){
   if(!rest.length&&action==='prepare'&&!option&&(!phase||phase==='--from-current'))return prepare(job,!!phase);
   if(action==='review'&&!rest.length&&['before','after','compare'].includes(phase)&&
       (!option||option==='--browser'&&phase!=='compare'))return review(job,phase,!!option);
-  if(['register','build','check','verify'].includes(action)&&args.length===2){
+  if(action==='verify'){
+    const scope=motionScope(args.slice(2));
+    if(readCamperCandidate(job).manifest.version!==3)
+      verifyCandidate(dir,await compile(readJSON(inside(dir,inputFilename)),dir));
+    await coverage({job,scope});
+    review(job,'verify',false);
+    if(scope==='full'){
+      const {verifyCamperPair}=await import('../tests/camper-scale-evidence.mjs');
+      if(!verifyCamperPair(job,'browser'))throw Error('Full camper motion requires WebGL evidence');
+    }
+    return;
+  }
+  if(['register','build','check'].includes(action)&&args.length===2){
     if(action==='register')return register(dir);
     const result=await compile(readJSON(inside(dir,inputFilename)),dir);
     if(action==='build')return saveCandidate(dir,result);
     verifyCandidate(dir,result);
     console.log('Reproduced camper job '+job+' '+result.manifest.id);
-    if(action==='verify')review(job,'verify',false);
     return;
   }
-  throw Error('Usage: sprites:camper -- prepare JOB [--from-current] | register/build/check/verify JOB | review JOB before/after/compare [--browser] | --check');
+  throw Error('Usage: sprites:camper -- prepare JOB [--from-current] | register/build/check JOB | verify JOB [--full | --actions LIST] | coverage [JOB] [--full | --actions LIST] [--json] | review JOB before/after/compare [--browser] | --check');
 }
 
 await main(process.argv.slice(2));
