@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-22 · 새 캠퍼 전체 교체와 기존 Sites v50 게시
+
+사용자 승인에 따라 새 네 방향과 두 헤어·두 의상의 전체 동작을 적용하고 공개 사이트에 v50을 게시했다. [GitHub 검증](https://github.com/biru100/HuddlersFire/actions/runs/44956803921)이 통과했고 공개 빌드 ID와 두 아틀라스의 SHA-256을 확인했다. 기존 공개 범위와 D1 바인딩 및 테이블 구성을 확인했다. [게시 기록](../validation.md#sites-v50) · [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/)
+
 ## 2026-11-22 · 선택된 캠퍼 얼굴로 네 방향과 모션 후보 제작
 
 사용자가 남동향 수정본을 선택하고 귀여움과 예쁨이 읽히는 서브컬처 도트 표현을 요청했다. `subculture-20261122`에 원본과 요청문 9건, 네 방향·네 조합·두 의상의 모션 키, 몸통 전용 보행 64프레임의 표시용 합성을 보관했다. 16개 착용 조합의 공통 얼굴 픽셀과 8프레임 반복 파일을 검사했다. 후속 작업은 착석·표정·제스처의 얼굴/앞손 분리, 하네스용 입력 13장 검증 및 로비·필드에서의 실제 접지·배율·루프 확인이다. [원본과 검토본](../../art/sprites/field-camper-v2/subculture-20261122/manifest.json) · [검증](../validation.md#camper-subculture-lookdev)

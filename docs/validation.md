@@ -1,5 +1,16 @@
 # 구현 검증 기록
 
+<a id="sites-v50"></a>
+
+## 2026-11-22 · 서브컬처 도트 캠퍼 v50 게시
+
+기존 공개 사이트에 v50을 게시했다. 로비와 필드에서 단발·묶은 머리와 재킷·후디를 교차 착용하고, 네 방향의 서기·착석·호흡·깜빡임·보행·제스처를 새 아틀라스로 그린다. 보행 몸통 파일은 128,560바이트이고 방향별 공통 머리와 헤어를 재사용한다. [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/) · [승인한 파일](reviews/2026-11-22-subculture-runtime-release.md)
+
+- GitHub `d81a71b09b5b7d182590ce414a9c88c20b11b6d8`의 웹 소스 388개와 Sites 소스 `d29dd690c35d118f23a175cb0dfa47cc1b0f8390`의 Git 파일 내용·모드가 일치했다. 전체 회귀 373개, 타입 검사, 아틀라스 재현, Canvas 장면 렌더와 앱 빌드가 통과했다. [GitHub 검증](https://github.com/biru100/HuddlersFire/actions/runs/44956803921)
+- 격리 Chromium에서는 PC·모바일·125% DPI마다 네 착용 조합의 얼굴 보호 픽셀 95개가 일치했다. 실제 필드에서 WebGL 75%·100%·300% 보행, Canvas 폴백과 초상화를 검증했다.
+- 저장 버전 `appgprj_6ae8e9ae42708191b253341387aa287f~appgver_f5e7785e12dc8191b0f77a00cb4ca3fd`, 배포 `appgdep_6b021be684d48191809bf88c2e4ef583`, 결과 `succeeded`. 07:32:57 KST에 공개 버전 API의 빌드 ID `84f4f8e7-9eed-4434-8135-69a202226827`와 리비전 `1795299671783`, 두 공개 WebP의 SHA-256을 확인했다.
+- 공개 로비·Discord 연결 결과 페이지·방 목록은 HTTP 200을 반환했다. 기존 공개 범위와 D1 `DB` 바인딩·7개 테이블을 배포 전후로 확인했고, 패키지의 마이그레이션과 메타데이터 11개가 소스와 일치했다.
+
 <a id="camper-subculture-lookdev"></a>
 
 ## 2026-11-22 · 수정 후보의 네 방향과 서브컬처 도트 모션
