@@ -2,6 +2,26 @@
   "version": 1,
   "assets": [
     {
+      "path": "web/public/sprites/camper-motion-native-normal.3f0987d28025.png",
+      "sha256": "3f0987d280251f0edeac82e67ba4722a0ea6108b0639dfaa580220b772820781",
+      "state": "runtime-approved",
+      "approvalDocument": "art/sprites/field-camper-v2/motion-full-v1/approval-regenerated.json",
+      "userDecision": {
+        "quote": "배포해줘",
+        "reference": "2026-11-23 AgentHub 사용자 요청. 전후 비교를 안내한 캠퍼 재생성본을 기존 공개 HuddlersFire에 적용하고 게시."
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-motion-native-color.35d12c1ad5d0.png",
+      "sha256": "35d12c1ad5d03a74b23d904d201b40adf5a63184e3d00c2daaef012bff5c2b21",
+      "state": "runtime-approved",
+      "approvalDocument": "art/sprites/field-camper-v2/motion-full-v1/approval-regenerated.json",
+      "userDecision": {
+        "quote": "배포해줘",
+        "reference": "2026-11-23 AgentHub 사용자 요청. 전후 비교를 안내한 캠퍼 재생성본을 기존 공개 HuddlersFire에 적용하고 게시."
+      }
+    },
+    {
       "path": "web/public/sprites/camper-motion-native-color.d2076b7dcd19.png",
       "sha256": "d2076b7dcd192e2fc021c35056d8fb838bf485fb7eca6b6fe39377740561225d",
       "state": "runtime-approved",

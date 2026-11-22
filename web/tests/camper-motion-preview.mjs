@@ -11,12 +11,18 @@ export async function showCamperMotion(review,scene,light){
     renderer.lightSources=[{x:player.x+offset,y:player.y-offset,height:0.7,radius:8,
       color:[1,.75,.45],intensity:1.1,kind:'diagnostic'}];
   }
+  renderer.walkTracks?.clear();
   Object.assign(review.scene,scene);
   renderer.draw(scene.now);
   await renderer.ready;
-  const render=gpu.render,drawImage=gpu.image;
-  let captured;
+  const render=gpu.render,drawImage=gpu.image,painter=renderer.characterPainter;
+  let captured,artFrame;
   const parts=[];
+  renderer.characterPainter=(ctx,player,options)=>{
+    const pose=painter(ctx,player,options);
+    if(player.id===scene.self)artFrame=pose.artFrame;
+    return pose;
+  };
   gpu.render=function(commands,settings){
     captured={commands,settings};
     return render.call(this,commands,settings);
@@ -38,7 +44,7 @@ export async function showCamperMotion(review,scene,light){
     renderer.draw(scene.now);
     if(gpu.status!=='ready'||!captured||!parts.length)
       throw Error('No actual camper WebGL draws for '+scene.self+': '+renderer.canvas.dataset.campRenderReason);
-    const proof={backend:'webgl',parts};
+    const proof={backend:'webgl',parts,artFrame};
     if(light){
       gpu.image=drawImage;
       const {commands,settings}=captured;
@@ -65,6 +71,7 @@ export async function showCamperMotion(review,scene,light){
     }
     return proof;
   }finally{
+    renderer.characterPainter=painter;
     gpu.render=render;
     gpu.image=drawImage;
     gpu.options.normals=normals;

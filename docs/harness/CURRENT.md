@@ -1,8 +1,18 @@
 # HuddlersFire · cross-context current handoff
 
-## 2026-11-22 · 캠퍼 전체 동작 기본 자산
+## 2026-11-23 · 캠퍼 전체 동작 재생성 후보
+
+v52 피드백에 따라 같은 원화로 캠퍼 동작을 다시 조립했다. `motion-regenerated-final` 후보의 ID는 `3136c053375b8eeec21578b1edf8b1812d1290ac427a1c06f5deb4cea00edd19`이다. 원화의 손과 소매를 보존하고 두 헤어에 목 위치를 맞췄다. 복합 동작의 상체는 하체의 허리 너비와 위치에 맞추며, 들기·던지기 재킷에도 선택한 의상 색이 적용된다. 사용자의 “배포해줘” 요청에 따라 후보를 기본 자산에 등록했다. [선택 기록](../../art/sprites/field-camper-v2/motion-full-v1/approval-regenerated.json) · [재현 및 검증 기록](../validation.md#camper-motion-regeneration)
+
+## 2026-11-23 · 캠퍼 실루엣 검수 보강
+
+v52에서 원화 셀 경계의 잘림과 손·소매가 머리 분리 단계에서 빠지는 문제를 재현했다. 새 후보 빌드는 실제 추출 경계에서 불투명 픽셀을 검사한다. 전체 후보 판정은 같은 원화·파츠·합성 비교표 및 Canvas·WebGL 화면의 시각 관찰을 요구한다. `motion-crop-review`는 두 추출 경계를 바로잡았고 손·소매와 이음새 결함으로 전체 검수를 보류했다. [검증 기록](../validation.md#camper-motion-visual-regression)
+
+## 2026-11-22 · 캠퍼 전체 동작 v52 게시
 
 캠퍼의 키포즈 원화 10장과 파생 프레임으로 네 방향·두 의상·두 헤어의 동작을 검증했다. 사용자가 `motion-full-v1`의 ‘선택하고 배포’를 골라 기본 아틀라스에 등록했다. 명세 744조합에서 지적 0건, 후보 검수에서 Canvas 48쌍과 브라우저 65쌍을 확인했다. [원화와 검증 재현](../../art/sprites/field-camper-v2/motion-full-v1/README.md) · [선택 기록](../../art/sprites/field-camper-v2/motion-full-v1/approval.json)
+
+[PR #29](https://github.com/biru100/HuddlersFire/pull/29)의 검증된 main `45dfb55`으로 기존 공개 Sites에 v52를 게시했다. 공개 빌드·아틀라스 3개·렌더러 번들 해시와 Discord 연결 가능 상태를 확인했다. [게시 검증](../validation.md#sites-camper-motion) · [공개 게임](https://huddlers-fire-camp.gywkd77.chatgpt.site/)
 
 ## 2026-11-22 · 캠퍼 동작별 프레임과 노멀 검증
 

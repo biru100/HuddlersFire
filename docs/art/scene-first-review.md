@@ -50,15 +50,19 @@ PC 900×640과 모바일 390×520에서 기본 추적 카메라·줌 1·DPR 1·�
 
 ```sh
 npm run sprites:camper -- coverage
+npm run sprites:camper -- check-source <작업명>
 npm run sprites:camper -- coverage <작업명> --json
 npm run sprites:camper -- coverage <작업명> --actions sit,jump
 npm run sprites:camper -- verify <작업명> --full
 ```
 
 - `coverage`는 렌더러의 그리기 명령에서 실제 컬러·노멀 픽셀, 레이어, 방향과 반전을 조사한다. `--json`은 공유·누락의 단계와 비교 대상을 출력한다. `--actions`는 선택한 동작의 필수 조건을 검사하고 다른 결과도 보고한다. `coverage --full`은 모든 동작의 픽셀·재질 검사를 실행한다.
-- `verify --full`은 같은 후보의 재질 검사와 Canvas·WebGL 장면 쌍을 요구한다. `review ... before/after --browser`에서 PC·모바일 착석 전환, 점프·착지, 들기와 던지기 화면을 추가로 저장한다. WebGL의 보행 몸통·얼굴·헤어에 바인딩된 노멀과 셰이더 강도를 확인하고, 같은 광원에서 노멀 유무에 따른 캐릭터 픽셀 차이와 좌우 광원 반응을 기록한다. 증거에는 명세와 런타임 소스, 아틀라스와 화면 해시를 묶는다.
+- `build-motion`과 `check-source`는 실제 셀 자르기 경계를 가로지르는 불투명 픽셀을 검사한다. 경계에 포즈가 걸리면 원화를 보존하고 포즈 사이의 투명 구간에 추출 경계를 지정하거나 포즈를 분리한다. 확인한 추출 레이아웃은 후보 해시에 포함한다.
+- `review ... before/after --browser`는 PC·모바일의 착석 전환, 점프·착지, 들기와 던지기, 제스처와 이동 중 합성을 저장한다. 앉아서 손 흔들기, 걸으면서 손 흔들기, 장비를 든 달리기는 실제로 선택된 상·하체 키까지 대조한다. WebGL에 노멀이 바인딩되고 좌우 조명과 노멀 끄기에 반응하는지도 확인한다.
+- `review ... after`의 `review/visual/index.html`에서 원화 추출본, 맞춘 64×80 키, 머리로 분류해 제거한 픽셀, 분리 몸체, 패킹 몸체, 두 헤어의 게임 합성을 같은 행에서 본다. 손·발·소매가 남고 얼굴 앞뒤 가림, 칼라, 허리 실루엣이 자연스럽게 이어지는지 확인한다. 원화 단계에서 잘린 사례와 분리 단계에서 손실된 사례를 각각 기록한다. `sequence-*` 비교판에서 각 방향·의상의 실제 렌더링을 동작 순서로 확인한다.
+- `verify --full`은 추출·재질 검사와 같은 후보의 Canvas·WebGL 전후 증거를 확인한 뒤 `review/visual/observations.json`을 검사한다. `source`에 `review/visual/evidence.json`의 ID를, `canvasAfter`와 `browserAfter`에 각각 `review/after/receipt.json`, `review/browser-after/receipt.json`의 ID를 적는다. 각 항목에 실제로 본 결과와 근거 ID를 기입한다. `mixed`에는 착석 손 흔들기, 보행 손 흔들기, 장비를 든 달리기 화면을 모두 인용하고 `transitions`에는 동작 순서표와 실제 장면을 인용한다. 실패·보류·누락이나 이후에 바뀐 후보 또는 캡처가 있으면 통과가 보류된다.
 - `node tests/browser.camper-motion.mjs`는 현행 아틀라스의 동작·조명만 격리 브라우저에서 확인한다. Canvas의 접지·가림과 WebGL의 표면 반응을 화면에서 검토하고, 미술 선택은 사용자 결정으로 기록한다.
-- `--check`는 v50의 두 승인 파일을 재현하고 [확인된 공유와 누락의 기준선](../../art/sprites/field-camper-v2/subculture-20261122/motion-coverage.json)을 대조한다. v50의 기존 파일 복구 경로가 이 기준선을 사용한다. 서브컬처 컴파일러의 새 후보 설치는 전체 동작 검사와 같은 후보의 장면 증거를 요구한다.
+- `--check`는 등록된 아틀라스의 바이트와 재질을 재현한다. v50 기록은 [공유와 누락의 기준선](../../art/sprites/field-camper-v2/subculture-20261122/motion-coverage.json)에서, v52에서 발견한 실루엣 결함은 [검증 기록](../validation.md#camper-motion-visual-regression)에서 확인한다. 미술 선택은 최종 후보를 보고 사용자가 결정한다.
 
 ## 보존된 제출과 현재 화면
 

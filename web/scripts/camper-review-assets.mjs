@@ -78,7 +78,9 @@ export function readCamperCandidate(job=process.env.CAMP_CAMPER_JOB||'current'){
 }
 
 function readMotionCandidate(manifest,path){
-  if(objectDigest(manifest.sources)!==objectDigest(motionSourceIdentity()))
+  if(objectDigest(manifest.sources)!==objectDigest(motionSourceIdentity({
+    authoredCrops:!!manifest.sources?.layout,regenerated:!!manifest.sources?.collars,
+  })))
     throw Error('Camper motion sources changed; rebuild the candidate');
   const {id,motion}=manifest,dir=inside(path,'candidates/'+id),buffers={},files={...spriteManifest.files};
   for(const [key,{color,normal,density}] of Object.entries(motion.plates)){

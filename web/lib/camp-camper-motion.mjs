@@ -59,11 +59,15 @@ export function selectCamperMotion(manifest,player,pose,time,now,reduced){
     }else if(pose.state==='hit')upperKey='hit.impact';
     if(!pose.combine&&upperKey!==lowerKey)lowerKey=upperKey;
   }
-  const lower=manifest.frames[lowerKey]?.[direction]?.[outfit];
+  const lowerFrames=manifest.frames[lowerKey]?.[direction];
+  const lower=lowerFrames?.[outfit];
   const upper=manifest.frames[upperKey]?.[direction]?.[outfit];
   const head=manifest.heads[direction];
   if(!lower||!upper||!head)return null;
-  return {lower,upper,head,lowerKey,upperKey,direction,hairstyle,outfit};
+  // Place the shared jaw at the lower of the two collars so it still
+  // overlaps either garment when the player changes outfits.
+  const headNeck=lower.join?Math.max(lower.neck,lowerFrames[1-outfit]?.neck??lower.neck):lower.neck;
+  return {lower,upper,head,headNeck,lowerKey,upperKey,direction,hairstyle,outfit};
 }
 
 export function camperMotionAssets(assets){

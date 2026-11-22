@@ -10,6 +10,64 @@ import {CAMPER_SOLES} from '../lib/camp-camper-art.mjs';
 import {camperDraftInputs,readCamperInputs} from '../scripts/camper-harness-inputs.mjs';
 import {camperAtlasIds,compileCamperParts,headRecipe} from '../scripts/build-shared-camper-head.mjs';
 import {motionLightCases,motionSceneCases,validateCamperPair,verifyMotionProof} from './camper-scale-evidence.mjs';
+import {inspectCamperMotionSources} from '../scripts/compile-camper-motion.mjs';
+import {assertUncutMotionSources} from '../scripts/camper-motion-source.mjs';
+import {validateCamperVisualObservations,visualChecks} from '../scripts/camper-motion-visual.mjs';
+import {splitAtCollar} from '../scripts/camper-pose-collars.mjs';
+import {fitMotionWaist,motionGeometry} from '../lib/camp-camper-render.mjs';
+
+test('raised palms stay with the sleeve while the head is removed',()=>{
+  const width=64,height=80,pixels=new Uint8ClampedArray(width*height*4);
+  const alpha=(x,y)=>(y*width+x)*4+3;
+  const palms=[[20,27],[52,25]],crown=[32,18],torso=[32,43];
+  for(const [x,y] of [...palms,crown,torso])pixels[alpha(x,y)]=255;
+  const {body,head}=splitAtCollar(pixels,width,height,'jump.rise',0,0);
+  for(const [x,y] of [...palms,torso]){
+    assert.equal(body[alpha(x,y)],255);
+    assert.equal(head[alpha(x,y)],0);
+  }
+  assert.equal(body[alpha(...crown)],0);
+  assert.equal(head[alpha(...crown)],255);
+});
+
+test('fitted upper body meets the lower waist even when both poses lean',()=>{
+  const lower={join:[18,42],neck:38,waist:56};
+  const upper={join:[28,48],neck:40,waist:55};
+  const {xScale,yScale,x,y}=fitMotionWaist(lower,upper);
+  assert.equal(upper.waist*yScale+y,lower.waist);
+  assert.ok(Math.abs(upper.join[0]*xScale+x-lower.join[0])<1e-9);
+  assert.ok(Math.abs(upper.join[1]*xScale+x-lower.join[1])<1e-9);
+  const plan={lower:{...lower,anchor:69},upperKey:'emote.wave'};
+  assert.deepEqual(motionGeometry({},plan).toneMark,{x:-2,y:-14});
+  assert.equal(motionGeometry({},{...plan,lower:{anchor:69,neck:38}}).toneMark,null);
+});
+
+test('v52 source cropping loses silhouette pixels and the measured crop edges avoid both cuts',async()=>{
+  const issues=await inspectCamperMotionSources();
+  assert.deepEqual(issues.map(({sheet,at,pixelsAcross})=>[sheet,at,pixelsAcross]),[
+    ['carry-release-jacket',271,16],['carry-release-jacket',814,29],
+  ]);
+  assert.throws(()=>assertUncutMotionSources(issues),/source crop cuts opaque pose pixels/);
+  assert.deepEqual(await inspectCamperMotionSources({authoredCrops:true}),[]);
+});
+
+test('motion observations require human-readable inspection of the exact boards and mixed game poses',()=>{
+  const boards=['jump.rise','emote.wave',...['sit','walk','run','jump','carry','throw'].map(id=>'sequence-'+id)],scenes=[
+    'desktop-motion-emote.seated-wave','desktop-motion-emote.walking-wave','desktop-motion-run.armed',
+  ];
+  const receipts={source:'source',canvas:'canvas',browser:'browser',boards,scenes};
+  const notes={version:1,source:'source',canvasAfter:'canvas',browserAfter:'browser',
+    checks:Object.fromEntries(Object.keys(visualChecks).map((key,i)=>[
+      key,{status:'pass',note:'Synthetic fixture observation',evidence:i<3?boards:key==='mixed'?scenes:[...boards,...scenes]},
+    ]))};
+  assert.doesNotThrow(()=>validateCamperVisualObservations(notes,receipts));
+  assert.throws(()=>validateCamperVisualObservations(notes,{...receipts,browser:'other'}),/must reference/);
+  notes.checks.limbs.status='fail';
+  assert.throws(()=>validateCamperVisualObservations(notes,receipts),/has not passed: limbs/);
+  notes.checks.limbs.status='pass';
+  notes.checks.mixed.evidence=[scenes[0]];
+  assert.throws(()=>validateCamperVisualObservations(notes,receipts),/must cite seated, walking and armed running/);
+});
 import {auditCamperMotion,motionPhases,motionSpec} from '../scripts/camper-motion-audit.mjs';
 
 test('motion audit detects missing directions, repeated artwork and shared normals in distinct cells',()=>{

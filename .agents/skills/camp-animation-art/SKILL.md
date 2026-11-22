@@ -1,6 +1,6 @@
 ---
 name: camp-animation-art
-description: "HuddlersFire 캐릭터 Idle·Walk·Sit 원화와 키포즈, 파생 픽셀·레이어 제작 및 실제 게임 검토에 사용한다."
+description: "HuddlersFire 캠퍼의 키포즈·동작 원화, 파생 픽셀·레이어 제작 및 실제 게임 검토에 사용한다."
 ---
 
 # 캠프 애니메이션 원화와 모션 검토
@@ -10,6 +10,8 @@ description: "HuddlersFire 캐릭터 Idle·Walk·Sit 원화와 키포즈, 파생
 기준 서기 후보와 같은 세션에서 Codex 내장 이미지 생성 도구로 Idle·Walk·Sit 및 제스처 키를 만든다. 기준 얼굴·헤어, 네 방향, 64×80 기본 셀과 192×240 보행 몸통·다리, 목·발 접점을 [캠퍼 규격](../../../art/sprites/field-camper-v2/README.md)에서 가져온다. 원본 바이트·요청문·SHA-256을 보존한 뒤 작업 범위에서 네이티브 파츠와 프레임을 파생한다. 실제 로비와 필드에서 같은 인물인지, 접지·가림·보행 루프와 앉고 일어나는 접점이 자연스러운지 확인한다. 최종 미술 선택은 사용자에게 있다.
 
 현행 캠퍼의 동작을 제작하기 전에 [동작 명세](../../../art/sprites/field-camper-v2/camper-motion-spec.json)에서 영향받는 방향·단계·역할을 고른다. 점프는 준비·상승·하강·착지, 들기와 던지기는 행동 주체와 상대의 화면을 각각 본다. 승인된 공유는 적용할 프레임과 결정 근거를 기록한다. 제작한 후보를 게임에 연결한 범위와 전용 동작을 갖춘 범위는 [장면 검토 절차](../../../docs/art/scene-first-review.md#캠퍼-동작과-노멀-검수)에서 확인한다.
+
+손이 얼굴 고도까지 올라오는 키포즈는 공통 머리를 붙이기 전에 원화의 손·손목·소매가 몸 파츠에 남는지 확인한다. 각도에 따라 얼굴 앞에 드는 손과 뒤에 가려지는 손의 순서를 구분한다. 경계가 잘린 원화는 추출 좌표를 실루엣 전체에 맞춰 고치고, 잘린 손이나 목의 빈자리를 임의 도형으로 채운 결과는 다시 검토한다. 상체를 붙이는 복합 동작은 실제 움직임에서 허리 윤곽과 접점이 이어지는지 본다. [원화와 합성 검수](../../../docs/art/scene-first-review.md#캠퍼-동작과-노멀-검수)
 
 > **2026-11-18 new-design scope:** The new pixel-art pilot [clean-room pipeline](../../../docs/art/pixel-ai-pipeline-v3.md) precedes character animations. Do **not** automatically load old F1/F2, CORE03, Rounded 02 PNGs, old palettes or historical idle sprites as generation/conditioning inputs. Any older animation-specific source prerequisites below are historical and only apply if the user explicitly resumes that older experiment. Await user-selected NEW modular avatar, then prototype key poses for Idle/Carry/Throw separately with 1× visual approval. Retro Diffusion Animation walk/idle outputs 48×48 and cannot automatically replace 64×96 native art. Never claim generated frames are player-approved.
 

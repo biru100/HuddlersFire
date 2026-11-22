@@ -11,7 +11,9 @@ import {compileCamperBase} from './build-camper-art.mjs';
 import {camperAtlasIds,compileCamperParts,headRecipe} from './build-shared-camper-head.mjs';
 import {inspectCamperAtlases} from './camper-consistency.mjs';
 import {verifySubcultureCamper} from './compile-subculture-camper.mjs';
-import {compileCamperMotion} from './compile-camper-motion.mjs';
+import {compileCamperMotion,inspectCamperMotionSources} from './compile-camper-motion.mjs';
+import {assertUncutMotionSources} from './camper-motion-source.mjs';
+import {captureCamperVisualReview,verifyCamperVisualReview} from './camper-motion-visual.mjs';
 import {readCamperCandidate} from './camper-review-assets.mjs';
 import {assertCamperMotion,inspectCamperMotion,isMotionBaseline,motionBaseline,printMotionReport,
   verifyMotionBaseline} from './camper-motion-audit.mjs';
@@ -98,7 +100,7 @@ function saveCandidate(dir,result){
   console.log(`${dest}: ${Object.keys(outputs).join(', ')}`);
 }
 
-function review(job,phase,browser){
+async function review(job,phase,browser){
   const candidate=camperJobPath(job);
   const env={...process.env,CAMP_CAMPER_JOB:job,CAMP_CAMPER_PHASE:phase};
   const run=(script,headless=false)=>execFileSync(process.execPath,[
@@ -108,7 +110,11 @@ function review(job,phase,browser){
   if(!existsSync(inside(candidate,inputFilename))&&!existsSync(inside(candidate,'manifest.json')))
     throw Error('Prepare or compile the camper job first');
   run('tests/render-camper-scales.mjs');
-  if(phase==='after')execFileSync(process.execPath,['scripts/review-camper-head.mjs'],{cwd:web,stdio:'inherit',env});
+  if(phase==='after'){
+    execFileSync(process.execPath,['scripts/review-camper-head.mjs'],{cwd:web,stdio:'inherit',env});
+    const staged=readCamperCandidate(job);
+    if(staged.motion)await captureCamperVisualReview(job,staged);
+  }
   if(browser&&['before','after'].includes(phase))run('tests/browser.camper-head.mjs',true);
 }
 
@@ -131,17 +137,31 @@ function motionScope(options){
 }
 
 async function verifyRegisteredMotion(){
-  const approval=readJSON(new URL('../../art/sprites/field-camper-v2/motion-full-v1/approval.json',import.meta.url));
-  const {manifest,outputs}=await compileCamperMotion();
+  const regenerated=!!CAMPER_MOTION_RELEASE.sources.collars;
+  const approvalFile=regenerated?'approval-regenerated.json':'approval.json';
+  const approval=readJSON(new URL('../../art/sprites/field-camper-v2/motion-full-v1/'+approvalFile,import.meta.url));
+  const {manifest,outputs}=await compileCamperMotion({
+    authoredCrops:!!CAMPER_MOTION_RELEASE.sources.layout,regenerated,
+  });
   if(manifest.id!==approval.candidate||objectDigest(manifest)!==objectDigest(CAMPER_MOTION_RELEASE))
     throw Error('Registered camper motion does not match the approved art');
   for(const [name,bytes] of Object.entries(outputs)){
+    if(approval.approvedFiles[name]!==digest(bytes))throw Error('Unapproved registered camper motion atlas: '+name);
     if(!bytes.equals(readFileSync(inside(web,'public/sprites/'+name))))throw Error('Changed registered camper motion atlas: '+name);
   }
   console.log('Reproduced registered camper motion: '+manifest.id);
+  if(!manifest.sources.layout)console.log('Registered v52 has known visual defects; reproduction checks do not clear the visual review');
 }
 
 async function main(args){
+  if(args[0]==='check-source'&&args.length<=2){
+    const manifest=args[1]?readCamperCandidate(args[1]).manifest:CAMPER_MOTION_RELEASE;
+    if(manifest.version!==4)throw Error('Source layout inspection requires a full motion package');
+    const crossings=await inspectCamperMotionSources({authoredCrops:!!manifest.sources.layout});
+    assertUncutMotionSources(crossings);
+    console.log('No camper silhouettes cut at source cell borders');
+    return;
+  }
   if(args[0]==='coverage'){
     const options=args.slice(1).filter(arg=>arg!=='--json');
     const job=options[0]&&!options[0].startsWith('--')?options.shift():undefined;
@@ -174,22 +194,30 @@ async function main(args){
   }
   const [action,job,phase,option,...rest]=args;
   const dir=camperJobPath(job);
-  if(action==='build-motion'&&args.length===2)return saveCandidate(dir,await compileCamperMotion());
+  if(action==='build-motion'&&args.length===2)
+    return saveCandidate(dir,await compileCamperMotion({authoredCrops:true,regenerated:true}));
   if(!rest.length&&action==='prepare'&&!option&&(!phase||phase==='--from-current'))return prepare(job,!!phase);
   if(action==='review'&&!rest.length&&['before','after','compare'].includes(phase)&&
       (!option||option==='--browser'&&phase!=='compare'))return review(job,phase,!!option);
   if(action==='verify'){
     const scope=motionScope(args.slice(2));
-    const {manifest}=readCamperCandidate(job);
-    if(manifest.version===4)verifyCandidate(dir,await compileCamperMotion());
+    const candidate=readCamperCandidate(job);
+    const {manifest}=candidate;
+    if(manifest.version===4){
+      const authoredCrops=!!manifest.sources.layout;
+      if(scope==='full')assertUncutMotionSources(await inspectCamperMotionSources({authoredCrops}));
+      verifyCandidate(dir,await compileCamperMotion({authoredCrops,regenerated:!!manifest.sources.collars}));
+    }
     else if(manifest.version!==3)
       verifyCandidate(dir,await compile(readJSON(inside(dir,inputFilename)),dir));
     await coverage({job,scope});
-    review(job,'verify',false);
     if(scope==='full'){
-      const {verifyCamperPair}=await import('../tests/camper-scale-evidence.mjs');
-      if(!verifyCamperPair(job,'browser'))throw Error('Full camper motion requires WebGL evidence');
-    }
+      const {motionSceneCases,verifyCamperPair}=await import('../tests/camper-scale-evidence.mjs');
+      const canvas=verifyCamperPair(job,'canvas'),browser=verifyCamperPair(job,'browser');
+      if(!browser)throw Error('Full camper motion requires WebGL evidence');
+      if(candidate.motion)verifyCamperVisualReview(job,candidate,{canvas,browser},motionSceneCases);
+      console.log(`Verified ${canvas.count} Canvas and ${browser.count} browser pairs`);
+    }else await review(job,'verify',false);
     return;
   }
   if(['register','build','check'].includes(action)&&args.length===2){
@@ -200,7 +228,7 @@ async function main(args){
     console.log('Reproduced camper job '+job+' '+result.manifest.id);
     return;
   }
-  throw Error('Usage: sprites:camper -- prepare JOB [--from-current] | register/build/check/build-motion JOB | verify JOB [--full | --actions LIST] | coverage [JOB] [--full | --actions LIST] [--json] | review JOB before/after/compare [--browser] | --check');
+  throw Error('Usage: sprites:camper -- prepare JOB [--from-current] | register/build/check/build-motion JOB | check-source [JOB] | verify JOB [--full | --actions LIST] | coverage [JOB] [--full | --actions LIST] [--json] | review JOB before/after/compare [--browser] | --check');
 }
 
 await main(process.argv.slice(2));

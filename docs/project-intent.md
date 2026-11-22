@@ -1,5 +1,9 @@
 # HuddlersFire 의도 기준
 
+## 2026-11-23 · 캠퍼 동작 재생성본 선택과 게시 승인
+
+손과 소매 잘림을 수정한 재생성본의 검토 결과에 이어 사용자가 “배포해줘”라고 요청했다. [이 후보와 아틀라스 해시](../art/sprites/field-camper-v2/motion-full-v1/approval-regenerated.json)를 기준으로 기본 자산에 적용하고 기존 공개 Sites에 게시한다.
+
 ## 2026-11-22 · 전체 동작 캠퍼 선택과 게시 승인
 
 사용자는 게임 화면과 동작별 비교표를 검토한 뒤 ‘선택하고 배포’를 골랐다. 새 동작과 프레임별 노멀을 승인된 캠퍼의 기본 자산에 연결하고 기존 공개 Sites에 게시한다. 선택 범위는 [후보 식별자와 아틀라스 해시](../art/sprites/field-camper-v2/motion-full-v1/approval.json)로 기록한다.

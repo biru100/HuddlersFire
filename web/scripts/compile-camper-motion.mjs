@@ -4,7 +4,9 @@ import {separateCamper} from './camper-collar.mjs';
 import {camperNormal} from './camper-motion-normal.mjs';
 import {CAMPER_PART_FILES} from '../lib/camp-camper-part-files.mjs';
 import {camperPartCell,camperStrideRise} from '../lib/camp-camper-parts.mjs';
-import {gradeCamperMaterials} from './camper-consistency.mjs';
+import {contract,gradeCamperMaterials} from './camper-consistency.mjs';
+import {assertUncutMotionSources,crossedPoseEdges,sourcePoseRows} from './camper-motion-source.mjs';
+import {poseCollars,poseHands,splitAtCollar} from './camper-pose-collars.mjs';
 import {digest,objectDigest} from './camper-harness-inputs.mjs';
 
 const art=new URL('../../art/sprites/field-camper-v2/motion-full-v1/',import.meta.url);
@@ -21,7 +23,13 @@ const tileFrom=data=>{
   return tile;
 };
 
-export function motionSourceIdentity(){
+function sourceLayout(){
+  const layout=JSON.parse(readFileSync(new URL('source-layout.json',art),'utf8'));
+  if(Object.keys(layout).some(key=>!names.includes(key)))throw Error('Unknown camper source layout');
+  return layout;
+}
+
+export function motionSourceIdentity({authoredCrops=false,regenerated=false}={}){
   const receipt=readFileSync(new URL('sources.json',art));
   const {sources}=JSON.parse(receipt);
   for(const key of names){
@@ -36,7 +44,8 @@ export function motionSourceIdentity(){
   const base=Object.fromEntries(Object.entries(CAMPER_PART_FILES).slice(0,2).map(([id,details])=>[
     id,details.sha256,
   ]));
-  return {receipt:digest(receipt),base};
+  return {receipt:digest(receipt),base,...(authoredCrops&&{layout:objectDigest(sourceLayout())}),
+    ...(regenerated&&{collars:objectDigest({poseCollars,poseHands})})};
 }
 
 function crop(image,[col,row],density=1){
@@ -55,12 +64,15 @@ function opaqueBounds(data,w,h){
   return [l,t,r+1,b+1];
 }
 
-function sourceCells(image,key){
+function sourceCells(image,key,crossings,authoredEdges){
   const result=canvas(image.width,image.height),ctx=result.getContext('2d');
   ctx.drawImage(image,0,0);
-  return Array.from({length:4},(_,row)=>Array.from({length:4},(_,col)=>{
-    const sx=Math.floor(col*image.width/4),sy=Math.floor(row*image.height/4);
-    const sw=Math.floor((col+1)*image.width/4)-sx,sh=Math.floor((row+1)*image.height/4)-sy;
+  const rows=sourcePoseRows(image.width,image.height,authoredEdges);
+  if(crossings){
+    const pixels=ctx.getImageData(0,0,image.width,image.height).data;
+    crossings.push(...crossedPoseEdges(pixels,image.width,image.height,rows).map(hit=>({sheet:key,...hit})));
+  }
+  return rows.map((cells,row)=>cells.map(([sx,sy,sw,sh],col)=>{
     const data=ctx.getImageData(sx,sy,sw,sh).data;
     const [l,t,r,b]=opaqueBounds(data,sw,sh),h=b-t;
     if(r-l<30||h<30)throw Error('Camper source pose too small: '+key+'/'+row+'/'+col);
@@ -86,7 +98,7 @@ function sourceCells(image,key){
   }));
 }
 
-function posedBody(source,{neck,feet,foreground=false,style,repairTrousers=false}){
+function posedBody(source,{neck,feet,foreground=false,style,repairTrousers=false,observe,key,direction,regenerated}){
   const {image,bounds,headX,jaw,crownWidth}=source;
   const [x,y,w,h]=bounds;
   const output=canvas(),ctx=output.getContext('2d');
@@ -100,10 +112,12 @@ function posedBody(source,{neck,feet,foreground=false,style,repairTrousers=false
     if(input[i+3]<128)input.fill(0,i,i+4);
     else input[i+3]=255;
   }
-  const {body}=separateCamper(input,width,height,{hoodie:style===1,neck,unit:1,gesture:foreground});
+  const traced=regenerated&&splitAtCollar(input,width,height,key,style,direction);
+  const {body,head}=traced||separateCamper(input,width,height,{hoodie:style===1,neck,unit:1,gesture:foreground});
+  if(observe)observe({fitted:tileFrom(input),removed:tileFrom(head),body:tileFrom(body)});
   // Keep lifted fingers that remain attached to the sleeve outside the
   // modular jaw. Reject isolated pixels and hair-coloured edge remnants.
-  if(foreground){
+  if(foreground&&!regenerated){
     for(let y=Math.max(20,neck-11);y<neck;y++)for(let x=3;x<61;x++){
       const i=(y*width+x)*4,[r,g,b,a]=input.subarray(i,i+4);
       const hand=r>=130&&r>=g*1.13&&g>b*1.03;
@@ -112,6 +126,8 @@ function posedBody(source,{neck,feet,foreground=false,style,repairTrousers=false
     }
   }
   removeSpecks(body);
+  if(regenerated&&style===0&&(key.startsWith('carry.')||key.startsWith('throw.')))
+    gradeCarryJacket(body,neck,feet);
   if(repairTrousers){
     // These hoodie keys painted bare knees. Continue the approved trousers
     // through the knees, preserving their shading and the boot outline.
@@ -128,6 +144,53 @@ function posedBody(source,{neck,feet,foreground=false,style,repairTrousers=false
   gradeCamperMaterials(pixels,{head:false,style,unit:1,neck,sole:feet});
   tile.getContext('2d').putImageData(pixels,0,0);
   return tile;
+}
+
+function gradeCarryJacket(body,neck,feet){
+  // The carry sheet paints the jacket in maroon. Match its shading to
+  // the same cloth swatch as the standing pose so wardrobe tint applies.
+  const waist=Math.round(neck+(feet-neck)*.58);
+  const swatch=contract.swatches.jacket;
+  for(let i=0;i<waist*width*4;i+=4){
+    const [r,g,b,a]=body.subarray(i,i+4);
+    if(!a||r<64||r>158||r-g<14||Math.abs(g-b)>13)continue;
+    const shade=(.23*r+.62*g+.15*b)/88;
+    body.set(swatch.map(channel=>Math.round(channel*shade)),i);
+  }
+}
+
+function measuredCollar(tile,heads,neck){
+  const first=[],pixels=rgba(tile).data;
+  const alpha=(data,x,y)=>data[(y*width+x)*4+3]>=128;
+  for(let x=29;x<=35;x++){
+    for(let y=neck-10;y<neck+10;y++){
+      if(![0,1,2].every(offset=>alpha(pixels,x,y+offset)))continue;
+      const edges=heads.map(head=>{
+        for(let at=43;at>=30;at--)if(alpha(head,x,at))return at;
+        return 35;
+      });
+      first.push(40+y-Math.min(...edges)-1);
+      break;
+    }
+  }
+  first.sort((a,b)=>a-b);
+  return first[Math.floor(first.length/2)]??neck;
+}
+
+function measuredWaist(tile,placement){
+  const pixels=rgba(tile).data,density=tile.width/width;
+  const at=(x,y)=>pixels[(y*tile.width+x)*4+3]>=128;
+  const ideal=placement.waist??Math.round(placement.neck+(placement.feet-placement.neck)*.55);
+  for(const y of [ideal,ideal-1,ideal-2,ideal-3]){
+    const row=Math.round(y*density),mid=32*density;
+    const center=[mid,mid-density,mid+density,mid-2*density,mid+2*density].find(x=>at(x,row));
+    if(center===undefined)continue;
+    let left=center,right=center;
+    while(left>0&&at(left-1,row))left--;
+    while(right+1<tile.width&&at(right+1,row))right++;
+    if((right+1-left)/density>=10)return {waist:y,join:[left/density,(right+1)/density]};
+  }
+  return {waist:ideal,join:[23,41]};
 }
 
 function removeSpecks(body){
@@ -265,10 +328,26 @@ const sheetNames={
   action:['action-jacket','action-hood'],
 };
 
-export async function compileCamperMotion(){
-  const sources=motionSourceIdentity(),sheets={};
-  for(const key of names)
-    sheets[key]=sourceCells(await loadImage(readFileSync(new URL('sources/'+key+'.png',art))),key);
+async function loadMotionSources(crossings,layout){
+  const sheets={};
+  for(const key of names){
+    const image=await loadImage(readFileSync(new URL('sources/'+key+'.png',art)));
+    sheets[key]=sourceCells(image,key,crossings,layout?.[key]);
+  }
+  return sheets;
+}
+
+export async function inspectCamperMotionSources({authoredCrops=false}={}){
+  motionSourceIdentity();
+  const crossings=[];
+  await loadMotionSources(crossings,authoredCrops?sourceLayout():null);
+  return crossings;
+}
+
+export async function compileCamperMotion({authoredCrops=false,regenerated=false,observePose}={}){
+  const sources=motionSourceIdentity({authoredCrops,regenerated}),crossings=authoredCrops?[]:null;
+  const sheets=await loadMotionSources(crossings,authoredCrops?sourceLayout():null);
+  if(crossings)assertUncutMotionSources(crossings);
   const inputs=await Promise.all(['field-camper-v2','field-camper-walk'].map(async id=>{
     const details=CAMPER_PART_FILES[id],bytes=readFileSync(new URL('../public'+details.url,import.meta.url));
     if(digest(bytes)!==details.sha256)throw Error('Published camper atlas changed: '+id);
@@ -278,7 +357,7 @@ export async function compileCamperMotion(){
   const frames={},heads=[],outfits=[0,1];
   const addFrame=(key,direction,style,body,meta,plate=native)=>{
     frames[key]??=Array.from({length:4},()=>[]);
-    frames[key][direction][style]=plate.add(body,meta);
+    frames[key][direction][style]=plate.add(body,regenerated?{...meta,...measuredWaist(body,meta)}:meta);
   };
   for(let direction=0;direction<4;direction++){
     const anchor=soles[direction],sign=direction<2?1:-1;
@@ -296,10 +375,14 @@ export async function compileCamperMotion(){
       hairs:outfits.map(style=>head(part(0),'hair',style))};
     for(const style of outfits){
       const bodies={};
-      const add=(key,tile,meta={})=>{
+      const add=(key,tile,meta={},measureNeck=false)=>{
         const placement={anchor,neck:40,feet:anchor,...meta};
-        if(key!=='idle.stand'&&key!=='sit.hold')seam(tile,sharedHead,placement.neck);
-        if(!style&&['carry.holder','throw.release'].includes(key))jacketCarryHands(tile,direction,key);
+        if(regenerated){
+          if(measureNeck)placement.neck=measuredCollar(tile,sharedHead,placement.neck);
+        }else{
+          if(key!=='idle.stand'&&key!=='sit.hold')seam(tile,sharedHead,placement.neck);
+          if(!style&&['carry.holder','throw.release'].includes(key))jacketCarryHands(tile,direction,key);
+        }
         addFrame(key,direction,style,tile,placement);
         bodies[key]={tile,...placement};
       };
@@ -310,8 +393,9 @@ export async function compileCamperMotion(){
         const meta={neck,feet,foreground:!!foreground};
         if(key==='sit.enter')Object.assign(meta,{anchor:61,waist:52});
         const repairTrousers=style===1&&sheet==='jump';
-        add(key,posedBody(sheets[sheetNames[sheet][style]][row][direction],
-          {...meta,style,repairTrousers}),meta);
+        const source=sheets[sheetNames[sheet][style]][row][direction];
+        const observe=observePose?layers=>observePose({key,style,direction,source,...layers}):undefined;
+        add(key,posedBody(source,{...meta,style,repairTrousers,observe,key,direction,regenerated}),meta,true);
       }
       for(const [key,[donor,rise,lean,leg]] of Object.entries(derivatives)){
         const source=bodies[donor],{neck,feet,foreground}=source;
@@ -325,10 +409,13 @@ export async function compileCamperMotion(){
           {anchor,neck:40+offset,feet:anchor,cell},walk);
         const row=Math.floor(step/2),neck=38+[0,1,2,1][row];
         const feet=anchor-[1,0,1,0][row];
-        const runner=posedBody(sheets[sheetNames.run[style]][row][direction],{neck,feet,style});
+        const source=sheets[sheetNames.run[style]][row][direction];
+        const key='run.step-'+(step+1);
+        const observe=observePose&&step%2===0?layers=>observePose({key,style,direction,source,...layers}):undefined;
+        const runner=posedBody(source,{neck,feet,style,observe,key,direction,regenerated});
         const intermediate=step%2?{rise:row%2===0?2:-1,lean:2*sign,leg:row%2===0?1:-2}:{};
-        add('run.step-'+(step+1),step%2?flex(runner,neck,feet,intermediate):runner,
-          {neck:neck+(intermediate.rise??0),feet:feet+(intermediate.leg??0)});
+        add(key,step%2?flex(runner,neck,feet,intermediate):runner,
+          {neck:neck+(intermediate.rise??0),feet:feet+(intermediate.leg??0)},true);
       }
     }
   }

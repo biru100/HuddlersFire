@@ -75,13 +75,21 @@ export function motionPlayer(phase,direction,topStyle=0,hairStyle=0){
     ...(phase.seat&&{sitting:true,renderSeat:true,renderDirection:direction})};
 }
 
-export function camperMotionScene(phase,{mapId=['idle','sit'].includes(phase.action)?'camp':'playground'}={}){
+export function camperMotionReviewPhases(){
+  const phases=motionPhases();
+  const ids=[...motionSpec.sceneCases,'run.step-3','emote.wave','emote.dance','emote.seated-wave','emote.walking-wave'];
+  const aim=phases.get('weapon.gun-aim');
+  return [...ids.map(id=>phases.get(id)),{...aim,id:'run.armed',player:{...aim.player,moving:true,running:true}}];
+}
+
+export function camperMotionScene(phase,{mapId=phase.seat||['idle','sit'].includes(phase.action)?'camp':'playground'}={}){
   const now=Math.round(phase.time*1000);
-  const player={...motionPlayer(phase,'front-right'),id:'motion-self',name:'캠퍼',mapId,
+  // A zero animation offset makes the requested gesture key reproducible.
+  const player={...motionPlayer(phase,'front-right'),id:'camper-review-223',name:'캠퍼',mapId,
     x:0,y:0,emote:phase.emote??null,emoteUntil:phase.emote?now+500:0};
   const players=[player];
   if(phase.action==='walk'&&mapId==='camp')Object.assign(player,{x:1.6,y:-0.6});
-  if(phase.action==='sit'){
+  if(phase.action==='sit'||phase.seat){
     const seat=CAMP_SEATS[1];
     Object.assign(player,{x:seat.x,y:seat.y,seatId:phase.seat?seat.id:null,z:phase.seat?seat.z??0:0});
   }

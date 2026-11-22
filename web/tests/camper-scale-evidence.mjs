@@ -6,7 +6,7 @@ import {digest,objectDigest,camperJobPath} from '../scripts/camper-harness-input
 import {releaseIdentity} from './current-art-evidence.mjs';
 import {withCampArt} from '../lib/camp-art-release.mjs';
 import {SPRITE_MANIFEST} from '../lib/camp-sprite-manifest.mjs';
-import {motionSpec} from '../scripts/camper-motion-audit.mjs';
+import {camperMotionReviewPhases,motionSpec} from '../scripts/camper-motion-audit.mjs';
 
 export const camperZooms=[['min',.75],['default',1],['max',3]];
 export const camperPoses=['idle','walk','stop'];
@@ -16,7 +16,7 @@ export const fieldCases=formats=>formats.flatMap(([format])=>camperZooms.flatMap
 export const browserLobbyCases=browserFormats.flatMap(([format])=>[0,1].flatMap(top=>[0,1].map(hair=>`${format}-lobby-${top}-${hair}`)));
 export const browserPortraitCases=['roster-portrait','profile-portrait'];
 export const motionFormats=['desktop','mobile'];
-export const motionSceneCases=motionFormats.flatMap(format=>motionSpec.sceneCases.map(id=>format+'-motion-'+id));
+export const motionSceneCases=motionFormats.flatMap(format=>camperMotionReviewPhases().map(({id})=>format+'-motion-'+id));
 export const motionLightCases=['left','right','off'].map(light=>'desktop-motion-normal-'+light);
 
 export function camperReviewRoot(job){return inside(camperJobPath(job),'review');}
@@ -25,7 +25,9 @@ function protocol(kind){
   const shared=['camper-scale-evidence','current-art-evidence','sprite-fixture','render-camper-scales'];
   if(kind==='browser')shared.push('browser.camper-head','browser.camper-motion','browser-cdp','lighting-preview','camper-motion-preview');
   const files=shared.map(name=>`web/tests/${name}.mjs`).concat([
-    'web/scripts/camper-motion-audit.mjs','web/lib/camp-sprite-animation.mjs','web/lib/camp-camper-render.mjs',
+    'web/scripts/camper-motion-audit.mjs','web/scripts/camper-motion-visual.mjs','web/scripts/compile-camper-motion.mjs',
+    'web/scripts/camper-motion-source.mjs','web/scripts/camper-pose-collars.mjs',
+    'web/lib/camp-sprite-animation.mjs','web/lib/camp-camper-render.mjs',
     'web/lib/camp-character.mjs','web/lib/camp-camper-motion.mjs','web/lib/camp-renderer.mjs','web/lib/camp-draw-context.mjs',
     'web/lib/camp-webgl-renderer.mjs','web/lib/camp-lighting-shader.mjs',
   ]);
