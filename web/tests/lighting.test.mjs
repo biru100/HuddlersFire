@@ -98,13 +98,16 @@ test('ground shadow clipping keeps the same rounded isometric boundary at DPR an
 test('a fresh dark scene uses dark scenery and the shared motion plates for masks',async()=>{
   const motionIds=Object.values(defaultSpriteAssets.manifest.camperMotion?.plates??{})
     .flatMap(({color,normal})=>[color,normal]);
-  await defaultSpriteAssets.preloadSprites(['environment-dark','field-camper-v2-dark',...motionIds]);
+  await defaultSpriteAssets.preloadSprites(defaultSpriteAssets.sceneSpriteIds('dark','camp'));
   const requested=[];
   const assets={...defaultSpriteAssets,getSprite(id){requested.push(id);return defaultSpriteAssets.getSprite(id);}};
   const shadows=new GroundShadows(createCanvas(100,100).getContext('2d'),{assets});
   assert.ok(shadows.propMask({type:'tree'},'dark'));
+  const scenery=requested.splice(0);
+  assert.ok(scenery.length&&scenery.every(id=>id.endsWith('-dark')));
   assert.ok(shadows.playerMask({x:0,y:0},{theme:'dark'}));
-  assert.ok(requested.includes('environment-dark'));
+  assert.ok(requested.includes('field-camper-v2-dark'));
+  assert.ok(motionIds.every(id=>requested.includes(id)));
   assert.ok(requested.every(id=>id.includes('-dark')||motionIds.includes(id)));
 });
 test('daylight projects real map props toward the lower right in both open-air maps',()=>{
