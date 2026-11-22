@@ -59,11 +59,13 @@ const identity=job?camperCaptureIdentity('canvas',job,phase):null;
 if(job&&phase==='before'&&existsSync(output+'/receipt.json'))throw Error('This job already has a Canvas baseline');
 if(job&&phase==='after'){
   if(!existsSync(inside(root,'before/receipt.json')))throw Error('Capture the Canvas baseline first');
-  const {files}=readCamperCandidate(job);
-  for(const id of ['field-camper-v2','field-camper-walk']){
+  const {files,motion,manifest}=readCamperCandidate(job);
+  for(const id of Object.keys(manifest.files)){
     if(files[id].url!==spriteManifest.files[id]?.url||files[id].sha256!==spriteManifest.files[id]?.sha256)
       throw Error('Canvas did not load the requested final candidate: '+id);
   }
+  if(motion&&JSON.stringify(spriteManifest.camperMotion)!==JSON.stringify(motion))
+    throw Error('Canvas did not load the requested motion manifest');
 }
 mkdirSync(output, {recursive:true});
 globalThis.window = {devicePixelRatio:1, matchMedia:() => ({matches:false})};

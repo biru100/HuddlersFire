@@ -16,10 +16,11 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
     setSpriteLoader(value,options={}){loader=value;cacheLimit=options.cacheLimit||initialLimit;entries.clear();},
     subscribeSprites(listener){listeners.add(listener);return()=>listeners.delete(listener);},
     loadSprite(id){
-      if(!data.files[id])return Promise.resolve(null);
+      const file=data.files[id]??data.fallbackFiles?.[id];
+      if(!file)return Promise.resolve(null);
       let entry=entries.get(id);if(entry){entry.used=++clock;return entry.promise;}
       entry={image:null,error:null,used:++clock,promise:null};entries.set(id,entry);
-      entry.promise=Promise.resolve().then(()=>(loader||browserLoad)(data.files[id].url)).then(image=>{if(entries.get(id)===entry){entry.image=image;spriteImageMetadata.set(image,{assets:api,id});const sorted=[...entries].filter(([,e])=>e.image).sort((a,b)=>a[1].used-b[1].used);for(const [key]of sorted){if(entries.size<=cacheLimit)break;entries.delete(key);}notify();}return image;},error=>{entry.error=String(error);notify();return null;});return entry.promise;
+      entry.promise=Promise.resolve().then(()=>(loader||browserLoad)(file.url)).then(image=>{if(entries.get(id)===entry){entry.image=image;spriteImageMetadata.set(image,{assets:api,id});const sorted=[...entries].filter(([,e])=>e.image).sort((a,b)=>a[1].used-b[1].used);for(const [key]of sorted){if(entries.size<=cacheLimit)break;entries.delete(key);}notify();}return image;},error=>{entry.error=String(error);notify();return null;});return entry.promise;
     },
     getSprite(id){const entry=entries.get(id);if(entry){entry.used=++clock;return entry.image;}void api.loadSprite(id);return null;},
     preloadSprites(ids){return Promise.all(ids.map(api.loadSprite));},
@@ -27,10 +28,12 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
     retrySprites(ids){for(const id of ids)if(entries.get(id)?.error)entries.delete(id);return api.preloadSprites(ids);},
     sceneSpriteIds(theme='color', map='camp'){
       const dark=theme==='dark', suffix=dark?'-dark':'';
-      const ids=[...data.character[dark?'darkVariants':'variants'], 'environment'+suffix, 'effects'+suffix, (map==='showroom'?'stone':'grass')+suffix];
+      const variants=data.character[dark?'darkVariants':'variants'];
+      const ids=[...variants.filter(id=>data.files[id]), 'environment'+suffix, 'effects'+suffix, (map==='showroom'?'stone':'grass')+suffix];
       if(map==='camp'||map==='playground') ids.push('sand'+suffix);
       if(data.files['field-camper-v2'+suffix]) ids.push('field-camper-v2'+suffix);
       if(data.files['field-camper-walk']) ids.push('field-camper-walk');
+      for(const {color,normal} of Object.values(data.camperMotion?.plates??{}))ids.push(color,normal);
       if(map==='camp' && data.files['camp-clearing-art'+suffix]) ids.push('camp-clearing-art'+suffix, 'normal-camp-clearing-art');
       if(data.files['landscape-'+map]) ids.push('landscape-'+map);
       const horizon='horizon-'+map;
@@ -52,5 +55,5 @@ export function createSpriteContext(data,{loader:initialLoader=null,cacheLimit:i
     },
   };return api;
 }
-export const defaultSpriteAssets=createSpriteContext(spriteManifest,{cacheLimit:24});
+export const defaultSpriteAssets=createSpriteContext(spriteManifest,{cacheLimit:spriteManifest.camperMotion?32:24});
 export const {setSpriteLoader,subscribeSprites,loadSprite,getSprite,preloadSprites,spriteStatus,retrySprites,sceneSpriteIds,characterSheet,drawSprite}=defaultSpriteAssets;

@@ -20,6 +20,7 @@ import {GroundLightSprites} from './camp-canvas-renderer.mjs';
 import {sceneCamera} from './camp-camera.mjs';
 import {PRESENCE_LABELS,presenceSummary} from './camp-presence.mjs';
 import {pixelPropDisplay} from './camp-pixel.mjs';
+import {camperTransition} from './camp-camper-motion.mjs';
 
 export class CampRenderer extends CampArtwork {
   constructor(canvas, getScene, {assets=defaultSpriteAssets, characterPainter=drawCharacter}={}) {
@@ -47,7 +48,7 @@ export class CampRenderer extends CampArtwork {
   reportAssets(){if(this.stopped)return;const status=this.assets.spriteStatus(this.assetIds),key=JSON.stringify(status);if(key!==this.assetStatusKey){this.assetStatusKey=key;this.getScene().onAssets?.(status);}}
   ensureSprites(scene){const map=scene.mapId||scene.players?.find(p=>p.id===scene.self)?.mapId||'camp';const key=(scene.theme||'color')+':'+map;if(key===this.spriteKey)return;this.spriteKey=key;this.assetIds=this.assets.sceneSpriteIds(scene.theme,map);this.ready=this.assets.preloadSprites(this.assetIds).then(()=>this.reportAssets());this.reportAssets();}
   retryAssets(){this.ready=this.assets.retrySprites(this.assetIds).then(()=>this.reportAssets());this.reportAssets();return this.ready;}
-  displayPlayer(player){
+  displayPlayer(player,scene=this.getScene()){
     this.walkTracks??=new Map();
     const last=this.walkTracks.get(player.id);
     const sameVisit=last&&last.mapId===player.mapId&&last.revision===player.mapRevision&&last.respawns===player.respawns;
@@ -67,9 +68,13 @@ export class CampRenderer extends CampArtwork {
         direction=vertical+'-'+horizontal;
       }
     }
-    this.walkTracks.set(player.id,{x:player.x,y:player.y,mapId:player.mapId,revision:player.mapRevision,respawns:player.respawns,direction,cycle});
+    const passenger=sameVisit&&last.carrying&&!player.carrying
+      ?scene.players?.find(other=>other.id===last.carrying):null;
+    const transition=camperTransition(sameVisit?last:null,player,passenger,scene.now??performance.now());
+    this.walkTracks.set(player.id,{x:player.x,y:player.y,mapId:player.mapId,revision:player.mapRevision,
+      respawns:player.respawns,direction,cycle,sitting:!!player.sitting,carrying:player.carrying,transition});
     if(this.walkTracks.size>64){const active=new Set(this.getScene().players?.map(p=>p.id));for(const id of this.walkTracks.keys())if(!active.has(id))this.walkTracks.delete(id);}
-    return {...player,visualDirection:direction,walkCycle:cycle};
+    return {...player,visualDirection:direction,walkCycle:cycle,camperTransition:player.camperTransition??transition};
   }
   facilityLayout(item){
     if(item.type==='bench'){
@@ -271,7 +276,7 @@ export class CampRenderer extends CampArtwork {
     if(this.canvas.dataset)this.canvas.dataset.campPixelMode=this.assets.manifest.pixelQuarterview?this.pixelMode:'off';
     this.sceneLighting=sceneLighting(mapId,this.theme);c.setLighting?.(null);c.setObject?.(null);c.setMaterial?.(null);
     const lightingMode=this.sceneLighting.night?'night':'day';if(this.canvas.dataset&&this.canvas.dataset.campLighting!==lightingMode)this.canvas.dataset.campLighting=lightingMode;
-    const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),hairStyle:scene.hairStyle,topStyle:scene.topStyle,sitting:true}]).map(p=>this.displayPlayer(p));
+    const players=(all.length?visiblePlayers(all,self||{id:'',mapId},scene.hiddenIds||[]):[{id:'preview',name:scene.name||'허들러',color:scene.color,...spawnPlayer(),hairStyle:scene.hairStyle,topStyle:scene.topStyle,sitting:true}]).map(p=>this.displayPlayer(p,scene));
     this.springRiders=[];
     for(const spring of map.trampolines){
       const layout=this.facilityLayout(spring);

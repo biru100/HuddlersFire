@@ -6,10 +6,12 @@ import {loadImage} from '@napi-rs/canvas';
 import {inside,readJSON} from '../../tools/lib/sprite-spec.mjs';
 import {CAMPER_SOLES} from '../lib/camp-camper-art.mjs';
 import {CAMPER_PART_FILES} from '../lib/camp-camper-part-files.mjs';
+import {CAMPER_MOTION_RELEASE} from '../lib/camp-camper-motion-release.mjs';
 import {compileCamperBase} from './build-camper-art.mjs';
 import {camperAtlasIds,compileCamperParts,headRecipe} from './build-shared-camper-head.mjs';
 import {inspectCamperAtlases} from './camper-consistency.mjs';
 import {verifySubcultureCamper} from './compile-subculture-camper.mjs';
+import {compileCamperMotion} from './compile-camper-motion.mjs';
 import {readCamperCandidate} from './camper-review-assets.mjs';
 import {assertCamperMotion,inspectCamperMotion,isMotionBaseline,motionBaseline,printMotionReport,
   verifyMotionBaseline} from './camper-motion-audit.mjs';
@@ -78,6 +80,7 @@ function verifyCandidate(dir,{manifest,outputs}){
 
 function saveCandidate(dir,result){
   const {manifest,outputs}=result;
+  mkdirSync(dir,{recursive:true});
   const parent=inside(dir,'candidates');
   mkdirSync(parent,{recursive:true});
   const dest=inside(parent,manifest.id);
@@ -127,6 +130,17 @@ function motionScope(options){
   throw Error('Expected --full or --actions ACTION,ACTION');
 }
 
+async function verifyRegisteredMotion(){
+  const approval=readJSON(new URL('../../art/sprites/field-camper-v2/motion-full-v1/approval.json',import.meta.url));
+  const {manifest,outputs}=await compileCamperMotion();
+  if(manifest.id!==approval.candidate||objectDigest(manifest)!==objectDigest(CAMPER_MOTION_RELEASE))
+    throw Error('Registered camper motion does not match the approved art');
+  for(const [name,bytes] of Object.entries(outputs)){
+    if(!bytes.equals(readFileSync(inside(web,'public/sprites/'+name))))throw Error('Changed registered camper motion atlas: '+name);
+  }
+  console.log('Reproduced registered camper motion: '+manifest.id);
+}
+
 async function main(args){
   if(args[0]==='coverage'){
     const options=args.slice(1).filter(arg=>arg!=='--json');
@@ -138,6 +152,7 @@ async function main(args){
       const result=await verifySubcultureCamper(CAMPER_PART_FILES);
       console.log(`${result.audit.results.length} body and collar cases; ${result.heads.length} shared head cases`);
       console.log('Reproduced registered camper: '+camperAtlasIds.map(id=>CAMPER_PART_FILES[id].url.split('/').at(-1)).join(', '));
+      await verifyRegisteredMotion();
       await coverage({registered:true});
       return;
     }
@@ -159,12 +174,15 @@ async function main(args){
   }
   const [action,job,phase,option,...rest]=args;
   const dir=camperJobPath(job);
+  if(action==='build-motion'&&args.length===2)return saveCandidate(dir,await compileCamperMotion());
   if(!rest.length&&action==='prepare'&&!option&&(!phase||phase==='--from-current'))return prepare(job,!!phase);
   if(action==='review'&&!rest.length&&['before','after','compare'].includes(phase)&&
       (!option||option==='--browser'&&phase!=='compare'))return review(job,phase,!!option);
   if(action==='verify'){
     const scope=motionScope(args.slice(2));
-    if(readCamperCandidate(job).manifest.version!==3)
+    const {manifest}=readCamperCandidate(job);
+    if(manifest.version===4)verifyCandidate(dir,await compileCamperMotion());
+    else if(manifest.version!==3)
       verifyCandidate(dir,await compile(readJSON(inside(dir,inputFilename)),dir));
     await coverage({job,scope});
     review(job,'verify',false);
@@ -182,7 +200,7 @@ async function main(args){
     console.log('Reproduced camper job '+job+' '+result.manifest.id);
     return;
   }
-  throw Error('Usage: sprites:camper -- prepare JOB [--from-current] | register/build/check JOB | verify JOB [--full | --actions LIST] | coverage [JOB] [--full | --actions LIST] [--json] | review JOB before/after/compare [--browser] | --check');
+  throw Error('Usage: sprites:camper -- prepare JOB [--from-current] | register/build/check/build-motion JOB | verify JOB [--full | --actions LIST] | coverage [JOB] [--full | --actions LIST] [--json] | review JOB before/after/compare [--browser] | --check');
 }
 
 await main(process.argv.slice(2));

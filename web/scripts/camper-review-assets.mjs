@@ -8,6 +8,7 @@ import {CAMPER_PART_FILES} from '../lib/camp-camper-part-files.mjs';
 import {camperAtlasDimensions,legacyContract} from './camper-consistency.mjs';
 import {camperAtlasIds,headRecipe} from './build-shared-camper-head.mjs';
 import {subcultureHeadRecipe,subcultureSourceIdentity} from './compile-subculture-camper.mjs';
+import {motionSourceIdentity} from './compile-camper-motion.mjs';
 import {camperJobPath,contractDigest,digest,isSha256,objectDigest,readCamperInputs} from './camper-harness-inputs.mjs';
 
 export const candidateDir=new URL('../../art/sprites/field-camper-v2/consistency/',import.meta.url);
@@ -39,8 +40,9 @@ export function readCamperCandidate(job=process.env.CAMP_CAMPER_JOB||'current'){
   const path=camperJobPath(job);
   const manifest=readJSON(inside(path,'manifest.json'));
   const {id,...payload}=manifest;
-  if(!isSha256(id)||objectDigest(payload)!==id||![1,2,3].includes(manifest.version))
+  if(!isSha256(id)||objectDigest(payload)!==id||![1,2,3,4].includes(manifest.version))
     throw Error('Stale or changed camper candidate manifest: '+job);
+  if(manifest.version===4)return readMotionCandidate(manifest,path);
   const subculture=manifest.version===3;
   if(subculture){
     const {sources,recipe}=subcultureSourceIdentity();
@@ -75,6 +77,38 @@ export function readCamperCandidate(job=process.env.CAMP_CAMPER_JOB||'current'){
   return {manifest,files,load,buffers,recipe:subculture?subcultureHeadRecipe:headRecipe,path};
 }
 
+function readMotionCandidate(manifest,path){
+  if(objectDigest(manifest.sources)!==objectDigest(motionSourceIdentity()))
+    throw Error('Camper motion sources changed; rebuild the candidate');
+  const {id,motion}=manifest,dir=inside(path,'candidates/'+id),buffers={},files={...spriteManifest.files};
+  for(const [key,{color,normal,density}] of Object.entries(motion.plates)){
+    if(![1,3].includes(density))throw Error('Invalid camper motion density: '+key);
+    const existingWalk=key==='walk'&&color==='field-camper-walk'&&density===3;
+    const base=existingWalk?files[color]:manifest.files[color];
+    if(!base)throw Error('Missing camper motion color plate: '+color);
+    for(const [kind,atlas] of [['color',color],['normal',normal]]){
+      if(kind==='color'&&existingWalk)continue;
+      const details=manifest.files[atlas],expected='camper-motion-'+key+'-'+kind;
+      if(!details||atlas!==expected||!isSha256(details.sha256)
+        ||details.width!==base.width||details.height!==base.height
+        ||!Number.isSafeInteger(details.width)||details.width<=0||details.width%(64*density)
+        ||!Number.isSafeInteger(details.height)||details.height<=0||details.height%(80*density))
+        throw Error('Incompatible camper motion plate: '+atlas);
+      const name=atlas+'.'+details.sha256.slice(0,12)+'.png';
+      if(details.url!=='/sprites/'+name)throw Error('Invalid camper motion atlas name: '+atlas);
+      const bytes=readFileSync(inside(dir,name));
+      if(bytes.length!==details.bytes||digest(bytes)!==details.sha256)
+        throw Error('Changed camper motion atlas: '+atlas);
+      const url='/__camper-candidate/'+name;
+      buffers[url]=bytes;
+      files[atlas]={...details,url};
+    }
+  }
+  const load=url=>loadImage(buffers[url]??readFileSync(new URL('../public'+url,import.meta.url)));
+  return {manifest,motion,files,load,buffers,path,recipe:subcultureHeadRecipe};
+}
+
 export function candidateContext(candidate){
-  return createSpriteContext({...spriteManifest,files:candidate.files},{loader:candidate.load,cacheLimit:64});
+  return createSpriteContext({...spriteManifest,files:candidate.files,camperMotion:candidate.motion},
+    {loader:candidate.load,cacheLimit:64});
 }

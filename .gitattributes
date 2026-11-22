@@ -43,6 +43,7 @@
 # Exact PNG bytes for source-of-truth originals.
 /art/sprites/source-registry/*/original/*.png binary
 /art/sprites/source-registry/*/SHA256SUMS.txt text eol=lf
+/art/sprites/field-camper-v2/motion-full-v1/sources.json text eol=lf
 
 # Scene review receipts pin the exact submitted brief and recipe bytes.
 /art/sprites/scene-reviews/*/briefs/*.txt text eol=lf

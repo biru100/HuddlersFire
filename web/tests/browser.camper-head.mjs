@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {existsSync,readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {headlessBrowser,until} from './browser-cdp.mjs';
 import {CAMPER_PART_FILES} from '../lib/camp-camper-part-files.mjs';
+import {CAMPER_MOTION_RELEASE} from '../lib/camp-camper-motion-release.mjs';
+import {spriteManifest} from '../lib/camp-sprite-assets.mjs';
 import {camperPartCell} from '../lib/camp-camper-parts.mjs';
 import {loadImage,createCanvas} from '@napi-rs/canvas';
 import {youtubeFixture} from './youtube-fixture.mjs';
@@ -17,6 +19,7 @@ if(!['127.0.0.1','localhost'].includes(new URL(origin).hostname))throw Error('Lo
 const job=process.env.CAMP_CAMPER_JOB,phase=process.env.CAMP_CAMPER_PHASE;
 if(job&&!['before','after'].includes(phase))throw Error('Pass a camper browser capture phase');
 const candidate=job&&phase==='after'?readCamperCandidate(job):null;
+const replacementsOnly=candidate&&!candidate.motion;
 const identity=job?camperCaptureIdentity('browser',job,phase):null;
 const archivedRecipe=JSON.parse(readFileSync(new URL('../../art/sprites/field-camper-v2/shared-head/recipe.json',import.meta.url)));
 const headRecipe=candidate?.recipe??(CAMPER_PART_FILES['field-camper-walk'].bodyOnly?subcultureHeadRecipe:archivedRecipe);
@@ -59,7 +62,7 @@ const viewport=([,width,height,deviceScaleFactor,mobile])=>
   browser.call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor,mobile});
 try{
   const served=new Set();
-  if(candidate){
+  if(replacementsOnly){
     // Keep the built application intact. Feed the verified candidate bytes
     // only when its normal sprite loader requests the two local atlas URLs.
     const replacements=new Map(['field-camper-v2','field-camper-walk'].map(id=>[
@@ -161,6 +164,15 @@ try{
     const camp="document.querySelector('.in-camp [data-camp-input]')";
     await until(()=>browser.evaluate(`!!${camp} && !document.querySelector('.scene-status')`),'Camp renderer not ready');
     await until(()=>browser.evaluate(`${camp}.dataset.campRenderer==='webgl'`),'Actual WebGL renderer did not become ready',8000);
+    if(!baseline&&!job){
+      const motionUrls=Object.values(CAMPER_MOTION_RELEASE.files).map(file=>file.url);
+      const fallbackUrls=Object.values(spriteManifest.fallbackFiles).map(file=>file.url);
+      assert.ok(await browser.evaluate(`(() => {
+        const paths=performance.getEntriesByType('resource').map(row=>new URL(row.name).pathname);
+        return ${JSON.stringify(motionUrls)}.every(path=>paths.includes(path))
+          && !${JSON.stringify(fallbackUrls)}.some(path=>paths.includes(path));
+      })()`),'The public game path must load the selected motion atlases without the fallback wardrobe');
+    }
     const point=await browser.evaluate(`(()=>{const c=${camp},r=c.getBoundingClientRect();c.focus();return {x:r.x+r.width/2,y:r.y+r.height/2};})()`);
     const zoomValues=[camperZooms[1],camperZooms[0],camperZooms[2]].map(([key,zoom])=>
       [key,Math.round(100*zoom),key==='default'?0:key==='min'?1200:-1200]);
@@ -205,7 +217,7 @@ try{
     }
     console.log(format+': WebGL at 75%, 100%, 300% camera zoom');
   }
-  if(candidate)assert.equal(served.size,2,'Both validated candidate atlases must reach the application');
+  if(replacementsOnly)assert.equal(served.size,2,'Both validated candidate atlases must reach the application');
   const motionProof=job?await captureCamperMotion(browser,capture,candidate):undefined;
   assert.deepEqual(browser.errors,[]);
   if(job)writeCamperCapture(out,{job,kind:'browser',phase,identity,build,motionProof});

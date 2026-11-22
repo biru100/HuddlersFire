@@ -1,9 +1,20 @@
 import { toneIndex, TONE_MARKS } from './camp-appearance.mjs';
 import { characterAnimation } from './camp-sprite-animation.mjs';
 import { defaultSpriteAssets,createSpriteSurface } from './camp-sprite-assets.mjs';
-import {camperPlan,camperGeometry,camperSheetId,paintCamper,walkingSheet} from './camp-camper-render.mjs';
+import {camperPlan,camperGeometry,camperSheetId,paintCamper,walkingSheet,motionGeometry,paintCamperMotion} from './camp-camper-render.mjs';
+import {camperMotionAssets,selectCamperMotion} from './camp-camper-motion.mjs';
+
+function newMotion(assets,player,pose,time,now,reduced){
+  const atlases=camperMotionAssets(assets);
+  if(!atlases)return null;
+  const plan=selectCamperMotion(atlases.motion,player,pose,time,now,reduced);
+  return plan?{images:atlases.images,plan}:null;
+}
+
 export function characterPose(p,time=0,reduced=true,emote=null,now=time*1000,assets=defaultSpriteAssets) {
   const pose=characterAnimation(p,time,reduced,emote,now,assets);
+  const motion=newMotion(assets,p,pose,time,now,reduced);
+  if(motion)return motionGeometry(pose,motion.plan);
   return assets.manifest.files?.[camperSheetId('color')] ? camperGeometry(pose,camperPlan(p,pose,time,reduced)) : pose;
 }
 const headSurfaces=new Map();
@@ -26,15 +37,21 @@ function body(ctx,image,frame,scale,mirror,clip=null,origin=frame.feet){
   ctx.save();if(clip){ctx.beginPath();if(clip.belly){ctx.moveTo(-80,clip.top);ctx.lineTo(80,clip.top);ctx.lineTo(80,-15);ctx.lineTo(14,-15);ctx.quadraticCurveTo(0,1,-14,-15);ctx.lineTo(-80,-15);ctx.closePath();}else ctx.rect(-80,clip.top,160,clip.bottom-clip.top);ctx.clip();}ctx.scale(mirror,1);
   ctx.drawImage(image,frame.x,frame.y,frame.w,frame.h,-origin.x*scale,-origin.y*scale,frame.w*scale,frame.h*scale);ctx.restore();
 }
+export function legacyCamperImage(assets,sheetId,pose,slot,theme){
+  if(assets.manifest.fallbackFiles&&assets.manifest.files[sheetId]&&!assets.spriteStatus([sheetId]).failed.length)return null;
+  return assets.getSprite(pose.sheet||assets.characterSheet(slot,theme));
+}
 export function drawCharacter(ctx,p,{time=0,now=time*1000,reduced=true,emote=null,blankHead=false,shadowOnly=false,theme='color',assets=defaultSpriteAssets}={}){
   const originalPose=characterAnimation(p,time,reduced,emote,now,assets),slot=toneIndex(p.color);
   const sheetId=camperSheetId(theme);
   const camper=assets.manifest.files?.[sheetId]&&assets.getSprite(sheetId);
-  const plan=camper&&camperPlan(p,originalPose,time,reduced);
-  const pose=plan?camperGeometry(originalPose,plan):originalPose;
-  const image=camper?null:assets.getSprite(pose.sheet||assets.characterSheet(slot,theme)),{frame,scale,mirror}=pose;
+  const motion=newMotion(assets,p,originalPose,time,now,reduced);
+  const plan=!motion&&camper&&camperPlan(p,originalPose,time,reduced);
+  const pose=motion?motionGeometry(originalPose,motion.plan):plan?camperGeometry(originalPose,plan):originalPose;
+  const image=camper||motion?null:legacyCamperImage(assets,sheetId,pose,slot,theme),{frame,scale,mirror}=pose;
   ctx.save();
-  if(camper)paintCamper(ctx,camper,plan,slot,theme,shadowOnly||!blankHead,walkingSheet(assets,plan));
+  if(motion)paintCamperMotion(ctx,motion.images,motion.plan,slot,theme,shadowOnly||!blankHead);
+  else if(camper)paintCamper(ctx,camper,plan,slot,theme,shadowOnly||!blankHead,walkingSheet(assets,plan));
   if(image){
     if(pose.combine){const lower=pose.lower.frame,ls=17/lower.head.radius;
       const lowerImage=assets.getSprite(pose.lower.sheet||assets.characterSheet(slot,theme)),split=(lower.waist-pose.lowerOrigin.y)*ls;
@@ -45,7 +62,7 @@ export function drawCharacter(ctx,p,{time=0,now=time*1000,reduced=true,emote=nul
       }else{if(lowerImage)body(ctx,lowerImage,lower,ls,mirror,{top:split-2,bottom:100},pose.lowerOrigin);body(ctx,image,frame,scale,mirror,{top:-140,bottom:split+3},pose.origin);}
     }else body(ctx,image,frame,scale,mirror,null,pose.origin);
   }
-  if(!camper||(!shadowOnly&&blankHead)){
+  if((!camper&&!motion)||(!shadowOnly&&blankHead)){
     ctx.save();ctx.translate(pose.headX*mirror,pose.headY);
     ctx.save();ctx.setMaterial?.({lighting:'lit'});ctx.fillStyle=theme==='dark'?'#9c9c9c':'#d4b88b';ctx.beginPath();ctx.roundRect(-6,12,12,10,3);ctx.fill();ctx.restore();
     if(ctx.lightingProfile?.night){

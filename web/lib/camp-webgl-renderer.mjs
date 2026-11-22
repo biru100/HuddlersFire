@@ -26,7 +26,8 @@ export class CampWebGLRenderer{
     let row=this.textures.get(image);
     if(!row){
       const [width,height]=dims(image),meta=spriteImageMetadata.get(image);
-      const sampling=camperFilter?'linear':meta?.assets.manifest.files[meta.id]?.sampling;
+      const atlas=meta&&(meta.assets.manifest.files[meta.id]??meta.assets.manifest.fallbackFiles?.[meta.id]);
+      const sampling=camperFilter?'linear':atlas?.sampling;
       const Source=image.getContext?CanvasSource:ImageSource;
       const source=new Source({resource:image,alphaMode:numerical?'no-premultiply-alpha':'premultiply-alpha-on-upload',
         autoGenerateMipmaps:false,scaleMode:sampling==='nearest'?'nearest':'linear'});

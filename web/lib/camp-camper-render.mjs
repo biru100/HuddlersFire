@@ -12,6 +12,24 @@ const fabric=[[0,0,0],[67,148,129],[80,136,186],[159,112,167],[187,149,74],[185,
 const partsByImage=new WeakMap();
 const normalsByImage=new WeakMap();
 
+function gradePart(c,w,h,density,isHead,styleId,slot,theme){
+  if(theme!=='dark'&&(isHead||slot<=0))return;
+  const frame=c.getImageData(0,0,w,h),data=frame.data;
+  for(let i=0;i<data.length;i+=4){
+    if(!data[i+3])continue;
+    let r=data[i],g=data[i+1],b=data[i+2];
+    const y=Math.floor(i/(w*4))/density;
+    const cloth=styleId?g>r*1.14&&Math.abs(g-b)<22:g>r*.85&&r>b*1.12&&g>b*1.25;
+    if(!isHead&&slot>0&&y<58&&cloth){
+      const light=(.23*r+.62*g+.15*b)/(styleId?74:106),color=fabric[slot];
+      r=color[0]*light; g=color[1]*light; b=color[2]*light;
+    }
+    if(theme==='dark'){const gray=Math.round(.2126*r+.7152*g+.0722*b); r=gray;g=gray;b=gray;}
+    data[i]=r;data[i+1]=g;data[i+2]=b;
+  }
+  c.putImageData(frame,0,0);
+}
+
 export const camperSheetId=theme=>theme==='dark'?'field-camper-v2-dark':'field-camper-v2';
 const style=value=>value===1?1:0;
 const sheetFrame=(group,index)=>({group,index});
@@ -92,26 +110,88 @@ function spritePart(ctx,sheet,part,styleId,layer,slot,theme,detailed=false) {
     }
     nc.putImageData(normalPixels,0,0);normals.set(normalKey,normal);
   }
-  if(theme==='dark'||(!isHead&&slot>0)){
-    const frame=c.getImageData(0,0,w,h),data=frame.data;
-    for(let i=0;i<data.length;i+=4){
-      if(!data[i+3])continue;
-      let r=data[i],g=data[i+1],b=data[i+2];
-      const y=Math.floor(i/(w*4))/density;
-      const cloth=styleId?g>r*1.14&&Math.abs(g-b)<22:g>r*.85&&r>b*1.12&&g>b*1.25;
-      if(!isHead&&slot>0&&y<58&&cloth){
-        const light=(.23*r+.62*g+.15*b)/(styleId?74:106),color=fabric[slot];
-        r=color[0]*light; g=color[1]*light; b=color[2]*light;
-      }
-      if(theme==='dark'){const gray=Math.round(.2126*r+.7152*g+.0722*b); r=gray;g=gray;b=gray;}
-      data[i]=r;data[i+1]=g;data[i+2]=b;
-    }
-    c.putImageData(frame,0,0);
-  }
+  gradePart(c,w,h,density,isHead,styleId,slot,theme);
   const result={image:tile,normal,cell:[col,row]};
   cache.set(key,result);
   if(cache.size>(detailed?144:400))cache.delete(cache.keys().next().value);
   return result;
+}
+
+function motionPart(ctx,plate,cell,layer,styleId,slot,theme){
+  const {color,normal,density}=plate;
+  let tiles=partsByImage.get(color);
+  if(!tiles){tiles=new Map();partsByImage.set(color,tiles);}
+  const key=['motion',...cell,layer,styleId,slot,theme].join('/');
+  if(tiles.has(key))return tiles.get(key);
+  const w=width*density,h=height*density,[x,y]=cell;
+  const crop=(source)=>{
+    const surface=createSpriteSurface(ctx,w,h);
+    surface.getContext('2d').drawImage(source,x*w,y*h,w,h,0,0,w,h);
+    const meta=spriteImageMetadata.get(source);
+    if(meta)spriteImageMetadata.set(surface,meta);
+    return surface;
+  };
+  let paired=normalsByImage.get(normal);
+  if(!paired){paired=new Map();normalsByImage.set(normal,paired);}
+  const id=cell.join('/');
+  if(!paired.has(id))paired.set(id,crop(normal));
+  if(paired.size>192)paired.delete(paired.keys().next().value);
+  const image=crop(color);
+  gradePart(image.getContext('2d'),w,h,density,layer!=='body',styleId,slot,theme);
+  const tile={image,normal:paired.get(id)};
+  tiles.set(key,tile);
+  if(tiles.size>192)tiles.delete(tiles.keys().next().value);
+  return tile;
+}
+
+export function motionGeometry(pose,plan){
+  const {lower,lowerKey,upperKey,direction,hairstyle,outfit}=plan;
+  const anchor=lower.anchor;
+  return {...pose,headX:0,headY:23+lower.neck-40-anchor,headBob:0,bob:0,lean:0,mirror:1,radius:17,
+    weaponSide:upperKey.endsWith('-aim')?(direction<2?1:-1):pose.weaponSide,
+    feet:{x:center,y:lower.feet??anchor},origin:{x:center,y:anchor},scale:1,
+    artFrame:[lowerKey,upperKey,direction,hairstyle,outfit].join('/')};
+}
+
+export function paintCamperMotion(ctx,images,plan,slot,theme,withHead){
+  const {lower,upper,head,hairstyle,outfit}=plan;
+  const anchor=lower.anchor;
+  ctx.save();
+  const scale=camperDisplay(ctx,1);
+  const draw=(ref,layer,offset=0,clip=null)=>{
+    const plate=images[ref.plate],{density}=plate;
+    const tile=motionPart(ctx,plate,ref.cell,layer,outfit,layer==='body'?slot:0,theme);
+    const filter=camperFilter(scale,density);
+    const image=camperImage(ctx,tile,filter,scale/density,ctx.recording?.active);
+    ctx.save();
+    ctx.imageSmoothingEnabled=filter!=='nearest';
+    ctx.setMaterial?.({
+      lighting:'lit',normalImage:tile.normal,normalizedSurface:true,normalKind:'authored',
+      camperFilter:filter,strength:layer==='body'?.3:.38,
+      ambientLift:theme==='dark'?[.14,.14,.14]:[.16,.15,.14],camperLayer:layer,camperCell:ref.cell,
+    });
+    if(clip){
+      ctx.beginPath();
+      ctx.rect(-center,clip[0]-anchor,width,clip[1]-clip[0]);
+      ctx.clip();
+    }
+    ctx.drawImage(image,-center,-anchor+offset,width,height);
+    ctx.restore();
+  };
+  const drawHead=()=>{
+    const face=plan.upperKey==='idle.blink'?head.blink:head.face;
+    draw(face,'face',lower.neck-40);
+    draw(head.hairs[hairstyle],'hair',lower.neck-40);
+  };
+  if(withHead&&upper.foreground)drawHead();
+  const split=lower.waist??56;
+  if(lower===upper)draw(upper,'body');
+  else{
+    draw(lower,'body',0,[split,height]);
+    draw(upper,'body',lower.neck-upper.neck,[0,split+1]);
+  }
+  if(withHead&&!upper.foreground)drawHead();
+  ctx.restore();
 }
 
 export function camperGeometry(pose,plan) {

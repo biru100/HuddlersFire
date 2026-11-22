@@ -7,6 +7,7 @@ import { drawCharacter } from '../lib/camp-character.mjs';
 import { pickPlayer, playerInfo } from '../lib/camp-player-info.mjs';
 import { CampRenderer } from '../lib/camp-renderer.mjs';
 import { spawnPlayer } from '../lib/camp-world.mjs';
+import { camperStrideRise } from '../lib/camp-camper-parts.mjs';
 import { inspectCamperMotion, isMotionBaseline, motionBaseline, verifyMotionBaseline,
   assertCamperMotion } from '../scripts/camper-motion-audit.mjs';
 
@@ -146,7 +147,10 @@ test('both outfits walk in eight different poses on a stable foot origin in all 
       }
       assert.equal(frames.size,8);
       assert.equal(anchors.size,1);
-      assert.ok(Math.max(...neckHeights)-Math.min(...neckHeights)<=1);
+      const expected=neckHeights[0];
+      if(spriteManifest.camperMotion){
+        neckHeights.forEach((height,step)=>assert.ok(Math.abs(height-expected-camperStrideRise[step])<1e-9));
+      }else assert.ok(Math.max(...neckHeights)-Math.min(...neckHeights)<=1);
     }
   }
 });
@@ -163,11 +167,17 @@ test('every walking step uses the detailed garment and the shared standing head 
   for(const visualDirection of ['front-right','back-right','back-left','front-left']){
     for(let step=0;step<8;step++){
       layers.length=0;
-      drawCharacter(ctx,{moving:true,running:step%2===1,walkCycle:step/8,visualDirection,hairStyle:1,topStyle:0},{reduced:false});
+      drawCharacter(ctx,{moving:true,walkCycle:step/8,visualDirection,hairStyle:1,topStyle:0},{reduced:false});
       const detailed=[192,240,64,80], native=[64,80,64,80];
       const walking=spriteManifest.files['field-camper-walk'];
       assert.deepEqual(layers,walking.headLayers||walking.bodyOnly?
         [detailed,native,native]:[detailed,detailed]);
+      if(spriteManifest.camperMotion){
+        layers.length=0;
+        const running=drawCharacter(ctx,{moving:true,running:true,walkCycle:step/8,visualDirection,hairStyle:1,topStyle:0},{reduced:false});
+        assert.deepEqual(layers,[native,native,native]);
+        assert.match(running.artFrame,/^run\.step-/);
+      }
     }
   }
   layers.length=0;

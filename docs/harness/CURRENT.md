@@ -1,5 +1,9 @@
 # HuddlersFire · cross-context current handoff
 
+## 2026-11-22 · 캠퍼 전체 동작 기본 자산
+
+캠퍼의 키포즈 원화 10장과 파생 프레임으로 네 방향·두 의상·두 헤어의 동작을 검증했다. 사용자가 `motion-full-v1`의 ‘선택하고 배포’를 골라 기본 아틀라스에 등록했다. 명세 744조합에서 지적 0건, 후보 검수에서 Canvas 48쌍과 브라우저 65쌍을 확인했다. [원화와 검증 재현](../../art/sprites/field-camper-v2/motion-full-v1/README.md) · [선택 기록](../../art/sprites/field-camper-v2/motion-full-v1/approval.json)
+
 ## 2026-11-22 · 캠퍼 동작별 프레임과 노멀 검증
 
 승인된 하네스 변경으로 실제 캐릭터의 컬러와 노멀을 744개 동작·방향·착용 조건에서 검사한다. v50 재현 검사는 두 아틀라스와 알려진 동작 제약을 대조한다. 새 후보는 필요한 프레임과 재질, 같은 아틀라스의 Canvas·WebGL 검증을 갖춰야 전체 동작으로 판정한다. [동작 명세](../../art/sprites/field-camper-v2/camper-motion-spec.json) · [검수 절차](../art/scene-first-review.md#캠퍼-동작과-노멀-검수) · [로컬 검증](../validation.md#camper-motion-coverage)

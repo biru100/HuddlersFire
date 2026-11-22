@@ -68,8 +68,11 @@ export function motionPhases(spec=motionSpec){
 }
 
 export function motionPlayer(phase,direction,topStyle=0,hairStyle=0){
+  const transition=['sit.enter','sit.exit','throw.release'].includes(phase.id)
+    ?{key:phase.id,until:phase.time*1000+120}:null;
   return {...spawnPlayer(0,'camp'),id:'',color:'#e5a76d',visualDirection:direction,
-    topStyle,hairStyle,...phase.player,...(phase.seat&&{sitting:true,renderSeat:true,renderDirection:direction})};
+    topStyle,hairStyle,camperTransition:transition,...phase.player,
+    ...(phase.seat&&{sitting:true,renderSeat:true,renderDirection:direction})};
 }
 
 export function camperMotionScene(phase,{mapId=['idle','sit'].includes(phase.action)?'camp':'playground'}={}){
@@ -219,13 +222,15 @@ export function auditCamperMotion(observed,spec=motionSpec){
   return {spec:objectDigest(spec),cases:observed.length,issues};
 }
 
-export async function inspectCamperMotion({files=spriteManifest.files,load}={}){
+export async function inspectCamperMotion({files=spriteManifest.files,load,motion}={}){
   const loader=load??(url=>loadImage(readFileSync(new URL('../public'+url,import.meta.url))));
-  const assets=createSpriteContext({...spriteManifest,files},{loader});
+  const assets=createSpriteContext({...spriteManifest,files,camperMotion:motion??spriteManifest.camperMotion},{loader,cacheLimit:36});
   setSpriteCanvasFactory(createCanvas);
   const ids=[...atlasIds,'effects'];
+  for(const {color,normal} of Object.values(assets.manifest.camperMotion?.plates??{}))ids.push(color,normal);
   if((await assets.preloadSprites(ids)).some(image=>!image))throw Error('Camper motion assets failed to load');
-  return {...auditCamperMotion(observeCamperMotion(assets)),atlases:atlasIds.map(id=>files[id].sha256)};
+  return {...auditCamperMotion(observeCamperMotion(assets)),atlases:[...new Set(ids)]
+    .filter(id=>id!=='effects').map(id=>files[id].sha256)};
 }
 
 export function motionIssueCounts(issues){

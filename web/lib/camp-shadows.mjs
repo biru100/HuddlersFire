@@ -1,7 +1,7 @@
 import {createSpriteSurface,defaultSpriteAssets} from './camp-sprite-assets.mjs';
 import {playerDisplay,propDisplay} from './camp-scene-contract.mjs';
 import {camperSheetId} from './camp-camper-render.mjs';
-import {drawCharacter,characterPose} from './camp-character.mjs';
+import {drawCharacter,characterPose,legacyCamperImage} from './camp-character.mjs';
 import {pixelPropDisplay} from './camp-pixel.mjs';
 import {clearingBench, drawClearingBench} from './camp-clearing-art.mjs';
 import {DAY_SUN,shadowLights} from './camp-lighting.mjs';
@@ -155,7 +155,7 @@ export class GroundShadows{
   playerMask(p,{time=0,now=time*1000,reduced=true,theme='color'}={}){
     const display=playerDisplay({...p,z:0},this.assets,theme,this.pixelMode),player={...display.player,color:null},emote=player.emoteUntil>now?player.emote:null,pose=characterPose(player,time,reduced,emote,now,this.assets);
     const releaseId=camperSheetId(theme),release=this.assets.manifest.files?.[releaseId]&&this.assets.getSprite(releaseId);
-    if(!release&&!this.assets.getSprite(pose.sheet||this.assets.characterSheet(0,theme)))return null;
+    if(!release&&!legacyCamperImage(this.assets,releaseId,pose,0,theme))return null;
     const detailed=release&&!reduced&&['walk','run'].includes(pose.lower.state)&&!!this.assets.getSprite('field-camper-walk');
     const key=JSON.stringify(['player',!!release,!!detailed,theme,player.hairStyle,player.topStyle,player.visualDirection,pose.artFrame,pose.state,pose.index,pose.lower.state,pose.lower.index,pose.mirror,player.renderDirection,player.renderSeat,player.weapon,pose.weaponSide,display.x,display.y]);
     return this.mask(key,c=>{c.translate(display.x,player.renderSeat?0:display.y);drawCharacter(c,player,{time,now,reduced,emote,blankHead:true,shadowOnly:true,theme,assets:this.assets});},{ground:0,width:160,height:192,originX:80,originY:160,rasterScale:.5});

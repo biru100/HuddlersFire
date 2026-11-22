@@ -17,7 +17,7 @@ const out=createCanvas(822,750),c=out.getContext('2d');c.fillStyle='#f3f0e8';c.f
 c.fillStyle='#33322e';c.font='bold 23px Review, sans-serif';c.fillText('공통 머리와 헤어 파츠',18,36);
 c.font='16px Review, sans-serif';['공통 머리','단발 파츠','묶은 머리 파츠','단발 착용','묶은 머리 착용'].forEach((t,i)=>c.fillText(t,110+139*i,71));
 const cases=[[0,0,0,'정면 · 남동'],[0,0,1,'후면 · 북동'],[0,0,2,'후면 · 북서'],[0,0,3,'정면 · 남서'],[0,6,4,'눈 감기'],[0,4,4,'점프']];
-const walk=m.files['field-camper-walk'];
+const walk=(candidate?.files??m.files)['field-camper-walk'];
 const walkHead=walk.bodyOnly?[0,0]:[1,8];
 cases.push([...walkHead,0,'보행 · 남동'],[...walkHead,3,'보행 · 남서']);
 const images=await Promise.all(['field-camper-v2','field-camper-walk'].map(id=>
