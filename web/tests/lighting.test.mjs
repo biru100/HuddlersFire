@@ -95,8 +95,20 @@ test('all character/prop shadows precede receivers and quality reduction uses on
 test('ground shadow clipping keeps the same rounded isometric boundary at DPR and zoom',()=>{
   const c=createDrawContext(createCanvas(200,200).getContext('2d'),{dpr:()=>2});c.setTransform(3,0,0,3,100,120);c.recording.begin();c.save();c.clipGround(6);c.drawImage(createCanvas(2,2),0,0);c.restore();const clips=c.recording.end()[0].clips;assert.equal(clips.length,1);assert.equal(clips[0].kind,2);assert.deepEqual(clips[0].rect,[-670,-300,1440,720]);assert.equal(clips[0].radius,120);
 });
-test('a fresh dark scene builds masks from its loaded dark sheets without requesting colour assets',async()=>{
-  await defaultSpriteAssets.preloadSprites(['environment-dark',defaultSpriteAssets.characterSheet(0,'dark')]);const requested=[],assets={...defaultSpriteAssets,getSprite(id){requested.push(id);return defaultSpriteAssets.getSprite(id);}},s=new GroundShadows(createCanvas(100,100).getContext('2d'),{assets});assert.ok(s.propMask({type:'tree'},'dark'));assert.ok(s.playerMask({x:0,y:0},{theme:'dark'}));assert.ok(requested.length>=2&&requested.every(id=>id.includes('-dark')));
+test('a fresh dark scene uses dark scenery and the shared motion plates for masks',async()=>{
+  const motionIds=Object.values(defaultSpriteAssets.manifest.camperMotion?.plates??{})
+    .flatMap(({color,normal})=>[color,normal]);
+  await defaultSpriteAssets.preloadSprites(defaultSpriteAssets.sceneSpriteIds('dark','camp'));
+  const requested=[];
+  const assets={...defaultSpriteAssets,getSprite(id){requested.push(id);return defaultSpriteAssets.getSprite(id);}};
+  const shadows=new GroundShadows(createCanvas(100,100).getContext('2d'),{assets});
+  assert.ok(shadows.propMask({type:'tree'},'dark'));
+  const scenery=requested.splice(0);
+  assert.ok(scenery.length&&scenery.every(id=>id.endsWith('-dark')));
+  assert.ok(shadows.playerMask({x:0,y:0},{theme:'dark'}));
+  assert.ok(requested.includes('field-camper-v2-dark'));
+  assert.ok(motionIds.every(id=>requested.includes(id)));
+  assert.ok(requested.every(id=>id.includes('-dark')||motionIds.includes(id)));
 });
 test('daylight projects real map props toward the lower right in both open-air maps',()=>{
   const shadows=new GroundShadows(createCanvas(120,100).getContext('2d'));

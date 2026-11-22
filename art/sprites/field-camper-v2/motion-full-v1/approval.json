@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "selection": "선택하고 배포",
+  "approvedFiles": {
+    "camper-motion-native-color.d2076b7dcd19.png": "d2076b7dcd192e2fc021c35056d8fb838bf485fb7eca6b6fe39377740561225d",
+    "camper-motion-native-normal.55d21ca9cf31.png": "55d21ca9cf31ba960680418c691b31caf6c9755771c55acd092191fff7451c25",
+    "camper-motion-walk-normal.393db82899e8.png": "393db82899e80b957966f58b273a003e02b42220b53d650a328729c5f2822a4a"
+  },
+  "candidate": "4c9de38c96454e0ab5a94df5ad59e5d0f5d60c9b0d2447bc2b535b8429585b83",
+  "baseline": "155b05a84b92c445bc454413ce5e4353556977ca",
+  "coverage": {
+    "cases": 744,
+    "spec": "cbd3190ee46ca547894d4ba7bf1b8776e1de9f2b88e31bfcdea47bf4c305684e"
+  },
+  "scenes": {
+    "canvas": {
+      "before": "cd7b4dfef9d28be5c41d178c61994b916c229390998c2ba37951004ecb1d75bc",
+      "after": "cd0ebc8a8f377c42138cb2a69cef9df48800b4079af8429018f7ab3d3ff750ee",
+      "count": 48
+    },
+    "browser": {
+      "before": "b4a992eab3478c34781fbd0a43c1960dad5afee639e725c1d824f2e60f9c2f25",
+      "after": "6240cf52a995792621a500407b530a223bfdb471f49936472af2573e6d7937e5",
+      "count": 65
+    }
+  }
+}

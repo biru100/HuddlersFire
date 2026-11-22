@@ -2,6 +2,36 @@
   "version": 1,
   "assets": [
     {
+      "path": "web/public/sprites/camper-motion-native-color.d2076b7dcd19.png",
+      "sha256": "d2076b7dcd192e2fc021c35056d8fb838bf485fb7eca6b6fe39377740561225d",
+      "state": "runtime-approved",
+      "approvalDocument": "art/sprites/field-camper-v2/motion-full-v1/approval.json",
+      "userDecision": {
+        "quote": "선택하고 배포",
+        "reference": "AgentHub에서 motion-full-v1 검토 후보를 선택하고 기존 공개 Sites 게시를 승인"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-motion-native-normal.55d21ca9cf31.png",
+      "sha256": "55d21ca9cf31ba960680418c691b31caf6c9755771c55acd092191fff7451c25",
+      "state": "runtime-approved",
+      "approvalDocument": "art/sprites/field-camper-v2/motion-full-v1/approval.json",
+      "userDecision": {
+        "quote": "선택하고 배포",
+        "reference": "AgentHub에서 motion-full-v1 검토 후보를 선택하고 기존 공개 Sites 게시를 승인"
+      }
+    },
+    {
+      "path": "web/public/sprites/camper-motion-walk-normal.393db82899e8.png",
+      "sha256": "393db82899e80b957966f58b273a003e02b42220b53d650a328729c5f2822a4a",
+      "state": "runtime-approved",
+      "approvalDocument": "art/sprites/field-camper-v2/motion-full-v1/approval.json",
+      "userDecision": {
+        "quote": "선택하고 배포",
+        "reference": "AgentHub에서 motion-full-v1 검토 후보를 선택하고 기존 공개 Sites 게시를 승인"
+      }
+    },
+    {
       "path": "web/public/sprites/field-camper-v2-parts.c94358ad19ab.webp",
       "sha256": "c94358ad19abcc7edf010240b309969a8c6b68e2e3ef8660c59dab79b89fa382",
       "state": "runtime-approved",

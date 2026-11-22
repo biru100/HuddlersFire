@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "provider": "Codex built-in ImageGen",
+  "artSelection": "pending",
+  "sources": {
+    "jump-seat": {
+      "file": "sources/jump-seat.png",
+      "sha256": "da68d6ed8040a1d9e57323372919915f29774cda07ded524fdc09231bd513a2b",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        }
+      ],
+      "prompt": "Create a production animation key-pose reference sheet for THIS same original HuddlersFire camper as the reference. The reference is the approved character turnaround and is for exact identity, rendering, costume and direction geometry. Use a transparent background. Keep the character charming and extremely close to the reference: same chestnut hair, same head size and warm pixel shading, same short chibi proportions, olive field jacket with a rusty orange collar, teal cuffed pants and warm brown boots. In an evenly spaced 4-column × 4-row grid show one full figure per cell, with large gutters and consistent scale. Each row uses independently drawn directions in fixed order: front-right, back-right, back-left, front-left. Both rear views only expose the true rear of the head. Rows from top to bottom: (1) folding the knees and bringing arms back before a jump, feet on ground; (2) the upward jump push, arms raised diagonally and feet separated; (3) lowering arms and reaching both feet out to absorb a landing; (4) hips halfway down toward an invisible camp bench, arms reaching forward for balance. Keep a readable 2:1 quarter view such as in the reference. Both legs and boots visible wherever the pose permits. Put no UI, text, frame borders, weapons, other people, background marks or effects on the sheet. Make it directly useful as pose reference with clearly different silhouettes and connected anatomy."
+    },
+    "carry-release": {
+      "file": "sources/carry-release.png",
+      "sha256": "3ded2cefeafb8d51d141c63ae348f8369c2d5691d4c6550fc389dab404e1246a",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        }
+      ],
+      "prompt": "Create a production animation key-pose reference sheet for THIS same original HuddlersFire camper as the reference. The reference is the approved character turnaround and is for exact identity, rendering, costume and direction geometry. Use a transparent background. Keep the character charming and extremely close to the reference: same chestnut hair, same head size and warm pixel shading, same short chibi proportions, the navy hooded sweater, tied chestnut hair, teal cuffed pants and warm brown boots. In an evenly spaced 4-column × 4-row grid show one full figure per cell, with large gutters and consistent scale. Each row uses independently drawn directions in fixed order: front-right, back-right, back-left, front-left. Both rear views only expose the true rear of the head. Rows from top to bottom: (1) holding a friend above the head with both arms bent and little hands visible, show only the holder; (2) releasing an imaginary friend diagonally out and up, wrists extended and both feet braced; (3) being carried, both knees tucked forward and palms spread low; (4) airborne after a playful toss, legs extended forward at different angles and arms apart, a playful reaction. Keep a readable 2:1 quarter view such as in the reference. Both legs and boots visible wherever the pose permits. Put no UI, text, frame borders, weapons, other people, background marks or effects on the sheet. Make it directly useful as pose reference with clearly different silhouettes and connected anatomy."
+    },
+    "jump-seat-hood": {
+      "file": "sources/jump-seat-hood.png",
+      "sha256": "4d833c1ff566e44e01a3d1b7e926540e233535ba9fe3f761206178d05d0a2a53",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        },
+        {
+          "path": "field-camper-v2/motion-full-v1/sources/jump-seat.png",
+          "sha256": "da68d6ed8040a1d9e57323372919915f29774cda07ded524fdc09231bd513a2b"
+        }
+      ],
+      "prompt": "Keep the exact existing HuddlersFire camper identity and pixel color palette from the first image. Create a NEW clean transparent native pixel-art contact sheet, 4 columns by 4 rows. Front-right, back-right, back-left, front-left in that precise order on EVERY row. Draw the actual perspective and limbs per view. Every cell holds one complete head-to-toes sprite, centered with generous separation, with identical scale and no grid, typography, base or scenery. Chibi large black-haired head, very short body, same shoes and reference outfit. Crisp clustered pixels, NO smooth antialiasing. Keep the neck visible and arms below head unless gesture requires hands up. Olive hoodie and cream shorts. Follow pose timing from the second image only, draw the hoodie camper with these poses: row 1 deeply crouched jump anticipation, row 2 springing upward bent elbows, row 3 wide braced landing hands low, row 4 knees bent and hips lowering into sitting."
+    },
+    "carry-release-jacket": {
+      "file": "sources/carry-release-jacket.png",
+      "sha256": "4605fc7f415f11cc4a5b17ee361162ce26edf5d62d1b6fbe478ff364a65bbf9d",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        },
+        {
+          "path": "field-camper-v2/motion-full-v1/sources/carry-release.png",
+          "sha256": "3ded2cefeafb8d51d141c63ae348f8369c2d5691d4c6550fc389dab404e1246a"
+        }
+      ],
+      "prompt": "Keep the exact existing HuddlersFire camper identity and pixel color palette from the first image. Create a NEW clean transparent native pixel-art contact sheet, 4 columns by 4 rows. Front-right, back-right, back-left, front-left in that precise order on EVERY row. Draw the actual perspective and limbs per view. Every cell holds one complete head-to-toes sprite, centered with generous separation, with identical scale and no grid, typography, base or scenery. Chibi large black-haired head, very short body, same shoes and reference outfit. Crisp clustered pixels, NO smooth antialiasing. Keep the neck visible and arms below head unless gesture requires hands up. Plum jacket and dark trousers. Follow pose timing from the second image only. Row 1 carrying another camper overhead, bent raised arms with palms up above shoulders, row 2 launching them forward both hands diagonally extended, row 3 passenger crouched tucked knees, row 4 passenger airborne with stretched legs."
+    },
+    "run-jacket": {
+      "file": "sources/run-jacket.png",
+      "sha256": "00c6795c52a5fe03aaad6f229b3f6e05638fe4fabfa6363641d66817dadb1de0",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        }
+      ],
+      "prompt": "Keep the exact existing HuddlersFire camper identity and pixel color palette from the first image. Create a NEW clean transparent native pixel-art contact sheet, 4 columns by 4 rows. Front-right, back-right, back-left, front-left in that precise order on EVERY row. Draw the actual perspective and limbs per view. Every cell holds one complete head-to-toes sprite, centered with generous separation, with identical scale and no grid, typography, base or scenery. Chibi large black-haired head, very short body, same shoes and reference outfit. Crisp clustered pixels, NO smooth antialiasing. Keep the neck visible and arms below head unless gesture requires hands up. Four consecutive key poses in a fast running loop. Make the forward lean and long strides clearly distinct from walking. Row 1 left leg forward right leg back, row 2 left leg bearing weight bent with right foot already passing, row 3 right leg forward left leg back, row 4 right leg bearing weight bent with left foot already passing. Swing arms in opposition. Leave air gaps between hands, legs, and body."
+    },
+    "emote-jacket": {
+      "file": "sources/emote-jacket.png",
+      "sha256": "f7e2268edeb18f39e49a29c10823828441fa80722d093561c41468ffeba6fad6",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        }
+      ],
+      "prompt": "Keep the exact existing HuddlersFire camper identity and pixel color palette from the first image. Create a NEW clean transparent native pixel-art contact sheet, 4 columns by 4 rows. Front-right, back-right, back-left, front-left in that precise order on EVERY row. Draw the actual perspective and limbs per view. Every cell holds one complete head-to-toes sprite, centered with generous separation, with identical scale and no grid, typography, base or scenery. Chibi large black-haired head, very short body, same shoes and reference outfit. Crisp clustered pixels, NO smooth antialiasing. Keep the neck visible and arms below head unless gesture requires hands up. Animated body emotes. Row 1 friendly wave with right hand beside shoulder, row 2 both hands meeting in heart shape at middle of chest, row 3 both palms clapping a little left of chest, row 4 exuberant dance with both elbows wide and one foot lifted. Keep emote shapes in dark sleeves and visible hands so the body tells the story."
+    },
+    "action-jacket": {
+      "file": "sources/action-jacket.png",
+      "sha256": "2e0a51e290ff28ade3ab35821278a4da749602e877c67bf30e2b1c5a8df24b4e",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/standing-original.png",
+          "sha256": "8c3312baa86487db671d29e0ce40c24ae339a5607e3685258e06a40bb592b414"
+        }
+      ],
+      "prompt": "Keep the exact existing HuddlersFire camper identity and pixel color palette from the first image. Create a NEW clean transparent native pixel-art contact sheet, 4 columns by 4 rows. Front-right, back-right, back-left, front-left in that precise order on EVERY row. Draw the actual perspective and limbs per view. Every cell holds one complete head-to-toes sprite, centered with generous separation, with identical scale and no grid, typography, base or scenery. Chibi large black-haired head, very short body, same shoes and reference outfit. Crisp clustered pixels, NO smooth antialiasing. Keep the neck visible and arms below head unless gesture requires hands up. Variable upper body and balance action keys. Row 1 leaning sideways into a stumble, arms spread, one foot off ground; row 2 recoiling from impact, one elbow up and fists pulled toward chest; row 3 holding a short imaginary horizontal prop, both hands forward at chest level with one hand close to body; row 4 turning a little while calmly holding a big imaginary ball below chest with both hands."
+    },
+    "run-hood": {
+      "file": "sources/run-hood.png",
+      "sha256": "83da0cdbed74c1efa197398e41a331a5ba3f574f602cd5d31d6a8eeb65a7ce97",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        }
+      ],
+      "prompt": "Keep the exact existing HuddlersFire camper identity and pixel color palette from the first image. Create a NEW clean transparent native pixel-art contact sheet, 4 columns by 4 rows. Front-right, back-right, back-left, front-left in that precise order on EVERY row. Draw the actual perspective and limbs per view. Every cell holds one complete head-to-toes sprite, centered with generous separation, with identical scale and no grid, typography, base or scenery. Chibi large black-haired head, very short body, same shoes and reference outfit. Crisp clustered pixels, NO smooth antialiasing. Keep the neck visible and arms below head unless gesture requires hands up. Four consecutive key poses in a fast running loop. Make the forward lean and long strides clearly distinct from walking. Row 1 left leg forward right leg back, row 2 left leg bearing weight bent with right foot already passing, row 3 right leg forward left leg back, row 4 right leg bearing weight bent with left foot already passing. Swing arms in opposition. Leave air gaps between hands, legs, and body."
+    },
+    "emote-hood": {
+      "file": "sources/emote-hood.png",
+      "sha256": "b5970e91727cd4b9ebb17d1959d481d6ae2b9f9a2617fa418ee917678d572156",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        }
+      ],
+      "prompt": "Keep the exact existing HuddlersFire camper identity and pixel color palette from the first image. Create a NEW clean transparent native pixel-art contact sheet, 4 columns by 4 rows. Front-right, back-right, back-left, front-left in that precise order on EVERY row. Draw the actual perspective and limbs per view. Every cell holds one complete head-to-toes sprite, centered with generous separation, with identical scale and no grid, typography, base or scenery. Chibi large black-haired head, very short body, same shoes and reference outfit. Crisp clustered pixels, NO smooth antialiasing. Keep the neck visible and arms below head unless gesture requires hands up. Animated body emotes. Row 1 friendly wave with right hand beside shoulder, row 2 both hands meeting in heart shape at middle of chest, row 3 both palms clapping a little left of chest, row 4 exuberant dance with both elbows wide and one foot lifted. Keep emote shapes in dark sleeves and visible hands so the body tells the story."
+    },
+    "action-hood": {
+      "file": "sources/action-hood.png",
+      "sha256": "5af3dd7c49d7cb5fb3a7c5dde1b2905747473ed2ac80e9b6111ff49e88e42d6a",
+      "references": [
+        {
+          "path": "field-camper-v2/subculture-20261122/wardrobe-original.png",
+          "sha256": "6c2e06248642d51d8fa295ea3e622c077558cd1f15d21851f53cea337a06d708"
+        }
+      ],
+      "prompt": "Keep the exact existing HuddlersFire camper identity and pixel color palette from the first image. Create a NEW clean transparent native pixel-art contact sheet, 4 columns by 4 rows. Front-right, back-right, back-left, front-left in that precise order on EVERY row. Draw the actual perspective and limbs per view. Every cell holds one complete head-to-toes sprite, centered with generous separation, with identical scale and no grid, typography, base or scenery. Chibi large black-haired head, very short body, same shoes and reference outfit. Crisp clustered pixels, NO smooth antialiasing. Keep the neck visible and arms below head unless gesture requires hands up. Variable upper body and balance action keys. Row 1 leaning sideways into a stumble, arms spread, one foot off ground; row 2 recoiling from impact, one elbow up and fists pulled toward chest; row 3 holding a short imaginary horizontal prop, both hands forward at chest level with one hand close to body; row 4 turning a little while calmly holding a big imaginary ball below chest with both hands."
+    }
+  }
+}

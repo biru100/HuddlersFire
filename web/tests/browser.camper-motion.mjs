@@ -5,12 +5,13 @@ import {fileURLToPath} from 'node:url';
 import {createServer} from 'vite';
 import {CAMPER_PART_FILES} from '../lib/camp-camper-part-files.mjs';
 import {camperMotionScene,motionPhases,motionSpec} from '../scripts/camper-motion-audit.mjs';
+import {readCamperCandidate} from '../scripts/camper-review-assets.mjs';
 import {materialPreviewPlugin} from './lighting-preview-plugin.mjs';
 import {headlessBrowser,until} from './browser-cdp.mjs';
 import {browserFormats,motionFormats,verifyMotionProof} from './camper-scale-evidence.mjs';
 
 export async function captureCamperMotion(browser,capture,candidate=null){
-  const replacements=new Map(candidate?['field-camper-v2','field-camper-walk'].map(id=>[
+  const replacements=new Map(candidate?.motion?Object.entries(candidate.buffers):candidate?['field-camper-v2','field-camper-walk'].map(id=>[
     CAMPER_PART_FILES[id].url,candidate.buffers[candidate.files[id].url],
   ]):[]);
   const served=new Set();
@@ -19,9 +20,15 @@ export async function captureCamperMotion(browser,capture,candidate=null){
     configureServer(server){
       server.middlewares.use((req,res,next)=>{
         const url=req.url?.split('?')[0],bytes=replacements.get(url);
+        if(candidate?.motion&&url==='/__camper-candidate/manifest'){
+          res.setHeader('Content-Type','application/json');
+          const files=Object.fromEntries(Object.keys(candidate.manifest.files).map(id=>[id,candidate.files[id]]));
+          res.end(JSON.stringify({files,motion:candidate.motion}));
+          return;
+        }
         if(!bytes)return next();
         served.add(url);
-        res.setHeader('Content-Type','image/webp');
+        res.setHeader('Content-Type',url.endsWith('.png')?'image/png':'image/webp');
         res.setHeader('Cache-Control','no-store');
         res.end(bytes);
       });
@@ -37,11 +44,13 @@ export async function captureCamperMotion(browser,capture,candidate=null){
     await server.listen();
     const origin='http://127.0.0.1:'+server.httpServer.address().port;
     const phases=motionPhases(),proof={};
-    await browser.call('Page.navigate',{url:origin+'/__material-preview?art=release'});
+    await browser.call('Page.navigate',{url:origin+'/__material-preview?art=release'+(candidate?.motion?'&camperCandidate':'')});
     await until(()=>browser.evaluate('!!window.lightingReady'),'Camper motion material preview did not load');
     const shot=async(id,phase,light=null)=>{
       const scene=camperMotionScene(phases.get(phase),light?{mapId:'camp'}:undefined);
       proof[id]=await browser.evaluate(`lightingReview.showCamperMotion(${JSON.stringify(scene)},${JSON.stringify(light)})`);
+      if(candidate?.motion)assert.ok(proof[id].parts.every(part=>part.normalKind==='authored'),
+        'Candidate draw fell back to the legacy normal: '+id);
       await capture(id);
     };
     for(const [format,width,height,deviceScaleFactor,mobile] of browserFormats){
@@ -52,21 +61,22 @@ export async function captureCamperMotion(browser,capture,candidate=null){
       if(format==='desktop')for(const light of ['left','right','off'])
         await shot('desktop-motion-normal-'+light,'walk.step-3',light);
     }
-    assert.equal(served.size,replacements.size,'Both candidate atlases must reach the motion preview');
+    assert.equal(served.size,replacements.size,'Every candidate atlas must reach the motion preview');
     verifyMotionProof(proof);
     return proof;
   }finally{await server.close();}
 }
 
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
-  const out=resolve('outputs/current-art/camper-motion-webgl');
+  const job=process.argv[2],candidate=job?readCamperCandidate(job):null;
+  const out=resolve(job?'outputs/camper-harness/'+job+'/motion-webgl':'outputs/current-art/camper-motion-webgl');
   const browser=await headlessBrowser();
   try{
     mkdirSync(out,{recursive:true});
     const proof=await captureCamperMotion(browser,async id=>{
       const shot=await browser.call('Page.captureScreenshot',{format:'png'});
       writeFileSync(resolve(out,id+'.png'),Buffer.from(shot.data,'base64'));
-    });
+    },candidate);
     assert.deepEqual(browser.errors,[]);
     writeFileSync(resolve(out,'proof.json'),JSON.stringify(proof,null,2)+'\n');
     console.log(Object.keys(proof).length+' camper WebGL motion and lighting captures');

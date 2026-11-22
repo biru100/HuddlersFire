@@ -13,7 +13,7 @@ const codeHash=path=>hash(readFileSync(inside(ROOT,path),'utf8').replaceAll('\r\
 
 export function releaseIdentity(manifest=spriteManifest){
   const files={};
-  for(const {url,sha256} of Object.values(manifest.files)){
+  for(const {url,sha256} of Object.values({...manifest.files,...manifest.fallbackFiles})){
     const digest=fileHash('web/public'+url);
     if(sha256!==digest)throw Error('Changed release sprite: '+url);
     files[url]=digest;

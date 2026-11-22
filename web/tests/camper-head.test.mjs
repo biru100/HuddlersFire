@@ -24,7 +24,7 @@ test('compact walking draws its upper rows and the exact same native head, and t
   const detail=await loadImage(readFileSync(filename(ids[1])));
   const compact=createCanvas(detail.width,960);
   compact.getContext('2d').drawImage(detail,0,0);
-  const manifest={...spriteManifest,files:{...spriteManifest.files,[ids[1]]:{bodyOnly:true}}};
+  const manifest={...spriteManifest,camperMotion:undefined,files:{...spriteManifest.files,[ids[1]]:{bodyOnly:true}}};
   let walkImage=compact;
   const assets={...defaultSpriteAssets,manifest,getSprite:id=>id===ids[1]?walkImage:defaultSpriteAssets.getSprite(id)};
   spriteImageMetadata.set(compact,{assets,id:ids[1]});

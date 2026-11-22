@@ -27,7 +27,7 @@ test('shipped atlas frames have valid crop/anchor/duration metadata and decoded 
   for(const a of Object.values(spec.assets).filter(a=>a.kind==='character'&&a.direction!=='front')){const row=m.character.states[a.state].directions[a.direction];assert.equal(row.frames.length,a.frames);assert.ok(row.frames.every(f=>f.contacts?.feet&&f.head.radius>10&&(a.state!=='sit'||f.contacts.seat)));}
 });
 test('files match content hashes and fit the explicit 10 MB transfer/6 MB scene budgets',()=>{
-  for(const file of Object.values(m.files)){
+  for(const file of Object.values({...m.files,...m.fallbackFiles})){
     const bytes=readFileSync(new URL('../public'+file.url,import.meta.url));
     assert.equal(bytes.length,file.bytes);assert.ok(file.url.includes(createHash('sha256').update(bytes).digest('hex').slice(0,12)));
   }

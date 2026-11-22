@@ -4,6 +4,7 @@ import {readCamperCandidate} from './camper-review-assets.mjs';
 
 const candidate=readCamperCandidate();
 Object.assign(spriteManifest.files,candidate.files);
+if(candidate.motion)spriteManifest.camperMotion=candidate.motion;
 setSpriteLoader(candidate.load,{cacheLimit:64});
 const images=await preloadSprites(Object.keys(spriteManifest.files));
 if(images.some(image=>!image))throw Error('Incomplete candidate preview');

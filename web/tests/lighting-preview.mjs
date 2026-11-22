@@ -9,6 +9,11 @@ const params=new URLSearchParams(location.search);
 const data=params.get('art')==='release'
   ? withCampArt((await import('../lib/camp-sprite-manifest.mjs?current-release')).SPRITE_MANIFEST)
   : await fetch('/__material-preview/manifest').then(r=>r.json());
+if(params.has('camperCandidate')){
+  const candidate=await fetch('/__camper-candidate/manifest').then(r=>r.json());
+  Object.assign(data.files,candidate.files);
+  data.camperMotion=candidate.motion;
+}
 const assets=createSpriteContext(data,{cacheLimit:48});
 const scene={theme:params.get('theme')||'color',mapId:params.get('map')||'camp',now:5000,self:'0',zoom:params.get('view')==='close'?1.8:1.1,fire:emptyFire(),players:[]};
 function populate(kind='seats'){

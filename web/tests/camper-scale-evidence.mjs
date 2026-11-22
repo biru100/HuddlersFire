@@ -26,7 +26,7 @@ function protocol(kind){
   if(kind==='browser')shared.push('browser.camper-head','browser.camper-motion','browser-cdp','lighting-preview','camper-motion-preview');
   const files=shared.map(name=>`web/tests/${name}.mjs`).concat([
     'web/scripts/camper-motion-audit.mjs','web/lib/camp-sprite-animation.mjs','web/lib/camp-camper-render.mjs',
-    'web/lib/camp-character.mjs','web/lib/camp-renderer.mjs','web/lib/camp-draw-context.mjs',
+    'web/lib/camp-character.mjs','web/lib/camp-camper-motion.mjs','web/lib/camp-renderer.mjs','web/lib/camp-draw-context.mjs',
     'web/lib/camp-webgl-renderer.mjs','web/lib/camp-lighting-shader.mjs',
   ]);
   return objectDigest({motionSpec,source:files.map(file=>digest(readFileSync(inside(ROOT,file),'utf8').replaceAll('\r\n','\n')))});

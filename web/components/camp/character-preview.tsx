@@ -3,9 +3,8 @@
 import { useEffect, useRef } from 'react';
 import { useCampSettings, getSettingsSnapshot } from './use-camp-settings';
 import { drawCharacter } from '@/lib/camp-character.mjs';
-import { subscribeSprites, preloadSprites, characterSheet } from '@/lib/camp-sprite-assets.mjs';
+import { subscribeSprites, preloadSprites } from '@/lib/camp-sprite-assets.mjs';
 import { camperSheetId } from '@/lib/camp-camper-render.mjs';
-import { toneIndex } from '@/lib/camp-appearance.mjs';
 
 type Props = { color:string; hairStyle?:number; topStyle?:number; portraitSize?:42|64 };
 export default function CharacterPreview({ color, hairStyle=0, topStyle=0, portraitSize }: Props) {
@@ -45,7 +44,7 @@ export default function CharacterPreview({ color, hairStyle=0, topStyle=0, portr
       resolution?.addEventListener('change',watchResolution);
       draw();
     }
-    void preloadSprites([camperSheetId(theme),characterSheet(toneIndex(color),theme)]);
+    void preloadSprites([camperSheetId(theme)]);
     watchResolution();
     return () => {
       unsubscribe();
