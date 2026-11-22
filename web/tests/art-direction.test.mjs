@@ -95,7 +95,7 @@ test('look variants change one design emphasis while retaining NW clothed idle a
 });
 
 test('active art and validation skills retain resolvable local document links', () => {
-  for (const name of ['camp-art-direction', 'camp-sprite-assets', 'camp-change-validation']) {
+  for (const name of ['camp-art-direction', 'camp-animation-art', 'camp-sprite-assets', 'camp-change-validation']) {
     const file = new URL(`../../.agents/skills/${name}/SKILL.md`, import.meta.url), source = readFileSync(file, 'utf8');
     assert.match(source, new RegExp(`name: ${name}`));
     for (const [, link] of source.matchAll(/\]\(([^)#]+)(?:#[^)]*)?\)/g)) {

@@ -77,7 +77,15 @@ export function drawCharacter(ctx,p,{time=0,now=time*1000,reduced=true,emote=nul
   // Redraw only isolated hands which can cross in front of the face.
   if(image)for(const hand of frame.hands){if(hand.y>frame.head.y+frame.head.radius)continue;ctx.save();ctx.scale(mirror,1);ctx.drawImage(image,frame.x+hand.x,frame.y+hand.y,hand.w,hand.h,(hand.x-pose.origin.x)*scale,(hand.y-pose.origin.y)*scale,hand.w*scale,hand.h*scale);ctx.restore();}
   if(pose.weaponSide)assets.drawSprite(ctx,p.weapon,{x:pose.weaponSide*16,y:-15,width:p.weapon==='gun'?22:13,theme,flip:pose.weaponSide<0});
-  if(!shadowOnly){const night=ctx.lightingProfile?.night;if(night){ctx.save();ctx.setMaterial?.({lighting:'lit'});}ctx.fillStyle=theme==='dark'?'#ffffff':'#fff7df';ctx.strokeStyle=theme==='dark'?'#242424':'#6a4230';ctx.lineWidth=2;ctx.font='700 6px sans-serif';ctx.textAlign='center';ctx.strokeText(TONE_MARKS[slot],0,-12);ctx.fillText(TONE_MARKS[slot],0,-12);if(night)ctx.restore();}
+  if(!shadowOnly){
+    const night=ctx.lightingProfile?.night,{x,y}=pose.toneMark??{x:0,y:-12};
+    if(night){ctx.save();ctx.setMaterial?.({lighting:'lit'});}
+    ctx.fillStyle=theme==='dark'?'#ffffff':'#fff7df';
+    ctx.strokeStyle=theme==='dark'?'#242424':'#6a4230';
+    ctx.lineWidth=2;ctx.font='700 6px sans-serif';ctx.textAlign='center';
+    ctx.strokeText(TONE_MARKS[slot],x,y);ctx.fillText(TONE_MARKS[slot],x,y);
+    if(night)ctx.restore();
+  }
   if(!shadowOnly&&emote==='heart')assets.drawSprite(ctx,'heart',{x:0,y:pose.headY-20,width:12,theme});
   if(!shadowOnly&&emote==='clap')assets.drawSprite(ctx,'spark',{x:0,y:pose.headY-24,width:reduced?8:6+Math.sin(time*8)*2,theme});
   ctx.restore();return pose;

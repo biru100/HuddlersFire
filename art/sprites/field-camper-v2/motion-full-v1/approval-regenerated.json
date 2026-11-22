@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "selection": "배포해줘",
+  "userDecision": {
+    "quote": "배포해줘",
+    "reference": "2026-11-23 AgentHub 사용자 요청. 전후 비교를 안내한 캠퍼 재생성본을 기존 공개 HuddlersFire에 적용하고 게시."
+  },
+  "approvedFiles": {
+    "camper-motion-native-color.35d12c1ad5d0.png": "35d12c1ad5d03a74b23d904d201b40adf5a63184e3d00c2daaef012bff5c2b21",
+    "camper-motion-native-normal.3f0987d28025.png": "3f0987d280251f0edeac82e67ba4722a0ea6108b0639dfaa580220b772820781",
+    "camper-motion-walk-normal.393db82899e8.png": "393db82899e80b957966f58b273a003e02b42220b53d650a328729c5f2822a4a"
+  },
+  "candidate": "3136c053375b8eeec21578b1edf8b1812d1290ac427a1c06f5deb4cea00edd19",
+  "baseline": "45dfb55811ee00d92be6d96306e99210f7c0aa2a",
+  "replaces": "4c9de38c96454e0ab5a94df5ad59e5d0f5d60c9b0d2447bc2b535b8429585b83",
+  "coverage": {
+    "cases": 744,
+    "spec": "cbd3190ee46ca547894d4ba7bf1b8776e1de9f2b88e31bfcdea47bf4c305684e"
+  },
+  "scenes": {
+    "canvas": {
+      "before": "66a760b0a421f3b13d38741b4f114c1e4a3a7cbd9137f8a63a8a2f86628be94e",
+      "after": "63e7e066ebeaa366f334113c322f7bce431f93f1ae5371a52dc13be71c59fc6b",
+      "count": 60
+    },
+    "browser": {
+      "before": "5e343db18c282e0477afaa4ec6f7bb865c07e8a461eafaa19844ee951ffaf18c",
+      "after": "9e8922f112fbbdf75c9fa65f1758d81dbfd25d13d5fc3c34e94aacc0828f1f5b",
+      "count": 77
+    }
+  },
+  "visual": {
+    "boards": "2a87cfd0f2aeb0616fdd1f0a048a5d5527998ea6b6ac87c40451e96d0574bcff",
+    "observations": "60da5a6c3c751c8a67cd8025cdf322fc178b1abd57c3b6c0f5e34619115448ae"
+  }
+}

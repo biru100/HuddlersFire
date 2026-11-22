@@ -4,11 +4,17 @@ import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createServer} from 'vite';
 import {CAMPER_PART_FILES} from '../lib/camp-camper-part-files.mjs';
-import {camperMotionScene,motionPhases,motionSpec} from '../scripts/camper-motion-audit.mjs';
+import {camperMotionReviewPhases,camperMotionScene,motionPhases} from '../scripts/camper-motion-audit.mjs';
 import {readCamperCandidate} from '../scripts/camper-review-assets.mjs';
 import {materialPreviewPlugin} from './lighting-preview-plugin.mjs';
 import {headlessBrowser,until} from './browser-cdp.mjs';
 import {browserFormats,motionFormats,verifyMotionProof} from './camper-scale-evidence.mjs';
+
+const mixedKeys={
+  'emote.seated-wave':'sit.hold/emote.wave/',
+  'emote.walking-wave':'walk.step-3/emote.wave/',
+  'run.armed':'run.step-3/weapon.gun-aim/',
+};
 
 export async function captureCamperMotion(browser,capture,candidate=null){
   const replacements=new Map(candidate?.motion?Object.entries(candidate.buffers):candidate?['field-camper-v2','field-camper-walk'].map(id=>[
@@ -43,12 +49,14 @@ export async function captureCamperMotion(browser,capture,candidate=null){
   try{
     await server.listen();
     const origin='http://127.0.0.1:'+server.httpServer.address().port;
-    const phases=motionPhases(),proof={};
+    const proof={};
     await browser.call('Page.navigate',{url:origin+'/__material-preview?art=release'+(candidate?.motion?'&camperCandidate':'')});
     await until(()=>browser.evaluate('!!window.lightingReady'),'Camper motion material preview did not load');
     const shot=async(id,phase,light=null)=>{
-      const scene=camperMotionScene(phases.get(phase),light?{mapId:'camp'}:undefined);
+      const scene=camperMotionScene(phase,light?{mapId:'camp'}:undefined);
       proof[id]=await browser.evaluate(`lightingReview.showCamperMotion(${JSON.stringify(scene)},${JSON.stringify(light)})`);
+      if(mixedKeys[phase.id])assert.ok(proof[id].artFrame?.startsWith(mixedKeys[phase.id]),
+        'Mixed camper screenshot drew a different pose: '+id+' '+proof[id].artFrame);
       if(candidate?.motion)assert.ok(proof[id].parts.every(part=>part.normalKind==='authored'),
         'Candidate draw fell back to the legacy normal: '+id);
       await capture(id);
@@ -57,9 +65,9 @@ export async function captureCamperMotion(browser,capture,candidate=null){
       if(!motionFormats.includes(format))continue;
       await browser.call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor,mobile});
       await browser.evaluate('lightingReview.renderer.resize()');
-      for(const phase of motionSpec.sceneCases)await shot(format+'-motion-'+phase,phase);
+      for(const phase of camperMotionReviewPhases())await shot(format+'-motion-'+phase.id,phase);
       if(format==='desktop')for(const light of ['left','right','off'])
-        await shot('desktop-motion-normal-'+light,'walk.step-3',light);
+        await shot('desktop-motion-normal-'+light,motionPhases().get('walk.step-3'),light);
     }
     assert.equal(served.size,replacements.size,'Every candidate atlas must reach the motion preview');
     verifyMotionProof(proof);

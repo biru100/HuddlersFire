@@ -145,20 +145,28 @@ function motionPart(ctx,plate,cell,layer,styleId,slot,theme){
 }
 
 export function motionGeometry(pose,plan){
-  const {lower,lowerKey,upperKey,direction,hairstyle,outfit}=plan;
+  const {lower,lowerKey,upperKey,direction,hairstyle,outfit,headNeck=lower.neck}=plan;
   const anchor=lower.anchor;
-  return {...pose,headX:0,headY:23+lower.neck-40-anchor,headBob:0,bob:0,lean:0,mirror:1,radius:17,
+  const toneMark=lower.join?{x:(lower.join[0]+lower.join[1])/2-center,y:lower.waist-anchor-1}:null;
+  return {...pose,headX:0,headY:23+headNeck-40-anchor,headBob:0,bob:0,lean:0,mirror:1,radius:17,
     weaponSide:upperKey.endsWith('-aim')?(direction<2?1:-1):pose.weaponSide,
-    feet:{x:center,y:lower.feet??anchor},origin:{x:center,y:anchor},scale:1,
+    feet:{x:center,y:lower.feet??anchor},origin:{x:center,y:anchor},scale:1,toneMark,
     artFrame:[lowerKey,upperKey,direction,hairstyle,outfit].join('/')};
 }
 
+export function fitMotionWaist(lower,upper){
+  const [lo,hi]=lower.join,[left,right]=upper.join;
+  const xScale=Math.max(.72,Math.min(1.3,(hi-lo)/(right-left)));
+  const yScale=Math.max(.72,Math.min(1.3,(lower.waist-lower.neck)/Math.max(5,upper.waist-upper.neck)));
+  return {xScale,yScale,x:(lo+hi-(left+right)*xScale)/2,y:lower.waist-upper.waist*yScale};
+}
+
 export function paintCamperMotion(ctx,images,plan,slot,theme,withHead){
-  const {lower,upper,head,hairstyle,outfit}=plan;
+  const {lower,upper,head,hairstyle,outfit,headNeck=lower.neck}=plan;
   const anchor=lower.anchor;
   ctx.save();
   const scale=camperDisplay(ctx,1);
-  const draw=(ref,layer,offset=0,clip=null)=>{
+  const draw=(ref,layer,offset=0,clip=null,fit=null)=>{
     const plate=images[ref.plate],{density}=plate;
     const tile=motionPart(ctx,plate,ref.cell,layer,outfit,layer==='body'?slot:0,theme);
     const filter=camperFilter(scale,density);
@@ -175,17 +183,22 @@ export function paintCamperMotion(ctx,images,plan,slot,theme,withHead){
       ctx.rect(-center,clip[0]-anchor,width,clip[1]-clip[0]);
       ctx.clip();
     }
-    ctx.drawImage(image,-center,-anchor+offset,width,height);
+    if(fit)ctx.drawImage(image,fit.x-center,fit.y-anchor,width*fit.xScale,height*fit.yScale);
+    else ctx.drawImage(image,-center,-anchor+offset,width,height);
     ctx.restore();
   };
   const drawHead=()=>{
     const face=plan.upperKey==='idle.blink'?head.blink:head.face;
-    draw(face,'face',lower.neck-40);
-    draw(head.hairs[hairstyle],'hair',lower.neck-40);
+    draw(face,'face',headNeck-40);
+    draw(head.hairs[hairstyle],'hair',headNeck-40);
   };
   if(withHead&&upper.foreground)drawHead();
   const split=lower.waist??56;
   if(lower===upper)draw(upper,'body');
+  else if(lower.join&&upper.join){
+    draw(lower,'body',0,[split-1,height]);
+    draw(upper,'body',0,[0,split+1],fitMotionWaist(lower,upper));
+  }
   else{
     draw(lower,'body',0,[split,height]);
     draw(upper,'body',lower.neck-upper.neck,[0,split+1]);

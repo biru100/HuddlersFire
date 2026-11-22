@@ -5,7 +5,7 @@ import {drawCharacter} from '../lib/camp-character.mjs';
 import {COLORS, spawnPlayer} from '../lib/camp-world.mjs';
 import {spriteManifest} from '../lib/camp-sprite-assets.mjs';
 import {readCamperCandidate} from '../scripts/camper-review-assets.mjs';
-import {camperMotionScene,motionPhases,motionSpec} from '../scripts/camper-motion-audit.mjs';
+import {camperMotionReviewPhases,camperMotionScene} from '../scripts/camper-motion-audit.mjs';
 import {inside} from '../../tools/lib/sprite-spec.mjs';
 import {camperReviewRoot,canvasFormats,browserFormats,camperZooms,camperPoses,fieldCases,browserPortraitCases,
   motionFormats,motionSceneCases,motionLightCases,
@@ -101,21 +101,22 @@ for (const [name,width,height,dpr] of canvasFormats) {
   renderer.destroy();
 }
 
-const phases=motionPhases();
+const phases=camperMotionReviewPhases();
 for(const [format,width,height,dpr] of canvasFormats){
   if(!motionFormats.includes(format))continue;
   window.devicePixelRatio=dpr;
   const canvas=createCanvas(width*dpr,height*dpr);
   canvas.getBoundingClientRect=()=>({width,height});
-  let scene=camperMotionScene(phases.get(motionSpec.sceneCases[0]));
+  let scene=camperMotionScene(phases[0]);
   const renderer=new CampRenderer(canvas,()=>scene);
   try{
-    for(const id of motionSpec.sceneCases){
-      scene=camperMotionScene(phases.get(id));
+    for(const phase of phases){
+      renderer.walkTracks?.clear();
+      scene=camperMotionScene(phase);
       renderer.draw(scene.now);
       await renderer.ready;
       renderer.draw(scene.now);
-      save(canvas,format+'-motion-'+id);
+      save(canvas,format+'-motion-'+phase.id);
     }
   }finally{renderer.destroy();}
 }

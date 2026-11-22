@@ -9,6 +9,8 @@ description: "HuddlersFire의 원화 PNG, 픽셀 레이어, 아틀라스, 장면
 
 현행 캠퍼 후보는 [동작과 노멀 검수](../../../docs/art/scene-first-review.md#캠퍼-동작과-노멀-검수)에 따라 실제 렌더러가 선택한 컬러 프레임과 노멀을 대조한다. 전용 노멀은 해당 파츠의 표면과 투명 윤곽을 따른다. 공통 얼굴·헤어는 몸통 동작 사이에 재사용할 수 있다. 방향 반전이나 동작 간 공유가 필요하면 명세에 대상과 사용자 결정 근거를 남긴다.
 
+동작 후보의 추출 경계 검사를 먼저 실행한다. 그다음 원화·분리된 레이어·패킹된 몸체·두 헤어의 게임 합성표에서 손·발·소매와 목 연결을 대조한다. 올려 든 손이 분리 단계에서 사라지거나 앞뒤 순서가 바뀌면 해당 포즈를 실패로 기록한다. 실제 캡처와 같은 후보에 묶인 관찰 기록으로 검수를 완료한다.
+
 > **2026-11-18 fresh art path:** The new [pixel clean-room pilot](../../../docs/art/pixel-ai-pipeline-v3.md) must not load, pass into a model, or visually reuse any historic PNG/lookdev/sprite or previous palette. Its positive-only text brief is the only initial creative input. Existing registry and catalog remain production/provenance infrastructure but historical approved art is **not** an auto-reference for NEW concept generation. Do not treat code-only pixel sketches, RGB interpolation, grid snapping or a resized screenshot as approved artwork. Work may create derivative native pixels within task scope. Reuse the renderer only for **new post-generation in-game reviews**.
 
 **원본 우선순위:** [GitHub source registry](../../../art/sprites/source-registry/README.md)의 실제 PNG 바이너리·MANIFEST·SHA256가 일치해야 한다. `tools/art-source-registry.mjs`로 확인하고 별도 art-direction/motion job에 연결한다. ZIP 전달은 과거 이력이며, GitHub 저장 자체는 디자인/모션/네이티브/게임 검증과 별개다.

@@ -6,21 +6,23 @@ export const CAMPER_MOTION_RELEASE = {
     "base": {
       "field-camper-v2": "c94358ad19abcc7edf010240b309969a8c6b68e2e3ef8660c59dab79b89fa382",
       "field-camper-walk": "9104fd145a07333ed4aa26eb8750e5452008b6006e7952e9df62acc8bca801ac"
-    }
+    },
+    "layout": "7790e0603ea1f210f6d7b5eea399f25ef0d963fb8a1ff71e850f8b7daaf3d08b",
+    "collars": "86776890a4d8a32a7ce511c1c53cad065652799aa78a33964164692daa0bd63d"
   },
   "files": {
     "camper-motion-native-color": {
-      "url": "/sprites/camper-motion-native-color.d2076b7dcd19.png",
-      "sha256": "d2076b7dcd192e2fc021c35056d8fb838bf485fb7eca6b6fe39377740561225d",
-      "bytes": 585041,
+      "url": "/sprites/camper-motion-native-color.35d12c1ad5d0.png",
+      "sha256": "35d12c1ad5d03a74b23d904d201b40adf5a63184e3d00c2daaef012bff5c2b21",
+      "bytes": 607826,
       "width": 1024,
       "height": 1600,
       "sampling": "nearest"
     },
     "camper-motion-native-normal": {
-      "url": "/sprites/camper-motion-native-normal.55d21ca9cf31.png",
-      "sha256": "55d21ca9cf31ba960680418c691b31caf6c9755771c55acd092191fff7451c25",
-      "bytes": 549619,
+      "url": "/sprites/camper-motion-native-normal.3f0987d28025.png",
+      "sha256": "3f0987d280251f0edeac82e67ba4722a0ea6108b0639dfaa580220b772820781",
+      "bytes": 563608,
       "width": 1024,
       "height": 1600,
       "sampling": "nearest"
@@ -58,7 +60,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -68,7 +75,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              44
+            ]
           }
         ],
         [
@@ -80,7 +92,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              21,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -90,7 +107,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              31,
+              41
+            ]
           }
         ],
         [
@@ -102,7 +124,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              24,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -112,7 +139,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25,
+              35
+            ]
           }
         ],
         [
@@ -124,7 +156,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -134,7 +171,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              43
+            ]
           }
         ]
       ],
@@ -149,7 +191,11 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 55,
             "neck": 38,
             "feet": 64,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              22,
+              47
+            ]
           },
           {
             "plate": "native",
@@ -160,7 +206,11 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 55,
             "neck": 38,
             "feet": 64,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              21,
+              46
+            ]
           }
         ],
         [
@@ -173,7 +223,11 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 55,
             "neck": 38,
             "feet": 62,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              26,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -184,7 +238,11 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 55,
             "neck": 38,
             "feet": 62,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              28,
+              47
+            ]
           }
         ],
         [
@@ -197,7 +255,11 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 55,
             "neck": 38,
             "feet": 62,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              22,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -208,7 +270,11 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 55,
             "neck": 38,
             "feet": 62,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              22,
+              40
+            ]
           }
         ],
         [
@@ -221,7 +287,11 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 55,
             "neck": 38,
             "feet": 64,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              20,
+              44
+            ]
           },
           {
             "plate": "native",
@@ -232,7 +302,11 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 55,
             "neck": 38,
             "feet": 64,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              19,
+              43
+            ]
           }
         ]
       ],
@@ -245,10 +319,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 61,
-            "neck": 35,
+            "neck": 40,
             "feet": 74,
             "foreground": true,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              16,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -257,10 +335,14 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 61,
-            "neck": 35,
+            "neck": 40,
             "feet": 74,
             "foreground": true,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              16,
+              42
+            ]
           }
         ],
         [
@@ -271,10 +353,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 61,
-            "neck": 35,
+            "neck": 43,
             "feet": 72,
             "foreground": true,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              15,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -283,10 +369,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 61,
-            "neck": 35,
+            "neck": 44,
             "feet": 72,
             "foreground": true,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              14,
+              39
+            ]
           }
         ],
         [
@@ -297,10 +387,14 @@ export const CAMPER_MOTION_RELEASE = {
               9
             ],
             "anchor": 61,
-            "neck": 35,
+            "neck": 44,
             "feet": 72,
             "foreground": true,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              24,
+              49
+            ]
           },
           {
             "plate": "native",
@@ -309,10 +403,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 61,
-            "neck": 35,
+            "neck": 45,
             "feet": 72,
             "foreground": true,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              25,
+              50
+            ]
           }
         ],
         [
@@ -323,10 +421,14 @@ export const CAMPER_MOTION_RELEASE = {
               14
             ],
             "anchor": 61,
-            "neck": 35,
+            "neck": 39,
             "feet": 74,
             "foreground": true,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              24,
+              49
+            ]
           },
           {
             "plate": "native",
@@ -335,10 +437,14 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 61,
-            "neck": 35,
+            "neck": 39,
             "feet": 74,
             "foreground": true,
-            "waist": 52
+            "waist": 52,
+            "join": [
+              23,
+              49
+            ]
           }
         ]
       ],
@@ -351,9 +457,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 71,
-            "neck": 35,
+            "neck": 38,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              16,
+              37
+            ]
           },
           {
             "plate": "native",
@@ -362,9 +473,14 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 35,
+            "neck": 38,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              12,
+              38
+            ]
           }
         ],
         [
@@ -377,7 +493,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 35,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 54,
+            "join": [
+              15,
+              36
+            ]
           },
           {
             "plate": "native",
@@ -386,9 +507,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 35,
+            "neck": 32,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 52,
+            "join": [
+              9,
+              37
+            ]
           }
         ],
         [
@@ -399,9 +525,14 @@ export const CAMPER_MOTION_RELEASE = {
               9
             ],
             "anchor": 69,
-            "neck": 35,
+            "neck": 36,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 54,
+            "join": [
+              29,
+              50
+            ]
           },
           {
             "plate": "native",
@@ -410,9 +541,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 35,
+            "neck": 33,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 53,
+            "join": [
+              27,
+              55
+            ]
           }
         ],
         [
@@ -423,9 +559,14 @@ export const CAMPER_MOTION_RELEASE = {
               14
             ],
             "anchor": 71,
-            "neck": 35,
+            "neck": 36,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 55,
+            "join": [
+              28,
+              50
+            ]
           },
           {
             "plate": "native",
@@ -434,9 +575,14 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 35,
+            "neck": 37,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              26,
+              52
+            ]
           }
         ]
       ],
@@ -451,7 +597,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 39,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              20,
+              36
+            ]
           },
           {
             "plate": "native",
@@ -462,7 +613,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 39,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              17,
+              32
+            ]
           }
         ],
         [
@@ -473,9 +629,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 40,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              23,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -484,9 +645,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 41,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              33,
+              47
+            ]
           }
         ],
         [
@@ -497,9 +663,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 40,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              18,
+              31
+            ]
           },
           {
             "plate": "native",
@@ -508,9 +679,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 41,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              19,
+              33
+            ]
           }
         ],
         [
@@ -521,9 +697,14 @@ export const CAMPER_MOTION_RELEASE = {
               14
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 37,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              30,
+              46
+            ]
           },
           {
             "plate": "native",
@@ -532,9 +713,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 37,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              32,
+              47
+            ]
           }
         ]
       ],
@@ -547,9 +733,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 71,
-            "neck": 36,
+            "neck": 40,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              33,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -558,9 +749,14 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 36,
+            "neck": 40,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              13,
+              42
+            ]
           }
         ],
         [
@@ -571,9 +767,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 36,
+            "neck": 39,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              30,
+              44
+            ]
           },
           {
             "plate": "native",
@@ -582,9 +783,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 36,
+            "neck": 37,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 55,
+            "join": [
+              12,
+              42
+            ]
           }
         ],
         [
@@ -595,9 +801,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 36,
+            "neck": 38,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 55,
+            "join": [
+              22,
+              51
+            ]
           },
           {
             "plate": "native",
@@ -606,9 +817,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 36,
+            "neck": 38,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 55,
+            "join": [
+              24,
+              53
+            ]
           }
         ],
         [
@@ -619,9 +835,14 @@ export const CAMPER_MOTION_RELEASE = {
               14
             ],
             "anchor": 71,
-            "neck": 36,
+            "neck": 39,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              21,
+              31
+            ]
           },
           {
             "plate": "native",
@@ -630,9 +851,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 36,
+            "neck": 39,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              23,
+              52
+            ]
           }
         ]
       ],
@@ -645,9 +871,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 38,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              25,
+              44
+            ]
           },
           {
             "plate": "native",
@@ -656,9 +887,14 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 38,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              21,
+              44
+            ]
           }
         ],
         [
@@ -669,9 +905,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 43,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              22,
+              44
+            ]
           },
           {
             "plate": "native",
@@ -680,9 +921,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 42,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              20,
+              43
+            ]
           }
         ],
         [
@@ -693,9 +939,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 45,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              21,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -704,9 +955,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 44,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              22,
+              44
+            ]
           }
         ],
         [
@@ -717,9 +973,14 @@ export const CAMPER_MOTION_RELEASE = {
               14
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 38,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              21,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -728,9 +989,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 37,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              20,
+              43
+            ]
           }
         ]
       ],
@@ -743,9 +1009,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 35,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              22,
+              35
+            ]
           },
           {
             "plate": "native",
@@ -754,9 +1025,14 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 35,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              23,
+              36
+            ]
           }
         ],
         [
@@ -767,9 +1043,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 40,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              20,
+              31
+            ]
           },
           {
             "plate": "native",
@@ -780,7 +1061,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 39,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              20,
+              31
+            ]
           }
         ],
         [
@@ -793,7 +1079,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 39,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              33,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -802,9 +1093,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 37,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              33,
+              45
+            ]
           }
         ],
         [
@@ -815,9 +1111,14 @@ export const CAMPER_MOTION_RELEASE = {
               14
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 34,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              29,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -826,9 +1127,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 34,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              27,
+              40
+            ]
           }
         ]
       ],
@@ -841,9 +1147,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 71,
-            "neck": 36,
+            "neck": 35,
             "feet": 66,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              16,
+              51
+            ]
           },
           {
             "plate": "native",
@@ -852,9 +1163,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 36,
+            "neck": 34,
             "feet": 66,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              13,
+              51
+            ]
           }
         ],
         [
@@ -865,9 +1181,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 36,
+            "neck": 39,
             "feet": 64,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              15,
+              50
+            ]
           },
           {
             "plate": "native",
@@ -876,9 +1197,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 36,
+            "neck": 38,
             "feet": 64,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              10,
+              50
+            ]
           }
         ],
         [
@@ -889,9 +1215,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 36,
+            "neck": 39,
             "feet": 64,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              14,
+              49
+            ]
           },
           {
             "plate": "native",
@@ -900,9 +1231,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 36,
+            "neck": 38,
             "feet": 64,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              14,
+              54
+            ]
           }
         ],
         [
@@ -913,9 +1249,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 36,
+            "neck": 35,
             "feet": 66,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              13,
+              49
+            ]
           },
           {
             "plate": "native",
@@ -924,9 +1265,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 36,
+            "neck": 34,
             "feet": 66,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              12,
+              51
+            ]
           }
         ]
       ],
@@ -939,9 +1285,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 36,
             "feet": 68,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              33,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -950,9 +1301,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 37,
             "feet": 68,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              30,
+              41
+            ]
           }
         ],
         [
@@ -963,9 +1319,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 39,
             "feet": 66,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              30,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -974,9 +1335,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 40,
             "feet": 66,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              28,
+              43
+            ]
           }
         ],
         [
@@ -987,9 +1353,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 41,
             "feet": 66,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              20,
+              33
+            ]
           },
           {
             "plate": "native",
@@ -998,9 +1369,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 41,
             "feet": 66,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              18,
+              31
+            ]
           }
         ],
         [
@@ -1011,9 +1387,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 37,
             "feet": 68,
-            "foreground": true
+            "foreground": true,
+            "waist": 51,
+            "join": [
+              19,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -1022,9 +1403,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 36,
             "feet": 68,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              23,
+              41
+            ]
           }
         ]
       ],
@@ -1037,9 +1423,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 41,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              22,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -1048,9 +1439,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 41,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              22,
+              44
+            ]
           }
         ],
         [
@@ -1061,9 +1457,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 44,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              21,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1072,9 +1473,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 45,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              21,
+              42
+            ]
           }
         ],
         [
@@ -1085,9 +1491,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 45,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              21,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1096,9 +1507,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 46,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 59,
+            "join": [
+              22,
+              44
+            ]
           }
         ],
         [
@@ -1111,7 +1527,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 40,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              21,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -1122,7 +1543,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 40,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              23,
+              43
+            ]
           }
         ]
       ],
@@ -1135,9 +1561,14 @@ export const CAMPER_MOTION_RELEASE = {
               0
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 39,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              22,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -1146,9 +1577,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 38,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              24,
+              44
+            ]
           }
         ],
         [
@@ -1159,9 +1595,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 39,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1170,9 +1611,14 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 42,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              22,
+              43
+            ]
           }
         ],
         [
@@ -1185,7 +1631,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 40,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -1194,9 +1645,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 43,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              22,
+              43
+            ]
           }
         ],
         [
@@ -1207,9 +1663,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 37,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1218,9 +1679,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 37,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              23,
+              42
+            ]
           }
         ]
       ],
@@ -1233,9 +1699,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 38,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1246,7 +1717,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 40,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              24,
+              42
+            ]
           }
         ],
         [
@@ -1257,9 +1733,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 39,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1268,9 +1749,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 42,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              23,
+              43
+            ]
           }
         ],
         [
@@ -1281,9 +1767,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 39,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              24,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -1292,9 +1783,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 42,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              22,
+              43
+            ]
           }
         ],
         [
@@ -1305,9 +1801,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 37,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1318,7 +1819,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 40,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              23,
+              41
+            ]
           }
         ]
       ],
@@ -1331,9 +1837,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 40,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              27,
+              37
+            ]
           },
           {
             "plate": "native",
@@ -1342,9 +1853,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 42,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              25,
+              36
+            ]
           }
         ],
         [
@@ -1355,9 +1871,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 43,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              26,
+              36
+            ]
           },
           {
             "plate": "native",
@@ -1366,9 +1887,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 42,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              23,
+              34
+            ]
           }
         ],
         [
@@ -1379,9 +1905,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 41,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              30,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1390,9 +1921,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 42,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              29,
+              40
+            ]
           }
         ],
         [
@@ -1403,9 +1939,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 40,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              29,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -1414,9 +1955,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 41,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              29,
+              39
+            ]
           }
         ]
       ],
@@ -1431,7 +1977,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 38,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              31,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1440,9 +1991,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 37,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              32,
+              56
+            ]
           }
         ],
         [
@@ -1453,9 +2009,14 @@ export const CAMPER_MOTION_RELEASE = {
               5
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 40,
             "feet": 65,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              27,
+              37
+            ]
           },
           {
             "plate": "native",
@@ -1466,7 +2027,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 38,
             "feet": 65,
-            "foreground": true
+            "foreground": true,
+            "waist": 51,
+            "join": [
+              29,
+              54
+            ]
           }
         ],
         [
@@ -1477,9 +2043,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 41,
             "feet": 65,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              25,
+              35
+            ]
           },
           {
             "plate": "native",
@@ -1488,9 +2059,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 39,
             "feet": 65,
-            "foreground": true
+            "foreground": true,
+            "waist": 51,
+            "join": [
+              25,
+              35
+            ]
           }
         ],
         [
@@ -1501,9 +2077,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 37,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 51,
+            "join": [
+              3,
+              31
+            ]
           },
           {
             "plate": "native",
@@ -1512,9 +2093,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 36,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              7,
+              32
+            ]
           }
         ]
       ],
@@ -1527,9 +2113,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 36,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              33,
+              53
+            ]
           },
           {
             "plate": "native",
@@ -1538,9 +2129,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 35,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              32,
+              53
+            ]
           }
         ],
         [
@@ -1553,7 +2149,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 38,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              30,
+              50
+            ]
           },
           {
             "plate": "native",
@@ -1562,9 +2163,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 35,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              30,
+              50
+            ]
           }
         ],
         [
@@ -1577,7 +2183,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 38,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              12,
+              34
+            ]
           },
           {
             "plate": "native",
@@ -1586,9 +2197,14 @@ export const CAMPER_MOTION_RELEASE = {
               12
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 37,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              15,
+              35
+            ]
           }
         ],
         [
@@ -1599,9 +2215,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 35,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              22,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -1610,9 +2231,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 36,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              11,
+              32
+            ]
           }
         ]
       ],
@@ -1625,9 +2251,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 42,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              23,
+              44
+            ]
           },
           {
             "plate": "native",
@@ -1638,7 +2269,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 40,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              24,
+              44
+            ]
           }
         ],
         [
@@ -1649,9 +2285,14 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 43,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              25,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -1660,9 +2301,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 43,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              23,
+              44
+            ]
           }
         ],
         [
@@ -1673,9 +2319,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 44,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              21,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -1684,9 +2335,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 44,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              21,
+              41
+            ]
           }
         ],
         [
@@ -1699,7 +2355,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 40,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              19,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -1710,7 +2371,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 40,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              20,
+              40
+            ]
           }
         ]
       ],
@@ -1723,9 +2389,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 36,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 55,
+            "join": [
+              27,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -1734,9 +2405,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 39,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              23,
+              45
+            ]
           }
         ],
         [
@@ -1749,7 +2425,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 40,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              24,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -1758,9 +2439,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 39,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              44
+            ]
           }
         ],
         [
@@ -1771,9 +2457,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 40,
+            "neck": 41,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1784,7 +2475,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 40,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              20,
+              42
+            ]
           }
         ],
         [
@@ -1795,9 +2491,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 36,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 55,
+            "join": [
+              19,
+              38
+            ]
           },
           {
             "plate": "native",
@@ -1806,9 +2507,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 40,
+            "neck": 38,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              19,
+              38
+            ]
           }
         ]
       ],
@@ -1822,7 +2528,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -1832,7 +2543,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              33
+            ]
           }
         ],
         [
@@ -1844,7 +2560,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39,
-            "feet": 69
+            "feet": 69,
+            "waist": 54,
+            "join": [
+              21,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -1854,7 +2575,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              31,
+              41
+            ]
           }
         ],
         [
@@ -1866,7 +2592,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              23,
+              33
+            ]
           },
           {
             "plate": "native",
@@ -1876,7 +2607,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              24,
+              34
+            ]
           }
         ],
         [
@@ -1888,7 +2624,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39,
-            "feet": 71
+            "feet": 71,
+            "waist": 56,
+            "join": [
+              23,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -1898,7 +2639,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              32
+            ]
           }
         ]
       ],
@@ -1911,9 +2657,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 32,
+            "neck": 37,
             "feet": 75,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              21,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -1922,9 +2673,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 32,
+            "neck": 37,
             "feet": 75,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              19,
+              43
+            ]
           }
         ],
         [
@@ -1935,9 +2691,14 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 32,
+            "neck": 40,
             "feet": 73,
-            "foreground": true
+            "foreground": true,
+            "waist": 58,
+            "join": [
+              30,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -1946,9 +2707,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 32,
+            "neck": 41,
             "feet": 73,
-            "foreground": true
+            "foreground": true,
+            "waist": 59,
+            "join": [
+              17,
+              40
+            ]
           }
         ],
         [
@@ -1959,9 +2725,14 @@ export const CAMPER_MOTION_RELEASE = {
               10
             ],
             "anchor": 69,
-            "neck": 32,
+            "neck": 41,
             "feet": 73,
-            "foreground": true
+            "foreground": true,
+            "waist": 59,
+            "join": [
+              24,
+              34
+            ]
           },
           {
             "plate": "native",
@@ -1970,9 +2741,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 32,
+            "neck": 42,
             "feet": 73,
-            "foreground": true
+            "foreground": true,
+            "waist": 59,
+            "join": [
+              24,
+              47
+            ]
           }
         ],
         [
@@ -1983,9 +2759,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 32,
+            "neck": 36,
             "feet": 75,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              24,
+              44
+            ]
           },
           {
             "plate": "native",
@@ -1994,9 +2775,14 @@ export const CAMPER_MOTION_RELEASE = {
               17
             ],
             "anchor": 71,
-            "neck": 32,
+            "neck": 36,
             "feet": 75,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              22,
+              47
+            ]
           }
         ]
       ],
@@ -2009,9 +2795,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 41,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 58,
+            "join": [
+              17,
+              38
+            ]
           },
           {
             "plate": "native",
@@ -2020,9 +2811,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 41,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 58,
+            "join": [
+              12,
+              38
+            ]
           }
         ],
         [
@@ -2035,7 +2831,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 38,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 55,
+            "join": [
+              15,
+              36
+            ]
           },
           {
             "plate": "native",
@@ -2044,9 +2845,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 35,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 54,
+            "join": [
+              9,
+              37
+            ]
           }
         ],
         [
@@ -2057,9 +2863,14 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 39,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              29,
+              49
+            ]
           },
           {
             "plate": "native",
@@ -2068,9 +2879,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 36,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 54,
+            "join": [
+              27,
+              56
+            ]
           }
         ],
         [
@@ -2081,9 +2897,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 39,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              28,
+              49
+            ]
           },
           {
             "plate": "native",
@@ -2092,9 +2913,14 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 40,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              26,
+              53
+            ]
           }
         ]
       ],
@@ -2109,7 +2935,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 39,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              30,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -2118,9 +2949,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 38,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              31,
+              55
+            ]
           }
         ],
         [
@@ -2131,9 +2967,14 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 41,
             "feet": 65,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              27,
+              54
+            ]
           },
           {
             "plate": "native",
@@ -2144,7 +2985,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 39,
             "feet": 65,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              28,
+              53
+            ]
           }
         ],
         [
@@ -2155,9 +3001,14 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 42,
             "feet": 65,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              26,
+              36
+            ]
           },
           {
             "plate": "native",
@@ -2166,9 +3017,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 40,
             "feet": 65,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              26,
+              36
+            ]
           }
         ],
         [
@@ -2179,9 +3035,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 38,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 52,
+            "join": [
+              4,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -2190,9 +3051,14 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 37,
             "feet": 67,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              8,
+              33
+            ]
           }
         ]
       ],
@@ -2205,9 +3071,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 38,
+            "neck": 40,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              21,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -2218,7 +3089,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 38,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              22,
+              44
+            ]
           }
         ],
         [
@@ -2229,9 +3105,14 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 41,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              23,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -2240,9 +3121,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 41,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              21,
+              43
+            ]
           }
         ],
         [
@@ -2253,9 +3139,14 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 42,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              22,
+              33
+            ]
           },
           {
             "plate": "native",
@@ -2264,9 +3155,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 38,
+            "neck": 42,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              22,
+              32
+            ]
           }
         ],
         [
@@ -2279,7 +3175,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 38,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              19,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -2290,7 +3191,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 38,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              21,
+              42
+            ]
           }
         ]
       ],
@@ -2303,9 +3209,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 42,
+            "neck": 38,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              27,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -2314,9 +3225,14 @@ export const CAMPER_MOTION_RELEASE = {
               3
             ],
             "anchor": 71,
-            "neck": 42,
+            "neck": 41,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 58,
+            "join": [
+              24,
+              45
+            ]
           }
         ],
         [
@@ -2329,7 +3245,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 42,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              24,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -2338,9 +3259,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 42,
+            "neck": 41,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              24,
+              43
+            ]
           }
         ],
         [
@@ -2351,9 +3277,14 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 42,
+            "neck": 43,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              22,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -2364,7 +3295,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 42,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              21,
+              40
+            ]
           }
         ],
         [
@@ -2375,9 +3311,14 @@ export const CAMPER_MOTION_RELEASE = {
               15
             ],
             "anchor": 71,
-            "neck": 42,
+            "neck": 38,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              19,
+              37
+            ]
           },
           {
             "plate": "native",
@@ -2386,9 +3327,14 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 42,
+            "neck": 40,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              19,
+              38
+            ]
           }
         ]
       ],
@@ -2401,9 +3347,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 35,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              23,
+              36
+            ]
           },
           {
             "plate": "native",
@@ -2412,9 +3363,14 @@ export const CAMPER_MOTION_RELEASE = {
               4
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 35,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              24,
+              37
+            ]
           }
         ],
         [
@@ -2425,9 +3381,14 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 40,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              21,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -2438,7 +3399,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 39,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              21,
+              32
+            ]
           }
         ],
         [
@@ -2451,7 +3417,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 39,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              32,
+              44
+            ]
           },
           {
             "plate": "native",
@@ -2460,9 +3431,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 39,
+            "neck": 37,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              32,
+              44
+            ]
           }
         ],
         [
@@ -2473,9 +3449,14 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 34,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              28,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -2484,9 +3465,14 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 39,
+            "neck": 34,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              26,
+              39
+            ]
           }
         ]
       ],
@@ -2499,9 +3485,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 41,
+            "neck": 37,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              22,
+              34
+            ]
           },
           {
             "plate": "native",
@@ -2510,9 +3501,14 @@ export const CAMPER_MOTION_RELEASE = {
               4
             ],
             "anchor": 71,
-            "neck": 41,
+            "neck": 37,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              22,
+              35
+            ]
           }
         ],
         [
@@ -2523,9 +3519,14 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 41,
+            "neck": 42,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 57,
+            "join": [
+              34,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -2536,7 +3537,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 41,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              33,
+              44
+            ]
           }
         ],
         [
@@ -2549,7 +3555,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 41,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              32,
+              46
+            ]
           },
           {
             "plate": "native",
@@ -2558,9 +3569,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 41,
+            "neck": 39,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 56,
+            "join": [
+              33,
+              46
+            ]
           }
         ],
         [
@@ -2571,9 +3587,14 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 41,
+            "neck": 36,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              17,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -2582,9 +3603,14 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 41,
+            "neck": 36,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 55,
+            "join": [
+              17,
+              40
+            ]
           }
         ]
       ],
@@ -2597,9 +3623,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 41,
+            "neck": 39,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              21,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -2610,7 +3641,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 41,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 58,
+            "join": [
+              23,
+              41
+            ]
           }
         ],
         [
@@ -2621,9 +3657,14 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 41,
+            "neck": 40,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              22,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -2632,9 +3673,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 41,
+            "neck": 43,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              22,
+              41
+            ]
           }
         ],
         [
@@ -2645,9 +3691,14 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 41,
+            "neck": 40,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              25,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -2656,9 +3707,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 41,
+            "neck": 43,
             "feet": 69,
-            "foreground": false
+            "foreground": false,
+            "waist": 57,
+            "join": [
+              24,
+              44
+            ]
           }
         ],
         [
@@ -2669,9 +3725,14 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 41,
+            "neck": 38,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 56,
+            "join": [
+              23,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -2682,7 +3743,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 71,
             "neck": 41,
             "feet": 71,
-            "foreground": false
+            "foreground": false,
+            "waist": 58,
+            "join": [
+              24,
+              42
+            ]
           }
         ]
       ],
@@ -2695,9 +3761,14 @@ export const CAMPER_MOTION_RELEASE = {
               1
             ],
             "anchor": 71,
-            "neck": 35,
+            "neck": 33,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              31,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -2706,9 +3777,14 @@ export const CAMPER_MOTION_RELEASE = {
               4
             ],
             "anchor": 71,
-            "neck": 35,
+            "neck": 32,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              32,
+              42
+            ]
           }
         ],
         [
@@ -2721,7 +3797,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 35,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              29,
+              50
+            ]
           },
           {
             "plate": "native",
@@ -2730,9 +3811,14 @@ export const CAMPER_MOTION_RELEASE = {
               8
             ],
             "anchor": 69,
-            "neck": 35,
+            "neck": 32,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 51,
+            "join": [
+              29,
+              49
+            ]
           }
         ],
         [
@@ -2745,7 +3831,12 @@ export const CAMPER_MOTION_RELEASE = {
             "anchor": 69,
             "neck": 35,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              13,
+              35
+            ]
           },
           {
             "plate": "native",
@@ -2754,9 +3845,14 @@ export const CAMPER_MOTION_RELEASE = {
               13
             ],
             "anchor": 69,
-            "neck": 35,
+            "neck": 34,
             "feet": 69,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              27,
+              37
+            ]
           }
         ],
         [
@@ -2767,9 +3863,14 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 35,
+            "neck": 32,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 53,
+            "join": [
+              23,
+              34
+            ]
           },
           {
             "plate": "native",
@@ -2778,9 +3879,14 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 35,
+            "neck": 33,
             "feet": 71,
-            "foreground": true
+            "foreground": true,
+            "waist": 54,
+            "join": [
+              23,
+              34
+            ]
           }
         ]
       ],
@@ -2794,7 +3900,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              21.333333333333332,
+              40
+            ]
           },
           {
             "plate": "walk",
@@ -2804,7 +3915,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              21.333333333333332,
+              40
+            ]
           }
         ],
         [
@@ -2816,7 +3932,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 54,
+            "join": [
+              23.666666666666668,
+              42
+            ]
           },
           {
             "plate": "walk",
@@ -2826,7 +3947,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 54,
+            "join": [
+              23.333333333333332,
+              42.666666666666664
+            ]
           }
         ],
         [
@@ -2838,7 +3964,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              22,
+              41.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -2848,7 +3979,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              31.666666666666668,
+              42.333333333333336
+            ]
           }
         ],
         [
@@ -2860,7 +3996,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23.333333333333332,
+              42.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -2870,7 +4011,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23.666666666666668,
+              42.666666666666664
+            ]
           }
         ]
       ],
@@ -2883,8 +4029,13 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 38,
-            "feet": 70
+            "neck": 40,
+            "feet": 70,
+            "waist": 57,
+            "join": [
+              28,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -2894,7 +4045,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 38,
-            "feet": 70
+            "feet": 70,
+            "waist": 56,
+            "join": [
+              14,
+              39
+            ]
           }
         ],
         [
@@ -2905,8 +4061,13 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 38,
-            "feet": 68
+            "neck": 40,
+            "feet": 68,
+            "waist": 55,
+            "join": [
+              14,
+              39
+            ]
           },
           {
             "plate": "native",
@@ -2915,8 +4076,13 @@ export const CAMPER_MOTION_RELEASE = {
               9
             ],
             "anchor": 69,
-            "neck": 38,
-            "feet": 68
+            "neck": 39,
+            "feet": 68,
+            "waist": 55,
+            "join": [
+              18,
+              47
+            ]
           }
         ],
         [
@@ -2927,8 +4093,13 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 38,
-            "feet": 68
+            "neck": 40,
+            "feet": 68,
+            "waist": 55,
+            "join": [
+              24,
+              50
+            ]
           },
           {
             "plate": "native",
@@ -2938,7 +4109,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 38,
-            "feet": 68
+            "feet": 68,
+            "waist": 55,
+            "join": [
+              22,
+              50
+            ]
           }
         ],
         [
@@ -2949,8 +4125,13 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 38,
-            "feet": 70
+            "neck": 39,
+            "feet": 70,
+            "waist": 56,
+            "join": [
+              26,
+              52
+            ]
           },
           {
             "plate": "native",
@@ -2959,8 +4140,13 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 38,
-            "feet": 70
+            "neck": 37,
+            "feet": 70,
+            "waist": 55,
+            "join": [
+              27,
+              51
+            ]
           }
         ]
       ],
@@ -2974,7 +4160,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 41,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              23.666666666666668,
+              39.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -2984,7 +4175,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 41,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              24,
+              39.333333333333336
+            ]
           }
         ],
         [
@@ -2996,7 +4192,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 41,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25.333333333333332,
+              40.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3006,7 +4207,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 41,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25.333333333333332,
+              41.333333333333336
+            ]
           }
         ],
         [
@@ -3018,7 +4224,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 41,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25,
+              39.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -3028,7 +4239,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 41,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              24.666666666666668,
+              40
+            ]
           }
         ],
         [
@@ -3040,7 +4256,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 41,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              23.666666666666668,
+              37.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3050,7 +4271,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 41,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              23.666666666666668,
+              38
+            ]
           }
         ]
       ],
@@ -3063,8 +4289,13 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 40,
-            "feet": 71
+            "neck": 41,
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              13,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -3073,8 +4304,13 @@ export const CAMPER_MOTION_RELEASE = {
               4
             ],
             "anchor": 71,
-            "neck": 40,
-            "feet": 71
+            "neck": 41,
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              15,
+              40
+            ]
           }
         ],
         [
@@ -3085,8 +4321,13 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 40,
-            "feet": 69
+            "neck": 42,
+            "feet": 69,
+            "waist": 57,
+            "join": [
+              15,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -3095,8 +4336,13 @@ export const CAMPER_MOTION_RELEASE = {
               9
             ],
             "anchor": 69,
-            "neck": 40,
-            "feet": 69
+            "neck": 41,
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              22,
+              47
+            ]
           }
         ],
         [
@@ -3107,8 +4353,13 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 40,
-            "feet": 69
+            "neck": 43,
+            "feet": 69,
+            "waist": 57,
+            "join": [
+              23,
+              49
+            ]
           },
           {
             "plate": "native",
@@ -3118,7 +4369,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              21,
+              46
+            ]
           }
         ],
         [
@@ -3130,7 +4386,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              25,
+              50
+            ]
           },
           {
             "plate": "native",
@@ -3139,8 +4400,13 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 40,
-            "feet": 71
+            "neck": 39,
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              26,
+              50
+            ]
           }
         ]
       ],
@@ -3154,7 +4420,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23.666666666666668,
+              41.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -3164,7 +4435,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23.666666666666668,
+              41
+            ]
           }
         ],
         [
@@ -3176,7 +4452,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25.666666666666668,
+              40.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3186,7 +4467,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25,
+              42
+            ]
           }
         ],
         [
@@ -3198,7 +4484,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              22.333333333333332,
+              39
+            ]
           },
           {
             "plate": "walk",
@@ -3208,7 +4499,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              22,
+              40
+            ]
           }
         ],
         [
@@ -3220,7 +4516,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23.333333333333332,
+              41
+            ]
           },
           {
             "plate": "walk",
@@ -3230,7 +4531,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23.333333333333332,
+              40.333333333333336
+            ]
           }
         ]
       ],
@@ -3243,8 +4549,13 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 39,
-            "feet": 71
+            "neck": 40,
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              20,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -3254,7 +4565,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              17,
+              40
+            ]
           }
         ],
         [
@@ -3265,8 +4581,13 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 39,
-            "feet": 69
+            "neck": 40,
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              20,
+              38
+            ]
           },
           {
             "plate": "native",
@@ -3275,8 +4596,13 @@ export const CAMPER_MOTION_RELEASE = {
               9
             ],
             "anchor": 69,
-            "neck": 39,
-            "feet": 69
+            "neck": 38,
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              19,
+              38
+            ]
           }
         ],
         [
@@ -3287,8 +4613,13 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 39,
-            "feet": 69
+            "neck": 40,
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -3298,7 +4629,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              27,
+              46
+            ]
           }
         ],
         [
@@ -3309,8 +4645,13 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 39,
-            "feet": 71
+            "neck": 40,
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              25,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -3320,7 +4661,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              46
+            ]
           }
         ]
       ],
@@ -3334,7 +4680,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39.333333333333336,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              21.333333333333332,
+              41.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3344,7 +4695,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39.333333333333336,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              21.666666666666668,
+              41.666666666666664
+            ]
           }
         ],
         [
@@ -3356,7 +4712,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39.333333333333336,
-            "feet": 69
+            "feet": 69,
+            "waist": 54,
+            "join": [
+              24,
+              42.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3366,7 +4727,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39.333333333333336,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              23.333333333333332,
+              33.333333333333336
+            ]
           }
         ],
         [
@@ -3378,7 +4744,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39.333333333333336,
-            "feet": 69
+            "feet": 69,
+            "waist": 53,
+            "join": [
+              21.333333333333332,
+              40.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -3388,7 +4759,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39.333333333333336,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              31,
+              41.333333333333336
+            ]
           }
         ],
         [
@@ -3400,7 +4776,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39.333333333333336,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              42.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -3410,7 +4791,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39.333333333333336,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              21.333333333333332,
+              43
+            ]
           }
         ]
       ],
@@ -3423,8 +4809,13 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 38,
-            "feet": 69
+            "neck": 37,
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              21,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -3434,7 +4825,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 38,
-            "feet": 69
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              18,
+              41
+            ]
           }
         ],
         [
@@ -3445,8 +4841,13 @@ export const CAMPER_MOTION_RELEASE = {
               6
             ],
             "anchor": 69,
-            "neck": 38,
-            "feet": 67
+            "neck": 39,
+            "feet": 67,
+            "waist": 54,
+            "join": [
+              22,
+              39
+            ]
           },
           {
             "plate": "native",
@@ -3456,7 +4857,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 38,
-            "feet": 67
+            "feet": 67,
+            "waist": 54,
+            "join": [
+              20,
+              39
+            ]
           }
         ],
         [
@@ -3467,8 +4873,13 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 38,
-            "feet": 67
+            "neck": 40,
+            "feet": 67,
+            "waist": 55,
+            "join": [
+              24,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -3478,7 +4889,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 38,
-            "feet": 67
+            "feet": 67,
+            "waist": 54,
+            "join": [
+              25,
+              44
+            ]
           }
         ],
         [
@@ -3490,7 +4906,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 38,
-            "feet": 69
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              24,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -3500,7 +4921,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 38,
-            "feet": 69
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              22,
+              44
+            ]
           }
         ]
       ],
@@ -3514,7 +4940,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              21,
+              32
+            ]
           },
           {
             "plate": "walk",
@@ -3524,7 +4955,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              21.333333333333332,
+              43
+            ]
           }
         ],
         [
@@ -3536,7 +4972,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              21.666666666666668,
+              32.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -3546,7 +4987,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              20.666666666666668,
+              32.666666666666664
+            ]
           }
         ],
         [
@@ -3558,7 +5004,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 54,
+            "join": [
+              22.333333333333332,
+              41.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -3568,7 +5019,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              21.333333333333332,
+              31.666666666666668
+            ]
           }
         ],
         [
@@ -3580,7 +5036,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 56,
+            "join": [
+              23.333333333333332,
+              43
+            ]
           },
           {
             "plate": "walk",
@@ -3590,7 +5051,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              44
+            ]
           }
         ]
       ],
@@ -3603,8 +5069,13 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 40,
-            "feet": 70
+            "neck": 42,
+            "feet": 70,
+            "waist": 57,
+            "join": [
+              14,
+              46
+            ]
           },
           {
             "plate": "native",
@@ -3614,7 +5085,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 70
+            "feet": 70,
+            "waist": 57,
+            "join": [
+              27,
+              44
+            ]
           }
         ],
         [
@@ -3625,8 +5101,13 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 40,
-            "feet": 68
+            "neck": 41,
+            "feet": 68,
+            "waist": 56,
+            "join": [
+              13,
+              45
+            ]
           },
           {
             "plate": "native",
@@ -3635,8 +5116,13 @@ export const CAMPER_MOTION_RELEASE = {
               9
             ],
             "anchor": 69,
-            "neck": 40,
-            "feet": 68
+            "neck": 39,
+            "feet": 68,
+            "waist": 55,
+            "join": [
+              14,
+              40
+            ]
           }
         ],
         [
@@ -3647,8 +5133,13 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 40,
-            "feet": 68
+            "neck": 41,
+            "feet": 68,
+            "waist": 56,
+            "join": [
+              17,
+              48
+            ]
           },
           {
             "plate": "native",
@@ -3657,8 +5148,13 @@ export const CAMPER_MOTION_RELEASE = {
               14
             ],
             "anchor": 69,
-            "neck": 40,
-            "feet": 68
+            "neck": 41,
+            "feet": 68,
+            "waist": 56,
+            "join": [
+              23,
+              36
+            ]
           }
         ],
         [
@@ -3669,8 +5165,13 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 40,
-            "feet": 70
+            "neck": 41,
+            "feet": 70,
+            "waist": 57,
+            "join": [
+              18,
+              48
+            ]
           },
           {
             "plate": "native",
@@ -3679,8 +5180,13 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 40,
-            "feet": 70
+            "neck": 41,
+            "feet": 70,
+            "waist": 57,
+            "join": [
+              27,
+              53
+            ]
           }
         ]
       ],
@@ -3694,7 +5200,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 41,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              22.666666666666668,
+              40.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -3704,7 +5215,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 41,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              22.666666666666668,
+              40.333333333333336
+            ]
           }
         ],
         [
@@ -3716,7 +5232,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 41,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              27,
+              38.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3726,7 +5247,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 41,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              26.666666666666668,
+              39.333333333333336
+            ]
           }
         ],
         [
@@ -3738,7 +5264,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 41,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              24,
+              39
+            ]
           },
           {
             "plate": "walk",
@@ -3748,7 +5279,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 41,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              23.333333333333332,
+              39.666666666666664
+            ]
           }
         ],
         [
@@ -3760,7 +5296,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 41,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              24.666666666666668,
+              39.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3770,7 +5311,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 41,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              25.333333333333332,
+              41.666666666666664
+            ]
           }
         ]
       ],
@@ -3784,7 +5330,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 42,
-            "feet": 71
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              16,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -3793,8 +5344,13 @@ export const CAMPER_MOTION_RELEASE = {
               4
             ],
             "anchor": 71,
-            "neck": 42,
-            "feet": 71
+            "neck": 41,
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              12,
+              39
+            ]
           }
         ],
         [
@@ -3805,8 +5361,13 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 42,
-            "feet": 69
+            "neck": 43,
+            "feet": 69,
+            "waist": 57,
+            "join": [
+              15,
+              46
+            ]
           },
           {
             "plate": "native",
@@ -3816,7 +5377,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 42,
-            "feet": 69
+            "feet": 69,
+            "waist": 57,
+            "join": [
+              15,
+              41
+            ]
           }
         ],
         [
@@ -3827,8 +5393,13 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 42,
-            "feet": 69
+            "neck": 44,
+            "feet": 69,
+            "waist": 58,
+            "join": [
+              16,
+              47
+            ]
           },
           {
             "plate": "native",
@@ -3837,8 +5408,13 @@ export const CAMPER_MOTION_RELEASE = {
               14
             ],
             "anchor": 69,
-            "neck": 42,
-            "feet": 69
+            "neck": 43,
+            "feet": 69,
+            "waist": 57,
+            "join": [
+              21,
+              49
+            ]
           }
         ],
         [
@@ -3849,8 +5425,13 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 42,
-            "feet": 71
+            "neck": 43,
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              23,
+              47
+            ]
           },
           {
             "plate": "native",
@@ -3859,8 +5440,13 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 42,
-            "feet": 71
+            "neck": 43,
+            "feet": 71,
+            "waist": 58,
+            "join": [
+              26,
+              51
+            ]
           }
         ]
       ],
@@ -3874,7 +5460,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              38.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3884,7 +5475,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22.666666666666668,
+              38.666666666666664
+            ]
           }
         ],
         [
@@ -3896,7 +5492,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              26.333333333333332,
+              40
+            ]
           },
           {
             "plate": "walk",
@@ -3906,7 +5507,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              26,
+              40.666666666666664
+            ]
           }
         ],
         [
@@ -3918,7 +5524,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              24,
+              39.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -3928,7 +5539,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              23.666666666666668,
+              40
+            ]
           }
         ],
         [
@@ -3940,7 +5556,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              25.333333333333332,
+              40.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -3950,7 +5571,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              24.666666666666668,
+              41
+            ]
           }
         ]
       ],
@@ -3963,8 +5589,13 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 39,
-            "feet": 71
+            "neck": 40,
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -3974,7 +5605,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              40
+            ]
           }
         ],
         [
@@ -3985,8 +5621,13 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 39,
-            "feet": 69
+            "neck": 40,
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              20,
+              39
+            ]
           },
           {
             "plate": "native",
@@ -3995,8 +5636,13 @@ export const CAMPER_MOTION_RELEASE = {
               9
             ],
             "anchor": 69,
-            "neck": 39,
-            "feet": 69
+            "neck": 38,
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              20,
+              37
+            ]
           }
         ],
         [
@@ -4007,8 +5653,13 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 39,
-            "feet": 69
+            "neck": 41,
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              24,
+              42
+            ]
           },
           {
             "plate": "native",
@@ -4018,7 +5669,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              27,
+              46
+            ]
           }
         ],
         [
@@ -4029,8 +5685,13 @@ export const CAMPER_MOTION_RELEASE = {
               16
             ],
             "anchor": 71,
-            "neck": 39,
-            "feet": 71
+            "neck": 40,
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              24,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -4039,8 +5700,13 @@ export const CAMPER_MOTION_RELEASE = {
               18
             ],
             "anchor": 71,
-            "neck": 39,
-            "feet": 71
+            "neck": 38,
+            "feet": 71,
+            "waist": 56,
+            "join": [
+              26,
+              43
+            ]
           }
         ]
       ],
@@ -4054,7 +5720,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39.333333333333336,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22.333333333333332,
+              38
+            ]
           },
           {
             "plate": "walk",
@@ -4064,7 +5735,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39.333333333333336,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              38.666666666666664
+            ]
           }
         ],
         [
@@ -4076,7 +5752,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39.333333333333336,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              27.666666666666668,
+              39.666666666666664
+            ]
           },
           {
             "plate": "walk",
@@ -4086,7 +5767,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39.333333333333336,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              27.333333333333332,
+              41.333333333333336
+            ]
           }
         ],
         [
@@ -4098,7 +5784,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39.333333333333336,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              26,
+              38.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -4108,7 +5799,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 39.333333333333336,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25,
+              38.666666666666664
+            ]
           }
         ],
         [
@@ -4120,7 +5816,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39.333333333333336,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              25.666666666666668,
+              41.333333333333336
+            ]
           },
           {
             "plate": "walk",
@@ -4130,7 +5831,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 39.333333333333336,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              25.666666666666668,
+              42.333333333333336
+            ]
           }
         ]
       ],
@@ -4143,8 +5849,13 @@ export const CAMPER_MOTION_RELEASE = {
               2
             ],
             "anchor": 71,
-            "neck": 38,
-            "feet": 69
+            "neck": 37,
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              24,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -4153,8 +5864,13 @@ export const CAMPER_MOTION_RELEASE = {
               4
             ],
             "anchor": 71,
-            "neck": 38,
-            "feet": 69
+            "neck": 37,
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              24,
+              42
+            ]
           }
         ],
         [
@@ -4165,8 +5881,13 @@ export const CAMPER_MOTION_RELEASE = {
               7
             ],
             "anchor": 69,
-            "neck": 38,
-            "feet": 67
+            "neck": 40,
+            "feet": 67,
+            "waist": 55,
+            "join": [
+              21,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -4176,7 +5897,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 38,
-            "feet": 67
+            "feet": 67,
+            "waist": 54,
+            "join": [
+              21,
+              38
+            ]
           }
         ],
         [
@@ -4187,8 +5913,13 @@ export const CAMPER_MOTION_RELEASE = {
               11
             ],
             "anchor": 69,
-            "neck": 38,
-            "feet": 67
+            "neck": 40,
+            "feet": 67,
+            "waist": 55,
+            "join": [
+              23,
+              41
+            ]
           },
           {
             "plate": "native",
@@ -4198,7 +5929,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 38,
-            "feet": 67
+            "feet": 67,
+            "waist": 54,
+            "join": [
+              26,
+              45
+            ]
           }
         ],
         [
@@ -4210,7 +5946,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 38,
-            "feet": 69
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              23,
+              39
+            ]
           },
           {
             "plate": "native",
@@ -4220,7 +5961,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 38,
-            "feet": 69
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              25,
+              42
+            ]
           }
         ]
       ],
@@ -4234,7 +5980,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              22,
+              32
+            ]
           },
           {
             "plate": "native",
@@ -4244,7 +5995,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              44
+            ]
           }
         ],
         [
@@ -4256,7 +6012,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 55,
+            "join": [
+              21,
+              40
+            ]
           },
           {
             "plate": "native",
@@ -4266,7 +6027,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              31,
+              41
+            ]
           }
         ],
         [
@@ -4278,7 +6044,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              24,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -4288,7 +6059,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 69,
             "neck": 40,
-            "feet": 69
+            "feet": 69,
+            "waist": 56,
+            "join": [
+              25,
+              35
+            ]
           }
         ],
         [
@@ -4300,7 +6076,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              43
+            ]
           },
           {
             "plate": "native",
@@ -4310,7 +6091,12 @@ export const CAMPER_MOTION_RELEASE = {
             ],
             "anchor": 71,
             "neck": 40,
-            "feet": 71
+            "feet": 71,
+            "waist": 57,
+            "join": [
+              23,
+              43
+            ]
           }
         ]
       ]
@@ -4446,5 +6232,5 @@ export const CAMPER_MOTION_RELEASE = {
       }
     ]
   },
-  "id": "4c9de38c96454e0ab5a94df5ad59e5d0f5d60c9b0d2447bc2b535b8429585b83"
+  "id": "3136c053375b8eeec21578b1edf8b1812d1290ac427a1c06f5deb4cea00edd19"
 };
